@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "GabrielBB.vscode-lombok",
+    "naco-siren.gradle-language",
+    "EditorConfig.editorconfig"
+  ]
+}

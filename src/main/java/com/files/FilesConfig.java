@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class FilesConfig {
   private static final Logger log = LogManager.getLogger(FilesConfig.class);
-  private static FilesConfig instance = null;
+  private static volatile FilesConfig instance = null;
   private String hostname = "unknown";
   private Properties properties;
 
@@ -56,6 +56,10 @@ public class FilesConfig {
 
   public boolean getAllowInsecureBackend(String def) {
     return boolProperty("allowInsecureBackend", false);
+  }
+
+  public String getApiBase() {
+    return properties.getProperty("apiBase", String.format("/api/rest/v1"));
   }
 
   public String getApiRoot() {

@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Bundle {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Bundle() {
+    this(null, null);
+  }
+
+  public Bundle(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Bundle(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -210,12 +223,12 @@ public class Bundle {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       update(this.attributes);
     } else {
-      Bundle newObj = Bundle.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      Bundle.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -234,13 +247,16 @@ public class Bundle {
   *   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`.
   */
-  public static Bundle list( HashMap<String, Object> parameters) {
+  public static List<Bundle> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<Bundle> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -292,11 +308,16 @@ public class Bundle {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
     }
 
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Bundle all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<Bundle> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -304,16 +325,19 @@ public class Bundle {
   * Parameters:
   *   id (required) - int64 - Bundle ID.
   */
-  public static Bundle find(Long id,  HashMap<String, Object> parameters) {
+  public static List<Bundle> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<Bundle> find(Long id,  HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static Bundle find(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -327,11 +351,16 @@ public class Bundle {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Bundle get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<Bundle> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 
@@ -350,13 +379,16 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
-  public static Bundle create( HashMap<String, Object> parameters) {
+  public static List<Bundle> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<Bundle> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -411,8 +443,9 @@ public class Bundle {
     if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
       throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
     }
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -423,16 +456,19 @@ public class Bundle {
   *   to (required) - array(string) - A list of email addresses to share this bundle with.
   *   note - string - Note to include in email.
   */
-  public static Bundle share(Long id,  HashMap<String, Object> parameters) {
+  public static List<Bundle> share() throws IOException{
+    return share(null, null,null);
+  }
+  public static List<Bundle> share(Long id,  HashMap<String, Object> parameters) throws IOException {
     return share(id, parameters, null);
   }
 
-  public static Bundle share(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return share(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle share(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> share(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -457,8 +493,9 @@ public class Bundle {
     if (!parameters.containsKey("to") || parameters.get("to") == null) {
       throw new NullPointerException("Parameter missing: to parameters[\"to\"]");
     }
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles/%s/share", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -475,16 +512,19 @@ public class Bundle {
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
-  public static Bundle update(Long id,  HashMap<String, Object> parameters) {
+  public static List<Bundle> update() throws IOException{
+    return update(null, null,null);
+  }
+  public static List<Bundle> update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static Bundle update(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -538,23 +578,27 @@ public class Bundle {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static Bundle delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<Bundle> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<Bundle> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static Bundle delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Bundle delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -568,11 +612,16 @@ public class Bundle {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (Bundle) null;
+    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Bundle destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Bundle> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<Bundle> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class UserCipherUse {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public UserCipherUse() {
+    this(null, null);
+  }
+
+  public UserCipherUse(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public UserCipherUse(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -77,13 +90,16 @@ public class UserCipherUse {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   */
-  public static UserCipherUse list( HashMap<String, Object> parameters) {
+  public static List<UserCipherUse> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<UserCipherUse> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static UserCipherUse list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<UserCipherUse> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -103,11 +119,16 @@ public class UserCipherUse {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
 
-    // TODO: Send request
-    return (UserCipherUse) null;
+    String url = String.format("%s%s/user_cipher_uses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<UserCipherUse>> typeReference = new TypeReference<List<UserCipherUse>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static UserCipherUse all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<UserCipherUse> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<UserCipherUse> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

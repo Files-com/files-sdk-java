@@ -7,8 +7,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
 import java.io.IOException;
 
 public class FilesHttpInterceptor implements Interceptor {
@@ -17,7 +15,7 @@ public class FilesHttpInterceptor implements Interceptor {
   private FilesConfig filesConfig = FilesConfig.getInstance();
 
   public FilesHttpInterceptor() {
-    this.userAgent = String.format("Files-JAVA-SDK-", filesConfig.getSdkVersion());
+    this.userAgent = String.format("Files JAVA SDK v%s", filesConfig.getSdkVersion());
   }
 
   @Override

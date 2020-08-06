@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class FileCommentReaction {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public FileCommentReaction() {
+    this(null, null);
+  }
+
+  public FileCommentReaction(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public FileCommentReaction(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -69,12 +82,12 @@ public class FileCommentReaction {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       throw new UnsupportedOperationException("The FileCommentReaction Object doesn't support updates.");
     } else {
-      FileCommentReaction newObj = FileCommentReaction.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      FileCommentReaction.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -84,13 +97,16 @@ public class FileCommentReaction {
   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static FileCommentReaction create( HashMap<String, Object> parameters) {
+  public static List<FileCommentReaction> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<FileCommentReaction> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static FileCommentReaction create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileCommentReaction> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -112,23 +128,27 @@ public class FileCommentReaction {
     if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
       throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
     }
-    // TODO: Send request
-    return (FileCommentReaction) null;
+    String url = String.format("%s%s/file_comment_reactions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<FileCommentReaction>> typeReference = new TypeReference<List<FileCommentReaction>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static FileCommentReaction delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<FileCommentReaction> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<FileCommentReaction> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static FileCommentReaction delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileCommentReaction> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static FileCommentReaction delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileCommentReaction> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -142,11 +162,16 @@ public class FileCommentReaction {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (FileCommentReaction) null;
+    String url = String.format("%s%s/file_comment_reactions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<FileCommentReaction>> typeReference = new TypeReference<List<FileCommentReaction>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static FileCommentReaction destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileCommentReaction> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<FileCommentReaction> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

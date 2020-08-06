@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Lock {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Lock() {
+    this(null, null);
+  }
+
+  public Lock(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Lock(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -111,12 +124,12 @@ public class Lock {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("path") != null) {
       throw new UnsupportedOperationException("The Lock Object doesn't support updates.");
     } else {
-      Lock newObj = Lock.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      Lock.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -128,16 +141,19 @@ public class Lock {
   *   path (required) - string - Path to operate on.
   *   include_children - boolean - Include locks from children objects?
   */
-  public static Lock listFor(String path,  HashMap<String, Object> parameters) {
+  public static List<Lock> listFor() throws IOException{
+    return listFor(null, null,null);
+  }
+  public static List<Lock> listFor(String path,  HashMap<String, Object> parameters) throws IOException {
     return listFor(path, parameters, null);
   }
 
-  public static Lock listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listFor(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Lock listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -167,8 +183,9 @@ public class Lock {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (Lock) null;
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -177,16 +194,19 @@ public class Lock {
   *   path (required) - string - Path
   *   timeout - int64 - Lock timeout length
   */
-  public static Lock create(String path,  HashMap<String, Object> parameters) {
+  public static List<Lock> create() throws IOException{
+    return create(null, null,null);
+  }
+  public static List<Lock> create(String path,  HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
-  public static Lock create(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return create(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Lock create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -204,8 +224,9 @@ public class Lock {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (Lock) null;
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -213,16 +234,19 @@ public class Lock {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public static Lock delete(String path,  HashMap<String, Object> parameters) {
+  public static List<Lock> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<Lock> delete(String path,  HashMap<String, Object> parameters) throws IOException {
     return delete(path, parameters, null);
   }
 
-  public static Lock delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Lock delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -243,11 +267,16 @@ public class Lock {
     if (!parameters.containsKey("token") || parameters.get("token") == null) {
       throw new NullPointerException("Parameter missing: token parameters[\"token\"]");
     }
-    // TODO: Send request
-    return (Lock) null;
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Lock destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Lock> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<Lock> destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(path, parameters, options);
   }
 

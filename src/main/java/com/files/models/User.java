@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class User {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public User() {
+    this(null, null);
+  }
+
+  public User(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public User(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -541,12 +554,12 @@ public class User {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       update(this.attributes);
     } else {
-      User newObj = User.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      User.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -573,13 +586,16 @@ public class User {
   *   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
   *   search - string - Searches for partial matches of name, username, or email.
   */
-  public static User list( HashMap<String, Object> parameters) {
+  public static List<User> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<User> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static User list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -642,11 +658,16 @@ public class User {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");
     }
 
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static User all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -654,16 +675,19 @@ public class User {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
-  public static User find(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<User> find(Long id,  HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static User find(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -677,11 +701,16 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static User get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 
@@ -729,13 +758,16 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public static User create( HashMap<String, Object> parameters) {
+  public static List<User> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<User> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static User create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -903,24 +935,28 @@ public class User {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
 
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public static User unlock(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> unlock() throws IOException{
+    return unlock(null, null,null);
+  }
+  public static List<User> unlock(Long id,  HashMap<String, Object> parameters) throws IOException {
     return unlock(id, parameters, null);
   }
 
-  public static User unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return unlock(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User unlock(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> unlock(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -934,24 +970,28 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s/unlock", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   * Resend user welcome email
   */
-  public static User resendWelcomeEmail(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> resendWelcomeEmail() throws IOException{
+    return resendWelcomeEmail(null, null,null);
+  }
+  public static List<User> resendWelcomeEmail(Long id,  HashMap<String, Object> parameters) throws IOException {
     return resendWelcomeEmail(id, parameters, null);
   }
 
-  public static User resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return resendWelcomeEmail(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User resendWelcomeEmail(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> resendWelcomeEmail(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -965,24 +1005,28 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s/resend_welcome_email", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public static User user2faReset(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> user2faReset() throws IOException{
+    return user2faReset(null, null,null);
+  }
+  public static List<User> user2faReset(Long id,  HashMap<String, Object> parameters) throws IOException {
     return user2faReset(id, parameters, null);
   }
 
-  public static User user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return user2faReset(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User user2faReset(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> user2faReset(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -996,8 +1040,9 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s/2fa/reset", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -1045,16 +1090,19 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public static User update(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> update() throws IOException{
+    return update(null, null,null);
+  }
+  public static List<User> update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static User update(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1232,23 +1280,27 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static User delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<User> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<User> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static User delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static User delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1262,11 +1314,16 @@ public class User {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (User) null;
+    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static User destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<User> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<User> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

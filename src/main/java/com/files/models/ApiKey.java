@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class ApiKey {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public ApiKey() {
+    this(null, null);
+  }
+
+  public ApiKey(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public ApiKey(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -135,12 +148,12 @@ public class ApiKey {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       update(this.attributes);
     } else {
-      ApiKey newObj = ApiKey.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      ApiKey.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -159,13 +172,16 @@ public class ApiKey {
   *   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `expires_at`.
   *   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `expires_at`.
   */
-  public static ApiKey list( HashMap<String, Object> parameters) {
+  public static List<ApiKey> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<ApiKey> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static ApiKey list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -217,28 +233,57 @@ public class ApiKey {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
     }
 
-    // TODO: Send request
-    return (ApiKey) null;
+    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ApiKey all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
+
+  /**
+  */
+  public static List<ApiKey> findCurrent() throws IOException{
+    return findCurrent(null,null);
+  }
+  public static List<ApiKey> findCurrent( HashMap<String, Object> parameters) throws IOException {
+    return findCurrent(parameters, null);
+  }
+
+
+  // TODO: Use types for path_and_primary_params
+  public static List<ApiKey> findCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
 
   /**
   * Parameters:
   *   id (required) - int64 - Api Key ID.
   */
-  public static ApiKey find(Long id,  HashMap<String, Object> parameters) {
+  public static List<ApiKey> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<ApiKey> find(Long id,  HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static ApiKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static ApiKey find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -252,30 +297,18 @@ public class ApiKey {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (ApiKey) null;
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ApiKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
-
-  /**
-  */
-  public static ApiKey findCurrent( HashMap<String, Object> parameters) {
-    return findCurrent(parameters, null);
-  }
-
-
-  // TODO: Use types for path_and_primary_params
-  public static ApiKey findCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    // TODO: Send request
-    return (ApiKey) null;
-  }
-
 
   /**
   * Parameters:
@@ -285,13 +318,16 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   path - string - Folder path restriction for this api key.
   */
-  public static ApiKey create( HashMap<String, Object> parameters) {
+  public static List<ApiKey> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<ApiKey> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static ApiKey create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -315,54 +351,9 @@ public class ApiKey {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
-    // TODO: Send request
-    return (ApiKey) null;
-  }
-
-
-  /**
-  * Parameters:
-  *   name - string - Internal name for the API Key.  For your use.
-  *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-  */
-  public static ApiKey update(Long id,  HashMap<String, Object> parameters) {
-    return update(id, parameters, null);
-  }
-
-  public static ApiKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    return update(null, parameters, options);
-  }
-
-  // TODO: Use types for path_and_primary_params
-  public static ApiKey update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
-
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
-    }
-    // TODO: Send request
-    return (ApiKey) null;
+    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -372,13 +363,16 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static ApiKey updateCurrent( HashMap<String, Object> parameters) {
+  public static List<ApiKey> updateCurrent() throws IOException{
+    return updateCurrent(null,null);
+  }
+  public static List<ApiKey> updateCurrent( HashMap<String, Object> parameters) throws IOException {
     return updateCurrent(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static ApiKey updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -394,23 +388,98 @@ public class ApiKey {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
 
-    // TODO: Send request
-    return (ApiKey) null;
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   name - string - Internal name for the API Key.  For your use.
+  *   expires_at - string - API Key expiration date
+  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  */
+  public static List<ApiKey> update() throws IOException{
+    return update(null, null,null);
+  }
+  public static List<ApiKey> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return update(id, parameters, null);
+  }
+
+  public static List<ApiKey> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return update(null, parameters, options);
+  }
+
+  // TODO: Use types for path_and_primary_params
+  public static List<ApiKey> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id != null){
+      parameters.put("id",id);
+    }
+    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
+    }
+
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
+    }
+
+    if (!parameters.containsKey("id") || parameters.get("id") == null) {
+      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    }
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static ApiKey delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<ApiKey> deleteCurrent() throws IOException{
+    return deleteCurrent(null,null);
+  }
+  public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters) throws IOException {
+    return deleteCurrent(parameters, null);
+  }
+
+
+  // TODO: Use types for path_and_primary_params
+  public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+  }
+
+
+  /**
+  */
+  public static List<ApiKey> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<ApiKey> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static ApiKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static ApiKey delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -424,30 +493,18 @@ public class ApiKey {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (ApiKey) null;
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static ApiKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<ApiKey> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<ApiKey> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
-
-  /**
-  */
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters) {
-    return deleteCurrent(parameters, null);
-  }
-
-
-  // TODO: Use types for path_and_primary_params
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    // TODO: Send request
-    return (ApiKey) null;
-  }
-
 
 }
 

@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class MessageReaction {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public MessageReaction() {
+    this(null, null);
+  }
+
+  public MessageReaction(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public MessageReaction(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -61,12 +74,12 @@ public class MessageReaction {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       throw new UnsupportedOperationException("The MessageReaction Object doesn't support updates.");
     } else {
-      MessageReaction newObj = MessageReaction.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      MessageReaction.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -78,13 +91,16 @@ public class MessageReaction {
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   *   message_id (required) - int64 - Message to return reactions for.
   */
-  public static MessageReaction list( HashMap<String, Object> parameters) {
+  public static List<MessageReaction> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<MessageReaction> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static MessageReaction list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -111,11 +127,16 @@ public class MessageReaction {
     if (!parameters.containsKey("message_id") || parameters.get("message_id") == null) {
       throw new NullPointerException("Parameter missing: message_id parameters[\"message_id\"]");
     }
-    // TODO: Send request
-    return (MessageReaction) null;
+    String url = String.format("%s%s/message_reactions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<MessageReaction>> typeReference = new TypeReference<List<MessageReaction>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static MessageReaction all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<MessageReaction> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -123,16 +144,19 @@ public class MessageReaction {
   * Parameters:
   *   id (required) - int64 - Message Reaction ID.
   */
-  public static MessageReaction find(Long id,  HashMap<String, Object> parameters) {
+  public static List<MessageReaction> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<MessageReaction> find(Long id,  HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static MessageReaction find(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static MessageReaction find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -146,11 +170,16 @@ public class MessageReaction {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (MessageReaction) null;
+    String url = String.format("%s%s/message_reactions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<MessageReaction>> typeReference = new TypeReference<List<MessageReaction>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static MessageReaction get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<MessageReaction> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 
@@ -159,13 +188,16 @@ public class MessageReaction {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static MessageReaction create( HashMap<String, Object> parameters) {
+  public static List<MessageReaction> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<MessageReaction> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static MessageReaction create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -180,23 +212,27 @@ public class MessageReaction {
     if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
       throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
     }
-    // TODO: Send request
-    return (MessageReaction) null;
+    String url = String.format("%s%s/message_reactions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<MessageReaction>> typeReference = new TypeReference<List<MessageReaction>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static MessageReaction delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<MessageReaction> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<MessageReaction> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static MessageReaction delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static MessageReaction delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -210,11 +246,16 @@ public class MessageReaction {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (MessageReaction) null;
+    String url = String.format("%s%s/message_reactions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<MessageReaction>> typeReference = new TypeReference<List<MessageReaction>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static MessageReaction destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<MessageReaction> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<MessageReaction> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

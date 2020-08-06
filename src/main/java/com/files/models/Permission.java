@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Permission {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Permission() {
+    this(null, null);
+  }
+
+  public Permission(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Permission(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -90,13 +103,23 @@ public class Permission {
   @JsonProperty("recursive")
   public Boolean recursive;
 
+  /**
+  */
+  public Permission delete(HashMap<String, Object> parameters) {
+    // TODO: Fill in operation implementation
+    return (Permission) null;
+  }
 
-  public void save() {
-    if (this.attributes.get("path") != null) {
+  public void destroy(HashMap<String, Object> parameters) {
+    delete(parameters);
+  }
+
+  public void save() throws IOException {
+    if (this.attributes.get("id") != null) {
       throw new UnsupportedOperationException("The Permission Object doesn't support updates.");
     } else {
-      Permission newObj = Permission.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      Permission.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -118,22 +141,19 @@ public class Permission {
   *   user_id - string - DEPRECATED: User ID.  If provided, will scope permissions to this user. Use `filter[user_id]` instead.`
   *   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
   */
-  public static Permission list(String path,  HashMap<String, Object> parameters) {
-    return list(path, parameters, null);
+  public static List<Permission> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<Permission> list( HashMap<String, Object> parameters) throws IOException {
+    return list(parameters, null);
   }
 
-  public static Permission list(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    return list(null, parameters, options);
-  }
 
   // TODO: Use types for path_and_primary_params
-  public static Permission list(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Permission> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
     if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
@@ -194,12 +214,17 @@ public class Permission {
       throw new IllegalArgumentException("Bad parameter: include_groups must be of type Boolean parameters[\"include_groups\"]");
     }
 
-    // TODO: Send request
-    return (Permission) null;
+    String url = String.format("%s%s/permissions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Permission>> typeReference = new TypeReference<List<Permission>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Permission all(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    return list(path, parameters, options);
+  public static List<Permission> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<Permission> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return list(parameters, options);
   }
 
   /**
@@ -211,22 +236,19 @@ public class Permission {
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
   */
-  public static Permission create(String path,  HashMap<String, Object> parameters) {
-    return create(path, parameters, null);
+  public static List<Permission> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<Permission> create( HashMap<String, Object> parameters) throws IOException {
+    return create(parameters, null);
   }
 
-  public static Permission create(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    return create(null, parameters, options);
-  }
 
   // TODO: Use types for path_and_primary_params
-  public static Permission create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Permission> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
@@ -251,25 +273,27 @@ public class Permission {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
 
-    // TODO: Send request
-    return (Permission) null;
+    String url = String.format("%s%s/permissions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Permission>> typeReference = new TypeReference<List<Permission>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Permission ID.
   */
-  public static Permission delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<Permission> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<Permission> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static Permission delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Permission> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Permission delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Permission> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -283,11 +307,16 @@ public class Permission {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (Permission) null;
+    String url = String.format("%s%s/permissions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Permission>> typeReference = new TypeReference<List<Permission>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Permission destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Permission> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<Permission> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

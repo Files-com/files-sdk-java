@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Folder {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Folder() {
+    this(null, null);
+  }
+
+  public Folder(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Folder(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -163,12 +176,12 @@ public class Folder {
   public Object preview;
 
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("path") != null) {
       throw new UnsupportedOperationException("The Folder Object doesn't support updates.");
     } else {
-      Folder newObj = Folder.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      Folder.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -186,16 +199,19 @@ public class Folder {
   *   with_previews - boolean - Include file previews?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static Folder listFor(String path,  HashMap<String, Object> parameters) {
+  public static List<Folder> listFor() throws IOException{
+    return listFor(null, null,null);
+  }
+  public static List<Folder> listFor(String path,  HashMap<String, Object> parameters) throws IOException {
     return listFor(path, parameters, null);
   }
 
-  public static Folder listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listFor(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Folder listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Folder> listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -249,8 +265,9 @@ public class Folder {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (Folder) null;
+    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<Folder>> typeReference = new TypeReference<List<Folder>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -258,16 +275,19 @@ public class Folder {
   * Parameters:
   *   path (required) - string - Path to operate on.
   */
-  public static Folder create(String path,  HashMap<String, Object> parameters) {
+  public static List<Folder> create() throws IOException{
+    return create(null, null,null);
+  }
+  public static List<Folder> create(String path,  HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
-  public static Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Folder> create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return create(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Folder create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Folder> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -281,8 +301,9 @@ public class Folder {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (Folder) null;
+    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<Folder>> typeReference = new TypeReference<List<Folder>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

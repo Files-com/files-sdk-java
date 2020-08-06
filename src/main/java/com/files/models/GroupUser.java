@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class GroupUser {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public GroupUser() {
+    this(null, null);
+  }
+
+  public GroupUser(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public GroupUser(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -99,7 +112,7 @@ public class GroupUser {
     delete(parameters);
   }
 
-  public void save() {
+  public void save() throws IOException {
     update(this.attributes);
   }
 
@@ -112,13 +125,16 @@ public class GroupUser {
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   *   group_id - int64 - Group ID.  If provided, will return group_users of this group.
   */
-  public static GroupUser list( HashMap<String, Object> parameters) {
+  public static List<GroupUser> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<GroupUser> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static GroupUser list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -142,11 +158,16 @@ public class GroupUser {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
 
-    // TODO: Send request
-    return (GroupUser) null;
+    String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static GroupUser all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<GroupUser> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -156,16 +177,19 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static GroupUser update(Long id,  HashMap<String, Object> parameters) {
+  public static List<GroupUser> update() throws IOException{
+    return update(null, null,null);
+  }
+  public static List<GroupUser> update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static GroupUser update(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static GroupUser update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -197,8 +221,9 @@ public class GroupUser {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
-    // TODO: Send request
-    return (GroupUser) null;
+    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
+    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
@@ -207,16 +232,19 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public static GroupUser delete(Long id,  HashMap<String, Object> parameters) {
+  public static List<GroupUser> delete() throws IOException{
+    return delete(null, null,null);
+  }
+  public static List<GroupUser> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static GroupUser delete(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static GroupUser delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -244,11 +272,16 @@ public class GroupUser {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
-    // TODO: Send request
-    return (GroupUser) null;
+    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static GroupUser destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<GroupUser> destroy() throws IOException {
+    return destroy(null, null, null);
+  }
+
+  public static List<GroupUser> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

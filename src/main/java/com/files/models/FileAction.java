@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class FileAction {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public FileAction() {
+    this(null, null);
+  }
+
+  public FileAction(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public FileAction(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -74,16 +87,19 @@ public class FileAction {
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
   */
-  public static FileAction copy(String path,  HashMap<String, Object> parameters) {
+  public static List<FileAction> copy() throws IOException{
+    return copy(null, null,null);
+  }
+  public static List<FileAction> copy(String path,  HashMap<String, Object> parameters) throws IOException {
     return copy(path, parameters, null);
   }
 
-  public static FileAction copy(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return copy(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static FileAction copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -108,8 +124,9 @@ public class FileAction {
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
-    // TODO: Send request
-    return (FileAction) null;
+    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -119,16 +136,19 @@ public class FileAction {
   * Parameters:
   *   destination (required) - string - Move destination path.
   */
-  public static FileAction move(String path,  HashMap<String, Object> parameters) {
+  public static List<FileAction> move() throws IOException{
+    return move(null, null,null);
+  }
+  public static List<FileAction> move(String path,  HashMap<String, Object> parameters) throws IOException {
     return move(path, parameters, null);
   }
 
-  public static FileAction move(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return move(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static FileAction move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -149,8 +169,9 @@ public class FileAction {
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
-    // TODO: Send request
-    return (FileAction) null;
+    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -165,16 +186,19 @@ public class FileAction {
   *   restart - int64 - File byte offset to restart from.
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static FileAction beginUpload(String path,  HashMap<String, Object> parameters) {
+  public static List<FileAction> beginUpload() throws IOException{
+    return beginUpload(null, null,null);
+  }
+  public static List<FileAction> beginUpload(String path,  HashMap<String, Object> parameters) throws IOException {
     return beginUpload(path, parameters, null);
   }
 
-  public static FileAction beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return beginUpload(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static FileAction beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<FileAction> beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -212,8 +236,9 @@ public class FileAction {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (FileAction) null;
+    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

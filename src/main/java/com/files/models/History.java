@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class History {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public History() {
+    this(null, null);
+  }
+
+  public History(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public History(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -131,16 +144,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static History listForFile(String path,  HashMap<String, Object> parameters) {
+  public static List<History> listForFile() throws IOException{
+    return listForFile(null, null,null);
+  }
+  public static List<History> listForFile(String path,  HashMap<String, Object> parameters) throws IOException {
     return listForFile(path, parameters, null);
   }
 
-  public static History listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForFile(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static History listForFile(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForFile(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -186,8 +202,9 @@ public class History {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (History) null;
+    String url = String.format("%s%s/history/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -203,16 +220,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static History listForFolder(String path,  HashMap<String, Object> parameters) {
+  public static List<History> listForFolder() throws IOException{
+    return listForFolder(null, null,null);
+  }
+  public static List<History> listForFolder(String path,  HashMap<String, Object> parameters) throws IOException {
     return listForFolder(path, parameters, null);
   }
 
-  public static History listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForFolder(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static History listForFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -258,8 +278,9 @@ public class History {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
-    // TODO: Send request
-    return (History) null;
+    String url = String.format("%s%s/history/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -275,16 +296,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
   *   user_id (required) - int64 - User ID.
   */
-  public static History listForUser(Long user_id,  HashMap<String, Object> parameters) {
+  public static List<History> listForUser() throws IOException{
+    return listForUser(null, null,null);
+  }
+  public static List<History> listForUser(Long user_id,  HashMap<String, Object> parameters) throws IOException {
     return listForUser(user_id, parameters, null);
   }
 
-  public static History listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForUser(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static History listForUser(Long user_id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listForUser(Long user_id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -330,8 +354,9 @@ public class History {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
-    // TODO: Send request
-    return (History) null;
+    String url = String.format("%s%s/history/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), user_id);
+    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -346,13 +371,16 @@ public class History {
   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
   */
-  public static History listLogins( HashMap<String, Object> parameters) {
+  public static List<History> listLogins() throws IOException{
+    return listLogins(null,null);
+  }
+  public static List<History> listLogins( HashMap<String, Object> parameters) throws IOException {
     return listLogins(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static History listLogins( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> listLogins( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -388,8 +416,9 @@ public class History {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
 
-    // TODO: Send request
-    return (History) null;
+    String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -410,13 +439,16 @@ public class History {
   *   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `user_id`, `folder` or `path`.
   *   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
   */
-  public static History list( HashMap<String, Object> parameters) {
+  public static List<History> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<History> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static History list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -476,11 +508,16 @@ public class History {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
     }
 
-    // TODO: Send request
-    return (History) null;
+    String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static History all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<History> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<History> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Session {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Session() {
+    this(null, null);
+  }
+
+  public Session(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Session(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -203,12 +216,12 @@ public class Session {
   public String partialSessionId;
 
 
-  public void save() {
+  public void save() throws IOException {
     if (this.attributes.get("id") != null) {
       throw new UnsupportedOperationException("The Session Object doesn't support updates.");
     } else {
-      Session newObj = Session.create(this.attributes, this.options);
-      this.attributes = newObj.attributes;
+      Session.create(this.attributes, this.options);
+      // TODO save this.attributes = newObj.attributes;
     }
   }
 
@@ -219,13 +232,16 @@ public class Session {
   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
   *   partial_session_id - string - Identifier for a partially-completed login
   */
-  public static Session create( HashMap<String, Object> parameters) {
+  public static List<Session> create() throws IOException{
+    return create(null,null);
+  }
+  public static List<Session> create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static Session create( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Session> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -245,28 +261,37 @@ public class Session {
       throw new IllegalArgumentException("Bad parameter: partial_session_id must be of type String parameters[\"partial_session_id\"]");
     }
 
-    // TODO: Send request
-    return (Session) null;
+    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Session>> typeReference = new TypeReference<List<Session>>() {};
+    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static Session delete( HashMap<String, Object> parameters) {
+  public static List<Session> delete() throws IOException{
+    return delete(null,null);
+  }
+  public static List<Session> delete( HashMap<String, Object> parameters) throws IOException {
     return delete(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static Session delete( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Session> delete( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    // TODO: Send request
-    return (Session) null;
+    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Session>> typeReference = new TypeReference<List<Session>>() {};
+    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Session destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Session> destroy() throws IOException {
+    return destroy(null, null);
+  }
+
+  public static List<Session> destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(parameters, options);
   }
 

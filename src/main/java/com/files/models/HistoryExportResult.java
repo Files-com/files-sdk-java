@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class HistoryExportResult {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public HistoryExportResult() {
+    this(null, null);
+  }
+
+  public HistoryExportResult(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public HistoryExportResult(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -199,13 +212,16 @@ public class HistoryExportResult {
   *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at`.
   *   history_export_id (required) - int64 - ID of the associated history export.
   */
-  public static HistoryExportResult list( HashMap<String, Object> parameters) {
+  public static List<HistoryExportResult> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<HistoryExportResult> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static HistoryExportResult list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<HistoryExportResult> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -240,11 +256,16 @@ public class HistoryExportResult {
     if (!parameters.containsKey("history_export_id") || parameters.get("history_export_id") == null) {
       throw new NullPointerException("Parameter missing: history_export_id parameters[\"history_export_id\"]");
     }
-    // TODO: Send request
-    return (HistoryExportResult) null;
+    String url = String.format("%s%s/history_export_results", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<HistoryExportResult>> typeReference = new TypeReference<List<HistoryExportResult>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static HistoryExportResult all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<HistoryExportResult> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

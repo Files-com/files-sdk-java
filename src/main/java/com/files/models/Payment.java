@@ -5,8 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.files.FilesClient;
+import com.files.FilesConfig;
+import com.files.net.HttpMethods.RequestMethods;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +19,20 @@ public class Payment {
   private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
 
+  public Payment() {
+    this(null, null);
+  }
+
+  public Payment(HashMap<String, Object> attributes) {
+    this(attributes, null);
+  }
+
   public Payment(HashMap<String, Object> attributes, HashMap<String, Object> options) {
     this.attributes = attributes;
     this.options = options;
     try{
-      ObjectMapper objectMapper=new ObjectMapper();
-      ObjectReader objectReader=objectMapper.readerForUpdating(this);
+      ObjectMapper objectMapper = new ObjectMapper();
+      ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(attributes));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
@@ -132,13 +145,16 @@ public class Payment {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   */
-  public static Payment list( HashMap<String, Object> parameters) {
+  public static List<Payment> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<Payment> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
   // TODO: Use types for path_and_primary_params
-  public static Payment list( HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Payment> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -154,11 +170,16 @@ public class Payment {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
 
-    // TODO: Send request
-    return (Payment) null;
+    String url = String.format("%s%s/payments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<Payment>> typeReference = new TypeReference<List<Payment>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Payment all(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Payment> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<Payment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -166,16 +187,19 @@ public class Payment {
   * Parameters:
   *   id (required) - int64 - Payment ID.
   */
-  public static Payment find(Long id,  HashMap<String, Object> parameters) {
+  public static List<Payment> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<Payment> find(Long id,  HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static Payment find(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Payment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
   // TODO: Use types for path_and_primary_params
-  public static Payment find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Payment> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -189,11 +213,16 @@ public class Payment {
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
-    // TODO: Send request
-    return (Payment) null;
+    String url = String.format("%s%s/payments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<Payment>> typeReference = new TypeReference<List<Payment>>() {};
+    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Payment get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public static List<Payment> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<Payment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

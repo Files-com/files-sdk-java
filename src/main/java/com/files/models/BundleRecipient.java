@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class BundleRecipient {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public BundleRecipient() {
     this(null, null);
   }
 
-  public BundleRecipient(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public BundleRecipient(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public BundleRecipient(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public BundleRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,35 +43,35 @@ public class BundleRecipient {
   */
   @Getter
   @JsonProperty("company")
-  public String company;
+  private String company;
 
   /**
   * The recipient's name.
   */
   @Getter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * A note sent to the recipient with the bundle.
   */
   @Getter
   @JsonProperty("note")
-  public String note;
+  private String note;
 
   /**
   * The recipient's email address.
   */
   @Getter
   @JsonProperty("recipient")
-  public String recipient;
+  private String recipient;
 
   /**
   * When the Bundle was shared with this recipient.
   */
   @Getter
   @JsonProperty("sent_at")
-  public Date sentAt;
+  private Date sentAt;
 
 
 
@@ -92,7 +91,6 @@ public class BundleRecipient {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<BundleRecipient> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

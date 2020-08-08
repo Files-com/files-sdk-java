@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class GroupUser {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public GroupUser() {
     this(null, null);
   }
 
-  public GroupUser(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public GroupUser(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public GroupUser(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public GroupUser(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("group_name")
-  public String groupName;
+  private String groupName;
 
   /**
   * Group ID
@@ -53,7 +52,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  public Long groupId;
+  private Long groupId;
 
   /**
   * User ID
@@ -61,7 +60,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Is this user an administrator of this group?
@@ -69,7 +68,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("admin")
-  public Boolean admin;
+  private Boolean admin;
 
   /**
   * A list of usernames for users in this group
@@ -77,7 +76,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("usernames")
-  public Object[] usernames;
+  private Object[] usernames;
 
   /**
   * Group User ID.
@@ -85,7 +84,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Parameters:
@@ -94,8 +93,7 @@ public class GroupUser {
   *   admin - boolean - Is the user a group administrator?
   */
   public GroupUser update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (GroupUser) null;
+    return update(parameters);
   }
 
   /**
@@ -104,8 +102,7 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to remove from group.
   */
   public GroupUser delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (GroupUser) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -113,7 +110,7 @@ public class GroupUser {
   }
 
   public void save() throws IOException {
-    update(this.attributes);
+    update();
   }
 
 
@@ -133,7 +130,6 @@ public class GroupUser {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<GroupUser> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -188,7 +184,6 @@ public class GroupUser {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<GroupUser> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -243,7 +238,6 @@ public class GroupUser {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<GroupUser> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

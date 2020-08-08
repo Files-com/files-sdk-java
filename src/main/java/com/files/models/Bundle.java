@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Bundle {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Bundle() {
     this(null, null);
   }
 
-  public Bundle(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Bundle(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Bundle(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Bundle(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("code")
-  public String code;
+  private String code;
 
   /**
   * Public URL of Share Link
@@ -53,7 +52,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("url")
-  public String url;
+  private String url;
 
   /**
   * Public description
@@ -61,7 +60,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("description")
-  public String description;
+  private String description;
 
   /**
   * Is this bundle password protected?
@@ -69,7 +68,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("password_protected")
-  public Boolean passwordProtected;
+  private Boolean passwordProtected;
 
   /**
   * Show a registration page that captures the downloader's name and email address?
@@ -77,7 +76,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("require_registration")
-  public Boolean requireRegistration;
+  private Boolean requireRegistration;
 
   /**
   * Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -85,7 +84,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("require_share_recipient")
-  public Boolean requireShareRecipient;
+  private Boolean requireShareRecipient;
 
   /**
   * Legal text that must be agreed to prior to accessing Bundle.
@@ -93,7 +92,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("clickwrap_body")
-  public String clickwrapBody;
+  private String clickwrapBody;
 
   /**
   * Bundle ID
@@ -101,14 +100,14 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Bundle created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Bundle expiration date/time
@@ -116,7 +115,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("expires_at")
-  public Date expiresAt;
+  private Date expiresAt;
 
   /**
   * Maximum number of times bundle can be accessed
@@ -124,7 +123,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("max_uses")
-  public Long maxUses;
+  private Long maxUses;
 
   /**
   * Bundle internal note
@@ -132,7 +131,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("note")
-  public String note;
+  private String note;
 
   /**
   * Bundle creator user ID
@@ -140,7 +139,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Bundle creator username
@@ -148,7 +147,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("username")
-  public String username;
+  private String username;
 
   /**
   * ID of the clickwrap to use with this bundle.
@@ -156,7 +155,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("clickwrap_id")
-  public Long clickwrapId;
+  private Long clickwrapId;
 
   /**
   * ID of the associated inbox, if available.
@@ -164,7 +163,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("inbox_id")
-  public Long inboxId;
+  private Long inboxId;
 
   /**
   * A list of paths in this bundle
@@ -172,7 +171,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("paths")
-  public Object[] paths;
+  private Object[] paths;
 
   /**
   * Password for this bundle.
@@ -180,7 +179,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("password")
-  public String password;
+  private String password;
 
   /**
   * Send email(s) with a link to bundle
@@ -190,8 +189,7 @@ public class Bundle {
   *   note - string - Note to include in email.
   */
   public Bundle share(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Bundle) null;
+    return share(parameters);
   }
 
   /**
@@ -208,15 +206,13 @@ public class Bundle {
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
   public Bundle update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Bundle) null;
+    return update(parameters);
   }
 
   /**
   */
   public Bundle delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Bundle) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -224,11 +220,11 @@ public class Bundle {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Bundle.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Bundle newObject = Bundle.create(parameters, this.options).get(0);
     }
   }
 
@@ -255,7 +251,6 @@ public class Bundle {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -336,7 +331,6 @@ public class Bundle {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -387,7 +381,6 @@ public class Bundle {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -467,7 +460,6 @@ public class Bundle {
     return share(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> share(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -523,7 +515,6 @@ public class Bundle {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -597,7 +588,6 @@ public class Bundle {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Bundle> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

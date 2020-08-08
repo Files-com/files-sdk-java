@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Site {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Site() {
     this(null, null);
   }
 
-  public Site(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Site(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Site(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Site(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,770 +43,770 @@ public class Site {
   */
   @Getter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Is SMS two factor authentication allowed?
   */
   @Getter
   @JsonProperty("allowed_2fa_method_sms")
-  public Boolean allowed2faMethodSms;
+  private Boolean allowed2faMethodSms;
 
   /**
   * Is TOTP two factor authentication allowed?
   */
   @Getter
   @JsonProperty("allowed_2fa_method_totp")
-  public Boolean allowed2faMethodTotp;
+  private Boolean allowed2faMethodTotp;
 
   /**
   * Is U2F two factor authentication allowed?
   */
   @Getter
   @JsonProperty("allowed_2fa_method_u2f")
-  public Boolean allowed2faMethodU2f;
+  private Boolean allowed2faMethodU2f;
 
   /**
   * Is yubikey two factor authentication allowed?
   */
   @Getter
   @JsonProperty("allowed_2fa_method_yubi")
-  public Boolean allowed2faMethodYubi;
+  private Boolean allowed2faMethodYubi;
 
   /**
   * User ID for the main site administrator
   */
   @Getter
   @JsonProperty("admin_user_id")
-  public Long adminUserId;
+  private Long adminUserId;
 
   /**
   * Are manual Bundle names allowed?
   */
   @Getter
   @JsonProperty("allow_bundle_names")
-  public Boolean allowBundleNames;
+  private Boolean allowBundleNames;
 
   /**
   * List of allowed IP addresses
   */
   @Getter
   @JsonProperty("allowed_ips")
-  public String allowedIps;
+  private String allowedIps;
 
   /**
   * If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
   */
   @Getter
   @JsonProperty("ask_about_overwrites")
-  public Boolean askAboutOverwrites;
+  private Boolean askAboutOverwrites;
 
   /**
   * Site-wide Bundle expiration in days
   */
   @Getter
   @JsonProperty("bundle_expiration")
-  public Long bundleExpiration;
+  private Long bundleExpiration;
 
   /**
   * Do Bundles require password protection?
   */
   @Getter
   @JsonProperty("bundle_password_required")
-  public Boolean bundlePasswordRequired;
+  private Boolean bundlePasswordRequired;
 
   /**
   * Page link and button color
   */
   @Getter
   @JsonProperty("color2_left")
-  public String color2Left;
+  private String color2Left;
 
   /**
   * Top bar link color
   */
   @Getter
   @JsonProperty("color2_link")
-  public String color2Link;
+  private String color2Link;
 
   /**
   * Page link and button color
   */
   @Getter
   @JsonProperty("color2_text")
-  public String color2Text;
+  private String color2Text;
 
   /**
   * Top bar background color
   */
   @Getter
   @JsonProperty("color2_top")
-  public String color2Top;
+  private String color2Top;
 
   /**
   * Top bar text color
   */
   @Getter
   @JsonProperty("color2_top_text")
-  public String color2TopText;
+  private String color2TopText;
 
   /**
   * Time this site was created
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Preferred currency
   */
   @Getter
   @JsonProperty("currency")
-  public String currency;
+  private String currency;
 
   /**
   * Is this site using a custom namespace for users?
   */
   @Getter
   @JsonProperty("custom_namespace")
-  public Boolean customNamespace;
+  private Boolean customNamespace;
 
   /**
   * Number of days to keep deleted files
   */
   @Getter
   @JsonProperty("days_to_retain_backups")
-  public Long daysToRetainBackups;
+  private Long daysToRetainBackups;
 
   /**
   * Site default time zone
   */
   @Getter
   @JsonProperty("default_time_zone")
-  public String defaultTimeZone;
+  private String defaultTimeZone;
 
   /**
   * Is the desktop app enabled?
   */
   @Getter
   @JsonProperty("desktop_app")
-  public Boolean desktopApp;
+  private Boolean desktopApp;
 
   /**
   * Is desktop app session IP pinning enabled?
   */
   @Getter
   @JsonProperty("desktop_app_session_ip_pinning")
-  public Boolean desktopAppSessionIpPinning;
+  private Boolean desktopAppSessionIpPinning;
 
   /**
   * Desktop app session lifetime (in hours)
   */
   @Getter
   @JsonProperty("desktop_app_session_lifetime")
-  public Long desktopAppSessionLifetime;
+  private Long desktopAppSessionLifetime;
 
   /**
   * Are notifications disabled?
   */
   @Getter
   @JsonProperty("disable_notifications")
-  public Boolean disableNotifications;
+  private Boolean disableNotifications;
 
   /**
   * Is password reset disabled?
   */
   @Getter
   @JsonProperty("disable_password_reset")
-  public Boolean disablePasswordReset;
+  private Boolean disablePasswordReset;
 
   /**
   * Custom domain
   */
   @Getter
   @JsonProperty("domain")
-  public String domain;
+  private String domain;
 
   /**
   * Main email for this site
   */
   @Getter
   @JsonProperty("email")
-  public String email;
+  private String email;
 
   /**
   * If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
   */
   @Getter
   @JsonProperty("non_sso_groups_allowed")
-  public Boolean nonSsoGroupsAllowed;
+  private Boolean nonSsoGroupsAllowed;
 
   /**
   * If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
   */
   @Getter
   @JsonProperty("non_sso_users_allowed")
-  public Boolean nonSsoUsersAllowed;
+  private Boolean nonSsoUsersAllowed;
 
   /**
   * If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
   */
   @Getter
   @JsonProperty("folder_permissions_groups_only")
-  public Boolean folderPermissionsGroupsOnly;
+  private Boolean folderPermissionsGroupsOnly;
 
   /**
   * Is there a signed HIPAA BAA between Files.com and this site?
   */
   @Getter
   @JsonProperty("hipaa")
-  public Boolean hipaa;
+  private Boolean hipaa;
 
   /**
   * Branded icon 128x128
   */
   @Getter
   @JsonProperty("icon128")
-  public Object icon128;
+  private Object icon128;
 
   /**
   * Branded icon 16x16
   */
   @Getter
   @JsonProperty("icon16")
-  public Object icon16;
+  private Object icon16;
 
   /**
   * Branded icon 32x32
   */
   @Getter
   @JsonProperty("icon32")
-  public Object icon32;
+  private Object icon32;
 
   /**
   * Branded icon 48x48
   */
   @Getter
   @JsonProperty("icon48")
-  public Object icon48;
+  private Object icon48;
 
   /**
   * Can files be modified?
   */
   @Getter
   @JsonProperty("immutable_files_set_at")
-  public Date immutableFilesSetAt;
+  private Date immutableFilesSetAt;
 
   /**
   * Include password in emails to new users?
   */
   @Getter
   @JsonProperty("include_password_in_welcome_email")
-  public Boolean includePasswordInWelcomeEmail;
+  private Boolean includePasswordInWelcomeEmail;
 
   /**
   * Site default language
   */
   @Getter
   @JsonProperty("language")
-  public String language;
+  private String language;
 
   /**
   * Base DN for looking up users in LDAP server
   */
   @Getter
   @JsonProperty("ldap_base_dn")
-  public String ldapBaseDn;
+  private String ldapBaseDn;
 
   /**
   * Domain name that will be appended to usernames
   */
   @Getter
   @JsonProperty("ldap_domain")
-  public String ldapDomain;
+  private String ldapDomain;
 
   /**
   * Main LDAP setting: is LDAP enabled?
   */
   @Getter
   @JsonProperty("ldap_enabled")
-  public Boolean ldapEnabled;
+  private Boolean ldapEnabled;
 
   /**
   * Should we sync groups from LDAP server?
   */
   @Getter
   @JsonProperty("ldap_group_action")
-  public String ldapGroupAction;
+  private String ldapGroupAction;
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
   */
   @Getter
   @JsonProperty("ldap_group_exclusion")
-  public String ldapGroupExclusion;
+  private String ldapGroupExclusion;
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to include when syncing.
   */
   @Getter
   @JsonProperty("ldap_group_inclusion")
-  public String ldapGroupInclusion;
+  private String ldapGroupInclusion;
 
   /**
   * LDAP host
   */
   @Getter
   @JsonProperty("ldap_host")
-  public String ldapHost;
+  private String ldapHost;
 
   /**
   * LDAP backup host
   */
   @Getter
   @JsonProperty("ldap_host_2")
-  public String ldapHost2;
+  private String ldapHost2;
 
   /**
   * LDAP backup host
   */
   @Getter
   @JsonProperty("ldap_host_3")
-  public String ldapHost3;
+  private String ldapHost3;
 
   /**
   * LDAP port
   */
   @Getter
   @JsonProperty("ldap_port")
-  public Long ldapPort;
+  private Long ldapPort;
 
   /**
   * Use secure LDAP?
   */
   @Getter
   @JsonProperty("ldap_secure")
-  public Boolean ldapSecure;
+  private Boolean ldapSecure;
 
   /**
   * LDAP type
   */
   @Getter
   @JsonProperty("ldap_type")
-  public String ldapType;
+  private String ldapType;
 
   /**
   * Should we sync users from LDAP server?
   */
   @Getter
   @JsonProperty("ldap_user_action")
-  public String ldapUserAction;
+  private String ldapUserAction;
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
   */
   @Getter
   @JsonProperty("ldap_user_include_groups")
-  public String ldapUserIncludeGroups;
+  private String ldapUserIncludeGroups;
 
   /**
   * Username for signing in to LDAP server.
   */
   @Getter
   @JsonProperty("ldap_username")
-  public String ldapUsername;
+  private String ldapUsername;
 
   /**
   * LDAP username field
   */
   @Getter
   @JsonProperty("ldap_username_field")
-  public String ldapUsernameField;
+  private String ldapUsernameField;
 
   /**
   * Login help text
   */
   @Getter
   @JsonProperty("login_help_text")
-  public String loginHelpText;
+  private String loginHelpText;
 
   /**
   * Branded logo
   */
   @Getter
   @JsonProperty("logo")
-  public Object logo;
+  private Object logo;
 
   /**
   * Number of prior passwords to disallow
   */
   @Getter
   @JsonProperty("max_prior_passwords")
-  public Long maxPriorPasswords;
+  private Long maxPriorPasswords;
 
   /**
   * Next billing amount
   */
   @Getter
   @JsonProperty("next_billing_amount")
-  public Double nextBillingAmount;
+  private Double nextBillingAmount;
 
   /**
   * Next billing date
   */
   @Getter
   @JsonProperty("next_billing_date")
-  public String nextBillingDate;
+  private String nextBillingDate;
 
   /**
   * Allow users to use Office for the web?
   */
   @Getter
   @JsonProperty("office_integration_available")
-  public Boolean officeIntegrationAvailable;
+  private Boolean officeIntegrationAvailable;
 
   /**
   * Use servers in the USA only?
   */
   @Getter
   @JsonProperty("opt_out_global")
-  public Boolean optOutGlobal;
+  private Boolean optOutGlobal;
 
   /**
   * Last time the site was notified about an overage
   */
   @Getter
   @JsonProperty("overage_notified_at")
-  public Date overageNotifiedAt;
+  private Date overageNotifiedAt;
 
   /**
   * Notify site email of overages?
   */
   @Getter
   @JsonProperty("overage_notify")
-  public Boolean overageNotify;
+  private Boolean overageNotify;
 
   /**
   * Is this site's billing overdue?
   */
   @Getter
   @JsonProperty("overdue")
-  public Boolean overdue;
+  private Boolean overdue;
 
   /**
   * Shortest password length for users
   */
   @Getter
   @JsonProperty("password_min_length")
-  public Long passwordMinLength;
+  private Long passwordMinLength;
 
   /**
   * Require a letter in passwords?
   */
   @Getter
   @JsonProperty("password_require_letter")
-  public Boolean passwordRequireLetter;
+  private Boolean passwordRequireLetter;
 
   /**
   * Require lower and upper case letters in passwords?
   */
   @Getter
   @JsonProperty("password_require_mixed")
-  public Boolean passwordRequireMixed;
+  private Boolean passwordRequireMixed;
 
   /**
   * Require a number in passwords?
   */
   @Getter
   @JsonProperty("password_require_number")
-  public Boolean passwordRequireNumber;
+  private Boolean passwordRequireNumber;
 
   /**
   * Require special characters in password?
   */
   @Getter
   @JsonProperty("password_require_special")
-  public Boolean passwordRequireSpecial;
+  private Boolean passwordRequireSpecial;
 
   /**
   * Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
   */
   @Getter
   @JsonProperty("password_require_unbreached")
-  public Boolean passwordRequireUnbreached;
+  private Boolean passwordRequireUnbreached;
 
   /**
   * Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
   */
   @Getter
   @JsonProperty("password_requirements_apply_to_bundles")
-  public Boolean passwordRequirementsApplyToBundles;
+  private Boolean passwordRequirementsApplyToBundles;
 
   /**
   * Number of days password is valid
   */
   @Getter
   @JsonProperty("password_validity_days")
-  public Long passwordValidityDays;
+  private Long passwordValidityDays;
 
   /**
   * Site phone number
   */
   @Getter
   @JsonProperty("phone")
-  public String phone;
+  private String phone;
 
   /**
   * Require two-factor authentication for all users?
   */
   @Getter
   @JsonProperty("require_2fa")
-  public Boolean require2fa;
+  private Boolean require2fa;
 
   /**
   * If set, requirement for two-factor authentication has been scheduled to end on this date-time.
   */
   @Getter
   @JsonProperty("require_2fa_stop_time")
-  public Date require2faStopTime;
+  private Date require2faStopTime;
 
   /**
   * What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
   */
   @Getter
   @JsonProperty("require_2fa_user_type")
-  public String require2faUserType;
+  private String require2faUserType;
 
   /**
   * Current session
   */
   @Getter
   @JsonProperty("session")
-  public Object session;
+  private Object session;
 
   /**
   * Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
   */
   @Getter
   @JsonProperty("session_pinned_by_ip")
-  public Boolean sessionPinnedByIp;
+  private Boolean sessionPinnedByIp;
 
   /**
   * Use user FTP roots also for SFTP?
   */
   @Getter
   @JsonProperty("sftp_user_root_enabled")
-  public Boolean sftpUserRootEnabled;
+  private Boolean sftpUserRootEnabled;
 
   /**
   * Allow bundle creation
   */
   @Getter
   @JsonProperty("sharing_enabled")
-  public Boolean sharingEnabled;
+  private Boolean sharingEnabled;
 
   /**
   * Show request access link for users without access?  Currently unused.
   */
   @Getter
   @JsonProperty("show_request_access_link")
-  public Boolean showRequestAccessLink;
+  private Boolean showRequestAccessLink;
 
   /**
   * Custom site footer text
   */
   @Getter
   @JsonProperty("site_footer")
-  public String siteFooter;
+  private String siteFooter;
 
   /**
   * Custom site header text
   */
   @Getter
   @JsonProperty("site_header")
-  public String siteHeader;
+  private String siteHeader;
 
   /**
   * SMTP server hostname or IP
   */
   @Getter
   @JsonProperty("smtp_address")
-  public String smtpAddress;
+  private String smtpAddress;
 
   /**
   * SMTP server authentication type
   */
   @Getter
   @JsonProperty("smtp_authentication")
-  public String smtpAuthentication;
+  private String smtpAuthentication;
 
   /**
   * From address to use when mailing through custom SMTP
   */
   @Getter
   @JsonProperty("smtp_from")
-  public String smtpFrom;
+  private String smtpFrom;
 
   /**
   * SMTP server port
   */
   @Getter
   @JsonProperty("smtp_port")
-  public Long smtpPort;
+  private Long smtpPort;
 
   /**
   * SMTP server username
   */
   @Getter
   @JsonProperty("smtp_username")
-  public String smtpUsername;
+  private String smtpUsername;
 
   /**
   * Session expiry in hours
   */
   @Getter
   @JsonProperty("session_expiry")
-  public Double sessionExpiry;
+  private Double sessionExpiry;
 
   /**
   * Is SSL required?  Disabling this is insecure.
   */
   @Getter
   @JsonProperty("ssl_required")
-  public Boolean sslRequired;
+  private Boolean sslRequired;
 
   /**
   * Site subdomain
   */
   @Getter
   @JsonProperty("subdomain")
-  public String subdomain;
+  private String subdomain;
 
   /**
   * If switching plans, when does the new plan take effect?
   */
   @Getter
   @JsonProperty("switch_to_plan_date")
-  public Date switchToPlanDate;
+  private Date switchToPlanDate;
 
   /**
   * Is TLS disabled(site setting)?
   */
   @Getter
   @JsonProperty("tls_disabled")
-  public Boolean tlsDisabled;
+  private Boolean tlsDisabled;
 
   /**
   * Number of days left in trial
   */
   @Getter
   @JsonProperty("trial_days_left")
-  public Long trialDaysLeft;
+  private Long trialDaysLeft;
 
   /**
   * When does this Site trial expire?
   */
   @Getter
   @JsonProperty("trial_until")
-  public Date trialUntil;
+  private Date trialUntil;
 
   /**
   * Last time this Site was updated
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
   /**
   * Allow uploaders to set `provided_modified_at` for uploaded files?
   */
   @Getter
   @JsonProperty("use_provided_modified_at")
-  public Boolean useProvidedModifiedAt;
+  private Boolean useProvidedModifiedAt;
 
   /**
   * User of current session
   */
   @Getter
   @JsonProperty("user")
-  public Object user;
+  private Object user;
 
   /**
   * Will users be locked out after incorrect login attempts?
   */
   @Getter
   @JsonProperty("user_lockout")
-  public Boolean userLockout;
+  private Boolean userLockout;
 
   /**
   * How many hours to lock user out for failed password?
   */
   @Getter
   @JsonProperty("user_lockout_lock_period")
-  public Long userLockoutLockPeriod;
+  private Long userLockoutLockPeriod;
 
   /**
   * Number of login tries within `user_lockout_within` hours before users are locked out
   */
   @Getter
   @JsonProperty("user_lockout_tries")
-  public Long userLockoutTries;
+  private Long userLockoutTries;
 
   /**
   * Number of hours for user lockout window
   */
   @Getter
   @JsonProperty("user_lockout_within")
-  public Long userLockoutWithin;
+  private Long userLockoutWithin;
 
   /**
   * Enable User Requests feature
   */
   @Getter
   @JsonProperty("user_requests_enabled")
-  public Boolean userRequestsEnabled;
+  private Boolean userRequestsEnabled;
 
   /**
   * Custom text send in user welcome email
   */
   @Getter
   @JsonProperty("welcome_custom_text")
-  public String welcomeCustomText;
+  private String welcomeCustomText;
 
   /**
   * Include this email in welcome emails if enabled
   */
   @Getter
   @JsonProperty("welcome_email_cc")
-  public String welcomeEmailCc;
+  private String welcomeEmailCc;
 
   /**
   * Will the welcome email be sent to new users?
   */
   @Getter
   @JsonProperty("welcome_email_enabled")
-  public Boolean welcomeEmailEnabled;
+  private Boolean welcomeEmailEnabled;
 
   /**
   * Does the welcome screen appear?
   */
   @Getter
   @JsonProperty("welcome_screen")
-  public String welcomeScreen;
+  private String welcomeScreen;
 
   /**
   * Does FTP user Windows emulation mode?
   */
   @Getter
   @JsonProperty("windows_mode_ftp")
-  public Boolean windowsModeFtp;
+  private Boolean windowsModeFtp;
 
   /**
   * If greater than zero, users will unable to login if they do not show activity within this number of days.
   */
   @Getter
   @JsonProperty("disable_users_from_inactivity_period_days")
-  public Long disableUsersFromInactivityPeriodDays;
+  private Long disableUsersFromInactivityPeriodDays;
 
 
 
@@ -821,7 +820,6 @@ public class Site {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Site> get( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -842,7 +840,6 @@ public class Site {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Site> getUsage( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -966,7 +963,6 @@ public class Site {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Site> update( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

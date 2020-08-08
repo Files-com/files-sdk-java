@@ -39,8 +39,8 @@ public class FilesOkHttpApi implements FilesApiInterface {
           throw new InvalidParameterException("Bad option: api_key must be of type string");
         }
         request.header("X-FilesApi-Key", (String) options.get("api_key"));
-      } else if (FilesClient.session != null && FilesClient.session.id.length() > 0) {
-        request.header("X-FilesApi-Auth", FilesClient.session.id);
+      } else if (FilesClient.session != null && FilesClient.session.getId().length() > 0) {
+        request.header("X-FilesApi-Auth", FilesClient.session.getId());
       } else if (FilesClient.apiKey != null && FilesClient.apiKey.length() > 0) {
         request.header("X-FilesApi-Key", FilesClient.apiKey);
       } else {

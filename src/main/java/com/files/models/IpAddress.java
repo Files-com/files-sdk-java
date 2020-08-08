@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class IpAddress {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public IpAddress() {
     this(null, null);
   }
 
-  public IpAddress(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public IpAddress(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public IpAddress(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public IpAddress(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,28 +43,28 @@ public class IpAddress {
   */
   @Getter
   @JsonProperty("id")
-  public String id;
+  private String id;
 
   /**
   * The object that this public IP address list is associated with.
   */
   @Getter
   @JsonProperty("associated_with")
-  public String associatedWith;
+  private String associatedWith;
 
   /**
   * Group ID
   */
   @Getter
   @JsonProperty("group_id")
-  public Long groupId;
+  private Long groupId;
 
   /**
   * A list of IP addresses.
   */
   @Getter
   @JsonProperty("ip_addresses")
-  public Object[] ipAddresses;
+  private Object[] ipAddresses;
 
 
 
@@ -83,7 +82,6 @@ public class IpAddress {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<IpAddress> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -127,7 +125,6 @@ public class IpAddress {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<IpAddress> getReserved( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

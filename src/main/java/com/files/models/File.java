@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class File {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public File() {
     this(null, null);
   }
 
-  public File(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public File(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public File(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public File(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * File/Folder display name
@@ -61,7 +60,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("display_name")
-  public String displayName;
+  private String displayName;
 
   /**
   * Type: `directory` or `file`.
@@ -69,7 +68,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
   /**
   * File/Folder size
@@ -77,7 +76,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("size")
-  public Long size;
+  private Long size;
 
   /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
@@ -85,7 +84,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mtime")
-  public Date mtime;
+  private Date mtime;
 
   /**
   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
@@ -93,7 +92,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("provided_mtime")
-  public Date providedMtime;
+  private Date providedMtime;
 
   /**
   * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -101,7 +100,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("crc32")
-  public String crc32;
+  private String crc32;
 
   /**
   * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -109,7 +108,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("md5")
-  public String md5;
+  private String md5;
 
   /**
   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
@@ -117,7 +116,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mime_type")
-  public String mimeType;
+  private String mimeType;
 
   /**
   * Region location
@@ -125,7 +124,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("region")
-  public String region;
+  private String region;
 
   /**
   * A short string representing the current user's permissions.  Can be `r`,`w`,`p`, or any combination
@@ -133,7 +132,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("permissions")
-  public String permissions;
+  private String permissions;
 
   /**
   * Are subfolders locked and unable to be modified?
@@ -141,7 +140,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("subfolders_locked?")
-  public Boolean subfoldersLocked;
+  private Boolean subfoldersLocked;
 
   /**
   * Link to download file. Provided only in response to a download request.
@@ -149,7 +148,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("download_uri")
-  public String downloadUri;
+  private String downloadUri;
 
   /**
   * Bookmark/priority color of file/folder
@@ -157,7 +156,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("priority_color")
-  public String priorityColor;
+  private String priorityColor;
 
   /**
   * File preview ID
@@ -165,7 +164,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview_id")
-  public Long previewId;
+  private Long previewId;
 
   /**
   * File preview
@@ -173,7 +172,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview")
-  public Object preview;
+  private Object preview;
 
   /**
   * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
@@ -181,7 +180,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("action")
-  public String action;
+  private String action;
 
   /**
   * Length of file.
@@ -189,7 +188,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("length")
-  public Long length;
+  private Long length;
 
   /**
   * Create parent directories if they do not exist?
@@ -197,7 +196,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mkdir_parents")
-  public Boolean mkdirParents;
+  private Boolean mkdirParents;
 
   /**
   * Part if uploading a part.
@@ -205,7 +204,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("part")
-  public Long part;
+  private Long part;
 
   /**
   * How many parts to fetch?
@@ -213,14 +212,14 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("parts")
-  public Long parts;
+  private Long parts;
 
   /**
   */
   @Getter
   @Setter
   @JsonProperty("ref")
-  public String ref;
+  private String ref;
 
   /**
   * File byte offset to restart from.
@@ -228,7 +227,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("restart")
-  public Long restart;
+  private Long restart;
 
   /**
   * If copying folder, copy just the structure?
@@ -236,7 +235,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("structure")
-  public String structure;
+  private String structure;
 
   /**
   * Allow file rename instead of overwrite?
@@ -244,7 +243,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("with_rename")
-  public Boolean withRename;
+  private Boolean withRename;
 
   /**
   * Download file
@@ -256,8 +255,7 @@ public class File {
   *   with_priority_color - boolean - Include file priority color information?
   */
   public File download(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (File) null;
+    return download(parameters);
   }
 
   /**
@@ -266,8 +264,7 @@ public class File {
   *   priority_color - string - Priority/Bookmark color of file.
   */
   public File update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (File) null;
+    return update(parameters);
   }
 
   /**
@@ -275,8 +272,7 @@ public class File {
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
   */
   public File delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (File) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -284,11 +280,11 @@ public class File {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("path") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      File.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      File newObject = File.create(parameters, this.options).get(0);
     }
   }
 
@@ -312,7 +308,6 @@ public class File {
     return download(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<File> download(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -377,7 +372,6 @@ public class File {
     return create(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<File> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -460,7 +454,6 @@ public class File {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<File> update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -504,7 +497,6 @@ public class File {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<File> delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

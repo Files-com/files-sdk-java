@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class BundleDownload {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public BundleDownload() {
     this(null, null);
   }
 
-  public BundleDownload(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public BundleDownload(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public BundleDownload(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public BundleDownload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,21 +43,21 @@ public class BundleDownload {
   */
   @Getter
   @JsonProperty("download_method")
-  public String downloadMethod;
+  private String downloadMethod;
 
   /**
   * Download path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Download date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
 
 
@@ -77,7 +76,6 @@ public class BundleDownload {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<BundleDownload> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

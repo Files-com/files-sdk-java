@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Notification {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Notification() {
     this(null, null);
   }
 
-  public Notification(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Notification(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Notification(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Notification(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Notification group id
@@ -61,7 +60,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  public Long groupId;
+  private Long groupId;
 
   /**
   * Group name if applicable
@@ -69,7 +68,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("group_name")
-  public String groupName;
+  private String groupName;
 
   /**
   * Trigger notification on notification user actions?
@@ -77,7 +76,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_user_actions")
-  public Boolean notifyUserActions;
+  private Boolean notifyUserActions;
 
   /**
   * Triggers notification when moving or copying files to this path
@@ -85,7 +84,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_copy")
-  public Boolean notifyOnCopy;
+  private Boolean notifyOnCopy;
 
   /**
   * The time interval that notifications are aggregated to
@@ -93,7 +92,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("send_interval")
-  public String sendInterval;
+  private String sendInterval;
 
   /**
   * Is the user unsubscribed from this notification?
@@ -101,7 +100,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("unsubscribed")
-  public Boolean unsubscribed;
+  private Boolean unsubscribed;
 
   /**
   * The reason that the user unsubscribed
@@ -109,7 +108,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("unsubscribed_reason")
-  public String unsubscribedReason;
+  private String unsubscribedReason;
 
   /**
   * Notification user ID
@@ -117,7 +116,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Notification username
@@ -125,7 +124,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("username")
-  public String username;
+  private String username;
 
   /**
   * If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
@@ -133,7 +132,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("suppressed_email")
-  public Boolean suppressedEmail;
+  private Boolean suppressedEmail;
 
   /**
   * Parameters:
@@ -142,15 +141,13 @@ public class Notification {
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   */
   public Notification update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Notification) null;
+    return update(parameters);
   }
 
   /**
   */
   public Notification delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Notification) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -158,11 +155,11 @@ public class Notification {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Notification.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Notification newObject = Notification.create(parameters, this.options).get(0);
     }
   }
 
@@ -192,7 +189,6 @@ public class Notification {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Notification> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -285,7 +281,6 @@ public class Notification {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Notification> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -331,7 +326,6 @@ public class Notification {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Notification> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -387,7 +381,6 @@ public class Notification {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Notification> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -433,7 +426,6 @@ public class Notification {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Notification> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

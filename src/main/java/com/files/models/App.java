@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class App {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public App() {
     this(null, null);
   }
 
-  public App(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public App(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public App(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public App(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,84 +43,84 @@ public class App {
   */
   @Getter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Long form description of the App
   */
   @Getter
   @JsonProperty("extended_description")
-  public String extendedDescription;
+  private String extendedDescription;
 
   /**
   * Collection of named links to documentation
   */
   @Getter
   @JsonProperty("documentation_links")
-  public String documentationLinks;
+  private String documentationLinks;
 
   /**
   * App icon
   */
   @Getter
   @JsonProperty("icon_url")
-  public String iconUrl;
+  private String iconUrl;
 
   /**
   * Full size logo for the App
   */
   @Getter
   @JsonProperty("logo_url")
-  public String logoUrl;
+  private String logoUrl;
 
   /**
   * Logo thumbnail for the App
   */
   @Getter
   @JsonProperty("logo_thumbnail_url")
-  public String logoThumbnailUrl;
+  private String logoThumbnailUrl;
 
   /**
   * Associated SSO Strategy type, if any
   */
   @Getter
   @JsonProperty("sso_strategy_type")
-  public String ssoStrategyType;
+  private String ssoStrategyType;
 
   /**
   * Associated Remote Server type, if any
   */
   @Getter
   @JsonProperty("remote_server_type")
-  public String remoteServerType;
+  private String remoteServerType;
 
   /**
   * Associated Folder Behavior type, if any
   */
   @Getter
   @JsonProperty("folder_behavior_type")
-  public String folderBehaviorType;
+  private String folderBehaviorType;
 
   /**
   * Link to external homepage
   */
   @Getter
   @JsonProperty("external_homepage_url")
-  public String externalHomepageUrl;
+  private String externalHomepageUrl;
 
   /**
   * The type of the App
   */
   @Getter
   @JsonProperty("app_type")
-  public String appType;
+  private String appType;
 
   /**
   * Is featured on the App listing?
   */
   @Getter
   @JsonProperty("featured")
-  public Boolean featured;
+  private Boolean featured;
 
 
 
@@ -147,7 +146,6 @@ public class App {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<App> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

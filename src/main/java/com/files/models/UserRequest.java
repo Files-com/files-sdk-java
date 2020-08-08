@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,28 +17,34 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UserRequest {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public UserRequest() {
     this(null, null);
   }
 
-  public UserRequest(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public UserRequest(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public UserRequest(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public UserRequest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
   }
+
+  /**
+  * ID
+  */
+  @Getter
+  @Setter
+  @JsonProperty("id")
+  private Long id;
 
   /**
   * User's full name
@@ -45,7 +52,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * User email address
@@ -53,7 +60,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("email")
-  public String email;
+  private String email;
 
   /**
   * Details of the user's request
@@ -61,27 +68,18 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("details")
-  public String details;
+  private String details;
 
   /**
   */
   public UserRequest delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (UserRequest) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
 
-  public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      throw new UnsupportedOperationException("The UserRequest Object doesn't support updates.");
-    } else {
-      UserRequest.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
-    }
-  }
 
   /**
   * Parameters:
@@ -97,7 +95,6 @@ public class UserRequest {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<UserRequest> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -142,7 +139,6 @@ public class UserRequest {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<UserRequest> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -184,7 +180,6 @@ public class UserRequest {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<UserRequest> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -229,7 +224,6 @@ public class UserRequest {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<UserRequest> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

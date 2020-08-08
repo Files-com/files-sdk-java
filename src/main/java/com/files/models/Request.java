@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Request {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Request() {
     this(null, null);
   }
 
-  public Request(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Request(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Request(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Request(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Source filename, if applicable
@@ -61,7 +60,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("source")
-  public String source;
+  private String source;
 
   /**
   * Destination filename
@@ -69,7 +68,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("destination")
-  public String destination;
+  private String destination;
 
   /**
   * ID of automation that created request
@@ -77,7 +76,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("automation_id")
-  public String automationId;
+  private String automationId;
 
   /**
   * User making the request (if applicable)
@@ -85,7 +84,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("user_display_name")
-  public String userDisplayName;
+  private String userDisplayName;
 
   /**
   * A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
@@ -93,7 +92,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  public String userIds;
+  private String userIds;
 
   /**
   * A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
@@ -101,13 +100,12 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  public String groupIds;
+  private String groupIds;
 
   /**
   */
   public Request delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Request) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -115,11 +113,11 @@ public class Request {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Request Object doesn't support updates.");
     } else {
-      Request.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Request newObject = Request.create(parameters, this.options).get(0);
     }
   }
 
@@ -141,7 +139,6 @@ public class Request {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Request> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -208,7 +205,6 @@ public class Request {
     return getFolder(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Request> getFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -268,7 +264,6 @@ public class Request {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Request> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -314,7 +309,6 @@ public class Request {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Request> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

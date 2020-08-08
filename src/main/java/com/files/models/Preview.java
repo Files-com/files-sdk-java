@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Preview {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Preview() {
     this(null, null);
   }
 
-  public Preview(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Preview(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Preview(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Preview(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,35 +43,35 @@ public class Preview {
   */
   @Getter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
   */
   @Getter
   @JsonProperty("status")
-  public String status;
+  private String status;
 
   /**
   * Link to download preview
   */
   @Getter
   @JsonProperty("download_uri")
-  public String downloadUri;
+  private String downloadUri;
 
   /**
   * Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
   */
   @Getter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
   /**
   * Preview size
   */
   @Getter
   @JsonProperty("size")
-  public Long size;
+  private Long size;
 
 
 

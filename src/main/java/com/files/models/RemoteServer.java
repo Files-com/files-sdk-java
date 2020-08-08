@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class RemoteServer {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public RemoteServer() {
     this(null, null);
   }
 
-  public RemoteServer(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public RemoteServer(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public RemoteServer(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public RemoteServer(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Type of authentication method
@@ -53,7 +52,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("authentication_method")
-  public String authenticationMethod;
+  private String authenticationMethod;
 
   /**
   * Hostname or IP address
@@ -61,7 +60,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("hostname")
-  public String hostname;
+  private String hostname;
 
   /**
   * Internal name for your reference
@@ -69,7 +68,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Port for remote server.  Not needed for S3.
@@ -77,7 +76,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("port")
-  public Long port;
+  private Long port;
 
   /**
   * Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -85,7 +84,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("max_connections")
-  public Long maxConnections;
+  private Long maxConnections;
 
   /**
   * S3 bucket name
@@ -93,7 +92,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_bucket")
-  public String s3Bucket;
+  private String s3Bucket;
 
   /**
   * S3 region
@@ -101,7 +100,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_region")
-  public String s3Region;
+  private String s3Region;
 
   /**
   * Remote server certificate
@@ -109,7 +108,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_certificate")
-  public String serverCertificate;
+  private String serverCertificate;
 
   /**
   * Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -117,7 +116,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_host_key")
-  public String serverHostKey;
+  private String serverHostKey;
 
   /**
   * Remote server type.
@@ -125,7 +124,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_type")
-  public String serverType;
+  private String serverType;
 
   /**
   * Should we require SSL?
@@ -133,7 +132,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("ssl")
-  public String ssl;
+  private String ssl;
 
   /**
   * Remote server username.  Not needed for S3 buckets.
@@ -141,7 +140,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("username")
-  public String username;
+  private String username;
 
   /**
   * Google Cloud Storage bucket name
@@ -149,7 +148,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_bucket")
-  public String googleCloudStorageBucket;
+  private String googleCloudStorageBucket;
 
   /**
   * Google Cloud Project ID
@@ -157,7 +156,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_project_id")
-  public String googleCloudStorageProjectId;
+  private String googleCloudStorageProjectId;
 
   /**
   * Backblaze B2 Cloud Storage S3 Endpoint
@@ -165,7 +164,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_s3_endpoint")
-  public String backblazeB2S3Endpoint;
+  private String backblazeB2S3Endpoint;
 
   /**
   * Backblaze B2 Cloud Storage Bucket name
@@ -173,7 +172,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_bucket")
-  public String backblazeB2Bucket;
+  private String backblazeB2Bucket;
 
   /**
   * Wasabi region
@@ -181,7 +180,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_bucket")
-  public String wasabiBucket;
+  private String wasabiBucket;
 
   /**
   * Wasabi Bucket name
@@ -189,7 +188,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_region")
-  public String wasabiRegion;
+  private String wasabiRegion;
 
   /**
   * Rackspace username used to login to the Rackspace Cloud Control Panel.
@@ -197,7 +196,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_username")
-  public String rackspaceUsername;
+  private String rackspaceUsername;
 
   /**
   * Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
@@ -205,7 +204,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_region")
-  public String rackspaceRegion;
+  private String rackspaceRegion;
 
   /**
   * The name of the container (top level directory) where files will sync.
@@ -213,7 +212,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_container")
-  public String rackspaceContainer;
+  private String rackspaceContainer;
 
   /**
   * Returns link to login with an Oauth provider
@@ -221,7 +220,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_setup_link")
-  public String authSetupLink;
+  private String authSetupLink;
 
   /**
   * Either `in_setup` or `complete`
@@ -229,7 +228,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_status")
-  public String authStatus;
+  private String authStatus;
 
   /**
   * Describes the authorized account
@@ -237,7 +236,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_account_name")
-  public String authAccountName;
+  private String authAccountName;
 
   /**
   * Either personal or business_other account types
@@ -245,7 +244,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("one_drive_account_type")
-  public String oneDriveAccountType;
+  private String oneDriveAccountType;
 
   /**
   * Azure Blob Storage Account name
@@ -253,7 +252,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_account")
-  public String azureBlobStorageAccount;
+  private String azureBlobStorageAccount;
 
   /**
   * Azure Blob Storage Container name
@@ -261,7 +260,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_container")
-  public String azureBlobStorageContainer;
+  private String azureBlobStorageContainer;
 
   /**
   * AWS Access Key.
@@ -269,7 +268,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("aws_access_key")
-  public String awsAccessKey;
+  private String awsAccessKey;
 
   /**
   * AWS secret key.
@@ -277,7 +276,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("aws_secret_key")
-  public String awsSecretKey;
+  private String awsSecretKey;
 
   /**
   * Password if needed.
@@ -285,7 +284,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("password")
-  public String password;
+  private String password;
 
   /**
   * Private key if needed.
@@ -293,7 +292,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("private_key")
-  public String privateKey;
+  private String privateKey;
 
   /**
   * A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
@@ -301,7 +300,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_credentials_json")
-  public String googleCloudStorageCredentialsJson;
+  private String googleCloudStorageCredentialsJson;
 
   /**
   * Wasabi access key.
@@ -309,7 +308,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_access_key")
-  public String wasabiAccessKey;
+  private String wasabiAccessKey;
 
   /**
   * Wasabi secret key.
@@ -317,7 +316,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_secret_key")
-  public String wasabiSecretKey;
+  private String wasabiSecretKey;
 
   /**
   * Backblaze B2 Cloud Storage keyID.
@@ -325,7 +324,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_key_id")
-  public String backblazeB2KeyId;
+  private String backblazeB2KeyId;
 
   /**
   * Backblaze B2 Cloud Storage applicationKey.
@@ -333,7 +332,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_application_key")
-  public String backblazeB2ApplicationKey;
+  private String backblazeB2ApplicationKey;
 
   /**
   * Rackspace API key from the Rackspace Cloud Control Panel.
@@ -341,7 +340,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_api_key")
-  public String rackspaceApiKey;
+  private String rackspaceApiKey;
 
   /**
   * Reset authenticated account
@@ -349,7 +348,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("reset_authentication")
-  public Boolean resetAuthentication;
+  private Boolean resetAuthentication;
 
   /**
   * Azure Blob Storage secret key.
@@ -357,7 +356,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_access_key")
-  public String azureBlobStorageAccessKey;
+  private String azureBlobStorageAccessKey;
 
   /**
   * Parameters:
@@ -398,15 +397,13 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (RemoteServer) null;
+    return update(parameters);
   }
 
   /**
   */
   public RemoteServer delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (RemoteServer) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -414,11 +411,11 @@ public class RemoteServer {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      RemoteServer.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      RemoteServer newObject = RemoteServer.create(parameters, this.options).get(0);
     }
   }
 
@@ -436,7 +433,6 @@ public class RemoteServer {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<RemoteServer> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -481,7 +477,6 @@ public class RemoteServer {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<RemoteServer> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -555,7 +550,6 @@ public class RemoteServer {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<RemoteServer> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -755,7 +749,6 @@ public class RemoteServer {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<RemoteServer> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -929,7 +922,6 @@ public class RemoteServer {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<RemoteServer> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

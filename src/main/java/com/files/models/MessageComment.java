@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class MessageComment {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public MessageComment() {
     this(null, null);
   }
 
-  public MessageComment(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public MessageComment(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public MessageComment(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public MessageComment(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class MessageComment {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Comment body.
@@ -53,7 +52,7 @@ public class MessageComment {
   @Getter
   @Setter
   @JsonProperty("body")
-  public String body;
+  private String body;
 
   /**
   * Reactions to this comment.
@@ -61,7 +60,7 @@ public class MessageComment {
   @Getter
   @Setter
   @JsonProperty("reactions")
-  public Object[] reactions;
+  private Object[] reactions;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -69,22 +68,20 @@ public class MessageComment {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Parameters:
   *   body (required) - string - Comment body.
   */
   public MessageComment update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (MessageComment) null;
+    return update(parameters);
   }
 
   /**
   */
   public MessageComment delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (MessageComment) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -92,11 +89,11 @@ public class MessageComment {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      MessageComment.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      MessageComment newObject = MessageComment.create(parameters, this.options).get(0);
     }
   }
 
@@ -116,7 +113,6 @@ public class MessageComment {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<MessageComment> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -172,7 +168,6 @@ public class MessageComment {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<MessageComment> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -213,7 +208,6 @@ public class MessageComment {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<MessageComment> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -250,7 +244,6 @@ public class MessageComment {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<MessageComment> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -291,7 +284,6 @@ public class MessageComment {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<MessageComment> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

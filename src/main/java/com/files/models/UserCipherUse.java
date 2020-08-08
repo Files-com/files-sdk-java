@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UserCipherUse {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public UserCipherUse() {
     this(null, null);
   }
 
-  public UserCipherUse(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public UserCipherUse(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public UserCipherUse(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public UserCipherUse(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,42 +43,42 @@ public class UserCipherUse {
   */
   @Getter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * The protocol and cipher employed
   */
   @Getter
   @JsonProperty("protocol_cipher")
-  public String protocolCipher;
+  private String protocolCipher;
 
   /**
   * The earliest recorded use of this combination of interface and protocol and cipher (for this user)
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * The interface accessed
   */
   @Getter
   @JsonProperty("interface")
-  public String interfaceName;
+  private String interfaceName;
 
   /**
   * The most recent use of this combination of interface and protocol and cipher (for this user)
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
   /**
   * ID of the user who performed this access
   */
   @Getter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
 
 
@@ -98,7 +97,6 @@ public class UserCipherUse {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<UserCipherUse> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

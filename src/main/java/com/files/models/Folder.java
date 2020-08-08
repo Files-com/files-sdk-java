@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Folder {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Folder() {
     this(null, null);
   }
 
-  public Folder(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Folder(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Folder(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Folder(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * File/Folder display name
@@ -61,7 +60,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("display_name")
-  public String displayName;
+  private String displayName;
 
   /**
   * Type: `directory` or `file`.
@@ -69,7 +68,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
   /**
   * File/Folder size
@@ -77,7 +76,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("size")
-  public Long size;
+  private Long size;
 
   /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
@@ -85,7 +84,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("mtime")
-  public Date mtime;
+  private Date mtime;
 
   /**
   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<->Cloud syncing to preserve modified at times.
@@ -93,7 +92,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("provided_mtime")
-  public Date providedMtime;
+  private Date providedMtime;
 
   /**
   * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -101,7 +100,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("crc32")
-  public String crc32;
+  private String crc32;
 
   /**
   * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -109,7 +108,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("md5")
-  public String md5;
+  private String md5;
 
   /**
   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
@@ -117,7 +116,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("mime_type")
-  public String mimeType;
+  private String mimeType;
 
   /**
   * Region location
@@ -125,7 +124,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("region")
-  public String region;
+  private String region;
 
   /**
   * A short string representing the current user's permissions.  Can be `r`,`w`,`p`, or any combination
@@ -133,7 +132,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("permissions")
-  public String permissions;
+  private String permissions;
 
   /**
   * Are subfolders locked and unable to be modified?
@@ -141,7 +140,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("subfolders_locked?")
-  public Boolean subfoldersLocked;
+  private Boolean subfoldersLocked;
 
   /**
   * Link to download file. Provided only in response to a download request.
@@ -149,7 +148,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("download_uri")
-  public String downloadUri;
+  private String downloadUri;
 
   /**
   * Bookmark/priority color of file/folder
@@ -157,7 +156,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("priority_color")
-  public String priorityColor;
+  private String priorityColor;
 
   /**
   * File preview ID
@@ -165,7 +164,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("preview_id")
-  public Long previewId;
+  private Long previewId;
 
   /**
   * File preview
@@ -173,15 +172,15 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("preview")
-  public Object preview;
+  private Object preview;
 
 
   public void save() throws IOException {
-    if (this.attributes.get("path") != null) {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Folder Object doesn't support updates.");
     } else {
-      Folder.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Folder newObject = Folder.create(parameters, this.options).get(0);
     }
   }
 
@@ -210,7 +209,6 @@ public class Folder {
     return listFor(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Folder> listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -286,7 +284,6 @@ public class Folder {
     return create(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Folder> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

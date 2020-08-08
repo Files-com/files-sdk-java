@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FilePartUpload {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public FilePartUpload() {
     this(null, null);
   }
 
-  public FilePartUpload(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public FilePartUpload(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public FilePartUpload(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public FilePartUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,98 +43,98 @@ public class FilePartUpload {
   */
   @Getter
   @JsonProperty("send")
-  public Object send;
+  private Object send;
 
   /**
   * Type of upload
   */
   @Getter
   @JsonProperty("action")
-  public String action;
+  private String action;
 
   /**
   * If false, rename conflicting files instead of asking for overwrite confirmation
   */
   @Getter
   @JsonProperty("ask_about_overwrites")
-  public Boolean askAboutOverwrites;
+  private Boolean askAboutOverwrites;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("available_parts")
-  public String availableParts;
+  private String availableParts;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("expires")
-  public String expires;
+  private String expires;
 
   /**
   * Additional upload headers
   */
   @Getter
   @JsonProperty("headers")
-  public Object headers;
+  private Object headers;
 
   /**
   * Upload method, usually POST
   */
   @Getter
   @JsonProperty("http_method")
-  public String httpMethod;
+  private String httpMethod;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("next_partsize")
-  public String nextPartsize;
+  private String nextPartsize;
 
   /**
   * Additional upload parameters
   */
   @Getter
   @JsonProperty("parameters")
-  public String parameters;
+  private String parameters;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("part_number")
-  public String partNumber;
+  private String partNumber;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("partsize")
-  public String partsize;
+  private String partsize;
 
   /**
   * Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Reference name for this upload part
   */
   @Getter
   @JsonProperty("ref")
-  public String ref;
+  private String ref;
 
   /**
   * URI to upload this part to
   */
   @Getter
   @JsonProperty("upload_uri")
-  public String uploadUri;
+  private String uploadUri;
 
 
 

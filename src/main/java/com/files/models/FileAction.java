@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FileAction {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public FileAction() {
     this(null, null);
   }
 
-  public FileAction(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public FileAction(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public FileAction(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public FileAction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -47,8 +46,7 @@ public class FileAction {
   *   structure - boolean - Copy structure only?
   */
   public FileAction copy(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (FileAction) null;
+    return copy(parameters);
   }
 
   /**
@@ -58,8 +56,7 @@ public class FileAction {
   *   destination (required) - string - Move destination path.
   */
   public FileAction move(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (FileAction) null;
+    return move(parameters);
   }
 
   /**
@@ -74,8 +71,7 @@ public class FileAction {
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
   public FileAction beginUpload(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (FileAction) null;
+    return beginUpload(parameters);
   }
 
 
@@ -98,7 +94,6 @@ public class FileAction {
     return copy(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<FileAction> copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -147,7 +142,6 @@ public class FileAction {
     return move(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<FileAction> move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -197,7 +191,6 @@ public class FileAction {
     return beginUpload(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<FileAction> beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

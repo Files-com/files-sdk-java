@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UsageSnapshot {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public UsageSnapshot() {
     this(null, null);
   }
 
-  public UsageSnapshot(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public UsageSnapshot(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public UsageSnapshot(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public UsageSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,91 +43,91 @@ public class UsageSnapshot {
   */
   @Getter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Site usage report start date/time
   */
   @Getter
   @JsonProperty("start_at")
-  public Date startAt;
+  private Date startAt;
 
   /**
   * Site usage report end date/time
   */
   @Getter
   @JsonProperty("end_at")
-  public Date endAt;
+  private Date endAt;
 
   /**
   * Site usage report created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Current site usage as of report
   */
   @Getter
   @JsonProperty("current_storage")
-  public Double currentStorage;
+  private Double currentStorage;
 
   /**
   * Site usage report highest usage in time period
   */
   @Getter
   @JsonProperty("high_water_storage")
-  public Double highWaterStorage;
+  private Double highWaterStorage;
 
   /**
   * Number of downloads in report time period
   */
   @Getter
   @JsonProperty("total_downloads")
-  public Long totalDownloads;
+  private Long totalDownloads;
 
   /**
   * Number of uploads in time period
   */
   @Getter
   @JsonProperty("total_uploads")
-  public Long totalUploads;
+  private Long totalUploads;
 
   /**
   * The last time this site usage report was updated
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
   /**
   * A map of root folders to their total usage
   */
   @Getter
   @JsonProperty("usage_by_top_level_dir")
-  public Object usageByTopLevelDir;
+  private Object usageByTopLevelDir;
 
   /**
   * Usage for root folder
   */
   @Getter
   @JsonProperty("root_storage")
-  public Double rootStorage;
+  private Double rootStorage;
 
   /**
   * Usage for files that are deleted but uploaded within last 30 days
   */
   @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
-  public Double deletedFilesCountedInMinimum;
+  private Double deletedFilesCountedInMinimum;
 
   /**
   * Usage for files that are deleted but retained as backups
   */
   @Getter
   @JsonProperty("deleted_files_storage")
-  public Double deletedFilesStorage;
+  private Double deletedFilesStorage;
 
 
 
@@ -146,7 +145,6 @@ public class UsageSnapshot {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<UsageSnapshot> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Errors {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Errors() {
     this(null, null);
   }
 
-  public Errors(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Errors(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Errors(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Errors(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,14 +43,14 @@ public class Errors {
   */
   @Getter
   @JsonProperty("fields")
-  public Object[] fields;
+  private Object[] fields;
 
   /**
   * A list of error messages
   */
   @Getter
   @JsonProperty("messages")
-  public Object[] messages;
+  private Object[] messages;
 
 
 

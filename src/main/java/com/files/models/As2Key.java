@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class As2Key {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public As2Key() {
     this(null, null);
   }
 
-  public As2Key(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public As2Key(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public As2Key(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public As2Key(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class As2Key {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * AS2 Partnership Name
@@ -53,14 +52,14 @@ public class As2Key {
   @Getter
   @Setter
   @JsonProperty("as2_partnership_name")
-  public String as2PartnershipName;
+  private String as2PartnershipName;
 
   /**
   * AS2 Key created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Public key fingerprint
@@ -68,7 +67,7 @@ public class As2Key {
   @Getter
   @Setter
   @JsonProperty("fingerprint")
-  public String fingerprint;
+  private String fingerprint;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -76,7 +75,7 @@ public class As2Key {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Actual contents of Public key.
@@ -84,22 +83,20 @@ public class As2Key {
   @Getter
   @Setter
   @JsonProperty("public_key")
-  public String publicKey;
+  private String publicKey;
 
   /**
   * Parameters:
   *   as2_partnership_name (required) - string - AS2 Partnership Name
   */
   public As2Key update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (As2Key) null;
+    return update(parameters);
   }
 
   /**
   */
   public As2Key delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (As2Key) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -107,11 +104,11 @@ public class As2Key {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      As2Key.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      As2Key newObject = As2Key.create(parameters, this.options).get(0);
     }
   }
 
@@ -130,7 +127,6 @@ public class As2Key {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<As2Key> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -179,7 +175,6 @@ public class As2Key {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<As2Key> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -221,7 +216,6 @@ public class As2Key {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<As2Key> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -265,7 +259,6 @@ public class As2Key {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<As2Key> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -306,7 +299,6 @@ public class As2Key {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<As2Key> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

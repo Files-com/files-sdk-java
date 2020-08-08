@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Payment {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Payment() {
     this(null, null);
   }
 
-  public Payment(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Payment(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Payment(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Payment(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,98 +43,98 @@ public class Payment {
   */
   @Getter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Line item amount
   */
   @Getter
   @JsonProperty("amount")
-  public Double amount;
+  private Double amount;
 
   /**
   * Line item balance
   */
   @Getter
   @JsonProperty("balance")
-  public Double balance;
+  private Double balance;
 
   /**
   * Line item created at
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Line item currency
   */
   @Getter
   @JsonProperty("currency")
-  public String currency;
+  private String currency;
 
   /**
   * Line item download uri
   */
   @Getter
   @JsonProperty("download_uri")
-  public String downloadUri;
+  private String downloadUri;
 
   /**
   * Associated invoice line items
   */
   @Getter
   @JsonProperty("invoice_line_items")
-  public Object[] invoiceLineItems;
+  private Object[] invoiceLineItems;
 
   /**
   * Line item payment method
   */
   @Getter
   @JsonProperty("method")
-  public String method;
+  private String method;
 
   /**
   * Associated payment line items
   */
   @Getter
   @JsonProperty("payment_line_items")
-  public Object[] paymentLineItems;
+  private Object[] paymentLineItems;
 
   /**
   * Date/time payment was reversed if applicable
   */
   @Getter
   @JsonProperty("payment_reversed_at")
-  public Date paymentReversedAt;
+  private Date paymentReversedAt;
 
   /**
   * Type of payment if applicable
   */
   @Getter
   @JsonProperty("payment_type")
-  public String paymentType;
+  private String paymentType;
 
   /**
   * Site name this line item is for
   */
   @Getter
   @JsonProperty("site_name")
-  public String siteName;
+  private String siteName;
 
   /**
   * Type of line item, either payment or invoice
   */
   @Getter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
   /**
   * Line item updated at
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
 
 
@@ -153,7 +152,6 @@ public class Payment {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Payment> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -198,7 +196,6 @@ public class Payment {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Payment> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

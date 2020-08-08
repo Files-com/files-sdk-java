@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class DnsRecord {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public DnsRecord() {
     this(null, null);
   }
 
-  public DnsRecord(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public DnsRecord(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public DnsRecord(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public DnsRecord(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,28 +43,28 @@ public class DnsRecord {
   */
   @Getter
   @JsonProperty("id")
-  public String id;
+  private String id;
 
   /**
   * DNS record domain name
   */
   @Getter
   @JsonProperty("domain")
-  public String domain;
+  private String domain;
 
   /**
   * DNS record type
   */
   @Getter
   @JsonProperty("rrtype")
-  public String rrtype;
+  private String rrtype;
 
   /**
   * DNS record value
   */
   @Getter
   @JsonProperty("value")
-  public String value;
+  private String value;
 
 
 
@@ -83,7 +82,6 @@ public class DnsRecord {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<DnsRecord> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

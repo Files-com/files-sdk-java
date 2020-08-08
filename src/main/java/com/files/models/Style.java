@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Style {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Style() {
     this(null, null);
   }
 
-  public Style(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Style(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Style(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Style(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Logo
@@ -61,7 +60,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("logo")
-  public Object logo;
+  private Object logo;
 
   /**
   * Logo thumbnail
@@ -69,7 +68,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("thumbnail")
-  public Object thumbnail;
+  private Object thumbnail;
 
   /**
   * Logo for custom branding.
@@ -77,22 +76,20 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("file")
-  public byte[] file;
+  private byte[] file;
 
   /**
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
   public Style update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Style) null;
+    return update(parameters);
   }
 
   /**
   */
   public Style delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Style) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -100,7 +97,7 @@ public class Style {
   }
 
   public void save() throws IOException {
-    update(this.attributes);
+    update();
   }
 
 
@@ -119,7 +116,6 @@ public class Style {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Style> find(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -162,7 +158,6 @@ public class Style {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Style> update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -203,7 +198,6 @@ public class Style {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Style> delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Automation {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Automation() {
     this(null, null);
   }
 
-  public Automation(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Automation(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Automation(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Automation(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Automation type
@@ -53,7 +52,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("automation")
-  public String automation;
+  private String automation;
 
   /**
   * Source Path
@@ -61,7 +60,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("source")
-  public String source;
+  private String source;
 
   /**
   * Destination Path
@@ -69,7 +68,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination")
-  public String destination;
+  private String destination;
 
   /**
   * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -77,7 +76,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination_replace_from")
-  public String destinationReplaceFrom;
+  private String destinationReplaceFrom;
 
   /**
   * If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -85,7 +84,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination_replace_to")
-  public String destinationReplaceTo;
+  private String destinationReplaceTo;
 
   /**
   * How often to run this automation?  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -93,7 +92,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("interval")
-  public String interval;
+  private String interval;
 
   /**
   * Date this automation will next run.
@@ -101,7 +100,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("next_process_on")
-  public String nextProcessOn;
+  private String nextProcessOn;
 
   /**
   * Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -109,7 +108,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Does this automation run in real time?  This is a read-only property based on automation type.
@@ -117,7 +116,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("realtime")
-  public Boolean realtime;
+  private Boolean realtime;
 
   /**
   * User ID of the Automation's creator.
@@ -125,7 +124,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * IDs of Users for the Automation (i.e. who to Request File from)
@@ -133,7 +132,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  public Object[] userIds;
+  private Object[] userIds;
 
   /**
   * IDs of Groups for the Automation (i.e. who to Request File from)
@@ -141,7 +140,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  public Object[] groupIds;
+  private Object[] groupIds;
 
   /**
   * Parameters:
@@ -156,15 +155,13 @@ public class Automation {
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   */
   public Automation update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Automation) null;
+    return update(parameters);
   }
 
   /**
   */
   public Automation delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Automation) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -172,11 +169,11 @@ public class Automation {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Automation.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Automation newObject = Automation.create(parameters, this.options).get(0);
     }
   }
 
@@ -203,7 +200,6 @@ public class Automation {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Automation> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -284,7 +280,6 @@ public class Automation {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Automation> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -332,7 +327,6 @@ public class Automation {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Automation> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -405,7 +399,6 @@ public class Automation {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Automation> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -478,7 +471,6 @@ public class Automation {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Automation> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

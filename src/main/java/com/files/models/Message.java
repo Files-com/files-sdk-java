@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Message {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Message() {
     this(null, null);
   }
 
-  public Message(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Message(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Message(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Message(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Message subject.
@@ -53,7 +52,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("subject")
-  public String subject;
+  private String subject;
 
   /**
   * Message body.
@@ -61,7 +60,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("body")
-  public String body;
+  private String body;
 
   /**
   * Comments.
@@ -69,7 +68,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("comments")
-  public Object[] comments;
+  private Object[] comments;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -77,7 +76,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Project to which the message should be attached.
@@ -85,7 +84,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("project_id")
-  public Long projectId;
+  private Long projectId;
 
   /**
   * Parameters:
@@ -94,15 +93,13 @@ public class Message {
   *   body (required) - string - Message body.
   */
   public Message update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Message) null;
+    return update(parameters);
   }
 
   /**
   */
   public Message delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Message) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -110,11 +107,11 @@ public class Message {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Message.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Message newObject = Message.create(parameters, this.options).get(0);
     }
   }
 
@@ -134,7 +131,6 @@ public class Message {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Message> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -190,7 +186,6 @@ public class Message {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Message> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -233,7 +228,6 @@ public class Message {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Message> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -286,7 +280,6 @@ public class Message {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Message> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -341,7 +334,6 @@ public class Message {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Message> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class PublicIpAddress {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public PublicIpAddress() {
     this(null, null);
   }
 
-  public PublicIpAddress(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public PublicIpAddress(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public PublicIpAddress(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public PublicIpAddress(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,14 +43,14 @@ public class PublicIpAddress {
   */
   @Getter
   @JsonProperty("ip_address")
-  public String ipAddress;
+  private String ipAddress;
 
   /**
   * The name of the frontend server.
   */
   @Getter
   @JsonProperty("server_name")
-  public String serverName;
+  private String serverName;
 
 
 

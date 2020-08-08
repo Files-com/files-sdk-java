@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class InvoiceLineItem {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public InvoiceLineItem() {
     this(null, null);
   }
 
-  public InvoiceLineItem(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public InvoiceLineItem(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public InvoiceLineItem(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public InvoiceLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,63 +43,63 @@ public class InvoiceLineItem {
   */
   @Getter
   @JsonProperty("amount")
-  public Double amount;
+  private Double amount;
 
   /**
   * Invoice line item created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Invoice line item description
   */
   @Getter
   @JsonProperty("description")
-  public String description;
+  private String description;
 
   /**
   * Invoice line item type
   */
   @Getter
   @JsonProperty("type")
-  public String type;
+  private String type;
 
   /**
   * Invoice line item service end date/time
   */
   @Getter
   @JsonProperty("service_end_at")
-  public Date serviceEndAt;
+  private Date serviceEndAt;
 
   /**
   * Invoice line item service start date/time
   */
   @Getter
   @JsonProperty("service_start_at")
-  public Date serviceStartAt;
+  private Date serviceStartAt;
 
   /**
   * Invoice line item updated date/time
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
   /**
   * Plan name
   */
   @Getter
   @JsonProperty("plan")
-  public String plan;
+  private String plan;
 
   /**
   * Site name
   */
   @Getter
   @JsonProperty("site")
-  public String site;
+  private String site;
 
 
 

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Clickwrap {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Clickwrap() {
     this(null, null);
   }
 
-  public Clickwrap(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Clickwrap(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Clickwrap(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Clickwrap(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Body text of Clickwrap (supports Markdown formatting).
@@ -53,7 +52,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("body")
-  public String body;
+  private String body;
 
   /**
   * Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
@@ -61,7 +60,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_users")
-  public String useWithUsers;
+  private String useWithUsers;
 
   /**
   * Use this Clickwrap for Bundles?
@@ -69,7 +68,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_bundles")
-  public String useWithBundles;
+  private String useWithBundles;
 
   /**
   * Use this Clickwrap for Inboxes?
@@ -77,7 +76,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_inboxes")
-  public String useWithInboxes;
+  private String useWithInboxes;
 
   /**
   * Clickwrap ID.
@@ -85,7 +84,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Parameters:
@@ -96,15 +95,13 @@ public class Clickwrap {
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
   public Clickwrap update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Clickwrap) null;
+    return update(parameters);
   }
 
   /**
   */
   public Clickwrap delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Clickwrap) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -112,11 +109,11 @@ public class Clickwrap {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Clickwrap.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Clickwrap newObject = Clickwrap.create(parameters, this.options).get(0);
     }
   }
 
@@ -134,7 +131,6 @@ public class Clickwrap {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Clickwrap> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -179,7 +175,6 @@ public class Clickwrap {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Clickwrap> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -223,7 +218,6 @@ public class Clickwrap {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Clickwrap> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -273,7 +267,6 @@ public class Clickwrap {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Clickwrap> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -327,7 +320,6 @@ public class Clickwrap {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Clickwrap> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

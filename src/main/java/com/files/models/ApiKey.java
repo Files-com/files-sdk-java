@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ApiKey {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public ApiKey() {
     this(null, null);
   }
 
-  public ApiKey(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public ApiKey(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public ApiKey(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public ApiKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Unique label that describes this API key.  Useful for external systems where you may have API keys from multiple accounts and want a human-readable label for each key.
@@ -53,14 +52,14 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("descriptive_label")
-  public String descriptiveLabel;
+  private String descriptiveLabel;
 
   /**
   * Time which API Key was created
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * API Key expiration date
@@ -68,7 +67,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("expires_at")
-  public Date expiresAt;
+  private Date expiresAt;
 
   /**
   * API Key actual key string
@@ -76,7 +75,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("key")
-  public String key;
+  private String key;
 
   /**
   * API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
@@ -84,7 +83,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("last_use_at")
-  public Date lastUseAt;
+  private Date lastUseAt;
 
   /**
   * Internal name for the API Key.  For your use.
@@ -92,7 +91,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Folder path restriction for this api key. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -100,7 +99,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
@@ -108,7 +107,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("permission_set")
-  public String permissionSet;
+  private String permissionSet;
 
   /**
   * If this API key represents a Desktop app, what platform was it created on?
@@ -116,7 +115,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("platform")
-  public String platform;
+  private String platform;
 
   /**
   * User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
@@ -124,7 +123,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Parameters:
@@ -133,15 +132,13 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public ApiKey update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (ApiKey) null;
+    return update(parameters);
   }
 
   /**
   */
   public ApiKey delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (ApiKey) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -149,11 +146,11 @@ public class ApiKey {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      ApiKey.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      ApiKey newObject = ApiKey.create(parameters, this.options).get(0);
     }
   }
 
@@ -180,7 +177,6 @@ public class ApiKey {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -256,7 +252,6 @@ public class ApiKey {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> findCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -282,7 +277,6 @@ public class ApiKey {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -326,7 +320,6 @@ public class ApiKey {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -371,7 +364,6 @@ public class ApiKey {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -411,7 +403,6 @@ public class ApiKey {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -454,7 +445,6 @@ public class ApiKey {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -478,7 +468,6 @@ public class ApiKey {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<ApiKey> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

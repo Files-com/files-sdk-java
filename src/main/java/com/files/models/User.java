@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class User {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public User() {
     this(null, null);
   }
 
-  public User(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public User(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public User(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public User(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * User's username
@@ -53,7 +52,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("username")
-  public String username;
+  private String username;
 
   /**
   * List of group IDs of which this user is an administrator
@@ -61,7 +60,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("admin_group_ids")
-  public Object[] adminGroupIds;
+  private Object[] adminGroupIds;
 
   /**
   * A list of allowed IPs if applicable.  Newline delimited
@@ -69,7 +68,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("allowed_ips")
-  public String allowedIps;
+  private String allowedIps;
 
   /**
   * Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
@@ -77,7 +76,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("attachments_permission")
-  public Boolean attachmentsPermission;
+  private Boolean attachmentsPermission;
 
   /**
   * Number of api keys associated with this user
@@ -85,7 +84,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("api_keys_count")
-  public Long apiKeysCount;
+  private Long apiKeysCount;
 
   /**
   * Scheduled Date/Time at which user will be deactivated
@@ -93,7 +92,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("authenticate_until")
-  public Date authenticateUntil;
+  private Date authenticateUntil;
 
   /**
   * How is this user authenticated?
@@ -101,7 +100,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("authentication_method")
-  public String authenticationMethod;
+  private String authenticationMethod;
 
   /**
   * URL holding the user's avatar
@@ -109,7 +108,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_url")
-  public String avatarUrl;
+  private String avatarUrl;
 
   /**
   * Allow this user to perform operations on the account, payments, and invoices?
@@ -117,7 +116,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("billing_permission")
-  public Boolean billingPermission;
+  private Boolean billingPermission;
 
   /**
   * Allow this user to skip site-wide IP blacklists?
@@ -125,7 +124,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("bypass_site_allowed_ips")
-  public Boolean bypassSiteAllowedIps;
+  private Boolean bypassSiteAllowedIps;
 
   /**
   * Exempt this user from being disabled based on inactivity?
@@ -133,14 +132,14 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("bypass_inactive_disable")
-  public Boolean bypassInactiveDisable;
+  private Boolean bypassInactiveDisable;
 
   /**
   * When this user was created
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Can the user connect with WebDAV?
@@ -148,7 +147,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("dav_permission")
-  public Boolean davPermission;
+  private Boolean davPermission;
 
   /**
   * Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
@@ -156,7 +155,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("disabled")
-  public Boolean disabled;
+  private Boolean disabled;
 
   /**
   * User email address
@@ -164,7 +163,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("email")
-  public String email;
+  private String email;
 
   /**
   * Can the user access with FTP/FTPS?
@@ -172,7 +171,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("ftp_permission")
-  public Boolean ftpPermission;
+  private Boolean ftpPermission;
 
   /**
   * Comma-separated list of group IDs of which this user is a member
@@ -180,7 +179,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  public String groupIds;
+  private String groupIds;
 
   /**
   * Text to display to the user in the header of the UI
@@ -188,7 +187,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("header_text")
-  public String headerText;
+  private String headerText;
 
   /**
   * Preferred language
@@ -196,7 +195,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("language")
-  public String language;
+  private String language;
 
   /**
   * User's last login time
@@ -204,7 +203,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("last_login_at")
-  public Date lastLoginAt;
+  private Date lastLoginAt;
 
   /**
   * The last protocol and cipher used
@@ -212,7 +211,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("last_protocol_cipher")
-  public String lastProtocolCipher;
+  private String lastProtocolCipher;
 
   /**
   * Time in the future that the user will no longer be locked out if applicable
@@ -220,7 +219,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("lockout_expires")
-  public Date lockoutExpires;
+  private Date lockoutExpires;
 
   /**
   * User's full name
@@ -228,7 +227,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("name")
-  public String name;
+  private String name;
 
   /**
   * Any internal notes on the user
@@ -236,7 +235,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("notes")
-  public String notes;
+  private String notes;
 
   /**
   * Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
@@ -244,7 +243,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("notification_daily_send_time")
-  public Long notificationDailySendTime;
+  private Long notificationDailySendTime;
 
   /**
   * Enable integration with Office for the web?
@@ -252,7 +251,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("office_integration_enabled")
-  public Boolean officeIntegrationEnabled;
+  private Boolean officeIntegrationEnabled;
 
   /**
   * Last time the user's password was set
@@ -260,7 +259,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_set_at")
-  public Date passwordSetAt;
+  private Date passwordSetAt;
 
   /**
   * Number of days to allow user to use the same password
@@ -268,7 +267,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_validity_days")
-  public Long passwordValidityDays;
+  private Long passwordValidityDays;
 
   /**
   * Number of public keys associated with this user
@@ -276,7 +275,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("public_keys_count")
-  public Long publicKeysCount;
+  private Long publicKeysCount;
 
   /**
   * Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -284,7 +283,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("receive_admin_alerts")
-  public Boolean receiveAdminAlerts;
+  private Boolean receiveAdminAlerts;
 
   /**
   * Is 2fa required to sign in?
@@ -292,7 +291,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("require_2fa")
-  public Boolean require2fa;
+  private Boolean require2fa;
 
   /**
   * Is a password change required upon next user login?
@@ -300,7 +299,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("require_password_change")
-  public Boolean requirePasswordChange;
+  private Boolean requirePasswordChange;
 
   /**
   * Can this user access the REST API?
@@ -308,7 +307,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("restapi_permission")
-  public Boolean restapiPermission;
+  private Boolean restapiPermission;
 
   /**
   * Does this user manage it's own credentials or is it a shared/bot user?
@@ -316,7 +315,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("self_managed")
-  public Boolean selfManaged;
+  private Boolean selfManaged;
 
   /**
   * Can the user access with SFTP?
@@ -324,7 +323,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("sftp_permission")
-  public Boolean sftpPermission;
+  private Boolean sftpPermission;
 
   /**
   * Is the user an administrator for this site?
@@ -332,7 +331,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("site_admin")
-  public Boolean siteAdmin;
+  private Boolean siteAdmin;
 
   /**
   * Skip Welcome page in the UI?
@@ -340,7 +339,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("skip_welcome_screen")
-  public Boolean skipWelcomeScreen;
+  private Boolean skipWelcomeScreen;
 
   /**
   * SSL required setting
@@ -348,7 +347,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("ssl_required")
-  public String sslRequired;
+  private String sslRequired;
 
   /**
   * SSO (Single Sign On) strategy ID for the user, if applicable.
@@ -356,7 +355,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("sso_strategy_id")
-  public Long ssoStrategyId;
+  private Long ssoStrategyId;
 
   /**
   * Is the user subscribed to the newsletter?
@@ -364,7 +363,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("subscribe_to_newsletter")
-  public Boolean subscribeToNewsletter;
+  private Boolean subscribeToNewsletter;
 
   /**
   * Is this user managed by a SsoStrategy?
@@ -372,7 +371,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("externally_managed")
-  public Boolean externallyManaged;
+  private Boolean externallyManaged;
 
   /**
   * User time zone
@@ -380,7 +379,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("time_zone")
-  public String timeZone;
+  private String timeZone;
 
   /**
   * Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
@@ -388,7 +387,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("type_of_2fa")
-  public String typeOf2fa;
+  private String typeOf2fa;
 
   /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
@@ -396,7 +395,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("user_root")
-  public String userRoot;
+  private String userRoot;
 
   /**
   * An image file for your user avatar.
@@ -404,7 +403,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_file")
-  public byte[] avatarFile;
+  private byte[] avatarFile;
 
   /**
   * If true, the avatar will be deleted.
@@ -412,7 +411,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_delete")
-  public Boolean avatarDelete;
+  private Boolean avatarDelete;
 
   /**
   * Used for changing a password on an existing user.
@@ -420,7 +419,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("change_password")
-  public String changePassword;
+  private String changePassword;
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -428,7 +427,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("change_password_confirmation")
-  public String changePasswordConfirmation;
+  private String changePasswordConfirmation;
 
   /**
   * Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
@@ -436,7 +435,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("grant_permission")
-  public String grantPermission;
+  private String grantPermission;
 
   /**
   * Group ID to associate this user with.
@@ -444,7 +443,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  public Long groupId;
+  private Long groupId;
 
   /**
   * User password.
@@ -452,7 +451,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password")
-  public String password;
+  private String password;
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `password`.
@@ -460,7 +459,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_confirmation")
-  public String passwordConfirmation;
+  private String passwordConfirmation;
 
   /**
   * Signifies that the user has read all the announcements in the UI.
@@ -468,30 +467,27 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("announcements_read")
-  public Boolean announcementsRead;
+  private Boolean announcementsRead;
 
   /**
   * Unlock user who has been locked out due to failed logins
   */
   public User unlock(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (User) null;
+    return unlock(parameters);
   }
 
   /**
   * Resend user welcome email
   */
   public User resendWelcomeEmail(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (User) null;
+    return resendWelcomeEmail(parameters);
   }
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
   public User user2faReset(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (User) null;
+    return user2faReset(parameters);
   }
 
   /**
@@ -539,15 +535,13 @@ public class User {
   *   username - string - User's username
   */
   public User update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (User) null;
+    return update(parameters);
   }
 
   /**
   */
   public User delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (User) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -555,11 +549,11 @@ public class User {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      User.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      User newObject = User.create(parameters, this.options).get(0);
     }
   }
 
@@ -594,7 +588,6 @@ public class User {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -686,7 +679,6 @@ public class User {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -766,7 +758,6 @@ public class User {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -955,7 +946,6 @@ public class User {
     return unlock(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> unlock(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -990,7 +980,6 @@ public class User {
     return resendWelcomeEmail(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> resendWelcomeEmail(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -1025,7 +1014,6 @@ public class User {
     return user2faReset(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> user2faReset(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -1101,7 +1089,6 @@ public class User {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -1299,7 +1286,6 @@ public class User {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<User> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

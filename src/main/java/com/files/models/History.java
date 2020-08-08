@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class History {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public History() {
     this(null, null);
   }
 
-  public History(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public History(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public History(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public History(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,91 +43,91 @@ public class History {
   */
   @Getter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * Action occurrence date/time
   */
   @Getter
   @JsonProperty("when")
-  public Date when;
+  private Date when;
 
   /**
   * The destination path for this action, if applicable
   */
   @Getter
   @JsonProperty("destination")
-  public String destination;
+  private String destination;
 
   /**
   * Friendly displayed output
   */
   @Getter
   @JsonProperty("display")
-  public String display;
+  private String display;
 
   /**
   * IP Address that performed this action
   */
   @Getter
   @JsonProperty("ip")
-  public String ip;
+  private String ip;
 
   /**
   * The source path for this action, if applicable
   */
   @Getter
   @JsonProperty("source")
-  public String source;
+  private String source;
 
   /**
   * Targets
   */
   @Getter
   @JsonProperty("targets")
-  public Object[] targets;
+  private Object[] targets;
 
   /**
   * User ID
   */
   @Getter
   @JsonProperty("user_id")
-  public Long userId;
+  private Long userId;
 
   /**
   * Username
   */
   @Getter
   @JsonProperty("username")
-  public String username;
+  private String username;
 
   /**
   * Type of action
   */
   @Getter
   @JsonProperty("action")
-  public String action;
+  private String action;
 
   /**
   * Failure type.  If action was a user login or session failure, why did it fail?
   */
   @Getter
   @JsonProperty("failure_type")
-  public String failureType;
+  private String failureType;
 
   /**
   * Interface on which this action occurred.
   */
   @Getter
   @JsonProperty("interface")
-  public String interfaceName;
+  private String interfaceName;
 
 
 
@@ -155,7 +154,6 @@ public class History {
     return listForFile(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<History> listForFile(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -231,7 +229,6 @@ public class History {
     return listForFolder(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<History> listForFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -307,7 +304,6 @@ public class History {
     return listForUser(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<History> listForUser(Long user_id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -379,7 +375,6 @@ public class History {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<History> listLogins( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -447,7 +442,6 @@ public class History {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<History> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

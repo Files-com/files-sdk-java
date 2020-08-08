@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Behavior {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public Behavior() {
     this(null, null);
   }
 
-  public Behavior(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public Behavior(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public Behavior(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public Behavior(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -45,7 +44,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("id")
-  public Long id;
+  private Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -53,7 +52,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("path")
-  public String path;
+  private String path;
 
   /**
   * URL for attached file
@@ -61,7 +60,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("attachment_url")
-  public String attachmentUrl;
+  private String attachmentUrl;
 
   /**
   * Behavior type.
@@ -69,7 +68,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("behavior")
-  public String behavior;
+  private String behavior;
 
   /**
   * Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
@@ -77,7 +76,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("value")
-  public Object value;
+  private Object value;
 
   /**
   * Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
@@ -85,7 +84,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("attachment_file")
-  public byte[] attachmentFile;
+  private byte[] attachmentFile;
 
   /**
   * Parameters:
@@ -95,15 +94,13 @@ public class Behavior {
   *   path - string - Folder behaviors path.
   */
   public Behavior update(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Behavior) null;
+    return update(parameters);
   }
 
   /**
   */
   public Behavior delete(HashMap<String, Object> parameters) {
-    // TODO: Fill in operation implementation
-    return (Behavior) null;
+    return delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -111,11 +108,11 @@ public class Behavior {
   }
 
   public void save() throws IOException {
-    if (this.attributes.get("id") != null) {
-      update(this.attributes);
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
     } else {
-      Behavior.create(this.attributes, this.options);
-      // TODO save this.attributes = newObj.attributes;
+      Behavior newObject = Behavior.create(parameters, this.options).get(0);
     }
   }
 
@@ -142,7 +139,6 @@ public class Behavior {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -223,7 +219,6 @@ public class Behavior {
     return find(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -279,7 +274,6 @@ public class Behavior {
     return listFor(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -367,7 +361,6 @@ public class Behavior {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -417,7 +410,6 @@ public class Behavior {
   }
 
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> webhookTest( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -473,7 +465,6 @@ public class Behavior {
     return update(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
@@ -523,7 +514,6 @@ public class Behavior {
     return delete(null, parameters, options);
   }
 
-  // TODO: Use types for path_and_primary_params
   public static List<Behavior> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.ModelUtils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,24 +17,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class PaymentLineItem {
-  private HashMap<String, Object> attributes;
   private HashMap<String, Object> options;
+  private ObjectMapper objectMapper = new ObjectMapper();
 
   public PaymentLineItem() {
     this(null, null);
   }
 
-  public PaymentLineItem(HashMap<String, Object> attributes) {
-    this(attributes, null);
+  public PaymentLineItem(HashMap<String, Object> parameters) {
+    this(parameters, null);
   }
 
-  public PaymentLineItem(HashMap<String, Object> attributes, HashMap<String, Object> options) {
-    this.attributes = attributes;
+  public PaymentLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
-      ObjectMapper objectMapper = new ObjectMapper();
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(attributes));
+      objectReader.readValue(objectMapper.writeValueAsString(parameters));
     } catch (JsonProcessingException e){
       // TODO: error generation on constructor
     }
@@ -44,35 +43,35 @@ public class PaymentLineItem {
   */
   @Getter
   @JsonProperty("amount")
-  public Double amount;
+  private Double amount;
 
   /**
   * Payment line item created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  public Date createdAt;
+  private Date createdAt;
 
   /**
   * Invoice ID
   */
   @Getter
   @JsonProperty("invoice_id")
-  public Long invoiceId;
+  private Long invoiceId;
 
   /**
   * Payment ID
   */
   @Getter
   @JsonProperty("payment_id")
-  public Long paymentId;
+  private Long paymentId;
 
   /**
   * Payment line item updated at date/time
   */
   @Getter
   @JsonProperty("updated_at")
-  public Date updatedAt;
+  private Date updatedAt;
 
 
 

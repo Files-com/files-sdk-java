@@ -39,6 +39,14 @@ public class UserRequest {
   }
 
   /**
+  * ID
+  */
+  @Getter
+  @Setter
+  @JsonProperty("id")
+  private Long id;
+
+  /**
   * User's full name
   */
   @Getter

@@ -95,6 +95,13 @@ public class FilePartUpload {
   private String nextPartsize;
 
   /**
+  * If true, parts may be uploaded in parallel
+  */
+  @Getter
+  @JsonProperty("parallel_parts")
+  private Boolean parallelParts;
+
+  /**
   * Additional upload parameters
   */
   @Getter

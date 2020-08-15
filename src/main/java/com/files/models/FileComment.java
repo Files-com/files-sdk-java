@@ -102,6 +102,7 @@ public class FileComment {
   *   page - int64 - Current page number.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
+  *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   path (required) - string - Path to operate on.
   */
   public static List<FileComment> listFor() throws IOException{
@@ -132,6 +133,10 @@ public class FileComment {
 
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {

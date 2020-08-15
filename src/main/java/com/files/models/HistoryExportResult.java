@@ -208,7 +208,6 @@ public class HistoryExportResult {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at`.
   *   history_export_id (required) - int64 - ID of the associated history export.
   */
   public static List<HistoryExportResult> list() throws IOException{
@@ -241,10 +240,6 @@ public class HistoryExportResult {
 
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object )) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
 
     if (parameters.containsKey("history_export_id") && !(parameters.get("history_export_id") instanceof Long )) {

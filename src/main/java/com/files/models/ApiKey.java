@@ -243,6 +243,9 @@ public class ApiKey {
   }
 
   /**
+  * Parameters:
+  *   format - string
+  *   api_key - object
   */
   public static List<ApiKey> findCurrent() throws IOException{
     return findCurrent(null,null);
@@ -255,6 +258,14 @@ public class ApiKey {
   public static List<ApiKey> findCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("format") && !(parameters.get("format") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
+    }
+
+    if (parameters.containsKey("api_key") && !(parameters.get("api_key") instanceof Object )) {
+      throw new IllegalArgumentException("Bad parameter: api_key must be of type Object parameters[\"api_key\"]");
+    }
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
@@ -436,6 +447,9 @@ public class ApiKey {
 
 
   /**
+  * Parameters:
+  *   format - string
+  *   api_key - object
   */
   public static List<ApiKey> deleteCurrent() throws IOException{
     return deleteCurrent(null,null);
@@ -448,6 +462,14 @@ public class ApiKey {
   public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("format") && !(parameters.get("format") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
+    }
+
+    if (parameters.containsKey("api_key") && !(parameters.get("api_key") instanceof Object )) {
+      throw new IllegalArgumentException("Bad parameter: api_key must be of type Object parameters[\"api_key\"]");
+    }
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};

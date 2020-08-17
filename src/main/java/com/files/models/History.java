@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -202,7 +206,7 @@ public class History {
     }
     String url = String.format("%s%s/history/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -277,7 +281,7 @@ public class History {
     }
     String url = String.format("%s%s/history/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -352,7 +356,7 @@ public class History {
     }
     String url = String.format("%s%s/history/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), user_id);
     TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -413,7 +417,7 @@ public class History {
 
     String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -504,7 +508,7 @@ public class History {
 
     String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<History> all() throws IOException {

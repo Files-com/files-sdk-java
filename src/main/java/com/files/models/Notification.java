@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +163,7 @@ public class Notification {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Notification newObject = Notification.create(parameters, this.options).get(0);
+      Notification newObject = Notification.create(parameters, this.options);
     }
   }
 
@@ -255,7 +259,7 @@ public class Notification {
 
     String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Notification> all() throws IOException {
@@ -297,7 +301,7 @@ public class Notification {
     }
     String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Notification> get() throws IOException {
@@ -318,15 +322,15 @@ public class Notification {
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
   */
-  public static List<Notification> create() throws IOException{
+  public static Notification create() throws IOException{
     return create(null,null);
   }
-  public static List<Notification> create( HashMap<String, Object> parameters) throws IOException {
+  public static Notification create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Notification> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -359,8 +363,8 @@ public class Notification {
     }
 
     String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -370,18 +374,18 @@ public class Notification {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   */
-  public static List<Notification> update() throws IOException{
+  public static Notification update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Notification> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Notification update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<Notification> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Notification> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -408,25 +412,25 @@ public class Notification {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Notification> delete() throws IOException{
+  public static Notification delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Notification> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Notification delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Notification> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Notification> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -441,15 +445,15 @@ public class Notification {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Notification> destroy() throws IOException {
+  public static Notification destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Notification> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

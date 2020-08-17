@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -150,7 +154,7 @@ public class ApiKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      ApiKey newObject = ApiKey.create(parameters, this.options).get(0);
+      ApiKey newObject = ApiKey.create(parameters, this.options);
     }
   }
 
@@ -231,7 +235,7 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<ApiKey> all() throws IOException {
@@ -269,7 +273,7 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -304,7 +308,7 @@ public class ApiKey {
     }
     String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<ApiKey> get() throws IOException {
@@ -323,15 +327,15 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   path - string - Folder path restriction for this api key.
   */
-  public static List<ApiKey> create() throws IOException{
+  public static ApiKey create() throws IOException{
     return create(null,null);
   }
-  public static List<ApiKey> create( HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<ApiKey> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -356,8 +360,8 @@ public class ApiKey {
     }
 
     String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -367,15 +371,15 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static List<ApiKey> updateCurrent() throws IOException{
+  public static ApiKey updateCurrent() throws IOException{
     return updateCurrent(null,null);
   }
-  public static List<ApiKey> updateCurrent( HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey updateCurrent( HashMap<String, Object> parameters) throws IOException {
     return updateCurrent(parameters, null);
   }
 
 
-  public static List<ApiKey> updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -392,8 +396,8 @@ public class ApiKey {
     }
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
@@ -403,18 +407,18 @@ public class ApiKey {
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static List<ApiKey> update() throws IOException{
+  public static ApiKey update() throws IOException{
     return update(null, null,null);
   }
-  public static List<ApiKey> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<ApiKey> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<ApiKey> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -441,8 +445,8 @@ public class ApiKey {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
@@ -451,15 +455,15 @@ public class ApiKey {
   *   format - string
   *   api_key - object
   */
-  public static List<ApiKey> deleteCurrent() throws IOException{
+  public static ApiKey deleteCurrent() throws IOException{
     return deleteCurrent(null,null);
   }
-  public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey deleteCurrent( HashMap<String, Object> parameters) throws IOException {
     return deleteCurrent(parameters, null);
   }
 
 
-  public static List<ApiKey> deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -472,25 +476,25 @@ public class ApiKey {
     }
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<ApiKey> delete() throws IOException{
+  public static ApiKey delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<ApiKey> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<ApiKey> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<ApiKey> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -505,15 +509,15 @@ public class ApiKey {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<ApiKey> destroy() throws IOException {
+  public static ApiKey destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<ApiKey> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

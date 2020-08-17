@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +109,7 @@ public class IpAddress {
 
     String url = String.format("%s%s/ip_addresses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<IpAddress>> typeReference = new TypeReference<List<IpAddress>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<IpAddress> all() throws IOException {
@@ -123,15 +127,15 @@ public class IpAddress {
   *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   */
-  public static List<IpAddress> getReserved() throws IOException{
+  public static IpAddress getReserved() throws IOException{
     return getReserved(null,null);
   }
-  public static List<IpAddress> getReserved( HashMap<String, Object> parameters) throws IOException {
+  public static IpAddress getReserved( HashMap<String, Object> parameters) throws IOException {
     return getReserved(parameters, null);
   }
 
 
-  public static List<IpAddress> getReserved( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static IpAddress getReserved( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -152,8 +156,8 @@ public class IpAddress {
     }
 
     String url = String.format("%s%s/ip_addresses/reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<IpAddress>> typeReference = new TypeReference<List<IpAddress>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<IpAddress> typeReference = new TypeReference<IpAddress>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 

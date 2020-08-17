@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,23 +24,28 @@ public class File {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public File() {
-    this(null, null);
+  public FilesInputStream getInputStream() throws IOException {
+    return getInputStream(0L, 0L);
   }
 
-  public File(HashMap<String, Object> parameters) {
-    this(parameters, null);
+  public FilesInputStream getInputStream(long start) throws IOException {
+    return getInputStream(start, 0L);
   }
 
-  public File(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
-    try{
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
-      // TODO: error generation on constructor
+  public FilesInputStream getInputStream(long start, long end) throws IOException {
+    return FilesClient.getFileInputStream(this.downloadUri, start, end);
+  }
+
+  /**
+   *  Save the File to disk.
+   */
+  public void saveAsLocalFile(String path) throws IOException {
+    try (FileOutputStream outputStream = new FileOutputStream(path);
+      FilesInputStream inputStream = getInputStream()) {
+      inputStream.transferTo(outputStream);
     }
   }
+  
 
   /**
   * File/Folder ID
@@ -284,7 +293,7 @@ public class File {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      File newObject = File.create(parameters, this.options).get(0);
+      File newObject = File.create(parameters, this.options);
     }
   }
 
@@ -297,18 +306,18 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static List<File> download() throws IOException{
+  public static File download() throws IOException{
     return download(null, null,null);
   }
-  public static List<File> download(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static File download(String path,  HashMap<String, Object> parameters) throws IOException {
     return download(path, parameters, null);
   }
 
-  public static List<File> download(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File download(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return download(null, parameters, options);
   }
 
-  public static List<File> download(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File download(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -339,8 +348,8 @@ public class File {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -361,18 +370,18 @@ public class File {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static List<File> create() throws IOException{
+  public static File create() throws IOException{
     return create(null, null,null);
   }
-  public static List<File> create(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static File create(String path,  HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
-  public static List<File> create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return create(null, parameters, options);
   }
 
-  public static List<File> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -433,8 +442,8 @@ public class File {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -443,18 +452,18 @@ public class File {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public static List<File> update() throws IOException{
+  public static File update() throws IOException{
     return update(null, null,null);
   }
-  public static List<File> update(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static File update(String path,  HashMap<String, Object> parameters) throws IOException {
     return update(path, parameters, null);
   }
 
-  public static List<File> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<File> update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -477,8 +486,8 @@ public class File {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
@@ -486,18 +495,18 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
   */
-  public static List<File> delete() throws IOException{
+  public static File delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<File> delete(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static File delete(String path,  HashMap<String, Object> parameters) throws IOException {
     return delete(path, parameters, null);
   }
 
-  public static List<File> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<File> delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -516,15 +525,15 @@ public class File {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<File> destroy() throws IOException {
+  public static File destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<File> destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(path, parameters, options);
   }
 

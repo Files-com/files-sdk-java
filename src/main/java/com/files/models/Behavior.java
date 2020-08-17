@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -112,7 +116,7 @@ public class Behavior {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Behavior newObject = Behavior.create(parameters, this.options).get(0);
+      Behavior newObject = Behavior.create(parameters, this.options);
     }
   }
 
@@ -193,7 +197,7 @@ public class Behavior {
 
     String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Behavior> all() throws IOException {
@@ -235,7 +239,7 @@ public class Behavior {
     }
     String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Behavior> get() throws IOException {
@@ -342,7 +346,7 @@ public class Behavior {
     }
     String url = String.format("%s%s/behaviors/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -353,15 +357,15 @@ public class Behavior {
   *   path (required) - string - Folder behaviors path.
   *   behavior (required) - string - Behavior type.
   */
-  public static List<Behavior> create() throws IOException{
+  public static Behavior create() throws IOException{
     return create(null,null);
   }
-  public static List<Behavior> create( HashMap<String, Object> parameters) throws IOException {
+  public static Behavior create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Behavior> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -388,8 +392,8 @@ public class Behavior {
       throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
     }
     String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -402,15 +406,15 @@ public class Behavior {
   *   body - object - Additional body parameters.
   *   action - string - action for test body
   */
-  public static List<Behavior> webhookTest() throws IOException{
+  public static Behavior webhookTest() throws IOException{
     return webhookTest(null,null);
   }
-  public static List<Behavior> webhookTest( HashMap<String, Object> parameters) throws IOException {
+  public static Behavior webhookTest( HashMap<String, Object> parameters) throws IOException {
     return webhookTest(parameters, null);
   }
 
 
-  public static List<Behavior> webhookTest( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior webhookTest( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -442,8 +446,8 @@ public class Behavior {
       throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
     }
     String url = String.format("%s%s/behaviors/webhook/test", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -454,18 +458,18 @@ public class Behavior {
   *   behavior - string - Behavior type.
   *   path - string - Folder behaviors path.
   */
-  public static List<Behavior> update() throws IOException{
+  public static Behavior update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Behavior> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Behavior update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<Behavior> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Behavior> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -496,25 +500,25 @@ public class Behavior {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Behavior> delete() throws IOException{
+  public static Behavior delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Behavior> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Behavior delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Behavior> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Behavior> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -529,15 +533,15 @@ public class Behavior {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Behavior> destroy() throws IOException {
+  public static Behavior destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Behavior> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

@@ -1,0 +1,260 @@
+# Files.Models.Bundle
+
+## Example Bundle Object
+
+```
+{
+  "code": "abc123",
+  "url": "https://subdomain.files.com/f/12345678",
+  "description": "The public description of the bundle.",
+  "password_protected": true,
+  "require_registration": true,
+  "require_share_recipient": true,
+  "clickwrap_body": "[Legal text]",
+  "id": 1,
+  "created_at": "2000-01-01T01:00:00Z",
+  "expires_at": "2000-01-01T01:00:00Z",
+  "max_uses": 1,
+  "note": "The internal note on the bundle.",
+  "user_id": 1,
+  "username": "user",
+  "clickwrap_id": 1,
+  "inbox_id": 1,
+  "paths": [
+
+  ]
+}
+```
+
+* `code` / `code`  (string): Bundle code.  This code forms the end part of the Public URL.
+* `url` / `url`  (string): Public URL of Share Link
+* `description` / `description`  (string): Public description
+* `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
+* `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
+* `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `clickwrap_body` / `clickwrapBody`  (string): Legal text that must be agreed to prior to accessing Bundle.
+* `id` / `id`  (int64): Bundle ID
+* `created_at` / `createdAt`  (date-time): Bundle created at date/time
+* `expires_at` / `expiresAt`  (date-time): Bundle expiration date/time
+* `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
+* `note` / `note`  (string): Bundle internal note
+* `user_id` / `userId`  (int64): Bundle creator user ID
+* `username` / `username`  (string): Bundle creator username
+* `clickwrap_id` / `clickwrapId`  (int64): ID of the clickwrap to use with this bundle.
+* `inbox_id` / `inboxId`  (int64): ID of the associated inbox, if available.
+* `paths` / `paths`  (array): A list of paths in this bundle
+* `password` / `password`  (string): Password for this bundle.
+
+
+---
+
+## List Bundles
+
+```
+List<Bundle> bundle = Bundle.list(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `page` (Long): Current page number.
+* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
+* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `created_at` or `code`.
+* `filter` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
+* `filter_gt` (Object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (Object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `created_at`.
+* `filter_like` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
+* `filter_lt` (Object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (Object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`.
+
+
+---
+
+## Show Bundle
+
+```
+List<Bundle> bundle = Bundle.find(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+
+
+---
+
+## Create Bundle
+
+```
+Bundle bundle = Bundle.create(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `paths` (String[]): Required - A list of paths to include in this bundle.
+* `password` (String): Password for this bundle.
+* `expires_at` (String): Bundle expiration date/time
+* `max_uses` (Long): Maximum number of times bundle can be accessed
+* `description` (String): Public description
+* `note` (String): Bundle internal note
+* `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
+* `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
+* `inbox_id` (Long): ID of the associated inbox, if available.
+* `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+
+
+---
+
+## Send email(s) with a link to bundle
+
+```
+Bundle bundle = Bundle.share(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `to` (String[]): Required - A list of email addresses to share this bundle with.
+* `note` (String): Note to include in email.
+
+
+---
+
+## Update Bundle
+
+```
+Bundle bundle = Bundle.update(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `password` (String): Password for this bundle.
+* `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
+* `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `description` (String): Public description
+* `expires_at` (String): Bundle expiration date/time
+* `inbox_id` (Long): ID of the associated inbox, if available.
+* `max_uses` (Long): Maximum number of times bundle can be accessed
+* `note` (String): Bundle internal note
+* `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
+* `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+
+
+---
+
+## Delete Bundle
+
+```
+Bundle bundle = Bundle.delete(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+
+
+---
+
+## Send email(s) with a link to bundle
+
+```
+Bundle bundle = Bundle.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("to", ["johndoe@gmail.com"]);
+parameters.put("note", "Just a note.");
+
+Bundle.Share(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `to` (String[]): Required - A list of email addresses to share this bundle with.
+* `note` (String): Note to include in email.
+
+
+---
+
+## Update Bundle
+
+```
+Bundle bundle = Bundle.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("password", "Password");
+parameters.put("clickwrap_id", 1);
+parameters.put("code", "abc123");
+parameters.put("description", "The public description of the bundle.");
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("inbox_id", 1);
+parameters.put("max_uses", 1);
+parameters.put("note", "The internal note on the bundle.");
+parameters.put("require_registration", true);
+parameters.put("require_share_recipient", true);
+
+Bundle.Update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `password` (String): Password for this bundle.
+* `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
+* `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `description` (String): Public description
+* `expires_at` (String): Bundle expiration date/time
+* `inbox_id` (Long): ID of the associated inbox, if available.
+* `max_uses` (Long): Maximum number of times bundle can be accessed
+* `note` (String): Bundle internal note
+* `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
+* `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+
+
+---
+
+## Delete Bundle
+
+```
+Bundle bundle = Bundle.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+
+Bundle.Delete
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.

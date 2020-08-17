@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +112,7 @@ public class PublicKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      PublicKey newObject = PublicKey.create(parameters, this.options).get(0);
+      PublicKey newObject = PublicKey.create(parameters, this.options);
     }
   }
 
@@ -154,7 +158,7 @@ public class PublicKey {
 
     String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<PublicKey> all() throws IOException {
@@ -196,7 +200,7 @@ public class PublicKey {
     }
     String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<PublicKey> get() throws IOException {
@@ -213,15 +217,15 @@ public class PublicKey {
   *   title (required) - string - Internal reference for key.
   *   public_key (required) - string - Actual contents of SSH key.
   */
-  public static List<PublicKey> create() throws IOException{
+  public static PublicKey create() throws IOException{
     return create(null,null);
   }
-  public static List<PublicKey> create( HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<PublicKey> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -244,8 +248,8 @@ public class PublicKey {
       throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
     }
     String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -253,18 +257,18 @@ public class PublicKey {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public static List<PublicKey> update() throws IOException{
+  public static PublicKey update() throws IOException{
     return update(null, null,null);
   }
-  public static List<PublicKey> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<PublicKey> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<PublicKey> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -286,25 +290,25 @@ public class PublicKey {
       throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
     }
     String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<PublicKey> delete() throws IOException{
+  public static PublicKey delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<PublicKey> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<PublicKey> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<PublicKey> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -319,15 +323,15 @@ public class PublicKey {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<PublicKey> destroy() throws IOException {
+  public static PublicKey destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<PublicKey> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

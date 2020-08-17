@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -112,7 +116,7 @@ public class Group {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Group newObject = Group.create(parameters, this.options).get(0);
+      Group newObject = Group.create(parameters, this.options);
     }
   }
 
@@ -193,7 +197,7 @@ public class Group {
 
     String url = String.format("%s%s/groups", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Group> all() throws IOException {
@@ -235,7 +239,7 @@ public class Group {
     }
     String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Group> get() throws IOException {
@@ -253,15 +257,15 @@ public class Group {
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
   */
-  public static List<Group> create() throws IOException{
+  public static Group create() throws IOException{
     return create(null,null);
   }
-  public static List<Group> create( HashMap<String, Object> parameters) throws IOException {
+  public static Group create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Group> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -282,8 +286,8 @@ public class Group {
     }
 
     String url = String.format("%s%s/groups", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Group> typeReference = new TypeReference<Group>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -294,18 +298,18 @@ public class Group {
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
   */
-  public static List<Group> update() throws IOException{
+  public static Group update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Group> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Group update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<Group> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Group> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -336,25 +340,25 @@ public class Group {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Group> typeReference = new TypeReference<Group>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Group> delete() throws IOException{
+  public static Group delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Group> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Group delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Group> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Group> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -369,15 +373,15 @@ public class Group {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Group> typeReference = new TypeReference<Group>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Group> destroy() throws IOException {
+  public static Group destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Group> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

@@ -1,0 +1,60 @@
+# Files.Models.App
+
+## Example App Object
+
+```
+{
+  "name": "",
+  "extended_description": "",
+  "documentation_links": "Important Info => http://files.test/learn-more",
+  "icon_url": "",
+  "logo_url": "",
+  "logo_thumbnail_url": "",
+  "sso_strategy_type": "",
+  "remote_server_type": "",
+  "folder_behavior_type": "",
+  "external_homepage_url": "",
+  "app_type": "",
+  "featured": true
+}
+```
+
+* `name` / `name`  (string): Name of the App
+* `extended_description` / `extendedDescription`  (string): Long form description of the App
+* `documentation_links` / `documentationLinks`  (string): Collection of named links to documentation
+* `icon_url` / `iconUrl`  (string): App icon
+* `logo_url` / `logoUrl`  (string): Full size logo for the App
+* `logo_thumbnail_url` / `logoThumbnailUrl`  (string): Logo thumbnail for the App
+* `sso_strategy_type` / `ssoStrategyType`  (string): Associated SSO Strategy type, if any
+* `remote_server_type` / `remoteServerType`  (string): Associated Remote Server type, if any
+* `folder_behavior_type` / `folderBehaviorType`  (string): Associated Folder Behavior type, if any
+* `external_homepage_url` / `externalHomepageUrl`  (string): Link to external homepage
+* `app_type` / `appType`  (string): The type of the App
+* `featured` / `featured`  (boolean): Is featured on the App listing?
+
+
+---
+
+## List Apps
+
+```
+List<App> app = App.list(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `page` (Long): Current page number.
+* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
+* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `name` and `app_type`.
+* `filter` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `name` and `app_type`.
+* `filter_gt` (Object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `name` and `app_type`.
+* `filter_gteq` (Object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `name` and `app_type`.
+* `filter_like` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `name` and `app_type`.
+* `filter_lt` (Object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `name` and `app_type`.
+* `filter_lteq` (Object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `name` and `app_type`.

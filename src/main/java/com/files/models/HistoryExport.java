@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -244,7 +248,7 @@ public class HistoryExport {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The HistoryExport Object doesn't support updates.");
     } else {
-      HistoryExport newObject = HistoryExport.create(parameters, this.options).get(0);
+      HistoryExport newObject = HistoryExport.create(parameters, this.options);
     }
   }
 
@@ -279,7 +283,7 @@ public class HistoryExport {
     }
     String url = String.format("%s%s/history_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<HistoryExport>> typeReference = new TypeReference<List<HistoryExport>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<HistoryExport> get() throws IOException {
@@ -315,15 +319,15 @@ public class HistoryExport {
   *   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
   *   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
   */
-  public static List<HistoryExport> create() throws IOException{
+  public static HistoryExport create() throws IOException{
     return create(null,null);
   }
-  public static List<HistoryExport> create( HashMap<String, Object> parameters) throws IOException {
+  public static HistoryExport create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<HistoryExport> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static HistoryExport create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -416,8 +420,8 @@ public class HistoryExport {
     }
 
     String url = String.format("%s%s/history_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<HistoryExport>> typeReference = new TypeReference<List<HistoryExport>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<HistoryExport> typeReference = new TypeReference<HistoryExport>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

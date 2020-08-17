@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +97,7 @@ public class FileComment {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      FileComment newObject = FileComment.create(parameters, this.options).get(0);
+      FileComment newObject = FileComment.create(parameters, this.options);
     }
   }
 
@@ -148,7 +152,7 @@ public class FileComment {
     }
     String url = String.format("%s%s/file_comments/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<FileComment>> typeReference = new TypeReference<List<FileComment>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -157,15 +161,15 @@ public class FileComment {
   *   body (required) - string - Comment body.
   *   path (required) - string - File path.
   */
-  public static List<FileComment> create() throws IOException{
+  public static FileComment create() throws IOException{
     return create(null,null);
   }
-  public static List<FileComment> create( HashMap<String, Object> parameters) throws IOException {
+  public static FileComment create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<FileComment> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -184,8 +188,8 @@ public class FileComment {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/file_comments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<FileComment>> typeReference = new TypeReference<List<FileComment>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<FileComment> typeReference = new TypeReference<FileComment>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -193,18 +197,18 @@ public class FileComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public static List<FileComment> update() throws IOException{
+  public static FileComment update() throws IOException{
     return update(null, null,null);
   }
-  public static List<FileComment> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static FileComment update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<FileComment> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<FileComment> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -226,25 +230,25 @@ public class FileComment {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
     String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<FileComment>> typeReference = new TypeReference<List<FileComment>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<FileComment> typeReference = new TypeReference<FileComment>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<FileComment> delete() throws IOException{
+  public static FileComment delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<FileComment> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static FileComment delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<FileComment> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<FileComment> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -259,15 +263,15 @@ public class FileComment {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<FileComment>> typeReference = new TypeReference<List<FileComment>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<FileComment> typeReference = new TypeReference<FileComment>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<FileComment> destroy() throws IOException {
+  public static FileComment destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<FileComment> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileComment destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

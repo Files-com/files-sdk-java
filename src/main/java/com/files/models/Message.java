@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +115,7 @@ public class Message {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Message newObject = Message.create(parameters, this.options).get(0);
+      Message newObject = Message.create(parameters, this.options);
     }
   }
 
@@ -165,7 +169,7 @@ public class Message {
     }
     String url = String.format("%s%s/messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Message> all() throws IOException {
@@ -207,7 +211,7 @@ public class Message {
     }
     String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Message> get() throws IOException {
@@ -225,15 +229,15 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static List<Message> create() throws IOException{
+  public static Message create() throws IOException{
     return create(null,null);
   }
-  public static List<Message> create( HashMap<String, Object> parameters) throws IOException {
+  public static Message create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Message> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -263,8 +267,8 @@ public class Message {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
     String url = String.format("%s%s/messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Message> typeReference = new TypeReference<Message>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -274,18 +278,18 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static List<Message> update() throws IOException{
+  public static Message update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Message> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Message update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<Message> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Message> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -321,25 +325,25 @@ public class Message {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
     String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Message> typeReference = new TypeReference<Message>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Message> delete() throws IOException{
+  public static Message delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Message> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Message delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Message> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Message> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -354,15 +358,15 @@ public class Message {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Message> typeReference = new TypeReference<Message>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Message> destroy() throws IOException {
+  public static Message destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Message> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

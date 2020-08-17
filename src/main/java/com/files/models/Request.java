@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +121,7 @@ public class Request {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Request Object doesn't support updates.");
     } else {
-      Request newObject = Request.create(parameters, this.options).get(0);
+      Request newObject = Request.create(parameters, this.options);
     }
   }
 
@@ -173,7 +177,7 @@ public class Request {
 
     String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Request> all() throws IOException {
@@ -194,18 +198,18 @@ public class Request {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static List<Request> getFolder() throws IOException{
+  public static Request getFolder() throws IOException{
     return getFolder(null, null,null);
   }
-  public static List<Request> getFolder(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static Request getFolder(String path,  HashMap<String, Object> parameters) throws IOException {
     return getFolder(path, parameters, null);
   }
 
-  public static List<Request> getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return getFolder(null, parameters, options);
   }
 
-  public static List<Request> getFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request getFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -244,8 +248,8 @@ public class Request {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/requests/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Request> typeReference = new TypeReference<Request>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -256,15 +260,15 @@ public class Request {
   *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  public static List<Request> create() throws IOException{
+  public static Request create() throws IOException{
     return create(null,null);
   }
-  public static List<Request> create( HashMap<String, Object> parameters) throws IOException {
+  public static Request create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Request> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -291,25 +295,25 @@ public class Request {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
     String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Request> typeReference = new TypeReference<Request>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Request> delete() throws IOException{
+  public static Request delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Request> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Request delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Request> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Request> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -324,15 +328,15 @@ public class Request {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Request> typeReference = new TypeReference<Request>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Request> destroy() throws IOException {
+  public static Request destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Request> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

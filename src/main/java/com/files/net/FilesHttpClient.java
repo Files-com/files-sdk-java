@@ -1,6 +1,8 @@
 package com.files.net;
 
+import com.files.FilesClient;
 import com.files.FilesConfig;
+import devcsrj.okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -13,16 +15,15 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
-public class HttpClient {
-  private static HttpClient instance;
-  protected static final Logger log = LogManager.getLogger(HttpClient.class);
+public class FilesHttpClient {
+  private static FilesHttpClient instance;
+  protected static final Logger log = LogManager.getLogger(FilesHttpClient.class);
   protected OkHttpClient okHttpClient;
 
-  protected HttpClient() {
+  protected FilesHttpClient() {
     FilesConfig filesConfig = FilesConfig.getInstance();
-    ConnectionPool pool = new ConnectionPool(filesConfig.getUpstreamMaxConnections(), filesConfig.getUpstreamTimeout(), TimeUnit.MILLISECONDS);
+    ConnectionPool pool = FilesClient.httpPool;
     try {
       OkHttpClient.Builder builder = new OkHttpClient.Builder();
       builder.cache(null);
@@ -30,6 +31,10 @@ public class HttpClient {
       builder.hostnameVerifier((hostname, session) -> true);
       builder.retryOnConnectionFailure(false);
       builder.addNetworkInterceptor(new FilesHttpInterceptor());
+
+      if (FilesConfig.getInstance().getHttpLoggingEnabled() && log.isDebugEnabled()) {
+        builder.addInterceptor(new HttpLoggingInterceptor());
+      }
 
       if (filesConfig.getUpstreamInsecureAllowed()) {
         // Create a trust manager that does not validate certificate chains
@@ -72,9 +77,9 @@ public class HttpClient {
 
   public static OkHttpClient getHttpClient() {
     if (instance == null) {
-      synchronized (HttpClient.class) {
+      synchronized (FilesHttpClient.class) {
         if (instance == null) {
-          instance = new HttpClient();
+          instance = new FilesHttpClient();
         }
       }
     }

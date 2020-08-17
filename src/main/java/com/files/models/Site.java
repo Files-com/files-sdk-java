@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -815,15 +819,15 @@ public class Site {
   *   format - string
   *   site - object
   */
-  public static List<Site> get() throws IOException{
+  public static Site get() throws IOException{
     return get(null,null);
   }
-  public static List<Site> get( HashMap<String, Object> parameters) throws IOException {
+  public static Site get( HashMap<String, Object> parameters) throws IOException {
     return get(parameters, null);
   }
 
 
-  public static List<Site> get( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site get( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -836,8 +840,8 @@ public class Site {
     }
 
     String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Site>> typeReference = new TypeReference<List<Site>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Site> typeReference = new TypeReference<Site>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -846,15 +850,15 @@ public class Site {
   *   format - string
   *   site - object
   */
-  public static List<Site> getUsage() throws IOException{
+  public static Site getUsage() throws IOException{
     return getUsage(null,null);
   }
-  public static List<Site> getUsage( HashMap<String, Object> parameters) throws IOException {
+  public static Site getUsage( HashMap<String, Object> parameters) throws IOException {
     return getUsage(parameters, null);
   }
 
 
-  public static List<Site> getUsage( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site getUsage( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -867,8 +871,8 @@ public class Site {
     }
 
     String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Site>> typeReference = new TypeReference<List<Site>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Site> typeReference = new TypeReference<Site>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -977,15 +981,15 @@ public class Site {
   *   ldap_password_change_confirmation - string - Confirm new LDAP password.
   *   smtp_password - string - Password for SMTP server.
   */
-  public static List<Site> update() throws IOException{
+  public static Site update() throws IOException{
     return update(null,null);
   }
-  public static List<Site> update( HashMap<String, Object> parameters) throws IOException {
+  public static Site update( HashMap<String, Object> parameters) throws IOException {
     return update(parameters, null);
   }
 
 
-  public static List<Site> update( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site update( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1398,8 +1402,8 @@ public class Site {
     }
 
     String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Site>> typeReference = new TypeReference<List<Site>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Site> typeReference = new TypeReference<Site>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 

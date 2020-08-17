@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -118,7 +122,7 @@ public class UserRequest {
 
     String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<UserRequest> all() throws IOException {
@@ -160,7 +164,7 @@ public class UserRequest {
     }
     String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<UserRequest> get() throws IOException {
@@ -177,15 +181,15 @@ public class UserRequest {
   *   email (required) - string - Email of user requested
   *   details (required) - string - Details of the user request
   */
-  public static List<UserRequest> create() throws IOException{
+  public static UserRequest create() throws IOException{
     return create(null,null);
   }
-  public static List<UserRequest> create( HashMap<String, Object> parameters) throws IOException {
+  public static UserRequest create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<UserRequest> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -211,25 +215,25 @@ public class UserRequest {
       throw new NullPointerException("Parameter missing: details parameters[\"details\"]");
     }
     String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<UserRequest> delete() throws IOException{
+  public static UserRequest delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<UserRequest> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static UserRequest delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<UserRequest> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<UserRequest> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -244,15 +248,15 @@ public class UserRequest {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<UserRequest> destroy() throws IOException {
+  public static UserRequest destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<UserRequest> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

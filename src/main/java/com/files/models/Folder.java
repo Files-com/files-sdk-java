@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -180,7 +184,7 @@ public class Folder {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Folder Object doesn't support updates.");
     } else {
-      Folder newObject = Folder.create(parameters, this.options).get(0);
+      Folder newObject = Folder.create(parameters, this.options);
     }
   }
 
@@ -265,7 +269,7 @@ public class Folder {
     }
     String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<Folder>> typeReference = new TypeReference<List<Folder>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -273,18 +277,18 @@ public class Folder {
   * Parameters:
   *   path (required) - string - Path to operate on.
   */
-  public static List<Folder> create() throws IOException{
+  public static Folder create() throws IOException{
     return create(null, null,null);
   }
-  public static List<Folder> create(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static Folder create(String path,  HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
-  public static List<Folder> create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return create(null, parameters, options);
   }
 
-  public static List<Folder> create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Folder create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -299,8 +303,8 @@ public class Folder {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<Folder>> typeReference = new TypeReference<List<Folder>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Folder> typeReference = new TypeReference<Folder>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

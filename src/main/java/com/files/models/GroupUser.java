@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -161,7 +165,7 @@ public class GroupUser {
 
     String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<GroupUser> all() throws IOException {
@@ -178,18 +182,18 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static List<GroupUser> update() throws IOException{
+  public static GroupUser update() throws IOException{
     return update(null, null,null);
   }
-  public static List<GroupUser> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static GroupUser update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<GroupUser> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static GroupUser update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<GroupUser> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static GroupUser update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -222,8 +226,8 @@ public class GroupUser {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
     String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
@@ -232,18 +236,18 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public static List<GroupUser> delete() throws IOException{
+  public static GroupUser delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<GroupUser> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static GroupUser delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<GroupUser> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static GroupUser delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<GroupUser> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static GroupUser delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -272,15 +276,15 @@ public class GroupUser {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
     String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<GroupUser> destroy() throws IOException {
+  public static GroupUser destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<GroupUser> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static GroupUser destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -132,7 +136,7 @@ public class Style {
     }
     String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
     TypeReference<List<Style>> typeReference = new TypeReference<List<Style>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Style> get() throws IOException {
@@ -147,18 +151,18 @@ public class Style {
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
-  public static List<Style> update() throws IOException{
+  public static Style update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Style> update(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static Style update(String path,  HashMap<String, Object> parameters) throws IOException {
     return update(path, parameters, null);
   }
 
-  public static List<Style> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Style> update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style update(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -180,25 +184,25 @@ public class Style {
       throw new NullPointerException("Parameter missing: file parameters[\"file\"]");
     }
     String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<Style>> typeReference = new TypeReference<List<Style>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Style> typeReference = new TypeReference<Style>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Style> delete() throws IOException{
+  public static Style delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Style> delete(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static Style delete(String path,  HashMap<String, Object> parameters) throws IOException {
     return delete(path, parameters, null);
   }
 
-  public static List<Style> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Style> delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style delete(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -213,15 +217,15 @@ public class Style {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<Style>> typeReference = new TypeReference<List<Style>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Style> typeReference = new TypeReference<Style>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Style> destroy() throws IOException {
+  public static Style destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Style> destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(path, parameters, options);
   }
 

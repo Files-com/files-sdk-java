@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,18 +87,18 @@ public class FileAction {
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
   */
-  public static List<FileAction> copy() throws IOException{
+  public static FileAction copy() throws IOException{
     return copy(null, null,null);
   }
-  public static List<FileAction> copy(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static FileAction copy(String path,  HashMap<String, Object> parameters) throws IOException {
     return copy(path, parameters, null);
   }
 
-  public static List<FileAction> copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return copy(null, parameters, options);
   }
 
-  public static List<FileAction> copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -120,8 +124,8 @@ public class FileAction {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
     String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -131,18 +135,18 @@ public class FileAction {
   * Parameters:
   *   destination (required) - string - Move destination path.
   */
-  public static List<FileAction> move() throws IOException{
+  public static FileAction move() throws IOException{
     return move(null, null,null);
   }
-  public static List<FileAction> move(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static FileAction move(String path,  HashMap<String, Object> parameters) throws IOException {
     return move(path, parameters, null);
   }
 
-  public static List<FileAction> move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return move(null, parameters, options);
   }
 
-  public static List<FileAction> move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -164,8 +168,8 @@ public class FileAction {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
     String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -180,18 +184,18 @@ public class FileAction {
   *   restart - int64 - File byte offset to restart from.
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static List<FileAction> beginUpload() throws IOException{
+  public static FileAction beginUpload() throws IOException{
     return beginUpload(null, null,null);
   }
-  public static List<FileAction> beginUpload(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static FileAction beginUpload(String path,  HashMap<String, Object> parameters) throws IOException {
     return beginUpload(path, parameters, null);
   }
 
-  public static List<FileAction> beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return beginUpload(null, parameters, options);
   }
 
-  public static List<FileAction> beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileAction beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -230,8 +234,8 @@ public class FileAction {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<List<FileAction>> typeReference = new TypeReference<List<FileAction>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

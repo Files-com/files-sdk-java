@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 public class FilesHttpInterceptor implements Interceptor {
-  protected static final Logger log = LogManager.getLogger(HttpClient.class);
+  protected static final Logger log = LogManager.getLogger(FilesHttpInterceptor.class);
   private final String userAgent;
   private FilesConfig filesConfig = FilesConfig.getInstance();
 

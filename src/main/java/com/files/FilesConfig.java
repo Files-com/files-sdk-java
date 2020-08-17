@@ -70,6 +70,31 @@ public class FilesConfig {
     return properties.getProperty("apiKey", null);
   }
 
+  public int getCachedBufferTinySize() {
+    return intProperty("cachedBufferTinySize", 1024 * 16);
+  }
+
+  public int getCachedBufferSmallSize() {
+    return intProperty("cachedBufferSmallSize", 1024 * 1024 /* 1 MB */);
+  }
+
+  public int getCachedBufferMediumSize() {
+    return intProperty("cachedBufferMediumSize", 16777216 /* 16 MB */);
+  }
+
+  public int getCachedBufferLargeSize() {
+    // must be at least the size of the largest requested upload page
+    return intProperty("cachedBufferLargeSize", 50331648 /* 48 MB */);
+  }
+  public int getCachedBufferMaxBytes() {
+    return intProperty("cachedBufferMaxBytes", (int) Math.min(Runtime.getRuntime().maxMemory() / 5,
+            1610612736 /* 1.5 GB */));
+  }
+
+  public boolean getHttpLoggingEnabled() {
+    return boolProperty("httpLoggingEnabled", true);
+  }
+
   public int getInitialRetryDelayMillis() {
     return intProperty("initialRetryDelayMillis", 500);
   }
@@ -96,10 +121,6 @@ public class FilesConfig {
 
   public int getUpstreamTimeout() {
     return intProperty("upstreamTimeout", 5000);
-  }
-
-  public void setApiKey(String apiKey) {
-    properties.setProperty("apiKey", apiKey);
   }
 
   public void setProperty(String property, String value) {

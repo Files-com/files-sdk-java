@@ -9,7 +9,11 @@ import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
+import com.files.util.FilesInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -173,7 +177,7 @@ public class Automation {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Automation newObject = Automation.create(parameters, this.options).get(0);
+      Automation newObject = Automation.create(parameters, this.options);
     }
   }
 
@@ -254,7 +258,7 @@ public class Automation {
 
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Automation> all() throws IOException {
@@ -296,7 +300,7 @@ public class Automation {
     }
     String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
-    return FilesClient.request(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
   public static List<Automation> get() throws IOException {
@@ -319,15 +323,15 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   */
-  public static List<Automation> create() throws IOException{
+  public static Automation create() throws IOException{
     return create(null,null);
   }
-  public static List<Automation> create( HashMap<String, Object> parameters) throws IOException {
+  public static Automation create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static List<Automation> create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -371,8 +375,8 @@ public class Automation {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
-    return FilesClient.request(url, RequestMethods.POST, typeReference, parameters, options);
+    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 
@@ -388,18 +392,18 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   */
-  public static List<Automation> update() throws IOException{
+  public static Automation update() throws IOException{
     return update(null, null,null);
   }
-  public static List<Automation> update(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Automation update(Long id,  HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
-  public static List<Automation> update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return update(null, parameters, options);
   }
 
-  public static List<Automation> update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -453,25 +457,25 @@ public class Automation {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
     String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
-    return FilesClient.request(url, RequestMethods.PATCH, typeReference, parameters, options);
+    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 
   /**
   */
-  public static List<Automation> delete() throws IOException{
+  public static Automation delete() throws IOException{
     return delete(null, null,null);
   }
-  public static List<Automation> delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+  public static Automation delete(Long id,  HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
-  public static List<Automation> delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(null, parameters, options);
   }
 
-  public static List<Automation> delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -486,15 +490,15 @@ public class Automation {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
     }
     String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
-    TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
-    return FilesClient.request(url, RequestMethods.DELETE, typeReference, parameters, options);
+    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
+    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static List<Automation> destroy() throws IOException {
+  public static Automation destroy() throws IOException {
     return destroy(null, null, null);
   }
 
-  public static List<Automation> destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(id, parameters, options);
   }
 

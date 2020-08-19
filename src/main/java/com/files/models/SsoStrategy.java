@@ -162,6 +162,13 @@ public class SsoStrategy {
   private Boolean deprovisionGroups;
 
   /**
+  * Method used for deprovisioning users.
+  */
+  @Getter
+  @JsonProperty("deprovision_behavior")
+  private String deprovisionBehavior;
+
+  /**
   * Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
   */
   @Getter

@@ -137,7 +137,7 @@ File file = File.delete(
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
 
 
 ---
@@ -203,4 +203,4 @@ File.Delete(parameters);
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.

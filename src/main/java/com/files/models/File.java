@@ -278,7 +278,7 @@ public class File {
 
   /**
   * Parameters:
-  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
   public File delete(HashMap<String, Object> parameters) {
     return delete(parameters);
@@ -493,7 +493,7 @@ public class File {
 
   /**
   * Parameters:
-  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.  For legacy reasons, this parameter may also be provided as the HTTP header `Depth: Infinity`
+  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
   public static File delete() throws IOException{
     return delete(null, null,null);

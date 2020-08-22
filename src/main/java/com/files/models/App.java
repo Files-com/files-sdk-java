@@ -78,6 +78,13 @@ public class App {
   private String logoUrl;
 
   /**
+  * Screenshots of the App
+  */
+  @Getter
+  @JsonProperty("screenshot_list_urls")
+  private String screenshotListUrls;
+
+  /**
   * Logo thumbnail for the App
   */
   @Getter

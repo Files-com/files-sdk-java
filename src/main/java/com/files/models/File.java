@@ -48,14 +48,6 @@ public class File {
   
 
   /**
-  * File/Folder ID
-  */
-  @Getter
-  @Setter
-  @JsonProperty("id")
-  private Long id;
-
-  /**
   * File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter

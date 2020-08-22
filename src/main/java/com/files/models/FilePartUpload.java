@@ -68,7 +68,7 @@ public class FilePartUpload {
   */
   @Getter
   @JsonProperty("available_parts")
-  private String availableParts;
+  private Long availableParts;
 
   /**
   * Currently unused
@@ -96,7 +96,7 @@ public class FilePartUpload {
   */
   @Getter
   @JsonProperty("next_partsize")
-  private String nextPartsize;
+  private Long nextPartsize;
 
   /**
   * If true, parts may be uploaded in parallel
@@ -110,21 +110,21 @@ public class FilePartUpload {
   */
   @Getter
   @JsonProperty("parameters")
-  private String parameters;
+  private Object parameters;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("part_number")
-  private String partNumber;
+  private Long partNumber;
 
   /**
   * Currently unused
   */
   @Getter
   @JsonProperty("partsize")
-  private String partsize;
+  private Long partsize;
 
   /**
   * Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.

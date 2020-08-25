@@ -92,6 +92,13 @@ public class SsoStrategy {
   private String samlProviderIssuerUrl;
 
   /**
+  * Custom identity provider metadata
+  */
+  @Getter
+  @JsonProperty("saml_provider_metadata_content")
+  private String samlProviderMetadataContent;
+
+  /**
   * Metadata URL for the SAML identity provider
   */
   @Getter

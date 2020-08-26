@@ -20,19 +20,19 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-public class FilePartUpload {
+public class FileUploadPart {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public FilePartUpload() {
+  public FileUploadPart() {
     this(null, null);
   }
 
-  public FilePartUpload(HashMap<String, Object> parameters) {
+  public FileUploadPart(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public FilePartUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public FileUploadPart(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -57,77 +57,77 @@ public class FilePartUpload {
   private String action;
 
   /**
-  * If false, rename conflicting files instead of asking for overwrite confirmation
+  * If `true`, this file exists and you may wish to ask the user for overwrite confirmation
   */
   @Getter
   @JsonProperty("ask_about_overwrites")
   private Boolean askAboutOverwrites;
 
   /**
-  * Currently unused
+  * Number of parts in the upload
   */
   @Getter
   @JsonProperty("available_parts")
   private Long availableParts;
 
   /**
-  * Currently unused
+  * Date/time of when this Upload part expires and the URL cannot be used any more
   */
   @Getter
   @JsonProperty("expires")
   private String expires;
 
   /**
-  * Additional upload headers
+  * Additional upload headers to provide as part of the upload
   */
   @Getter
   @JsonProperty("headers")
   private Object headers;
 
   /**
-  * Upload method, usually POST
+  * HTTP Method to use for uploading the part, usually `PUT`
   */
   @Getter
   @JsonProperty("http_method")
   private String httpMethod;
 
   /**
-  * Currently unused
+  * Size in bytes for this part
   */
   @Getter
   @JsonProperty("next_partsize")
   private Long nextPartsize;
 
   /**
-  * If true, parts may be uploaded in parallel
+  * If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
   */
   @Getter
   @JsonProperty("parallel_parts")
   private Boolean parallelParts;
 
   /**
-  * Additional upload parameters
+  * Additional HTTP parameters to send with the upload
   */
   @Getter
   @JsonProperty("parameters")
   private Object parameters;
 
   /**
-  * Currently unused
+  * Number of this upload part
   */
   @Getter
   @JsonProperty("part_number")
   private Long partNumber;
 
   /**
-  * Currently unused
+  * Size in bytes for the next upload part
   */
   @Getter
   @JsonProperty("partsize")
   private Long partsize;
 
   /**
-  * Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * New file path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")

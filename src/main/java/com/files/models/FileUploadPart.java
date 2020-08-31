@@ -10,13 +10,16 @@ import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +27,37 @@ public class FileUploadPart {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
+  public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
+    RequestMethods requestMethod;
+    requestMethod = RequestMethods.PUT;
+    if (httpMethod == "post")  requestMethod = RequestMethods.POST;
+    FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream);
+    HashMap<String, Object> parameters = new HashMap<>();
+    parameters.put("action", "end");
+    parameters.put("ref", ref);
+    return File.completeUpload(this.path, parameters);
+  }
+
+  public File putLocalFile(String source) throws IOException {
+    RequestMethods requestMethod;
+    requestMethod = RequestMethods.PUT;
+    if (httpMethod == "post")  requestMethod = RequestMethods.POST;
+
+    java.io.File file = new java.io.File(source);
+    FileInputStream fileInputStream = null;
+    BufferedInputStream bufferedInputStream = null;
+    try {
+      bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+      FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, bufferedInputStream);
+      HashMap<String, Object> parameters = new HashMap<>();
+      parameters.put("action", "end");
+      parameters.put("ref", ref);
+      return File.completeUpload(this.path, parameters);
+    } finally {
+      if (fileInputStream != null) fileInputStream.close();
+      if (bufferedInputStream != null) bufferedInputStream.close();
+    }
+  }
   public FileUploadPart() {
     this(null, null);
   }
@@ -47,7 +81,7 @@ public class FileUploadPart {
   */
   @Getter
   @JsonProperty("send")
-  private Object send;
+  private Map<String, String> send;
 
   /**
   * Type of upload
@@ -82,7 +116,7 @@ public class FileUploadPart {
   */
   @Getter
   @JsonProperty("headers")
-  private Object headers;
+  private Map<String, String> headers;
 
   /**
   * HTTP Method to use for uploading the part, usually `PUT`
@@ -110,7 +144,7 @@ public class FileUploadPart {
   */
   @Getter
   @JsonProperty("parameters")
-  private Object parameters;
+  private Map<String, String> parameters;
 
   /**
   * Number of this upload part

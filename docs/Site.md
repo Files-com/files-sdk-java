@@ -244,7 +244,7 @@ Site site = Site.get(
 ### Parameters
 
 * `format` (String): 
-* `site` (Object): 
+* `site` (Map<String, String>): 
 
 
 ---
@@ -262,7 +262,7 @@ Site site = Site.getUsage(
 ### Parameters
 
 * `format` (String): 
-* `site` (Object): 
+* `site` (Map<String, String>): 
 
 
 ---

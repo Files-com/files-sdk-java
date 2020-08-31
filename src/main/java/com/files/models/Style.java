@@ -10,13 +10,16 @@ import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,7 +67,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("logo")
-  private Object logo;
+  private Map<String, String> logo;
 
   /**
   * Logo thumbnail
@@ -72,7 +75,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("thumbnail")
-  private Object thumbnail;
+  private Map<String, String> thumbnail;
 
   /**
   * Logo for custom branding.

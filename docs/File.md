@@ -76,7 +76,7 @@ File file = File.download(
 ## Upload file
 
 ```
-File file = File.create(
+FileUploadPart file = File.create(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

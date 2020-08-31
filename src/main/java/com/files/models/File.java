@@ -10,13 +10,16 @@ import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,7 +48,28 @@ public class File {
       inputStream.transferTo(outputStream);
     }
   }
-  
+
+  public static File completeUpload(String path, HashMap<String, Object> parameters) throws IOException {
+      return completeUpload(path, parameters, null);
+  }
+
+  public static File completeUpload(String path, HashMap<String, Object> parameters, HashMap<String,Object> options) throws IOException {
+    if (parameters == null) parameters = new HashMap<String, Object>();
+    if (options == null) options = new HashMap<String, Object>();
+
+
+    if (path != null){
+      parameters.put("path",path);
+    }
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    if (! parameters.containsKey("action")) parameters.put("action", "put");
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
   /**
   * File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -173,7 +197,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview")
-  private Object preview;
+  private Map<String, String> preview;
 
   /**
   * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
@@ -285,7 +309,7 @@ public class File {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      File newObject = File.create(parameters, this.options);
+      FileUploadPart newObject = File.create(parameters, this.options);
     }
   }
 
@@ -362,18 +386,18 @@ public class File {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static File create() throws IOException{
+  public static FileUploadPart create() throws IOException{
     return create(null, null,null);
   }
-  public static File create(String path,  HashMap<String, Object> parameters) throws IOException {
+  public static FileUploadPart create(String path,  HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
-  public static File create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileUploadPart create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return create(null, parameters, options);
   }
 
-  public static File create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileUploadPart create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -433,8 +457,9 @@ public class File {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
+    if (! parameters.containsKey("action")) parameters.put("action", "put");
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<File> typeReference = new TypeReference<File>() {};
+    TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

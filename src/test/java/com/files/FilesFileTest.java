@@ -8,12 +8,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,9 +49,20 @@ public class FilesFileTest {
   @Ignore // Not currently working with files-mock-server
   public void putOutputStream() throws IOException {
     FilesClient.apiKey = "...";
-    String exampleString = "Sample Test Data";
-    File file = File.create("test.txt", null);
-    InputStream stream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
 
+    String exampleString = "Sample Test Data";
+    InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes());
+    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+    File transferred = File.create("testUpload2.txt", null).putBufferedInputStream(bufferedInputStream, exampleString.getBytes().length, new Date());
+    assert(transferred.getSize() == exampleString.getBytes().length);
+  }
+
+  @Test
+  @Ignore // Not currently working with files-mock-server
+  public void putFile() throws IOException {
+    FilesClient.apiKey = "...";
+
+    File transferred = File.create("README-test.md", null).putLocalFile("README.md");
+    assert(transferred.getSize() == new java.io.File("README.md").getAbsoluteFile().length());
   }
 }

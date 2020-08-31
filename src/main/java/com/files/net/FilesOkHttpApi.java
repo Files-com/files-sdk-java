@@ -4,17 +4,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.files.FilesClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.MultipartBody;
 import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Source;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
@@ -70,26 +72,7 @@ public class FilesOkHttpApi implements FilesApiInterface {
         throw new InvalidParameterException(String.format("Authentication required for API request: %s %s", url,requestType));
       }
     }
-
-    switch (requestType) {
-      case DELETE:
-        request.delete(body.build());
-        break;
-      case GET:
-        break;
-      case HEAD:
-        request.head();
-        break;
-      case PATCH:
-        request.patch(body.build());
-        break;
-      case POST:
-        request.post(body.build());
-        break;
-      case PUT:
-        request.put(body.build());
-        break;
-    }
+    updateRequestWithHttpMethod(request, body.build(), requestType);
     Response response =  FilesHttpClient.getHttpClient().newCall(request.build()).execute();
     String responseBody = response.body().string();
     response.body().close();
@@ -105,7 +88,67 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   @Override
-  public void putFileOutputStream(String url, String name, OutputStream outputStream) {
-    //TODO
+  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream) throws IOException {
+    String uri = ModelUtils.forceMandatoryUriEncode(url);
+    MediaType type = MediaType.parse("application/octet-stream");
+    Request.Builder request = new Request.Builder();
+    request.addHeader("Content-type", "application/octet-stream");
+    request.url(uri);
+    RequestBody body = create(type, inputStream);
+    updateRequestWithHttpMethod(request, body, requestType);
+    Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
+    return 0;
+  }
+
+  public static void updateRequestWithHttpMethod(Request.Builder request, RequestBody body, HttpMethods.RequestMethods requestType) {
+    switch (requestType) {
+      case DELETE:
+        request.delete(body);
+        break;
+      case GET:
+        break;
+      case HEAD:
+        request.head();
+        break;
+      case PATCH:
+        request.patch(body);
+        break;
+      case POST:
+        request.post(body);
+        break;
+      case PUT:
+        request.put(body);
+        break;
+    }
+  }
+
+  public static RequestBody create(final MediaType contentType,
+                                   final BufferedInputStream inputStream) {
+    if (inputStream == null) throw new NullPointerException("inputStream == null");
+
+    return new RequestBody() {
+      @Override public MediaType contentType() {
+        return contentType;
+      }
+
+      @Override public long contentLength() {
+        try {
+          return inputStream.available();
+        } catch (IOException e) {
+          //a IOException is sent if the input stream has been closed, i.e. no content to read.
+          return 0;
+        }
+      }
+
+      @Override public void writeTo(BufferedSink sink) throws IOException {
+        try {
+          inputStream.mark(0);
+          Source source = Okio.source(inputStream);
+          sink.writeAll(source);
+        } finally {
+          inputStream.reset();
+        }
+      }
+    };
   }
 }

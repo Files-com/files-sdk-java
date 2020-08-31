@@ -10,13 +10,16 @@ import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -271,28 +274,28 @@ public class Site {
   */
   @Getter
   @JsonProperty("icon128")
-  private Object icon128;
+  private Map<String, String> icon128;
 
   /**
   * Branded icon 16x16
   */
   @Getter
   @JsonProperty("icon16")
-  private Object icon16;
+  private Map<String, String> icon16;
 
   /**
   * Branded icon 32x32
   */
   @Getter
   @JsonProperty("icon32")
-  private Object icon32;
+  private Map<String, String> icon32;
 
   /**
   * Branded icon 48x48
   */
   @Getter
   @JsonProperty("icon48")
-  private Object icon48;
+  private Map<String, String> icon48;
 
   /**
   * Can files be modified?
@@ -439,7 +442,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("logo")
-  private Object logo;
+  private Map<String, String> logo;
 
   /**
   * Number of prior passwords to disallow
@@ -586,7 +589,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("session")
-  private Object session;
+  private Map<String, String> session;
 
   /**
   * Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
@@ -733,7 +736,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("user")
-  private Object user;
+  private Map<String, String> user;
 
   /**
   * Will users be locked out after incorrect login attempts?
@@ -835,8 +838,8 @@ public class Site {
       throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
     }
 
-    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Object )) {
-      throw new IllegalArgumentException("Bad parameter: site must be of type Object parameters[\"site\"]");
+    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: site must be of type Map<String, String> parameters[\"site\"]");
     }
 
     String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -866,8 +869,8 @@ public class Site {
       throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
     }
 
-    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Object )) {
-      throw new IllegalArgumentException("Bad parameter: site must be of type Object parameters[\"site\"]");
+    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: site must be of type Map<String, String> parameters[\"site\"]");
     }
 
     String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

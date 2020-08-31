@@ -58,7 +58,7 @@ List<History> history = History.listForFile(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `path` (String): Required - Path to operate on.
 
 
@@ -83,7 +83,7 @@ List<History> history = History.listForFolder(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `path` (String): Required - Path to operate on.
 
 
@@ -108,7 +108,7 @@ List<History> history = History.listForUser(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `user_id` (Long): Required - User ID.
 
 
@@ -133,7 +133,7 @@ List<History> history = History.listLogins(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 
 
 ---
@@ -157,10 +157,10 @@ List<History> history = History.list(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
-* `sort_by` (Object): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `path`, `created_at`, `folder` or `user_id`.
-* `filter` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
-* `filter_gt` (Object): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `user_id`, `folder` or `path`.
-* `filter_gteq` (Object): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
-* `filter_like` (Object): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
-* `filter_lt` (Object): If set, return records where the specifiied field is less than the supplied value. Valid fields are `user_id`, `folder` or `path`.
-* `filter_lteq` (Object): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `path`, `created_at`, `folder` or `user_id`.
+* `filter` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `filter_gt` (Map<String, String>): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `filter_gteq` (Map<String, String>): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `filter_like` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `filter_lt` (Map<String, String>): If set, return records where the specifiied field is less than the supplied value. Valid fields are `user_id`, `folder` or `path`.
+* `filter_lteq` (Map<String, String>): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.

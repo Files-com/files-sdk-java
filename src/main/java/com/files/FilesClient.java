@@ -11,7 +11,10 @@ import okhttp3.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +41,8 @@ public abstract class FilesClient {
     return filesApi.getFileInputStream(url, start, end);
   }
 
-  public static void putFileOutputStream(String url, String name, OutputStream outputStream) {
-    filesApi.putFileOutputStream(url, name, outputStream);
+  public static long putBufferedInputStream(String url, RequestMethods requestType, String name, BufferedInputStream inputStream) throws IOException {
+    return filesApi.putBufferedInputStream(url, requestType, name, inputStream);
   }
 
   public static void setProperty(String property, String value) {

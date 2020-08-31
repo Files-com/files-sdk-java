@@ -84,4 +84,4 @@ Session session = Session.delete(
 ### Parameters
 
 * `format` (String): 
-* `session` (Object): 
+* `session` (Map<String, String>): 

@@ -19,4 +19,8 @@ public class ModelUtils {
     }
     return parameters;
   }
+
+  public static String forceMandatoryUriEncode(String uri) {
+    return uri.replaceAll(";", "%3B");
+  }
 }

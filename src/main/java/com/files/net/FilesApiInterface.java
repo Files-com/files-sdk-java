@@ -3,6 +3,7 @@ package com.files.net;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.files.util.FilesInputStream;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -17,5 +18,5 @@ public interface FilesApiInterface {
 
   public FilesInputStream getFileInputStream(String url, long start, long end) throws IOException;
 
-  public void putFileOutputStream(String url, String name, OutputStream outputStream);
+  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream) throws IOException;
 }

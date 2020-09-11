@@ -173,6 +173,14 @@ public class Bundle {
   private Long inboxId;
 
   /**
+  * Does this bundle have an associated inbox?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("has_inbox")
+  private Boolean hasInbox;
+
+  /**
   * A list of paths in this bundle
   */
   @Getter

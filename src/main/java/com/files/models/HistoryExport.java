@@ -70,7 +70,7 @@ public class HistoryExport {
   private Date endAt;
 
   /**
-  * Status of export.  Will be: `building` or `ready`
+  * Status of export.  Will be: `building`, `ready`, or `failed`
   */
   @Getter
   @Setter

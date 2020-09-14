@@ -458,15 +458,15 @@ public class ApiKey {
   *   format - string
   *   api_key - object
   */
-  public static ApiKey deleteCurrent() throws IOException{
-    return deleteCurrent(null,null);
+  public static ApiKey current() throws IOException{
+    return current(null,null);
   }
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters) throws IOException {
-    return deleteCurrent(parameters, null);
+  public static ApiKey current( HashMap<String, Object> parameters) throws IOException {
+    return current(parameters, null);
   }
 
 
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey current( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

@@ -159,7 +159,7 @@ ApiKey apiKey = ApiKey.update(
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
 ```
-ApiKey apiKey = ApiKey.deleteCurrent(
+ApiKey apiKey = ApiKey.current(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

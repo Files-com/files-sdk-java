@@ -39,6 +39,7 @@
   "public_keys_count": 1,
   "receive_admin_alerts": true,
   "require_2fa": true,
+  "active_2fa": true,
   "require_password_change": true,
   "restapi_permission": true,
   "self_managed": true,
@@ -88,6 +89,7 @@
 * `public_keys_count` / `publicKeysCount`  (int64): Number of public keys associated with this user
 * `receive_admin_alerts` / `receiveAdminAlerts`  (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_2fa` / `require2fa`  (boolean): Is 2fa required to sign in?
+* `active_2fa` / `active2fa`  (boolean): Is 2fa required to sign in?
 * `require_password_change` / `requirePasswordChange`  (boolean): Is a password change required upon next user login?
 * `restapi_permission` / `restapiPermission`  (boolean): Can this user access the REST API?
 * `self_managed` / `selfManaged`  (boolean): Does this user manage it's own credentials or is it a shared/bot user?

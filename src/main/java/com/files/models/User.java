@@ -309,6 +309,14 @@ public class User {
   private Boolean require2fa;
 
   /**
+  * Is 2fa required to sign in?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("active_2fa")
+  private Boolean active2fa;
+
+  /**
   * Is a password change required upon next user login?
   */
   @Getter

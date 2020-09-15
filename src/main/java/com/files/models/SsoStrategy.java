@@ -242,6 +242,13 @@ public class SsoStrategy {
   private String provisionTimeZone;
 
   /**
+  * Default company for auto provisioned users.
+  */
+  @Getter
+  @JsonProperty("provision_company")
+  private String provisionCompany;
+
+  /**
   * Base DN for looking up users in LDAP server
   */
   @Getter

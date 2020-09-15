@@ -242,6 +242,13 @@ public class Site {
   private String email;
 
   /**
+  * Reply-to email for this site
+  */
+  @Getter
+  @JsonProperty("reply_to_email")
+  private String replyToEmail;
+
+  /**
   * If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
   */
   @Getter
@@ -885,6 +892,7 @@ public class Site {
   *   subdomain - string - Site subdomain
   *   domain - string - Custom domain
   *   email - string - Main email for this site
+  *   reply_to_email - string - Reply-to email for this site
   *   allow_bundle_names - boolean - Are manual Bundle names allowed?
   *   bundle_expiration - int64 - Site-wide Bundle expiration in days
   *   overage_notify - boolean - Notify site email of overages?
@@ -1010,6 +1018,10 @@ public class Site {
 
     if (parameters.containsKey("email") && !(parameters.get("email") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
+    }
+
+    if (parameters.containsKey("reply_to_email") && !(parameters.get("reply_to_email") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: reply_to_email must be of type String parameters[\"reply_to_email\"]");
     }
 
     if (parameters.containsKey("allow_bundle_names") && !(parameters.get("allow_bundle_names") instanceof Boolean )) {

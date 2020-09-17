@@ -137,7 +137,7 @@ public class HistoryExportResult {
   private String failureType;
 
   /**
-  * Inteface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`
+  * Inteface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
   */
   @Getter
   @JsonProperty("interface")

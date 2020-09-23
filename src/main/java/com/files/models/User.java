@@ -309,7 +309,7 @@ public class User {
   private Boolean require2fa;
 
   /**
-  * Is 2fa required to sign in?
+  * Is 2fa active for the user?
   */
   @Getter
   @Setter

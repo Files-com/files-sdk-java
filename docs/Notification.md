@@ -10,6 +10,7 @@
   "group_name": "",
   "notify_user_actions": true,
   "notify_on_copy": true,
+  "recursive": true,
   "send_interval": "fifteen_minutes",
   "unsubscribed": true,
   "unsubscribed_reason": "",
@@ -25,6 +26,7 @@
 * `group_name` / `groupName`  (string): Group name if applicable
 * `notify_user_actions` / `notifyUserActions`  (boolean): Trigger notification on notification user actions?
 * `notify_on_copy` / `notifyOnCopy`  (boolean): Triggers notification when moving or copying files to this path
+* `recursive` / `recursive`  (boolean): Enable notifications for each subfolder in this path
 * `send_interval` / `sendInterval`  (string): The time interval that notifications are aggregated to
 * `unsubscribed` / `unsubscribed`  (boolean): Is the user unsubscribed from this notification?
 * `unsubscribed_reason` / `unsubscribedReason`  (string): The reason that the user unsubscribed
@@ -98,6 +100,7 @@ Notification notification = Notification.create(
 * `user_id` (Long): The id of the user to notify. Provide `user_id`, `username` or `group_id`.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
+* `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
 * `group_id` (Long): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 * `path` (String): Path
@@ -121,6 +124,7 @@ Notification notification = Notification.update(
 * `id` (Long): Required - Notification ID.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
+* `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
 
 
@@ -152,6 +156,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("notify_on_copy", true);
 parameters.put("notify_user_actions", true);
+parameters.put("recursive", true);
 parameters.put("send_interval", "daily");
 
 Notification.Update(parameters);
@@ -162,6 +167,7 @@ Notification.Update(parameters);
 * `id` (Long): Required - Notification ID.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
+* `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
 
 

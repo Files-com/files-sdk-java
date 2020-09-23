@@ -94,6 +94,14 @@ public class Notification {
   private Boolean notifyOnCopy;
 
   /**
+  * Enable notifications for each subfolder in this path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("recursive")
+  private Boolean recursive;
+
+  /**
   * The time interval that notifications are aggregated to
   */
   @Getter
@@ -145,6 +153,7 @@ public class Notification {
   * Parameters:
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   */
   public Notification update(HashMap<String, Object> parameters) {
@@ -320,6 +329,7 @@ public class Notification {
   *   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
   *   path - string - Path
@@ -349,6 +359,10 @@ public class Notification {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
     }
 
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
+    }
+
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
     }
@@ -375,6 +389,7 @@ public class Notification {
   * Parameters:
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   */
   public static Notification update() throws IOException{
@@ -405,6 +420,10 @@ public class Notification {
 
     if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
+    }
+
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
 
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String )) {

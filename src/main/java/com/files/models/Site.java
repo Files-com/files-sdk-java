@@ -95,6 +95,13 @@ public class Site {
   private Boolean allowBundleNames;
 
   /**
+  * Comma seperated list of allowed Country codes
+  */
+  @Getter
+  @JsonProperty("allowed_countries")
+  private String allowedCountries;
+
+  /**
   * List of allowed IP addresses
   */
   @Getter
@@ -212,6 +219,13 @@ public class Site {
   @Getter
   @JsonProperty("desktop_app_session_lifetime")
   private Long desktopAppSessionLifetime;
+
+  /**
+  * Comma seperated list of disallowed Country codes
+  */
+  @Getter
+  @JsonProperty("disallowed_countries")
+  private String disallowedCountries;
 
   /**
   * Are notifications disabled?
@@ -918,7 +932,9 @@ public class Site {
   *   user_lockout_within - int64 - Number of hours for user lockout window
   *   user_lockout_lock_period - int64 - How many hours to lock user out for failed password?
   *   include_password_in_welcome_email - boolean - Include password in emails to new users?
+  *   allowed_countries - string - Comma seperated list of allowed Country codes
   *   allowed_ips - string - List of allowed IP addresses
+  *   disallowed_countries - string - Comma seperated list of disallowed Country codes
   *   days_to_retain_backups - int64 - Number of days to keep deleted files
   *   max_prior_passwords - int64 - Number of prior passwords to disallow
   *   password_validity_days - int64 - Number of days password is valid
@@ -1124,8 +1140,16 @@ public class Site {
       throw new IllegalArgumentException("Bad parameter: include_password_in_welcome_email must be of type Boolean parameters[\"include_password_in_welcome_email\"]");
     }
 
+    if (parameters.containsKey("allowed_countries") && !(parameters.get("allowed_countries") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: allowed_countries must be of type String parameters[\"allowed_countries\"]");
+    }
+
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
+    }
+
+    if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: disallowed_countries must be of type String parameters[\"disallowed_countries\"]");
     }
 
     if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long )) {

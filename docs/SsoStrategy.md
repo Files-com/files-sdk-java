@@ -29,6 +29,7 @@
   "provision_group_exclusion": "Employees",
   "provision_group_inclusion": "Employees",
   "provision_group_required": "",
+  "provision_site_admin_groups": "Employees",
   "provision_attachments_permission": true,
   "provision_dav_permission": true,
   "provision_ftp_permission": true,
@@ -71,6 +72,7 @@
 * `provision_group_exclusion` / `provisionGroupExclusion`  (string): Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
 * `provision_group_inclusion` / `provisionGroupInclusion`  (string): Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
 * `provision_group_required` / `provisionGroupRequired`  (string): Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
+* `provision_site_admin_groups` / `provisionSiteAdminGroups`  (string): Comma-separated list of group names whose members will be created as Site Admins.
 * `provision_attachments_permission` / `provisionAttachmentsPermission`  (boolean): Auto-provisioned users get Sharing permission?
 * `provision_dav_permission` / `provisionDavPermission`  (boolean): Auto-provisioned users get WebDAV permission?
 * `provision_ftp_permission` / `provisionFtpPermission`  (boolean): Auto-provisioned users get FTP permission?

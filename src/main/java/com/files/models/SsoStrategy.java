@@ -207,6 +207,13 @@ public class SsoStrategy {
   private String provisionGroupRequired;
 
   /**
+  * Comma-separated list of group names whose members will be created as Site Admins.
+  */
+  @Getter
+  @JsonProperty("provision_site_admin_groups")
+  private String provisionSiteAdminGroups;
+
+  /**
   * Auto-provisioned users get Sharing permission?
   */
   @Getter

@@ -38,7 +38,7 @@
   "password_validity_days": 1,
   "public_keys_count": 1,
   "receive_admin_alerts": true,
-  "require_2fa": true,
+  "require_2fa": "always_require",
   "active_2fa": true,
   "require_password_change": true,
   "restapi_permission": true,
@@ -88,7 +88,7 @@
 * `password_validity_days` / `passwordValidityDays`  (int64): Number of days to allow user to use the same password
 * `public_keys_count` / `publicKeysCount`  (int64): Number of public keys associated with this user
 * `receive_admin_alerts` / `receiveAdminAlerts`  (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
-* `require_2fa` / `require2fa`  (boolean): Is 2fa required to sign in?
+* `require_2fa` / `require2fa`  (string): 2FA required setting
 * `active_2fa` / `active2fa`  (boolean): Is 2fa active for the user?
 * `require_password_change` / `requirePasswordChange`  (boolean): Is a password change required upon next user login?
 * `restapi_permission` / `restapiPermission`  (boolean): Can this user access the REST API?
@@ -220,6 +220,7 @@ User user = User.create(
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
+* `require_2fa` (String): 2FA required setting
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
@@ -330,6 +331,7 @@ User user = User.update(
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
+* `require_2fa` (String): 2FA required setting
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
@@ -447,6 +449,7 @@ parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
 parameters.put("sso_strategy_id", 1);
 parameters.put("subscribe_to_newsletter", true);
+parameters.put("require_2fa", "always_require");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
 parameters.put("username", "user");
 
@@ -495,6 +498,7 @@ User.Update(parameters);
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
+* `require_2fa` (String): 2FA required setting
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username

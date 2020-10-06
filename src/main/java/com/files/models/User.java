@@ -301,12 +301,12 @@ public class User {
   private Boolean receiveAdminAlerts;
 
   /**
-  * Is 2fa required to sign in?
+  * 2FA required setting
   */
   @Getter
   @Setter
   @JsonProperty("require_2fa")
-  private Boolean require2fa;
+  private String require2fa;
 
   /**
   * Is 2fa active for the user?
@@ -554,6 +554,7 @@ public class User {
   *   ssl_required - string - SSL required setting
   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+  *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
@@ -771,6 +772,7 @@ public class User {
   *   ssl_required - string - SSL required setting
   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+  *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
@@ -943,6 +945,10 @@ public class User {
       throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
     }
 
+    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: require_2fa must be of type String parameters[\"require_2fa\"]");
+    }
+
     if (parameters.containsKey("time_zone") && !(parameters.get("time_zone") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: time_zone must be of type String parameters[\"time_zone\"]");
     }
@@ -1104,6 +1110,7 @@ public class User {
   *   ssl_required - string - SSL required setting
   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+  *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
@@ -1284,6 +1291,10 @@ public class User {
 
     if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
+    }
+
+    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: require_2fa must be of type String parameters[\"require_2fa\"]");
     }
 
     if (parameters.containsKey("time_zone") && !(parameters.get("time_zone") instanceof String )) {

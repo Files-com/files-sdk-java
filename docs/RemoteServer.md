@@ -12,10 +12,10 @@
   "max_connections": 1,
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
-  "server_certificate": "[certificate]",
+  "server_certificate": "require_match",
   "server_host_key": "[public key]",
   "server_type": "s3",
-  "ssl": "always",
+  "ssl": "if_available",
   "username": "user",
   "google_cloud_storage_bucket": "my-bucket",
   "google_cloud_storage_project_id": "my-project",
@@ -250,10 +250,10 @@ parameters.put("max_connections", 1);
 parameters.put("port", 1);
 parameters.put("s3_bucket", "my-bucket");
 parameters.put("s3_region", "us-east-1");
-parameters.put("server_certificate", "[certificate]");
+parameters.put("server_certificate", "require_match");
 parameters.put("server_host_key", "[public key]");
 parameters.put("server_type", "s3");
-parameters.put("ssl", "always");
+parameters.put("ssl", "if_available");
 parameters.put("username", "user");
 parameters.put("google_cloud_storage_bucket", "my-bucket");
 parameters.put("google_cloud_storage_project_id", "my-project");

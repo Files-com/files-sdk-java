@@ -302,6 +302,14 @@ public class RemoteServer {
   private String privateKey;
 
   /**
+  * SSL client certificate.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("ssl_certificate")
+  private String sslCertificate;
+
+  /**
   * A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
   */
   @Getter
@@ -371,6 +379,7 @@ public class RemoteServer {
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.
   *   private_key - string - Private key if needed.
+  *   ssl_certificate - string - SSL client certificate.
   *   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
   *   wasabi_access_key - string - Wasabi access key.
   *   wasabi_secret_key - string - Wasabi secret key.
@@ -522,6 +531,7 @@ public class RemoteServer {
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.
   *   private_key - string - Private key if needed.
+  *   ssl_certificate - string - SSL client certificate.
   *   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
   *   wasabi_access_key - string - Wasabi access key.
   *   wasabi_secret_key - string - Wasabi secret key.
@@ -580,6 +590,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("ssl_certificate") && !(parameters.get("ssl_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: ssl_certificate must be of type String parameters[\"ssl_certificate\"]");
     }
 
     if (parameters.containsKey("google_cloud_storage_credentials_json") && !(parameters.get("google_cloud_storage_credentials_json") instanceof String )) {
@@ -718,6 +732,7 @@ public class RemoteServer {
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.
   *   private_key - string - Private key if needed.
+  *   ssl_certificate - string - SSL client certificate.
   *   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
   *   wasabi_access_key - string - Wasabi access key.
   *   wasabi_secret_key - string - Wasabi secret key.
@@ -786,6 +801,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("ssl_certificate") && !(parameters.get("ssl_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: ssl_certificate must be of type String parameters[\"ssl_certificate\"]");
     }
 
     if (parameters.containsKey("google_cloud_storage_credentials_json") && !(parameters.get("google_cloud_storage_credentials_json") instanceof String )) {

@@ -185,10 +185,8 @@ public class Folder {
 
   /**
   * Parameters:
-  *   page - int64 - Current page number.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string - Action to take.  Can be `count`, `size`, `permissions`, or blank.
   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor header.
+  *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   path (required) - string - Path to operate on.
   *   filter - string - If specified, will to filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
@@ -215,20 +213,12 @@ public class Folder {
     if (path != null){
       parameters.put("path",path);
     }
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
-    }
-
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {

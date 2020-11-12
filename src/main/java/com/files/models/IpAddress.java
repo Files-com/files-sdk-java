@@ -77,10 +77,8 @@ public class IpAddress {
 
   /**
   * Parameters:
-  *   page - int64 - Current page number.
+  *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-  *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   */
   public static List<IpAddress> list() throws IOException{
     return list(null,null);
@@ -94,20 +92,12 @@ public class IpAddress {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
-    }
-
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     String url = String.format("%s%s/ip_addresses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -125,10 +115,8 @@ public class IpAddress {
 
   /**
   * Parameters:
-  *   page - int64 - Current page number.
+  *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string - Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-  *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   */
   public static IpAddress getReserved() throws IOException{
     return getReserved(null,null);
@@ -142,20 +130,12 @@ public class IpAddress {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
-    }
-
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     String url = String.format("%s%s/ip_addresses/reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

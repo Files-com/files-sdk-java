@@ -29,10 +29,8 @@ List<SettingsChange> settingsChange = SettingsChange.list(
 
 ### Parameters
 
-* `page` (Long): Current page number.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `api_key_id`, `created_at` or `user_id`.
 * `filter` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
 * `filter_gt` (Map<String, String>): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `api_key_id` and `user_id`.

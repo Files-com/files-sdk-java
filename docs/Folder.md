@@ -55,10 +55,8 @@ List<Folder> folder = Folder.listFor(
 
 ### Parameters
 
-* `page` (Long): Current page number.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (String): Action to take.  Can be `count`, `size`, `permissions`, or blank.
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor header.
+* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `path` (String): Required - Path to operate on.
 * `filter` (String): If specified, will to filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.

@@ -37,10 +37,8 @@ List<GroupUser> groupUser = GroupUser.list(
 ### Parameters
 
 * `user_id` (Long): User ID.  If provided, will return group_users of this user.
-* `page` (Long): Current page number.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `group_id` (Long): Group ID.  If provided, will return group_users of this group.
 
 

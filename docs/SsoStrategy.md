@@ -19,6 +19,8 @@
   "saml_provider_sso_target_url": "",
   "scim_authentication_method": "",
   "scim_username": "",
+  "scim_oauth_access_token": "",
+  "scim_oauth_access_token_expires_at": "",
   "subdomain": "my-site",
   "provision_users": true,
   "provision_groups": true,
@@ -62,6 +64,8 @@
 * `saml_provider_sso_target_url` / `samlProviderSsoTargetUrl`  (string): Identity provider SSO endpoint if saml_provider_metadata_url is not available.
 * `scim_authentication_method` / `scimAuthenticationMethod`  (string): SCIM authentication type.
 * `scim_username` / `scimUsername`  (string): SCIM username.
+* `scim_oauth_access_token` / `scimOauthAccessToken`  (string): SCIM OAuth Access Token.
+* `scim_oauth_access_token_expires_at` / `scimOauthAccessTokenExpiresAt`  (string): SCIM OAuth Access Token Expiration Time.
 * `subdomain` / `subdomain`  (string): Subdomain
 * `provision_users` / `provisionUsers`  (boolean): Auto-provision users?
 * `provision_groups` / `provisionGroups`  (boolean): Auto-provision group membership based on group memberships on the SSO side?
@@ -105,10 +109,8 @@ List<SsoStrategy> ssoStrategy = SsoStrategy.list(
 
 ### Parameters
 
-* `page` (Long): Current page number.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `action` (String): Deprecated: If set to `count` returns a count of matching records rather than the records themselves.
-* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 
 
 ---

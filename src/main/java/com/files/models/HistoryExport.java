@@ -70,22 +70,6 @@ public class HistoryExport {
   private Date endAt;
 
   /**
-  * Export format
-  */
-  @Getter
-  @Setter
-  @JsonProperty("export_as")
-  private String exportAs;
-
-  /**
-  * Is a file export, downloadable using the results_url
-  */
-  @Getter
-  @Setter
-  @JsonProperty("file_export")
-  private Boolean fileExport;
-
-  /**
   * Status of export.  Will be: `building`, `ready`, or `failed`
   */
   @Getter
@@ -318,7 +302,6 @@ public class HistoryExport {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   start_at - string - Start date/time of export range.
   *   end_at - string - End date/time of export range.
-  *   export_as - string - Export format
   *   query_action - string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
   *   query_interface - string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`
   *   query_user_id - string - Return results that are actions performed by the user indiciated by this User ID
@@ -361,10 +344,6 @@ public class HistoryExport {
 
     if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
-    }
-
-    if (parameters.containsKey("export_as") && !(parameters.get("export_as") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: export_as must be of type String parameters[\"export_as\"]");
     }
 
     if (parameters.containsKey("query_action") && !(parameters.get("query_action") instanceof String )) {

@@ -150,8 +150,24 @@ public class Automation {
   private Object[] groupIds;
 
   /**
+  * How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger")
+  private String trigger;
+
+  /**
+  * Custom schedule description for when the automation should be run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("schedule")
+  private Map<String, String> schedule;
+
+  /**
   * Parameters:
-  *   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - Destination Path
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -160,6 +176,8 @@ public class Automation {
   *   path - string - Path on which this Automation runs.  Supports globs.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+  *   schedule - object - Custom schedule for running this automation.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
   */
   public Automation update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -306,7 +324,7 @@ public class Automation {
 
   /**
   * Parameters:
-  *   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - Destination Path
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -315,6 +333,8 @@ public class Automation {
   *   path - string - Path on which this Automation runs.  Supports globs.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+  *   schedule - object - Custom schedule for running this automation.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -364,6 +384,14 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
 
+    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    }
+
+    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
+    }
+
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
@@ -375,7 +403,7 @@ public class Automation {
 
   /**
   * Parameters:
-  *   automation (required) - string - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - Destination Path
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -384,6 +412,8 @@ public class Automation {
   *   path - string - Path on which this Automation runs.  Supports globs.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+  *   schedule - object - Custom schedule for running this automation.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
   */
   public static Automation update() throws IOException{
     return update(null, null,null);
@@ -441,6 +471,14 @@ public class Automation {
 
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
+    }
+
+    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    }
+
+    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

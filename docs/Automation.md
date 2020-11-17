@@ -20,7 +20,20 @@
   ],
   "group_ids": [
 
-  ]
+  ],
+  "trigger": "realtime",
+  "schedule": {
+    "days_of_week": [
+      0,
+      2,
+      4
+    ],
+    "times_of_day": [
+      "6:30",
+      "14:30"
+    ],
+    "time_zone": "Eastern Time (US & Canada)"
+  }
 }
 ```
 
@@ -37,6 +50,8 @@
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
+* `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `schedule` / `schedule`  (object): Custom schedule description for when the automation should be run.
 
 
 ---
@@ -96,7 +111,7 @@ Automation automation = Automation.create(
 
 ### Parameters
 
-* `automation` (String): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (String): Required - Automation type
 * `source` (String): Source Path
 * `destination` (String): Destination Path
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -105,6 +120,8 @@ Automation automation = Automation.create(
 * `path` (String): Path on which this Automation runs.  Supports globs.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---
@@ -122,7 +139,7 @@ Automation automation = Automation.update(
 ### Parameters
 
 * `id` (Long): Required - Automation ID.
-* `automation` (String): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (String): Required - Automation type
 * `source` (String): Source Path
 * `destination` (String): Destination Path
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -131,6 +148,8 @@ Automation automation = Automation.update(
 * `path` (String): Path on which this Automation runs.  Supports globs.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---
@@ -163,6 +182,8 @@ parameters.put("automation", "create_folder");
 parameters.put("source", "source");
 parameters.put("destination", "destination");
 parameters.put("interval", "year");
+parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
+parameters.put("trigger", "realtime");
 
 Automation.Update(parameters);
 ```
@@ -170,7 +191,7 @@ Automation.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Automation ID.
-* `automation` (String): Required - Type of automation.  One of: `create_folder`, `request_file`, `request_move`
+* `automation` (String): Required - Automation type
 * `source` (String): Source Path
 * `destination` (String): Destination Path
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -179,6 +200,8 @@ Automation.Update(parameters);
 * `path` (String): Path on which this Automation runs.  Supports globs.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
 
 
 ---

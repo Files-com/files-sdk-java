@@ -517,6 +517,217 @@ public class RemoteServer {
 
   /**
   * Parameters:
+  *   remote_server_id - int64 - RemoteServer ID
+  *   root - string - Remote path to list
+  *   aws_access_key - string - AWS Access Key.
+  *   aws_secret_key - string - AWS secret key.
+  *   password - string - Password if needed.
+  *   private_key - string - Private key if needed.
+  *   ssl_certificate - string - SSL client certificate.
+  *   google_cloud_storage_credentials_json - string - A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+  *   wasabi_access_key - string - Wasabi access key.
+  *   wasabi_secret_key - string - Wasabi secret key.
+  *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage keyID.
+  *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage applicationKey.
+  *   rackspace_api_key - string - Rackspace API key from the Rackspace Cloud Control Panel.
+  *   reset_authentication - boolean - Reset authenticated account
+  *   azure_blob_storage_access_key - string - Azure Blob Storage secret key.
+  *   hostname - string
+  *   name - string
+  *   max_connections - int64
+  *   port - int64
+  *   s3_bucket - string
+  *   s3_region - string
+  *   server_certificate - string
+  *   server_host_key - string
+  *   server_type - string
+  *   ssl - string
+  *   username - string
+  *   google_cloud_storage_bucket - string
+  *   google_cloud_storage_project_id - string
+  *   backblaze_b2_bucket - string
+  *   backblaze_b2_s3_endpoint - string
+  *   wasabi_bucket - string
+  *   wasabi_region - string
+  *   rackspace_username - string
+  *   rackspace_region - string
+  *   rackspace_container - string
+  *   one_drive_account_type - string
+  *   azure_blob_storage_account - string
+  *   azure_blob_storage_container - string
+  */
+  public static List<RemoteServer> listForTesting() throws IOException{
+    return listForTesting(null,null);
+  }
+  public static List<RemoteServer> listForTesting( HashMap<String, Object> parameters) throws IOException {
+    return listForTesting(parameters, null);
+  }
+
+
+  public static List<RemoteServer> listForTesting( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long parameters[\"remote_server_id\"]");
+    }
+
+    if (parameters.containsKey("root") && !(parameters.get("root") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: root must be of type String parameters[\"root\"]");
+    }
+
+    if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
+    }
+
+    if (parameters.containsKey("aws_secret_key") && !(parameters.get("aws_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: aws_secret_key must be of type String parameters[\"aws_secret_key\"]");
+    }
+
+    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
+    }
+
+    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("ssl_certificate") && !(parameters.get("ssl_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: ssl_certificate must be of type String parameters[\"ssl_certificate\"]");
+    }
+
+    if (parameters.containsKey("google_cloud_storage_credentials_json") && !(parameters.get("google_cloud_storage_credentials_json") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_credentials_json must be of type String parameters[\"google_cloud_storage_credentials_json\"]");
+    }
+
+    if (parameters.containsKey("wasabi_access_key") && !(parameters.get("wasabi_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: wasabi_access_key must be of type String parameters[\"wasabi_access_key\"]");
+    }
+
+    if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
+    }
+
+    if (parameters.containsKey("backblaze_b2_key_id") && !(parameters.get("backblaze_b2_key_id") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: backblaze_b2_key_id must be of type String parameters[\"backblaze_b2_key_id\"]");
+    }
+
+    if (parameters.containsKey("backblaze_b2_application_key") && !(parameters.get("backblaze_b2_application_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: backblaze_b2_application_key must be of type String parameters[\"backblaze_b2_application_key\"]");
+    }
+
+    if (parameters.containsKey("rackspace_api_key") && !(parameters.get("rackspace_api_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: rackspace_api_key must be of type String parameters[\"rackspace_api_key\"]");
+    }
+
+    if (parameters.containsKey("reset_authentication") && !(parameters.get("reset_authentication") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: reset_authentication must be of type Boolean parameters[\"reset_authentication\"]");
+    }
+
+    if (parameters.containsKey("azure_blob_storage_access_key") && !(parameters.get("azure_blob_storage_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_access_key must be of type String parameters[\"azure_blob_storage_access_key\"]");
+    }
+
+    if (parameters.containsKey("hostname") && !(parameters.get("hostname") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: hostname must be of type String parameters[\"hostname\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long parameters[\"max_connections\"]");
+    }
+
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    }
+
+    if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");
+    }
+
+    if (parameters.containsKey("s3_region") && !(parameters.get("s3_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_region must be of type String parameters[\"s3_region\"]");
+    }
+
+    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
+    }
+
+    if (parameters.containsKey("server_host_key") && !(parameters.get("server_host_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_host_key must be of type String parameters[\"server_host_key\"]");
+    }
+
+    if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
+    }
+
+    if (parameters.containsKey("ssl") && !(parameters.get("ssl") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: ssl must be of type String parameters[\"ssl\"]");
+    }
+
+    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
+    }
+
+    if (parameters.containsKey("google_cloud_storage_bucket") && !(parameters.get("google_cloud_storage_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_bucket must be of type String parameters[\"google_cloud_storage_bucket\"]");
+    }
+
+    if (parameters.containsKey("google_cloud_storage_project_id") && !(parameters.get("google_cloud_storage_project_id") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_project_id must be of type String parameters[\"google_cloud_storage_project_id\"]");
+    }
+
+    if (parameters.containsKey("backblaze_b2_bucket") && !(parameters.get("backblaze_b2_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: backblaze_b2_bucket must be of type String parameters[\"backblaze_b2_bucket\"]");
+    }
+
+    if (parameters.containsKey("backblaze_b2_s3_endpoint") && !(parameters.get("backblaze_b2_s3_endpoint") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: backblaze_b2_s3_endpoint must be of type String parameters[\"backblaze_b2_s3_endpoint\"]");
+    }
+
+    if (parameters.containsKey("wasabi_bucket") && !(parameters.get("wasabi_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: wasabi_bucket must be of type String parameters[\"wasabi_bucket\"]");
+    }
+
+    if (parameters.containsKey("wasabi_region") && !(parameters.get("wasabi_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: wasabi_region must be of type String parameters[\"wasabi_region\"]");
+    }
+
+    if (parameters.containsKey("rackspace_username") && !(parameters.get("rackspace_username") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: rackspace_username must be of type String parameters[\"rackspace_username\"]");
+    }
+
+    if (parameters.containsKey("rackspace_region") && !(parameters.get("rackspace_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: rackspace_region must be of type String parameters[\"rackspace_region\"]");
+    }
+
+    if (parameters.containsKey("rackspace_container") && !(parameters.get("rackspace_container") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: rackspace_container must be of type String parameters[\"rackspace_container\"]");
+    }
+
+    if (parameters.containsKey("one_drive_account_type") && !(parameters.get("one_drive_account_type") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: one_drive_account_type must be of type String parameters[\"one_drive_account_type\"]");
+    }
+
+    if (parameters.containsKey("azure_blob_storage_account") && !(parameters.get("azure_blob_storage_account") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_account must be of type String parameters[\"azure_blob_storage_account\"]");
+    }
+
+    if (parameters.containsKey("azure_blob_storage_container") && !(parameters.get("azure_blob_storage_container") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
+    }
+
+    String url = String.format("%s%s/remote_servers/list_for_testing", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<RemoteServer>> typeReference = new TypeReference<List<RemoteServer>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   aws_access_key - string - AWS Access Key.
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.

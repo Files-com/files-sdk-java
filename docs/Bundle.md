@@ -154,6 +154,7 @@ Bundle bundle = Bundle.update(
 ### Parameters
 
 * `id` (Long): Required - Bundle ID.
+* `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
@@ -216,6 +217,7 @@ Bundle bundle = Bundle.ListFor(path)[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
+parameters.put("paths", ["file.txt"]);
 parameters.put("password", "Password");
 parameters.put("clickwrap_id", 1);
 parameters.put("code", "abc123");
@@ -233,6 +235,7 @@ Bundle.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Bundle ID.
+* `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.

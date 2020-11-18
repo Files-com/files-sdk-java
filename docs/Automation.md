@@ -182,7 +182,7 @@ parameters.put("automation", "create_folder");
 parameters.put("source", "source");
 parameters.put("destination", "destination");
 parameters.put("interval", "year");
-parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
+parameters.put("schedule", "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}");
 parameters.put("trigger", "realtime");
 
 Automation.Update(parameters);

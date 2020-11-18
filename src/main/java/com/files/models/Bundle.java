@@ -210,6 +210,7 @@ public class Bundle {
 
   /**
   * Parameters:
+  *   paths - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -504,6 +505,7 @@ public class Bundle {
 
   /**
   * Parameters:
+  *   paths - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -535,6 +537,10 @@ public class Bundle {
     }
     if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[] )) {
+      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
     }
 
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {

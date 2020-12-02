@@ -62,6 +62,38 @@ public class Automation {
   private String automation;
 
   /**
+  * How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger")
+  private String trigger;
+
+  /**
+  * If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+  */
+  @Getter
+  @Setter
+  @JsonProperty("interval")
+  private String interval;
+
+  /**
+  * If trigger is `daily`, date this automation will next run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("next_process_on")
+  private String nextProcessOn;
+
+  /**
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("schedule")
+  private Map<String, String> schedule;
+
+  /**
   * Source Path
   */
   @Getter
@@ -94,36 +126,12 @@ public class Automation {
   private String destinationReplaceTo;
 
   /**
-  * How often to run this automation?  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-  */
-  @Getter
-  @Setter
-  @JsonProperty("interval")
-  private String interval;
-
-  /**
-  * Date this automation will next run.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("next_process_on")
-  private String nextProcessOn;
-
-  /**
   * Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @Setter
   @JsonProperty("path")
   private String path;
-
-  /**
-  * Does this automation run in real time?  This is a read-only property based on automation type.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("realtime")
-  private Boolean realtime;
 
   /**
   * User ID of the Automation's creator.
@@ -148,22 +156,6 @@ public class Automation {
   @Setter
   @JsonProperty("group_ids")
   private Object[] groupIds;
-
-  /**
-  * How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("trigger")
-  private String trigger;
-
-  /**
-  * Custom schedule description for when the automation should be run.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("schedule")
-  private Map<String, String> schedule;
 
   /**
   * Parameters:

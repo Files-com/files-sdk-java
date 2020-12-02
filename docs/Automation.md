@@ -6,22 +6,9 @@
 {
   "id": 1,
   "automation": "create_folder",
-  "source": "",
-  "destination": "",
-  "destination_replace_from": "",
-  "destination_replace_to": "",
+  "trigger": "realtime",
   "interval": "week",
   "next_process_on": "2020-01-01",
-  "path": "",
-  "realtime": true,
-  "user_id": 1,
-  "user_ids": [
-
-  ],
-  "group_ids": [
-
-  ],
-  "trigger": "realtime",
   "schedule": {
     "days_of_week": [
       0,
@@ -33,25 +20,36 @@
       "14:30"
     ],
     "time_zone": "Eastern Time (US & Canada)"
-  }
+  },
+  "source": "",
+  "destination": "",
+  "destination_replace_from": "",
+  "destination_replace_to": "",
+  "path": "",
+  "user_id": 1,
+  "user_ids": [
+
+  ],
+  "group_ids": [
+
+  ]
 }
 ```
 
 * `id` / `id`  (int64): Automation ID
 * `automation` / `automation`  (string): Automation type
+* `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+* `next_process_on` / `nextProcessOn`  (string): If trigger is `daily`, date this automation will next run.
+* `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
 * `destination` / `destination`  (string): Destination Path
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-* `interval` / `interval`  (string): How often to run this automation?  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-* `next_process_on` / `nextProcessOn`  (string): Date this automation will next run.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `realtime` / `realtime`  (boolean): Does this automation run in real time?  This is a read-only property based on automation type.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
-* `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
-* `schedule` / `schedule`  (object): Custom schedule description for when the automation should be run.
 
 
 ---

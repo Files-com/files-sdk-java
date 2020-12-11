@@ -38,7 +38,7 @@
 
 * `id` / `id`  (int64): Automation ID
 * `automation` / `automation`  (string): Automation type
-* `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `next_process_on` / `nextProcessOn`  (string): If trigger is `daily`, date this automation will next run.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
@@ -119,7 +119,7 @@ Automation automation = Automation.create(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
-* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---
@@ -147,7 +147,7 @@ Automation automation = Automation.update(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
-* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---
@@ -199,7 +199,7 @@ Automation.Update(parameters);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
-* `trigger` (String): How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+* `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
 
 
 ---

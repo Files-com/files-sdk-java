@@ -62,7 +62,7 @@ public class Automation {
   private String automation;
 
   /**
-  * How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
   */
   @Getter
   @Setter
@@ -169,7 +169,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
   */
   public Automation update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -326,7 +326,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -405,7 +405,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime` or `custom_schedule`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
   */
   public static Automation update() throws IOException{
     return update(null, null,null);

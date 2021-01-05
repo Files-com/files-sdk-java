@@ -7,14 +7,14 @@
   "id": 1,
   "name": "owners",
   "admin_ids": [
-
+    1
   ],
   "notes": "",
   "user_ids": [
-
+    1
   ],
   "usernames": [
-
+    "user"
   ]
 }
 ```
@@ -43,7 +43,7 @@ List<Group> group = Group.list(
 
 * `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `active`, `site_id` or `name`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `name`.
 * `filter` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `name`.
 * `filter_gt` (Map<String, String>): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `name`.
 * `filter_gteq` (Map<String, String>): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `name`.
@@ -138,6 +138,8 @@ Group group = Group.ListFor(path)[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "owners");
+parameters.put("user_ids", [1]);
+parameters.put("admin_ids", [1]);
 
 Group.Update(parameters);
 ```

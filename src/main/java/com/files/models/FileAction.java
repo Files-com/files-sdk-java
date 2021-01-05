@@ -46,6 +46,20 @@ public class FileAction {
   }
 
   /**
+  * Status of file operation. Possible values: completed, enqueued.
+  */
+  @Getter
+  @JsonProperty("status")
+  private String status;
+
+  /**
+  * If status is enqueued, this is the id of the FileMigration to check for status updates.
+  */
+  @Getter
+  @JsonProperty("file_migration_id")
+  private Long fileMigrationId;
+
+  /**
   * Copy file/folder
   *
   * Parameters:

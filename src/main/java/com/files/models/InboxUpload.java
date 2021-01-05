@@ -23,19 +23,19 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-public class BundleDownload {
+public class InboxUpload {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public BundleDownload() {
+  public InboxUpload() {
     this(null, null);
   }
 
-  public BundleDownload(HashMap<String, Object> parameters) {
+  public InboxUpload(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public BundleDownload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public InboxUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -48,25 +48,18 @@ public class BundleDownload {
   /**
   */
   @Getter
-  @JsonProperty("bundle_registration")
-  private Map<String, String> bundleRegistration;
+  @JsonProperty("inbox_registration")
+  private Map<String, String> inboxRegistration;
 
   /**
-  * Download method (file or full_zip)
-  */
-  @Getter
-  @JsonProperty("download_method")
-  private String downloadMethod;
-
-  /**
-  * Download path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
   private String path;
 
   /**
-  * Download date/time
+  * Upload date/time
   */
   @Getter
   @JsonProperty("created_at")
@@ -78,18 +71,18 @@ public class BundleDownload {
   * Parameters:
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   bundle_id - int64 - Bundle ID
-  *   bundle_registration_id - int64 - BundleRegistration ID
+  *   inbox_registration_id - int64 - InboxRegistration ID
+  *   inbox_id - int64 - Inbox ID
   */
-  public static List<BundleDownload> list() throws IOException{
+  public static List<InboxUpload> list() throws IOException{
     return list(null,null);
   }
-  public static List<BundleDownload> list( HashMap<String, Object> parameters) throws IOException {
+  public static List<InboxUpload> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<BundleDownload> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<InboxUpload> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -101,24 +94,24 @@ public class BundleDownload {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
+    if (parameters.containsKey("inbox_registration_id") && !(parameters.get("inbox_registration_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: inbox_registration_id must be of type Long parameters[\"inbox_registration_id\"]");
     }
 
-    if (parameters.containsKey("bundle_registration_id") && !(parameters.get("bundle_registration_id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: bundle_registration_id must be of type Long parameters[\"bundle_registration_id\"]");
+    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
 
-    String url = String.format("%s%s/bundle_downloads", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<BundleDownload>> typeReference = new TypeReference<List<BundleDownload>>() {};
+    String url = String.format("%s%s/inbox_uploads", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<InboxUpload>> typeReference = new TypeReference<List<InboxUpload>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<BundleDownload> all() throws IOException {
+  public static List<InboxUpload> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

@@ -102,6 +102,14 @@ public class Bundle {
   private String clickwrapBody;
 
   /**
+  * Custom Form to use
+  */
+  @Getter
+  @Setter
+  @JsonProperty("form_field_set")
+  private Map<String, String> formFieldSet;
+
+  /**
   * Bundle ID
   */
   @Getter
@@ -197,6 +205,14 @@ public class Bundle {
   private String password;
 
   /**
+  * Id of Form Field Set to use with this bundle
+  */
+  @Getter
+  @Setter
+  @JsonProperty("form_field_set_id")
+  private Long formFieldSetId;
+
+  /**
   * Send email(s) with a link to bundle
   *
   * Parameters:
@@ -212,6 +228,7 @@ public class Bundle {
   * Parameters:
   *   paths - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
+  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
   *   description - string - Public description
@@ -250,7 +267,7 @@ public class Bundle {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `created_at` or `code`.
+  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at` and `code`.
   *   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
   *   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
   *   filter_gteq - object - If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `created_at`.
@@ -370,6 +387,7 @@ public class Bundle {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   paths (required) - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
+  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
   *   expires_at - string - Bundle expiration date/time
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   description - string - Public description
@@ -402,6 +420,10 @@ public class Bundle {
 
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
+    }
+
+    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
 
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
@@ -507,6 +529,7 @@ public class Bundle {
   * Parameters:
   *   paths - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
+  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
   *   description - string - Public description
@@ -545,6 +568,10 @@ public class Bundle {
 
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
+    }
+
+    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
 
     if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long )) {

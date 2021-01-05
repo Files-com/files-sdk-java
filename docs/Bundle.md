@@ -11,6 +11,32 @@
   "require_registration": true,
   "require_share_recipient": true,
   "clickwrap_body": "[Legal text]",
+  "form_field_set": {
+    "id": 1,
+    "title": "Sample Form Title",
+    "form_layout": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "form_fields": [
+      {
+        "id": 1,
+        "label": "Sample Label",
+        "required": true,
+        "help_text": "Help Text",
+        "field_type": "text",
+        "options_for_select": [
+          "red",
+          "green",
+          "blue"
+        ],
+        "default_option": "red",
+        "form_field_set_id": 1
+      }
+    ]
+  },
   "id": 1,
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
@@ -22,7 +48,7 @@
   "inbox_id": 1,
   "has_inbox": true,
   "paths": [
-
+    "file.txt"
   ]
 }
 ```
@@ -34,6 +60,7 @@
 * `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `clickwrap_body` / `clickwrapBody`  (string): Legal text that must be agreed to prior to accessing Bundle.
+* `form_field_set` / `formFieldSet` : Custom Form to use
 * `id` / `id`  (int64): Bundle ID
 * `created_at` / `createdAt`  (date-time): Bundle created at date/time
 * `expires_at` / `expiresAt`  (date-time): Bundle expiration date/time
@@ -46,6 +73,7 @@
 * `has_inbox` / `hasInbox`  (boolean): Does this bundle have an associated inbox?
 * `paths` / `paths`  (array): A list of paths in this bundle
 * `password` / `password`  (string): Password for this bundle.
+* `form_field_set_id` / `formFieldSetId`  (int64): Id of Form Field Set to use with this bundle
 
 
 ---
@@ -65,7 +93,7 @@ List<Bundle> bundle = Bundle.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `site_id`, `created_at` or `code`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at` and `code`.
 * `filter` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
 * `filter_gt` (Map<String, String>): If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
 * `filter_gteq` (Map<String, String>): If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `created_at`.
@@ -108,6 +136,7 @@ Bundle bundle = Bundle.create(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `paths` (String[]): Required - A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `expires_at` (String): Bundle expiration date/time
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `description` (String): Public description
@@ -156,6 +185,7 @@ Bundle bundle = Bundle.update(
 * `id` (Long): Required - Bundle ID.
 * `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
 * `description` (String): Public description
@@ -219,6 +249,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("paths", ["file.txt"]);
 parameters.put("password", "Password");
+parameters.put("form_field_set_id", 1);
 parameters.put("clickwrap_id", 1);
 parameters.put("code", "abc123");
 parameters.put("description", "The public description of the bundle.");
@@ -237,6 +268,7 @@ Bundle.Update(parameters);
 * `id` (Long): Required - Bundle ID.
 * `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
 * `description` (String): Public description

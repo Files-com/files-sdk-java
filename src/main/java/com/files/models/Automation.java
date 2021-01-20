@@ -62,7 +62,7 @@ public class Automation {
   private String automation;
 
   /**
-  * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+  * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   */
   @Getter
   @Setter
@@ -166,6 +166,22 @@ public class Automation {
   private String webhookUrl;
 
   /**
+  * If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger_actions")
+  private String triggerActions;
+
+  /**
+  * If trigger is `action`, this is the path to watch for the specified trigger actions.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger_action_path")
+  private String triggerActionPath;
+
+  /**
   * Parameters:
   *   automation (required) - string - Automation type
   *   source - string - Source Path
@@ -177,7 +193,9 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+  *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
   */
   public Automation update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -334,7 +352,9 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+  *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -392,6 +412,14 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
 
+    if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[] )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
+    }
+
+    if (parameters.containsKey("trigger_action_path") && !(parameters.get("trigger_action_path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_action_path must be of type String parameters[\"trigger_action_path\"]");
+    }
+
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
@@ -413,7 +441,9 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, or `email`.
+  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+  *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
   */
   public static Automation update() throws IOException{
     return update(null, null,null);
@@ -479,6 +509,14 @@ public class Automation {
 
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
+    }
+
+    if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[] )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
+    }
+
+    if (parameters.containsKey("trigger_action_path") && !(parameters.get("trigger_action_path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_action_path must be of type String parameters[\"trigger_action_path\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

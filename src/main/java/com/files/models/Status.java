@@ -46,7 +46,7 @@ public class Status {
   }
 
   /**
-  * Status http code
+  * Status HTTP code
   */
   @Getter
   @JsonProperty("code")
@@ -79,6 +79,20 @@ public class Status {
   @Getter
   @JsonProperty("errors")
   private Object[] errors;
+
+  /**
+  * Required Clickwrap id
+  */
+  @Getter
+  @JsonProperty("clickwrap_id")
+  private Long clickwrapId;
+
+  /**
+  * Required Clickwrap body
+  */
+  @Getter
+  @JsonProperty("clickwrap_body")
+  private String clickwrapBody;
 
 
 

@@ -23,19 +23,19 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-public class BundleRecipient {
+public class InboxRecipient {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public BundleRecipient() {
+  public InboxRecipient() {
     this(null, null);
   }
 
-  public BundleRecipient(HashMap<String, Object> parameters) {
+  public InboxRecipient(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public BundleRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public InboxRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -62,7 +62,7 @@ public class BundleRecipient {
   private String name;
 
   /**
-  * A note sent to the recipient with the bundle.
+  * A note sent to the recipient with the inbox.
   */
   @Getter
   @Setter
@@ -78,7 +78,7 @@ public class BundleRecipient {
   private String recipient;
 
   /**
-  * When the Bundle was shared with this recipient.
+  * When the Inbox was shared with this recipient.
   */
   @Getter
   @Setter
@@ -94,12 +94,12 @@ public class BundleRecipient {
   private Long userId;
 
   /**
-  * Bundle to share.
+  * Inbox to share.
   */
   @Getter
   @Setter
-  @JsonProperty("bundle_id")
-  private Long bundleId;
+  @JsonProperty("inbox_id")
+  private Long inboxId;
 
   /**
   * Set to true to share the link with the recipient upon creation.
@@ -113,9 +113,9 @@ public class BundleRecipient {
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The BundleRecipient Object doesn't support updates.");
+      throw new UnsupportedOperationException("The InboxRecipient Object doesn't support updates.");
     } else {
-      BundleRecipient newObject = BundleRecipient.create(parameters, this.options);
+      InboxRecipient newObject = InboxRecipient.create(parameters, this.options);
     }
   }
 
@@ -131,17 +131,17 @@ public class BundleRecipient {
   *   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `has_registrations`.
   *   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `has_registrations`.
   *   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `has_registrations`.
-  *   bundle_id (required) - int64 - List recipients for the bundle with this ID.
+  *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
   */
-  public static List<BundleRecipient> list() throws IOException{
+  public static List<InboxRecipient> list() throws IOException{
     return list(null,null);
   }
-  public static List<BundleRecipient> list( HashMap<String, Object> parameters) throws IOException {
+  public static List<InboxRecipient> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<BundleRecipient> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<InboxRecipient> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -185,45 +185,45 @@ public class BundleRecipient {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
+    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
 
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
+    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
+      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
     }
-    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<BundleRecipient>> typeReference = new TypeReference<List<BundleRecipient>>() {};
+    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<InboxRecipient>> typeReference = new TypeReference<List<InboxRecipient>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<BundleRecipient> all() throws IOException {
+  public static List<InboxRecipient> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<BundleRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<InboxRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   bundle_id (required) - int64 - Bundle to share.
-  *   recipient (required) - string - Email addresses to share this bundle with.
+  *   inbox_id (required) - int64 - Inbox to share.
+  *   recipient (required) - string - Email addresses to share this inbox with.
   *   name - string - Name of recipient.
   *   company - string - Company of recipient.
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
-  public static BundleRecipient create() throws IOException{
+  public static InboxRecipient create() throws IOException{
     return create(null,null);
   }
-  public static BundleRecipient create( HashMap<String, Object> parameters) throws IOException {
+  public static InboxRecipient create( HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static BundleRecipient create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static InboxRecipient create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -231,8 +231,8 @@ public class BundleRecipient {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
 
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
+    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
 
     if (parameters.containsKey("recipient") && !(parameters.get("recipient") instanceof String )) {
@@ -255,14 +255,14 @@ public class BundleRecipient {
       throw new IllegalArgumentException("Bad parameter: share_after_create must be of type Boolean parameters[\"share_after_create\"]");
     }
 
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
+    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
+      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
     }
     if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
       throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
-    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<BundleRecipient> typeReference = new TypeReference<BundleRecipient>() {};
+    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<InboxRecipient> typeReference = new TypeReference<InboxRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

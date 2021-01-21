@@ -1,6 +1,6 @@
-# Files.Models.BundleRecipient
+# Files.Models.InboxRecipient
 
-## Example BundleRecipient Object
+## Example InboxRecipient Object
 
 ```
 {
@@ -14,20 +14,20 @@
 
 * `company` / `company`  (string): The recipient's company.
 * `name` / `name`  (string): The recipient's name.
-* `note` / `note`  (string): A note sent to the recipient with the bundle.
+* `note` / `note`  (string): A note sent to the recipient with the inbox.
 * `recipient` / `recipient`  (string): The recipient's email address.
-* `sent_at` / `sentAt`  (date-time): When the Bundle was shared with this recipient.
+* `sent_at` / `sentAt`  (date-time): When the Inbox was shared with this recipient.
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
-* `bundle_id` / `bundleId`  (int64): Bundle to share.
+* `inbox_id` / `inboxId`  (int64): Inbox to share.
 * `share_after_create` / `shareAfterCreate`  (boolean): Set to true to share the link with the recipient upon creation.
 
 
 ---
 
-## List Bundle Recipients
+## List Inbox Recipients
 
 ```
-List<BundleRecipient> bundleRecipient = BundleRecipient.list(
+List<InboxRecipient> inboxRecipient = InboxRecipient.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -46,15 +46,15 @@ List<BundleRecipient> bundleRecipient = BundleRecipient.list(
 * `filter_like` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `has_registrations`.
 * `filter_lt` (Map<String, String>): If set, return records where the specifiied field is less than the supplied value. Valid fields are `has_registrations`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `has_registrations`.
-* `bundle_id` (Long): Required - List recipients for the bundle with this ID.
+* `inbox_id` (Long): Required - List recipients for the inbox with this ID.
 
 
 ---
 
-## Create Bundle Recipient
+## Create Inbox Recipient
 
 ```
-BundleRecipient bundleRecipient = BundleRecipient.create(
+InboxRecipient inboxRecipient = InboxRecipient.create(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -64,8 +64,8 @@ BundleRecipient bundleRecipient = BundleRecipient.create(
 ### Parameters
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-* `bundle_id` (Long): Required - Bundle to share.
-* `recipient` (String): Required - Email addresses to share this bundle with.
+* `inbox_id` (Long): Required - Inbox to share.
+* `recipient` (String): Required - Email addresses to share this inbox with.
 * `name` (String): Name of recipient.
 * `company` (String): Company of recipient.
 * `note` (String): Note to include in email.

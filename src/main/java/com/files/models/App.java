@@ -123,6 +123,20 @@ public class App {
   private String externalHomepageUrl;
 
   /**
+  * Marketing video page
+  */
+  @Getter
+  @JsonProperty("marketing_youtube_url")
+  private String marketingYoutubeUrl;
+
+  /**
+  * Tutorial video page
+  */
+  @Getter
+  @JsonProperty("tutorial_youtube_url")
+  private String tutorialYoutubeUrl;
+
+  /**
   * The type of the App
   */
   @Getter

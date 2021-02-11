@@ -228,7 +228,7 @@ public class SsoStrategy {
   private String provisionSiteAdminGroups;
 
   /**
-  * Auto-provisioned users get Sharing permission?
+  * DEPRECATED: Auto-provisioned users get Sharing permission. Use a Group with the Bundle permission instead.
   */
   @Getter
   @JsonProperty("provision_attachments_permission")

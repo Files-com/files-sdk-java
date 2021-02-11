@@ -60,7 +60,7 @@
 * `username` / `username`  (string): User's username
 * `admin_group_ids` / `adminGroupIds`  (array): List of group IDs of which this user is an administrator
 * `allowed_ips` / `allowedIps`  (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` / `attachmentsPermission`  (boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` / `attachmentsPermission`  (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `api_keys_count` / `apiKeysCount`  (int64): Number of api keys associated with this user
 * `authenticate_until` / `authenticateUntil`  (date-time): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` / `authenticationMethod`  (string): How is this user authenticated?
@@ -191,7 +191,7 @@ User user = User.create(
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -302,7 +302,7 @@ User user = User.update(
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -469,7 +469,7 @@ User.Update(parameters);
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): Can the user create Bundles (aka Share Links)?  This field will be aliased or renamed in the future to `bundles_permission`.
+* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?

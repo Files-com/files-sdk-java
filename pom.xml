@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <description>Files.com Java SDK</description>
     <organization>
         <name>com.github.files-com</name>

@@ -182,6 +182,14 @@ public class Automation {
   private String triggerActionPath;
 
   /**
+  * A Hash of attributes specific to the automation type.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("value")
+  private Map<String, String> value;
+
+  /**
   * Parameters:
   *   automation (required) - string - Automation type
   *   source - string - Source Path
@@ -196,6 +204,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
+  *   value - object - A Hash of attributes specific to the automation type.
   */
   public Automation update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -355,6 +364,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
+  *   value - object - A Hash of attributes specific to the automation type.
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -420,6 +430,10 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: trigger_action_path must be of type String parameters[\"trigger_action_path\"]");
     }
 
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    }
+
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
@@ -444,6 +458,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
+  *   value - object - A Hash of attributes specific to the automation type.
   */
   public static Automation update() throws IOException{
     return update(null, null,null);
@@ -517,6 +532,10 @@ public class Automation {
 
     if (parameters.containsKey("trigger_action_path") && !(parameters.get("trigger_action_path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: trigger_action_path must be of type String parameters[\"trigger_action_path\"]");
+    }
+
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

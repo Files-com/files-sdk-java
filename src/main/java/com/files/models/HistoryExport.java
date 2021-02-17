@@ -54,6 +54,14 @@ public class HistoryExport {
   private Long id;
 
   /**
+  * Version of the history for the export.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("history_version")
+  private String historyVersion;
+
+  /**
   * Start date/time of export range.
   */
   @Getter

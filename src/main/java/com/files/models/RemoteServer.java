@@ -70,6 +70,14 @@ public class RemoteServer {
   private String hostname;
 
   /**
+  * Initial home folder on remote server
+  */
+  @Getter
+  @Setter
+  @JsonProperty("remote_home_path")
+  private String remoteHomePath;
+
+  /**
   * Internal name for your reference
   */
   @Getter

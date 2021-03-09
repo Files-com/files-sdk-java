@@ -23,6 +23,9 @@
   },
   "source": "",
   "destination": "",
+  "destinations": [
+    "destination"
+  ],
   "destination_replace_from": "",
   "destination_replace_to": "",
   "path": "",
@@ -49,7 +52,8 @@
 * `next_process_on` / `nextProcessOn`  (string): If trigger is `daily`, date this automation will next run.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
-* `destination` / `destination`  (string): Destination Path
+* `destination` / `destination`  (string): DEPRECATED: Destination Path
+* `destinations` / `destinations`  (string): Destination Path
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -121,7 +125,8 @@ Automation automation = Automation.create(
 
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): Destination Path
+* `destination` (String): DEPRECATED: Destination Path
+* `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -152,7 +157,8 @@ Automation automation = Automation.update(
 * `id` (Long): Required - Automation ID.
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): Destination Path
+* `destination` (String): DEPRECATED: Destination Path
+* `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -195,6 +201,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("automation", "create_folder");
 parameters.put("source", "source");
 parameters.put("destination", "destination");
+parameters.put("destinations", "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]");
 parameters.put("interval", "year");
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
@@ -212,7 +219,8 @@ Automation.Update(parameters);
 * `id` (Long): Required - Automation ID.
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): Destination Path
+* `destination` (String): DEPRECATED: Destination Path
+* `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`

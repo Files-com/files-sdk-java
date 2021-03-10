@@ -89,6 +89,52 @@ public class InboxRegistration {
 
 
 
+  /**
+  * Parameters:
+  *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+  *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   folder_behavior_id (required) - int64 - ID of the associated Inbox.
+  */
+  public static List<InboxRegistration> list() throws IOException{
+    return list(null,null);
+  }
+  public static List<InboxRegistration> list( HashMap<String, Object> parameters) throws IOException {
+    return list(parameters, null);
+  }
+
+
+  public static List<InboxRegistration> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+
+    if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long parameters[\"folder_behavior_id\"]");
+    }
+
+    if (!parameters.containsKey("folder_behavior_id") || parameters.get("folder_behavior_id") == null) {
+      throw new NullPointerException("Parameter missing: folder_behavior_id parameters[\"folder_behavior_id\"]");
+    }
+    String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<InboxRegistration>> typeReference = new TypeReference<List<InboxRegistration>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+  public static List<InboxRegistration> all() throws IOException {
+    return all(null, null);
+  }
+
+  public static List<InboxRegistration> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return list(parameters, options);
+  }
+
 }
 
 

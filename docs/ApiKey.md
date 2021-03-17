@@ -69,11 +69,6 @@ List<ApiKey> apiKey = ApiKey.findCurrent(
 )
 ```
 
-### Parameters
-
-* `format` (String): 
-* `api_key` (Map<String, String>): 
-
 
 ---
 
@@ -163,11 +158,6 @@ ApiKey apiKey = ApiKey.deleteCurrent(
     HashMap<String, Object> options = null
 )
 ```
-
-### Parameters
-
-* `format` (String): 
-* `api_key` (Map<String, String>): 
 
 
 ---

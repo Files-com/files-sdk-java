@@ -331,11 +331,6 @@ Site site = Site.get(
 )
 ```
 
-### Parameters
-
-* `format` (String): 
-* `site` (Map<String, String>): 
-
 
 ---
 
@@ -348,11 +343,6 @@ Site site = Site.getUsage(
     HashMap<String, Object> options = null
 )
 ```
-
-### Parameters
-
-* `format` (String): 
-* `site` (Map<String, String>): 
 
 
 ---

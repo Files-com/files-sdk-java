@@ -839,9 +839,6 @@ public class Site {
 
 
   /**
-  * Parameters:
-  *   format - string
-  *   site - object
   */
   public static Site get() throws IOException{
     return get(null,null);
@@ -855,14 +852,6 @@ public class Site {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (parameters.containsKey("format") && !(parameters.get("format") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
-    }
-
-    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: site must be of type Map<String, String> parameters[\"site\"]");
-    }
-
     String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<Site> typeReference = new TypeReference<Site>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -870,9 +859,6 @@ public class Site {
 
 
   /**
-  * Parameters:
-  *   format - string
-  *   site - object
   */
   public static Site getUsage() throws IOException{
     return getUsage(null,null);
@@ -885,14 +871,6 @@ public class Site {
   public static Site getUsage( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
-
-    if (parameters.containsKey("format") && !(parameters.get("format") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
-    }
-
-    if (parameters.containsKey("site") && !(parameters.get("site") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: site must be of type Map<String, String> parameters[\"site\"]");
-    }
 
     String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<Site> typeReference = new TypeReference<Site>() {};

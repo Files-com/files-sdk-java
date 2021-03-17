@@ -80,3 +80,8 @@ Session session = Session.delete(
     HashMap<String, Object> options = null
 )
 ```
+
+### Parameters
+
+* `format` (String): 
+* `session` (Map<String, String>): 

@@ -273,6 +273,9 @@ public class Session {
 
 
   /**
+  * Parameters:
+  *   format - string
+  *   session - object
   */
   public static Session delete() throws IOException{
     return delete(null,null);
@@ -285,6 +288,14 @@ public class Session {
   public static Session delete( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("format") && !(parameters.get("format") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: format must be of type String parameters[\"format\"]");
+    }
+
+    if (parameters.containsKey("session") && !(parameters.get("session") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: session must be of type Map<String, String> parameters[\"session\"]");
+    }
 
     String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<Session> typeReference = new TypeReference<Session>() {};

@@ -74,6 +74,13 @@ public class UsageSnapshot {
   private Date createdAt;
 
   /**
+  * Site usage report highest usage in time period
+  */
+  @Getter
+  @JsonProperty("high_water_user_count")
+  private Double highWaterUserCount;
+
+  /**
   * Current site usage as of report
   */
   @Getter

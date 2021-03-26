@@ -27,7 +27,10 @@
       "default_option": "red",
       "form_field_set_id": 1
     }
-  ]
+  ],
+  "skip_name": true,
+  "skip_email": true,
+  "skip_company": true
 }
 ```
 
@@ -35,6 +38,9 @@
 * `title` / `title`  (string): Title to be displayed
 * `form_layout` / `formLayout`  (int64): Layout of the form
 * `form_fields` / `formFields`  (array): Associated form fields
+* `skip_name` / `skipName`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
+* `skip_email` / `skipEmail`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
+* `skip_company` / `skipCompany`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
 
@@ -90,6 +96,9 @@ FormFieldSet formFieldSet = FormFieldSet.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `title` (String): Title to be displayed
+* `skip_email` (Boolean): Skip validating form email
+* `skip_name` (Boolean): Skip validating form name
+* `skip_company` (Boolean): Skip validating company
 * `form_fields` (Object[]): 
 
 
@@ -109,6 +118,9 @@ FormFieldSet formFieldSet = FormFieldSet.update(
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `skip_email` (Boolean): Skip validating form email
+* `skip_name` (Boolean): Skip validating form name
+* `skip_company` (Boolean): Skip validating company
 * `form_fields` (Object[]): 
 
 
@@ -139,6 +151,9 @@ FormFieldSet formFieldSet = FormFieldSet.ListFor(path)[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("title", "Sample Form Title");
+parameters.put("skip_email", true);
+parameters.put("skip_name", true);
+parameters.put("skip_company", true);
 parameters.put("form_fields", [{"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]);
 
 FormFieldSet.Update(parameters);
@@ -148,6 +163,9 @@ FormFieldSet.Update(parameters);
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `skip_email` (Boolean): Skip validating form email
+* `skip_name` (Boolean): Skip validating form name
+* `skip_company` (Boolean): Skip validating company
 * `form_fields` (Object[]): 
 
 

@@ -78,6 +78,30 @@ public class FormFieldSet {
   private Object[] formFields;
 
   /**
+  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_name")
+  private Boolean skipName;
+
+  /**
+  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_email")
+  private Boolean skipEmail;
+
+  /**
+  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_company")
+  private Boolean skipCompany;
+
+  /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
   @Getter
@@ -88,6 +112,9 @@ public class FormFieldSet {
   /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   skip_email - boolean - Skip validating form email
+  *   skip_name - boolean - Skip validating form name
+  *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
   public FormFieldSet update(HashMap<String, Object> parameters) {
@@ -202,6 +229,9 @@ public class FormFieldSet {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   title - string - Title to be displayed
+  *   skip_email - boolean - Skip validating form email
+  *   skip_name - boolean - Skip validating form name
+  *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
   public static FormFieldSet create() throws IOException{
@@ -224,6 +254,18 @@ public class FormFieldSet {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
     }
 
+    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
+    }
+
+    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
+    }
+
+    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
+    }
+
     if (parameters.containsKey("form_fields") && !(parameters.get("form_fields") instanceof Object[] )) {
       throw new IllegalArgumentException("Bad parameter: form_fields must be of type Object[] parameters[\"form_fields\"]");
     }
@@ -237,6 +279,9 @@ public class FormFieldSet {
   /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   skip_email - boolean - Skip validating form email
+  *   skip_name - boolean - Skip validating form name
+  *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
   public static FormFieldSet update() throws IOException{
@@ -263,6 +308,18 @@ public class FormFieldSet {
 
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
+    }
+
+    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
+    }
+
+    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
+    }
+
+    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
     }
 
     if (parameters.containsKey("form_fields") && !(parameters.get("form_fields") instanceof Object[] )) {

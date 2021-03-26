@@ -44,6 +44,25 @@ List<GroupUser> groupUser = GroupUser.list(
 
 ---
 
+## Create Group User
+
+```
+GroupUser groupUser = GroupUser.create(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `group_id` (Long): Required - Group ID to add user to.
+* `user_id` (Long): Required - User ID to add to group.
+* `admin` (Boolean): Is the user a group administrator?
+
+
+---
+
 ## Update Group User
 
 ```

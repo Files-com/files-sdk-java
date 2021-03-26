@@ -117,9 +117,13 @@ public class GroupUser {
   }
 
   public void save() throws IOException {
-    update();
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      GroupUser newObject = GroupUser.create(parameters, this.options);
+    }
   }
-
 
   /**
   * Parameters:
@@ -168,6 +172,48 @@ public class GroupUser {
   public static List<GroupUser> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
+
+  /**
+  * Parameters:
+  *   group_id (required) - int64 - Group ID to add user to.
+  *   user_id (required) - int64 - User ID to add to group.
+  *   admin - boolean - Is the user a group administrator?
+  */
+  public static GroupUser create() throws IOException{
+    return create(null,null);
+  }
+  public static GroupUser create( HashMap<String, Object> parameters) throws IOException {
+    return create(parameters, null);
+  }
+
+
+  public static GroupUser create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    }
+
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+
+    if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
+    }
+
+    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
+      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
+    }
+    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
+      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
+    }
+    String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
   /**
   * Parameters:

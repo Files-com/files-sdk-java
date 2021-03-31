@@ -166,9 +166,9 @@ Bundle bundle = Bundle.share(
 ### Parameters
 
 * `id` (Long): Required - Bundle ID.
-* `to` (String[]): Required - A list of email addresses to share this bundle with.
+* `to` (String[]): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (String): Note to include in email.
-* `recipients` (Object[]): A list of recipients to share this bundle with.
+* `recipients` (Object[]): A list of recipients to share this bundle with. Required unless `to` is used.
 
 
 ---
@@ -236,9 +236,9 @@ Bundle.Share(parameters);
 ### Parameters
 
 * `id` (Long): Required - Bundle ID.
-* `to` (String[]): Required - A list of email addresses to share this bundle with.
+* `to` (String[]): A list of email addresses to share this bundle with. Required unless `recipients` is used.
 * `note` (String): Note to include in email.
-* `recipients` (Object[]): A list of recipients to share this bundle with.
+* `recipients` (Object[]): A list of recipients to share this bundle with. Required unless `to` is used.
 
 
 ---

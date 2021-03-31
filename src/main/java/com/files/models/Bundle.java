@@ -216,9 +216,9 @@ public class Bundle {
   * Send email(s) with a link to bundle
   *
   * Parameters:
-  *   to (required) - array(string) - A list of email addresses to share this bundle with.
+  *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
   *   note - string - Note to include in email.
-  *   recipients - array(object) - A list of recipients to share this bundle with.
+  *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
   public Bundle share(HashMap<String, Object> parameters) {
     return share(parameters);
@@ -475,9 +475,9 @@ public class Bundle {
   * Send email(s) with a link to bundle
   *
   * Parameters:
-  *   to (required) - array(string) - A list of email addresses to share this bundle with.
+  *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
   *   note - string - Note to include in email.
-  *   recipients - array(object) - A list of recipients to share this bundle with.
+  *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
   public static Bundle share() throws IOException{
     return share(null, null,null);
@@ -515,9 +515,6 @@ public class Bundle {
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("to") || parameters.get("to") == null) {
-      throw new NullPointerException("Parameter missing: to parameters[\"to\"]");
     }
     String url = String.format("%s%s/bundles/%s/share", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};

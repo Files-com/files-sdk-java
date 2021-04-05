@@ -65,7 +65,7 @@ InboxRecipient inboxRecipient = InboxRecipient.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `inbox_id` (Long): Required - Inbox to share.
-* `recipient` (String): Required - Email addresses to share this inbox with.
+* `recipient` (String): Required - Email address to share this inbox with.
 * `name` (String): Name of recipient.
 * `company` (String): Company of recipient.
 * `note` (String): Note to include in email.

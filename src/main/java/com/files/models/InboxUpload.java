@@ -71,6 +71,13 @@ public class InboxUpload {
   * Parameters:
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `created_at`.
+  *   filter - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
+  *   filter_gt - object - If set, return records where the specifiied field is greater than the supplied value. Valid fields are `created_at`.
+  *   filter_gteq - object - If set, return records where the specifiied field is greater than or equal to the supplied value. Valid fields are `created_at`.
+  *   filter_like - object - If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`.
+  *   filter_lt - object - If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`.
+  *   filter_lteq - object - If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`.
   *   inbox_registration_id - int64 - InboxRegistration ID
   *   inbox_id - int64 - Inbox ID
   */
@@ -92,6 +99,34 @@ public class InboxUpload {
 
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+
+    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
+    }
+
+    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
+    }
+
+    if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
+    }
+
+    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
+    }
+
+    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
     if (parameters.containsKey("inbox_registration_id") && !(parameters.get("inbox_registration_id") instanceof Long )) {

@@ -102,14 +102,6 @@ public class Automation {
   private String source;
 
   /**
-  * DEPRECATED: Destination Path
-  */
-  @Getter
-  @Setter
-  @JsonProperty("destination")
-  private String destination;
-
-  /**
   * Destination Path
   */
   @Getter
@@ -198,10 +190,18 @@ public class Automation {
   private Map<String, String> value;
 
   /**
+  * DEPRECATED: Destination Path. Use `destinations` instead.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("destination")
+  private String destination;
+
+  /**
   * Parameters:
   *   automation (required) - string - Automation type
   *   source - string - Source Path
-  *   destination - string - DEPRECATED: Destination Path
+  *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -362,7 +362,7 @@ public class Automation {
   * Parameters:
   *   automation (required) - string - Automation type
   *   source - string - Source Path
-  *   destination - string - DEPRECATED: Destination Path
+  *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -461,7 +461,7 @@ public class Automation {
   * Parameters:
   *   automation (required) - string - Automation type
   *   source - string - Source Path
-  *   destination - string - DEPRECATED: Destination Path
+  *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.

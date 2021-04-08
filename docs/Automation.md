@@ -22,7 +22,6 @@
     "time_zone": "Eastern Time (US & Canada)"
   },
   "source": "",
-  "destination": "",
   "destinations": [
     "destination"
   ],
@@ -52,7 +51,6 @@
 * `next_process_on` / `nextProcessOn`  (string): If trigger is `daily`, date this automation will next run.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
-* `destination` / `destination`  (string): DEPRECATED: Destination Path
 * `destinations` / `destinations`  (string): Destination Path
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -64,6 +62,7 @@
 * `trigger_actions` / `triggerActions`  (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger_action_path` / `triggerActionPath`  (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
+* `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
 
 
 ---
@@ -125,7 +124,7 @@ Automation automation = Automation.create(
 
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path
+* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -157,7 +156,7 @@ Automation automation = Automation.update(
 * `id` (Long): Required - Automation ID.
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path
+* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -200,7 +199,6 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("automation", "create_folder");
 parameters.put("source", "source");
-parameters.put("destination", "destination");
 parameters.put("destinations", "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]");
 parameters.put("interval", "year");
 parameters.put("user_ids", [1,2]);
@@ -219,7 +217,7 @@ Automation.Update(parameters);
 * `id` (Long): Required - Automation ID.
 * `automation` (String): Required - Automation type
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path
+* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.

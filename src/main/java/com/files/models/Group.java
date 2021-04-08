@@ -67,7 +67,7 @@ public class Group {
   @Getter
   @Setter
   @JsonProperty("admin_ids")
-  private Object[] adminIds;
+  private String adminIds;
 
   /**
   * Notes about this group

@@ -78,7 +78,7 @@ public class Status {
   */
   @Getter
   @JsonProperty("errors")
-  private Object[] errors;
+  private Map<String, String> errors;
 
   /**
   * Required Clickwrap id

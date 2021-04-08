@@ -50,7 +50,7 @@ public class SsoStrategy {
   */
   @Getter
   @JsonProperty("protocol")
-  private Object[] protocol;
+  private String protocol;
 
   /**
   * Provider name

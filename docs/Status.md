@@ -8,16 +8,14 @@
   "message": "",
   "status": "",
   "data": "",
-  "errors": [
-    {
-      "fields": [
+  "errors": {
+    "fields": [
 
-      ],
-      "messages": [
+    ],
+    "messages": [
 
-      ]
-    }
-  ],
+    ]
+  },
   "clickwrap_id": 1,
   "clickwrap_body": ""
 }
@@ -27,6 +25,6 @@
 * `message` / `message`  (string): Error message
 * `status` / `status`  (string): Status message
 * `data` / `data` : Additional data
-* `errors` / `errors`  (array): A list of api errors
+* `errors` / `errors` : A list of api errors
 * `clickwrap_id` / `clickwrapId`  (int64): Required Clickwrap id
 * `clickwrap_body` / `clickwrapBody`  (string): Required Clickwrap body

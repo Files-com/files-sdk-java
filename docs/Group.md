@@ -21,7 +21,7 @@
 
 * `id` / `id`  (int64): Group ID
 * `name` / `name`  (string): Group name
-* `admin_ids` / `adminIds`  (array): List of user IDs who are group administrators (separated by commas)
+* `admin_ids` / `adminIds`  (string): List of user IDs who are group administrators (separated by commas)
 * `notes` / `notes`  (string): Notes about this group
 * `user_ids` / `userIds`  (array): List of user IDs who belong to this group (separated by commas)
 * `usernames` / `usernames`  (array): List of usernames who belong to this group (separated by commas)

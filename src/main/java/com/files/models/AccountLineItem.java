@@ -92,7 +92,7 @@ public class AccountLineItem {
   */
   @Getter
   @JsonProperty("invoice_line_items")
-  private Object[] invoiceLineItems;
+  private Map<String, String> invoiceLineItems;
 
   /**
   * Line item payment method
@@ -106,7 +106,7 @@ public class AccountLineItem {
   */
   @Getter
   @JsonProperty("payment_line_items")
-  private Object[] paymentLineItems;
+  private Map<String, String> paymentLineItems;
 
   /**
   * Date/time payment was reversed if applicable

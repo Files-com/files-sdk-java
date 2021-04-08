@@ -12,22 +12,20 @@
     3,
     4
   ],
-  "form_fields": [
-    {
-      "id": 1,
-      "label": "Sample Label",
-      "required": true,
-      "help_text": "Help Text",
-      "field_type": "text",
-      "options_for_select": [
-        "red",
-        "green",
-        "blue"
-      ],
-      "default_option": "red",
-      "form_field_set_id": 1
-    }
-  ],
+  "form_fields": {
+    "id": 1,
+    "label": "Sample Label",
+    "required": true,
+    "help_text": "Help Text",
+    "field_type": "text",
+    "options_for_select": [
+      "red",
+      "green",
+      "blue"
+    ],
+    "default_option": "red",
+    "form_field_set_id": 1
+  },
   "skip_name": true,
   "skip_email": true,
   "skip_company": true
@@ -37,7 +35,7 @@
 * `id` / `id`  (int64): Form field set id
 * `title` / `title`  (string): Title to be displayed
 * `form_layout` / `formLayout`  (int64): Layout of the form
-* `form_fields` / `formFields`  (array): Associated form fields
+* `form_fields` / `formFields` : Associated form fields
 * `skip_name` / `skipName`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
 * `skip_email` / `skipEmail`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
 * `skip_company` / `skipCompany`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
@@ -154,7 +152,7 @@ parameters.put("title", "Sample Form Title");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
 parameters.put("skip_company", true);
-parameters.put("form_fields", [{"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]);
+parameters.put("form_fields", {"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1});
 
 FormFieldSet.Update(parameters);
 ```

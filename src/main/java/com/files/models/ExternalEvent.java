@@ -46,14 +46,14 @@ public class ExternalEvent {
   }
 
   /**
-  * Type of event being recorded. Valid values: `remote_server_sync`, `lockout`, `ldap_login`, `saml_login`
+  * Type of event being recorded.
   */
   @Getter
   @JsonProperty("event_type")
   private String eventType;
 
   /**
-  * Status of event. Valid values: `error`
+  * Status of event.
   */
   @Getter
   @JsonProperty("status")

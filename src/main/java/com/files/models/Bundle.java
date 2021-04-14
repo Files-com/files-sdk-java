@@ -78,6 +78,14 @@ public class Bundle {
   private Boolean passwordProtected;
 
   /**
+  * Restrict users to previewing files only?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("preview_only")
+  private Boolean previewOnly;
+
+  /**
   * Show a registration page that captures the downloader's name and email address?
   */
   @Getter
@@ -236,6 +244,7 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
@@ -393,6 +402,7 @@ public class Bundle {
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+  *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   inbox_id - int64 - ID of the associated inbox, if available.
@@ -444,6 +454,10 @@ public class Bundle {
 
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
+    }
+
+    if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
 
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean )) {
@@ -534,6 +548,7 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
@@ -597,6 +612,10 @@ public class Bundle {
 
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
+    }
+
+    if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
 
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean )) {

@@ -74,6 +74,13 @@ public class InboxRegistration {
   private String email;
 
   /**
+  * Clickwrap text that was shown to the registrant
+  */
+  @Getter
+  @JsonProperty("clickwrap_body")
+  private String clickwrapBody;
+
+  /**
   * Id of associated form field set
   */
   @Getter

@@ -262,6 +262,14 @@ public class RemoteServer {
   private String oneDriveAccountType;
 
   /**
+  * Cloud hosted sharepoint hostname
+  */
+  @Getter
+  @Setter
+  @JsonProperty("sharepoint_hostname")
+  private String sharepointHostname;
+
+  /**
   * Azure Blob Storage Account name
   */
   @Getter
@@ -417,6 +425,7 @@ public class RemoteServer {
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
+  *   sharepoint_hostname - string - Cloud hosted sharepoint hostname
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   */
@@ -559,6 +568,7 @@ public class RemoteServer {
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
+  *   sharepoint_hostname - string - Cloud hosted sharepoint hostname
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   */
@@ -710,6 +720,10 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: one_drive_account_type must be of type String parameters[\"one_drive_account_type\"]");
     }
 
+    if (parameters.containsKey("sharepoint_hostname") && !(parameters.get("sharepoint_hostname") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_hostname must be of type String parameters[\"sharepoint_hostname\"]");
+    }
+
     if (parameters.containsKey("azure_blob_storage_account") && !(parameters.get("azure_blob_storage_account") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_account must be of type String parameters[\"azure_blob_storage_account\"]");
     }
@@ -760,6 +774,7 @@ public class RemoteServer {
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
+  *   sharepoint_hostname - string - Cloud hosted sharepoint hostname
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   */
@@ -919,6 +934,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("one_drive_account_type") && !(parameters.get("one_drive_account_type") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: one_drive_account_type must be of type String parameters[\"one_drive_account_type\"]");
+    }
+
+    if (parameters.containsKey("sharepoint_hostname") && !(parameters.get("sharepoint_hostname") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_hostname must be of type String parameters[\"sharepoint_hostname\"]");
     }
 
     if (parameters.containsKey("azure_blob_storage_account") && !(parameters.get("azure_blob_storage_account") instanceof String )) {

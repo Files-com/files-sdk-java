@@ -221,6 +221,13 @@ public class SsoStrategy {
   private String provisionGroupRequired;
 
   /**
+  * Comma-separated list of group names whose members will be created with email_signup authentication.
+  */
+  @Getter
+  @JsonProperty("provision_email_signup_groups")
+  private String provisionEmailSignupGroups;
+
+  /**
   * Comma-separated list of group names whose members will be created as Site Admins.
   */
   @Getter

@@ -238,7 +238,7 @@ public class HistoryExport {
   private String queryTargetPermissionSet;
 
   /**
-  * If `status` is `ready` and the query succeeded, this will be a URL where all the results can be downloaded at once as a CSV.
+  * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
   */
   @Getter
   @Setter

@@ -30,7 +30,7 @@ public class FilesHttpClient {
       builder.connectionPool(pool);
       builder.hostnameVerifier((hostname, session) -> true);
       builder.retryOnConnectionFailure(false);
-      builder.addNetworkInterceptor(new FilesHttpInterceptor());
+      builder.addInterceptor(new FilesHttpInterceptor());
 
       if (FilesConfig.getInstance().getHttpLoggingEnabled() && log.isDebugEnabled()) {
         builder.addInterceptor(new HttpLoggingInterceptor());

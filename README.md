@@ -40,7 +40,7 @@ You can set an API key globally, like this:
 Or, you can pass an API key per-request, in the Options HashMap at the end
 of every method.  Like this:
     
-    HashMap<String, Object> requestParameters = new HashMap()<>;
+    HashMap<String, Object> requestParameters = new HashMap<>();
     requestParameters.put("api_key", "my-key");
     Users.list(requestParameters);
 
@@ -52,10 +52,10 @@ on models returned from the API.
 
 Or, you can open a user session by calling `Session.create()`
     
-    HashMap<String, Object> sessionParameters = new HashMap<>()
+    HashMap<String, Object> sessionParameters = new HashMap<>();
     sessionParameters.put("username", "username");
     sessionParameters.put("password", "password");
-    Session session = Session.create(parameters)
+    Session session = Session.create(sessionParameters);
 
 Then use it as follows:
 
@@ -84,7 +84,24 @@ You can set the following global options directly on the `FilesClient` module:
 
 #### Writing a file example
 
-Coming soon
+    // Will upload a file called "test.txt" and print its size
+
+    import com.files.FilesClient;
+    import com.files.models.File;
+    import java.io.IOException;
+
+    public class App {
+        public static void main( String[] args ) {
+            FilesClient.apiKey = "YourAPIKeyHere";
+
+            try {
+                File transferred = File.create("test.txt", null).putLocalFile("test.txt");
+                System.out.println("TransferedSize:"+transferred.getSize());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 #### Reading a file's text as a InputStream
 
@@ -93,7 +110,7 @@ Coming soon
        String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
          .lines()
          .collect(Collectors.joining("\n"));
-         String filecontents =  text;
+         String filecontents = text;
        }
      }
     

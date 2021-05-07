@@ -4,6 +4,7 @@
 
 ```
 {
+  "id": 1,
   "event_type": "",
   "status": "",
   "body": "",
@@ -11,6 +12,7 @@
 }
 ```
 
+* `id` / `id`  (int64): Event ID
 * `event_type` / `eventType`  (string): Type of event being recorded.
 * `status` / `status`  (string): Status of event.
 * `body` / `body`  (string): Event body
@@ -40,3 +42,20 @@ List<ExternalEvent> externalEvent = ExternalEvent.list(
 * `filter_like` (Map<String, String>): If set, return records where the specifiied field is equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
 * `filter_lt` (Map<String, String>): If set, return records where the specifiied field is less than the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type` or `status`.
+
+
+---
+
+## Show External Event
+
+```
+List<ExternalEvent> externalEvent = ExternalEvent.find(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - External Event ID.

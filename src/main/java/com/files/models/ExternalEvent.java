@@ -46,6 +46,13 @@ public class ExternalEvent {
   }
 
   /**
+  * Event ID
+  */
+  @Getter
+  @JsonProperty("id")
+  private Long id;
+
+  /**
   * Type of event being recorded.
   */
   @Getter
@@ -146,6 +153,48 @@ public class ExternalEvent {
 
   public static List<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
+  }
+
+  /**
+  * Parameters:
+  *   id (required) - int64 - External Event ID.
+  */
+  public static List<ExternalEvent> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<ExternalEvent> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return find(id, parameters, null);
+  }
+
+  public static List<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return find(null, parameters, options);
+  }
+
+  public static List<ExternalEvent> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id != null){
+      parameters.put("id",id);
+    }
+    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (!parameters.containsKey("id") || parameters.get("id") == null) {
+      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    }
+    String url = String.format("%s%s/external_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+  public static List<ExternalEvent> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return find(id, parameters, options);
   }
 
 }

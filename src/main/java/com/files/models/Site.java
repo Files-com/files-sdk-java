@@ -501,6 +501,13 @@ public class Site {
   private Boolean officeIntegrationAvailable;
 
   /**
+  * Link to scheduling a meeting with our Sales team
+  */
+  @Getter
+  @JsonProperty("oncehub_link")
+  private String oncehubLink;
+
+  /**
   * Use servers in the USA only?
   */
   @Getter

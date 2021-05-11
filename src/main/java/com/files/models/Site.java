@@ -172,6 +172,13 @@ public class Site {
   private String color2TopText;
 
   /**
+  * Site main contact name
+  */
+  @Getter
+  @JsonProperty("contact_name")
+  private String contactName;
+
+  /**
   * Time this site was created
   */
   @Getter

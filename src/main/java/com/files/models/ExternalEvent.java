@@ -80,13 +80,6 @@ public class ExternalEvent {
   @JsonProperty("created_at")
   private Date createdAt;
 
-  /**
-  * Link to log file.
-  */
-  @Getter
-  @JsonProperty("body_url")
-  private String bodyUrl;
-
 
 
   /**

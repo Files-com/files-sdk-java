@@ -190,7 +190,7 @@ public class RemoteServer {
   private String backblazeB2Bucket;
 
   /**
-  * Wasabi region
+  * Wasabi Bucket name
   */
   @Getter
   @Setter
@@ -198,7 +198,7 @@ public class RemoteServer {
   private String wasabiBucket;
 
   /**
-  * Wasabi Bucket name
+  * Wasabi region
   */
   @Getter
   @Setter
@@ -276,6 +276,30 @@ public class RemoteServer {
   @Setter
   @JsonProperty("azure_blob_storage_container")
   private String azureBlobStorageContainer;
+
+  /**
+  * S3-compatible Bucket name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_bucket")
+  private String s3CompatibleBucket;
+
+  /**
+  * S3-compatible Bucket name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_region")
+  private String s3CompatibleRegion;
+
+  /**
+  * S3-compatible endpoint
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_endpoint")
+  private String s3CompatibleEndpoint;
 
   /**
   * AWS Access Key.
@@ -382,6 +406,22 @@ public class RemoteServer {
   private String azureBlobStorageAccessKey;
 
   /**
+  * S3-compatible access key
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_access_key")
+  private String s3CompatibleAccessKey;
+
+  /**
+  * S3-compatible secret key
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_secret_key")
+  private String s3CompatibleSecretKey;
+
+  /**
   * Parameters:
   *   aws_access_key - string - AWS Access Key.
   *   aws_secret_key - string - AWS secret key.
@@ -411,14 +451,19 @@ public class RemoteServer {
   *   google_cloud_storage_project_id - string - Google Cloud Project ID
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-  *   wasabi_bucket - string - Wasabi region
-  *   wasabi_region - string - Wasabi Bucket name
+  *   wasabi_bucket - string - Wasabi Bucket name
+  *   wasabi_region - string - Wasabi region
   *   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   s3_compatible_bucket - string - S3-compatible Bucket name
+  *   s3_compatible_region - string - S3-compatible Bucket name
+  *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -553,14 +598,19 @@ public class RemoteServer {
   *   google_cloud_storage_project_id - string - Google Cloud Project ID
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-  *   wasabi_bucket - string - Wasabi region
-  *   wasabi_region - string - Wasabi Bucket name
+  *   wasabi_bucket - string - Wasabi Bucket name
+  *   wasabi_region - string - Wasabi region
   *   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   s3_compatible_bucket - string - S3-compatible Bucket name
+  *   s3_compatible_region - string - S3-compatible Bucket name
+  *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public static RemoteServer create() throws IOException{
     return create(null,null);
@@ -718,6 +768,26 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
     }
 
+    if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_bucket must be of type String parameters[\"s3_compatible_bucket\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_endpoint") && !(parameters.get("s3_compatible_endpoint") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
+    }
+
     String url = String.format("%s%s/remote_servers", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
     TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -754,14 +824,19 @@ public class RemoteServer {
   *   google_cloud_storage_project_id - string - Google Cloud Project ID
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage S3 Endpoint
-  *   wasabi_bucket - string - Wasabi region
-  *   wasabi_region - string - Wasabi Bucket name
+  *   wasabi_bucket - string - Wasabi Bucket name
+  *   wasabi_region - string - Wasabi region
   *   rackspace_username - string - Rackspace username used to login to the Rackspace Cloud Control Panel.
   *   rackspace_region - string - Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   *   rackspace_container - string - The name of the container (top level directory) where files will sync.
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   s3_compatible_bucket - string - S3-compatible Bucket name
+  *   s3_compatible_region - string - S3-compatible Bucket name
+  *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public static RemoteServer update() throws IOException{
     return update(null, null,null);
@@ -927,6 +1002,26 @@ public class RemoteServer {
 
     if (parameters.containsKey("azure_blob_storage_container") && !(parameters.get("azure_blob_storage_container") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_bucket must be of type String parameters[\"s3_compatible_bucket\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_endpoint") && !(parameters.get("s3_compatible_endpoint") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

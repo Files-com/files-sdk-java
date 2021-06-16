@@ -22,8 +22,8 @@
   "google_cloud_storage_project_id": "my-project",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
   "backblaze_b2_bucket": "my-bucket",
-  "wasabi_bucket": "us-west-1",
-  "wasabi_region": "my-bucket",
+  "wasabi_bucket": "my-bucket",
+  "wasabi_region": "us-west-1",
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
@@ -32,7 +32,10 @@
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_container": "container-name"
+  "azure_blob_storage_container": "container-name",
+  "s3_compatible_bucket": "my-bucket",
+  "s3_compatible_region": "us-east-1",
+  "s3_compatible_endpoint": "mys3platform.com"
 }
 ```
 
@@ -54,8 +57,8 @@
 * `google_cloud_storage_project_id` / `googleCloudStorageProjectId`  (string): Google Cloud Project ID
 * `backblaze_b2_s3_endpoint` / `backblazeB2S3Endpoint`  (string): Backblaze B2 Cloud Storage S3 Endpoint
 * `backblaze_b2_bucket` / `backblazeB2Bucket`  (string): Backblaze B2 Cloud Storage Bucket name
-* `wasabi_bucket` / `wasabiBucket`  (string): Wasabi region
-* `wasabi_region` / `wasabiRegion`  (string): Wasabi Bucket name
+* `wasabi_bucket` / `wasabiBucket`  (string): Wasabi Bucket name
+* `wasabi_region` / `wasabiRegion`  (string): Wasabi region
 * `rackspace_username` / `rackspaceUsername`  (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` / `rackspaceRegion`  (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` / `rackspaceContainer`  (string): The name of the container (top level directory) where files will sync.
@@ -65,6 +68,9 @@
 * `one_drive_account_type` / `oneDriveAccountType`  (string): Either personal or business_other account types
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
+* `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
+* `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible Bucket name
+* `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
 * `aws_access_key` / `awsAccessKey`  (string): AWS Access Key.
 * `aws_secret_key` / `awsSecretKey`  (string): AWS secret key.
 * `password` / `password`  (string): Password if needed.
@@ -78,6 +84,8 @@
 * `rackspace_api_key` / `rackspaceApiKey`  (string): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` / `resetAuthentication`  (boolean): Reset authenticated account
 * `azure_blob_storage_access_key` / `azureBlobStorageAccessKey`  (string): Azure Blob Storage secret key.
+* `s3_compatible_access_key` / `s3CompatibleAccessKey`  (string): S3-compatible access key
+* `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible secret key
 
 
 ---
@@ -157,14 +165,19 @@ RemoteServer remoteServer = RemoteServer.create(
 * `google_cloud_storage_project_id` (String): Google Cloud Project ID
 * `backblaze_b2_bucket` (String): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (String): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (String): Wasabi region
-* `wasabi_region` (String): Wasabi Bucket name
+* `wasabi_bucket` (String): Wasabi Bucket name
+* `wasabi_region` (String): Wasabi region
 * `rackspace_username` (String): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (String): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (String): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `s3_compatible_bucket` (String): S3-compatible Bucket name
+* `s3_compatible_region` (String): S3-compatible Bucket name
+* `s3_compatible_endpoint` (String): S3-compatible endpoint
+* `s3_compatible_access_key` (String): S3-compatible access key
+* `s3_compatible_secret_key` (String): S3-compatible secret key
 
 
 ---
@@ -210,14 +223,19 @@ RemoteServer remoteServer = RemoteServer.update(
 * `google_cloud_storage_project_id` (String): Google Cloud Project ID
 * `backblaze_b2_bucket` (String): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (String): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (String): Wasabi region
-* `wasabi_region` (String): Wasabi Bucket name
+* `wasabi_bucket` (String): Wasabi Bucket name
+* `wasabi_region` (String): Wasabi region
 * `rackspace_username` (String): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (String): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (String): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `s3_compatible_bucket` (String): S3-compatible Bucket name
+* `s3_compatible_region` (String): S3-compatible Bucket name
+* `s3_compatible_endpoint` (String): S3-compatible endpoint
+* `s3_compatible_access_key` (String): S3-compatible access key
+* `s3_compatible_secret_key` (String): S3-compatible secret key
 
 
 ---
@@ -262,14 +280,17 @@ parameters.put("google_cloud_storage_bucket", "my-bucket");
 parameters.put("google_cloud_storage_project_id", "my-project");
 parameters.put("backblaze_b2_bucket", "my-bucket");
 parameters.put("backblaze_b2_s3_endpoint", "s3.us-west-001.backblazeb2.com");
-parameters.put("wasabi_bucket", "us-west-1");
-parameters.put("wasabi_region", "my-bucket");
+parameters.put("wasabi_bucket", "my-bucket");
+parameters.put("wasabi_region", "us-west-1");
 parameters.put("rackspace_username", "rackspaceuser");
 parameters.put("rackspace_region", "dfw");
 parameters.put("rackspace_container", "my-container");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
+parameters.put("s3_compatible_bucket", "my-bucket");
+parameters.put("s3_compatible_region", "us-east-1");
+parameters.put("s3_compatible_endpoint", "mys3platform.com");
 
 RemoteServer.Update(parameters);
 ```
@@ -305,14 +326,19 @@ RemoteServer.Update(parameters);
 * `google_cloud_storage_project_id` (String): Google Cloud Project ID
 * `backblaze_b2_bucket` (String): Backblaze B2 Cloud Storage Bucket name
 * `backblaze_b2_s3_endpoint` (String): Backblaze B2 Cloud Storage S3 Endpoint
-* `wasabi_bucket` (String): Wasabi region
-* `wasabi_region` (String): Wasabi Bucket name
+* `wasabi_bucket` (String): Wasabi Bucket name
+* `wasabi_region` (String): Wasabi region
 * `rackspace_username` (String): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` (String): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` (String): The name of the container (top level directory) where files will sync.
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `s3_compatible_bucket` (String): S3-compatible Bucket name
+* `s3_compatible_region` (String): S3-compatible Bucket name
+* `s3_compatible_endpoint` (String): S3-compatible endpoint
+* `s3_compatible_access_key` (String): S3-compatible access key
+* `s3_compatible_secret_key` (String): S3-compatible secret key
 
 
 ---

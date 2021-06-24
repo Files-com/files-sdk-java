@@ -61,3 +61,21 @@ List<ExternalEvent> externalEvent = ExternalEvent.find(
 ### Parameters
 
 * `id` (Long): Required - External Event ID.
+
+
+---
+
+## Create External Event
+
+```
+ExternalEvent externalEvent = ExternalEvent.create(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `status` (String): Required - Status of event.
+* `body` (String): Required - Event body

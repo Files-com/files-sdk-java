@@ -49,6 +49,7 @@ public class ExternalEvent {
   * Event ID
   */
   @Getter
+  @Setter
   @JsonProperty("id")
   private Long id;
 
@@ -56,6 +57,7 @@ public class ExternalEvent {
   * Type of event being recorded.
   */
   @Getter
+  @Setter
   @JsonProperty("event_type")
   private String eventType;
 
@@ -63,6 +65,7 @@ public class ExternalEvent {
   * Status of event.
   */
   @Getter
+  @Setter
   @JsonProperty("status")
   private String status;
 
@@ -70,6 +73,7 @@ public class ExternalEvent {
   * Event body
   */
   @Getter
+  @Setter
   @JsonProperty("body")
   private String body;
 
@@ -84,10 +88,19 @@ public class ExternalEvent {
   * Link to log file.
   */
   @Getter
+  @Setter
   @JsonProperty("body_url")
   private String bodyUrl;
 
 
+  public void save() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    if (parameters.containsKey("id") && parameters.get("id") != null) {
+      throw new UnsupportedOperationException("The ExternalEvent Object doesn't support updates.");
+    } else {
+      ExternalEvent newObject = ExternalEvent.create(parameters, this.options);
+    }
+  }
 
   /**
   * Parameters:
@@ -203,6 +216,43 @@ public class ExternalEvent {
   public static List<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
+
+  /**
+  * Parameters:
+  *   status (required) - string - Status of event.
+  *   body (required) - string - Event body
+  */
+  public static ExternalEvent create() throws IOException{
+    return create(null,null);
+  }
+  public static ExternalEvent create( HashMap<String, Object> parameters) throws IOException {
+    return create(parameters, null);
+  }
+
+
+  public static ExternalEvent create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
+    }
+
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
+    }
+
+    if (!parameters.containsKey("status") || parameters.get("status") == null) {
+      throw new NullPointerException("Parameter missing: status parameters[\"status\"]");
+    }
+    if (!parameters.containsKey("body") || parameters.get("body") == null) {
+      throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
+    }
+    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
 }
 

@@ -60,6 +60,13 @@ public class App {
   private String extendedDescription;
 
   /**
+  * Short description of the App
+  */
+  @Getter
+  @JsonProperty("short_description")
+  private String shortDescription;
+
+  /**
   * Collection of named links to documentation
   */
   @Getter

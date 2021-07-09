@@ -6,6 +6,7 @@
 {
   "name": "",
   "extended_description": "",
+  "short_description": "",
   "documentation_links": "Important Info => http://files.test/learn-more",
   "icon_url": "",
   "logo_url": "",
@@ -26,6 +27,7 @@
 
 * `name` / `name`  (string): Name of the App
 * `extended_description` / `extendedDescription`  (string): Long form description of the App
+* `short_description` / `shortDescription`  (string): Short description of the App
 * `documentation_links` / `documentationLinks`  (string): Collection of named links to documentation
 * `icon_url` / `iconUrl`  (string): App icon
 * `logo_url` / `logoUrl`  (string): Full size logo for the App

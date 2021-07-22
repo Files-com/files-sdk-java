@@ -7,22 +7,28 @@
   "path": "locked_file",
   "timeout": 43200,
   "depth": "infinity",
+  "recursive": true,
   "owner": "user",
   "scope": "shared",
+  "exclusive": true,
   "token": "17c54824e9931a4688ca032d03f6663c",
   "type": "write",
+  "allow_access_by_any_user": true,
   "user_id": 1,
   "username": ""
 }
 ```
 
 * `path` / `path`  (string): Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `timeout` / `timeout`  (int64): Lock timeout
-* `depth` / `depth`  (string): Lock depth (0 or infinity)
-* `owner` / `owner`  (string): Owner of lock.  This can be any arbitrary string.
-* `scope` / `scope`  (string): Lock scope(shared or exclusive)
+* `timeout` / `timeout`  (int64): Lock timeout in seconds
+* `depth` / `depth`  (string): DEPRECATED: Lock depth
+* `recursive` / `recursive`  (boolean): Does lock apply to subfolders?
+* `owner` / `owner`  (string): Owner of the lock.  This can be any arbitrary string.
+* `scope` / `scope`  (string): DEPRECATED: Lock scope
+* `exclusive` / `exclusive`  (boolean): Is lock exclusive?
 * `token` / `token`  (string): Lock token.  Use to release lock.
-* `type` / `type`  (string): Lock type
+* `type` / `type`  (string): DEPRECATED: Lock type
+* `allow_access_by_any_user` / `allowAccessByAnyUser`  (boolean): Can lock be modified by users other than its creator?
 * `user_id` / `userId`  (int64): Lock creator user ID
 * `username` / `username`  (string): Lock creator username
 
@@ -62,6 +68,9 @@ Lock lock = Lock.create(
 ### Parameters
 
 * `path` (String): Required - Path
+* `allow_access_by_any_user` (Boolean): Allow lock to be updated by any user?
+* `exclusive` (Boolean): Is lock exclusive?
+* `recursive` (String): Does lock apply to subfolders?
 * `timeout` (Long): Lock timeout length
 
 

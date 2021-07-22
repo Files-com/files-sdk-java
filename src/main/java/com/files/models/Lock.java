@@ -54,7 +54,7 @@ public class Lock {
   private String path;
 
   /**
-  * Lock timeout
+  * Lock timeout in seconds
   */
   @Getter
   @Setter
@@ -62,7 +62,7 @@ public class Lock {
   private Long timeout;
 
   /**
-  * Lock depth (0 or infinity)
+  * DEPRECATED: Lock depth
   */
   @Getter
   @Setter
@@ -70,7 +70,15 @@ public class Lock {
   private String depth;
 
   /**
-  * Owner of lock.  This can be any arbitrary string.
+  * Does lock apply to subfolders?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("recursive")
+  private Boolean recursive;
+
+  /**
+  * Owner of the lock.  This can be any arbitrary string.
   */
   @Getter
   @Setter
@@ -78,12 +86,20 @@ public class Lock {
   private String owner;
 
   /**
-  * Lock scope(shared or exclusive)
+  * DEPRECATED: Lock scope
   */
   @Getter
   @Setter
   @JsonProperty("scope")
   private String scope;
+
+  /**
+  * Is lock exclusive?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("exclusive")
+  private Boolean exclusive;
 
   /**
   * Lock token.  Use to release lock.
@@ -94,12 +110,20 @@ public class Lock {
   private String token;
 
   /**
-  * Lock type
+  * DEPRECATED: Lock type
   */
   @Getter
   @Setter
   @JsonProperty("type")
   private String type;
+
+  /**
+  * Can lock be modified by users other than its creator?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("allow_access_by_any_user")
+  private Boolean allowAccessByAnyUser;
 
   /**
   * Lock creator user ID
@@ -191,6 +215,9 @@ public class Lock {
   /**
   * Parameters:
   *   path (required) - string - Path
+  *   allow_access_by_any_user - boolean - Allow lock to be updated by any user?
+  *   exclusive - boolean - Is lock exclusive?
+  *   recursive - string - Does lock apply to subfolders?
   *   timeout - int64 - Lock timeout length
   */
   public static Lock create() throws IOException{
@@ -213,6 +240,18 @@ public class Lock {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("allow_access_by_any_user") && !(parameters.get("allow_access_by_any_user") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: allow_access_by_any_user must be of type Boolean parameters[\"allow_access_by_any_user\"]");
+    }
+
+    if (parameters.containsKey("exclusive") && !(parameters.get("exclusive") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: exclusive must be of type Boolean parameters[\"exclusive\"]");
+    }
+
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type String parameters[\"recursive\"]");
     }
 
     if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long )) {

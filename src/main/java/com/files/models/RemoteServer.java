@@ -302,6 +302,14 @@ public class RemoteServer {
   private String s3CompatibleEndpoint;
 
   /**
+  * `true` if remote server only accepts connections from dedicated IPs
+  */
+  @Getter
+  @Setter
+  @JsonProperty("enable_dedicated_ips")
+  private Boolean enableDedicatedIps;
+
+  /**
   * AWS Access Key.
   */
   @Getter
@@ -462,6 +470,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_region - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible access key
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
@@ -609,6 +618,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_region - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible access key
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
@@ -780,6 +790,10 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
     }
 
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
+    }
+
     if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
     }
@@ -835,6 +849,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_region - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible access key
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
@@ -1014,6 +1029,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("s3_compatible_endpoint") && !(parameters.get("s3_compatible_endpoint") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
+    }
+
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
 
     if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String )) {

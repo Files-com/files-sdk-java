@@ -126,6 +126,14 @@ public class WebhookTest {
   private Map<String, String> body;
 
   /**
+  * raw body text
+  */
+  @Getter
+  @Setter
+  @JsonProperty("raw_body")
+  private String rawBody;
+
+  /**
   * action for test body
   */
   @Getter
@@ -150,6 +158,7 @@ public class WebhookTest {
   *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
   *   headers - object - Additional request headers.
   *   body - object - Additional body parameters.
+  *   raw_body - string - raw body text
   *   action - string - action for test body
   */
   public static WebhookTest create() throws IOException{
@@ -182,6 +191,10 @@ public class WebhookTest {
 
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
+    }
+
+    if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");
     }
 
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {

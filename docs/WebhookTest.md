@@ -22,6 +22,7 @@
 * `encoding` / `encoding`  (string): HTTP encoding method.  Can be JSON, XML, or RAW (form data).
 * `headers` / `headers`  (object): Additional request headers.
 * `body` / `body`  (object): Additional body parameters.
+* `raw_body` / `rawBody`  (string): raw body text
 * `action` / `action`  (string): action for test body
 
 
@@ -44,4 +45,5 @@ WebhookTest webhookTest = WebhookTest.create(
 * `encoding` (String): HTTP encoding method.  Can be JSON, XML, or RAW (form data).
 * `headers` (Map<String, String>): Additional request headers.
 * `body` (Map<String, String>): Additional body parameters.
+* `raw_body` (String): raw body text
 * `action` (String): action for test body

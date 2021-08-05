@@ -134,6 +134,22 @@ public class WebhookTest {
   private String rawBody;
 
   /**
+  * Send the file data as the request body?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("file_as_body")
+  private Boolean fileAsBody;
+
+  /**
+  * Send the file data as a named parameter in the request POST body
+  */
+  @Getter
+  @Setter
+  @JsonProperty("file_form_field")
+  private String fileFormField;
+
+  /**
   * action for test body
   */
   @Getter
@@ -159,6 +175,8 @@ public class WebhookTest {
   *   headers - object - Additional request headers.
   *   body - object - Additional body parameters.
   *   raw_body - string - raw body text
+  *   file_as_body - boolean - Send the file data as the request body?
+  *   file_form_field - string - Send the file data as a named parameter in the request POST body
   *   action - string - action for test body
   */
   public static WebhookTest create() throws IOException{
@@ -195,6 +213,14 @@ public class WebhookTest {
 
     if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");
+    }
+
+    if (parameters.containsKey("file_as_body") && !(parameters.get("file_as_body") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: file_as_body must be of type Boolean parameters[\"file_as_body\"]");
+    }
+
+    if (parameters.containsKey("file_form_field") && !(parameters.get("file_form_field") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: file_form_field must be of type String parameters[\"file_form_field\"]");
     }
 
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {

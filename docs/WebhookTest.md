@@ -23,6 +23,8 @@
 * `headers` / `headers`  (object): Additional request headers.
 * `body` / `body`  (object): Additional body parameters.
 * `raw_body` / `rawBody`  (string): raw body text
+* `file_as_body` / `fileAsBody`  (boolean): Send the file data as the request body?
+* `file_form_field` / `fileFormField`  (string): Send the file data as a named parameter in the request POST body
 * `action` / `action`  (string): action for test body
 
 
@@ -46,4 +48,6 @@ WebhookTest webhookTest = WebhookTest.create(
 * `headers` (Map<String, String>): Additional request headers.
 * `body` (Map<String, String>): Additional body parameters.
 * `raw_body` (String): raw body text
+* `file_as_body` (Boolean): Send the file data as the request body?
+* `file_form_field` (String): Send the file data as a named parameter in the request POST body
 * `action` (String): action for test body

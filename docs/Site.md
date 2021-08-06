@@ -31,6 +31,9 @@
   "desktop_app": true,
   "desktop_app_session_ip_pinning": true,
   "desktop_app_session_lifetime": 1,
+  "mobile_app": true,
+  "mobile_app_session_ip_pinning": true,
+  "mobile_app_session_lifetime": 1,
   "disallowed_countries": "US,DE",
   "disable_notifications": true,
   "disable_password_reset": true,
@@ -234,6 +237,9 @@
 * `desktop_app` / `desktopApp`  (boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` / `desktopAppSessionIpPinning`  (boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` / `desktopAppSessionLifetime`  (int64): Desktop app session lifetime (in hours)
+* `mobile_app` / `mobileApp`  (boolean): Is the mobile app enabled?
+* `mobile_app_session_ip_pinning` / `mobileAppSessionIpPinning`  (boolean): Is mobile app session IP pinning enabled?
+* `mobile_app_session_lifetime` / `mobileAppSessionLifetime`  (int64): Mobile app session lifetime (in hours)
 * `disallowed_countries` / `disallowedCountries`  (string): Comma seperated list of disallowed Country codes
 * `disable_notifications` / `disableNotifications`  (boolean): Are notifications disabled?
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
@@ -384,6 +390,9 @@ Site site = Site.update(
 * `desktop_app` (Boolean): Is the desktop app enabled?
 * `desktop_app_session_ip_pinning` (Boolean): Is desktop app session IP pinning enabled?
 * `desktop_app_session_lifetime` (Long): Desktop app session lifetime (in hours)
+* `mobile_app` (Boolean): Is the mobile app enabled?
+* `mobile_app_session_ip_pinning` (Boolean): Is mobile app session IP pinning enabled?
+* `mobile_app_session_lifetime` (Long): Mobile app session lifetime (in hours)
 * `folder_permissions_groups_only` (Boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 * `welcome_screen` (String): Does the welcome screen appear?
 * `office_integration_available` (Boolean): Allow users to use Office for the web?

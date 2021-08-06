@@ -235,6 +235,27 @@ public class Site {
   private Long desktopAppSessionLifetime;
 
   /**
+  * Is the mobile app enabled?
+  */
+  @Getter
+  @JsonProperty("mobile_app")
+  private Boolean mobileApp;
+
+  /**
+  * Is mobile app session IP pinning enabled?
+  */
+  @Getter
+  @JsonProperty("mobile_app_session_ip_pinning")
+  private Boolean mobileAppSessionIpPinning;
+
+  /**
+  * Mobile app session lifetime (in hours)
+  */
+  @Getter
+  @JsonProperty("mobile_app_session_lifetime")
+  private Long mobileAppSessionLifetime;
+
+  /**
   * Comma seperated list of disallowed Country codes
   */
   @Getter
@@ -920,6 +941,9 @@ public class Site {
   *   desktop_app - boolean - Is the desktop app enabled?
   *   desktop_app_session_ip_pinning - boolean - Is desktop app session IP pinning enabled?
   *   desktop_app_session_lifetime - int64 - Desktop app session lifetime (in hours)
+  *   mobile_app - boolean - Is the mobile app enabled?
+  *   mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
+  *   mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
   *   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
   *   welcome_screen - string - Does the welcome screen appear?
   *   office_integration_available - boolean - Allow users to use Office for the web?
@@ -1094,6 +1118,18 @@ public class Site {
 
     if (parameters.containsKey("desktop_app_session_lifetime") && !(parameters.get("desktop_app_session_lifetime") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: desktop_app_session_lifetime must be of type Long parameters[\"desktop_app_session_lifetime\"]");
+    }
+
+    if (parameters.containsKey("mobile_app") && !(parameters.get("mobile_app") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: mobile_app must be of type Boolean parameters[\"mobile_app\"]");
+    }
+
+    if (parameters.containsKey("mobile_app_session_ip_pinning") && !(parameters.get("mobile_app_session_ip_pinning") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: mobile_app_session_ip_pinning must be of type Boolean parameters[\"mobile_app_session_ip_pinning\"]");
+    }
+
+    if (parameters.containsKey("mobile_app_session_lifetime") && !(parameters.get("mobile_app_session_lifetime") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: mobile_app_session_lifetime must be of type Long parameters[\"mobile_app_session_lifetime\"]");
     }
 
     if (parameters.containsKey("folder_permissions_groups_only") && !(parameters.get("folder_permissions_groups_only") instanceof Boolean )) {

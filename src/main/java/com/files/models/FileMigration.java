@@ -101,6 +101,13 @@ public class FileMigration {
   @JsonProperty("status")
   private String status;
 
+  /**
+  * Link to download the log file for this migration.
+  */
+  @Getter
+  @JsonProperty("log_url")
+  private String logUrl;
+
 
 
   /**

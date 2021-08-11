@@ -146,6 +146,86 @@ File file = File.delete(
 
 ---
 
+## Return metadata for file/folder
+
+```
+File file = File.metadata(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+* `with_previews` (Boolean): Include file preview information?
+* `with_priority_color` (Boolean): Include file priority color information?
+
+
+---
+
+## Copy file/folder
+
+```
+File file = File.copy(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Copy destination path.
+* `structure` (Boolean): Copy structure only?
+
+
+---
+
+## Move file/folder
+
+```
+File file = File.move(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Move destination path.
+
+
+---
+
+## Begin file upload
+
+```
+File file = File.beginUpload(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `mkdir_parents` (Boolean): Create parent directories if they do not exist?
+* `part` (Long): Part if uploading a part.
+* `parts` (Long): How many parts to fetch?
+* `ref` (String): 
+* `restart` (Long): File byte offset to restart from.
+* `with_rename` (Boolean): Allow file rename instead of overwrite?
+
+
+---
+
 ## Download file
 
 ```
@@ -208,3 +288,98 @@ File.Delete(parameters);
 
 * `path` (String): Required - Path to operate on.
 * `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+
+
+---
+
+## Return metadata for file/folder
+
+```
+File file = File.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("with_previews", true);
+parameters.put("with_priority_color", true);
+
+File.Metadata(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+* `with_previews` (Boolean): Include file preview information?
+* `with_priority_color` (Boolean): Include file priority color information?
+
+
+---
+
+## Copy file/folder
+
+```
+File file = File.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("destination", "destination");
+parameters.put("structure", true);
+
+File.Copy(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Copy destination path.
+* `structure` (Boolean): Copy structure only?
+
+
+---
+
+## Move file/folder
+
+```
+File file = File.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("destination", "destination");
+
+File.Move(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Move destination path.
+
+
+---
+
+## Begin file upload
+
+```
+File file = File.ListFor(path)[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("mkdir_parents", true);
+parameters.put("part", 1);
+parameters.put("parts", 1);
+parameters.put("ref", "upload-1");
+parameters.put("restart", 1);
+parameters.put("with_rename", true);
+
+File.BeginUpload(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `mkdir_parents` (Boolean): Create parent directories if they do not exist?
+* `part` (Long): Part if uploading a part.
+* `parts` (Long): How many parts to fetch?
+* `ref` (String): 
+* `restart` (Long): File byte offset to restart from.
+* `with_rename` (Boolean): Allow file rename instead of overwrite?

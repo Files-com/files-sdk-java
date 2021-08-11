@@ -107,7 +107,7 @@ Behavior behavior = Behavior.create(
 
 ### Parameters
 
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `path` (String): Required - Folder behaviors path.
 * `behavior` (String): Required - Behavior type.
@@ -150,7 +150,7 @@ Behavior behavior = Behavior.update(
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.
@@ -191,7 +191,7 @@ Behavior.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior.
+* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.

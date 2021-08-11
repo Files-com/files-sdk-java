@@ -303,6 +303,54 @@ public class File {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  /**
+  * Return metadata for file/folder
+  *
+  * Parameters:
+  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+  *   with_previews - boolean - Include file preview information?
+  *   with_priority_color - boolean - Include file priority color information?
+  */
+  public File metadata(HashMap<String, Object> parameters) {
+    return metadata(parameters);
+  }
+
+  /**
+  * Copy file/folder
+  *
+  * Parameters:
+  *   destination (required) - string - Copy destination path.
+  *   structure - boolean - Copy structure only?
+  */
+  public File copy(HashMap<String, Object> parameters) {
+    return copy(parameters);
+  }
+
+  /**
+  * Move file/folder
+  *
+  * Parameters:
+  *   destination (required) - string - Move destination path.
+  */
+  public File move(HashMap<String, Object> parameters) {
+    return move(parameters);
+  }
+
+  /**
+  * Begin file upload
+  *
+  * Parameters:
+  *   mkdir_parents - boolean - Create parent directories if they do not exist?
+  *   part - int64 - Part if uploading a part.
+  *   parts - int64 - How many parts to fetch?
+  *   ref - string -
+  *   restart - int64 - File byte offset to restart from.
+  *   with_rename - boolean - Allow file rename instead of overwrite?
+  */
+  public File beginUpload(HashMap<String, Object> parameters) {
+    return beginUpload(parameters);
+  }
+
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -553,6 +601,216 @@ public class File {
   public static File destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return delete(path, parameters, options);
   }
+
+  /**
+  * Return metadata for file/folder
+  *
+  * Parameters:
+  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+  *   with_previews - boolean - Include file preview information?
+  *   with_priority_color - boolean - Include file priority color information?
+  */
+  public static File metadata() throws IOException{
+    return metadata(null, null,null);
+  }
+  public static File metadata(String path,  HashMap<String, Object> parameters) throws IOException {
+    return metadata(path, parameters, null);
+  }
+
+  public static File metadata(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return metadata(null, parameters, options);
+  }
+
+  public static File metadata(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path != null){
+      parameters.put("path",path);
+    }
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
+    }
+
+    if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
+    }
+
+    if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
+    }
+
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Copy file/folder
+  *
+  * Parameters:
+  *   destination (required) - string - Copy destination path.
+  *   structure - boolean - Copy structure only?
+  */
+  public static File copy() throws IOException{
+    return copy(null, null,null);
+  }
+  public static File copy(String path,  HashMap<String, Object> parameters) throws IOException {
+    return copy(path, parameters, null);
+  }
+
+  public static File copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return copy(null, parameters, options);
+  }
+
+  public static File copy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path != null){
+      parameters.put("path",path);
+    }
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+
+    if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: structure must be of type Boolean parameters[\"structure\"]");
+    }
+
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Move file/folder
+  *
+  * Parameters:
+  *   destination (required) - string - Move destination path.
+  */
+  public static File move() throws IOException{
+    return move(null, null,null);
+  }
+  public static File move(String path,  HashMap<String, Object> parameters) throws IOException {
+    return move(path, parameters, null);
+  }
+
+  public static File move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return move(null, parameters, options);
+  }
+
+  public static File move(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path != null){
+      parameters.put("path",path);
+    }
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Begin file upload
+  *
+  * Parameters:
+  *   mkdir_parents - boolean - Create parent directories if they do not exist?
+  *   part - int64 - Part if uploading a part.
+  *   parts - int64 - How many parts to fetch?
+  *   ref - string -
+  *   restart - int64 - File byte offset to restart from.
+  *   with_rename - boolean - Allow file rename instead of overwrite?
+  */
+  public static File beginUpload() throws IOException{
+    return beginUpload(null, null,null);
+  }
+  public static File beginUpload(String path,  HashMap<String, Object> parameters) throws IOException {
+    return beginUpload(path, parameters, null);
+  }
+
+  public static File beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return beginUpload(null, parameters, options);
+  }
+
+  public static File beginUpload(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path != null){
+      parameters.put("path",path);
+    }
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
+    }
+
+    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: part must be of type Long parameters[\"part\"]");
+    }
+
+    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: parts must be of type Long parameters[\"parts\"]");
+    }
+
+    if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
+    }
+
+    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
+    }
+
+    if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
+    }
+
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
 }
 

@@ -74,6 +74,13 @@ public class BundleRegistration {
   private String email;
 
   /**
+  * Registrant IP Address
+  */
+  @Getter
+  @JsonProperty("ip")
+  private String ip;
+
+  /**
   * InboxRegistration cookie code, if there is an associated InboxRegistration
   */
   @Getter

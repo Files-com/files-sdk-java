@@ -78,14 +78,6 @@ public class Automation {
   private String interval;
 
   /**
-  * If trigger is `daily`, date this automation will next run.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("next_process_on")
-  private String nextProcessOn;
-
-  /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
   */
   @Getter

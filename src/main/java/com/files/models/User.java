@@ -469,6 +469,14 @@ public class User {
   private Long groupId;
 
   /**
+  * Pre-calculated hash of the user's password.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("imported_password_hash")
+  private String importedPasswordHash;
+
+  /**
   * User password.
   */
   @Getter
@@ -523,6 +531,7 @@ public class User {
   *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+  *   imported_password_hash - string - Pre-calculated hash of the user's password.
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -731,6 +740,7 @@ public class User {
   *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+  *   imported_password_hash - string - Pre-calculated hash of the user's password.
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -809,6 +819,10 @@ public class User {
 
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
+    }
+
+    if (parameters.containsKey("imported_password_hash") && !(parameters.get("imported_password_hash") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: imported_password_hash must be of type String parameters[\"imported_password_hash\"]");
     }
 
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
@@ -1069,6 +1083,7 @@ public class User {
   *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+  *   imported_password_hash - string - Pre-calculated hash of the user's password.
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
@@ -1157,6 +1172,10 @@ public class User {
 
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
+    }
+
+    if (parameters.containsKey("imported_password_hash") && !(parameters.get("imported_password_hash") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: imported_password_hash must be of type String parameters[\"imported_password_hash\"]");
     }
 
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {

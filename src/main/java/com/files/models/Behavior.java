@@ -78,6 +78,22 @@ public class Behavior {
   private String behavior;
 
   /**
+  * Name for this behavior.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("name")
+  private String name;
+
+  /**
+  * Description for this behavior.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("description")
+  private String description;
+
+  /**
   * Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
   */
   @Getter
@@ -97,6 +113,8 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   name - string - Name for this behavior.
+  *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
   *   path - string - Folder behaviors path.
   */
@@ -337,6 +355,8 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   name - string - Name for this behavior.
+  *   description - string - Description for this behavior.
   *   path (required) - string - Folder behaviors path.
   *   behavior (required) - string - Behavior type.
   */
@@ -358,6 +378,14 @@ public class Behavior {
 
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
@@ -438,6 +466,8 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   name - string - Name for this behavior.
+  *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
   *   path - string - Folder behaviors path.
   */
@@ -469,6 +499,14 @@ public class Behavior {
 
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String )) {

@@ -78,6 +78,14 @@ public class Automation {
   private String interval;
 
   /**
+  * Name for this automation.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("name")
+  private String name;
+
+  /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
   */
   @Getter
@@ -116,6 +124,14 @@ public class Automation {
   @Setter
   @JsonProperty("destination_replace_to")
   private String destinationReplaceTo;
+
+  /**
+  * Description for the this Automation.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("description")
+  private String description;
 
   /**
   * Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -202,6 +218,8 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   description - string - Description for the this Automation.
+  *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -363,6 +381,8 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   description - string - Description for the this Automation.
+  *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -424,6 +444,14 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
     }
 
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
@@ -462,6 +490,8 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   description - string - Description for the this Automation.
+  *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   trigger_action_path - string - If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -531,6 +561,14 @@ public class Automation {
 
     if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    }
+
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {

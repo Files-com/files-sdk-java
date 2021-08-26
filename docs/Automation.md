@@ -8,6 +8,7 @@
   "automation": "create_folder",
   "trigger": "realtime",
   "interval": "week",
+  "name": "",
   "schedule": {
     "days_of_week": [
       0,
@@ -26,6 +27,7 @@
   ],
   "destination_replace_from": "",
   "destination_replace_to": "",
+  "description": "",
   "path": "",
   "user_id": 1,
   "user_ids": [
@@ -47,11 +49,13 @@
 * `automation` / `automation`  (string): Automation type
 * `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+* `name` / `name`  (string): Name for this automation.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
 * `destinations` / `destinations`  (string): Destination Path
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
+* `description` / `description`  (string): Description for the this Automation.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
@@ -131,6 +135,8 @@ Automation automation = Automation.create(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `description` (String): Description for the this Automation.
+* `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -163,6 +169,8 @@ Automation automation = Automation.update(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `description` (String): Description for the this Automation.
+* `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.
@@ -224,6 +232,8 @@ Automation.Update(parameters);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `description` (String): Description for the this Automation.
+* `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.

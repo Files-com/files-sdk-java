@@ -8,6 +8,8 @@
   "path": "",
   "attachment_url": "",
   "behavior": "webhook",
+  "name": "",
+  "description": "",
   "value": {
     "method": "GET"
   }
@@ -18,6 +20,8 @@
 * `path` / `path`  (string): Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `attachment_url` / `attachmentUrl`  (string): URL for attached file
 * `behavior` / `behavior`  (string): Behavior type.
+* `name` / `name`  (string): Name for this behavior.
+* `description` / `description`  (string): Description for this behavior.
 * `value` / `value`  (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `attachment_file` / `attachmentFile`  (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 
@@ -109,6 +113,8 @@ Behavior behavior = Behavior.create(
 
 * `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `name` (String): Name for this behavior.
+* `description` (String): Description for this behavior.
 * `path` (String): Required - Folder behaviors path.
 * `behavior` (String): Required - Behavior type.
 
@@ -152,6 +158,8 @@ Behavior behavior = Behavior.update(
 * `id` (Long): Required - Behavior ID.
 * `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `name` (String): Name for this behavior.
+* `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.
 
@@ -193,6 +201,8 @@ Behavior.Update(parameters);
 * `id` (Long): Required - Behavior ID.
 * `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `name` (String): Name for this behavior.
+* `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.
 

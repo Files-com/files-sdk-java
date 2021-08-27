@@ -94,6 +94,20 @@ public class InboxRegistration {
   @JsonProperty("form_field_data")
   private String formFieldData;
 
+  /**
+  * Id of associated inbox
+  */
+  @Getter
+  @JsonProperty("inbox_id")
+  private Long inboxId;
+
+  /**
+  * Id of associated inbox recipient
+  */
+  @Getter
+  @JsonProperty("inbox_recipient_id")
+  private Long inboxRecipientId;
+
 
 
   /**

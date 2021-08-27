@@ -108,6 +108,20 @@ public class BundleRegistration {
   @JsonProperty("form_field_data")
   private String formFieldData;
 
+  /**
+  * Id of associated bundle
+  */
+  @Getter
+  @JsonProperty("bundle_id")
+  private Long bundleId;
+
+  /**
+  * Id of associated bundle recipient
+  */
+  @Getter
+  @JsonProperty("bundle_recipient_id")
+  private Long bundleRecipientId;
+
 
 
   /**

@@ -39,6 +39,7 @@
   "disable_password_reset": true,
   "domain": "my-custom-domain.com",
   "email": "john.doe@files.com",
+  "ftp_enabled": true,
   "reply_to_email": "jane.doe@files.com",
   "non_sso_groups_allowed": true,
   "non_sso_users_allowed": true,
@@ -126,6 +127,7 @@
     "windows_mode_ftp": false
   },
   "session_pinned_by_ip": true,
+  "sftp_enabled": true,
   "sftp_user_root_enabled": true,
   "sharing_enabled": true,
   "show_request_access_link": true,
@@ -245,6 +247,7 @@
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
 * `domain` / `domain`  (string): Custom domain
 * `email` / `email`  (email): Main email for this site
+* `ftp_enabled` / `ftpEnabled`  (boolean): Is FTP enabled?
 * `reply_to_email` / `replyToEmail`  (email): Reply-to email for this site
 * `non_sso_groups_allowed` / `nonSsoGroupsAllowed`  (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` / `nonSsoUsersAllowed`  (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
@@ -298,6 +301,7 @@
 * `require_2fa_user_type` / `require2faUserType`  (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 * `session` / `session` : Current session
 * `session_pinned_by_ip` / `sessionPinnedByIp`  (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
+* `sftp_enabled` / `sftpEnabled`  (boolean): Is SFTP enabled?
 * `sftp_user_root_enabled` / `sftpUserRootEnabled`  (boolean): Use user FTP roots also for SFTP?
 * `sharing_enabled` / `sharingEnabled`  (boolean): Allow bundle creation
 * `show_request_access_link` / `showRequestAccessLink`  (boolean): Show request access link for users without access?  Currently unused.
@@ -431,6 +435,8 @@ Site site = Site.update(
 * `non_sso_users_allowed` (Boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `sharing_enabled` (Boolean): Allow bundle creation
 * `user_requests_enabled` (Boolean): Enable User Requests feature
+* `ftp_enabled` (Boolean): Is FTP enabled?
+* `sftp_enabled` (Boolean): Is SFTP enabled?
 * `allowed_2fa_method_sms` (Boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (Boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?

@@ -291,6 +291,13 @@ public class Site {
   private String email;
 
   /**
+  * Is FTP enabled?
+  */
+  @Getter
+  @JsonProperty("ftp_enabled")
+  private Boolean ftpEnabled;
+
+  /**
   * Reply-to email for this site
   */
   @Getter
@@ -662,6 +669,13 @@ public class Site {
   private Boolean sessionPinnedByIp;
 
   /**
+  * Is SFTP enabled?
+  */
+  @Getter
+  @JsonProperty("sftp_enabled")
+  private Boolean sftpEnabled;
+
+  /**
   * Use user FTP roots also for SFTP?
   */
   @Getter
@@ -982,6 +996,8 @@ public class Site {
   *   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
   *   sharing_enabled - boolean - Allow bundle creation
   *   user_requests_enabled - boolean - Enable User Requests feature
+  *   ftp_enabled - boolean - Is FTP enabled?
+  *   sftp_enabled - boolean - Is SFTP enabled?
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -1282,6 +1298,14 @@ public class Site {
 
     if (parameters.containsKey("user_requests_enabled") && !(parameters.get("user_requests_enabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: user_requests_enabled must be of type Boolean parameters[\"user_requests_enabled\"]");
+    }
+
+    if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: ftp_enabled must be of type Boolean parameters[\"ftp_enabled\"]");
+    }
+
+    if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
     }
 
     if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean )) {

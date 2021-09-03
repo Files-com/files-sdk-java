@@ -325,6 +325,14 @@ public class User {
   private Boolean requirePasswordChange;
 
   /**
+  * Is user's password expired?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("password_expired")
+  private Boolean passwordExpired;
+
+  /**
   * Can this user access the REST API?
   */
   @Getter

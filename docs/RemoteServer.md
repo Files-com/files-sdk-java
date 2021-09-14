@@ -34,7 +34,6 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
-  "s3_compatible_region": "us-east-1",
   "s3_compatible_endpoint": "mys3platform.com",
   "enable_dedicated_ips": true
 }
@@ -70,7 +69,6 @@
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
-* `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
 * `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `aws_access_key` / `awsAccessKey`  (string): AWS Access Key.
@@ -176,7 +174,6 @@ RemoteServer remoteServer = RemoteServer.create(
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
-* `s3_compatible_region` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible access key
@@ -235,7 +232,6 @@ RemoteServer remoteServer = RemoteServer.update(
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
-* `s3_compatible_region` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible access key
@@ -293,7 +289,6 @@ parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
 parameters.put("s3_compatible_bucket", "my-bucket");
-parameters.put("s3_compatible_region", "us-east-1");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("enable_dedicated_ips", true);
 
@@ -340,7 +335,6 @@ RemoteServer.Update(parameters);
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
-* `s3_compatible_region` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible access key

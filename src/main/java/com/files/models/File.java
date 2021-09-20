@@ -304,18 +304,6 @@ public class File {
     delete(parameters);
   }
   /**
-  * Return metadata for file/folder
-  *
-  * Parameters:
-  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-  *   with_previews - boolean - Include file preview information?
-  *   with_priority_color - boolean - Include file priority color information?
-  */
-  public File metadata(HashMap<String, Object> parameters) {
-    return metadata(parameters);
-  }
-
-  /**
   * Copy file/folder
   *
   * Parameters:
@@ -603,25 +591,24 @@ public class File {
   }
 
   /**
-  * Return metadata for file/folder
-  *
   * Parameters:
+  *   path (required) - string - Path to operate on.
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static File metadata() throws IOException{
-    return metadata(null, null,null);
+  public static List<File> findBy() throws IOException{
+    return findBy(null, null,null);
   }
-  public static File metadata(String path,  HashMap<String, Object> parameters) throws IOException {
-    return metadata(path, parameters, null);
-  }
-
-  public static File metadata(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
-    return metadata(null, parameters, options);
+  public static List<File> findBy(String path,  HashMap<String, Object> parameters) throws IOException {
+    return findBy(path, parameters, null);
   }
 
-  public static File metadata(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<File> findBy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return findBy(null, parameters, options);
+  }
+
+  public static List<File> findBy(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -648,8 +635,8 @@ public class File {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
     String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
-    TypeReference<File> typeReference = new TypeReference<File>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 

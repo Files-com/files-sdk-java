@@ -149,7 +149,7 @@ File file = File.delete(
 ## Return metadata for file/folder
 
 ```
-File file = File.metadata(
+List<File> file = File.findBy(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -288,29 +288,6 @@ File.Delete(parameters);
 
 * `path` (String): Required - Path to operate on.
 * `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
-
-
----
-
-## Return metadata for file/folder
-
-```
-File file = File.ListFor(path)[0];
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-parameters.put("with_previews", true);
-parameters.put("with_priority_color", true);
-
-File.Metadata(parameters);
-```
-
-### Parameters
-
-* `path` (String): Required - Path to operate on.
-* `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-* `with_previews` (Boolean): Include file preview information?
-* `with_priority_color` (Boolean): Include file priority color information?
 
 
 ---

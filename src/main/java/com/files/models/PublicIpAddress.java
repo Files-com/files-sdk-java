@@ -59,6 +59,18 @@ public class PublicIpAddress {
   @JsonProperty("server_name")
   private String serverName;
 
+  /**
+  */
+  @Getter
+  @JsonProperty("ftp_enabled")
+  private String ftpEnabled;
+
+  /**
+  */
+  @Getter
+  @JsonProperty("sftp_enabled")
+  private String sftpEnabled;
+
 
 
 }

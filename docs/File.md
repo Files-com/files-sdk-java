@@ -146,10 +146,10 @@ File file = File.delete(
 
 ---
 
-## Return metadata for file/folder
+## Find file/folder by path
 
 ```
-List<File> file = File.findBy(
+List<File> file = File.find(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -110,6 +110,14 @@ public class Session {
   private String rootPath;
 
   /**
+  * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
+  */
+  @Getter
+  @Setter
+  @JsonProperty("sftp_insecure_ciphers")
+  private Boolean sftpInsecureCiphers;
+
+  /**
   * Site ID
   */
   @Getter
@@ -126,7 +134,7 @@ public class Session {
   private Boolean sslRequired;
 
   /**
-  * Is strong TLS disabled for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
+  * Aee insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
   */
   @Getter
   @Setter

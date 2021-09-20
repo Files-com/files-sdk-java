@@ -676,6 +676,13 @@ public class Site {
   private Boolean sftpEnabled;
 
   /**
+  * Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
+  */
+  @Getter
+  @JsonProperty("sftp_insecure_ciphers")
+  private Boolean sftpInsecureCiphers;
+
+  /**
   * Use user FTP roots also for SFTP?
   */
   @Getter
@@ -774,7 +781,7 @@ public class Site {
   private Date switchToPlanDate;
 
   /**
-  * Is TLS disabled(site setting)?
+  * Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
   */
   @Getter
   @JsonProperty("tls_disabled")
@@ -963,7 +970,8 @@ public class Site {
   *   office_integration_available - boolean - Allow users to use Office for the web?
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
-  *   tls_disabled - boolean - Is TLS disabled(site setting)?
+  *   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
+  *   sftp_insecure_ciphers - boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
   *   user_lockout - boolean - Will users be locked out after incorrect login attempts?
   *   user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
   *   user_lockout_within - int64 - Number of hours for user lockout window
@@ -1170,6 +1178,10 @@ public class Site {
 
     if (parameters.containsKey("tls_disabled") && !(parameters.get("tls_disabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: tls_disabled must be of type Boolean parameters[\"tls_disabled\"]");
+    }
+
+    if (parameters.containsKey("sftp_insecure_ciphers") && !(parameters.get("sftp_insecure_ciphers") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: sftp_insecure_ciphers must be of type Boolean parameters[\"sftp_insecure_ciphers\"]");
     }
 
     if (parameters.containsKey("user_lockout") && !(parameters.get("user_lockout") instanceof Boolean )) {

@@ -97,7 +97,7 @@ Lock lock = Lock.delete(
 ## Delete Lock
 
 ```
-Lock lock = Lock.ListFor(path)[0];
+Lock lock = Lock.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

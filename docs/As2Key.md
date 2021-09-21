@@ -114,7 +114,7 @@ As2Key as2Key = As2Key.delete(
 ## Update As2 Key
 
 ```
-As2Key as2Key = As2Key.ListFor(path)[0];
+As2Key as2Key = As2Key.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -134,7 +134,7 @@ As2Key.Update(parameters);
 ## Delete As2 Key
 
 ```
-As2Key as2Key = As2Key.ListFor(path)[0];
+As2Key as2Key = As2Key.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

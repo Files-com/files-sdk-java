@@ -182,7 +182,7 @@ ApiKey apiKey = ApiKey.delete(
 ## Update Api Key
 
 ```
-ApiKey apiKey = ApiKey.ListFor(path)[0];
+ApiKey apiKey = ApiKey.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -206,7 +206,7 @@ ApiKey.Update(parameters);
 ## Delete Api Key
 
 ```
-ApiKey apiKey = ApiKey.ListFor(path)[0];
+ApiKey apiKey = ApiKey.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

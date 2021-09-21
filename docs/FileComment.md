@@ -96,7 +96,7 @@ FileComment fileComment = FileComment.delete(
 ## Update File Comment
 
 ```
-FileComment fileComment = FileComment.ListFor(path)[0];
+FileComment fileComment = FileComment.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -116,7 +116,7 @@ FileComment.Update(parameters);
 ## Delete File Comment
 
 ```
-FileComment fileComment = FileComment.ListFor(path)[0];
+FileComment fileComment = FileComment.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

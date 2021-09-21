@@ -133,7 +133,7 @@ Group group = Group.delete(
 ## Update Group
 
 ```
-Group group = Group.ListFor(path)[0];
+Group group = Group.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -158,7 +158,7 @@ Group.Update(parameters);
 ## Delete Group
 
 ```
-Group group = Group.ListFor(path)[0];
+Group group = Group.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

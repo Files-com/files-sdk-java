@@ -91,7 +91,7 @@ MessageReaction messageReaction = MessageReaction.delete(
 ## Delete Message Reaction
 
 ```
-MessageReaction messageReaction = MessageReaction.ListFor(path)[0];
+MessageReaction messageReaction = MessageReaction.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

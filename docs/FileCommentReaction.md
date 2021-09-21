@@ -56,7 +56,8 @@ FileCommentReaction fileCommentReaction = FileCommentReaction.delete(
 ## Delete File Comment Reaction
 
 ```
-FileCommentReaction fileCommentReaction = FileCommentReaction.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+FileCommentReaction fileCommentReaction = new FileCommentReaction(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

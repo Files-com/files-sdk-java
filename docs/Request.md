@@ -107,7 +107,7 @@ Request request = Request.delete(
 ## Delete Request
 
 ```
-Request request = Request.ListFor(path)[0];
+Request request = Request.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

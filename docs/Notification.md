@@ -148,7 +148,7 @@ Notification notification = Notification.delete(
 ## Update Notification
 
 ```
-Notification notification = Notification.ListFor(path)[0];
+Notification notification = Notification.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -174,7 +174,7 @@ Notification.Update(parameters);
 ## Delete Notification
 
 ```
-Notification notification = Notification.ListFor(path)[0];
+Notification notification = Notification.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

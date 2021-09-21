@@ -199,7 +199,7 @@ Automation automation = Automation.delete(
 ## Update Automation
 
 ```
-Automation automation = Automation.ListFor(path)[0];
+Automation automation = Automation.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -245,7 +245,7 @@ Automation.Update(parameters);
 ## Delete Automation
 
 ```
-Automation automation = Automation.ListFor(path)[0];
+Automation automation = Automation.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

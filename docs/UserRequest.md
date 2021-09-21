@@ -93,7 +93,7 @@ UserRequest userRequest = UserRequest.delete(
 ## Delete User Request
 
 ```
-UserRequest userRequest = UserRequest.ListFor(path)[0];
+UserRequest userRequest = UserRequest.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

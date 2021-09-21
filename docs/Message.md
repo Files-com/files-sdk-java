@@ -125,7 +125,7 @@ Message message = Message.delete(
 ## Update Message
 
 ```
-Message message = Message.ListFor(path)[0];
+Message message = Message.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -149,7 +149,7 @@ Message.Update(parameters);
 ## Delete Message
 
 ```
-Message message = Message.ListFor(path)[0];
+Message message = Message.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

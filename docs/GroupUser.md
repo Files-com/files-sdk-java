@@ -105,7 +105,7 @@ GroupUser groupUser = GroupUser.delete(
 ## Update Group User
 
 ```
-GroupUser groupUser = GroupUser.ListFor(path)[0];
+GroupUser groupUser = GroupUser.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -129,7 +129,7 @@ GroupUser.Update(parameters);
 ## Delete Group User
 
 ```
-GroupUser groupUser = GroupUser.ListFor(path)[0];
+GroupUser groupUser = GroupUser.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

@@ -22,7 +22,8 @@ ActionWebhookFailure actionWebhookFailure = ActionWebhookFailure.retry(
 ## retry Action Webhook Failure
 
 ```
-ActionWebhookFailure actionWebhookFailure = ActionWebhookFailure.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+ActionWebhookFailure actionWebhookFailure = new ActionWebhookFailure(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

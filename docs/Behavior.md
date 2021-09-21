@@ -186,7 +186,7 @@ Behavior behavior = Behavior.delete(
 ## Update Behavior
 
 ```
-Behavior behavior = Behavior.ListFor(path)[0];
+Behavior behavior = Behavior.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -212,7 +212,7 @@ Behavior.Update(parameters);
 ## Delete Behavior
 
 ```
-Behavior behavior = Behavior.ListFor(path)[0];
+Behavior behavior = Behavior.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

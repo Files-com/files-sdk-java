@@ -98,7 +98,7 @@ Permission permission = Permission.delete(
 ## Delete Permission
 
 ```
-Permission permission = Permission.ListFor(path)[0];
+Permission permission = Permission.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

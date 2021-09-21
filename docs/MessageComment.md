@@ -114,7 +114,7 @@ MessageComment messageComment = MessageComment.delete(
 ## Update Message Comment
 
 ```
-MessageComment messageComment = MessageComment.ListFor(path)[0];
+MessageComment messageComment = MessageComment.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -134,7 +134,7 @@ MessageComment.Update(parameters);
 ## Delete Message Comment
 
 ```
-MessageComment messageComment = MessageComment.ListFor(path)[0];
+MessageComment messageComment = MessageComment.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

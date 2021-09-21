@@ -229,7 +229,8 @@ File file = File.beginUpload(
 ## Download file
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -253,7 +254,8 @@ File.Download(parameters);
 ## Update file/folder metadata
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -275,7 +277,8 @@ File.Update(parameters);
 ## Delete file/folder
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -295,7 +298,8 @@ File.Delete(parameters);
 ## Copy file/folder
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -317,7 +321,8 @@ File.Copy(parameters);
 ## Move file/folder
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -337,7 +342,8 @@ File.Move(parameters);
 ## Begin file upload
 
 ```
-File file = File.ListFor(path)[0];
+HashMap<Object, String> attributes = new HashMap<>();
+File file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

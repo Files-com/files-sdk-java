@@ -144,7 +144,7 @@ FormFieldSet formFieldSet = FormFieldSet.delete(
 ## Update Form Field Set
 
 ```
-FormFieldSet formFieldSet = FormFieldSet.ListFor(path)[0];
+FormFieldSet formFieldSet = FormFieldSet.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -172,7 +172,7 @@ FormFieldSet.Update(parameters);
 ## Delete Form Field Set
 
 ```
-FormFieldSet formFieldSet = FormFieldSet.ListFor(path)[0];
+FormFieldSet formFieldSet = FormFieldSet.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

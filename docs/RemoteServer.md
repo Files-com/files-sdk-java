@@ -260,7 +260,7 @@ RemoteServer remoteServer = RemoteServer.delete(
 ## Update Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.ListFor(path)[0];
+RemoteServer remoteServer = RemoteServer.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -346,7 +346,7 @@ RemoteServer.Update(parameters);
 ## Delete Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.ListFor(path)[0];
+RemoteServer remoteServer = RemoteServer.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

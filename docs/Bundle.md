@@ -224,7 +224,7 @@ Bundle bundle = Bundle.delete(
 ## Send email(s) with a link to bundle
 
 ```
-Bundle bundle = Bundle.ListFor(path)[0];
+Bundle bundle = Bundle.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -248,7 +248,7 @@ Bundle.Share(parameters);
 ## Update Bundle
 
 ```
-Bundle bundle = Bundle.ListFor(path)[0];
+Bundle bundle = Bundle.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -292,7 +292,7 @@ Bundle.Update(parameters);
 ## Delete Bundle
 
 ```
-Bundle bundle = Bundle.ListFor(path)[0];
+Bundle bundle = Bundle.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

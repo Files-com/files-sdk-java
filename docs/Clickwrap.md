@@ -121,7 +121,7 @@ Clickwrap clickwrap = Clickwrap.delete(
 ## Update Clickwrap
 
 ```
-Clickwrap clickwrap = Clickwrap.ListFor(path)[0];
+Clickwrap clickwrap = Clickwrap.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -146,7 +146,7 @@ Clickwrap.Update(parameters);
 ## Delete Clickwrap
 
 ```
-Clickwrap clickwrap = Clickwrap.ListFor(path)[0];
+Clickwrap clickwrap = Clickwrap.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 

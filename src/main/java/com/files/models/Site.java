@@ -298,6 +298,13 @@ public class Site {
   private String domain;
 
   /**
+  * Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+  */
+  @Getter
+  @JsonProperty("domain_hsts_header")
+  private Boolean domainHstsHeader;
+
+  /**
   * Main email for this site
   */
   @Getter
@@ -960,6 +967,7 @@ public class Site {
   *   name - string - Site name
   *   subdomain - string - Site subdomain
   *   domain - string - Custom domain
+  *   domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
   *   email - string - Main email for this site
   *   reply_to_email - string - Reply-to email for this site
   *   allow_bundle_names - boolean - Are manual Bundle names allowed?
@@ -1094,6 +1102,10 @@ public class Site {
 
     if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
+    }
+
+    if (parameters.containsKey("domain_hsts_header") && !(parameters.get("domain_hsts_header") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: domain_hsts_header must be of type Boolean parameters[\"domain_hsts_header\"]");
     }
 
     if (parameters.containsKey("email") && !(parameters.get("email") instanceof String )) {

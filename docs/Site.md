@@ -43,6 +43,7 @@
   "disable_notifications": true,
   "disable_password_reset": true,
   "domain": "my-custom-domain.com",
+  "domain_hsts_header": true,
   "email": "john.doe@files.com",
   "ftp_enabled": true,
   "reply_to_email": "jane.doe@files.com",
@@ -256,6 +257,7 @@
 * `disable_notifications` / `disableNotifications`  (boolean): Are notifications disabled?
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
 * `domain` / `domain`  (string): Custom domain
+* `domain_hsts_header` / `domainHstsHeader`  (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
 * `email` / `email`  (email): Main email for this site
 * `ftp_enabled` / `ftpEnabled`  (boolean): Is FTP enabled?
 * `reply_to_email` / `replyToEmail`  (email): Reply-to email for this site
@@ -389,6 +391,7 @@ Site site = Site.update(
 * `name` (String): Site name
 * `subdomain` (String): Site subdomain
 * `domain` (String): Custom domain
+* `domain_hsts_header` (Boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
 * `email` (String): Main email for this site
 * `reply_to_email` (String): Reply-to email for this site
 * `allow_bundle_names` (Boolean): Are manual Bundle names allowed?

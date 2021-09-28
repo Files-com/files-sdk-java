@@ -17,6 +17,11 @@
   "bundle_expiration": 1,
   "bundle_password_required": true,
   "bundle_require_share_recipient": true,
+  "bundle_watermark_attachment": {
+    "name": "My logo",
+    "uri": "https://mysite.files.com/.../my_image.png"
+  },
+  "bundle_watermark_value": "",
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
   "color2_text": "#0066a7",
@@ -228,6 +233,8 @@
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
 * `bundle_require_share_recipient` / `bundleRequireShareRecipient`  (boolean): Do Bundles require recipients for sharing?
+* `bundle_watermark_attachment` / `bundleWatermarkAttachment` : Preview watermark image applied to all bundle items.
+* `bundle_watermark_value` / `bundleWatermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `color2_left` / `color2Left`  (string): Page link and button color
 * `color2_link` / `color2Link`  (string): Top bar link color
 * `color2_text` / `color2Text`  (string): Page link and button color
@@ -487,6 +494,8 @@ Site site = Site.update(
 * `icon128_delete` (Boolean): If true, will delete the file stored in icon128
 * `logo_file` (byte[]): 
 * `logo_delete` (Boolean): If true, will delete the file stored in logo
+* `bundle_watermark_attachment_file` (byte[]): 
+* `bundle_watermark_attachment_delete` (Boolean): If true, will delete the file stored in bundle_watermark_attachment
 * `disable_2fa_with_delay` (Boolean): If set to true, we will begin the process of disabling 2FA on this site.
 * `ldap_password_change` (String): New LDAP password.
 * `ldap_password_change_confirmation` (String): Confirm new LDAP password.

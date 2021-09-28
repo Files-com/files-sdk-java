@@ -137,6 +137,20 @@ public class Site {
   private Boolean bundleRequireShareRecipient;
 
   /**
+  * Preview watermark image applied to all bundle items.
+  */
+  @Getter
+  @JsonProperty("bundle_watermark_attachment")
+  private Map<String, String> bundleWatermarkAttachment;
+
+  /**
+  * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+  */
+  @Getter
+  @JsonProperty("bundle_watermark_value")
+  private Map<String, String> bundleWatermarkValue;
+
+  /**
   * Page link and button color
   */
   @Getter
@@ -1051,6 +1065,8 @@ public class Site {
   *   icon128_delete - boolean - If true, will delete the file stored in icon128
   *   logo_file - file
   *   logo_delete - boolean - If true, will delete the file stored in logo
+  *   bundle_watermark_attachment_file - file
+  *   bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
   *   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
   *   ldap_password_change - string - New LDAP password.
   *   ldap_password_change_confirmation - string - Confirm new LDAP password.
@@ -1498,6 +1514,14 @@ public class Site {
 
     if (parameters.containsKey("logo_delete") && !(parameters.get("logo_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: logo_delete must be of type Boolean parameters[\"logo_delete\"]");
+    }
+
+    if (parameters.containsKey("bundle_watermark_attachment_file") && !(parameters.get("bundle_watermark_attachment_file") instanceof byte[] )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_watermark_attachment_file must be of type byte[] parameters[\"bundle_watermark_attachment_file\"]");
+    }
+
+    if (parameters.containsKey("bundle_watermark_attachment_delete") && !(parameters.get("bundle_watermark_attachment_delete") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_watermark_attachment_delete must be of type Boolean parameters[\"bundle_watermark_attachment_delete\"]");
     }
 
     if (parameters.containsKey("disable_2fa_with_delay") && !(parameters.get("disable_2fa_with_delay") instanceof Boolean )) {

@@ -305,6 +305,13 @@ public class Site {
   private Boolean domainHstsHeader;
 
   /**
+  * Letsencrypt chain to use when registering SSL Certificate for domain.
+  */
+  @Getter
+  @JsonProperty("domain_letsencrypt_chain")
+  private String domainLetsencryptChain;
+
+  /**
   * Main email for this site
   */
   @Getter
@@ -968,6 +975,7 @@ public class Site {
   *   subdomain - string - Site subdomain
   *   domain - string - Custom domain
   *   domain_hsts_header - boolean - Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+  *   domain_letsencrypt_chain - string - Letsencrypt chain to use when registering SSL Certificate for domain.
   *   email - string - Main email for this site
   *   reply_to_email - string - Reply-to email for this site
   *   allow_bundle_names - boolean - Are manual Bundle names allowed?
@@ -1106,6 +1114,10 @@ public class Site {
 
     if (parameters.containsKey("domain_hsts_header") && !(parameters.get("domain_hsts_header") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: domain_hsts_header must be of type Boolean parameters[\"domain_hsts_header\"]");
+    }
+
+    if (parameters.containsKey("domain_letsencrypt_chain") && !(parameters.get("domain_letsencrypt_chain") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: domain_letsencrypt_chain must be of type String parameters[\"domain_letsencrypt_chain\"]");
     }
 
     if (parameters.containsKey("email") && !(parameters.get("email") instanceof String )) {

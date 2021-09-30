@@ -44,6 +44,7 @@
   "disable_password_reset": true,
   "domain": "my-custom-domain.com",
   "domain_hsts_header": true,
+  "domain_letsencrypt_chain": "",
   "email": "john.doe@files.com",
   "ftp_enabled": true,
   "reply_to_email": "jane.doe@files.com",
@@ -258,6 +259,7 @@
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
 * `domain` / `domain`  (string): Custom domain
 * `domain_hsts_header` / `domainHstsHeader`  (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+* `domain_letsencrypt_chain` / `domainLetsencryptChain`  (string): Letsencrypt chain to use when registering SSL Certificate for domain.
 * `email` / `email`  (email): Main email for this site
 * `ftp_enabled` / `ftpEnabled`  (boolean): Is FTP enabled?
 * `reply_to_email` / `replyToEmail`  (email): Reply-to email for this site
@@ -392,6 +394,7 @@ Site site = Site.update(
 * `subdomain` (String): Site subdomain
 * `domain` (String): Custom domain
 * `domain_hsts_header` (Boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
+* `domain_letsencrypt_chain` (String): Letsencrypt chain to use when registering SSL Certificate for domain.
 * `email` (String): Main email for this site
 * `reply_to_email` (String): Reply-to email for this site
 * `allow_bundle_names` (Boolean): Are manual Bundle names allowed?

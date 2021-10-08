@@ -4,13 +4,19 @@
 
 ```
 {
+  "id": 1,
   "automation_id": 1,
+  "completed_at": "2000-01-01T01:00:00Z",
+  "created_at": "2000-01-01T01:00:00Z",
   "status": "success",
   "status_messages_url": "https://www.example.com/log_file.txt"
 }
 ```
 
+* `id` / `id`  (int64): ID.
 * `automation_id` / `automationId`  (int64): ID of the associated Automation.
+* `completed_at` / `completedAt`  (date-time): Automation run completion/failure date/time.
+* `created_at` / `createdAt`  (date-time): Automation run start date/time.
 * `status` / `status`  (string): The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
 * `status_messages_url` / `statusMessagesUrl`  (string): Link to status messages log file.
 
@@ -40,3 +46,20 @@ List<AutomationRun> automationRun = AutomationRun.list(
 * `filter_lt` (Map<String, String>): If set, return records where the specifiied field is less than the supplied value. Valid fields are `status`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specifiied field is less than or equal to the supplied value. Valid fields are `status`.
 * `automation_id` (Long): Required - ID of the associated Automation.
+
+
+---
+
+## Show Automation Run
+
+```
+List<AutomationRun> automationRun = AutomationRun.find(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation Run ID.

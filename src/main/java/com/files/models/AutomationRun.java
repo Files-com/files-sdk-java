@@ -46,11 +46,32 @@ public class AutomationRun {
   }
 
   /**
+  * ID.
+  */
+  @Getter
+  @JsonProperty("id")
+  private Long id;
+
+  /**
   * ID of the associated Automation.
   */
   @Getter
   @JsonProperty("automation_id")
   private Long automationId;
+
+  /**
+  * Automation run completion/failure date/time.
+  */
+  @Getter
+  @JsonProperty("completed_at")
+  private Date completedAt;
+
+  /**
+  * Automation run start date/time.
+  */
+  @Getter
+  @JsonProperty("created_at")
+  private Date createdAt;
 
   /**
   * The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
@@ -152,6 +173,48 @@ public class AutomationRun {
 
   public static List<AutomationRun> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
+  }
+
+  /**
+  * Parameters:
+  *   id (required) - int64 - Automation Run ID.
+  */
+  public static List<AutomationRun> find() throws IOException{
+    return find(null, null,null);
+  }
+  public static List<AutomationRun> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return find(id, parameters, null);
+  }
+
+  public static List<AutomationRun> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return find(null, parameters, options);
+  }
+
+  public static List<AutomationRun> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id != null){
+      parameters.put("id",id);
+    }
+    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (!parameters.containsKey("id") || parameters.get("id") == null) {
+      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    }
+    String url = String.format("%s%s/automation_runs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<List<AutomationRun>> typeReference = new TypeReference<List<AutomationRun>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+  public static List<AutomationRun> get() throws IOException {
+    return get(null, null, null);
+  }
+
+  public static List<AutomationRun> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return find(id, parameters, options);
   }
 
 }

@@ -109,6 +109,13 @@ public class BundleRegistration {
   private String formFieldData;
 
   /**
+  * Bundle URL code
+  */
+  @Getter
+  @JsonProperty("bundle_code")
+  private String bundleCode;
+
+  /**
   * Id of associated bundle
   */
   @Getter

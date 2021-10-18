@@ -108,6 +108,13 @@ public class InboxRegistration {
   @JsonProperty("inbox_recipient_id")
   private Long inboxRecipientId;
 
+  /**
+  * Title of associated inbox
+  */
+  @Getter
+  @JsonProperty("inbox_title")
+  private String inboxTitle;
+
 
 
   /**

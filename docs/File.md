@@ -222,6 +222,7 @@ File file = File.beginUpload(
 * `parts` (Long): How many parts to fetch?
 * `ref` (String): 
 * `restart` (Long): File byte offset to restart from.
+* `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
 
 
@@ -353,6 +354,7 @@ parameters.put("part", 1);
 parameters.put("parts", 1);
 parameters.put("ref", "upload-1");
 parameters.put("restart", 1);
+parameters.put("size", 1);
 parameters.put("with_rename", true);
 
 File.BeginUpload(parameters);
@@ -366,4 +368,5 @@ File.BeginUpload(parameters);
 * `parts` (Long): How many parts to fetch?
 * `ref` (String): 
 * `restart` (Long): File byte offset to restart from.
+* `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?

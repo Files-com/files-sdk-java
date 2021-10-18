@@ -333,6 +333,7 @@ public class File {
   *   parts - int64 - How many parts to fetch?
   *   ref - string -
   *   restart - int64 - File byte offset to restart from.
+  *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
   public File beginUpload(HashMap<String, Object> parameters) {
@@ -749,6 +750,7 @@ public class File {
   *   parts - int64 - How many parts to fetch?
   *   ref - string -
   *   restart - int64 - File byte offset to restart from.
+  *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
   public static File beginUpload() throws IOException{
@@ -791,6 +793,10 @@ public class File {
 
     if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
+    }
+
+    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: size must be of type Long parameters[\"size\"]");
     }
 
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean )) {

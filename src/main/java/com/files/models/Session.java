@@ -134,7 +134,7 @@ public class Session {
   private Boolean sslRequired;
 
   /**
-  * Aee insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
+  * Are insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
   */
   @Getter
   @Setter

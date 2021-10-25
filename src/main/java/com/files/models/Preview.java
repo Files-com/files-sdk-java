@@ -80,13 +80,6 @@ public class Preview {
   @JsonProperty("size")
   private Long size;
 
-  /**
-  * Preview status message. Addtional context from the preview generation process about the status
-  */
-  @Getter
-  @JsonProperty("status_message")
-  private String statusMessage;
-
 
 
 }

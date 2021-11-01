@@ -92,7 +92,7 @@ public class InboxRegistration {
   */
   @Getter
   @JsonProperty("form_field_data")
-  private String formFieldData;
+  private Map<String, String> formFieldData;
 
   /**
   * Id of associated inbox

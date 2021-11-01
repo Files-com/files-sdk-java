@@ -23,7 +23,7 @@
 * `email` / `email`  (string): Registrant email address
 * `clickwrap_body` / `clickwrapBody`  (string): Clickwrap text that was shown to the registrant
 * `form_field_set_id` / `formFieldSetId`  (int64): Id of associated form field set
-* `form_field_data` / `formFieldData`  (string): Data for form field set with form field ids as keys and user data as values
+* `form_field_data` / `formFieldData`  (object): Data for form field set with form field ids as keys and user data as values
 * `inbox_id` / `inboxId`  (int64): Id of associated inbox
 * `inbox_recipient_id` / `inboxRecipientId`  (int64): Id of associated inbox recipient
 * `inbox_title` / `inboxTitle`  (string): Title of associated inbox

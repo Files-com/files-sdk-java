@@ -106,7 +106,7 @@ public class BundleRegistration {
   */
   @Getter
   @JsonProperty("form_field_data")
-  private String formFieldData;
+  private Map<String, String> formFieldData;
 
   /**
   * Bundle URL code

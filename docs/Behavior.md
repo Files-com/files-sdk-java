@@ -24,6 +24,7 @@
 * `description` / `description`  (string): Description for this behavior.
 * `value` / `value`  (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `attachment_file` / `attachmentFile`  (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `attachment_delete` / `attachmentDelete`  (boolean): If true, will delete the file stored in attachment
 
 
 ---
@@ -162,6 +163,7 @@ Behavior behavior = Behavior.update(
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.
+* `attachment_delete` (Boolean): If true, will delete the file stored in attachment
 
 
 ---
@@ -192,6 +194,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("value", "{\"method\": \"GET\"}");
 parameters.put("behavior", "webhook");
+parameters.put("attachment_delete", true);
 
 Behavior.Update(parameters);
 ```
@@ -205,6 +208,7 @@ Behavior.Update(parameters);
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
 * `path` (String): Folder behaviors path.
+* `attachment_delete` (Boolean): If true, will delete the file stored in attachment
 
 
 ---

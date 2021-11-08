@@ -189,6 +189,22 @@ public class Bundle {
   private Long inboxId;
 
   /**
+  * Preview watermark image applied to all bundle items.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("watermark_attachment")
+  private Map<String, String> watermarkAttachment;
+
+  /**
+  * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+  */
+  @Getter
+  @Setter
+  @JsonProperty("watermark_value")
+  private Map<String, String> watermarkValue;
+
+  /**
   * Does this bundle have an associated inbox?
   */
   @Getter
@@ -221,6 +237,22 @@ public class Bundle {
   private Long formFieldSetId;
 
   /**
+  * Preview watermark image applied to all bundle items.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("watermark_attachment_file")
+  private byte[] watermarkAttachmentFile;
+
+  /**
+  * If true, will delete the file stored in watermark_attachment
+  */
+  @Getter
+  @Setter
+  @JsonProperty("watermark_attachment_delete")
+  private Boolean watermarkAttachmentDelete;
+
+  /**
   * Send email(s) with a link to bundle
   *
   * Parameters:
@@ -247,6 +279,8 @@ public class Bundle {
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public Bundle update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -407,6 +441,7 @@ public class Bundle {
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public static Bundle create() throws IOException{
     return create(null,null);
@@ -474,6 +509,10 @@ public class Bundle {
 
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
+    }
+
+    if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[] )) {
+      throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
 
     if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
@@ -551,6 +590,8 @@ public class Bundle {
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public static Bundle update() throws IOException{
     return update(null, null,null);
@@ -624,6 +665,14 @@ public class Bundle {
 
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
+    }
+
+    if (parameters.containsKey("watermark_attachment_delete") && !(parameters.get("watermark_attachment_delete") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: watermark_attachment_delete must be of type Boolean parameters[\"watermark_attachment_delete\"]");
+    }
+
+    if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[] )) {
+      throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

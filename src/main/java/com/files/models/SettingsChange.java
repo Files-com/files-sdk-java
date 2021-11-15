@@ -53,6 +53,13 @@ public class SettingsChange {
   private Map<String, String> changeDetails;
 
   /**
+  * Markdown-formatted change messages.
+  */
+  @Getter
+  @JsonProperty("changes")
+  private String changes;
+
+  /**
   * The time this change was made
   */
   @Getter

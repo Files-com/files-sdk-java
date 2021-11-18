@@ -61,7 +61,7 @@ List<Folder> folder = Folder.listFor(
 
 ### Parameters
 
-* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor header.
+* `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `path` (String): Required - Path to operate on.
 * `filter` (String): If specified, will filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.

@@ -54,7 +54,7 @@ List<History> history = History.listForFile(
 * `start_at` (String): Leave blank or set to a date/time to filter earlier entries.
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `path` (String): Required - Path to operate on.
@@ -77,7 +77,7 @@ List<History> history = History.listForFolder(
 * `start_at` (String): Leave blank or set to a date/time to filter earlier entries.
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `path` (String): Required - Path to operate on.
@@ -100,7 +100,7 @@ List<History> history = History.listForUser(
 * `start_at` (String): Leave blank or set to a date/time to filter earlier entries.
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 * `user_id` (Long): Required - User ID.
@@ -123,7 +123,7 @@ List<History> history = History.listLogins(
 * `start_at` (String): Leave blank or set to a date/time to filter earlier entries.
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `user_id` and `created_at`.
 
@@ -145,7 +145,7 @@ List<History> history = History.list(
 * `start_at` (String): Leave blank or set to a date/time to filter earlier entries.
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `path`, `folder`, `user_id` or `created_at`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.

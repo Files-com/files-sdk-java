@@ -41,7 +41,7 @@ List<Message> message = Message.list(
 ### Parameters
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header.
+* `cursor` (String): Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `project_id` (Long): Required - Project for which to return messages.
 

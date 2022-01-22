@@ -40,6 +40,7 @@
   ],
   "webhook_url": "https://app.files.com/api/webhooks/abc123",
   "trigger_actions": "[ \"create\" ]",
+  "trigger_action_path": "path/to/file/or/folder",
   "value": "{\"limit\": \"1\"}"
 }
 ```
@@ -61,6 +62,7 @@
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `trigger_actions` / `triggerActions`  (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` / `triggerActionPath`  (string): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
 * `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
 
@@ -137,6 +139,7 @@ Automation automation = Automation.create(
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
 
 
@@ -170,6 +173,7 @@ Automation automation = Automation.update(
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
 
 
@@ -208,6 +212,7 @@ parameters.put("group_ids", [1,2]);
 parameters.put("schedule", "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}");
 parameters.put("trigger", "realtime");
 parameters.put("trigger_actions", "[ \"create\" ]");
+parameters.put("trigger_action_path", "path/to/file/or/folder");
 parameters.put("value", "{\"limit\": \"1\"}");
 
 Automation.Update(parameters);
@@ -231,6 +236,7 @@ Automation.Update(parameters);
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_action_path` (String): If trigger is `action`, this is the path to watch for the specified trigger actions.
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
 
 

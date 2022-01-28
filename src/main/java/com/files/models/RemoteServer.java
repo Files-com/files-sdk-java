@@ -54,6 +54,14 @@ public class RemoteServer {
   private Long id;
 
   /**
+  * If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("disabled")
+  private Boolean disabled;
+
+  /**
   * Type of authentication method
   */
   @Getter

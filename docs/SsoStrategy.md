@@ -85,7 +85,7 @@
 * `provision_company` / `provisionCompany`  (string): Default company for auto provisioned users.
 * `ldap_base_dn` / `ldapBaseDn`  (string): Base DN for looking up users in LDAP server
 * `ldap_domain` / `ldapDomain`  (string): Domain name that will be appended to LDAP usernames
-* `enabled` / `enabled`  (boolean): Is strategy enabled?
+* `enabled` / `enabled`  (boolean): Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
 * `ldap_host` / `ldapHost`  (string): LDAP host
 * `ldap_host_2` / `ldapHost2`  (string): LDAP backup host
 * `ldap_host_3` / `ldapHost3`  (string): LDAP backup host

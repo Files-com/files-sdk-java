@@ -46,102 +46,137 @@ public class UsageSnapshot {
   }
 
   /**
-  * Site usage ID
+  * Usage snapshot ID
   */
   @Getter
   @JsonProperty("id")
   private Long id;
 
   /**
-  * Site usage report start date/time
+  * Usage snapshot start date/time
   */
   @Getter
   @JsonProperty("start_at")
   private Date startAt;
 
   /**
-  * Site usage report end date/time
+  * Usage snapshot end date/time
   */
   @Getter
   @JsonProperty("end_at")
   private Date endAt;
 
   /**
-  * Site usage report created at date/time
+  * DEPRECATED: Usage snapshot created at date/time
   */
   @Getter
   @JsonProperty("created_at")
   private Date createdAt;
 
   /**
-  * Site usage report highest usage in time period
+  * Highest user count number in time period
   */
   @Getter
   @JsonProperty("high_water_user_count")
   private Double highWaterUserCount;
 
   /**
-  * Current site usage as of report
+  * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("current_storage")
   private Double currentStorage;
 
   /**
-  * Site usage report highest usage in time period
+  * Highest Storage Usage GB recorded in time period (used for billing)
   */
   @Getter
   @JsonProperty("high_water_storage")
   private Double highWaterStorage;
 
   /**
-  * Number of downloads in report time period
+  * DEPRECATED: Number of downloads in report time period
   */
   @Getter
   @JsonProperty("total_downloads")
   private Long totalDownloads;
 
   /**
-  * Number of uploads in time period
+  * DEPRECATED: Number of uploads in time period
   */
   @Getter
   @JsonProperty("total_uploads")
   private Long totalUploads;
 
   /**
-  * The last time this site usage report was updated
+  * DEPRECATED: The last time this site usage report was updated
   */
   @Getter
   @JsonProperty("updated_at")
   private Date updatedAt;
 
   /**
-  * A map of root folders to their total usage
+  * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("usage_by_top_level_dir")
   private Map<String, String> usageByTopLevelDir;
 
   /**
-  * Usage for root folder
+  * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("root_storage")
   private Double rootStorage;
 
   /**
-  * Usage for files that are deleted but uploaded within last 30 days
+  * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
   private Double deletedFilesCountedInMinimum;
 
   /**
-  * Usage for files that are deleted but retained as backups
+  * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("deleted_files_storage")
   private Double deletedFilesStorage;
+
+  /**
+  * Storage + Transfer Usage - Total Billable amount
+  */
+  @Getter
+  @JsonProperty("total_billable_usage")
+  private Double totalBillableUsage;
+
+  /**
+  * Transfer usage for period - Total Billable amount
+  */
+  @Getter
+  @JsonProperty("total_billable_transfer_usage")
+  private Double totalBillableTransferUsage;
+
+  /**
+  * Transfer Usage for period - Outbound GB from Files Native Storage
+  */
+  @Getter
+  @JsonProperty("bytes_sent")
+  private Double bytesSent;
+
+  /**
+  * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
+  */
+  @Getter
+  @JsonProperty("sync_bytes_received")
+  private Double syncBytesReceived;
+
+  /**
+  * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
+  */
+  @Getter
+  @JsonProperty("sync_bytes_sent")
+  private Double syncBytesSent;
 
 
 

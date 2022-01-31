@@ -60,11 +60,60 @@ public class UsageDailySnapshot {
   private Date date;
 
   /**
-  * The quantity of storage held for this site
+  * True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
+  */
+  @Getter
+  @JsonProperty("api_usage_available")
+  private Boolean apiUsageAvailable;
+
+  /**
+  * Read API Calls used on this day. Note: only updated for days before the current day.
+  */
+  @Getter
+  @JsonProperty("read_api_usage")
+  private Long readApiUsage;
+
+  /**
+  * Write API Calls used on this day. Note: only updated for days before the current day.
+  */
+  @Getter
+  @JsonProperty("write_api_usage")
+  private Long writeApiUsage;
+
+  /**
+  * Number of billable users as of this day.
+  */
+  @Getter
+  @JsonProperty("user_count")
+  private Long userCount;
+
+  /**
+  * GB of Files Native Storage used on this day.
   */
   @Getter
   @JsonProperty("current_storage")
   private Long currentStorage;
+
+  /**
+  * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
+  */
+  @Getter
+  @JsonProperty("deleted_files_storage")
+  private Long deletedFilesStorage;
+
+  /**
+  * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
+  */
+  @Getter
+  @JsonProperty("deleted_files_counted_in_minimum")
+  private Long deletedFilesCountedInMinimum;
+
+  /**
+  * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
+  */
+  @Getter
+  @JsonProperty("root_storage")
+  private Long rootStorage;
 
   /**
   * Usage broken down by each top-level folder

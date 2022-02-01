@@ -174,6 +174,14 @@ public class Session {
   private Boolean allowed2faMethodU2f;
 
   /**
+  * Sent only if 2FA setup is needed. Is WebAuthn two factor authentication allowed?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("allowed_2fa_method_webauthn")
+  private Boolean allowed2faMethodWebauthn;
+
+  /**
   * Sent only if 2FA setup is needed. Is Yubikey two factor authentication allowed?
   */
   @Getter

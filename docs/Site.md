@@ -8,6 +8,7 @@
   "allowed_2fa_method_sms": true,
   "allowed_2fa_method_totp": true,
   "allowed_2fa_method_u2f": true,
+  "allowed_2fa_method_webauthn": true,
   "allowed_2fa_method_yubi": true,
   "admin_user_id": 1,
   "allow_bundle_names": true,
@@ -130,6 +131,7 @@
     "allowed_2fa_method_sms": true,
     "allowed_2fa_method_totp": true,
     "allowed_2fa_method_u2f": true,
+    "allowed_2fa_method_webauthn": true,
     "allowed_2fa_method_yubi": true,
     "use_provided_modified_at": true,
     "windows_mode_ftp": false
@@ -226,6 +228,7 @@
 * `allowed_2fa_method_sms` / `allowed2faMethodSms`  (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` / `allowed2faMethodTotp`  (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_u2f` / `allowed2faMethodU2f`  (boolean): Is U2F two factor authentication allowed?
+* `allowed_2fa_method_webauthn` / `allowed2faMethodWebauthn`  (boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` / `allowed2faMethodYubi`  (boolean): Is yubikey two factor authentication allowed?
 * `admin_user_id` / `adminUserId`  (int64): User ID for the main site administrator
 * `allow_bundle_names` / `allowBundleNames`  (boolean): Are manual Bundle names allowed?
@@ -458,6 +461,7 @@ Site site = Site.update(
 * `allowed_2fa_method_sms` (Boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (Boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?
+* `allowed_2fa_method_webauthn` (Boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (Boolean): Is yubikey two factor authentication allowed?
 * `require_2fa` (Boolean): Require two-factor authentication for all users?
 * `require_2fa_user_type` (String): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?

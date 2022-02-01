@@ -74,6 +74,13 @@ public class Site {
   private Boolean allowed2faMethodU2f;
 
   /**
+  * Is WebAuthn two factor authentication allowed?
+  */
+  @Getter
+  @JsonProperty("allowed_2fa_method_webauthn")
+  private Boolean allowed2faMethodWebauthn;
+
+  /**
   * Is yubikey two factor authentication allowed?
   */
   @Getter
@@ -1039,6 +1046,7 @@ public class Site {
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
+  *   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
   *   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
   *   require_2fa - boolean - Require two-factor authentication for all users?
   *   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
@@ -1370,6 +1378,10 @@ public class Site {
 
     if (parameters.containsKey("allowed_2fa_method_totp") && !(parameters.get("allowed_2fa_method_totp") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_totp must be of type Boolean parameters[\"allowed_2fa_method_totp\"]");
+    }
+
+    if (parameters.containsKey("allowed_2fa_method_webauthn") && !(parameters.get("allowed_2fa_method_webauthn") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_webauthn must be of type Boolean parameters[\"allowed_2fa_method_webauthn\"]");
     }
 
     if (parameters.containsKey("allowed_2fa_method_yubi") && !(parameters.get("allowed_2fa_method_yubi") instanceof Boolean )) {

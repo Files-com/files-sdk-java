@@ -46,13 +46,6 @@ public class SettingsChange {
   }
 
   /**
-  * Specifics on what changed.
-  */
-  @Getter
-  @JsonProperty("change_details")
-  private Map<String, String> changeDetails;
-
-  /**
   * Markdown-formatted change messages.
   */
   @Getter

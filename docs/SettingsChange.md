@@ -4,7 +4,6 @@
 
 ```
 {
-  "change_details": "{ domain: [\"olddomain.com', \"newdomain.com\"] }",
   "changes": [
     ""
   ],
@@ -13,7 +12,6 @@
 }
 ```
 
-* `change_details` / `changeDetails`  (object): Specifics on what changed.
 * `changes` / `changes`  (string): Markdown-formatted change messages.
 * `created_at` / `createdAt`  (date-time): The time this change was made
 * `user_id` / `userId`  (int64): The user id responsible for this change

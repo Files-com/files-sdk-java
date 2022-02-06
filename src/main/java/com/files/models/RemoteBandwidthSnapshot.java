@@ -23,19 +23,19 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
-public class BandwidthSnapshot {
+public class RemoteBandwidthSnapshot {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = new ObjectMapper();
 
-  public BandwidthSnapshot() {
+  public RemoteBandwidthSnapshot() {
     this(null, null);
   }
 
-  public BandwidthSnapshot(HashMap<String, Object> parameters) {
+  public RemoteBandwidthSnapshot(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public BandwidthSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public RemoteBandwidthSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try{
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -53,20 +53,6 @@ public class BandwidthSnapshot {
   private Long id;
 
   /**
-  * Site bandwidth report bytes received
-  */
-  @Getter
-  @JsonProperty("bytes_received")
-  private Double bytesReceived;
-
-  /**
-  * Site bandwidth report bytes sent
-  */
-  @Getter
-  @JsonProperty("bytes_sent")
-  private Double bytesSent;
-
-  /**
   * Site sync bandwidth report bytes received
   */
   @Getter
@@ -81,32 +67,18 @@ public class BandwidthSnapshot {
   private Double syncBytesSent;
 
   /**
-  * Site bandwidth report get requests
-  */
-  @Getter
-  @JsonProperty("requests_get")
-  private Double requestsGet;
-
-  /**
-  * Site bandwidth report put requests
-  */
-  @Getter
-  @JsonProperty("requests_put")
-  private Double requestsPut;
-
-  /**
-  * Site bandwidth report other requests
-  */
-  @Getter
-  @JsonProperty("requests_other")
-  private Double requestsOther;
-
-  /**
   * Time the site bandwidth report was logged
   */
   @Getter
   @JsonProperty("logged_at")
   private Date loggedAt;
+
+  /**
+  * ID of related Remote Server
+  */
+  @Getter
+  @JsonProperty("remote_server_id")
+  private Long remoteServerId;
 
 
 
@@ -122,15 +94,15 @@ public class BandwidthSnapshot {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `logged_at`.
   */
-  public static List<BandwidthSnapshot> list() throws IOException{
+  public static List<RemoteBandwidthSnapshot> list() throws IOException{
     return list(null,null);
   }
-  public static List<BandwidthSnapshot> list( HashMap<String, Object> parameters) throws IOException {
+  public static List<RemoteBandwidthSnapshot> list( HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<BandwidthSnapshot> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<RemoteBandwidthSnapshot> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -170,16 +142,16 @@ public class BandwidthSnapshot {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
-    String url = String.format("%s%s/bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-    TypeReference<List<BandwidthSnapshot>> typeReference = new TypeReference<List<BandwidthSnapshot>>() {};
+    String url = String.format("%s%s/remote_bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    TypeReference<List<RemoteBandwidthSnapshot>> typeReference = new TypeReference<List<RemoteBandwidthSnapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<BandwidthSnapshot> all() throws IOException {
+  public static List<RemoteBandwidthSnapshot> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<BandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<RemoteBandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

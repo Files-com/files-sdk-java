@@ -8,13 +8,17 @@
     ""
   ],
   "created_at": "2000-01-01T01:00:00Z",
-  "user_id": 1
+  "user_id": 1,
+  "user_is_files_support": true,
+  "username": "some_user"
 }
 ```
 
 * `changes` / `changes`  (string): Markdown-formatted change messages.
 * `created_at` / `createdAt`  (date-time): The time this change was made
 * `user_id` / `userId`  (int64): The user id responsible for this change
+* `user_is_files_support` / `userIsFilesSupport`  (boolean): true if this change was performed by Files.com support.
+* `username` / `username`  (string): The username of the user responsible for this change
 
 
 ---

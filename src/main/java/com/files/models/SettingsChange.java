@@ -66,6 +66,20 @@ public class SettingsChange {
   @JsonProperty("user_id")
   private Long userId;
 
+  /**
+  * true if this change was performed by Files.com support.
+  */
+  @Getter
+  @JsonProperty("user_is_files_support")
+  private Boolean userIsFilesSupport;
+
+  /**
+  * The username of the user responsible for this change
+  */
+  @Getter
+  @JsonProperty("username")
+  private String username;
+
 
 
   /**

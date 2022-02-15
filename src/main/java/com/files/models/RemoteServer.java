@@ -126,6 +126,14 @@ public class RemoteServer {
   private String s3Region;
 
   /**
+  * AWS Access Key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("aws_access_key")
+  private String awsAccessKey;
+
+  /**
   * Remote server certificate
   */
   @Getter
@@ -212,6 +220,14 @@ public class RemoteServer {
   @Setter
   @JsonProperty("wasabi_region")
   private String wasabiRegion;
+
+  /**
+  * Wasabi access key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("wasabi_access_key")
+  private String wasabiAccessKey;
 
   /**
   * Rackspace username used to login to the Rackspace Cloud Control Panel.
@@ -302,20 +318,20 @@ public class RemoteServer {
   private String s3CompatibleEndpoint;
 
   /**
+  * S3-compatible Access Key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_access_key")
+  private String s3CompatibleAccessKey;
+
+  /**
   * `true` if remote server only accepts connections from dedicated IPs
   */
   @Getter
   @Setter
   @JsonProperty("enable_dedicated_ips")
   private Boolean enableDedicatedIps;
-
-  /**
-  * AWS Access Key.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("aws_access_key")
-  private String awsAccessKey;
 
   /**
   * AWS secret key.
@@ -356,14 +372,6 @@ public class RemoteServer {
   @Setter
   @JsonProperty("google_cloud_storage_credentials_json")
   private String googleCloudStorageCredentialsJson;
-
-  /**
-  * Wasabi access key.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("wasabi_access_key")
-  private String wasabiAccessKey;
 
   /**
   * Wasabi secret key.
@@ -414,14 +422,6 @@ public class RemoteServer {
   private String azureBlobStorageAccessKey;
 
   /**
-  * S3-compatible access key
-  */
-  @Getter
-  @Setter
-  @JsonProperty("s3_compatible_access_key")
-  private String s3CompatibleAccessKey;
-
-  /**
   * S3-compatible secret key
   */
   @Getter
@@ -470,7 +470,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
@@ -617,7 +617,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public static RemoteServer create() throws IOException{
@@ -843,7 +843,7 @@ public class RemoteServer {
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
-  *   s3_compatible_access_key - string - S3-compatible access key
+  *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
   */
   public static RemoteServer update() throws IOException{

@@ -318,6 +318,14 @@ public class RemoteServer {
   private String s3CompatibleEndpoint;
 
   /**
+  * S3-compatible endpoint
+  */
+  @Getter
+  @Setter
+  @JsonProperty("s3_compatible_region")
+  private String s3CompatibleRegion;
+
+  /**
   * S3-compatible Access Key.
   */
   @Getter
@@ -469,6 +477,7 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_region - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
@@ -616,6 +625,7 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_region - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
@@ -784,6 +794,10 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
     }
 
+    if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
+    }
+
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
@@ -842,6 +856,7 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
+  *   s3_compatible_region - string - S3-compatible endpoint
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
@@ -1018,6 +1033,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("s3_compatible_endpoint") && !(parameters.get("s3_compatible_endpoint") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint must be of type String parameters[\"s3_compatible_endpoint\"]");
+    }
+
+    if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
     }
 
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {

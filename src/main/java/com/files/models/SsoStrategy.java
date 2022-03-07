@@ -346,6 +346,13 @@ public class SsoStrategy {
   @JsonProperty("ldap_username_field")
   private String ldapUsernameField;
 
+  /**
+  * Synchronize provisioning data with the SSO remote server
+  */
+  public SsoStrategy sync(HashMap<String, Object> parameters) {
+    return sync(parameters);
+  }
+
 
 
   /**
@@ -427,6 +434,40 @@ public class SsoStrategy {
   public static List<SsoStrategy> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
+
+  /**
+  * Synchronize provisioning data with the SSO remote server
+  */
+  public static SsoStrategy sync() throws IOException{
+    return sync(null, null,null);
+  }
+  public static SsoStrategy sync(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return sync(id, parameters, null);
+  }
+
+  public static SsoStrategy sync(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return sync(null, parameters, options);
+  }
+
+  public static SsoStrategy sync(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id != null){
+      parameters.put("id",id);
+    }
+    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (!parameters.containsKey("id") || parameters.get("id") == null) {
+      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    }
+    String url = String.format("%s%s/sso_strategies/%s/sync", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+    TypeReference<SsoStrategy> typeReference = new TypeReference<SsoStrategy>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
 }
 

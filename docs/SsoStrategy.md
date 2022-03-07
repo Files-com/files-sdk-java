@@ -128,3 +128,38 @@ List<SsoStrategy> ssoStrategy = SsoStrategy.find(
 ### Parameters
 
 * `id` (Long): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```
+SsoStrategy ssoStrategy = SsoStrategy.sync(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```
+SsoStrategy ssoStrategy = SsoStrategy.List()[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+
+SsoStrategy.Sync
+```
+
+### Parameters
+
+* `id` (Long): Required - Sso Strategy ID.

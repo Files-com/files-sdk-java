@@ -44,7 +44,7 @@
 * `download_uri` / `downloadUri`  (string): Link to download file. Provided only in response to a download request.
 * `priority_color` / `priorityColor`  (string): Bookmark/priority color of file/folder
 * `preview_id` / `previewId`  (int64): File preview ID
-* `preview` / `preview` : File preview
+* `preview` / `preview`  (preview): File preview
 * `action` / `action`  (string): The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
 * `length` / `length`  (int64): Length of file.
 * `mkdir_parents` / `mkdirParents`  (boolean): Create parent directories if they do not exist?

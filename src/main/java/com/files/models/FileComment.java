@@ -67,7 +67,7 @@ public class FileComment {
   @Getter
   @Setter
   @JsonProperty("reactions")
-  private Map<String, String> reactions;
+  private FileCommentReaction reactions;
 
   /**
   * File path.

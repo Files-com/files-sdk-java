@@ -75,7 +75,7 @@ public class WebhookTest {
   @Getter
   @Setter
   @JsonProperty("data")
-  private Map<String, String> data;
+  private Auto data;
 
   /**
   * The success status of the webhook test

@@ -15,7 +15,7 @@
 
 * `id` / `id`  (int64): Message Comment ID
 * `body` / `body`  (string): Comment body.
-* `reactions` / `reactions` : Reactions to this comment.
+* `reactions` / `reactions`  (messageCommentReaction): Reactions to this comment.
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
 

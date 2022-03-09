@@ -75,7 +75,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_fields")
-  private Map<String, String> formFields;
+  private FormField formFields;
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name

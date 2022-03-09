@@ -71,14 +71,14 @@ public class Status {
   */
   @Getter
   @JsonProperty("data")
-  private Map<String, String> data;
+  private Auto data;
 
   /**
   * A list of api errors
   */
   @Getter
   @JsonProperty("errors")
-  private Map<String, String> errors;
+  private Errors errors;
 
   /**
   * Required Clickwrap id

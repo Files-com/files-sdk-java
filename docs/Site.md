@@ -238,7 +238,7 @@
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
 * `bundle_require_share_recipient` / `bundleRequireShareRecipient`  (boolean): Do Bundles require recipients for sharing?
-* `bundle_watermark_attachment` / `bundleWatermarkAttachment` : Preview watermark image applied to all bundle items.
+* `bundle_watermark_attachment` / `bundleWatermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `bundle_watermark_value` / `bundleWatermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `color2_left` / `color2Left`  (string): Page link and button color
 * `color2_link` / `color2Link`  (string): Top bar link color
@@ -270,10 +270,10 @@
 * `non_sso_users_allowed` / `nonSsoUsersAllowed`  (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `folder_permissions_groups_only` / `folderPermissionsGroupsOnly`  (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
 * `hipaa` / `hipaa`  (boolean): Is there a signed HIPAA BAA between Files.com and this site?
-* `icon128` / `icon128` : Branded icon 128x128
-* `icon16` / `icon16` : Branded icon 16x16
-* `icon32` / `icon32` : Branded icon 32x32
-* `icon48` / `icon48` : Branded icon 48x48
+* `icon128` / `icon128`  (image): Branded icon 128x128
+* `icon16` / `icon16`  (image): Branded icon 16x16
+* `icon32` / `icon32`  (image): Branded icon 32x32
+* `icon48` / `icon48`  (image): Branded icon 48x48
 * `immutable_files_set_at` / `immutableFilesSetAt`  (date-time): Can files be modified?
 * `include_password_in_welcome_email` / `includePasswordInWelcomeEmail`  (boolean): Include password in emails to new users?
 * `language` / `language`  (string): Site default language
@@ -294,7 +294,7 @@
 * `ldap_username` / `ldapUsername`  (string): Username for signing in to LDAP server.
 * `ldap_username_field` / `ldapUsernameField`  (string): LDAP username field
 * `login_help_text` / `loginHelpText`  (string): Login help text
-* `logo` / `logo` : Branded logo
+* `logo` / `logo`  (image): Branded logo
 * `max_prior_passwords` / `maxPriorPasswords`  (int64): Number of prior passwords to disallow
 * `next_billing_amount` / `nextBillingAmount`  (double): Next billing amount
 * `next_billing_date` / `nextBillingDate`  (string): Next billing date
@@ -316,7 +316,7 @@
 * `require_2fa` / `require2fa`  (boolean): Require two-factor authentication for all users?
 * `require_2fa_stop_time` / `require2faStopTime`  (date-time): If set, requirement for two-factor authentication has been scheduled to end on this date-time.
 * `require_2fa_user_type` / `require2faUserType`  (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
-* `session` / `session` : Current session
+* `session` / `session`  (session): Current session
 * `session_pinned_by_ip` / `sessionPinnedByIp`  (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 * `sftp_enabled` / `sftpEnabled`  (boolean): Is SFTP enabled?
 * `sftp_insecure_ciphers` / `sftpInsecureCiphers`  (boolean): Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled -> True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
@@ -339,7 +339,7 @@
 * `trial_until` / `trialUntil`  (date-time): When does this Site trial expire?
 * `updated_at` / `updatedAt`  (date-time): Last time this Site was updated
 * `use_provided_modified_at` / `useProvidedModifiedAt`  (boolean): Allow uploaders to set `provided_modified_at` for uploaded files?
-* `user` / `user` : User of current session
+* `user` / `user`  (user): User of current session
 * `user_lockout` / `userLockout`  (boolean): Will users be locked out after incorrect login attempts?
 * `user_lockout_lock_period` / `userLockoutLockPeriod`  (int64): How many hours to lock user out for failed password?
 * `user_lockout_tries` / `userLockoutTries`  (int64): Number of login tries within `user_lockout_within` hours before users are locked out

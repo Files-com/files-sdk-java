@@ -75,7 +75,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("comments")
-  private Map<String, String> comments;
+  private MessageComment comments;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.

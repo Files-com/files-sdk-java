@@ -49,7 +49,7 @@ public class BundleDownload {
   */
   @Getter
   @JsonProperty("bundle_registration")
-  private Map<String, String> bundleRegistration;
+  private BundleRegistration bundleRegistration;
 
   /**
   * Download method (file or full_zip)

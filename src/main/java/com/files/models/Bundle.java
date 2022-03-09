@@ -115,7 +115,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("form_field_set")
-  private Map<String, String> formFieldSet;
+  private FormFieldSet formFieldSet;
 
   /**
   * Bundle ID
@@ -194,7 +194,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("watermark_attachment")
-  private Map<String, String> watermarkAttachment;
+  private Image watermarkAttachment;
 
   /**
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value

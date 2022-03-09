@@ -148,7 +148,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("bundle_watermark_attachment")
-  private Map<String, String> bundleWatermarkAttachment;
+  private Image bundleWatermarkAttachment;
 
   /**
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
@@ -372,28 +372,28 @@ public class Site {
   */
   @Getter
   @JsonProperty("icon128")
-  private Map<String, String> icon128;
+  private Image icon128;
 
   /**
   * Branded icon 16x16
   */
   @Getter
   @JsonProperty("icon16")
-  private Map<String, String> icon16;
+  private Image icon16;
 
   /**
   * Branded icon 32x32
   */
   @Getter
   @JsonProperty("icon32")
-  private Map<String, String> icon32;
+  private Image icon32;
 
   /**
   * Branded icon 48x48
   */
   @Getter
   @JsonProperty("icon48")
-  private Map<String, String> icon48;
+  private Image icon48;
 
   /**
   * Can files be modified?
@@ -540,7 +540,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("logo")
-  private Map<String, String> logo;
+  private Image logo;
 
   /**
   * Number of prior passwords to disallow
@@ -694,7 +694,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("session")
-  private Map<String, String> session;
+  private Session session;
 
   /**
   * Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
@@ -855,7 +855,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("user")
-  private Map<String, String> user;
+  private User user;
 
   /**
   * Will users be locked out after incorrect login attempts?

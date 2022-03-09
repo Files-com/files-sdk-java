@@ -67,7 +67,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("logo")
-  private Map<String, String> logo;
+  private Image logo;
 
   /**
   * Logo thumbnail
@@ -75,7 +75,7 @@ public class Style {
   @Getter
   @Setter
   @JsonProperty("thumbnail")
-  private Map<String, String> thumbnail;
+  private Image thumbnail;
 
   /**
   * Logo for custom branding.

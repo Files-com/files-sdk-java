@@ -171,7 +171,7 @@ public class Folder {
   @Getter
   @Setter
   @JsonProperty("preview")
-  private Map<String, String> preview;
+  private Preview preview;
 
 
   public void save() throws IOException {

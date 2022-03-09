@@ -197,7 +197,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview")
-  private Map<String, String> preview;
+  private Preview preview;
 
   /**
   * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist

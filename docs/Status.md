@@ -24,7 +24,7 @@
 * `code` / `code`  (int64): Status HTTP code
 * `message` / `message`  (string): Error message
 * `status` / `status`  (string): Status message
-* `data` / `data` : Additional data
-* `errors` / `errors` : A list of api errors
+* `data` / `data`  (auto): Additional data
+* `errors` / `errors`  (errors): A list of api errors
 * `clickwrap_id` / `clickwrapId`  (int64): Required Clickwrap id
 * `clickwrap_body` / `clickwrapBody`  (string): Required Clickwrap body

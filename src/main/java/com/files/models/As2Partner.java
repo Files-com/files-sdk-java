@@ -86,6 +86,46 @@ public class As2Partner {
   private String publicCertificateMd5;
 
   /**
+  * Subject of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_subject")
+  private String publicCertificateSubject;
+
+  /**
+  * Issuer of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_issuer")
+  private String publicCertificateIssuer;
+
+  /**
+  * Serial of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_serial")
+  private String publicCertificateSerial;
+
+  /**
+  * Not before value of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_not_before")
+  private String publicCertificateNotBefore;
+
+  /**
+  * Not after value of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_not_after")
+  private String publicCertificateNotAfter;
+
+  /**
   */
   @Getter
   @Setter

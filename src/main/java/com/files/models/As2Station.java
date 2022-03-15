@@ -78,14 +78,6 @@ public class As2Station {
   private String domain;
 
   /**
-  * Public certificate used for message security.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("public_certificate")
-  private String publicCertificate;
-
-  /**
   * MD5 hash of public certificate used for message security.
   */
   @Getter
@@ -102,6 +94,53 @@ public class As2Station {
   private String privateKeyMd5;
 
   /**
+  * Subject of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_subject")
+  private String publicCertificateSubject;
+
+  /**
+  * Issuer of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_issuer")
+  private String publicCertificateIssuer;
+
+  /**
+  * Serial of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_serial")
+  private String publicCertificateSerial;
+
+  /**
+  * Not before value of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_not_before")
+  private String publicCertificateNotBefore;
+
+  /**
+  * Not after value of public certificate used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate_not_after")
+  private String publicCertificateNotAfter;
+
+  /**
+  */
+  @Getter
+  @Setter
+  @JsonProperty("public_certificate")
+  private String publicCertificate;
+
+  /**
   */
   @Getter
   @Setter
@@ -111,8 +150,6 @@ public class As2Station {
   /**
   * Parameters:
   *   name - string - AS2 Name
-  *   domain - string - AS2 Domain
-  *   uri - string - URL base for AS2 responses
   *   public_certificate - string
   *   private_key - string
   */
@@ -222,8 +259,6 @@ public class As2Station {
   /**
   * Parameters:
   *   name (required) - string - AS2 Name
-  *   domain (required) - string - AS2 Domain
-  *   uri (required) - string - URL base for AS2 responses
   *   public_certificate (required) - string
   *   private_key (required) - string
   */
@@ -243,14 +278,6 @@ public class As2Station {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
-    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
-    }
-
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
-    }
-
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
@@ -261,12 +288,6 @@ public class As2Station {
 
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("domain") || parameters.get("domain") == null) {
-      throw new NullPointerException("Parameter missing: domain parameters[\"domain\"]");
-    }
-    if (!parameters.containsKey("uri") || parameters.get("uri") == null) {
-      throw new NullPointerException("Parameter missing: uri parameters[\"uri\"]");
     }
     if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
       throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
@@ -283,8 +304,6 @@ public class As2Station {
   /**
   * Parameters:
   *   name - string - AS2 Name
-  *   domain - string - AS2 Domain
-  *   uri - string - URL base for AS2 responses
   *   public_certificate - string
   *   private_key - string
   */
@@ -312,14 +331,6 @@ public class As2Station {
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-
-    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
-    }
-
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
     }
 
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {

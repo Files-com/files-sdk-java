@@ -78,6 +78,14 @@ public class As2Partner {
   private String uri;
 
   /**
+  * Remote server certificate security setting
+  */
+  @Getter
+  @Setter
+  @JsonProperty("server_certificate")
+  private String serverCertificate;
+
+  /**
   * MD5 hash of public certificate used for message security.
   */
   @Getter
@@ -136,6 +144,7 @@ public class As2Partner {
   * Parameters:
   *   name - string - AS2 Name
   *   uri - string - URL base for AS2 responses
+  *   server_certificate - string - Remote server certificate security setting
   *   public_certificate - string
   */
   public As2Partner update(HashMap<String, Object> parameters) {
@@ -247,6 +256,7 @@ public class As2Partner {
   *   uri (required) - string - URL base for AS2 responses
   *   public_certificate (required) - string
   *   as2_station_id (required) - int64 - Id of As2Station for this partner
+  *   server_certificate - string - Remote server certificate security setting
   */
   public static As2Partner create() throws IOException{
     return create(null,null);
@@ -276,6 +286,10 @@ public class As2Partner {
       throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long parameters[\"as2_station_id\"]");
     }
 
+    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
+    }
+
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
@@ -298,6 +312,7 @@ public class As2Partner {
   * Parameters:
   *   name - string - AS2 Name
   *   uri - string - URL base for AS2 responses
+  *   server_certificate - string - Remote server certificate security setting
   *   public_certificate - string
   */
   public static As2Partner update() throws IOException{
@@ -328,6 +343,10 @@ public class As2Partner {
 
     if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
+    }
+
+    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
 
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {

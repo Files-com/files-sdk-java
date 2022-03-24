@@ -8,6 +8,7 @@
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
   "uri": "",
+  "server_certificate": "require_match",
   "public_certificate_md5": "",
   "public_certificate_subject": "",
   "public_certificate_issuer": "",
@@ -21,6 +22,7 @@
 * `as2_station_id` / `as2StationId`  (int64): Id of the AS2 Station associated with this partner.
 * `name` / `name`  (string): The partner's formal AS2 name.
 * `uri` / `uri`  (string): Public URI for sending AS2 message to.
+* `server_certificate` / `serverCertificate`  (string): Remote server certificate security setting
 * `public_certificate_md5` / `publicCertificateMd5`  (string): MD5 hash of public certificate used for message security.
 * `public_certificate_subject` / `publicCertificateSubject`  (string): Subject of public certificate used for message security.
 * `public_certificate_issuer` / `publicCertificateIssuer`  (string): Issuer of public certificate used for message security.
@@ -83,6 +85,7 @@ As2Partner as2Partner = As2Partner.create(
 * `uri` (String): Required - URL base for AS2 responses
 * `public_certificate` (String): Required - 
 * `as2_station_id` (Long): Required - Id of As2Station for this partner
+* `server_certificate` (String): Remote server certificate security setting
 
 
 ---
@@ -102,6 +105,7 @@ As2Partner as2Partner = As2Partner.update(
 * `id` (Long): Required - As2 Partner ID.
 * `name` (String): AS2 Name
 * `uri` (String): URL base for AS2 responses
+* `server_certificate` (String): Remote server certificate security setting
 * `public_certificate` (String): 
 
 
@@ -132,6 +136,7 @@ As2Partner as2Partner = As2Partner.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "AS2 Partner Name");
+parameters.put("server_certificate", "require_match");
 
 As2Partner.Update(parameters);
 ```
@@ -141,6 +146,7 @@ As2Partner.Update(parameters);
 * `id` (Long): Required - As2 Partner ID.
 * `name` (String): AS2 Name
 * `uri` (String): URL base for AS2 responses
+* `server_certificate` (String): Remote server certificate security setting
 * `public_certificate` (String): 
 
 

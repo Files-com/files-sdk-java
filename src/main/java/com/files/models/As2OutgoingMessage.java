@@ -81,7 +81,7 @@ public class As2OutgoingMessage {
   private String activityLog;
 
   /**
-  * Result of processing. Valid values: `send_failed`, `send_success`
+  * Result of processing. Valid values: `send_failed`, `send_success`, `send_no_mdn`
   */
   @Getter
   @JsonProperty("processing_result")

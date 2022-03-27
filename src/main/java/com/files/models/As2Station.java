@@ -134,6 +134,14 @@ public class As2Station {
   private String publicCertificateNotAfter;
 
   /**
+  * MD5 hash of private key password used for message security.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("private_key_password_md5")
+  private String privateKeyPasswordMd5;
+
+  /**
   */
   @Getter
   @Setter
@@ -148,10 +156,18 @@ public class As2Station {
   private String privateKey;
 
   /**
+  */
+  @Getter
+  @Setter
+  @JsonProperty("private_key_password")
+  private String privateKeyPassword;
+
+  /**
   * Parameters:
   *   name - string - AS2 Name
   *   public_certificate - string
   *   private_key - string
+  *   private_key_password - string
   */
   public As2Station update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -261,6 +277,7 @@ public class As2Station {
   *   name (required) - string - AS2 Name
   *   public_certificate (required) - string
   *   private_key (required) - string
+  *   private_key_password - string
   */
   public static As2Station create() throws IOException{
     return create(null,null);
@@ -286,6 +303,10 @@ public class As2Station {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
     }
 
+    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
+    }
+
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
@@ -306,6 +327,7 @@ public class As2Station {
   *   name - string - AS2 Name
   *   public_certificate - string
   *   private_key - string
+  *   private_key_password - string
   */
   public static As2Station update() throws IOException{
     return update(null, null,null);
@@ -339,6 +361,10 @@ public class As2Station {
 
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

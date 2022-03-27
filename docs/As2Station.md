@@ -14,7 +14,8 @@
   "public_certificate_issuer": "",
   "public_certificate_serial": "",
   "public_certificate_not_before": "",
-  "public_certificate_not_after": ""
+  "public_certificate_not_after": "",
+  "private_key_password_md5": ""
 }
 ```
 
@@ -29,8 +30,10 @@
 * `public_certificate_serial` / `publicCertificateSerial`  (string): Serial of public certificate used for message security.
 * `public_certificate_not_before` / `publicCertificateNotBefore`  (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` / `publicCertificateNotAfter`  (string): Not after value of public certificate used for message security.
+* `private_key_password_md5` / `privateKeyPasswordMd5`  (string): MD5 hash of private key password used for message security.
 * `public_certificate` / `publicCertificate`  (string): 
 * `private_key` / `privateKey`  (string): 
+* `private_key_password` / `privateKeyPassword`  (string): 
 
 
 ---
@@ -85,6 +88,7 @@ As2Station as2Station = As2Station.create(
 * `name` (String): Required - AS2 Name
 * `public_certificate` (String): Required - 
 * `private_key` (String): Required - 
+* `private_key_password` (String): 
 
 
 ---
@@ -105,6 +109,7 @@ As2Station as2Station = As2Station.update(
 * `name` (String): AS2 Name
 * `public_certificate` (String): 
 * `private_key` (String): 
+* `private_key_password` (String): 
 
 
 ---
@@ -144,6 +149,7 @@ As2Station.Update(parameters);
 * `name` (String): AS2 Name
 * `public_certificate` (String): 
 * `private_key` (String): 
+* `private_key_password` (String): 
 
 
 ---

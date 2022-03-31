@@ -118,6 +118,30 @@ public class Bundle {
   private FormFieldSet formFieldSet;
 
   /**
+  * BundleRegistrations can be saved without providing name?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_name")
+  private Boolean skipName;
+
+  /**
+  * BundleRegistrations can be saved without providing email?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_email")
+  private Boolean skipEmail;
+
+  /**
+  * BundleRegistrations can be saved without providing company?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("skip_company")
+  private Boolean skipCompany;
+
+  /**
   * Bundle ID
   */
   @Getter

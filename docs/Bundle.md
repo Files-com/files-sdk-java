@@ -165,6 +165,9 @@ Bundle bundle = Bundle.create(
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
 
@@ -216,6 +219,9 @@ Bundle bundle = Bundle.update(
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
@@ -283,6 +289,9 @@ parameters.put("note", "The internal note on the bundle.");
 parameters.put("preview_only", true);
 parameters.put("require_registration", true);
 parameters.put("require_share_recipient", true);
+parameters.put("skip_email", true);
+parameters.put("skip_name", true);
+parameters.put("skip_company", true);
 parameters.put("watermark_attachment_delete", true);
 
 Bundle.Update(parameters);
@@ -304,6 +313,9 @@ Bundle.Update(parameters);
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
+* `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 

@@ -6,6 +6,7 @@
 {
   "id": 1,
   "automation": "create_folder",
+  "disabled": true,
   "trigger": "realtime",
   "interval": "week",
   "name": "",
@@ -46,6 +47,7 @@
 
 * `id` / `id`  (int64): Automation ID
 * `automation` / `automation`  (string): Automation type
+* `disabled` / `disabled`  (boolean): If true, this automation will not run.
 * `trigger` / `trigger`  (string): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `name` / `name`  (string): Name for this automation.
@@ -134,6 +136,7 @@ Automation automation = Automation.create(
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
 * `description` (String): Description for the this Automation.
+* `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -167,6 +170,7 @@ Automation automation = Automation.update(
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
 * `description` (String): Description for the this Automation.
+* `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -206,6 +210,7 @@ parameters.put("interval", "year");
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
 parameters.put("schedule", "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}");
+parameters.put("disabled", true);
 parameters.put("trigger", "realtime");
 parameters.put("trigger_actions", "[ \"create\" ]");
 parameters.put("value", "{\"limit\": \"1\"}");
@@ -228,6 +233,7 @@ Automation.Update(parameters);
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
 * `description` (String): Description for the this Automation.
+* `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.
 * `trigger` (String): How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy

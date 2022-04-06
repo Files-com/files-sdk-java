@@ -62,6 +62,14 @@ public class Automation {
   private String automation;
 
   /**
+  * If true, this automation will not run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("disabled")
+  private Boolean disabled;
+
+  /**
   * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   */
   @Getter
@@ -211,6 +219,7 @@ public class Automation {
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
   *   description - string - Description for the this Automation.
+  *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -373,6 +382,7 @@ public class Automation {
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
   *   description - string - Description for the this Automation.
+  *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -438,6 +448,10 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
+    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
+    }
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -477,6 +491,7 @@ public class Automation {
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
   *   description - string - Description for the this Automation.
+  *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -550,6 +565,10 @@ public class Automation {
 
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
+    }
+
+    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {

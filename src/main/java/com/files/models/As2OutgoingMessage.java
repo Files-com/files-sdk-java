@@ -60,6 +60,13 @@ public class As2OutgoingMessage {
   private Long as2PartnerId;
 
   /**
+  * Id of the AS2 Station associated with this message.
+  */
+  @Getter
+  @JsonProperty("as2_station_id")
+  private Long as2StationId;
+
+  /**
   * UUID assigned to this message.
   */
   @Getter
@@ -88,11 +95,32 @@ public class As2OutgoingMessage {
   private String processingResult;
 
   /**
-  * AS2 Message Integrity Check
+  * AS2 Message Integrity Check SHA1
   */
   @Getter
   @JsonProperty("mic")
   private String mic;
+
+  /**
+  * AS2 Message Integrity Check SHA256
+  */
+  @Getter
+  @JsonProperty("mic_sha_256")
+  private String micSha256;
+
+  /**
+  * AS2 TO
+  */
+  @Getter
+  @JsonProperty("as2_to")
+  private String as2To;
+
+  /**
+  * AS2 FROM
+  */
+  @Getter
+  @JsonProperty("as2_from")
+  private String as2From;
 
   /**
   * AS2 Message Id
@@ -121,6 +149,97 @@ public class As2OutgoingMessage {
   @Getter
   @JsonProperty("created_at")
   private Date createdAt;
+
+  /**
+  * HTTP Response Code received for this message
+  */
+  @Getter
+  @JsonProperty("http_response_code")
+  private String httpResponseCode;
+
+  /**
+  * HTTP Headers received for this message.
+  */
+  @Getter
+  @JsonProperty("http_response_headers")
+  private Map<String, String> httpResponseHeaders;
+
+  /**
+  * Did the partner give a response body?
+  */
+  @Getter
+  @JsonProperty("mdn_received")
+  private Boolean mdnReceived;
+
+  /**
+  * Is the response in MDN format?
+  */
+  @Getter
+  @JsonProperty("mdn_valid")
+  private Boolean mdnValid;
+
+  /**
+  * MDN signature verified?
+  */
+  @Getter
+  @JsonProperty("mdn_signature_verified")
+  private Boolean mdnSignatureVerified;
+
+  /**
+  * MDN message id matched?
+  */
+  @Getter
+  @JsonProperty("mdn_message_id_matched")
+  private Boolean mdnMessageIdMatched;
+
+  /**
+  * MDN MIC matched?
+  */
+  @Getter
+  @JsonProperty("mdn_mic_matched")
+  private Boolean mdnMicMatched;
+
+  /**
+  * MDN disposition indicate a successful processing?
+  */
+  @Getter
+  @JsonProperty("mdn_processing_success")
+  private Boolean mdnProcessingSuccess;
+
+  /**
+  * URL to download the original file contents
+  */
+  @Getter
+  @JsonProperty("raw_uri")
+  private String rawUri;
+
+  /**
+  * URL to download the file contents encoded as smime
+  */
+  @Getter
+  @JsonProperty("smime_uri")
+  private String smimeUri;
+
+  /**
+  * URL to download the file contents as smime with signature
+  */
+  @Getter
+  @JsonProperty("smime_signed_uri")
+  private String smimeSignedUri;
+
+  /**
+  * URL to download the encrypted signed smime that is to sent as AS2 body
+  */
+  @Getter
+  @JsonProperty("encrypted_uri")
+  private String encryptedUri;
+
+  /**
+  * URL to download the http response body
+  */
+  @Getter
+  @JsonProperty("mdn_response_uri")
+  private String mdnResponseUri;
 
 
 

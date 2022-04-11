@@ -60,6 +60,13 @@ public class As2IncomingMessage {
   private Long as2PartnerId;
 
   /**
+  * Id of the AS2 Station associated with this message.
+  */
+  @Getter
+  @JsonProperty("as2_station_id")
+  private Long as2StationId;
+
+  /**
   * UUID assigned to this message.
   */
   @Getter
@@ -93,6 +100,20 @@ public class As2IncomingMessage {
   @Getter
   @JsonProperty("processing_result")
   private String processingResult;
+
+  /**
+  * AS2 Message Integrity Check
+  */
+  @Getter
+  @JsonProperty("mic")
+  private String mic;
+
+  /**
+  * AS2 Message Integrity Check Algorithm Used
+  */
+  @Getter
+  @JsonProperty("mic_algo")
+  private String micAlgo;
 
   /**
   * AS2 TO header of message
@@ -137,11 +158,102 @@ public class As2IncomingMessage {
   private String attachmentFilename;
 
   /**
+  * IP Address of the Sender
+  */
+  @Getter
+  @JsonProperty("ip")
+  private String ip;
+
+  /**
   * Message creation date/time
   */
   @Getter
   @JsonProperty("created_at")
   private Date createdAt;
+
+  /**
+  * HTTP Response Code sent for this message
+  */
+  @Getter
+  @JsonProperty("http_response_code")
+  private String httpResponseCode;
+
+  /**
+  * HTTP Headers sent for this message.
+  */
+  @Getter
+  @JsonProperty("http_response_headers")
+  private Map<String, String> httpResponseHeaders;
+
+  /**
+  * Message body received?
+  */
+  @Getter
+  @JsonProperty("message_received")
+  private Boolean messageReceived;
+
+  /**
+  * Message decrypted successfully?
+  */
+  @Getter
+  @JsonProperty("message_decrypted")
+  private Boolean messageDecrypted;
+
+  /**
+  * Message signature verified?
+  */
+  @Getter
+  @JsonProperty("message_signature_verified")
+  private Boolean messageSignatureVerified;
+
+  /**
+  * Message processed successfully?
+  */
+  @Getter
+  @JsonProperty("message_processing_success")
+  private Boolean messageProcessingSuccess;
+
+  /**
+  * MDN returned?
+  */
+  @Getter
+  @JsonProperty("message_mdn_returned")
+  private Boolean messageMdnReturned;
+
+  /**
+  * URL to download the encrypted signed smime that is to sent as AS2 body
+  */
+  @Getter
+  @JsonProperty("encrypted_uri")
+  private String encryptedUri;
+
+  /**
+  * URL to download the file contents as smime with signature
+  */
+  @Getter
+  @JsonProperty("smime_signed_uri")
+  private String smimeSignedUri;
+
+  /**
+  * URL to download the file contents encoded as smime
+  */
+  @Getter
+  @JsonProperty("smime_uri")
+  private String smimeUri;
+
+  /**
+  * URL to download the original file contents
+  */
+  @Getter
+  @JsonProperty("raw_uri")
+  private String rawUri;
+
+  /**
+  * URL to download the http response body
+  */
+  @Getter
+  @JsonProperty("mdn_response_uri")
+  private String mdnResponseUri;
 
 
 

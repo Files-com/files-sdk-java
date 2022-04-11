@@ -86,6 +86,14 @@ public class As2Partner {
   private String serverCertificate;
 
   /**
+  * Serial of public certificate used for message security in hex format.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("hex_public_certificate_serial")
+  private String hexPublicCertificateSerial;
+
+  /**
   * MD5 hash of public certificate used for message security.
   */
   @Getter

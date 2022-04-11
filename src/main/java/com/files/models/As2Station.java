@@ -78,6 +78,14 @@ public class As2Station {
   private String domain;
 
   /**
+  * Serial of public certificate used for message security in hex format.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("hex_public_certificate_serial")
+  private String hexPublicCertificateSerial;
+
+  /**
   * MD5 hash of public certificate used for message security.
   */
   @Getter

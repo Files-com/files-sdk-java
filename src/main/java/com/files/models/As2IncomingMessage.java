@@ -186,27 +186,6 @@ public class As2IncomingMessage {
   private Map<String, String> httpResponseHeaders;
 
   /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
-  */
-  @Getter
-  @JsonProperty("recipient_serial")
-  private String recipientSerial;
-
-  /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
-  */
-  @Getter
-  @JsonProperty("hex_recipient_serial")
-  private String hexRecipientSerial;
-
-  /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
-  */
-  @Getter
-  @JsonProperty("recipient_issuer")
-  private String recipientIssuer;
-
-  /**
   * Message body received?
   */
   @Getter

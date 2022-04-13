@@ -24,9 +24,6 @@
   "created_at": "2000-01-01T01:00:00Z",
   "http_response_code": "",
   "http_response_headers": "",
-  "recipient_serial": "",
-  "hex_recipient_serial": "A5:EB:C1:95:DC:D8:2B:E7",
-  "recipient_issuer": "",
   "message_received": true,
   "message_decrypted": true,
   "message_signature_verified": true,
@@ -60,9 +57,6 @@
 * `created_at` / `createdAt`  (date-time): Message creation date/time
 * `http_response_code` / `httpResponseCode`  (string): HTTP Response Code sent for this message
 * `http_response_headers` / `httpResponseHeaders`  (object): HTTP Headers sent for this message.
-* `recipient_serial` / `recipientSerial`  (string): Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
-* `hex_recipient_serial` / `hexRecipientSerial`  (string): Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
-* `recipient_issuer` / `recipientIssuer`  (string): Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
 * `message_received` / `messageReceived`  (boolean): Message body received?
 * `message_decrypted` / `messageDecrypted`  (boolean): Message decrypted successfully?
 * `message_signature_verified` / `messageSignatureVerified`  (boolean): Message signature verified?

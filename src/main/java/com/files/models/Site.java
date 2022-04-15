@@ -907,6 +907,13 @@ public class Site {
   private String welcomeEmailCc;
 
   /**
+  * Include this email subject in welcome emails if enabled
+  */
+  @Getter
+  @JsonProperty("welcome_email_subject")
+  private String welcomeEmailSubject;
+
+  /**
   * Will the welcome email be sent to new users?
   */
   @Getter
@@ -992,6 +999,7 @@ public class Site {
   *   ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
   *   show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
   *   welcome_email_cc - string - Include this email in welcome emails if enabled
+  *   welcome_email_subject - string - Include this email subject in welcome emails if enabled
   *   welcome_custom_text - string - Custom text send in user welcome email
   *   language - string - Site default language
   *   windows_mode_ftp - boolean - Does FTP user Windows emulation mode?
@@ -1162,6 +1170,10 @@ public class Site {
 
     if (parameters.containsKey("welcome_email_cc") && !(parameters.get("welcome_email_cc") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_cc must be of type String parameters[\"welcome_email_cc\"]");
+    }
+
+    if (parameters.containsKey("welcome_email_subject") && !(parameters.get("welcome_email_subject") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: welcome_email_subject must be of type String parameters[\"welcome_email_subject\"]");
     }
 
     if (parameters.containsKey("welcome_custom_text") && !(parameters.get("welcome_custom_text") instanceof String )) {

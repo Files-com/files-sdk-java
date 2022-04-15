@@ -217,6 +217,7 @@
   "user_requests_enabled": true,
   "welcome_custom_text": "Welcome to my site!",
   "welcome_email_cc": "",
+  "welcome_email_subject": "",
   "welcome_email_enabled": true,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": true,
@@ -347,6 +348,7 @@
 * `user_requests_enabled` / `userRequestsEnabled`  (boolean): Enable User Requests feature
 * `welcome_custom_text` / `welcomeCustomText`  (string): Custom text send in user welcome email
 * `welcome_email_cc` / `welcomeEmailCc`  (email): Include this email in welcome emails if enabled
+* `welcome_email_subject` / `welcomeEmailSubject`  (string): Include this email subject in welcome emails if enabled
 * `welcome_email_enabled` / `welcomeEmailEnabled`  (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` / `welcomeScreen`  (string): Does the welcome screen appear?
 * `windows_mode_ftp` / `windowsModeFtp`  (boolean): Does FTP user Windows emulation mode?
@@ -407,6 +409,7 @@ Site site = Site.update(
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.
 * `welcome_email_cc` (String): Include this email in welcome emails if enabled
+* `welcome_email_subject` (String): Include this email subject in welcome emails if enabled
 * `welcome_custom_text` (String): Custom text send in user welcome email
 * `language` (String): Site default language
 * `windows_mode_ftp` (Boolean): Does FTP user Windows emulation mode?

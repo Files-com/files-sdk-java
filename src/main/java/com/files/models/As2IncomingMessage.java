@@ -144,6 +144,13 @@ public class As2IncomingMessage {
   private String subject;
 
   /**
+  * Date Header
+  */
+  @Getter
+  @JsonProperty("date")
+  private String date;
+
+  /**
   * Encrypted Payload Body Size
   */
   @Getter

@@ -123,6 +123,13 @@ public class As2OutgoingMessage {
   private String as2From;
 
   /**
+  * Date Header
+  */
+  @Getter
+  @JsonProperty("date")
+  private String date;
+
+  /**
   * AS2 Message Id
   */
   @Getter

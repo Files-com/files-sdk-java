@@ -15,6 +15,7 @@
   "mic_sha_256": "",
   "as2_to": "",
   "as2_from": "",
+  "date": "",
   "message_id": "",
   "body_size": "",
   "attachment_filename": "",
@@ -46,6 +47,7 @@
 * `mic_sha_256` / `micSha256`  (string): AS2 Message Integrity Check SHA256
 * `as2_to` / `as2To`  (string): AS2 TO
 * `as2_from` / `as2From`  (string): AS2 FROM
+* `date` / `date`  (string): Date Header
 * `message_id` / `messageId`  (string): AS2 Message Id
 * `body_size` / `bodySize`  (string): Encrypted Payload Body Size
 * `attachment_filename` / `attachmentFilename`  (string): Filename of the file being sent.

@@ -45,6 +45,7 @@
 * `priority_color` / `priorityColor`  (string): Bookmark/priority color of file/folder
 * `preview_id` / `previewId`  (int64): File preview ID
 * `preview` / `preview`  (preview): File preview
+* `mkdir_parents` / `mkdirParents`  (boolean): Create parent directories if they do not exist?
 
 
 ---
@@ -87,3 +88,4 @@ Folder folder = Folder.create(
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
+* `mkdir_parents` (Boolean): Create parent directories if they do not exist?

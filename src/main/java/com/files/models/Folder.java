@@ -173,6 +173,14 @@ public class Folder {
   @JsonProperty("preview")
   private Preview preview;
 
+  /**
+  * Create parent directories if they do not exist?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("mkdir_parents")
+  private Boolean mkdirParents;
+
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -261,6 +269,7 @@ public class Folder {
   /**
   * Parameters:
   *   path (required) - string - Path to operate on.
+  *   mkdir_parents - boolean - Create parent directories if they do not exist?
   */
   public static Folder create() throws IOException{
     return create(null, null,null);
@@ -282,6 +291,10 @@ public class Folder {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
 
     if (!parameters.containsKey("path") || parameters.get("path") == null) {

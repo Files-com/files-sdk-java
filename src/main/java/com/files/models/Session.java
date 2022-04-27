@@ -62,38 +62,6 @@ public class Session {
   private String language;
 
   /**
-  * Login token. If set, this token will allow your user to log in via browser at the domain in `login_token_domain`.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("login_token")
-  private String loginToken;
-
-  /**
-  * Domain to use with `login_token`.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("login_token_domain")
-  private String loginTokenDomain;
-
-  /**
-  * Maximum number of files to retrieve per folder for a directory listing.  This is based on the user's plan.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("max_dir_listing_size")
-  private Long maxDirListingSize;
-
-  /**
-  * Can access multiple regions?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("multiple_regions")
-  private Boolean multipleRegions;
-
-  /**
   * Is this session read only?
   */
   @Getter
@@ -102,108 +70,12 @@ public class Session {
   private Boolean readOnly;
 
   /**
-  * Initial root path to start the user's session in.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("root_path")
-  private String rootPath;
-
-  /**
   * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
   */
   @Getter
   @Setter
   @JsonProperty("sftp_insecure_ciphers")
   private Boolean sftpInsecureCiphers;
-
-  /**
-  * Site ID
-  */
-  @Getter
-  @Setter
-  @JsonProperty("site_id")
-  private Long siteId;
-
-  /**
-  * Is SSL required for this user?  (If so, ensure all your communications with this user use SSL.)
-  */
-  @Getter
-  @Setter
-  @JsonProperty("ssl_required")
-  private Boolean sslRequired;
-
-  /**
-  * Are insecure TLS versions allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure TLS versions for this user.)
-  */
-  @Getter
-  @Setter
-  @JsonProperty("tls_disabled")
-  private Boolean tlsDisabled;
-
-  /**
-  * If true, this user needs to add a Two Factor Authentication method before performing any further actions.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("two_factor_setup_needed")
-  private Boolean twoFactorSetupNeeded;
-
-  /**
-  * Sent only if 2FA setup is needed. Is SMS two factor authentication allowed?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("allowed_2fa_method_sms")
-  private Boolean allowed2faMethodSms;
-
-  /**
-  * Sent only if 2FA setup is needed. Is TOTP two factor authentication allowed?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("allowed_2fa_method_totp")
-  private Boolean allowed2faMethodTotp;
-
-  /**
-  * Sent only if 2FA setup is needed. Is U2F two factor authentication allowed?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("allowed_2fa_method_u2f")
-  private Boolean allowed2faMethodU2f;
-
-  /**
-  * Sent only if 2FA setup is needed. Is WebAuthn two factor authentication allowed?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("allowed_2fa_method_webauthn")
-  private Boolean allowed2faMethodWebauthn;
-
-  /**
-  * Sent only if 2FA setup is needed. Is Yubikey two factor authentication allowed?
-  */
-  @Getter
-  @Setter
-  @JsonProperty("allowed_2fa_method_yubi")
-  private Boolean allowed2faMethodYubi;
-
-  /**
-  * Allow the user to provide file/folder modified at dates?  If false, the server will always use the current date/time.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("use_provided_modified_at")
-  private Boolean useProvidedModifiedAt;
-
-  /**
-  * Does this user want to use Windows line-ending emulation?  (CR vs CRLF)
-  */
-  @Getter
-  @Setter
-  @JsonProperty("windows_mode_ftp")
-  private Boolean windowsModeFtp;
 
   /**
   * Username to sign in as

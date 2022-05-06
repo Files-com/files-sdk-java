@@ -106,8 +106,8 @@ public class As2Partner {
   */
   @Getter
   @Setter
-  @JsonProperty("public_certificate_subject")
-  private String publicCertificateSubject;
+  @JsonProperty("public_certificate_subjec")
+  private String publicCertificateSubjec;
 
   /**
   * Issuer of public certificate used for message security.

@@ -102,6 +102,13 @@ public class As2IncomingMessage {
   private String processingResult;
 
   /**
+  * Result of processing description.
+  */
+  @Getter
+  @JsonProperty("processing_result_description")
+  private String processingResultDescription;
+
+  /**
   * AS2 Message Integrity Check
   */
   @Getter

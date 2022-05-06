@@ -95,6 +95,13 @@ public class As2OutgoingMessage {
   private String processingResult;
 
   /**
+  * Result of processing description.
+  */
+  @Getter
+  @JsonProperty("processing_result_description")
+  private String processingResultDescription;
+
+  /**
   * AS2 Message Integrity Check SHA1
   */
   @Getter
@@ -170,6 +177,13 @@ public class As2OutgoingMessage {
   @Getter
   @JsonProperty("http_response_headers")
   private Map<String, String> httpResponseHeaders;
+
+  /**
+  * HTTP transmission duration in seceonds
+  */
+  @Getter
+  @JsonProperty("http_transmission_duration")
+  private Double httpTransmissionDuration;
 
   /**
   * Did the partner give a response body?

@@ -11,6 +11,7 @@
   "http_headers": "",
   "activity_log": "",
   "processing_result": "",
+  "processing_result_description": "",
   "mic": "",
   "mic_sha_256": "",
   "as2_to": "",
@@ -22,6 +23,7 @@
   "created_at": "2000-01-01T01:00:00Z",
   "http_response_code": "",
   "http_response_headers": "",
+  "http_transmission_duration": 1.0,
   "mdn_received": true,
   "mdn_valid": true,
   "mdn_signature_verified": true,
@@ -43,6 +45,7 @@
 * `http_headers` / `httpHeaders`  (object): HTTP Headers sent with this message.
 * `activity_log` / `activityLog`  (string): JSON Structure of the activity log.
 * `processing_result` / `processingResult`  (string): Result of processing.
+* `processing_result_description` / `processingResultDescription`  (string): Result of processing description.
 * `mic` / `mic`  (string): AS2 Message Integrity Check SHA1
 * `mic_sha_256` / `micSha256`  (string): AS2 Message Integrity Check SHA256
 * `as2_to` / `as2To`  (string): AS2 TO
@@ -54,6 +57,7 @@
 * `created_at` / `createdAt`  (date-time): Message creation date/time
 * `http_response_code` / `httpResponseCode`  (string): HTTP Response Code received for this message
 * `http_response_headers` / `httpResponseHeaders`  (object): HTTP Headers received for this message.
+* `http_transmission_duration` / `httpTransmissionDuration`  (double): HTTP transmission duration in seceonds
 * `mdn_received` / `mdnReceived`  (boolean): Did the partner give a response body?
 * `mdn_valid` / `mdnValid`  (boolean): Is the response in MDN format?
 * `mdn_signature_verified` / `mdnSignatureVerified`  (boolean): MDN signature verified?

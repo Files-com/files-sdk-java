@@ -110,6 +110,14 @@ public class Notification {
   private String sendInterval;
 
   /**
+  * Custom message to include in notification emails.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("message")
+  private String message;
+
+  /**
   * Is the user unsubscribed from this notification?
   */
   @Getter
@@ -155,6 +163,7 @@ public class Notification {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   message - string - Custom message to include in notification emails.
   */
   public Notification update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -321,6 +330,7 @@ public class Notification {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   message - string - Custom message to include in notification emails.
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
@@ -357,6 +367,10 @@ public class Notification {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
     }
 
+    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
+    }
+
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
@@ -381,6 +395,7 @@ public class Notification {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   message - string - Custom message to include in notification emails.
   */
   public static Notification update() throws IOException{
     return update(null, null,null);
@@ -418,6 +433,10 @@ public class Notification {
 
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
+    }
+
+    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

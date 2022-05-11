@@ -88,6 +88,13 @@ public class Site {
   private Boolean allowed2faMethodYubi;
 
   /**
+  * Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
+  */
+  @Getter
+  @JsonProperty("allowed_2fa_method_bypass_for_ftp_sftp_dav")
+  private Boolean allowed2faMethodBypassForFtpSftpDav;
+
+  /**
   * User ID for the main site administrator
   */
   @Getter
@@ -1056,6 +1063,7 @@ public class Site {
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
   *   allowed_2fa_method_webauthn - boolean - Is WebAuthn two factor authentication allowed?
   *   allowed_2fa_method_yubi - boolean - Is yubikey two factor authentication allowed?
+  *   allowed_2fa_method_bypass_for_ftp_sftp_dav - boolean - Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
   *   require_2fa - boolean - Require two-factor authentication for all users?
   *   require_2fa_user_type - string - What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
   *   color2_top - string - Top bar background color
@@ -1398,6 +1406,10 @@ public class Site {
 
     if (parameters.containsKey("allowed_2fa_method_yubi") && !(parameters.get("allowed_2fa_method_yubi") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_yubi must be of type Boolean parameters[\"allowed_2fa_method_yubi\"]");
+    }
+
+    if (parameters.containsKey("allowed_2fa_method_bypass_for_ftp_sftp_dav") && !(parameters.get("allowed_2fa_method_bypass_for_ftp_sftp_dav") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_bypass_for_ftp_sftp_dav must be of type Boolean parameters[\"allowed_2fa_method_bypass_for_ftp_sftp_dav\"]");
     }
 
     if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof Boolean )) {

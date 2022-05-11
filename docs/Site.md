@@ -10,6 +10,7 @@
   "allowed_2fa_method_u2f": true,
   "allowed_2fa_method_webauthn": true,
   "allowed_2fa_method_yubi": true,
+  "allowed_2fa_method_bypass_for_ftp_sftp_dav": true,
   "admin_user_id": 1,
   "allow_bundle_names": true,
   "allowed_countries": "US,DE",
@@ -231,6 +232,7 @@
 * `allowed_2fa_method_u2f` / `allowed2faMethodU2f`  (boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_webauthn` / `allowed2faMethodWebauthn`  (boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` / `allowed2faMethodYubi`  (boolean): Is yubikey two factor authentication allowed?
+* `allowed_2fa_method_bypass_for_ftp_sftp_dav` / `allowed2faMethodBypassForFtpSftpDav`  (boolean): Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
 * `admin_user_id` / `adminUserId`  (int64): User ID for the main site administrator
 * `allow_bundle_names` / `allowBundleNames`  (boolean): Are manual Bundle names allowed?
 * `allowed_countries` / `allowedCountries`  (string): Comma seperated list of allowed Country codes
@@ -466,6 +468,7 @@ Site site = Site.update(
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_webauthn` (Boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (Boolean): Is yubikey two factor authentication allowed?
+* `allowed_2fa_method_bypass_for_ftp_sftp_dav` (Boolean): Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
 * `require_2fa` (Boolean): Require two-factor authentication for all users?
 * `require_2fa_user_type` (String): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 * `color2_top` (String): Top bar background color

@@ -62,6 +62,14 @@ public class Automation {
   private String automation;
 
   /**
+  * Indicates if the automation has been deleted.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("deleted")
+  private Boolean deleted;
+
+  /**
   * If true, this automation will not run.
   */
   @Getter
@@ -84,6 +92,14 @@ public class Automation {
   @Setter
   @JsonProperty("interval")
   private String interval;
+
+  /**
+  * Time when automation was last modified. Does not change for name or description updates.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_at")
+  private Date lastModifiedAt;
 
   /**
   * Name for this automation.
@@ -206,8 +222,15 @@ public class Automation {
   private String destination;
 
   /**
+  * Set to the ID of automation used a clone template. For
+  */
+  @Getter
+  @Setter
+  @JsonProperty("cloned_from")
+  private Long clonedFrom;
+
+  /**
   * Parameters:
-  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -224,6 +247,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   automation - string - Automation type
   */
   public Automation update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -252,13 +276,14 @@ public class Automation {
   * Parameters:
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`.
-  *   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `automation`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`.
+  *   sort_by - object - If set, sort records by the specified field in either 'asc' or 'desc' direction (e.g. sort_by[last_login_at]=desc). Valid fields are `automation`, `last_modified_at` or `disabled`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `automation`, `last_modified_at` or `disabled`. Valid field combinations are `[ disabled, automation ]`.
+  *   with_deleted - boolean - Set to true to include deleted automations in the results.
   *   automation - string - DEPRECATED: Type of automation to filter by. Use `filter[automation]` instead.
   */
   public static List<Automation> list() throws IOException{
@@ -307,6 +332,10 @@ public class Automation {
 
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
+    }
+
+    if (parameters.containsKey("with_deleted") && !(parameters.get("with_deleted") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: with_deleted must be of type Boolean parameters[\"with_deleted\"]");
     }
 
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
@@ -370,7 +399,6 @@ public class Automation {
 
   /**
   * Parameters:
-  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -387,6 +415,8 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   automation (required) - string - Automation type
+  *   cloned_from - int64 - Set to the ID of automation used a clone template. For
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -399,10 +429,6 @@ public class Automation {
   public static Automation create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
-
-    if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
-    }
 
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
@@ -468,6 +494,14 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
 
+    if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
+    }
+
+    if (parameters.containsKey("cloned_from") && !(parameters.get("cloned_from") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: cloned_from must be of type Long parameters[\"cloned_from\"]");
+    }
+
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
@@ -479,7 +513,6 @@ public class Automation {
 
   /**
   * Parameters:
-  *   automation (required) - string - Automation type
   *   source - string - Source Path
   *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
@@ -496,6 +529,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   automation - string - Automation type
   */
   public static Automation update() throws IOException{
     return update(null, null,null);
@@ -519,10 +553,6 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
-    }
-
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
@@ -587,11 +617,12 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
 
+    if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
+    }
+
     if (!parameters.containsKey("id") || parameters.get("id") == null) {
       throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
-      throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
     String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};

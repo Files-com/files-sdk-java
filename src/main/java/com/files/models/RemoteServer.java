@@ -294,6 +294,14 @@ public class RemoteServer {
   private String azureBlobStorageAccount;
 
   /**
+  * Shared Access Signature (SAS) token
+  */
+  @Getter
+  @Setter
+  @JsonProperty("azure_blob_storage_sas_token")
+  private String azureBlobStorageSasToken;
+
+  /**
   * Azure Blob Storage Container name
   */
   @Getter
@@ -475,6 +483,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -623,6 +632,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -786,6 +796,10 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
     }
 
+    if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
+    }
+
     if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_bucket must be of type String parameters[\"s3_compatible_bucket\"]");
     }
@@ -854,6 +868,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -1025,6 +1040,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("azure_blob_storage_container") && !(parameters.get("azure_blob_storage_container") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
+    }
+
+    if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
     }
 
     if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {

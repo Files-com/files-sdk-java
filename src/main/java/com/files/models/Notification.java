@@ -78,6 +78,30 @@ public class Notification {
   private String groupName;
 
   /**
+  * Only notify on actions made by a member of one of the specified groups
+  */
+  @Getter
+  @Setter
+  @JsonProperty("triggering_group_ids")
+  private Long triggeringGroupIds;
+
+  /**
+  * Only notify on actions made one of the specified users
+  */
+  @Getter
+  @Setter
+  @JsonProperty("triggering_user_ids")
+  private Long triggeringUserIds;
+
+  /**
+  * Notify when actions are performed by a share recipient?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger_by_share_recipients")
+  private Boolean triggerByShareRecipients;
+
+  /**
   * Trigger notification on notification user actions?
   */
   @Getter
@@ -86,12 +110,44 @@ public class Notification {
   private Boolean notifyUserActions;
 
   /**
-  * Triggers notification when moving or copying files to this path
+  * Triggers notification when copying files to this path
   */
   @Getter
   @Setter
   @JsonProperty("notify_on_copy")
   private Boolean notifyOnCopy;
+
+  /**
+  * Triggers notification when deleting files from this path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("notify_on_delete")
+  private Boolean notifyOnDelete;
+
+  /**
+  * Triggers notification when downloading files from this path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("notify_on_download")
+  private Boolean notifyOnDownload;
+
+  /**
+  * Triggers notification when moving files to this path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("notify_on_move")
+  private Boolean notifyOnMove;
+
+  /**
+  * Triggers notification when uploading new files to this path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("notify_on_upload")
+  private Boolean notifyOnUpload;
 
   /**
   * Enable notifications for each subfolder in this path
@@ -116,6 +172,14 @@ public class Notification {
   @Setter
   @JsonProperty("message")
   private String message;
+
+  /**
+  * Array of filenames (possibly with wildcards) to match for action path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("triggering_filenames")
+  private Object[] triggeringFilenames;
 
   /**
   * Is the user unsubscribed from this notification?
@@ -160,10 +224,18 @@ public class Notification {
   /**
   * Parameters:
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+  *   notify_on_delete - boolean - Triggers notification when deleting files from this path
+  *   notify_on_download - boolean - Triggers notification when downloading files from this path
+  *   notify_on_move - boolean - Triggers notification when moving files to this path
+  *   notify_on_upload - boolean - Triggers notification when uploading new files to this path
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   *   message - string - Custom message to include in notification emails.
+  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+  *   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+  *   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
   public Notification update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -327,10 +399,18 @@ public class Notification {
   * Parameters:
   *   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+  *   notify_on_delete - boolean - Triggers notification when deleting files from this path
+  *   notify_on_download - boolean - Triggers notification when downloading files from this path
+  *   notify_on_move - boolean - Triggers notification when moving files to this path
+  *   notify_on_upload - boolean - Triggers notification when uploading new files to this path
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   *   message - string - Custom message to include in notification emails.
+  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+  *   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+  *   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
@@ -355,6 +435,22 @@ public class Notification {
       throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
     }
 
+    if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
+    }
+
+    if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
+    }
+
+    if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
+    }
+
+    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
+    }
+
     if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
     }
@@ -369,6 +465,22 @@ public class Notification {
 
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
+    }
+
+    if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
+    }
+
+    if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
+    }
+
+    if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
+    }
+
+    if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
     }
 
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
@@ -392,10 +504,18 @@ public class Notification {
   /**
   * Parameters:
   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+  *   notify_on_delete - boolean - Triggers notification when deleting files from this path
+  *   notify_on_download - boolean - Triggers notification when downloading files from this path
+  *   notify_on_move - boolean - Triggers notification when moving files to this path
+  *   notify_on_upload - boolean - Triggers notification when uploading new files to this path
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
   *   message - string - Custom message to include in notification emails.
+  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to match for action path
+  *   triggering_group_ids - array(int64) - Only notify on actions made by a member of one of the specified groups
+  *   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
+  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
   public static Notification update() throws IOException{
     return update(null, null,null);
@@ -423,6 +543,22 @@ public class Notification {
       throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
     }
 
+    if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
+    }
+
+    if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
+    }
+
+    if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
+    }
+
+    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
+    }
+
     if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
     }
@@ -437,6 +573,22 @@ public class Notification {
 
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
+    }
+
+    if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
+    }
+
+    if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
+    }
+
+    if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[] )) {
+      throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
+    }
+
+    if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
     }
 
     if (!parameters.containsKey("id") || parameters.get("id") == null) {

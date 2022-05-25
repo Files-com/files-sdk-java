@@ -35,6 +35,7 @@
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
+  "azure_blob_storage_sas_token": "storage-sas-token",
   "azure_blob_storage_container": "container-name",
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
@@ -75,6 +76,7 @@
 * `auth_account_name` / `authAccountName`  (string): Describes the authorized account
 * `one_drive_account_type` / `oneDriveAccountType`  (string): Either personal or business_other account types
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
+* `azure_blob_storage_sas_token` / `azureBlobStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
@@ -180,6 +182,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -239,6 +242,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -297,6 +301,7 @@ parameters.put("rackspace_container", "my-container");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
+parameters.put("azure_blob_storage_sas_token", "storage-sas-token");
 parameters.put("s3_compatible_bucket", "my-bucket");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
@@ -344,6 +349,7 @@ RemoteServer.Update(parameters);
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint

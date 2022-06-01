@@ -37,6 +37,9 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_sas_token": "storage-sas-token",
   "azure_blob_storage_container": "container-name",
+  "azure_files_storage_account": "storage-account-name",
+  "azure_files_sas_token": "storage-sas-token",
+  "azure_files_share_name": "share-name",
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
@@ -78,6 +81,9 @@
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
 * `azure_blob_storage_sas_token` / `azureBlobStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
+* `azure_files_storage_account` / `azureFilesStorageAccount`  (string): Azure File Storage Account name
+* `azure_files_sas_token` / `azureFilesSasToken`  (string): Shared Access Signature (SAS) token
+* `azure_files_share_name` / `azureFilesShareName`  (string): Azure File Storage Share name
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
 * `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible endpoint
@@ -94,6 +100,7 @@
 * `rackspace_api_key` / `rackspaceApiKey`  (string): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` / `resetAuthentication`  (boolean): Reset authenticated account
 * `azure_blob_storage_access_key` / `azureBlobStorageAccessKey`  (string): Azure Blob Storage secret key.
+* `azure_files_storage_access_key` / `azureFilesStorageAccessKey`  (string): Azure File Storage access key.
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible secret key
 
 
@@ -159,6 +166,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `rackspace_api_key` (String): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` (Boolean): Reset authenticated account
 * `azure_blob_storage_access_key` (String): Azure Blob Storage secret key.
+* `azure_files_storage_access_key` (String): Azure File Storage access key.
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -183,6 +191,9 @@ RemoteServer remoteServer = RemoteServer.create(
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_files_storage_account` (String): Azure File Storage Account name
+* `azure_files_share_name` (String): Azure File Storage Share name
+* `azure_files_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -219,6 +230,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `rackspace_api_key` (String): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` (Boolean): Reset authenticated account
 * `azure_blob_storage_access_key` (String): Azure Blob Storage secret key.
+* `azure_files_storage_access_key` (String): Azure File Storage access key.
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -243,6 +255,9 @@ RemoteServer remoteServer = RemoteServer.update(
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_files_storage_account` (String): Azure File Storage Account name
+* `azure_files_share_name` (String): Azure File Storage Share name
+* `azure_files_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -302,6 +317,9 @@ parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
 parameters.put("azure_blob_storage_sas_token", "storage-sas-token");
+parameters.put("azure_files_storage_account", "storage-account-name");
+parameters.put("azure_files_share_name", "share-name");
+parameters.put("azure_files_sas_token", "storage-sas-token");
 parameters.put("s3_compatible_bucket", "my-bucket");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
@@ -326,6 +344,7 @@ RemoteServer.Update(parameters);
 * `rackspace_api_key` (String): Rackspace API key from the Rackspace Cloud Control Panel.
 * `reset_authentication` (Boolean): Reset authenticated account
 * `azure_blob_storage_access_key` (String): Azure Blob Storage secret key.
+* `azure_files_storage_access_key` (String): Azure File Storage access key.
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -350,6 +369,9 @@ RemoteServer.Update(parameters);
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_files_storage_account` (String): Azure File Storage Account name
+* `azure_files_share_name` (String): Azure File Storage Share name
+* `azure_files_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint

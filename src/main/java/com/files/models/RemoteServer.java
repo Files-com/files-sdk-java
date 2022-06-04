@@ -322,16 +322,16 @@ public class RemoteServer {
   */
   @Getter
   @Setter
-  @JsonProperty("azure_files_sas_token")
-  private String azureFilesSasToken;
+  @JsonProperty("azure_files_storage_sas_token")
+  private String azureFilesStorageSasToken;
 
   /**
   * Azure File Storage Share name
   */
   @Getter
   @Setter
-  @JsonProperty("azure_files_share_name")
-  private String azureFilesShareName;
+  @JsonProperty("azure_files_storage_share_name")
+  private String azureFilesStorageShareName;
 
   /**
   * S3-compatible Bucket name
@@ -518,8 +518,8 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
-  *   azure_files_share_name - string - Azure File Storage Share name
-  *   azure_files_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -671,8 +671,8 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
-  *   azure_files_share_name - string - Azure File Storage Share name
-  *   azure_files_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -848,12 +848,12 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");
     }
 
-    if (parameters.containsKey("azure_files_share_name") && !(parameters.get("azure_files_share_name") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_share_name must be of type String parameters[\"azure_files_share_name\"]");
+    if (parameters.containsKey("azure_files_storage_share_name") && !(parameters.get("azure_files_storage_share_name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_share_name must be of type String parameters[\"azure_files_storage_share_name\"]");
     }
 
-    if (parameters.containsKey("azure_files_sas_token") && !(parameters.get("azure_files_sas_token") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_sas_token must be of type String parameters[\"azure_files_sas_token\"]");
+    if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");
     }
 
     if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {
@@ -927,8 +927,8 @@ public class RemoteServer {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
-  *   azure_files_share_name - string - Azure File Storage Share name
-  *   azure_files_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
   *   s3_compatible_region - string - S3-compatible endpoint
@@ -1114,12 +1114,12 @@ public class RemoteServer {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");
     }
 
-    if (parameters.containsKey("azure_files_share_name") && !(parameters.get("azure_files_share_name") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_share_name must be of type String parameters[\"azure_files_share_name\"]");
+    if (parameters.containsKey("azure_files_storage_share_name") && !(parameters.get("azure_files_storage_share_name") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_share_name must be of type String parameters[\"azure_files_storage_share_name\"]");
     }
 
-    if (parameters.containsKey("azure_files_sas_token") && !(parameters.get("azure_files_sas_token") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_sas_token must be of type String parameters[\"azure_files_sas_token\"]");
+    if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");
     }
 
     if (parameters.containsKey("s3_compatible_bucket") && !(parameters.get("s3_compatible_bucket") instanceof String )) {

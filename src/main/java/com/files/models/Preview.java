@@ -67,7 +67,7 @@ public class Preview {
   private String downloadUri;
 
   /**
-  * Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
+  * Preview type. Can be image, pdf, pdf_native, video, or audio
   */
   @Getter
   @JsonProperty("type")
@@ -78,7 +78,7 @@ public class Preview {
   */
   @Getter
   @JsonProperty("size")
-  private Long size;
+  private String size;
 
 
 

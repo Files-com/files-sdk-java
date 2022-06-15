@@ -69,7 +69,6 @@
 * `trigger_actions` / `triggerActions`  (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
 * `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
-* `cloned_from` / `clonedFrom`  (int64): Set to the ID of automation used a clone template. For
 
 
 ---
@@ -147,7 +146,6 @@ Automation automation = Automation.create(
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
 * `automation` (String): Required - Automation type
-* `cloned_from` (Long): Set to the ID of automation used a clone template. For
 
 
 ---

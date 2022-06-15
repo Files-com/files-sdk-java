@@ -222,14 +222,6 @@ public class Automation {
   private String destination;
 
   /**
-  * Set to the ID of automation used a clone template. For
-  */
-  @Getter
-  @Setter
-  @JsonProperty("cloned_from")
-  private Long clonedFrom;
-
-  /**
   * Parameters:
   *   source - string - Source Path
   *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
@@ -416,7 +408,6 @@ public class Automation {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   automation (required) - string - Automation type
-  *   cloned_from - int64 - Set to the ID of automation used a clone template. For
   */
   public static Automation create() throws IOException{
     return create(null,null);
@@ -496,10 +487,6 @@ public class Automation {
 
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
-    }
-
-    if (parameters.containsKey("cloned_from") && !(parameters.get("cloned_from") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: cloned_from must be of type Long parameters[\"cloned_from\"]");
     }
 
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {

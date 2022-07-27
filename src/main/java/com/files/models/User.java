@@ -173,6 +173,14 @@ public class User {
   private String email;
 
   /**
+  * User's first login time
+  */
+  @Getter
+  @Setter
+  @JsonProperty("first_login_at")
+  private Date firstLoginAt;
+
+  /**
   * Can the user access with FTP/FTPS?
   */
   @Getter
@@ -419,6 +427,13 @@ public class User {
   @Setter
   @JsonProperty("type_of_2fa")
   private String typeOf2fa;
+
+  /**
+  * User record last updated at.  Note this may be incremented because of internal or external updates.
+  */
+  @Getter
+  @JsonProperty("updated_at")
+  private Date updatedAt;
 
   /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.

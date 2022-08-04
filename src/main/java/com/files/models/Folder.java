@@ -78,6 +78,13 @@ public class Folder {
   private Long size;
 
   /**
+  * File created date/time
+  */
+  @Getter
+  @JsonProperty("created_at")
+  private Date createdAt;
+
+  /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
   */
   @Getter

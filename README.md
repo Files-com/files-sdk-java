@@ -71,7 +71,7 @@ Or use if for all subsequent API calls globally like this:
 
 You can set the following global options directly on the `FilesClient` module:
 
-    FilesClient.setParameter("apiRoot", "https://files-mock-server:4041");
+    FilesClient.setProperty("apiRoot", "https://files-mock-server:4041");
 
 ### File Operations
 
@@ -79,7 +79,7 @@ You can set the following global options directly on the `FilesClient` module:
 #### List root folder
 
 
-    Folder.listFor("/)
+    Folder.listFor("/", null)
     
 
 #### Writing a file example

@@ -8,6 +8,7 @@
   "url": "https://subdomain.files.com/f/12345678",
   "description": "The public description of the bundle.",
   "password_protected": true,
+  "permissions": "read",
   "preview_only": true,
   "require_registration": true,
   "require_share_recipient": true,
@@ -21,20 +22,22 @@
       3,
       4
     ],
-    "form_fields": {
-      "id": 1,
-      "label": "Sample Label",
-      "required": true,
-      "help_text": "Help Text",
-      "field_type": "text",
-      "options_for_select": [
-        "red",
-        "green",
-        "blue"
-      ],
-      "default_option": "red",
-      "form_field_set_id": 1
-    },
+    "form_fields": [
+      {
+        "id": 1,
+        "label": "Sample Label",
+        "required": true,
+        "help_text": "Help Text",
+        "field_type": "text",
+        "options_for_select": [
+          "red",
+          "green",
+          "blue"
+        ],
+        "default_option": "red",
+        "form_field_set_id": 1
+      }
+    ],
     "skip_name": true,
     "skip_email": true,
     "skip_company": true
@@ -67,6 +70,7 @@
 * `url` / `url`  (string): Public URL of Share Link
 * `description` / `description`  (string): Public description
 * `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
+* `permissions` / `permissions`  (string): Permissions that apply to Folders in this Share Link.
 * `preview_only` / `previewOnly`  (boolean): Restrict users to previewing files only?
 * `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -160,6 +164,7 @@ Bundle bundle = Bundle.create(
 * `description` (String): Public description
 * `note` (String): Bundle internal note
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
@@ -216,6 +221,7 @@ Bundle bundle = Bundle.update(
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
+* `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -286,6 +292,7 @@ parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("inbox_id", 1);
 parameters.put("max_uses", 1);
 parameters.put("note", "The internal note on the bundle.");
+parameters.put("permissions", "read");
 parameters.put("preview_only", true);
 parameters.put("require_registration", true);
 parameters.put("require_share_recipient", true);
@@ -310,6 +317,7 @@ Bundle.Update(parameters);
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
+* `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?

@@ -67,7 +67,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_layout")
-  private Long formLayout;
+  private Object[] formLayout;
 
   /**
   * Associated form fields
@@ -75,7 +75,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_fields")
-  private FormField formFields;
+  private Object[] formFields;
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name

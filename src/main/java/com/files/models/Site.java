@@ -676,6 +676,13 @@ public class Site {
   private String phone;
 
   /**
+  * If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+  */
+  @Getter
+  @JsonProperty("pin_all_remote_servers_to_site_region")
+  private Boolean pinAllRemoteServersToSiteRegion;
+
+  /**
   * Require two-factor authentication for all users?
   */
   @Getter
@@ -900,6 +907,13 @@ public class Site {
   private Boolean userRequestsEnabled;
 
   /**
+  * Send email to site admins when a user request is received?
+  */
+  @Getter
+  @JsonProperty("user_requests_notify_admins")
+  private Boolean userRequestsNotifyAdmins;
+
+  /**
   * Custom text send in user welcome email
   */
   @Getter
@@ -1020,6 +1034,7 @@ public class Site {
   *   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
   *   welcome_screen - string - Does the welcome screen appear?
   *   office_integration_available - boolean - Allow users to use Office for the web?
+  *   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
@@ -1056,6 +1071,7 @@ public class Site {
   *   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
   *   sharing_enabled - boolean - Allow bundle creation
   *   user_requests_enabled - boolean - Enable User Requests feature
+  *   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
@@ -1236,6 +1252,10 @@ public class Site {
       throw new IllegalArgumentException("Bad parameter: office_integration_available must be of type Boolean parameters[\"office_integration_available\"]");
     }
 
+    if (parameters.containsKey("pin_all_remote_servers_to_site_region") && !(parameters.get("pin_all_remote_servers_to_site_region") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: pin_all_remote_servers_to_site_region must be of type Boolean parameters[\"pin_all_remote_servers_to_site_region\"]");
+    }
+
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double )) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");
     }
@@ -1378,6 +1398,10 @@ public class Site {
 
     if (parameters.containsKey("user_requests_enabled") && !(parameters.get("user_requests_enabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: user_requests_enabled must be of type Boolean parameters[\"user_requests_enabled\"]");
+    }
+
+    if (parameters.containsKey("user_requests_notify_admins") && !(parameters.get("user_requests_notify_admins") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: user_requests_notify_admins must be of type Boolean parameters[\"user_requests_notify_admins\"]");
     }
 
     if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean )) {

@@ -42,7 +42,9 @@
     2
   ],
   "webhook_url": "https://app.files.com/api/webhooks/abc123",
-  "trigger_actions": "[ \"create\" ]",
+  "trigger_actions": [
+    "[ \"create\" ]"
+  ],
   "value": "{\"limit\": \"1\"}"
 }
 ```
@@ -57,7 +59,7 @@
 * `name` / `name`  (string): Name for this automation.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
-* `destinations` / `destinations`  (string): Destination Path
+* `destinations` / `destinations`  (array): Destination Path
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `description` / `description`  (string): Description for the this Automation.
@@ -66,7 +68,7 @@
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-* `trigger_actions` / `triggerActions`  (string): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger_actions` / `triggerActions`  (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
 * `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
 
@@ -216,7 +218,7 @@ parameters.put("group_ids", [1,2]);
 parameters.put("schedule", "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}");
 parameters.put("disabled", true);
 parameters.put("trigger", "realtime");
-parameters.put("trigger_actions", "[ \"create\" ]");
+parameters.put("trigger_actions", ["[ \"create\" ]"]);
 parameters.put("value", "{\"limit\": \"1\"}");
 parameters.put("automation", "create_folder");
 

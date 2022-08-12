@@ -85,7 +85,7 @@ public class FormField {
   */
   @Getter
   @JsonProperty("options_for_select")
-  private String optionsForSelect;
+  private Object[] optionsForSelect;
 
   /**
   * Default option for radio and dropdown

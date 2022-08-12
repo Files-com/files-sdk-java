@@ -92,7 +92,7 @@ public class App {
   */
   @Getter
   @JsonProperty("screenshot_list_urls")
-  private String screenshotListUrls;
+  private Object[] screenshotListUrls;
 
   /**
   * Logo thumbnail for the App

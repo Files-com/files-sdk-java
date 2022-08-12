@@ -6,25 +6,19 @@
 {
   "id": 1,
   "name": "owners",
-  "admin_ids": [
-    1
-  ],
+  "admin_ids": "1",
   "notes": "",
-  "user_ids": [
-    1
-  ],
-  "usernames": [
-    "user"
-  ]
+  "user_ids": "1",
+  "usernames": "user"
 }
 ```
 
 * `id` / `id`  (int64): Group ID
 * `name` / `name`  (string): Group name
-* `admin_ids` / `adminIds`  (string): List of user IDs who are group administrators (separated by commas)
+* `admin_ids` / `adminIds`  (string): Comma-delimited list of user IDs who are group administrators (separated by commas)
 * `notes` / `notes`  (string): Notes about this group
-* `user_ids` / `userIds`  (array): List of user IDs who belong to this group (separated by commas)
-* `usernames` / `usernames`  (array): List of usernames who belong to this group (separated by commas)
+* `user_ids` / `userIds`  (string): Comma-delimited list of user IDs who belong to this group (separated by commas)
+* `usernames` / `usernames`  (string): Comma-delimited list of usernames who belong to this group (separated by commas)
 
 
 ---
@@ -138,8 +132,8 @@ Group group = Group.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "owners");
-parameters.put("user_ids", [1]);
-parameters.put("admin_ids", [1]);
+parameters.put("user_ids", "1");
+parameters.put("admin_ids", "1");
 
 Group.Update(parameters);
 ```

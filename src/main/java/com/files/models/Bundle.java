@@ -78,6 +78,14 @@ public class Bundle {
   private Boolean passwordProtected;
 
   /**
+  * Permissions that apply to Folders in this Share Link.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("permissions")
+  private String permissions;
+
+  /**
   * Restrict users to previewing files only?
   */
   @Getter
@@ -300,6 +308,7 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -463,6 +472,7 @@ public class Bundle {
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+  *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
@@ -519,6 +529,10 @@ public class Bundle {
 
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
+    }
+
+    if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
     }
 
     if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {
@@ -629,6 +643,7 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -698,6 +713,10 @@ public class Bundle {
 
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
+    }
+
+    if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
     }
 
     if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {

@@ -62,7 +62,7 @@ public class Group {
   private String name;
 
   /**
-  * List of user IDs who are group administrators (separated by commas)
+  * Comma-delimited list of user IDs who are group administrators (separated by commas)
   */
   @Getter
   @Setter
@@ -78,20 +78,20 @@ public class Group {
   private String notes;
 
   /**
-  * List of user IDs who belong to this group (separated by commas)
+  * Comma-delimited list of user IDs who belong to this group (separated by commas)
   */
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  private Object[] userIds;
+  private String userIds;
 
   /**
-  * List of usernames who belong to this group (separated by commas)
+  * Comma-delimited list of usernames who belong to this group (separated by commas)
   */
   @Getter
   @Setter
   @JsonProperty("usernames")
-  private Object[] usernames;
+  private String usernames;
 
   /**
   * Parameters:

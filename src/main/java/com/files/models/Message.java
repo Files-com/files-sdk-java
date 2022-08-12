@@ -75,7 +75,7 @@ public class Message {
   @Getter
   @Setter
   @JsonProperty("comments")
-  private MessageComment comments;
+  private Object[] comments;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.

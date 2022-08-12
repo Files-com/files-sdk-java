@@ -131,7 +131,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destinations")
-  private String destinations;
+  private Object[] destinations;
 
   /**
   * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -203,7 +203,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("trigger_actions")
-  private String triggerActions;
+  private Object[] triggerActions;
 
   /**
   * A Hash of attributes specific to the automation type.

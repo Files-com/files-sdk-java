@@ -50,7 +50,7 @@ public class SettingsChange {
   */
   @Getter
   @JsonProperty("changes")
-  private String changes;
+  private Object[] changes;
 
   /**
   * The time this change was made

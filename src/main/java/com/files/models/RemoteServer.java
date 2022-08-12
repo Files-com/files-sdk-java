@@ -110,6 +110,22 @@ public class RemoteServer {
   private Long maxConnections;
 
   /**
+  * If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("pin_to_site_region")
+  private Boolean pinToSiteRegion;
+
+  /**
+  * If set, all communciations with this remote server are made through the provided region.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("pinned_region")
+  private String pinnedRegion;
+
+  /**
   * S3 bucket name
   */
   @Getter
@@ -505,6 +521,7 @@ public class RemoteServer {
   *   hostname - string - Hostname or IP address
   *   name - string - Internal name for your reference
   *   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+  *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
   *   port - int64 - Port for remote server.  Not needed for S3.
   *   s3_bucket - string - S3 bucket name
   *   s3_region - string - S3 region
@@ -659,6 +676,7 @@ public class RemoteServer {
   *   hostname - string - Hostname or IP address
   *   name - string - Internal name for your reference
   *   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+  *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
   *   port - int64 - Port for remote server.  Not needed for S3.
   *   s3_bucket - string - S3 bucket name
   *   s3_region - string - S3 region
@@ -772,6 +790,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long parameters[\"max_connections\"]");
+    }
+
+    if (parameters.containsKey("pin_to_site_region") && !(parameters.get("pin_to_site_region") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: pin_to_site_region must be of type Boolean parameters[\"pin_to_site_region\"]");
     }
 
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long )) {
@@ -920,6 +942,7 @@ public class RemoteServer {
   *   hostname - string - Hostname or IP address
   *   name - string - Internal name for your reference
   *   max_connections - int64 - Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+  *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
   *   port - int64 - Port for remote server.  Not needed for S3.
   *   s3_bucket - string - S3 bucket name
   *   s3_region - string - S3 region
@@ -1043,6 +1066,10 @@ public class RemoteServer {
 
     if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long parameters[\"max_connections\"]");
+    }
+
+    if (parameters.containsKey("pin_to_site_region") && !(parameters.get("pin_to_site_region") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: pin_to_site_region must be of type Boolean parameters[\"pin_to_site_region\"]");
     }
 
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long )) {

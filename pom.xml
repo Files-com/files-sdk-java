@@ -6,7 +6,9 @@
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
     <version>1.0</version>
-    <description>Files.com Java SDK</description>
+    <name>Files.com Java SDK</name>
+    <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
+    <url>https://github.com/Files-com/files-sdk-java</url>
     <organization>
         <name>com.github.files-com</name>
         <url>https://github.com/Files-com</url>
@@ -54,7 +56,7 @@
                     <localCheckout>true</localCheckout>
                     <pushChanges>false</pushChanges>
                     <mavenExecutorId>forked-path</mavenExecutorId>
-                    <arguments>-Dgpg.passphrase=${env.MAVEN_CENTRAL_GPG_PASSPHRASE} -Dmaven.javadoc.skip=true</arguments>
+                    <arguments>-Dgpg.passphrase=${env.MAVEN_CENTRAL_GPG_PASSPHRASE}</arguments>
                 </configuration>
                 <dependencies>
                     <dependency>

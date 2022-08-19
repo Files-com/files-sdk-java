@@ -28,11 +28,13 @@ To add the dependency to your Gradle project add this to your
 
 * Java 1.8+
 
+
 ## Usage
 
 ### Authentication
 
 There are multiple ways to authenticate to the API.
+
 
 #### Global API Key
 

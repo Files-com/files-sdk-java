@@ -112,6 +112,7 @@ You can set the following global options directly on the `FilesClient` module:
         }
     }
 
+
 #### Reading a file's text as a InputStream
 
      File file = File.download("test.txt", null);

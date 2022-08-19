@@ -54,7 +54,7 @@
                     <localCheckout>true</localCheckout>
                     <pushChanges>false</pushChanges>
                     <mavenExecutorId>forked-path</mavenExecutorId>
-                    <arguments>-Dgpg.passphrase=${env.GPG_PASSPHRASE}</arguments>
+                    <arguments>-Dgpg.passphrase=${env.GPG_PASSPHRASE} -Dmaven.javadoc.skip=true</arguments>
                 </configuration>
                 <dependencies>
                     <dependency>

@@ -124,6 +124,7 @@ You can set the following global options directly on the `FilesClient` module:
        }
      }
 
+
 #### Reading a file and writing it to your local drive.
 
     File file = File.download("test.txt", null);

@@ -186,6 +186,10 @@
                                 <configuration>
                                     <keyname>${env.MAVEN_CENTRAL_GPG_KEYNAME}</keyname>
                                     <passphraseServerId>${env.MAVEN_CENTRAL_GPG_KEYNAME}</passphraseServerId>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
                                 </configuration>
                             </execution>
                         </executions>

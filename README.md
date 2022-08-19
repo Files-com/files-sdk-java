@@ -85,7 +85,6 @@ You can set the following global options directly on the `FilesClient` module:
 
 ### File Operations
 
-
 #### List root folder
 
 

@@ -188,6 +188,7 @@
                                     <passphraseServerId>${env.MAVEN_CENTRAL_GPG_KEYNAME}</passphraseServerId>
                                     <gpgArguments>
                                         <arg>--no-tty</arg>
+                                        <arg>--batch</arg>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
                                     </gpgArguments>

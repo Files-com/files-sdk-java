@@ -5,7 +5,8 @@ The Files.com Java client library provides convenient access to the Files.com AP
 
 ## Installation
 
-###Maven
+### Maven
+
 A maven jar is available through [maven-central](https://search.maven.org/).
 To use the package add the following to your `pom.xml` file.
 

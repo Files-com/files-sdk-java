@@ -12,7 +12,7 @@ To use the package add the following to your `pom.xml` file.
 
     <dependency>
         <groupId>com.files</groupId>
-        <artifactId>files-java</artifactId>
+        <artifactId>files-sdk</artifactId>
         <version>$VERSION</version>
     </dependency>
 
@@ -21,7 +21,7 @@ To use the package add the following to your `pom.xml` file.
 
 To add the dependency to your Gradle project add this to your
 
-    compile group: 'com.files', name: 'files-java', version: '$VERSION'
+    compile group: 'com.files', name: 'files-sdk', version: '$VERSION'
 
 
 ### Requirements
@@ -74,6 +74,7 @@ Then use it as follows:
 Or use if for all subsequent API calls globally like this:
 
     FilesClient.session = session;
+
 
 ### Setting Global Options
 

@@ -42,6 +42,7 @@ You can set an API key globally, like this:
 
     FilesClient.apiKey = "my-key";
 
+
 #### Per-Request API Key
 
 Or, you can pass an API key per-request, in the Options HashMap at the end

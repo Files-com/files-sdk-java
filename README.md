@@ -16,6 +16,7 @@ To use the package add the following to your `pom.xml` file.
         <version>$VERSION</version>
     </dependency>
 
+
 ### Gradle
 
 To add the dependency to your Gradle project add this to your

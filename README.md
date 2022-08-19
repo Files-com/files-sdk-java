@@ -4,9 +4,10 @@ The Files.com Java client library provides convenient access to the Files.com AP
 
 
 ## Installation
+
 ###Maven
 A maven jar is available through [maven-central](https://search.maven.org/).
-To use the package add the following to your `pom.xml` file. 
+To use the package add the following to your `pom.xml` file.
 
     <dependency>
         <groupId>com.files</groupId>
@@ -15,7 +16,7 @@ To use the package add the following to your `pom.xml` file.
     </dependency>
 
 ### Gradle
-To add the dependency to your Gradle project add this to your 
+To add the dependency to your Gradle project add this to your
 
     compile group: 'com.files', name: 'files-java', version: '$VERSION'
 
@@ -39,7 +40,7 @@ You can set an API key globally, like this:
 
 Or, you can pass an API key per-request, in the Options HashMap at the end
 of every method.  Like this:
-    
+
     HashMap<String, Object> requestParameters = new HashMap<>();
     requestParameters.put("api_key", "my-key");
     Users.list(requestParameters);
@@ -51,7 +52,7 @@ on models returned from the API.
 #### User Session
 
 Or, you can open a user session by calling `Session.create()`
-    
+
     HashMap<String, Object> sessionParameters = new HashMap<>();
     sessionParameters.put("username", "username");
     sessionParameters.put("password", "password");
@@ -65,7 +66,7 @@ Then use it as follows:
 
 Or use if for all subsequent API calls globally like this:
 
-    FilesClient.session = session; 
+    FilesClient.session = session;
 
 ### Setting Global Options
 
@@ -80,7 +81,7 @@ You can set the following global options directly on the `FilesClient` module:
 
 
     Folder.listFor("/", null)
-    
+
 
 #### Writing a file example
 
@@ -113,12 +114,12 @@ You can set the following global options directly on the `FilesClient` module:
          String filecontents = text;
        }
      }
-    
-#### Reading a file and writing it to your local drive. 
+
+#### Reading a file and writing it to your local drive.
 
     File file = File.download("test.txt", null);
     file.saveAsLocalFile("/tmp/");
-        
+
 
 ### Additional Object Documentation
 

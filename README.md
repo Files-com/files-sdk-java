@@ -23,6 +23,7 @@ To add the dependency to your Gradle project add this to your
 
     compile group: 'com.files', name: 'files-java', version: '$VERSION'
 
+
 ### Requirements
 
 * Java 1.8+

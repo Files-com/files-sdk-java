@@ -137,15 +137,9 @@ Additional docs are available at https://developers.files.com/ and also
 in the `docs/` subdirectory of this directory.
 
 
-### JavaDoc Generated Documentation coming in the future
-
-We will be adding JavaDoc formatted documentation with a future release.
-
-
 ## Getting Support
 
 The Files.com team is happy to help with any SDK Integration challenges you
 may face.
 
 Just email support@files.com and we'll get the process started.
-

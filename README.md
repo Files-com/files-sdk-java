@@ -17,6 +17,7 @@ To use the package add the following to your `pom.xml` file.
     </dependency>
 
 ### Gradle
+
 To add the dependency to your Gradle project add this to your
 
     compile group: 'com.files', name: 'files-java', version: '$VERSION'

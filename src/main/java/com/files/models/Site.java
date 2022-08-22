@@ -1074,6 +1074,7 @@ public class Site {
   *   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
+  *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -1410,6 +1411,10 @@ public class Site {
 
     if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
+    }
+
+    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Map<String, String> parameters[\"bundle_watermark_value\"]");
     }
 
     if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean )) {

@@ -120,7 +120,7 @@ public class UsageDailySnapshot {
   */
   @Getter
   @JsonProperty("usage_by_top_level_dir")
-  private Object[] usageByTopLevelDir;
+  private Map<String, String> usageByTopLevelDir;
 
 
 

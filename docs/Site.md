@@ -471,6 +471,7 @@ Site site = Site.update(
 * `user_requests_notify_admins` (Boolean): Send email to site admins when a user request is received?
 * `ftp_enabled` (Boolean): Is FTP enabled?
 * `sftp_enabled` (Boolean): Is SFTP enabled?
+* `bundle_watermark_value` (Map<String, String>): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `allowed_2fa_method_sms` (Boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (Boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?

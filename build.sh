@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-mvn -B -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn package
+#set -e
+
+mvn -B -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn clean package

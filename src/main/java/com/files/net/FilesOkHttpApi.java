@@ -1,6 +1,8 @@
 package com.files.net;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.files.FilesClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.files.util.FilesInputStream;
@@ -22,7 +24,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FilesOkHttpApi implements FilesApiInterface {
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
   protected static final Logger log = LogManager.getLogger(FilesOkHttpApi.class);
 
   public <T> List<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {

@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class BundleRegistration {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public BundleRegistration() {
     this(null, null);
@@ -50,84 +55,84 @@ public class BundleRegistration {
   */
   @Getter
   @JsonProperty("code")
-  private String code;
+  public String code;
 
   /**
   * Registrant name
   */
   @Getter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Registrant company name
   */
   @Getter
   @JsonProperty("company")
-  private String company;
+  public String company;
 
   /**
   * Registrant email address
   */
   @Getter
   @JsonProperty("email")
-  private String email;
+  public String email;
 
   /**
   * Registrant IP Address
   */
   @Getter
   @JsonProperty("ip")
-  private String ip;
+  public String ip;
 
   /**
   * InboxRegistration cookie code, if there is an associated InboxRegistration
   */
   @Getter
   @JsonProperty("inbox_code")
-  private String inboxCode;
+  public String inboxCode;
 
   /**
   * Clickwrap text that was shown to the registrant
   */
   @Getter
   @JsonProperty("clickwrap_body")
-  private String clickwrapBody;
+  public String clickwrapBody;
 
   /**
   * Id of associated form field set
   */
   @Getter
   @JsonProperty("form_field_set_id")
-  private Long formFieldSetId;
+  public Long formFieldSetId;
 
   /**
   * Data for form field set with form field ids as keys and user data as values
   */
   @Getter
   @JsonProperty("form_field_data")
-  private Map<String, String> formFieldData;
+  public Map<String, String> formFieldData;
 
   /**
   * Bundle URL code
   */
   @Getter
   @JsonProperty("bundle_code")
-  private String bundleCode;
+  public String bundleCode;
 
   /**
   * Id of associated bundle
   */
   @Getter
   @JsonProperty("bundle_id")
-  private Long bundleId;
+  public Long bundleId;
 
   /**
   * Id of associated bundle recipient
   */
   @Getter
   @JsonProperty("bundle_recipient_id")
-  private Long bundleRecipientId;
+  public Long bundleRecipientId;
 
 
 

@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class FormFieldSet {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public FormFieldSet() {
     this(null, null);
@@ -51,7 +56,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Title to be displayed
@@ -59,7 +64,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("title")
-  private String title;
+  public String title;
 
   /**
   * Layout of the form
@@ -67,7 +72,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_layout")
-  private Object[] formLayout;
+  public Object[] formLayout;
 
   /**
   * Associated form fields
@@ -75,7 +80,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_fields")
-  private Object[] formFields;
+  public Object[] formFields;
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
@@ -83,7 +88,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("skip_name")
-  private Boolean skipName;
+  public Boolean skipName;
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
@@ -91,7 +96,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("skip_email")
-  private Boolean skipEmail;
+  public Boolean skipEmail;
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
@@ -99,7 +104,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("skip_company")
-  private Boolean skipCompany;
+  public Boolean skipCompany;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -107,7 +112,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Parameters:

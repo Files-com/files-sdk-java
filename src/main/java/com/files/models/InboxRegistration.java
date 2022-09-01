@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class InboxRegistration {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public InboxRegistration() {
     this(null, null);
@@ -50,70 +55,70 @@ public class InboxRegistration {
   */
   @Getter
   @JsonProperty("code")
-  private String code;
+  public String code;
 
   /**
   * Registrant name
   */
   @Getter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Registrant company name
   */
   @Getter
   @JsonProperty("company")
-  private String company;
+  public String company;
 
   /**
   * Registrant email address
   */
   @Getter
   @JsonProperty("email")
-  private String email;
+  public String email;
 
   /**
   * Clickwrap text that was shown to the registrant
   */
   @Getter
   @JsonProperty("clickwrap_body")
-  private String clickwrapBody;
+  public String clickwrapBody;
 
   /**
   * Id of associated form field set
   */
   @Getter
   @JsonProperty("form_field_set_id")
-  private Long formFieldSetId;
+  public Long formFieldSetId;
 
   /**
   * Data for form field set with form field ids as keys and user data as values
   */
   @Getter
   @JsonProperty("form_field_data")
-  private Map<String, String> formFieldData;
+  public Map<String, String> formFieldData;
 
   /**
   * Id of associated inbox
   */
   @Getter
   @JsonProperty("inbox_id")
-  private Long inboxId;
+  public Long inboxId;
 
   /**
   * Id of associated inbox recipient
   */
   @Getter
   @JsonProperty("inbox_recipient_id")
-  private Long inboxRecipientId;
+  public Long inboxRecipientId;
 
   /**
   * Title of associated inbox
   */
   @Getter
   @JsonProperty("inbox_title")
-  private String inboxTitle;
+  public String inboxTitle;
 
 
 

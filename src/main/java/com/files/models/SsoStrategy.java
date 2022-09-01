@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class SsoStrategy {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public SsoStrategy() {
     this(null, null);
@@ -50,301 +55,301 @@ public class SsoStrategy {
   */
   @Getter
   @JsonProperty("protocol")
-  private String protocol;
+  public String protocol;
 
   /**
   * Provider name
   */
   @Getter
   @JsonProperty("provider")
-  private String provider;
+  public String provider;
 
   /**
   * Custom label for the SSO provider on the login page.
   */
   @Getter
   @JsonProperty("label")
-  private String label;
+  public String label;
 
   /**
   * URL holding a custom logo for the SSO provider on the login page.
   */
   @Getter
   @JsonProperty("logo_url")
-  private String logoUrl;
+  public String logoUrl;
 
   /**
   * ID
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
   */
   @Getter
   @JsonProperty("saml_provider_cert_fingerprint")
-  private String samlProviderCertFingerprint;
+  public String samlProviderCertFingerprint;
 
   /**
   * Identity provider issuer url
   */
   @Getter
   @JsonProperty("saml_provider_issuer_url")
-  private String samlProviderIssuerUrl;
+  public String samlProviderIssuerUrl;
 
   /**
   * Custom identity provider metadata
   */
   @Getter
   @JsonProperty("saml_provider_metadata_content")
-  private String samlProviderMetadataContent;
+  public String samlProviderMetadataContent;
 
   /**
   * Metadata URL for the SAML identity provider
   */
   @Getter
   @JsonProperty("saml_provider_metadata_url")
-  private String samlProviderMetadataUrl;
+  public String samlProviderMetadataUrl;
 
   /**
   * Identity provider SLO endpoint
   */
   @Getter
   @JsonProperty("saml_provider_slo_target_url")
-  private String samlProviderSloTargetUrl;
+  public String samlProviderSloTargetUrl;
 
   /**
   * Identity provider SSO endpoint if saml_provider_metadata_url is not available.
   */
   @Getter
   @JsonProperty("saml_provider_sso_target_url")
-  private String samlProviderSsoTargetUrl;
+  public String samlProviderSsoTargetUrl;
 
   /**
   * SCIM authentication type.
   */
   @Getter
   @JsonProperty("scim_authentication_method")
-  private String scimAuthenticationMethod;
+  public String scimAuthenticationMethod;
 
   /**
   * SCIM username.
   */
   @Getter
   @JsonProperty("scim_username")
-  private String scimUsername;
+  public String scimUsername;
 
   /**
   * SCIM OAuth Access Token.
   */
   @Getter
   @JsonProperty("scim_oauth_access_token")
-  private String scimOauthAccessToken;
+  public String scimOauthAccessToken;
 
   /**
   * SCIM OAuth Access Token Expiration Time.
   */
   @Getter
   @JsonProperty("scim_oauth_access_token_expires_at")
-  private String scimOauthAccessTokenExpiresAt;
+  public String scimOauthAccessTokenExpiresAt;
 
   /**
   * Subdomain
   */
   @Getter
   @JsonProperty("subdomain")
-  private String subdomain;
+  public String subdomain;
 
   /**
   * Auto-provision users?
   */
   @Getter
   @JsonProperty("provision_users")
-  private Boolean provisionUsers;
+  public Boolean provisionUsers;
 
   /**
   * Auto-provision group membership based on group memberships on the SSO side?
   */
   @Getter
   @JsonProperty("provision_groups")
-  private Boolean provisionGroups;
+  public Boolean provisionGroups;
 
   /**
   * Auto-deprovision users?
   */
   @Getter
   @JsonProperty("deprovision_users")
-  private Boolean deprovisionUsers;
+  public Boolean deprovisionUsers;
 
   /**
   * Auto-deprovision group membership based on group memberships on the SSO side?
   */
   @Getter
   @JsonProperty("deprovision_groups")
-  private Boolean deprovisionGroups;
+  public Boolean deprovisionGroups;
 
   /**
   * Method used for deprovisioning users.
   */
   @Getter
   @JsonProperty("deprovision_behavior")
-  private String deprovisionBehavior;
+  public String deprovisionBehavior;
 
   /**
   * Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
   */
   @Getter
   @JsonProperty("provision_group_default")
-  private String provisionGroupDefault;
+  public String provisionGroupDefault;
 
   /**
   * Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
   */
   @Getter
   @JsonProperty("provision_group_exclusion")
-  private String provisionGroupExclusion;
+  public String provisionGroupExclusion;
 
   /**
   * Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
   */
   @Getter
   @JsonProperty("provision_group_inclusion")
-  private String provisionGroupInclusion;
+  public String provisionGroupInclusion;
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
   */
   @Getter
   @JsonProperty("provision_group_required")
-  private String provisionGroupRequired;
+  public String provisionGroupRequired;
 
   /**
   * Comma-separated list of group names whose members will be created with email_signup authentication.
   */
   @Getter
   @JsonProperty("provision_email_signup_groups")
-  private String provisionEmailSignupGroups;
+  public String provisionEmailSignupGroups;
 
   /**
   * Comma-separated list of group names whose members will be created as Site Admins.
   */
   @Getter
   @JsonProperty("provision_site_admin_groups")
-  private String provisionSiteAdminGroups;
+  public String provisionSiteAdminGroups;
 
   /**
   * DEPRECATED: Auto-provisioned users get Sharing permission. Use a Group with the Bundle permission instead.
   */
   @Getter
   @JsonProperty("provision_attachments_permission")
-  private Boolean provisionAttachmentsPermission;
+  public Boolean provisionAttachmentsPermission;
 
   /**
   * Auto-provisioned users get WebDAV permission?
   */
   @Getter
   @JsonProperty("provision_dav_permission")
-  private Boolean provisionDavPermission;
+  public Boolean provisionDavPermission;
 
   /**
   * Auto-provisioned users get FTP permission?
   */
   @Getter
   @JsonProperty("provision_ftp_permission")
-  private Boolean provisionFtpPermission;
+  public Boolean provisionFtpPermission;
 
   /**
   * Auto-provisioned users get SFTP permission?
   */
   @Getter
   @JsonProperty("provision_sftp_permission")
-  private Boolean provisionSftpPermission;
+  public Boolean provisionSftpPermission;
 
   /**
   * Default time zone for auto provisioned users.
   */
   @Getter
   @JsonProperty("provision_time_zone")
-  private String provisionTimeZone;
+  public String provisionTimeZone;
 
   /**
   * Default company for auto provisioned users.
   */
   @Getter
   @JsonProperty("provision_company")
-  private String provisionCompany;
+  public String provisionCompany;
 
   /**
   * Base DN for looking up users in LDAP server
   */
   @Getter
   @JsonProperty("ldap_base_dn")
-  private String ldapBaseDn;
+  public String ldapBaseDn;
 
   /**
   * Domain name that will be appended to LDAP usernames
   */
   @Getter
   @JsonProperty("ldap_domain")
-  private String ldapDomain;
+  public String ldapDomain;
 
   /**
   * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
   */
   @Getter
   @JsonProperty("enabled")
-  private Boolean enabled;
+  public Boolean enabled;
 
   /**
   * LDAP host
   */
   @Getter
   @JsonProperty("ldap_host")
-  private String ldapHost;
+  public String ldapHost;
 
   /**
   * LDAP backup host
   */
   @Getter
   @JsonProperty("ldap_host_2")
-  private String ldapHost2;
+  public String ldapHost2;
 
   /**
   * LDAP backup host
   */
   @Getter
   @JsonProperty("ldap_host_3")
-  private String ldapHost3;
+  public String ldapHost3;
 
   /**
   * LDAP port
   */
   @Getter
   @JsonProperty("ldap_port")
-  private Long ldapPort;
+  public Long ldapPort;
 
   /**
   * Use secure LDAP?
   */
   @Getter
   @JsonProperty("ldap_secure")
-  private Boolean ldapSecure;
+  public Boolean ldapSecure;
 
   /**
   * Username for signing in to LDAP server.
   */
   @Getter
   @JsonProperty("ldap_username")
-  private String ldapUsername;
+  public String ldapUsername;
 
   /**
   * LDAP username field
   */
   @Getter
   @JsonProperty("ldap_username_field")
-  private String ldapUsernameField;
+  public String ldapUsernameField;
 
   /**
   * Synchronize provisioning data with the SSO remote server

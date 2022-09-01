@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Notification {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Notification() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -59,7 +64,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Notification group id
@@ -67,7 +72,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  private Long groupId;
+  public Long groupId;
 
   /**
   * Group name if applicable
@@ -75,7 +80,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("group_name")
-  private String groupName;
+  public String groupName;
 
   /**
   * Only notify on actions made by a member of one of the specified groups
@@ -83,7 +88,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_group_ids")
-  private Object[] triggeringGroupIds;
+  public Object[] triggeringGroupIds;
 
   /**
   * Only notify on actions made one of the specified users
@@ -91,7 +96,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_user_ids")
-  private Object[] triggeringUserIds;
+  public Object[] triggeringUserIds;
 
   /**
   * Notify when actions are performed by a share recipient?
@@ -99,7 +104,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("trigger_by_share_recipients")
-  private Boolean triggerByShareRecipients;
+  public Boolean triggerByShareRecipients;
 
   /**
   * Trigger notification on notification user actions?
@@ -107,7 +112,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_user_actions")
-  private Boolean notifyUserActions;
+  public Boolean notifyUserActions;
 
   /**
   * Triggers notification when copying files to this path
@@ -115,7 +120,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_copy")
-  private Boolean notifyOnCopy;
+  public Boolean notifyOnCopy;
 
   /**
   * Triggers notification when deleting files from this path
@@ -123,7 +128,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_delete")
-  private Boolean notifyOnDelete;
+  public Boolean notifyOnDelete;
 
   /**
   * Triggers notification when downloading files from this path
@@ -131,7 +136,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_download")
-  private Boolean notifyOnDownload;
+  public Boolean notifyOnDownload;
 
   /**
   * Triggers notification when moving files to this path
@@ -139,7 +144,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_move")
-  private Boolean notifyOnMove;
+  public Boolean notifyOnMove;
 
   /**
   * Triggers notification when uploading new files to this path
@@ -147,7 +152,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("notify_on_upload")
-  private Boolean notifyOnUpload;
+  public Boolean notifyOnUpload;
 
   /**
   * Enable notifications for each subfolder in this path
@@ -155,7 +160,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("recursive")
-  private Boolean recursive;
+  public Boolean recursive;
 
   /**
   * The time interval that notifications are aggregated to
@@ -163,7 +168,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("send_interval")
-  private String sendInterval;
+  public String sendInterval;
 
   /**
   * Custom message to include in notification emails.
@@ -171,7 +176,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("message")
-  private String message;
+  public String message;
 
   /**
   * Array of filenames (possibly with wildcards) to match for action path
@@ -179,7 +184,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_filenames")
-  private Object[] triggeringFilenames;
+  public Object[] triggeringFilenames;
 
   /**
   * Is the user unsubscribed from this notification?
@@ -187,7 +192,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("unsubscribed")
-  private Boolean unsubscribed;
+  public Boolean unsubscribed;
 
   /**
   * The reason that the user unsubscribed
@@ -195,7 +200,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("unsubscribed_reason")
-  private String unsubscribedReason;
+  public String unsubscribedReason;
 
   /**
   * Notification user ID
@@ -203,7 +208,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Notification username
@@ -211,7 +216,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
@@ -219,7 +224,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("suppressed_email")
-  private Boolean suppressedEmail;
+  public Boolean suppressedEmail;
 
   /**
   * Parameters:

@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class FormField {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public FormField() {
     this(null, null);
@@ -50,56 +55,56 @@ public class FormField {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Label to be displayed
   */
   @Getter
   @JsonProperty("label")
-  private String label;
+  public String label;
 
   /**
   * Is this a required field?
   */
   @Getter
   @JsonProperty("required")
-  private Boolean required;
+  public Boolean required;
 
   /**
   * Help text to be displayed
   */
   @Getter
   @JsonProperty("help_text")
-  private String helpText;
+  public String helpText;
 
   /**
   * Type of Field
   */
   @Getter
   @JsonProperty("field_type")
-  private String fieldType;
+  public String fieldType;
 
   /**
   * Options to display for radio and dropdown
   */
   @Getter
   @JsonProperty("options_for_select")
-  private Object[] optionsForSelect;
+  public Object[] optionsForSelect;
 
   /**
   * Default option for radio and dropdown
   */
   @Getter
   @JsonProperty("default_option")
-  private String defaultOption;
+  public String defaultOption;
 
   /**
   * Form field set id
   */
   @Getter
   @JsonProperty("form_field_set_id")
-  private Long formFieldSetId;
+  public Long formFieldSetId;
 
 
 

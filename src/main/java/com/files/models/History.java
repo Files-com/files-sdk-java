@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class History {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public History() {
     this(null, null);
@@ -50,91 +55,91 @@ public class History {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Action occurrence date/time
   */
   @Getter
   @JsonProperty("when")
-  private Date when;
+  public Date when;
 
   /**
   * The destination path for this action, if applicable
   */
   @Getter
   @JsonProperty("destination")
-  private String destination;
+  public String destination;
 
   /**
   * Friendly displayed output
   */
   @Getter
   @JsonProperty("display")
-  private String display;
+  public String display;
 
   /**
   * IP Address that performed this action
   */
   @Getter
   @JsonProperty("ip")
-  private String ip;
+  public String ip;
 
   /**
   * The source path for this action, if applicable
   */
   @Getter
   @JsonProperty("source")
-  private String source;
+  public String source;
 
   /**
   * Targets
   */
   @Getter
   @JsonProperty("targets")
-  private Object[] targets;
+  public Object[] targets;
 
   /**
   * User ID
   */
   @Getter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Username
   */
   @Getter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * Type of action
   */
   @Getter
   @JsonProperty("action")
-  private String action;
+  public String action;
 
   /**
   * Failure type.  If action was a user login or session failure, why did it fail?
   */
   @Getter
   @JsonProperty("failure_type")
-  private String failureType;
+  public String failureType;
 
   /**
   * Interface on which this action occurred.
   */
   @Getter
   @JsonProperty("interface")
-  private String interfaceName;
+  public String interfaceName;
 
 
 

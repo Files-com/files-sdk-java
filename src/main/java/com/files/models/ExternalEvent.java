@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class ExternalEvent {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public ExternalEvent() {
     this(null, null);
@@ -51,7 +56,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Type of event being recorded.
@@ -59,7 +64,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("event_type")
-  private String eventType;
+  public String eventType;
 
   /**
   * Status of event.
@@ -67,7 +72,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("status")
-  private String status;
+  public String status;
 
   /**
   * Event body
@@ -75,14 +80,14 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("body")
-  private String body;
+  public String body;
 
   /**
   * External event create date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Link to log file.
@@ -90,7 +95,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("body_url")
-  private String bodyUrl;
+  public String bodyUrl;
 
   /**
   * Folder Behavior ID
@@ -98,7 +103,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("folder_behavior_id")
-  private Long folderBehaviorId;
+  public Long folderBehaviorId;
 
   /**
   * For sync events, the number of files handled successfully.
@@ -106,7 +111,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("successful_files")
-  private Long successfulFiles;
+  public Long successfulFiles;
 
   /**
   * For sync events, the number of files that encountered errors.
@@ -114,7 +119,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("errored_files")
-  private Long erroredFiles;
+  public Long erroredFiles;
 
   /**
   * For sync events, the total number of bytes synced.
@@ -122,7 +127,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("bytes_synced")
-  private Long bytesSynced;
+  public Long bytesSynced;
 
   /**
   * Associated Remote Server type, if any
@@ -130,7 +135,7 @@ public class ExternalEvent {
   @Getter
   @Setter
   @JsonProperty("remote_server_type")
-  private String remoteServerType;
+  public String remoteServerType;
 
 
   public void save() throws IOException {

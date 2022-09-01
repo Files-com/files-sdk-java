@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Session {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Session() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("id")
-  private String id;
+  public String id;
 
   /**
   * Session language
@@ -59,7 +64,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("language")
-  private String language;
+  public String language;
 
   /**
   * Is this session read only?
@@ -67,7 +72,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("read_only")
-  private Boolean readOnly;
+  public Boolean readOnly;
 
   /**
   * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
@@ -75,7 +80,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("sftp_insecure_ciphers")
-  private Boolean sftpInsecureCiphers;
+  public Boolean sftpInsecureCiphers;
 
   /**
   * Username to sign in as
@@ -83,7 +88,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * Password for sign in
@@ -91,7 +96,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("password")
-  private String password;
+  public String password;
 
   /**
   * If this user has a 2FA device, provide its OTP or code here.
@@ -99,7 +104,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("otp")
-  private String otp;
+  public String otp;
 
   /**
   * Identifier for a partially-completed login
@@ -107,7 +112,7 @@ public class Session {
   @Getter
   @Setter
   @JsonProperty("partial_session_id")
-  private String partialSessionId;
+  public String partialSessionId;
 
 
   public void save() throws IOException {

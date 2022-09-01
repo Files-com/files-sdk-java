@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class RemoteBandwidthSnapshot {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public RemoteBandwidthSnapshot() {
     this(null, null);
@@ -50,35 +55,35 @@ public class RemoteBandwidthSnapshot {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Site sync bandwidth report bytes received
   */
   @Getter
   @JsonProperty("sync_bytes_received")
-  private Double syncBytesReceived;
+  public Double syncBytesReceived;
 
   /**
   * Site sync bandwidth report bytes sent
   */
   @Getter
   @JsonProperty("sync_bytes_sent")
-  private Double syncBytesSent;
+  public Double syncBytesSent;
 
   /**
   * Time the site bandwidth report was logged
   */
   @Getter
   @JsonProperty("logged_at")
-  private Date loggedAt;
+  public Date loggedAt;
 
   /**
   * ID of related Remote Server
   */
   @Getter
   @JsonProperty("remote_server_id")
-  private Long remoteServerId;
+  public Long remoteServerId;
 
 
 

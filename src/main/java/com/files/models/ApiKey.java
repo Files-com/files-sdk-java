@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class ApiKey {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public ApiKey() {
     this(null, null);
@@ -51,7 +56,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Unique label that describes this API key.  Useful for external systems where you may have API keys from multiple accounts and want a human-readable label for each key.
@@ -59,14 +64,14 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("descriptive_label")
-  private String descriptiveLabel;
+  public String descriptiveLabel;
 
   /**
   * Time which API Key was created
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * API Key expiration date
@@ -74,7 +79,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("expires_at")
-  private Date expiresAt;
+  public Date expiresAt;
 
   /**
   * API Key actual key string
@@ -82,7 +87,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("key")
-  private String key;
+  public String key;
 
   /**
   * API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
@@ -90,7 +95,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("last_use_at")
-  private Date lastUseAt;
+  public Date lastUseAt;
 
   /**
   * Internal name for the API Key.  For your use.
@@ -98,7 +103,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Folder path restriction for this api key. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -106,7 +111,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
@@ -114,7 +119,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("permission_set")
-  private String permissionSet;
+  public String permissionSet;
 
   /**
   * If this API key represents a Desktop app, what platform was it created on?
@@ -122,7 +127,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("platform")
-  private String platform;
+  public String platform;
 
   /**
   * User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
@@ -130,7 +135,7 @@ public class ApiKey {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Parameters:

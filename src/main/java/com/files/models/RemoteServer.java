@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class RemoteServer {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public RemoteServer() {
     this(null, null);
@@ -51,7 +56,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
@@ -59,7 +64,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("disabled")
-  private Boolean disabled;
+  public Boolean disabled;
 
   /**
   * Type of authentication method
@@ -67,7 +72,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("authentication_method")
-  private String authenticationMethod;
+  public String authenticationMethod;
 
   /**
   * Hostname or IP address
@@ -75,7 +80,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("hostname")
-  private String hostname;
+  public String hostname;
 
   /**
   * Initial home folder on remote server
@@ -83,7 +88,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("remote_home_path")
-  private String remoteHomePath;
+  public String remoteHomePath;
 
   /**
   * Internal name for your reference
@@ -91,7 +96,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Port for remote server.  Not needed for S3.
@@ -99,7 +104,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("port")
-  private Long port;
+  public Long port;
 
   /**
   * Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -107,7 +112,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("max_connections")
-  private Long maxConnections;
+  public Long maxConnections;
 
   /**
   * If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
@@ -115,7 +120,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("pin_to_site_region")
-  private Boolean pinToSiteRegion;
+  public Boolean pinToSiteRegion;
 
   /**
   * If set, all communciations with this remote server are made through the provided region.
@@ -123,7 +128,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("pinned_region")
-  private String pinnedRegion;
+  public String pinnedRegion;
 
   /**
   * S3 bucket name
@@ -131,7 +136,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_bucket")
-  private String s3Bucket;
+  public String s3Bucket;
 
   /**
   * S3 region
@@ -139,7 +144,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_region")
-  private String s3Region;
+  public String s3Region;
 
   /**
   * AWS Access Key.
@@ -147,7 +152,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("aws_access_key")
-  private String awsAccessKey;
+  public String awsAccessKey;
 
   /**
   * Remote server certificate
@@ -155,7 +160,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_certificate")
-  private String serverCertificate;
+  public String serverCertificate;
 
   /**
   * Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -163,7 +168,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_host_key")
-  private String serverHostKey;
+  public String serverHostKey;
 
   /**
   * Remote server type.
@@ -171,7 +176,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("server_type")
-  private String serverType;
+  public String serverType;
 
   /**
   * Should we require SSL?
@@ -179,7 +184,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("ssl")
-  private String ssl;
+  public String ssl;
 
   /**
   * Remote server username.  Not needed for S3 buckets.
@@ -187,7 +192,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * Google Cloud Storage bucket name
@@ -195,7 +200,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_bucket")
-  private String googleCloudStorageBucket;
+  public String googleCloudStorageBucket;
 
   /**
   * Google Cloud Project ID
@@ -203,7 +208,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_project_id")
-  private String googleCloudStorageProjectId;
+  public String googleCloudStorageProjectId;
 
   /**
   * Backblaze B2 Cloud Storage S3 Endpoint
@@ -211,7 +216,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_s3_endpoint")
-  private String backblazeB2S3Endpoint;
+  public String backblazeB2S3Endpoint;
 
   /**
   * Backblaze B2 Cloud Storage Bucket name
@@ -219,7 +224,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_bucket")
-  private String backblazeB2Bucket;
+  public String backblazeB2Bucket;
 
   /**
   * Wasabi Bucket name
@@ -227,7 +232,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_bucket")
-  private String wasabiBucket;
+  public String wasabiBucket;
 
   /**
   * Wasabi region
@@ -235,7 +240,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_region")
-  private String wasabiRegion;
+  public String wasabiRegion;
 
   /**
   * Wasabi access key.
@@ -243,7 +248,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_access_key")
-  private String wasabiAccessKey;
+  public String wasabiAccessKey;
 
   /**
   * Rackspace username used to login to the Rackspace Cloud Control Panel.
@@ -251,7 +256,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_username")
-  private String rackspaceUsername;
+  public String rackspaceUsername;
 
   /**
   * Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
@@ -259,7 +264,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_region")
-  private String rackspaceRegion;
+  public String rackspaceRegion;
 
   /**
   * The name of the container (top level directory) where files will sync.
@@ -267,7 +272,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_container")
-  private String rackspaceContainer;
+  public String rackspaceContainer;
 
   /**
   * Returns link to login with an Oauth provider
@@ -275,7 +280,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_setup_link")
-  private String authSetupLink;
+  public String authSetupLink;
 
   /**
   * Either `in_setup` or `complete`
@@ -283,7 +288,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_status")
-  private String authStatus;
+  public String authStatus;
 
   /**
   * Describes the authorized account
@@ -291,7 +296,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("auth_account_name")
-  private String authAccountName;
+  public String authAccountName;
 
   /**
   * Either personal or business_other account types
@@ -299,7 +304,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("one_drive_account_type")
-  private String oneDriveAccountType;
+  public String oneDriveAccountType;
 
   /**
   * Azure Blob Storage Account name
@@ -307,7 +312,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_account")
-  private String azureBlobStorageAccount;
+  public String azureBlobStorageAccount;
 
   /**
   * Shared Access Signature (SAS) token
@@ -315,7 +320,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_sas_token")
-  private String azureBlobStorageSasToken;
+  public String azureBlobStorageSasToken;
 
   /**
   * Azure Blob Storage Container name
@@ -323,7 +328,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_container")
-  private String azureBlobStorageContainer;
+  public String azureBlobStorageContainer;
 
   /**
   * Azure File Storage Account name
@@ -331,7 +336,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_files_storage_account")
-  private String azureFilesStorageAccount;
+  public String azureFilesStorageAccount;
 
   /**
   * Shared Access Signature (SAS) token
@@ -339,7 +344,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_files_storage_sas_token")
-  private String azureFilesStorageSasToken;
+  public String azureFilesStorageSasToken;
 
   /**
   * Azure File Storage Share name
@@ -347,7 +352,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_files_storage_share_name")
-  private String azureFilesStorageShareName;
+  public String azureFilesStorageShareName;
 
   /**
   * S3-compatible Bucket name
@@ -355,7 +360,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_compatible_bucket")
-  private String s3CompatibleBucket;
+  public String s3CompatibleBucket;
 
   /**
   * S3-compatible endpoint
@@ -363,7 +368,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_compatible_endpoint")
-  private String s3CompatibleEndpoint;
+  public String s3CompatibleEndpoint;
 
   /**
   * S3-compatible endpoint
@@ -371,7 +376,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_compatible_region")
-  private String s3CompatibleRegion;
+  public String s3CompatibleRegion;
 
   /**
   * S3-compatible Access Key.
@@ -379,7 +384,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_compatible_access_key")
-  private String s3CompatibleAccessKey;
+  public String s3CompatibleAccessKey;
 
   /**
   * `true` if remote server only accepts connections from dedicated IPs
@@ -387,7 +392,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("enable_dedicated_ips")
-  private Boolean enableDedicatedIps;
+  public Boolean enableDedicatedIps;
 
   /**
   * AWS secret key.
@@ -395,7 +400,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("aws_secret_key")
-  private String awsSecretKey;
+  public String awsSecretKey;
 
   /**
   * Password if needed.
@@ -403,7 +408,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("password")
-  private String password;
+  public String password;
 
   /**
   * Private key if needed.
@@ -411,7 +416,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("private_key")
-  private String privateKey;
+  public String privateKey;
 
   /**
   * Passphrase for private key if needed.
@@ -419,7 +424,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("private_key_passphrase")
-  private String privateKeyPassphrase;
+  public String privateKeyPassphrase;
 
   /**
   * SSL client certificate.
@@ -427,7 +432,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("ssl_certificate")
-  private String sslCertificate;
+  public String sslCertificate;
 
   /**
   * A JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
@@ -435,7 +440,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("google_cloud_storage_credentials_json")
-  private String googleCloudStorageCredentialsJson;
+  public String googleCloudStorageCredentialsJson;
 
   /**
   * Wasabi secret key.
@@ -443,7 +448,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("wasabi_secret_key")
-  private String wasabiSecretKey;
+  public String wasabiSecretKey;
 
   /**
   * Backblaze B2 Cloud Storage keyID.
@@ -451,7 +456,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_key_id")
-  private String backblazeB2KeyId;
+  public String backblazeB2KeyId;
 
   /**
   * Backblaze B2 Cloud Storage applicationKey.
@@ -459,7 +464,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("backblaze_b2_application_key")
-  private String backblazeB2ApplicationKey;
+  public String backblazeB2ApplicationKey;
 
   /**
   * Rackspace API key from the Rackspace Cloud Control Panel.
@@ -467,7 +472,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("rackspace_api_key")
-  private String rackspaceApiKey;
+  public String rackspaceApiKey;
 
   /**
   * Reset authenticated account
@@ -475,7 +480,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("reset_authentication")
-  private Boolean resetAuthentication;
+  public Boolean resetAuthentication;
 
   /**
   * Azure Blob Storage secret key.
@@ -483,7 +488,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_blob_storage_access_key")
-  private String azureBlobStorageAccessKey;
+  public String azureBlobStorageAccessKey;
 
   /**
   * Azure File Storage access key.
@@ -491,7 +496,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("azure_files_storage_access_key")
-  private String azureFilesStorageAccessKey;
+  public String azureFilesStorageAccessKey;
 
   /**
   * S3-compatible secret key
@@ -499,7 +504,7 @@ public class RemoteServer {
   @Getter
   @Setter
   @JsonProperty("s3_compatible_secret_key")
-  private String s3CompatibleSecretKey;
+  public String s3CompatibleSecretKey;
 
   /**
   * Parameters:

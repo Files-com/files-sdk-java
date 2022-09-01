@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class File {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public FilesInputStream getInputStream() throws IOException {
     return getInputStream(0L, 0L);
@@ -77,7 +82,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * File/Folder display name
@@ -85,7 +90,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("display_name")
-  private String displayName;
+  public String displayName;
 
   /**
   * Type: `directory` or `file`.
@@ -93,7 +98,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("type")
-  private String type;
+  public String type;
 
   /**
   * File/Folder size
@@ -101,14 +106,14 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("size")
-  private Long size;
+  public Long size;
 
   /**
   * File created date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
@@ -116,7 +121,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mtime")
-  private Date mtime;
+  public Date mtime;
 
   /**
   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<:Cloud syncing to preserve modified at times.
@@ -124,7 +129,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("provided_mtime")
-  private Date providedMtime;
+  public Date providedMtime;
 
   /**
   * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -132,7 +137,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("crc32")
-  private String crc32;
+  public String crc32;
 
   /**
   * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
@@ -140,7 +145,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("md5")
-  private String md5;
+  public String md5;
 
   /**
   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
@@ -148,7 +153,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mime_type")
-  private String mimeType;
+  public String mimeType;
 
   /**
   * Region location
@@ -156,7 +161,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("region")
-  private String region;
+  public String region;
 
   /**
   * A short string representing the current user's permissions.  Can be `r`,`w`,`d`, `l` or any combination
@@ -164,7 +169,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("permissions")
-  private String permissions;
+  public String permissions;
 
   /**
   * Are subfolders locked and unable to be modified?
@@ -172,7 +177,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("subfolders_locked?")
-  private Boolean subfoldersLocked;
+  public Boolean subfoldersLocked;
 
   /**
   * Link to download file. Provided only in response to a download request.
@@ -180,7 +185,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("download_uri")
-  private String downloadUri;
+  public String downloadUri;
 
   /**
   * Bookmark/priority color of file/folder
@@ -188,7 +193,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("priority_color")
-  private String priorityColor;
+  public String priorityColor;
 
   /**
   * File preview ID
@@ -196,7 +201,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview_id")
-  private Long previewId;
+  public Long previewId;
 
   /**
   * File preview
@@ -204,7 +209,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("preview")
-  private Preview preview;
+  public Preview preview;
 
   /**
   * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
@@ -212,7 +217,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("action")
-  private String action;
+  public String action;
 
   /**
   * Length of file.
@@ -220,7 +225,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("length")
-  private Long length;
+  public Long length;
 
   /**
   * Create parent directories if they do not exist?
@@ -228,7 +233,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("mkdir_parents")
-  private Boolean mkdirParents;
+  public Boolean mkdirParents;
 
   /**
   * Part if uploading a part.
@@ -236,7 +241,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("part")
-  private Long part;
+  public Long part;
 
   /**
   * How many parts to fetch?
@@ -244,14 +249,14 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("parts")
-  private Long parts;
+  public Long parts;
 
   /**
   */
   @Getter
   @Setter
   @JsonProperty("ref")
-  private String ref;
+  public String ref;
 
   /**
   * File byte offset to restart from.
@@ -259,7 +264,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("restart")
-  private Long restart;
+  public Long restart;
 
   /**
   * If copying folder, copy just the structure?
@@ -267,7 +272,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("structure")
-  private String structure;
+  public String structure;
 
   /**
   * Allow file rename instead of overwrite?
@@ -275,7 +280,7 @@ public class File {
   @Getter
   @Setter
   @JsonProperty("with_rename")
-  private Boolean withRename;
+  public Boolean withRename;
 
   /**
   * Download file

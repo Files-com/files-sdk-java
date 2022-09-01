@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Lock {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Lock() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Lock timeout in seconds
@@ -59,7 +64,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("timeout")
-  private Long timeout;
+  public Long timeout;
 
   /**
   * DEPRECATED: Lock depth
@@ -67,7 +72,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("depth")
-  private String depth;
+  public String depth;
 
   /**
   * Does lock apply to subfolders?
@@ -75,7 +80,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("recursive")
-  private Boolean recursive;
+  public Boolean recursive;
 
   /**
   * Owner of the lock.  This can be any arbitrary string.
@@ -83,7 +88,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("owner")
-  private String owner;
+  public String owner;
 
   /**
   * DEPRECATED: Lock scope
@@ -91,7 +96,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("scope")
-  private String scope;
+  public String scope;
 
   /**
   * Is lock exclusive?
@@ -99,7 +104,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("exclusive")
-  private Boolean exclusive;
+  public Boolean exclusive;
 
   /**
   * Lock token.  Use to release lock.
@@ -107,7 +112,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("token")
-  private String token;
+  public String token;
 
   /**
   * DEPRECATED: Lock type
@@ -115,7 +120,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("type")
-  private String type;
+  public String type;
 
   /**
   * Can lock be modified by users other than its creator?
@@ -123,7 +128,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("allow_access_by_any_user")
-  private Boolean allowAccessByAnyUser;
+  public Boolean allowAccessByAnyUser;
 
   /**
   * Lock creator user ID
@@ -131,7 +136,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Lock creator username
@@ -139,7 +144,7 @@ public class Lock {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * Parameters:

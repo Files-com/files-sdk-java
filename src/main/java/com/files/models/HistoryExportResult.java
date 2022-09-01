@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class HistoryExportResult {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public HistoryExportResult() {
     this(null, null);
@@ -50,161 +55,161 @@ public class HistoryExportResult {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * When the action happened
   */
   @Getter
   @JsonProperty("created_at")
-  private Long createdAt;
+  public Long createdAt;
 
   /**
   * User ID
   */
   @Getter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * File ID related to the action
   */
   @Getter
   @JsonProperty("file_id")
-  private Long fileId;
+  public Long fileId;
 
   /**
   * ID of the parent folder
   */
   @Getter
   @JsonProperty("parent_id")
-  private Long parentId;
+  public Long parentId;
 
   /**
   * Path of the related action This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Folder in which the action occurred
   */
   @Getter
   @JsonProperty("folder")
-  private String folder;
+  public String folder;
 
   /**
   * File move originated from this path
   */
   @Getter
   @JsonProperty("src")
-  private String src;
+  public String src;
 
   /**
   * File moved to this destination folder
   */
   @Getter
   @JsonProperty("destination")
-  private String destination;
+  public String destination;
 
   /**
   * Client IP that performed the action
   */
   @Getter
   @JsonProperty("ip")
-  private String ip;
+  public String ip;
 
   /**
   * Username of the user that performed the action
   */
   @Getter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * What action was taken. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
   */
   @Getter
   @JsonProperty("action")
-  private String action;
+  public String action;
 
   /**
   * The type of login failure, if applicable.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`
   */
   @Getter
   @JsonProperty("failure_type")
-  private String failureType;
+  public String failureType;
 
   /**
   * Inteface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`
   */
   @Getter
   @JsonProperty("interface")
-  private String interfaceName;
+  public String interfaceName;
 
   /**
   * ID of the object (such as Users, or API Keys) on which the action was taken
   */
   @Getter
   @JsonProperty("target_id")
-  private Long targetId;
+  public Long targetId;
 
   /**
   * Name of the User, Group or other object with a name related to this action
   */
   @Getter
   @JsonProperty("target_name")
-  private String targetName;
+  public String targetName;
 
   /**
   * Permission level of the action
   */
   @Getter
   @JsonProperty("target_permission")
-  private String targetPermission;
+  public String targetPermission;
 
   /**
   * Whether or not the action was recursive
   */
   @Getter
   @JsonProperty("target_recursive")
-  private Boolean targetRecursive;
+  public Boolean targetRecursive;
 
   /**
   * If searching for Histories about API keys, this is when the API key will expire
   */
   @Getter
   @JsonProperty("target_expires_at")
-  private Long targetExpiresAt;
+  public Long targetExpiresAt;
 
   /**
   * If searching for Histories about API keys, this represents the permission set of the associated  API key
   */
   @Getter
   @JsonProperty("target_permission_set")
-  private String targetPermissionSet;
+  public String targetPermissionSet;
 
   /**
   * If searching for Histories about API keys, this is the platform on which the action was taken
   */
   @Getter
   @JsonProperty("target_platform")
-  private String targetPlatform;
+  public String targetPlatform;
 
   /**
   * If searching for Histories about API keys, this is the username on which the action was taken
   */
   @Getter
   @JsonProperty("target_username")
-  private String targetUsername;
+  public String targetUsername;
 
   /**
   * If searching for Histories about API keys, this is the User ID on which the action was taken
   */
   @Getter
   @JsonProperty("target_user_id")
-  private Long targetUserId;
+  public Long targetUserId;
 
 
 

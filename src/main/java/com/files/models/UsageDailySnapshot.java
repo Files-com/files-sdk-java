@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class UsageDailySnapshot {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public UsageDailySnapshot() {
     this(null, null);
@@ -50,77 +55,77 @@ public class UsageDailySnapshot {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * The date of this usage record
   */
   @Getter
   @JsonProperty("date")
-  private Date date;
+  public Date date;
 
   /**
   * True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
   */
   @Getter
   @JsonProperty("api_usage_available")
-  private Boolean apiUsageAvailable;
+  public Boolean apiUsageAvailable;
 
   /**
   * Read API Calls used on this day. Note: only updated for days before the current day.
   */
   @Getter
   @JsonProperty("read_api_usage")
-  private Long readApiUsage;
+  public Long readApiUsage;
 
   /**
   * Write API Calls used on this day. Note: only updated for days before the current day.
   */
   @Getter
   @JsonProperty("write_api_usage")
-  private Long writeApiUsage;
+  public Long writeApiUsage;
 
   /**
   * Number of billable users as of this day.
   */
   @Getter
   @JsonProperty("user_count")
-  private Long userCount;
+  public Long userCount;
 
   /**
   * GB of Files Native Storage used on this day.
   */
   @Getter
   @JsonProperty("current_storage")
-  private Long currentStorage;
+  public Long currentStorage;
 
   /**
   * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
   */
   @Getter
   @JsonProperty("deleted_files_storage")
-  private Long deletedFilesStorage;
+  public Long deletedFilesStorage;
 
   /**
   * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
   */
   @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
-  private Long deletedFilesCountedInMinimum;
+  public Long deletedFilesCountedInMinimum;
 
   /**
   * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
   */
   @Getter
   @JsonProperty("root_storage")
-  private Long rootStorage;
+  public Long rootStorage;
 
   /**
   * Usage broken down by each top-level folder
   */
   @Getter
   @JsonProperty("usage_by_top_level_dir")
-  private Map<String, String> usageByTopLevelDir;
+  public Map<String, String> usageByTopLevelDir;
 
 
 

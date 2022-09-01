@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class As2IncomingMessage {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public As2IncomingMessage() {
     this(null, null);
@@ -50,245 +55,245 @@ public class As2IncomingMessage {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Id of the AS2 Partner associated with this message.
   */
   @Getter
   @JsonProperty("as2_partner_id")
-  private Long as2PartnerId;
+  public Long as2PartnerId;
 
   /**
   * Id of the AS2 Station associated with this message.
   */
   @Getter
   @JsonProperty("as2_station_id")
-  private Long as2StationId;
+  public Long as2StationId;
 
   /**
   * UUID assigned to this message.
   */
   @Getter
   @JsonProperty("uuid")
-  private String uuid;
+  public String uuid;
 
   /**
   * Content Type header of the incoming message.
   */
   @Getter
   @JsonProperty("content_type")
-  private String contentType;
+  public String contentType;
 
   /**
   * HTTP Headers sent with this message.
   */
   @Getter
   @JsonProperty("http_headers")
-  private Map<String, String> httpHeaders;
+  public Map<String, String> httpHeaders;
 
   /**
   * JSON Structure of the activity log.
   */
   @Getter
   @JsonProperty("activity_log")
-  private String activityLog;
+  public String activityLog;
 
   /**
   * Result of processing.
   */
   @Getter
   @JsonProperty("processing_result")
-  private String processingResult;
+  public String processingResult;
 
   /**
   * Result of processing description.
   */
   @Getter
   @JsonProperty("processing_result_description")
-  private String processingResultDescription;
+  public String processingResultDescription;
 
   /**
   * AS2 Message Integrity Check
   */
   @Getter
   @JsonProperty("mic")
-  private String mic;
+  public String mic;
 
   /**
   * AS2 Message Integrity Check Algorithm Used
   */
   @Getter
   @JsonProperty("mic_algo")
-  private String micAlgo;
+  public String micAlgo;
 
   /**
   * AS2 TO header of message
   */
   @Getter
   @JsonProperty("as2_to")
-  private String as2To;
+  public String as2To;
 
   /**
   * AS2 FROM header of message
   */
   @Getter
   @JsonProperty("as2_from")
-  private String as2From;
+  public String as2From;
 
   /**
   * AS2 Message Id
   */
   @Getter
   @JsonProperty("message_id")
-  private String messageId;
+  public String messageId;
 
   /**
   * AS2 Subject Header
   */
   @Getter
   @JsonProperty("subject")
-  private String subject;
+  public String subject;
 
   /**
   * Date Header
   */
   @Getter
   @JsonProperty("date")
-  private String date;
+  public String date;
 
   /**
   * Encrypted Payload Body Size
   */
   @Getter
   @JsonProperty("body_size")
-  private String bodySize;
+  public String bodySize;
 
   /**
   * Filename of the file being received.
   */
   @Getter
   @JsonProperty("attachment_filename")
-  private String attachmentFilename;
+  public String attachmentFilename;
 
   /**
   * IP Address of the Sender
   */
   @Getter
   @JsonProperty("ip")
-  private String ip;
+  public String ip;
 
   /**
   * Message creation date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * HTTP Response Code sent for this message
   */
   @Getter
   @JsonProperty("http_response_code")
-  private String httpResponseCode;
+  public String httpResponseCode;
 
   /**
   * HTTP Headers sent for this message.
   */
   @Getter
   @JsonProperty("http_response_headers")
-  private Map<String, String> httpResponseHeaders;
+  public Map<String, String> httpResponseHeaders;
 
   /**
   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
   */
   @Getter
   @JsonProperty("recipient_serial")
-  private String recipientSerial;
+  public String recipientSerial;
 
   /**
   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
   */
   @Getter
   @JsonProperty("hex_recipient_serial")
-  private String hexRecipientSerial;
+  public String hexRecipientSerial;
 
   /**
   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
   */
   @Getter
   @JsonProperty("recipient_issuer")
-  private String recipientIssuer;
+  public String recipientIssuer;
 
   /**
   * Message body received?
   */
   @Getter
   @JsonProperty("message_received")
-  private Boolean messageReceived;
+  public Boolean messageReceived;
 
   /**
   * Message decrypted successfully?
   */
   @Getter
   @JsonProperty("message_decrypted")
-  private Boolean messageDecrypted;
+  public Boolean messageDecrypted;
 
   /**
   * Message signature verified?
   */
   @Getter
   @JsonProperty("message_signature_verified")
-  private Boolean messageSignatureVerified;
+  public Boolean messageSignatureVerified;
 
   /**
   * Message processed successfully?
   */
   @Getter
   @JsonProperty("message_processing_success")
-  private Boolean messageProcessingSuccess;
+  public Boolean messageProcessingSuccess;
 
   /**
   * MDN returned?
   */
   @Getter
   @JsonProperty("message_mdn_returned")
-  private Boolean messageMdnReturned;
+  public Boolean messageMdnReturned;
 
   /**
   * URL to download the encrypted signed smime that is to sent as AS2 body
   */
   @Getter
   @JsonProperty("encrypted_uri")
-  private String encryptedUri;
+  public String encryptedUri;
 
   /**
   * URL to download the file contents as smime with signature
   */
   @Getter
   @JsonProperty("smime_signed_uri")
-  private String smimeSignedUri;
+  public String smimeSignedUri;
 
   /**
   * URL to download the file contents encoded as smime
   */
   @Getter
   @JsonProperty("smime_uri")
-  private String smimeUri;
+  public String smimeUri;
 
   /**
   * URL to download the original file contents
   */
   @Getter
   @JsonProperty("raw_uri")
-  private String rawUri;
+  public String rawUri;
 
   /**
   * URL to download the http response body
   */
   @Getter
   @JsonProperty("mdn_response_uri")
-  private String mdnResponseUri;
+  public String mdnResponseUri;
 
 
 

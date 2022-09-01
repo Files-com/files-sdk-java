@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class HistoryExport {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public HistoryExport() {
     this(null, null);
@@ -51,7 +56,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Version of the history for the export.
@@ -59,7 +64,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("history_version")
-  private String historyVersion;
+  public String historyVersion;
 
   /**
   * Start date/time of export range.
@@ -67,7 +72,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("start_at")
-  private Date startAt;
+  public Date startAt;
 
   /**
   * End date/time of export range.
@@ -75,7 +80,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("end_at")
-  private Date endAt;
+  public Date endAt;
 
   /**
   * Status of export.  Will be: `building`, `ready`, or `failed`
@@ -83,7 +88,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("status")
-  private String status;
+  public String status;
 
   /**
   * Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
@@ -91,7 +96,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_action")
-  private String queryAction;
+  public String queryAction;
 
   /**
   * Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`
@@ -99,7 +104,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_interface")
-  private String queryInterface;
+  public String queryInterface;
 
   /**
   * Return results that are actions performed by the user indiciated by this User ID
@@ -107,7 +112,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_user_id")
-  private String queryUserId;
+  public String queryUserId;
 
   /**
   * Return results that are file actions related to the file indicated by this File ID
@@ -115,7 +120,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_file_id")
-  private String queryFileId;
+  public String queryFileId;
 
   /**
   * Return results that are file actions inside the parent folder specified by this folder ID
@@ -123,7 +128,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_parent_id")
-  private String queryParentId;
+  public String queryParentId;
 
   /**
   * Return results that are file actions related to this path.
@@ -131,7 +136,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_path")
-  private String queryPath;
+  public String queryPath;
 
   /**
   * Return results that are file actions related to files or folders inside this folder path.
@@ -139,7 +144,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_folder")
-  private String queryFolder;
+  public String queryFolder;
 
   /**
   * Return results that are file moves originating from this path.
@@ -147,7 +152,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_src")
-  private String querySrc;
+  public String querySrc;
 
   /**
   * Return results that are file moves with this path as destination.
@@ -155,7 +160,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_destination")
-  private String queryDestination;
+  public String queryDestination;
 
   /**
   * Filter results by this IP address.
@@ -163,7 +168,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_ip")
-  private String queryIp;
+  public String queryIp;
 
   /**
   * Filter results by this username.
@@ -171,7 +176,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_username")
-  private String queryUsername;
+  public String queryUsername;
 
   /**
   * If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`
@@ -179,7 +184,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_failure_type")
-  private String queryFailureType;
+  public String queryFailureType;
 
   /**
   * If searching for Histories about specific objects (such as Users, or API Keys), this paremeter restricts results to objects that match this ID.
@@ -187,7 +192,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_id")
-  private String queryTargetId;
+  public String queryTargetId;
 
   /**
   * If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
@@ -195,7 +200,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_name")
-  private String queryTargetName;
+  public String queryTargetName;
 
   /**
   * If searching for Histories about Permisisons, this parameter restricts results to permissions of this level.
@@ -203,7 +208,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_permission")
-  private String queryTargetPermission;
+  public String queryTargetPermission;
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
@@ -211,7 +216,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_user_id")
-  private String queryTargetUserId;
+  public String queryTargetUserId;
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
@@ -219,7 +224,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_username")
-  private String queryTargetUsername;
+  public String queryTargetUsername;
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
@@ -227,7 +232,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_platform")
-  private String queryTargetPlatform;
+  public String queryTargetPlatform;
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
@@ -235,7 +240,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("query_target_permission_set")
-  private String queryTargetPermissionSet;
+  public String queryTargetPermissionSet;
 
   /**
   * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
@@ -243,7 +248,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("results_url")
-  private String resultsUrl;
+  public String resultsUrl;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -251,7 +256,7 @@ public class HistoryExport {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
 
   public void save() throws IOException {

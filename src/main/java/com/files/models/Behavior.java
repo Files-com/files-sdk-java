@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Behavior {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Behavior() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -59,7 +64,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * URL for attached file
@@ -67,7 +72,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("attachment_url")
-  private String attachmentUrl;
+  public String attachmentUrl;
 
   /**
   * Behavior type.
@@ -75,7 +80,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("behavior")
-  private String behavior;
+  public String behavior;
 
   /**
   * Name for this behavior.
@@ -83,7 +88,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Description for this behavior.
@@ -91,7 +96,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("description")
-  private String description;
+  public String description;
 
   /**
   * Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
@@ -99,7 +104,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("value")
-  private Map<String, String> value;
+  public Map<String, String> value;
 
   /**
   * Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
@@ -107,7 +112,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("attachment_file")
-  private byte[] attachmentFile;
+  public byte[] attachmentFile;
 
   /**
   * If true, will delete the file stored in attachment
@@ -115,7 +120,7 @@ public class Behavior {
   @Getter
   @Setter
   @JsonProperty("attachment_delete")
-  private Boolean attachmentDelete;
+  public Boolean attachmentDelete;
 
   /**
   * Parameters:

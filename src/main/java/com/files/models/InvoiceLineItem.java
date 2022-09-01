@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class InvoiceLineItem {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public InvoiceLineItem() {
     this(null, null);
@@ -50,63 +55,63 @@ public class InvoiceLineItem {
   */
   @Getter
   @JsonProperty("amount")
-  private Double amount;
+  public Double amount;
 
   /**
   * Invoice line item created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Invoice line item description
   */
   @Getter
   @JsonProperty("description")
-  private String description;
+  public String description;
 
   /**
   * Invoice line item type
   */
   @Getter
   @JsonProperty("type")
-  private String type;
+  public String type;
 
   /**
   * Invoice line item service end date/time
   */
   @Getter
   @JsonProperty("service_end_at")
-  private Date serviceEndAt;
+  public Date serviceEndAt;
 
   /**
   * Invoice line item service start date/time
   */
   @Getter
   @JsonProperty("service_start_at")
-  private Date serviceStartAt;
+  public Date serviceStartAt;
 
   /**
   * Invoice line item updated date/time
   */
   @Getter
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  public Date updatedAt;
 
   /**
   * Plan name
   */
   @Getter
   @JsonProperty("plan")
-  private String plan;
+  public String plan;
 
   /**
   * Site name
   */
   @Getter
   @JsonProperty("site")
-  private String site;
+  public String site;
 
 
 

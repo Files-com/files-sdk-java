@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Automation {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Automation() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Automation type
@@ -59,7 +64,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("automation")
-  private String automation;
+  public String automation;
 
   /**
   * Indicates if the automation has been deleted.
@@ -67,7 +72,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("deleted")
-  private Boolean deleted;
+  public Boolean deleted;
 
   /**
   * If true, this automation will not run.
@@ -75,7 +80,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("disabled")
-  private Boolean disabled;
+  public Boolean disabled;
 
   /**
   * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
@@ -83,7 +88,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("trigger")
-  private String trigger;
+  public String trigger;
 
   /**
   * If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -91,7 +96,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("interval")
-  private String interval;
+  public String interval;
 
   /**
   * Time when automation was last modified. Does not change for name or description updates.
@@ -99,7 +104,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("last_modified_at")
-  private Date lastModifiedAt;
+  public Date lastModifiedAt;
 
   /**
   * Name for this automation.
@@ -107,7 +112,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
@@ -115,7 +120,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("schedule")
-  private Map<String, String> schedule;
+  public Map<String, String> schedule;
 
   /**
   * Source Path
@@ -123,7 +128,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("source")
-  private String source;
+  public String source;
 
   /**
   * Destination Path
@@ -131,7 +136,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destinations")
-  private Object[] destinations;
+  public Object[] destinations;
 
   /**
   * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
@@ -139,7 +144,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination_replace_from")
-  private String destinationReplaceFrom;
+  public String destinationReplaceFrom;
 
   /**
   * If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -147,7 +152,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination_replace_to")
-  private String destinationReplaceTo;
+  public String destinationReplaceTo;
 
   /**
   * Description for the this Automation.
@@ -155,7 +160,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("description")
-  private String description;
+  public String description;
 
   /**
   * Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -163,7 +168,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * User ID of the Automation's creator.
@@ -171,7 +176,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * IDs of Users for the Automation (i.e. who to Request File from)
@@ -179,7 +184,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  private Object[] userIds;
+  public Object[] userIds;
 
   /**
   * IDs of Groups for the Automation (i.e. who to Request File from)
@@ -187,7 +192,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  private Object[] groupIds;
+  public Object[] groupIds;
 
   /**
   * If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
@@ -195,7 +200,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("webhook_url")
-  private String webhookUrl;
+  public String webhookUrl;
 
   /**
   * If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -203,7 +208,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("trigger_actions")
-  private Object[] triggerActions;
+  public Object[] triggerActions;
 
   /**
   * A Hash of attributes specific to the automation type.
@@ -211,7 +216,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("value")
-  private Map<String, String> value;
+  public Map<String, String> value;
 
   /**
   * DEPRECATED: Destination Path. Use `destinations` instead.
@@ -219,7 +224,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destination")
-  private String destination;
+  public String destination;
 
   /**
   * Parameters:

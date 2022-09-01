@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class AutomationRun {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public AutomationRun() {
     this(null, null);
@@ -50,42 +55,42 @@ public class AutomationRun {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * ID of the associated Automation.
   */
   @Getter
   @JsonProperty("automation_id")
-  private Long automationId;
+  public Long automationId;
 
   /**
   * Automation run completion/failure date/time.
   */
   @Getter
   @JsonProperty("completed_at")
-  private Date completedAt;
+  public Date completedAt;
 
   /**
   * Automation run start date/time.
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
   */
   @Getter
   @JsonProperty("status")
-  private String status;
+  public String status;
 
   /**
   * Link to status messages log file.
   */
   @Getter
   @JsonProperty("status_messages_url")
-  private String statusMessagesUrl;
+  public String statusMessagesUrl;
 
 
 

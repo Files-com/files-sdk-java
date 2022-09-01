@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class IpAddress {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public IpAddress() {
     this(null, null);
@@ -50,28 +55,28 @@ public class IpAddress {
   */
   @Getter
   @JsonProperty("id")
-  private String id;
+  public String id;
 
   /**
   * The object that this public IP address list is associated with.
   */
   @Getter
   @JsonProperty("associated_with")
-  private String associatedWith;
+  public String associatedWith;
 
   /**
   * Group ID
   */
   @Getter
   @JsonProperty("group_id")
-  private Long groupId;
+  public Long groupId;
 
   /**
   * A list of IP addresses.
   */
   @Getter
   @JsonProperty("ip_addresses")
-  private Object[] ipAddresses;
+  public Object[] ipAddresses;
 
 
 

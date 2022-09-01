@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Bundle {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Bundle() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("code")
-  private String code;
+  public String code;
 
   /**
   * Public URL of Share Link
@@ -59,7 +64,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("url")
-  private String url;
+  public String url;
 
   /**
   * Public description
@@ -67,7 +72,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("description")
-  private String description;
+  public String description;
 
   /**
   * Is this bundle password protected?
@@ -75,7 +80,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("password_protected")
-  private Boolean passwordProtected;
+  public Boolean passwordProtected;
 
   /**
   * Permissions that apply to Folders in this Share Link.
@@ -83,7 +88,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("permissions")
-  private String permissions;
+  public String permissions;
 
   /**
   * Restrict users to previewing files only?
@@ -91,7 +96,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("preview_only")
-  private Boolean previewOnly;
+  public Boolean previewOnly;
 
   /**
   * Show a registration page that captures the downloader's name and email address?
@@ -99,7 +104,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("require_registration")
-  private Boolean requireRegistration;
+  public Boolean requireRegistration;
 
   /**
   * Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
@@ -107,7 +112,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("require_share_recipient")
-  private Boolean requireShareRecipient;
+  public Boolean requireShareRecipient;
 
   /**
   * Legal text that must be agreed to prior to accessing Bundle.
@@ -115,7 +120,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("clickwrap_body")
-  private String clickwrapBody;
+  public String clickwrapBody;
 
   /**
   * Custom Form to use
@@ -123,7 +128,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("form_field_set")
-  private FormFieldSet formFieldSet;
+  public FormFieldSet formFieldSet;
 
   /**
   * BundleRegistrations can be saved without providing name?
@@ -131,7 +136,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("skip_name")
-  private Boolean skipName;
+  public Boolean skipName;
 
   /**
   * BundleRegistrations can be saved without providing email?
@@ -139,7 +144,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("skip_email")
-  private Boolean skipEmail;
+  public Boolean skipEmail;
 
   /**
   * BundleRegistrations can be saved without providing company?
@@ -147,7 +152,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("skip_company")
-  private Boolean skipCompany;
+  public Boolean skipCompany;
 
   /**
   * Bundle ID
@@ -155,14 +160,14 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Bundle created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Bundle expiration date/time
@@ -170,7 +175,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("expires_at")
-  private Date expiresAt;
+  public Date expiresAt;
 
   /**
   * Maximum number of times bundle can be accessed
@@ -178,7 +183,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("max_uses")
-  private Long maxUses;
+  public Long maxUses;
 
   /**
   * Bundle internal note
@@ -186,7 +191,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("note")
-  private String note;
+  public String note;
 
   /**
   * Bundle creator user ID
@@ -194,7 +199,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Bundle creator username
@@ -202,7 +207,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * ID of the clickwrap to use with this bundle.
@@ -210,7 +215,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("clickwrap_id")
-  private Long clickwrapId;
+  public Long clickwrapId;
 
   /**
   * ID of the associated inbox, if available.
@@ -218,7 +223,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("inbox_id")
-  private Long inboxId;
+  public Long inboxId;
 
   /**
   * Preview watermark image applied to all bundle items.
@@ -226,7 +231,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("watermark_attachment")
-  private Image watermarkAttachment;
+  public Image watermarkAttachment;
 
   /**
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
@@ -234,7 +239,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("watermark_value")
-  private Map<String, String> watermarkValue;
+  public Map<String, String> watermarkValue;
 
   /**
   * Does this bundle have an associated inbox?
@@ -242,7 +247,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("has_inbox")
-  private Boolean hasInbox;
+  public Boolean hasInbox;
 
   /**
   * A list of paths in this bundle
@@ -250,7 +255,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("paths")
-  private Object[] paths;
+  public Object[] paths;
 
   /**
   * Password for this bundle.
@@ -258,7 +263,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("password")
-  private String password;
+  public String password;
 
   /**
   * Id of Form Field Set to use with this bundle
@@ -266,7 +271,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("form_field_set_id")
-  private Long formFieldSetId;
+  public Long formFieldSetId;
 
   /**
   * Preview watermark image applied to all bundle items.
@@ -274,7 +279,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("watermark_attachment_file")
-  private byte[] watermarkAttachmentFile;
+  public byte[] watermarkAttachmentFile;
 
   /**
   * If true, will delete the file stored in watermark_attachment
@@ -282,7 +287,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("watermark_attachment_delete")
-  private Boolean watermarkAttachmentDelete;
+  public Boolean watermarkAttachmentDelete;
 
   /**
   * Send email(s) with a link to bundle

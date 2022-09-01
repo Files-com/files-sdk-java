@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class UserRequest {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public UserRequest() {
     this(null, null);
@@ -51,7 +56,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * User's full name
@@ -59,7 +64,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * User email address
@@ -67,7 +72,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("email")
-  private String email;
+  public String email;
 
   /**
   * Details of the user's request
@@ -75,7 +80,7 @@ public class UserRequest {
   @Getter
   @Setter
   @JsonProperty("details")
-  private String details;
+  public String details;
 
   /**
   */

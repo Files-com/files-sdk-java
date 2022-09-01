@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class FileUploadPart {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
     RequestMethods requestMethod;
@@ -81,105 +86,105 @@ public class FileUploadPart {
   */
   @Getter
   @JsonProperty("send")
-  private Map<String, String> send;
+  public Map<String, String> send;
 
   /**
   * Type of upload
   */
   @Getter
   @JsonProperty("action")
-  private String action;
+  public String action;
 
   /**
   * If `true`, this file exists and you may wish to ask the user for overwrite confirmation
   */
   @Getter
   @JsonProperty("ask_about_overwrites")
-  private Boolean askAboutOverwrites;
+  public Boolean askAboutOverwrites;
 
   /**
   * Number of parts in the upload
   */
   @Getter
   @JsonProperty("available_parts")
-  private Long availableParts;
+  public Long availableParts;
 
   /**
   * Date/time of when this Upload part expires and the URL cannot be used any more
   */
   @Getter
   @JsonProperty("expires")
-  private String expires;
+  public String expires;
 
   /**
   * Additional upload headers to provide as part of the upload
   */
   @Getter
   @JsonProperty("headers")
-  private Map<String, String> headers;
+  public Map<String, String> headers;
 
   /**
   * HTTP Method to use for uploading the part, usually `PUT`
   */
   @Getter
   @JsonProperty("http_method")
-  private String httpMethod;
+  public String httpMethod;
 
   /**
   * Size in bytes for this part
   */
   @Getter
   @JsonProperty("next_partsize")
-  private Long nextPartsize;
+  public Long nextPartsize;
 
   /**
   * If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
   */
   @Getter
   @JsonProperty("parallel_parts")
-  private Boolean parallelParts;
+  public Boolean parallelParts;
 
   /**
   * Additional HTTP parameters to send with the upload
   */
   @Getter
   @JsonProperty("parameters")
-  private Map<String, String> parameters;
+  public Map<String, String> parameters;
 
   /**
   * Number of this upload part
   */
   @Getter
   @JsonProperty("part_number")
-  private Long partNumber;
+  public Long partNumber;
 
   /**
   * Size in bytes for the next upload part
   */
   @Getter
   @JsonProperty("partsize")
-  private Long partsize;
+  public Long partsize;
 
   /**
   * New file path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Reference name for this upload part
   */
   @Getter
   @JsonProperty("ref")
-  private String ref;
+  public String ref;
 
   /**
   * URI to upload this part to
   */
   @Getter
   @JsonProperty("upload_uri")
-  private String uploadUri;
+  public String uploadUri;
 
 
 

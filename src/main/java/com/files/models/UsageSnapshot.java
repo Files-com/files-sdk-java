@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class UsageSnapshot {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public UsageSnapshot() {
     this(null, null);
@@ -50,133 +55,133 @@ public class UsageSnapshot {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Usage snapshot start date/time
   */
   @Getter
   @JsonProperty("start_at")
-  private Date startAt;
+  public Date startAt;
 
   /**
   * Usage snapshot end date/time
   */
   @Getter
   @JsonProperty("end_at")
-  private Date endAt;
+  public Date endAt;
 
   /**
   * DEPRECATED: Usage snapshot created at date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Highest user count number in time period
   */
   @Getter
   @JsonProperty("high_water_user_count")
-  private Double highWaterUserCount;
+  public Double highWaterUserCount;
 
   /**
   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("current_storage")
-  private Double currentStorage;
+  public Double currentStorage;
 
   /**
   * Highest Storage Usage GB recorded in time period (used for billing)
   */
   @Getter
   @JsonProperty("high_water_storage")
-  private Double highWaterStorage;
+  public Double highWaterStorage;
 
   /**
   * DEPRECATED: Number of downloads in report time period
   */
   @Getter
   @JsonProperty("total_downloads")
-  private Long totalDownloads;
+  public Long totalDownloads;
 
   /**
   * DEPRECATED: Number of uploads in time period
   */
   @Getter
   @JsonProperty("total_uploads")
-  private Long totalUploads;
+  public Long totalUploads;
 
   /**
   * DEPRECATED: The last time this site usage report was updated
   */
   @Getter
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  public Date updatedAt;
 
   /**
   * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("usage_by_top_level_dir")
-  private Map<String, String> usageByTopLevelDir;
+  public Map<String, String> usageByTopLevelDir;
 
   /**
   * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("root_storage")
-  private Double rootStorage;
+  public Double rootStorage;
 
   /**
   * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
-  private Double deletedFilesCountedInMinimum;
+  public Double deletedFilesCountedInMinimum;
 
   /**
   * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
   */
   @Getter
   @JsonProperty("deleted_files_storage")
-  private Double deletedFilesStorage;
+  public Double deletedFilesStorage;
 
   /**
   * Storage + Transfer Usage - Total Billable amount
   */
   @Getter
   @JsonProperty("total_billable_usage")
-  private Double totalBillableUsage;
+  public Double totalBillableUsage;
 
   /**
   * Transfer usage for period - Total Billable amount
   */
   @Getter
   @JsonProperty("total_billable_transfer_usage")
-  private Double totalBillableTransferUsage;
+  public Double totalBillableTransferUsage;
 
   /**
   * Transfer Usage for period - Outbound GB from Files Native Storage
   */
   @Getter
   @JsonProperty("bytes_sent")
-  private Double bytesSent;
+  public Double bytesSent;
 
   /**
   * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
   */
   @Getter
   @JsonProperty("sync_bytes_received")
-  private Double syncBytesReceived;
+  public Double syncBytesReceived;
 
   /**
   * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
   */
   @Getter
   @JsonProperty("sync_bytes_sent")
-  private Double syncBytesSent;
+  public Double syncBytesSent;
 
 
 

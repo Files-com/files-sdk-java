@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class App {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public App() {
     this(null, null);
@@ -50,112 +55,112 @@ public class App {
   */
   @Getter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Long form description of the App
   */
   @Getter
   @JsonProperty("extended_description")
-  private String extendedDescription;
+  public String extendedDescription;
 
   /**
   * Short description of the App
   */
   @Getter
   @JsonProperty("short_description")
-  private String shortDescription;
+  public String shortDescription;
 
   /**
   * Collection of named links to documentation
   */
   @Getter
   @JsonProperty("documentation_links")
-  private Map<String, String> documentationLinks;
+  public Map<String, String> documentationLinks;
 
   /**
   * App icon
   */
   @Getter
   @JsonProperty("icon_url")
-  private String iconUrl;
+  public String iconUrl;
 
   /**
   * Full size logo for the App
   */
   @Getter
   @JsonProperty("logo_url")
-  private String logoUrl;
+  public String logoUrl;
 
   /**
   * Screenshots of the App
   */
   @Getter
   @JsonProperty("screenshot_list_urls")
-  private Object[] screenshotListUrls;
+  public Object[] screenshotListUrls;
 
   /**
   * Logo thumbnail for the App
   */
   @Getter
   @JsonProperty("logo_thumbnail_url")
-  private String logoThumbnailUrl;
+  public String logoThumbnailUrl;
 
   /**
   * Associated SSO Strategy type, if any
   */
   @Getter
   @JsonProperty("sso_strategy_type")
-  private String ssoStrategyType;
+  public String ssoStrategyType;
 
   /**
   * Associated Remote Server type, if any
   */
   @Getter
   @JsonProperty("remote_server_type")
-  private String remoteServerType;
+  public String remoteServerType;
 
   /**
   * Associated Folder Behavior type, if any
   */
   @Getter
   @JsonProperty("folder_behavior_type")
-  private String folderBehaviorType;
+  public String folderBehaviorType;
 
   /**
   * Link to external homepage
   */
   @Getter
   @JsonProperty("external_homepage_url")
-  private String externalHomepageUrl;
+  public String externalHomepageUrl;
 
   /**
   * Marketing video page
   */
   @Getter
   @JsonProperty("marketing_youtube_url")
-  private String marketingYoutubeUrl;
+  public String marketingYoutubeUrl;
 
   /**
   * Tutorial video page
   */
   @Getter
   @JsonProperty("tutorial_youtube_url")
-  private String tutorialYoutubeUrl;
+  public String tutorialYoutubeUrl;
 
   /**
   * The type of the App
   */
   @Getter
   @JsonProperty("app_type")
-  private String appType;
+  public String appType;
 
   /**
   * Is featured on the App listing?
   */
   @Getter
   @JsonProperty("featured")
-  private Boolean featured;
+  public Boolean featured;
 
 
 

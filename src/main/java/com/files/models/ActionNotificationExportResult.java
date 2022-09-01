@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class ActionNotificationExportResult {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public ActionNotificationExportResult() {
     this(null, null);
@@ -50,70 +55,70 @@ public class ActionNotificationExportResult {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * When the notification was sent.
   */
   @Getter
   @JsonProperty("created_at")
-  private Long createdAt;
+  public Long createdAt;
 
   /**
   * HTTP status code returned in the webhook response.
   */
   @Getter
   @JsonProperty("status")
-  private Long status;
+  public Long status;
 
   /**
   * A message indicating the overall status of the webhook notification.
   */
   @Getter
   @JsonProperty("message")
-  private String message;
+  public String message;
 
   /**
   * `true` if the webhook succeeded by receiving a 200 or 204 response.
   */
   @Getter
   @JsonProperty("success")
-  private Boolean success;
+  public Boolean success;
 
   /**
   * A JSON-encoded string with headers that were sent with the webhook.
   */
   @Getter
   @JsonProperty("request_headers")
-  private String requestHeaders;
+  public String requestHeaders;
 
   /**
   * The HTTP verb used to perform the webhook.
   */
   @Getter
   @JsonProperty("request_method")
-  private String requestMethod;
+  public String requestMethod;
 
   /**
   * The webhook request URL.
   */
   @Getter
   @JsonProperty("request_url")
-  private String requestUrl;
+  public String requestUrl;
 
   /**
   * The path to the actual file that triggered this notification. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * The folder associated with the triggering action for this notification.
   */
   @Getter
   @JsonProperty("folder")
-  private String folder;
+  public String folder;
 
 
 

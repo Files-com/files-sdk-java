@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class User {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public User() {
     this(null, null);
@@ -51,7 +56,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * User's username
@@ -59,7 +64,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * List of group IDs of which this user is an administrator
@@ -67,7 +72,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("admin_group_ids")
-  private Object[] adminGroupIds;
+  public Object[] adminGroupIds;
 
   /**
   * A list of allowed IPs if applicable.  Newline delimited
@@ -75,7 +80,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("allowed_ips")
-  private String allowedIps;
+  public String allowedIps;
 
   /**
   * DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
@@ -83,7 +88,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("attachments_permission")
-  private Boolean attachmentsPermission;
+  public Boolean attachmentsPermission;
 
   /**
   * Number of api keys associated with this user
@@ -91,7 +96,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("api_keys_count")
-  private Long apiKeysCount;
+  public Long apiKeysCount;
 
   /**
   * Scheduled Date/Time at which user will be deactivated
@@ -99,7 +104,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("authenticate_until")
-  private Date authenticateUntil;
+  public Date authenticateUntil;
 
   /**
   * How is this user authenticated?
@@ -107,7 +112,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("authentication_method")
-  private String authenticationMethod;
+  public String authenticationMethod;
 
   /**
   * URL holding the user's avatar
@@ -115,7 +120,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_url")
-  private String avatarUrl;
+  public String avatarUrl;
 
   /**
   * Allow this user to perform operations on the account, payments, and invoices?
@@ -123,7 +128,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("billing_permission")
-  private Boolean billingPermission;
+  public Boolean billingPermission;
 
   /**
   * Allow this user to skip site-wide IP blacklists?
@@ -131,7 +136,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("bypass_site_allowed_ips")
-  private Boolean bypassSiteAllowedIps;
+  public Boolean bypassSiteAllowedIps;
 
   /**
   * Exempt this user from being disabled based on inactivity?
@@ -139,14 +144,14 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("bypass_inactive_disable")
-  private Boolean bypassInactiveDisable;
+  public Boolean bypassInactiveDisable;
 
   /**
   * When this user was created
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Can the user connect with WebDAV?
@@ -154,7 +159,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("dav_permission")
-  private Boolean davPermission;
+  public Boolean davPermission;
 
   /**
   * Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
@@ -162,7 +167,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("disabled")
-  private Boolean disabled;
+  public Boolean disabled;
 
   /**
   * User email address
@@ -170,7 +175,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("email")
-  private String email;
+  public String email;
 
   /**
   * User's first login time
@@ -178,7 +183,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("first_login_at")
-  private Date firstLoginAt;
+  public Date firstLoginAt;
 
   /**
   * Can the user access with FTP/FTPS?
@@ -186,7 +191,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("ftp_permission")
-  private Boolean ftpPermission;
+  public Boolean ftpPermission;
 
   /**
   * Comma-separated list of group IDs of which this user is a member
@@ -194,7 +199,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  private String groupIds;
+  public String groupIds;
 
   /**
   * Text to display to the user in the header of the UI
@@ -202,7 +207,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("header_text")
-  private String headerText;
+  public String headerText;
 
   /**
   * Preferred language
@@ -210,7 +215,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("language")
-  private String language;
+  public String language;
 
   /**
   * User's last login time
@@ -218,7 +223,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("last_login_at")
-  private Date lastLoginAt;
+  public Date lastLoginAt;
 
   /**
   * The last protocol and cipher used
@@ -226,7 +231,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("last_protocol_cipher")
-  private String lastProtocolCipher;
+  public String lastProtocolCipher;
 
   /**
   * Time in the future that the user will no longer be locked out if applicable
@@ -234,7 +239,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("lockout_expires")
-  private Date lockoutExpires;
+  public Date lockoutExpires;
 
   /**
   * User's full name
@@ -242,7 +247,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * User's company
@@ -250,7 +255,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("company")
-  private String company;
+  public String company;
 
   /**
   * Any internal notes on the user
@@ -258,7 +263,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("notes")
-  private String notes;
+  public String notes;
 
   /**
   * Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
@@ -266,7 +271,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("notification_daily_send_time")
-  private Long notificationDailySendTime;
+  public Long notificationDailySendTime;
 
   /**
   * Enable integration with Office for the web?
@@ -274,7 +279,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("office_integration_enabled")
-  private Boolean officeIntegrationEnabled;
+  public Boolean officeIntegrationEnabled;
 
   /**
   * Last time the user's password was set
@@ -282,7 +287,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_set_at")
-  private Date passwordSetAt;
+  public Date passwordSetAt;
 
   /**
   * Number of days to allow user to use the same password
@@ -290,7 +295,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_validity_days")
-  private Long passwordValidityDays;
+  public Long passwordValidityDays;
 
   /**
   * Number of public keys associated with this user
@@ -298,7 +303,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("public_keys_count")
-  private Long publicKeysCount;
+  public Long publicKeysCount;
 
   /**
   * Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -306,7 +311,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("receive_admin_alerts")
-  private Boolean receiveAdminAlerts;
+  public Boolean receiveAdminAlerts;
 
   /**
   * 2FA required setting
@@ -314,7 +319,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("require_2fa")
-  private String require2fa;
+  public String require2fa;
 
   /**
   * Is 2fa active for the user?
@@ -322,7 +327,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("active_2fa")
-  private Boolean active2fa;
+  public Boolean active2fa;
 
   /**
   * Is a password change required upon next user login?
@@ -330,7 +335,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("require_password_change")
-  private Boolean requirePasswordChange;
+  public Boolean requirePasswordChange;
 
   /**
   * Is user's password expired?
@@ -338,7 +343,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_expired")
-  private Boolean passwordExpired;
+  public Boolean passwordExpired;
 
   /**
   * Can this user access the REST API?
@@ -346,7 +351,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("restapi_permission")
-  private Boolean restapiPermission;
+  public Boolean restapiPermission;
 
   /**
   * Does this user manage it's own credentials or is it a shared/bot user?
@@ -354,7 +359,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("self_managed")
-  private Boolean selfManaged;
+  public Boolean selfManaged;
 
   /**
   * Can the user access with SFTP?
@@ -362,7 +367,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("sftp_permission")
-  private Boolean sftpPermission;
+  public Boolean sftpPermission;
 
   /**
   * Is the user an administrator for this site?
@@ -370,7 +375,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("site_admin")
-  private Boolean siteAdmin;
+  public Boolean siteAdmin;
 
   /**
   * Skip Welcome page in the UI?
@@ -378,7 +383,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("skip_welcome_screen")
-  private Boolean skipWelcomeScreen;
+  public Boolean skipWelcomeScreen;
 
   /**
   * SSL required setting
@@ -386,7 +391,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("ssl_required")
-  private String sslRequired;
+  public String sslRequired;
 
   /**
   * SSO (Single Sign On) strategy ID for the user, if applicable.
@@ -394,7 +399,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("sso_strategy_id")
-  private Long ssoStrategyId;
+  public Long ssoStrategyId;
 
   /**
   * Is the user subscribed to the newsletter?
@@ -402,7 +407,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("subscribe_to_newsletter")
-  private Boolean subscribeToNewsletter;
+  public Boolean subscribeToNewsletter;
 
   /**
   * Is this user managed by a SsoStrategy?
@@ -410,7 +415,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("externally_managed")
-  private Boolean externallyManaged;
+  public Boolean externallyManaged;
 
   /**
   * User time zone
@@ -418,7 +423,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("time_zone")
-  private String timeZone;
+  public String timeZone;
 
   /**
   * Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
@@ -426,14 +431,14 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("type_of_2fa")
-  private String typeOf2fa;
+  public String typeOf2fa;
 
   /**
   * User record last updated at.  Note this may be incremented because of internal or external updates.
   */
   @Getter
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  public Date updatedAt;
 
   /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
@@ -441,7 +446,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("user_root")
-  private String userRoot;
+  public String userRoot;
 
   /**
   * An image file for your user avatar.
@@ -449,7 +454,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_file")
-  private byte[] avatarFile;
+  public byte[] avatarFile;
 
   /**
   * If true, the avatar will be deleted.
@@ -457,7 +462,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("avatar_delete")
-  private Boolean avatarDelete;
+  public Boolean avatarDelete;
 
   /**
   * Used for changing a password on an existing user.
@@ -465,7 +470,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("change_password")
-  private String changePassword;
+  public String changePassword;
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -473,7 +478,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("change_password_confirmation")
-  private String changePasswordConfirmation;
+  public String changePasswordConfirmation;
 
   /**
   * Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, or `history`.
@@ -481,7 +486,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("grant_permission")
-  private String grantPermission;
+  public String grantPermission;
 
   /**
   * Group ID to associate this user with.
@@ -489,7 +494,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  private Long groupId;
+  public Long groupId;
 
   /**
   * Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
@@ -497,7 +502,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("imported_password_hash")
-  private String importedPasswordHash;
+  public String importedPasswordHash;
 
   /**
   * User password.
@@ -505,7 +510,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password")
-  private String password;
+  public String password;
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `password`.
@@ -513,7 +518,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("password_confirmation")
-  private String passwordConfirmation;
+  public String passwordConfirmation;
 
   /**
   * Signifies that the user has read all the announcements in the UI.
@@ -521,7 +526,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("announcements_read")
-  private Boolean announcementsRead;
+  public Boolean announcementsRead;
 
   /**
   * Unlock user who has been locked out due to failed logins

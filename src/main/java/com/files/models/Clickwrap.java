@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Clickwrap {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Clickwrap() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
@@ -59,7 +64,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Body text of Clickwrap (supports Markdown formatting).
@@ -67,7 +72,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("body")
-  private String body;
+  public String body;
 
   /**
   * Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
@@ -75,7 +80,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_users")
-  private String useWithUsers;
+  public String useWithUsers;
 
   /**
   * Use this Clickwrap for Bundles?
@@ -83,7 +88,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_bundles")
-  private String useWithBundles;
+  public String useWithBundles;
 
   /**
   * Use this Clickwrap for Inboxes?
@@ -91,7 +96,7 @@ public class Clickwrap {
   @Getter
   @Setter
   @JsonProperty("use_with_inboxes")
-  private String useWithInboxes;
+  public String useWithInboxes;
 
   /**
   * Parameters:

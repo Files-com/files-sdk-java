@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class As2Station {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public As2Station() {
     this(null, null);
@@ -51,7 +56,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * The station's formal AS2 name.
@@ -59,7 +64,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * Public URI for sending AS2 message to.
@@ -67,7 +72,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("uri")
-  private String uri;
+  public String uri;
 
   /**
   * The station's AS2 domain name.
@@ -75,7 +80,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("domain")
-  private String domain;
+  public String domain;
 
   /**
   * Serial of public certificate used for message security in hex format.
@@ -83,7 +88,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("hex_public_certificate_serial")
-  private String hexPublicCertificateSerial;
+  public String hexPublicCertificateSerial;
 
   /**
   * MD5 hash of public certificate used for message security.
@@ -91,7 +96,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_md5")
-  private String publicCertificateMd5;
+  public String publicCertificateMd5;
 
   /**
   * MD5 hash of private key used for message security.
@@ -99,7 +104,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("private_key_md5")
-  private String privateKeyMd5;
+  public String privateKeyMd5;
 
   /**
   * Subject of public certificate used for message security.
@@ -107,7 +112,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_subject")
-  private String publicCertificateSubject;
+  public String publicCertificateSubject;
 
   /**
   * Issuer of public certificate used for message security.
@@ -115,7 +120,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_issuer")
-  private String publicCertificateIssuer;
+  public String publicCertificateIssuer;
 
   /**
   * Serial of public certificate used for message security.
@@ -123,7 +128,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_serial")
-  private String publicCertificateSerial;
+  public String publicCertificateSerial;
 
   /**
   * Not before value of public certificate used for message security.
@@ -131,7 +136,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_not_before")
-  private String publicCertificateNotBefore;
+  public String publicCertificateNotBefore;
 
   /**
   * Not after value of public certificate used for message security.
@@ -139,7 +144,7 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("public_certificate_not_after")
-  private String publicCertificateNotAfter;
+  public String publicCertificateNotAfter;
 
   /**
   * MD5 hash of private key password used for message security.
@@ -147,28 +152,28 @@ public class As2Station {
   @Getter
   @Setter
   @JsonProperty("private_key_password_md5")
-  private String privateKeyPasswordMd5;
+  public String privateKeyPasswordMd5;
 
   /**
   */
   @Getter
   @Setter
   @JsonProperty("public_certificate")
-  private String publicCertificate;
+  public String publicCertificate;
 
   /**
   */
   @Getter
   @Setter
   @JsonProperty("private_key")
-  private String privateKey;
+  public String privateKey;
 
   /**
   */
   @Getter
   @Setter
   @JsonProperty("private_key_password")
-  private String privateKeyPassword;
+  public String privateKeyPassword;
 
   /**
   * Parameters:

@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Invoice {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Invoice() {
     this(null, null);
@@ -50,98 +55,98 @@ public class Invoice {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Line item amount
   */
   @Getter
   @JsonProperty("amount")
-  private Double amount;
+  public Double amount;
 
   /**
   * Line item balance
   */
   @Getter
   @JsonProperty("balance")
-  private Double balance;
+  public Double balance;
 
   /**
   * Line item created at
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * Line item currency
   */
   @Getter
   @JsonProperty("currency")
-  private String currency;
+  public String currency;
 
   /**
   * Line item download uri
   */
   @Getter
   @JsonProperty("download_uri")
-  private String downloadUri;
+  public String downloadUri;
 
   /**
   * Associated invoice line items
   */
   @Getter
   @JsonProperty("invoice_line_items")
-  private Object[] invoiceLineItems;
+  public Object[] invoiceLineItems;
 
   /**
   * Line item payment method
   */
   @Getter
   @JsonProperty("method")
-  private String method;
+  public String method;
 
   /**
   * Associated payment line items
   */
   @Getter
   @JsonProperty("payment_line_items")
-  private Object[] paymentLineItems;
+  public Object[] paymentLineItems;
 
   /**
   * Date/time payment was reversed if applicable
   */
   @Getter
   @JsonProperty("payment_reversed_at")
-  private Date paymentReversedAt;
+  public Date paymentReversedAt;
 
   /**
   * Type of payment if applicable
   */
   @Getter
   @JsonProperty("payment_type")
-  private String paymentType;
+  public String paymentType;
 
   /**
   * Site name this line item is for
   */
   @Getter
   @JsonProperty("site_name")
-  private String siteName;
+  public String siteName;
 
   /**
   * Type of line item, either payment or invoice
   */
   @Getter
   @JsonProperty("type")
-  private String type;
+  public String type;
 
   /**
   * Line item updated at
   */
   @Getter
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  public Date updatedAt;
 
 
 

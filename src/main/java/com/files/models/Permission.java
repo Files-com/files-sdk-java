@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Permission {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Permission() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -59,7 +64,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * User ID
@@ -67,7 +72,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * User's username
@@ -75,7 +80,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
   /**
   * Group ID
@@ -83,7 +88,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  private Long groupId;
+  public Long groupId;
 
   /**
   * Group name if applicable
@@ -91,7 +96,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("group_name")
-  private String groupName;
+  public String groupName;
 
   /**
   * Permission type
@@ -99,7 +104,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("permission")
-  private String permission;
+  public String permission;
 
   /**
   * Does this permission apply to subfolders?
@@ -107,7 +112,7 @@ public class Permission {
   @Getter
   @Setter
   @JsonProperty("recursive")
-  private Boolean recursive;
+  public Boolean recursive;
 
   /**
   */

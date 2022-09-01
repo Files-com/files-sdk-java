@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class Request {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public Request() {
     this(null, null);
@@ -51,7 +56,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -59,7 +64,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Source filename, if applicable
@@ -67,7 +72,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("source")
-  private String source;
+  public String source;
 
   /**
   * Destination filename
@@ -75,7 +80,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("destination")
-  private String destination;
+  public String destination;
 
   /**
   * ID of automation that created request
@@ -83,7 +88,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("automation_id")
-  private String automationId;
+  public String automationId;
 
   /**
   * User making the request (if applicable)
@@ -91,7 +96,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("user_display_name")
-  private String userDisplayName;
+  public String userDisplayName;
 
   /**
   * A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
@@ -99,7 +104,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  private String userIds;
+  public String userIds;
 
   /**
   * A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
@@ -107,7 +112,7 @@ public class Request {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  private String groupIds;
+  public String groupIds;
 
   /**
   */

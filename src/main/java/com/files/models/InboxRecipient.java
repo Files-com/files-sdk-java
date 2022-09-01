@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class InboxRecipient {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public InboxRecipient() {
     this(null, null);
@@ -51,7 +56,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("company")
-  private String company;
+  public String company;
 
   /**
   * The recipient's name.
@@ -59,7 +64,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("name")
-  private String name;
+  public String name;
 
   /**
   * A note sent to the recipient with the inbox.
@@ -67,7 +72,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("note")
-  private String note;
+  public String note;
 
   /**
   * The recipient's email address.
@@ -75,7 +80,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("recipient")
-  private String recipient;
+  public String recipient;
 
   /**
   * When the Inbox was shared with this recipient.
@@ -83,7 +88,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("sent_at")
-  private Date sentAt;
+  public Date sentAt;
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
@@ -91,7 +96,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Inbox to share.
@@ -99,7 +104,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("inbox_id")
-  private Long inboxId;
+  public Long inboxId;
 
   /**
   * Set to true to share the link with the recipient upon creation.
@@ -107,7 +112,7 @@ public class InboxRecipient {
   @Getter
   @Setter
   @JsonProperty("share_after_create")
-  private Boolean shareAfterCreate;
+  public Boolean shareAfterCreate;
 
 
   public void save() throws IOException {

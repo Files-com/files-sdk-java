@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class As2OutgoingMessage {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public As2OutgoingMessage() {
     this(null, null);
@@ -50,217 +55,217 @@ public class As2OutgoingMessage {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Id of the AS2 Partner associated with this message.
   */
   @Getter
   @JsonProperty("as2_partner_id")
-  private Long as2PartnerId;
+  public Long as2PartnerId;
 
   /**
   * Id of the AS2 Station associated with this message.
   */
   @Getter
   @JsonProperty("as2_station_id")
-  private Long as2StationId;
+  public Long as2StationId;
 
   /**
   * UUID assigned to this message.
   */
   @Getter
   @JsonProperty("uuid")
-  private String uuid;
+  public String uuid;
 
   /**
   * HTTP Headers sent with this message.
   */
   @Getter
   @JsonProperty("http_headers")
-  private Map<String, String> httpHeaders;
+  public Map<String, String> httpHeaders;
 
   /**
   * JSON Structure of the activity log.
   */
   @Getter
   @JsonProperty("activity_log")
-  private String activityLog;
+  public String activityLog;
 
   /**
   * Result of processing.
   */
   @Getter
   @JsonProperty("processing_result")
-  private String processingResult;
+  public String processingResult;
 
   /**
   * Result of processing description.
   */
   @Getter
   @JsonProperty("processing_result_description")
-  private String processingResultDescription;
+  public String processingResultDescription;
 
   /**
   * AS2 Message Integrity Check SHA1
   */
   @Getter
   @JsonProperty("mic")
-  private String mic;
+  public String mic;
 
   /**
   * AS2 Message Integrity Check SHA256
   */
   @Getter
   @JsonProperty("mic_sha_256")
-  private String micSha256;
+  public String micSha256;
 
   /**
   * AS2 TO
   */
   @Getter
   @JsonProperty("as2_to")
-  private String as2To;
+  public String as2To;
 
   /**
   * AS2 FROM
   */
   @Getter
   @JsonProperty("as2_from")
-  private String as2From;
+  public String as2From;
 
   /**
   * Date Header
   */
   @Getter
   @JsonProperty("date")
-  private String date;
+  public String date;
 
   /**
   * AS2 Message Id
   */
   @Getter
   @JsonProperty("message_id")
-  private String messageId;
+  public String messageId;
 
   /**
   * Encrypted Payload Body Size
   */
   @Getter
   @JsonProperty("body_size")
-  private String bodySize;
+  public String bodySize;
 
   /**
   * Filename of the file being sent.
   */
   @Getter
   @JsonProperty("attachment_filename")
-  private String attachmentFilename;
+  public String attachmentFilename;
 
   /**
   * Message creation date/time
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * HTTP Response Code received for this message
   */
   @Getter
   @JsonProperty("http_response_code")
-  private String httpResponseCode;
+  public String httpResponseCode;
 
   /**
   * HTTP Headers received for this message.
   */
   @Getter
   @JsonProperty("http_response_headers")
-  private Map<String, String> httpResponseHeaders;
+  public Map<String, String> httpResponseHeaders;
 
   /**
   * HTTP transmission duration in seceonds
   */
   @Getter
   @JsonProperty("http_transmission_duration")
-  private Double httpTransmissionDuration;
+  public Double httpTransmissionDuration;
 
   /**
   * Did the partner give a response body?
   */
   @Getter
   @JsonProperty("mdn_received")
-  private Boolean mdnReceived;
+  public Boolean mdnReceived;
 
   /**
   * Is the response in MDN format?
   */
   @Getter
   @JsonProperty("mdn_valid")
-  private Boolean mdnValid;
+  public Boolean mdnValid;
 
   /**
   * MDN signature verified?
   */
   @Getter
   @JsonProperty("mdn_signature_verified")
-  private Boolean mdnSignatureVerified;
+  public Boolean mdnSignatureVerified;
 
   /**
   * MDN message id matched?
   */
   @Getter
   @JsonProperty("mdn_message_id_matched")
-  private Boolean mdnMessageIdMatched;
+  public Boolean mdnMessageIdMatched;
 
   /**
   * MDN MIC matched?
   */
   @Getter
   @JsonProperty("mdn_mic_matched")
-  private Boolean mdnMicMatched;
+  public Boolean mdnMicMatched;
 
   /**
   * MDN disposition indicate a successful processing?
   */
   @Getter
   @JsonProperty("mdn_processing_success")
-  private Boolean mdnProcessingSuccess;
+  public Boolean mdnProcessingSuccess;
 
   /**
   * URL to download the original file contents
   */
   @Getter
   @JsonProperty("raw_uri")
-  private String rawUri;
+  public String rawUri;
 
   /**
   * URL to download the file contents encoded as smime
   */
   @Getter
   @JsonProperty("smime_uri")
-  private String smimeUri;
+  public String smimeUri;
 
   /**
   * URL to download the file contents as smime with signature
   */
   @Getter
   @JsonProperty("smime_signed_uri")
-  private String smimeSignedUri;
+  public String smimeSignedUri;
 
   /**
   * URL to download the encrypted signed smime that is to sent as AS2 body
   */
   @Getter
   @JsonProperty("encrypted_uri")
-  private String encryptedUri;
+  public String encryptedUri;
 
   /**
   * URL to download the http response body
   */
   @Getter
   @JsonProperty("mdn_response_uri")
-  private String mdnResponseUri;
+  public String mdnResponseUri;
 
 
 

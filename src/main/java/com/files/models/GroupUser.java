@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class GroupUser {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public GroupUser() {
     this(null, null);
@@ -51,7 +56,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("group_name")
-  private String groupName;
+  public String groupName;
 
   /**
   * Group ID
@@ -59,7 +64,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("group_id")
-  private Long groupId;
+  public Long groupId;
 
   /**
   * User ID
@@ -67,7 +72,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * Is this user an administrator of this group?
@@ -75,7 +80,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("admin")
-  private Boolean admin;
+  public Boolean admin;
 
   /**
   * A list of usernames for users in this group
@@ -83,7 +88,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("usernames")
-  private Object[] usernames;
+  public Object[] usernames;
 
   /**
   * Group User ID.
@@ -91,7 +96,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Parameters:

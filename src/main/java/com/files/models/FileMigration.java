@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class FileMigration {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public FileMigration() {
     this(null, null);
@@ -50,63 +55,63 @@ public class FileMigration {
   */
   @Getter
   @JsonProperty("id")
-  private Long id;
+  public Long id;
 
   /**
   * Source path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
-  private String path;
+  public String path;
 
   /**
   * Destination path
   */
   @Getter
   @JsonProperty("dest_path")
-  private String destPath;
+  public String destPath;
 
   /**
   * Number of files processed
   */
   @Getter
   @JsonProperty("files_moved")
-  private Long filesMoved;
+  public Long filesMoved;
 
   /**
   * Total number of files to process
   */
   @Getter
   @JsonProperty("files_total")
-  private Long filesTotal;
+  public Long filesTotal;
 
   /**
   * The type of operation
   */
   @Getter
   @JsonProperty("operation")
-  private String operation;
+  public String operation;
 
   /**
   * Region
   */
   @Getter
   @JsonProperty("region")
-  private String region;
+  public String region;
 
   /**
   * Status
   */
   @Getter
   @JsonProperty("status")
-  private String status;
+  public String status;
 
   /**
   * Link to download the log file for this migration.
   */
   @Getter
   @JsonProperty("log_url")
-  private String logUrl;
+  public String logUrl;
 
 
 

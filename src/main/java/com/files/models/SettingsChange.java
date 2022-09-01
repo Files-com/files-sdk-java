@@ -1,10 +1,12 @@
 package com.files.models;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
@@ -25,7 +27,10 @@ import lombok.Setter;
 
 public class SettingsChange {
   private HashMap<String, Object> options;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private ObjectMapper objectMapper = JsonMapper
+    .builder()
+    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+    .build();
 
   public SettingsChange() {
     this(null, null);
@@ -50,35 +55,35 @@ public class SettingsChange {
   */
   @Getter
   @JsonProperty("changes")
-  private Object[] changes;
+  public Object[] changes;
 
   /**
   * The time this change was made
   */
   @Getter
   @JsonProperty("created_at")
-  private Date createdAt;
+  public Date createdAt;
 
   /**
   * The user id responsible for this change
   */
   @Getter
   @JsonProperty("user_id")
-  private Long userId;
+  public Long userId;
 
   /**
   * true if this change was performed by Files.com support.
   */
   @Getter
   @JsonProperty("user_is_files_support")
-  private Boolean userIsFilesSupport;
+  public Boolean userIsFilesSupport;
 
   /**
   * The username of the user responsible for this change
   */
   @Getter
   @JsonProperty("username")
-  private String username;
+  public String username;
 
 
 

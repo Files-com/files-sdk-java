@@ -124,7 +124,7 @@ public class File {
   public Date mtime;
 
   /**
-  * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop<:Cloud syncing to preserve modified at times.
+  * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop :Cloud syncing to preserve modified at times.
   */
   @Getter
   @Setter

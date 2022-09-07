@@ -12,6 +12,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.Util;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -150,12 +151,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
       }
 
       @Override public void writeTo(BufferedSink sink) throws IOException {
+        Source source = null;
         try {
-          inputStream.mark(0);
-          Source source = Okio.source(inputStream);
+          source = Okio.source(inputStream);
           sink.writeAll(source);
         } finally {
-          inputStream.reset();
+          Util.closeQuietly(source);
         }
       }
     };

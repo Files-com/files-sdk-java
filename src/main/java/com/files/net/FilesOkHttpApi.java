@@ -52,7 +52,11 @@ public class FilesOkHttpApi implements FilesApiInterface {
     FormBody.Builder body = new FormBody.Builder();
     if (parameters != null) {
       for (String key : parameters.keySet()) {
-        body.add(key, (String) parameters.get(key));
+        String parameterValue = parameters.get(key) instanceof String != true
+                ? String.valueOf(parameters.get(key))
+                : (String) parameters.get(key);
+
+        body.add(key, parameterValue);
       }
     }
 

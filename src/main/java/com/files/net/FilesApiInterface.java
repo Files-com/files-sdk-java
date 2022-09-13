@@ -18,5 +18,5 @@ public interface FilesApiInterface {
 
   public FilesInputStream getFileInputStream(String url, long start, long end) throws IOException;
 
-  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream) throws IOException;
+  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream, long length) throws IOException;
 }

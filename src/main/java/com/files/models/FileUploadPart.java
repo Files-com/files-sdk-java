@@ -36,7 +36,7 @@ public class FileUploadPart {
     RequestMethods requestMethod;
     requestMethod = RequestMethods.PUT;
     if (httpMethod == "post")  requestMethod = RequestMethods.POST;
-    FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream);
+    FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream, length);
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("action", "end");
     parameters.put("ref", ref);
@@ -49,11 +49,12 @@ public class FileUploadPart {
     if (httpMethod == "post")  requestMethod = RequestMethods.POST;
 
     java.io.File file = new java.io.File(source);
+    long fileLength = file.length();
     FileInputStream fileInputStream = null;
     BufferedInputStream bufferedInputStream = null;
     try {
       bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-      FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, bufferedInputStream);
+      FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, bufferedInputStream, fileLength);
       HashMap<String, Object> parameters = new HashMap<>();
       parameters.put("action", "end");
       parameters.put("ref", ref);

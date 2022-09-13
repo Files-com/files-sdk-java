@@ -98,13 +98,13 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   @Override
-  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream) throws IOException {
+  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream, long length) throws IOException {
     String uri = ModelUtils.forceMandatoryUriEncode(url);
     MediaType type = MediaType.parse("application/octet-stream");
     Request.Builder request = new Request.Builder();
     request.addHeader("Content-type", "application/octet-stream");
     request.url(uri);
-    RequestBody body = create(type, inputStream);
+    RequestBody body = create(type, inputStream, length);
     updateRequestWithHttpMethod(request, body, requestType);
     Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
     return 0;
@@ -133,7 +133,8 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   public static RequestBody create(final MediaType contentType,
-                                   final BufferedInputStream inputStream) {
+                                   final BufferedInputStream inputStream,
+                                   final long length) {
     if (inputStream == null) throw new NullPointerException("inputStream == null");
 
     return new RequestBody() {
@@ -142,22 +143,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
       }
 
       @Override public long contentLength() {
-        try {
-          return inputStream.available();
-        } catch (IOException e) {
-          //a IOException is sent if the input stream has been closed, i.e. no content to read.
-          return 0;
-        }
+        return length;
       }
 
       @Override public void writeTo(BufferedSink sink) throws IOException {
-        Source source = null;
-        try {
-          source = Okio.source(inputStream);
+          Source source = Okio.source(inputStream);
           sink.writeAll(source);
-        } finally {
-          Util.closeQuietly(source);
-        }
       }
     };
   }

@@ -296,6 +296,13 @@ public class Site {
   public String disallowedCountries;
 
   /**
+  * If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+  */
+  @Getter
+  @JsonProperty("disable_files_certificate_generation")
+  public Boolean disableFilesCertificateGeneration;
+
+  /**
   * Are notifications disabled?
   */
   @Getter
@@ -1044,6 +1051,7 @@ public class Site {
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
   *   sftp_insecure_ciphers - boolean - Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled : True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
+  *   disable_files_certificate_generation - boolean - If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
   *   user_lockout - boolean - Will users be locked out after incorrect login attempts?
   *   user_lockout_tries - int64 - Number of login tries within `user_lockout_within` hours before users are locked out
   *   user_lockout_within - int64 - Number of hours for user lockout window
@@ -1276,6 +1284,10 @@ public class Site {
 
     if (parameters.containsKey("sftp_insecure_ciphers") && !(parameters.get("sftp_insecure_ciphers") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: sftp_insecure_ciphers must be of type Boolean parameters[\"sftp_insecure_ciphers\"]");
+    }
+
+    if (parameters.containsKey("disable_files_certificate_generation") && !(parameters.get("disable_files_certificate_generation") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: disable_files_certificate_generation must be of type Boolean parameters[\"disable_files_certificate_generation\"]");
     }
 
     if (parameters.containsKey("user_lockout") && !(parameters.get("user_lockout") instanceof Boolean )) {

@@ -103,6 +103,11 @@ public class FilesConfig {
     return properties.getProperty("sdkVersion", "0.0.1");
   }
 
+  public String getUserAgent() {
+    String defaultUserAgent = String.format("Files.com Java SDK v%s", this.getSdkVersion());
+    return properties.getProperty("userAgent", defaultUserAgent);
+  }
+
   public boolean getUpstreamHttp2Enabled() {
     return boolProperty("upstreamHttp2Enabled", true);
   }

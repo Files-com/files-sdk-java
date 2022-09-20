@@ -16,7 +16,7 @@ public class FilesHttpInterceptor implements Interceptor {
   private FilesConfig filesConfig = FilesConfig.getInstance();
 
   public FilesHttpInterceptor() {
-    this.userAgent = String.format("Files JAVA SDK v%s", filesConfig.getSdkVersion());
+    this.userAgent = filesConfig.getUserAgent();
   }
 
   @Override

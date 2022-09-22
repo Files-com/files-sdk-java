@@ -67,6 +67,14 @@ public class ApiKey {
   public String descriptiveLabel;
 
   /**
+  * User-supplied description of API key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("description")
+  public String description;
+
+  /**
   * Time which API Key was created
   */
   @Getter
@@ -140,6 +148,7 @@ public class ApiKey {
   /**
   * Parameters:
   *   name - string - Internal name for the API Key.  For your use.
+  *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
@@ -310,6 +319,7 @@ public class ApiKey {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   name - string - Internal name for the API Key.  For your use.
+  *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   path - string - Folder path restriction for this api key.
@@ -332,6 +342,10 @@ public class ApiKey {
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
@@ -391,6 +405,7 @@ public class ApiKey {
   /**
   * Parameters:
   *   name - string - Internal name for the API Key.  For your use.
+  *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
@@ -418,6 +433,10 @@ public class ApiKey {
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {

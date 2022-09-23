@@ -569,6 +569,27 @@ public class Site {
   public Long maxPriorPasswords;
 
   /**
+  * A message to show users when they connect via FTP or SFTP.
+  */
+  @Getter
+  @JsonProperty("motd_text")
+  public String motdText;
+
+  /**
+  * Show message to users connecting via FTP
+  */
+  @Getter
+  @JsonProperty("motd_use_for_ftp")
+  public Boolean motdUseForFtp;
+
+  /**
+  * Show message to users connecting via SFTP
+  */
+  @Getter
+  @JsonProperty("motd_use_for_sftp")
+  public Boolean motdUseForSftp;
+
+  /**
   * Next billing amount
   */
   @Getter
@@ -1047,6 +1068,9 @@ public class Site {
   *   welcome_screen - string - Does the welcome screen appear?
   *   office_integration_available - boolean - Allow users to use Office for the web?
   *   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
+  *   motd_text - string - A message to show users when they connect via FTP or SFTP.
+  *   motd_use_for_ftp - boolean - Show message to users connecting via FTP
+  *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
@@ -1268,6 +1292,18 @@ public class Site {
 
     if (parameters.containsKey("pin_all_remote_servers_to_site_region") && !(parameters.get("pin_all_remote_servers_to_site_region") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: pin_all_remote_servers_to_site_region must be of type Boolean parameters[\"pin_all_remote_servers_to_site_region\"]");
+    }
+
+    if (parameters.containsKey("motd_text") && !(parameters.get("motd_text") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: motd_text must be of type String parameters[\"motd_text\"]");
+    }
+
+    if (parameters.containsKey("motd_use_for_ftp") && !(parameters.get("motd_use_for_ftp") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: motd_use_for_ftp must be of type Boolean parameters[\"motd_use_for_ftp\"]");
+    }
+
+    if (parameters.containsKey("motd_use_for_sftp") && !(parameters.get("motd_use_for_sftp") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: motd_use_for_sftp must be of type Boolean parameters[\"motd_use_for_sftp\"]");
     }
 
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double )) {

@@ -14,21 +14,21 @@
   "api_keys_count": 1,
   "authenticate_until": "2000-01-01T01:00:00Z",
   "authentication_method": "password",
-  "avatar_url": "",
+  "avatar_url": "example",
   "billing_permission": true,
   "bypass_site_allowed_ips": true,
   "bypass_inactive_disable": true,
   "created_at": "2000-01-01T01:00:00Z",
   "dav_permission": true,
   "disabled": true,
-  "email": "john.doe@files.com",
+  "email": "example",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": true,
-  "group_ids": "",
+  "group_ids": "example",
   "header_text": "User-specific message.",
   "language": "en",
   "last_login_at": "2000-01-01T01:00:00Z",
-  "last_protocol_cipher": "",
+  "last_protocol_cipher": "example",
   "lockout_expires": "2000-01-01T01:00:00Z",
   "name": "John Doe",
   "company": "ACME Corp.",
@@ -55,7 +55,7 @@
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
   "updated_at": "2000-01-01T01:00:00Z",
-  "user_root": ""
+  "user_root": "example"
 }
 ```
 
@@ -425,8 +425,9 @@ User user = User.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("avatar_delete", true);
-parameters.put("email", "john.doe@files.com");
+parameters.put("email", "example");
 parameters.put("group_id", 1);
+parameters.put("group_ids", "example");
 parameters.put("announcements_read", true);
 parameters.put("allowed_ips", "127.0.0.1");
 parameters.put("attachments_permission", true);
@@ -458,6 +459,7 @@ parameters.put("sso_strategy_id", 1);
 parameters.put("subscribe_to_newsletter", true);
 parameters.put("require_2fa", "always_require");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
+parameters.put("user_root", "example");
 parameters.put("username", "user");
 
 User.Update(parameters);

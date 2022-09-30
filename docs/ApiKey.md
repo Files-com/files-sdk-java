@@ -6,7 +6,7 @@
 {
   "id": 1,
   "descriptive_label": "Site-wide API key for https://site.files.com/ (key ID #1)",
-  "description": "",
+  "description": "example",
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
   "key": "[key]",
@@ -191,6 +191,7 @@ ApiKey apiKey = ApiKey.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "My Main API Key");
+parameters.put("description", "example");
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("permission_set", "full");
 

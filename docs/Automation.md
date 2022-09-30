@@ -11,27 +11,16 @@
   "trigger": "realtime",
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
-  "name": "",
-  "schedule": {
-    "days_of_week": [
-      0,
-      2,
-      4
-    ],
-    "times_of_day": [
-      "6:30",
-      "14:30"
-    ],
-    "time_zone": "Eastern Time (US & Canada)"
-  },
-  "source": "",
+  "name": "example",
+  "schedule": "example",
+  "source": "example",
   "destinations": [
     "destination"
   ],
-  "destination_replace_from": "",
-  "destination_replace_to": "",
-  "description": "",
-  "path": "",
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
+  "description": "example",
+  "path": "example",
   "user_id": 1,
   "user_ids": [
     1,
@@ -213,12 +202,17 @@ Automation automation = Automation.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("source", "source");
-parameters.put("destinations", "[\"folder_a/file_a.txt\", {\"folder_path\":\"folder_b\", \"file_path\":\"file_b.txt\"}, {\"folder_path\":\"folder_c\"}]");
+parameters.put("destinations", ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}]);
+parameters.put("destination_replace_from", "example");
+parameters.put("destination_replace_to", "example");
 parameters.put("interval", "year");
+parameters.put("path", "example");
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
-parameters.put("schedule", "{\"days_of_week\": [ 0, 1, 3 ], \"times_of_day\": [ \"7:30\", \"11:30\" ], \"time_zone\": \"Eastern Time (US & Canada)\"}");
+parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
+parameters.put("description", "example");
 parameters.put("disabled", true);
+parameters.put("name", "example");
 parameters.put("trigger", "realtime");
 parameters.put("trigger_actions", ["create"]);
 parameters.put("value", {"limit":"1"});

@@ -7,9 +7,9 @@
   "id": 1,
   "name": "Example Site NDA for Files.com Use",
   "body": "[Legal body text]",
-  "use_with_users": "",
-  "use_with_bundles": "",
-  "use_with_inboxes": ""
+  "use_with_users": "example",
+  "use_with_bundles": "example",
+  "use_with_inboxes": "example"
 }
 ```
 
@@ -127,6 +127,9 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "Example Site NDA for Files.com Use");
 parameters.put("body", "[Legal body text]");
+parameters.put("use_with_bundles", "example");
+parameters.put("use_with_inboxes", "example");
+parameters.put("use_with_users", "example");
 
 Clickwrap.Update(parameters);
 ```

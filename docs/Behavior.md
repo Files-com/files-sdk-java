@@ -5,13 +5,13 @@
 ```
 {
   "id": 1,
-  "path": "",
-  "attachment_url": "",
+  "path": "example",
+  "attachment_url": "example",
   "behavior": "webhook",
-  "name": "",
-  "description": "",
+  "name": "example",
+  "description": "example",
   "value": {
-    "method": "GET"
+    "key": "example value"
   }
 }
 ```
@@ -193,7 +193,10 @@ Behavior behavior = Behavior.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("value", "{\"method\": \"GET\"}");
+parameters.put("name", "example");
+parameters.put("description", "example");
 parameters.put("behavior", "webhook");
+parameters.put("path", "example");
 parameters.put("attachment_delete", true);
 
 Behavior.Update(parameters);

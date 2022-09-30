@@ -7,9 +7,9 @@
   "id": 1,
   "name": "owners",
   "admin_ids": "1",
-  "notes": "",
+  "notes": "example",
   "user_ids": "1",
-  "usernames": "user"
+  "usernames": "example"
 }
 ```
 
@@ -132,6 +132,7 @@ Group group = Group.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("name", "owners");
+parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
 

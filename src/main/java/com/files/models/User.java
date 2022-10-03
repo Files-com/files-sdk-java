@@ -218,7 +218,7 @@ public class User {
   public String language;
 
   /**
-  * User's last login time
+  * User's most recent login time via any protocol
   */
   @Getter
   @Setter
@@ -226,7 +226,71 @@ public class User {
   public Date lastLoginAt;
 
   /**
-  * The last protocol and cipher used
+  * User's most recent login time via web
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_web_login_at")
+  public Date lastWebLoginAt;
+
+  /**
+  * User's most recent login time via FTP
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_ftp_login_at")
+  public Date lastFtpLoginAt;
+
+  /**
+  * User's most recent login time via SFTP
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_sftp_login_at")
+  public Date lastSftpLoginAt;
+
+  /**
+  * User's most recent login time via WebDAV
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_dav_login_at")
+  public Date lastDavLoginAt;
+
+  /**
+  * User's most recent login time via Desktop app
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_desktop_login_at")
+  public Date lastDesktopLoginAt;
+
+  /**
+  * User's most recent login time via Rest API
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_restapi_login_at")
+  public Date lastRestapiLoginAt;
+
+  /**
+  * User's most recent API use time
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_api_use_at")
+  public Date lastApiUseAt;
+
+  /**
+  * User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_active_at")
+  public Date lastActiveAt;
+
+  /**
+  * The most recent protocol and cipher used
   */
   @Getter
   @Setter
@@ -434,7 +498,7 @@ public class User {
   public String typeOf2fa;
 
   /**
-  * User record last updated at.  Note this may be incremented because of internal or external updates.
+  * User record most recently updated at.  Note this may be incremented because of internal or external updates.
   */
   @Getter
   @JsonProperty("updated_at")

@@ -39,6 +39,20 @@ public class FilesOkHttpApi implements FilesApiInterface {
   public <T> T apiRequestItem(String url, HttpMethods.RequestMethods requestType, TypeReference<T> clazz,
                               HashMap<String, Object> parameters, HashMap<String, Object> options) throws IllegalArgumentException, IOException {
     String response = apiRequest(url, requestType, parameters, options);
+
+    // Fix the issue where timestamps are getting appended twice to file upload
+    // by replacing the response path with the original created path parameter
+    if (requestType.toString().equals("POST")
+            && parameters != null
+            && parameters.get("action").toString().equals("put")
+            && clazz.getType().toString().equals("class com.files.models.FileUploadPart")
+    ) {
+      HashMap<String, Object> responseMap = objectMapper.readValue(response, HashMap.class);
+      responseMap.replace("path", parameters.get("path"));
+
+      return objectMapper.convertValue(responseMap, clazz);
+    }
+
     return objectMapper.readValue(response, clazz);
   }
 

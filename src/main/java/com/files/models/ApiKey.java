@@ -138,6 +138,14 @@ public class ApiKey {
   public String platform;
 
   /**
+  * URL for API host.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("url")
+  public String url;
+
+  /**
   * User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
   */
   @Getter

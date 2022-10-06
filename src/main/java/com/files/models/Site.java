@@ -758,6 +758,20 @@ public class Site {
   public Boolean sftpEnabled;
 
   /**
+  * Sftp Host Key Type
+  */
+  @Getter
+  @JsonProperty("sftp_host_key_type")
+  public String sftpHostKeyType;
+
+  /**
+  * Id of the currently selected custom SFTP Host Key
+  */
+  @Getter
+  @JsonProperty("active_sftp_host_key_id")
+  public Long activeSftpHostKeyId;
+
+  /**
   * Are Insecure Ciphers allowed for SFTP?  Note:  Settting TLS Disabled : True will always allow insecure ciphers for SFTP as well.  Enabling this is insecure.
   */
   @Getter
@@ -1111,6 +1125,8 @@ public class Site {
   *   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
+  *   sftp_host_key_type - string - Sftp Host Key Type
+  *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
@@ -1464,6 +1480,14 @@ public class Site {
 
     if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
+    }
+
+    if (parameters.containsKey("sftp_host_key_type") && !(parameters.get("sftp_host_key_type") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: sftp_host_key_type must be of type String parameters[\"sftp_host_key_type\"]");
+    }
+
+    if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_id must be of type Long parameters[\"active_sftp_host_key_id\"]");
     }
 
     if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map )) {

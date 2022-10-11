@@ -19,9 +19,11 @@
   "skip_company": true,
   "id": 1,
   "created_at": "2000-01-01T01:00:00Z",
+  "dont_separate_submissions_by_folder": true,
   "expires_at": "2000-01-01T01:00:00Z",
   "max_uses": 1,
   "note": "The internal note on the bundle.",
+  "path_template": "{{name}}_{{ip}}",
   "user_id": 1,
   "username": "user",
   "clickwrap_id": 1,
@@ -52,9 +54,11 @@
 * `skip_company` / `skipCompany`  (boolean): BundleRegistrations can be saved without providing company?
 * `id` / `id`  (int64): Bundle ID
 * `created_at` / `createdAt`  (date-time): Bundle created at date/time
+* `dont_separate_submissions_by_folder` / `dontSeparateSubmissionsByFolder`  (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` / `expiresAt`  (date-time): Bundle expiration date/time
 * `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
 * `note` / `note`  (string): Bundle internal note
+* `path_template` / `pathTemplate`  (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `user_id` / `userId`  (int64): Bundle creator user ID
 * `username` / `username`  (string): Bundle creator username
 * `clickwrap_id` / `clickwrapId`  (int64): ID of the clickwrap to use with this bundle.
@@ -130,11 +134,13 @@ Bundle bundle = Bundle.create(
 * `paths` (String[]): Required - A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
+* `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `description` (String): Public description
 * `note` (String): Bundle internal note
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
@@ -188,10 +194,12 @@ Bundle bundle = Bundle.update(
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
 * `description` (String): Public description
+* `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
@@ -259,10 +267,12 @@ parameters.put("form_field_set_id", 1);
 parameters.put("clickwrap_id", 1);
 parameters.put("code", "abc123");
 parameters.put("description", "The public description of the bundle.");
+parameters.put("dont_separate_submissions_by_folder", true);
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("inbox_id", 1);
 parameters.put("max_uses", 1);
 parameters.put("note", "The internal note on the bundle.");
+parameters.put("path_template", "{{name}}_{{ip}}");
 parameters.put("permissions", "read");
 parameters.put("preview_only", true);
 parameters.put("require_registration", true);
@@ -284,10 +294,12 @@ Bundle.Update(parameters);
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
 * `description` (String): Public description
+* `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?

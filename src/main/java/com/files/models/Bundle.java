@@ -170,6 +170,14 @@ public class Bundle {
   public Date createdAt;
 
   /**
+  * Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("dont_separate_submissions_by_folder")
+  public Boolean dontSeparateSubmissionsByFolder;
+
+  /**
   * Bundle expiration date/time
   */
   @Getter
@@ -192,6 +200,14 @@ public class Bundle {
   @Setter
   @JsonProperty("note")
   public String note;
+
+  /**
+  * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("path_template")
+  public String pathTemplate;
 
   /**
   * Bundle creator user ID
@@ -309,10 +325,12 @@ public class Bundle {
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
   *   description - string - Public description
+  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -472,11 +490,13 @@ public class Bundle {
   *   paths (required) - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
+  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -516,6 +536,10 @@ public class Bundle {
       throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
 
+    if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
+    }
+
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
@@ -534,6 +558,10 @@ public class Bundle {
 
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
+    }
+
+    if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
     }
 
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {
@@ -644,10 +672,12 @@ public class Bundle {
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
   *   description - string - Public description
+  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -704,6 +734,10 @@ public class Bundle {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
+    if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
+    }
+
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
@@ -718,6 +752,10 @@ public class Bundle {
 
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
+    }
+
+    if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
     }
 
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {

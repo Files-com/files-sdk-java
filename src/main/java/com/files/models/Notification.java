@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -281,7 +283,7 @@ public class Notification {
   *   path - string - Show notifications for this Path.
   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
   */
-  public static List<Notification> list() throws IOException{
+  public static List<Notification> list() throws IOException {
     return list(null,null);
   }
   public static List<Notification> list( HashMap<String, Object> parameters) throws IOException {
@@ -293,59 +295,51 @@ public class Notification {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("include_ancestors") && !(parameters.get("include_ancestors") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: include_ancestors must be of type Boolean parameters[\"include_ancestors\"]");
     }
 
+
+
     String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -362,7 +356,7 @@ public class Notification {
   * Parameters:
   *   id (required) - int64 - Notification ID.
   */
-  public static List<Notification> find() throws IOException{
+  public static List<Notification> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Notification> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -377,17 +371,31 @@ public class Notification {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/notifications/%s", urlParts);
+
     TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -420,7 +428,7 @@ public class Notification {
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
   */
-  public static Notification create() throws IOException{
+  public static Notification create() throws IOException {
     return create(null,null);
   }
   public static Notification create( HashMap<String, Object> parameters) throws IOException {
@@ -432,75 +440,63 @@ public class Notification {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("notify_on_copy") && !(parameters.get("notify_on_copy") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
     }
-
     if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
     }
-
     if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
     }
-
     if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
     }
-
     if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
     }
-
     if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
     }
-
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
-
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
     }
-
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
-
     if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
     }
-
     if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
     }
-
     if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
     }
-
     if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
     }
-
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
 
+
+
     String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -522,7 +518,7 @@ public class Notification {
   *   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
-  public static Notification update() throws IOException{
+  public static Notification update() throws IOException {
     return update(null, null,null);
   }
   public static Notification update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -537,69 +533,70 @@ public class Notification {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("notify_on_copy") && !(parameters.get("notify_on_copy") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
     }
-
     if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
     }
-
     if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
     }
-
     if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
     }
-
     if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
     }
-
     if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
     }
-
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
-
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
     }
-
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
-
     if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
     }
-
     if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
     }
-
     if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[] )) {
       throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
     }
-
     if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/notifications/%s", urlParts);
+
     TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -607,7 +604,7 @@ public class Notification {
 
   /**
   */
-  public static Notification delete() throws IOException{
+  public static Notification delete() throws IOException {
     return delete(null, null,null);
   }
   public static Notification delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -622,17 +619,31 @@ public class Notification {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/notifications/%s", urlParts);
+
     TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

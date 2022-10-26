@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -377,7 +379,7 @@ public class Bundle {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `created_at`.
   */
-  public static List<Bundle> list() throws IOException{
+  public static List<Bundle> list() throws IOException {
     return list(null,null);
   }
   public static List<Bundle> list( HashMap<String, Object> parameters) throws IOException {
@@ -389,47 +391,42 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
+
+
     String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -446,7 +443,7 @@ public class Bundle {
   * Parameters:
   *   id (required) - int64 - Bundle ID.
   */
-  public static List<Bundle> find() throws IOException{
+  public static List<Bundle> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Bundle> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -461,17 +458,31 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/bundles/%s", urlParts);
+
     TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -508,7 +519,7 @@ public class Bundle {
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle create() throws IOException{
+  public static Bundle create() throws IOException {
     return create(null,null);
   }
   public static Bundle create( HashMap<String, Object> parameters) throws IOException {
@@ -520,86 +531,67 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
     }
-
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
     }
-
     if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
-
     if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
     }
-
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-
     if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long parameters[\"max_uses\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
     }
-
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
     }
-
     if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
     }
-
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
     }
-
     if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
-
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
     }
-
     if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long parameters[\"clickwrap_id\"]");
     }
-
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
-
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
     }
-
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
     }
-
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
     }
-
     if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
     }
-
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
@@ -607,7 +599,10 @@ public class Bundle {
     if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
       throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
     }
+
+
     String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -621,7 +616,7 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public static Bundle share() throws IOException{
+  public static Bundle share() throws IOException {
     return share(null, null,null);
   }
   public static Bundle share(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -636,29 +631,40 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("to") && !(parameters.get("to") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: to must be of type String[] parameters[\"to\"]");
     }
-
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
     }
-
     if (parameters.containsKey("recipients") && !(parameters.get("recipients") instanceof Object[] )) {
       throw new IllegalArgumentException("Bad parameter: recipients must be of type Object[] parameters[\"recipients\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/bundles/%s/share", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/bundles/%s/share", urlParts);
+
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -688,7 +694,7 @@ public class Bundle {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle update() throws IOException{
+  public static Bundle update() throws IOException {
     return update(null, null,null);
   }
   public static Bundle update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -703,101 +709,94 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
     }
-
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
     }
-
     if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
-
     if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long parameters[\"clickwrap_id\"]");
     }
-
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
     }
-
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
-
     if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long parameters[\"max_uses\"]");
     }
-
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
     }
-
     if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
     }
-
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
     }
-
     if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
-
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
     }
-
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
     }
-
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
     }
-
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
     }
-
     if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
     }
-
     if (parameters.containsKey("watermark_attachment_delete") && !(parameters.get("watermark_attachment_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_delete must be of type Boolean parameters[\"watermark_attachment_delete\"]");
     }
-
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/bundles/%s", urlParts);
+
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -805,7 +804,7 @@ public class Bundle {
 
   /**
   */
-  public static Bundle delete() throws IOException{
+  public static Bundle delete() throws IOException {
     return delete(null, null,null);
   }
   public static Bundle delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -820,17 +819,31 @@ public class Bundle {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/bundles/%s", urlParts);
+
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

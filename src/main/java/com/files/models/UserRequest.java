@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +100,7 @@ public class UserRequest {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static List<UserRequest> list() throws IOException{
+  public static List<UserRequest> list() throws IOException {
     return list(null,null);
   }
   public static List<UserRequest> list( HashMap<String, Object> parameters) throws IOException {
@@ -110,15 +112,18 @@ public class UserRequest {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
+
+
     String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -135,7 +140,7 @@ public class UserRequest {
   * Parameters:
   *   id (required) - int64 - User Request ID.
   */
-  public static List<UserRequest> find() throws IOException{
+  public static List<UserRequest> find() throws IOException {
     return find(null, null,null);
   }
   public static List<UserRequest> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -150,17 +155,31 @@ public class UserRequest {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/user_requests/%s", urlParts);
+
     TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -179,7 +198,7 @@ public class UserRequest {
   *   email (required) - string - Email of user requested
   *   details (required) - string - Details of the user request
   */
-  public static UserRequest create() throws IOException{
+  public static UserRequest create() throws IOException {
     return create(null,null);
   }
   public static UserRequest create( HashMap<String, Object> parameters) throws IOException {
@@ -191,14 +210,13 @@ public class UserRequest {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("email") && !(parameters.get("email") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
     }
-
     if (parameters.containsKey("details") && !(parameters.get("details") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: details must be of type String parameters[\"details\"]");
     }
@@ -212,7 +230,10 @@ public class UserRequest {
     if (!parameters.containsKey("details") || parameters.get("details") == null) {
       throw new NullPointerException("Parameter missing: details parameters[\"details\"]");
     }
+
+
     String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -220,7 +241,7 @@ public class UserRequest {
 
   /**
   */
-  public static UserRequest delete() throws IOException{
+  public static UserRequest delete() throws IOException {
     return delete(null, null,null);
   }
   public static UserRequest delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -235,17 +256,31 @@ public class UserRequest {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/user_requests/%s", urlParts);
+
     TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

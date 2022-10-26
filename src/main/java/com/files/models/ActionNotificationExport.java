@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -176,7 +178,7 @@ public class ActionNotificationExport {
   * Parameters:
   *   id (required) - int64 - Action Notification Export ID.
   */
-  public static List<ActionNotificationExport> find() throws IOException{
+  public static List<ActionNotificationExport> find() throws IOException {
     return find(null, null,null);
   }
   public static List<ActionNotificationExport> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -191,17 +193,31 @@ public class ActionNotificationExport {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/action_notification_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/action_notification_exports/%s", urlParts);
+
     TypeReference<List<ActionNotificationExport>> typeReference = new TypeReference<List<ActionNotificationExport>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -227,7 +243,7 @@ public class ActionNotificationExport {
   *   query_path - string - Return notifications that were triggered by actions on this specific path.
   *   query_folder - string - Return notifications that were triggered by actions in this folder.
   */
-  public static ActionNotificationExport create() throws IOException{
+  public static ActionNotificationExport create() throws IOException {
     return create(null,null);
   }
   public static ActionNotificationExport create( HashMap<String, Object> parameters) throws IOException {
@@ -239,47 +255,42 @@ public class ActionNotificationExport {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-
     if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-
     if (parameters.containsKey("query_message") && !(parameters.get("query_message") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_message must be of type String parameters[\"query_message\"]");
     }
-
     if (parameters.containsKey("query_request_method") && !(parameters.get("query_request_method") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_request_method must be of type String parameters[\"query_request_method\"]");
     }
-
     if (parameters.containsKey("query_request_url") && !(parameters.get("query_request_url") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_request_url must be of type String parameters[\"query_request_url\"]");
     }
-
     if (parameters.containsKey("query_status") && !(parameters.get("query_status") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_status must be of type String parameters[\"query_status\"]");
     }
-
     if (parameters.containsKey("query_success") && !(parameters.get("query_success") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: query_success must be of type Boolean parameters[\"query_success\"]");
     }
-
     if (parameters.containsKey("query_path") && !(parameters.get("query_path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_path must be of type String parameters[\"query_path\"]");
     }
-
     if (parameters.containsKey("query_folder") && !(parameters.get("query_folder") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_folder must be of type String parameters[\"query_folder\"]");
     }
 
+
+
     String url = String.format("%s%s/action_notification_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

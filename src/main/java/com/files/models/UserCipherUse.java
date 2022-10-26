@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +102,7 @@ public class UserCipherUse {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static List<UserCipherUse> list() throws IOException{
+  public static List<UserCipherUse> list() throws IOException {
     return list(null,null);
   }
   public static List<UserCipherUse> list( HashMap<String, Object> parameters) throws IOException {
@@ -112,19 +114,21 @@ public class UserCipherUse {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
+
+
     String url = String.format("%s%s/user_cipher_uses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<UserCipherUse>> typeReference = new TypeReference<List<UserCipherUse>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }

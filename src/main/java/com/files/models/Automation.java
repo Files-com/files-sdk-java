@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -283,7 +285,7 @@ public class Automation {
   *   with_deleted - boolean - Set to true to include deleted automations in the results.
   *   automation - string - DEPRECATED: Type of automation to filter by. Use `filter[automation]` instead.
   */
-  public static List<Automation> list() throws IOException{
+  public static List<Automation> list() throws IOException {
     return list(null,null);
   }
   public static List<Automation> list( HashMap<String, Object> parameters) throws IOException {
@@ -295,51 +297,45 @@ public class Automation {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
     if (parameters.containsKey("with_deleted") && !(parameters.get("with_deleted") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_deleted must be of type Boolean parameters[\"with_deleted\"]");
     }
-
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
 
+
+
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -356,7 +352,7 @@ public class Automation {
   * Parameters:
   *   id (required) - int64 - Automation ID.
   */
-  public static List<Automation> find() throws IOException{
+  public static List<Automation> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Automation> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -371,17 +367,31 @@ public class Automation {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/automations/%s", urlParts);
+
     TypeReference<List<Automation>> typeReference = new TypeReference<List<Automation>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -414,7 +424,7 @@ public class Automation {
   *   value - object - A Hash of attributes specific to the automation type.
   *   automation (required) - string - Automation type
   */
-  public static Automation create() throws IOException{
+  public static Automation create() throws IOException {
     return create(null,null);
   }
   public static Automation create( HashMap<String, Object> parameters) throws IOException {
@@ -426,70 +436,55 @@ public class Automation {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
-
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
-
     if (parameters.containsKey("destinations") && !(parameters.get("destinations") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: destinations must be of type String[] parameters[\"destinations\"]");
     }
-
     if (parameters.containsKey("destination_replace_from") && !(parameters.get("destination_replace_from") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination_replace_from must be of type String parameters[\"destination_replace_from\"]");
     }
-
     if (parameters.containsKey("destination_replace_to") && !(parameters.get("destination_replace_to") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination_replace_to must be of type String parameters[\"destination_replace_to\"]");
     }
-
     if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
     }
-
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
-
     if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
-
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
-
     if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
     }
-
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
-
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
@@ -497,7 +492,10 @@ public class Automation {
     if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
       throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
     }
+
+
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -523,7 +521,7 @@ public class Automation {
   *   value - object - A Hash of attributes specific to the automation type.
   *   automation - string - Automation type
   */
-  public static Automation update() throws IOException{
+  public static Automation update() throws IOException {
     return update(null, null,null);
   }
   public static Automation update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -538,85 +536,82 @@ public class Automation {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
-
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
-
     if (parameters.containsKey("destinations") && !(parameters.get("destinations") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: destinations must be of type String[] parameters[\"destinations\"]");
     }
-
     if (parameters.containsKey("destination_replace_from") && !(parameters.get("destination_replace_from") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination_replace_from must be of type String parameters[\"destination_replace_from\"]");
     }
-
     if (parameters.containsKey("destination_replace_to") && !(parameters.get("destination_replace_to") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination_replace_to must be of type String parameters[\"destination_replace_to\"]");
     }
-
     if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
     }
-
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
-
     if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
-
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
-
     if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[] )) {
       throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
     }
-
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
-
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/automations/%s", urlParts);
+
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -624,7 +619,7 @@ public class Automation {
 
   /**
   */
-  public static Automation delete() throws IOException{
+  public static Automation delete() throws IOException {
     return delete(null, null,null);
   }
   public static Automation delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -639,17 +634,31 @@ public class Automation {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/automations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/automations/%s", urlParts);
+
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

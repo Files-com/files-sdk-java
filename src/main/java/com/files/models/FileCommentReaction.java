@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +109,7 @@ public class FileCommentReaction {
   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static FileCommentReaction create() throws IOException{
+  public static FileCommentReaction create() throws IOException {
     return create(null,null);
   }
   public static FileCommentReaction create( HashMap<String, Object> parameters) throws IOException {
@@ -119,14 +121,13 @@ public class FileCommentReaction {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: file_comment_id must be of type Long parameters[\"file_comment_id\"]");
     }
-
     if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: emoji must be of type String parameters[\"emoji\"]");
     }
@@ -137,7 +138,10 @@ public class FileCommentReaction {
     if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
       throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
     }
+
+
     String url = String.format("%s%s/file_comment_reactions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<FileCommentReaction> typeReference = new TypeReference<FileCommentReaction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -145,7 +149,7 @@ public class FileCommentReaction {
 
   /**
   */
-  public static FileCommentReaction delete() throws IOException{
+  public static FileCommentReaction delete() throws IOException {
     return delete(null, null,null);
   }
   public static FileCommentReaction delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -160,17 +164,31 @@ public class FileCommentReaction {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/file_comment_reactions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/file_comment_reactions/%s", urlParts);
+
     TypeReference<FileCommentReaction> typeReference = new TypeReference<FileCommentReaction>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -168,7 +170,7 @@ public class Behavior {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `behavior`.
   *   behavior - string - If set, only shows folder behaviors matching this behavior type.
   */
-  public static List<Behavior> list() throws IOException{
+  public static List<Behavior> list() throws IOException {
     return list(null,null);
   }
   public static List<Behavior> list( HashMap<String, Object> parameters) throws IOException {
@@ -180,47 +182,42 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
     }
 
+
+
     String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -237,7 +234,7 @@ public class Behavior {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
-  public static List<Behavior> find() throws IOException{
+  public static List<Behavior> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Behavior> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -252,17 +249,31 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/behaviors/%s", urlParts);
+
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -290,7 +301,7 @@ public class Behavior {
   *   recursive - string - Show behaviors above this path?
   *   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
   */
-  public static List<Behavior> listFor() throws IOException{
+  public static List<Behavior> listFor() throws IOException {
     return listFor(null, null,null);
   }
   public static List<Behavior> listFor(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -305,61 +316,64 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
+
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (!(path instanceof String) ) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type String parameters[\"recursive\"]");
     }
-
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/behaviors/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/behaviors/folders/%s", urlParts);
+
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -374,7 +388,7 @@ public class Behavior {
   *   path (required) - string - Folder behaviors path.
   *   behavior (required) - string - Behavior type.
   */
-  public static Behavior create() throws IOException{
+  public static Behavior create() throws IOException {
     return create(null,null);
   }
   public static Behavior create( HashMap<String, Object> parameters) throws IOException {
@@ -386,26 +400,22 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
     }
-
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
     }
-
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
     }
@@ -416,7 +426,10 @@ public class Behavior {
     if (!parameters.containsKey("behavior") || parameters.get("behavior") == null) {
       throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
     }
+
+
     String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -431,7 +444,7 @@ public class Behavior {
   *   body - object - Additional body parameters.
   *   action - string - action for test body
   */
-  public static Behavior webhookTest() throws IOException{
+  public static Behavior webhookTest() throws IOException {
     return webhookTest(null,null);
   }
   public static Behavior webhookTest( HashMap<String, Object> parameters) throws IOException {
@@ -443,26 +456,22 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("url") && !(parameters.get("url") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
     }
-
     if (parameters.containsKey("method") && !(parameters.get("method") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: method must be of type String parameters[\"method\"]");
     }
-
     if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
     }
-
     if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: headers must be of type Map<String, String> parameters[\"headers\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
     }
-
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
@@ -470,7 +479,10 @@ public class Behavior {
     if (!parameters.containsKey("url") || parameters.get("url") == null) {
       throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
     }
+
+
     String url = String.format("%s%s/behaviors/webhook/test", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -486,7 +498,7 @@ public class Behavior {
   *   path - string - Folder behaviors path.
   *   attachment_delete - boolean - If true, will delete the file stored in attachment
   */
-  public static Behavior update() throws IOException{
+  public static Behavior update() throws IOException {
     return update(null, null,null);
   }
   public static Behavior update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -501,45 +513,52 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
     }
-
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
     }
-
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("attachment_delete") && !(parameters.get("attachment_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: attachment_delete must be of type Boolean parameters[\"attachment_delete\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/behaviors/%s", urlParts);
+
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -547,7 +566,7 @@ public class Behavior {
 
   /**
   */
-  public static Behavior delete() throws IOException{
+  public static Behavior delete() throws IOException {
     return delete(null, null,null);
   }
   public static Behavior delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -562,17 +581,31 @@ public class Behavior {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/behaviors/%s", urlParts);
+
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

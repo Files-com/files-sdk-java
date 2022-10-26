@@ -7,12 +7,7 @@ import com.files.FilesClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.internal.Util;
+import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
@@ -63,7 +58,25 @@ public class FilesOkHttpApi implements FilesApiInterface {
           parameters, options));
     }
     Request.Builder request = new Request.Builder();
-    request.url(url);
+
+    switch(requestType) {
+      case GET:
+      case HEAD:
+      case DELETE:
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(url).newBuilder();
+
+        if (parameters != null) {
+          parameters.forEach((key, value) -> {
+            httpBuilder.addQueryParameter(key, value.toString());
+          });
+        }
+        request.url(httpBuilder.build().url());
+      break;
+      default:
+        request.url(url);
+      break;
+    }
+
     FormBody.Builder body = new FormBody.Builder();
     if (parameters != null) {
       for (String key : parameters.keySet()) {

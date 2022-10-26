@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +161,7 @@ public class ExternalEvent {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type`, `status` or `folder_behavior_id`. Valid field combinations are `[ event_type, status, created_at ]`, `[ event_type, created_at ]` or `[ status, created_at ]`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `created_at`, `event_type`, `remote_server_type`, `status` or `folder_behavior_id`. Valid field combinations are `[ event_type, status, created_at ]`, `[ event_type, created_at ]` or `[ status, created_at ]`.
   */
-  public static List<ExternalEvent> list() throws IOException{
+  public static List<ExternalEvent> list() throws IOException {
     return list(null,null);
   }
   public static List<ExternalEvent> list( HashMap<String, Object> parameters) throws IOException {
@@ -171,43 +173,39 @@ public class ExternalEvent {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
+
+
     String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -224,7 +222,7 @@ public class ExternalEvent {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
-  public static List<ExternalEvent> find() throws IOException{
+  public static List<ExternalEvent> find() throws IOException {
     return find(null, null,null);
   }
   public static List<ExternalEvent> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -239,17 +237,31 @@ public class ExternalEvent {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/external_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/external_events/%s", urlParts);
+
     TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -267,7 +279,7 @@ public class ExternalEvent {
   *   status (required) - string - Status of event.
   *   body (required) - string - Event body
   */
-  public static ExternalEvent create() throws IOException{
+  public static ExternalEvent create() throws IOException {
     return create(null,null);
   }
   public static ExternalEvent create( HashMap<String, Object> parameters) throws IOException {
@@ -279,10 +291,10 @@ public class ExternalEvent {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("status") && !(parameters.get("status") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
@@ -293,7 +305,10 @@ public class ExternalEvent {
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
+
+
     String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

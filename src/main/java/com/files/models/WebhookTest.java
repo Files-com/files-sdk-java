@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -184,7 +186,7 @@ public class WebhookTest {
   *   file_form_field - string - Send the file data as a named parameter in the request POST body
   *   action - string - action for test body
   */
-  public static WebhookTest create() throws IOException{
+  public static WebhookTest create() throws IOException {
     return create(null,null);
   }
   public static WebhookTest create( HashMap<String, Object> parameters) throws IOException {
@@ -196,38 +198,31 @@ public class WebhookTest {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("url") && !(parameters.get("url") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
     }
-
     if (parameters.containsKey("method") && !(parameters.get("method") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: method must be of type String parameters[\"method\"]");
     }
-
     if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
     }
-
     if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: headers must be of type Map<String, String> parameters[\"headers\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
     }
-
     if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");
     }
-
     if (parameters.containsKey("file_as_body") && !(parameters.get("file_as_body") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: file_as_body must be of type Boolean parameters[\"file_as_body\"]");
     }
-
     if (parameters.containsKey("file_form_field") && !(parameters.get("file_form_field") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: file_form_field must be of type String parameters[\"file_form_field\"]");
     }
-
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
@@ -235,7 +230,10 @@ public class WebhookTest {
     if (!parameters.containsKey("url") || parameters.get("url") == null) {
       throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
     }
+
+
     String url = String.format("%s%s/webhook_tests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<WebhookTest> typeReference = new TypeReference<WebhookTest>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

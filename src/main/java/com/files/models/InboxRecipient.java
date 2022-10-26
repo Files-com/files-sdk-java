@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -138,7 +140,7 @@ public class InboxRecipient {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `has_registrations`.
   *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
   */
-  public static List<InboxRecipient> list() throws IOException{
+  public static List<InboxRecipient> list() throws IOException {
     return list(null,null);
   }
   public static List<InboxRecipient> list( HashMap<String, Object> parameters) throws IOException {
@@ -150,46 +152,37 @@ public class InboxRecipient {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
     if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-
     if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
     }
-
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
@@ -197,7 +190,10 @@ public class InboxRecipient {
     if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
       throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
     }
+
+
     String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<InboxRecipient>> typeReference = new TypeReference<List<InboxRecipient>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -220,7 +216,7 @@ public class InboxRecipient {
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
-  public static InboxRecipient create() throws IOException{
+  public static InboxRecipient create() throws IOException {
     return create(null,null);
   }
   public static InboxRecipient create( HashMap<String, Object> parameters) throws IOException {
@@ -232,30 +228,25 @@ public class InboxRecipient {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
-
     if (parameters.containsKey("recipient") && !(parameters.get("recipient") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: recipient must be of type String parameters[\"recipient\"]");
     }
-
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("company") && !(parameters.get("company") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
     }
-
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
     }
-
     if (parameters.containsKey("share_after_create") && !(parameters.get("share_after_create") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: share_after_create must be of type Boolean parameters[\"share_after_create\"]");
     }
@@ -266,7 +257,10 @@ public class InboxRecipient {
     if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
       throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
+
+
     String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<InboxRecipient> typeReference = new TypeReference<InboxRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

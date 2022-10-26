@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -134,7 +136,7 @@ public class Message {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   project_id (required) - int64 - Project for which to return messages.
   */
-  public static List<Message> list() throws IOException{
+  public static List<Message> list() throws IOException {
     return list(null,null);
   }
   public static List<Message> list( HashMap<String, Object> parameters) throws IOException {
@@ -146,18 +148,16 @@ public class Message {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
     }
@@ -165,7 +165,10 @@ public class Message {
     if (!parameters.containsKey("project_id") || parameters.get("project_id") == null) {
       throw new NullPointerException("Parameter missing: project_id parameters[\"project_id\"]");
     }
+
+
     String url = String.format("%s%s/messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -182,7 +185,7 @@ public class Message {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
-  public static List<Message> find() throws IOException{
+  public static List<Message> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Message> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -197,17 +200,31 @@ public class Message {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/messages/%s", urlParts);
+
     TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -227,7 +244,7 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message create() throws IOException{
+  public static Message create() throws IOException {
     return create(null,null);
   }
   public static Message create( HashMap<String, Object> parameters) throws IOException {
@@ -239,18 +256,16 @@ public class Message {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
     }
-
     if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
@@ -264,7 +279,10 @@ public class Message {
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
+
+
     String url = String.format("%s%s/messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Message> typeReference = new TypeReference<Message>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -276,7 +294,7 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message update() throws IOException{
+  public static Message update() throws IOException {
     return update(null, null,null);
   }
   public static Message update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -291,27 +309,26 @@ public class Message {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
     }
-
     if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("project_id") || parameters.get("project_id") == null) {
       throw new NullPointerException("Parameter missing: project_id parameters[\"project_id\"]");
@@ -322,7 +339,19 @@ public class Message {
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
-    String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/messages/%s", urlParts);
+
     TypeReference<Message> typeReference = new TypeReference<Message>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -330,7 +359,7 @@ public class Message {
 
   /**
   */
-  public static Message delete() throws IOException{
+  public static Message delete() throws IOException {
     return delete(null, null,null);
   }
   public static Message delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -345,17 +374,31 @@ public class Message {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/messages/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/messages/%s", urlParts);
+
     TypeReference<Message> typeReference = new TypeReference<Message>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

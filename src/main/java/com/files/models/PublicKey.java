@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +132,7 @@ public class PublicKey {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static List<PublicKey> list() throws IOException{
+  public static List<PublicKey> list() throws IOException {
     return list(null,null);
   }
   public static List<PublicKey> list( HashMap<String, Object> parameters) throws IOException {
@@ -142,19 +144,21 @@ public class PublicKey {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
+
+
     String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -171,7 +175,7 @@ public class PublicKey {
   * Parameters:
   *   id (required) - int64 - Public Key ID.
   */
-  public static List<PublicKey> find() throws IOException{
+  public static List<PublicKey> find() throws IOException {
     return find(null, null,null);
   }
   public static List<PublicKey> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -186,17 +190,31 @@ public class PublicKey {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/public_keys/%s", urlParts);
+
     TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -215,7 +233,7 @@ public class PublicKey {
   *   title (required) - string - Internal reference for key.
   *   public_key (required) - string - Actual contents of SSH key.
   */
-  public static PublicKey create() throws IOException{
+  public static PublicKey create() throws IOException {
     return create(null,null);
   }
   public static PublicKey create( HashMap<String, Object> parameters) throws IOException {
@@ -227,14 +245,13 @@ public class PublicKey {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
     }
-
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
     }
@@ -245,7 +262,10 @@ public class PublicKey {
     if (!parameters.containsKey("public_key") || parameters.get("public_key") == null) {
       throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
     }
+
+
     String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -255,7 +275,7 @@ public class PublicKey {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public static PublicKey update() throws IOException{
+  public static PublicKey update() throws IOException {
     return update(null, null,null);
   }
   public static PublicKey update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -270,24 +290,37 @@ public class PublicKey {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("title") || parameters.get("title") == null) {
       throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
     }
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/public_keys/%s", urlParts);
+
     TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -295,7 +328,7 @@ public class PublicKey {
 
   /**
   */
-  public static PublicKey delete() throws IOException{
+  public static PublicKey delete() throws IOException {
     return delete(null, null,null);
   }
   public static PublicKey delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -310,17 +343,31 @@ public class PublicKey {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/public_keys/%s", urlParts);
+
     TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,7 +133,7 @@ public class Session {
   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
   *   partial_session_id - string - Identifier for a partially-completed login
   */
-  public static Session create() throws IOException{
+  public static Session create() throws IOException {
     return create(null,null);
   }
   public static Session create( HashMap<String, Object> parameters) throws IOException {
@@ -143,23 +145,24 @@ public class Session {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
-
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
     }
-
     if (parameters.containsKey("otp") && !(parameters.get("otp") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: otp must be of type String parameters[\"otp\"]");
     }
-
     if (parameters.containsKey("partial_session_id") && !(parameters.get("partial_session_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: partial_session_id must be of type String parameters[\"partial_session_id\"]");
     }
 
+
+
     String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Session> typeReference = new TypeReference<Session>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -167,7 +170,7 @@ public class Session {
 
   /**
   */
-  public static Session delete() throws IOException{
+  public static Session delete() throws IOException {
     return delete(null,null);
   }
   public static Session delete( HashMap<String, Object> parameters) throws IOException {
@@ -179,7 +182,12 @@ public class Session {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
+
+
+
     String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Session> typeReference = new TypeReference<Session>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +118,7 @@ public class MessageComment {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   message_id (required) - int64 - Message comment to return comments for.
   */
-  public static List<MessageComment> list() throws IOException{
+  public static List<MessageComment> list() throws IOException {
     return list(null,null);
   }
   public static List<MessageComment> list( HashMap<String, Object> parameters) throws IOException {
@@ -128,18 +130,16 @@ public class MessageComment {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: message_id must be of type Long parameters[\"message_id\"]");
     }
@@ -147,7 +147,10 @@ public class MessageComment {
     if (!parameters.containsKey("message_id") || parameters.get("message_id") == null) {
       throw new NullPointerException("Parameter missing: message_id parameters[\"message_id\"]");
     }
+
+
     String url = String.format("%s%s/message_comments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<MessageComment>> typeReference = new TypeReference<List<MessageComment>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -164,7 +167,7 @@ public class MessageComment {
   * Parameters:
   *   id (required) - int64 - Message Comment ID.
   */
-  public static List<MessageComment> find() throws IOException{
+  public static List<MessageComment> find() throws IOException {
     return find(null, null,null);
   }
   public static List<MessageComment> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -179,17 +182,31 @@ public class MessageComment {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/message_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/message_comments/%s", urlParts);
+
     TypeReference<List<MessageComment>> typeReference = new TypeReference<List<MessageComment>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -207,7 +224,7 @@ public class MessageComment {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   body (required) - string - Comment body.
   */
-  public static MessageComment create() throws IOException{
+  public static MessageComment create() throws IOException {
     return create(null,null);
   }
   public static MessageComment create( HashMap<String, Object> parameters) throws IOException {
@@ -219,10 +236,10 @@ public class MessageComment {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
@@ -230,7 +247,10 @@ public class MessageComment {
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
+
+
     String url = String.format("%s%s/message_comments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<MessageComment> typeReference = new TypeReference<MessageComment>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -240,7 +260,7 @@ public class MessageComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public static MessageComment update() throws IOException{
+  public static MessageComment update() throws IOException {
     return update(null, null,null);
   }
   public static MessageComment update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -255,24 +275,37 @@ public class MessageComment {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
-    String url = String.format("%s%s/message_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/message_comments/%s", urlParts);
+
     TypeReference<MessageComment> typeReference = new TypeReference<MessageComment>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -280,7 +313,7 @@ public class MessageComment {
 
   /**
   */
-  public static MessageComment delete() throws IOException{
+  public static MessageComment delete() throws IOException {
     return delete(null, null,null);
   }
   public static MessageComment delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -295,17 +328,31 @@ public class MessageComment {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/message_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/message_comments/%s", urlParts);
+
     TypeReference<MessageComment> typeReference = new TypeReference<MessageComment>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

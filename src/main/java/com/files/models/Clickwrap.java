@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -134,7 +136,7 @@ public class Clickwrap {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static List<Clickwrap> list() throws IOException{
+  public static List<Clickwrap> list() throws IOException {
     return list(null,null);
   }
   public static List<Clickwrap> list( HashMap<String, Object> parameters) throws IOException {
@@ -146,15 +148,18 @@ public class Clickwrap {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
+
+
     String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Clickwrap>> typeReference = new TypeReference<List<Clickwrap>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -171,7 +176,7 @@ public class Clickwrap {
   * Parameters:
   *   id (required) - int64 - Clickwrap ID.
   */
-  public static List<Clickwrap> find() throws IOException{
+  public static List<Clickwrap> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Clickwrap> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -186,17 +191,31 @@ public class Clickwrap {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/clickwraps/%s", urlParts);
+
     TypeReference<List<Clickwrap>> typeReference = new TypeReference<List<Clickwrap>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -217,7 +236,7 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap create() throws IOException{
+  public static Clickwrap create() throws IOException {
     return create(null,null);
   }
   public static Clickwrap create( HashMap<String, Object> parameters) throws IOException {
@@ -229,27 +248,27 @@ public class Clickwrap {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
-
     if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
     }
-
     if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
     }
-
     if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
     }
 
+
+
     String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -263,7 +282,7 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap update() throws IOException{
+  public static Clickwrap update() throws IOException {
     return update(null, null,null);
   }
   public static Clickwrap update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -278,37 +297,46 @@ public class Clickwrap {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
-
     if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
     }
-
     if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
     }
-
     if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/clickwraps/%s", urlParts);
+
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -316,7 +344,7 @@ public class Clickwrap {
 
   /**
   */
-  public static Clickwrap delete() throws IOException{
+  public static Clickwrap delete() throws IOException {
     return delete(null, null,null);
   }
   public static Clickwrap delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -331,17 +359,31 @@ public class Clickwrap {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/clickwraps/%s", urlParts);
+
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

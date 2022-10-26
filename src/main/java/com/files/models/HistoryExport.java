@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -272,7 +274,7 @@ public class HistoryExport {
   * Parameters:
   *   id (required) - int64 - History Export ID.
   */
-  public static List<HistoryExport> find() throws IOException{
+  public static List<HistoryExport> find() throws IOException {
     return find(null, null,null);
   }
   public static List<HistoryExport> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -287,17 +289,31 @@ public class HistoryExport {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/history_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/history_exports/%s", urlParts);
+
     TypeReference<List<HistoryExport>> typeReference = new TypeReference<List<HistoryExport>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -335,7 +351,7 @@ public class HistoryExport {
   *   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
   *   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
   */
-  public static HistoryExport create() throws IOException{
+  public static HistoryExport create() throws IOException {
     return create(null,null);
   }
   public static HistoryExport create( HashMap<String, Object> parameters) throws IOException {
@@ -347,95 +363,78 @@ public class HistoryExport {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-
     if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-
     if (parameters.containsKey("query_action") && !(parameters.get("query_action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_action must be of type String parameters[\"query_action\"]");
     }
-
     if (parameters.containsKey("query_interface") && !(parameters.get("query_interface") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_interface must be of type String parameters[\"query_interface\"]");
     }
-
     if (parameters.containsKey("query_user_id") && !(parameters.get("query_user_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_user_id must be of type String parameters[\"query_user_id\"]");
     }
-
     if (parameters.containsKey("query_file_id") && !(parameters.get("query_file_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_file_id must be of type String parameters[\"query_file_id\"]");
     }
-
     if (parameters.containsKey("query_parent_id") && !(parameters.get("query_parent_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_parent_id must be of type String parameters[\"query_parent_id\"]");
     }
-
     if (parameters.containsKey("query_path") && !(parameters.get("query_path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_path must be of type String parameters[\"query_path\"]");
     }
-
     if (parameters.containsKey("query_folder") && !(parameters.get("query_folder") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_folder must be of type String parameters[\"query_folder\"]");
     }
-
     if (parameters.containsKey("query_src") && !(parameters.get("query_src") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_src must be of type String parameters[\"query_src\"]");
     }
-
     if (parameters.containsKey("query_destination") && !(parameters.get("query_destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_destination must be of type String parameters[\"query_destination\"]");
     }
-
     if (parameters.containsKey("query_ip") && !(parameters.get("query_ip") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_ip must be of type String parameters[\"query_ip\"]");
     }
-
     if (parameters.containsKey("query_username") && !(parameters.get("query_username") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_username must be of type String parameters[\"query_username\"]");
     }
-
     if (parameters.containsKey("query_failure_type") && !(parameters.get("query_failure_type") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_failure_type must be of type String parameters[\"query_failure_type\"]");
     }
-
     if (parameters.containsKey("query_target_id") && !(parameters.get("query_target_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_id must be of type String parameters[\"query_target_id\"]");
     }
-
     if (parameters.containsKey("query_target_name") && !(parameters.get("query_target_name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_name must be of type String parameters[\"query_target_name\"]");
     }
-
     if (parameters.containsKey("query_target_permission") && !(parameters.get("query_target_permission") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_permission must be of type String parameters[\"query_target_permission\"]");
     }
-
     if (parameters.containsKey("query_target_user_id") && !(parameters.get("query_target_user_id") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_user_id must be of type String parameters[\"query_target_user_id\"]");
     }
-
     if (parameters.containsKey("query_target_username") && !(parameters.get("query_target_username") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_username must be of type String parameters[\"query_target_username\"]");
     }
-
     if (parameters.containsKey("query_target_platform") && !(parameters.get("query_target_platform") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_platform must be of type String parameters[\"query_target_platform\"]");
     }
-
     if (parameters.containsKey("query_target_permission_set") && !(parameters.get("query_target_permission_set") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: query_target_permission_set must be of type String parameters[\"query_target_permission_set\"]");
     }
 
+
+
     String url = String.format("%s%s/history_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<HistoryExport> typeReference = new TypeReference<HistoryExport>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

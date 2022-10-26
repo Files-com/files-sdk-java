@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +139,7 @@ public class GroupUser {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   group_id - int64 - Group ID.  If provided, will return group_users of this group.
   */
-  public static List<GroupUser> list() throws IOException{
+  public static List<GroupUser> list() throws IOException {
     return list(null,null);
   }
   public static List<GroupUser> list( HashMap<String, Object> parameters) throws IOException {
@@ -149,23 +151,24 @@ public class GroupUser {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
 
+
+
     String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -184,7 +187,7 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static GroupUser create() throws IOException{
+  public static GroupUser create() throws IOException {
     return create(null,null);
   }
   public static GroupUser create( HashMap<String, Object> parameters) throws IOException {
@@ -196,14 +199,13 @@ public class GroupUser {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
     }
@@ -214,7 +216,10 @@ public class GroupUser {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
+
+
     String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -226,7 +231,7 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static GroupUser update() throws IOException{
+  public static GroupUser update() throws IOException {
     return update(null, null,null);
   }
   public static GroupUser update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -241,27 +246,26 @@ public class GroupUser {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
       throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
@@ -269,7 +273,19 @@ public class GroupUser {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
-    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/group_users/%s", urlParts);
+
     TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -280,7 +296,7 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public static GroupUser delete() throws IOException{
+  public static GroupUser delete() throws IOException {
     return delete(null, null,null);
   }
   public static GroupUser delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -295,23 +311,23 @@ public class GroupUser {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
       throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
@@ -319,7 +335,19 @@ public class GroupUser {
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
-    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/group_users/%s", urlParts);
+
     TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

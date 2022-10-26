@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -379,7 +381,7 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static File download() throws IOException{
+  public static File download() throws IOException {
     return download(null, null,null);
   }
   public static File download(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -394,33 +396,43 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
-
     if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
     }
-
     if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
     }
-
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/files/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -443,7 +455,7 @@ public class File {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static FileUploadPart create() throws IOException{
+  public static FileUploadPart create() throws IOException {
     return create(null, null,null);
   }
   public static FileUploadPart create(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -458,64 +470,68 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+    if (path != null && parameters.get("path") == null) {
+      parameters.put("path", path);
+    }
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
-
-
-
     if (parameters.containsKey("length") && !(parameters.get("length") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: length must be of type Long parameters[\"length\"]");
     }
-
     if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
-
     if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: part must be of type Long parameters[\"part\"]");
     }
-
     if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: parts must be of type Long parameters[\"parts\"]");
     }
-
     if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
     }
-
     if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
     }
-
     if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
     }
-
     if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: size must be of type Long parameters[\"size\"]");
     }
-
     if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: structure must be of type String parameters[\"structure\"]");
     }
-
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
+
     if (! parameters.containsKey("action")) parameters.put("action", "put");
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/files/%s", urlParts);
+
     TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -526,7 +542,7 @@ public class File {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public static File update() throws IOException{
+  public static File update() throws IOException {
     return update(null, null,null);
   }
   public static File update(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -541,25 +557,37 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
     }
-
     if (parameters.containsKey("priority_color") && !(parameters.get("priority_color") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: priority_color must be of type String parameters[\"priority_color\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/files/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -569,7 +597,7 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public static File delete() throws IOException{
+  public static File delete() throws IOException {
     return delete(null, null,null);
   }
   public static File delete(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -584,21 +612,34 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/files/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
@@ -618,7 +659,7 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static List<File> find() throws IOException{
+  public static List<File> find() throws IOException {
     return find(null, null,null);
   }
   public static List<File> find(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -633,29 +674,40 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
     }
-
     if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
     }
-
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/file_actions/metadata/%s", urlParts);
+
     TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -675,7 +727,7 @@ public class File {
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
   */
-  public static File copy() throws IOException{
+  public static File copy() throws IOException {
     return copy(null, null,null);
   }
   public static File copy(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -690,28 +742,40 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
-
     if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: structure must be of type Boolean parameters[\"structure\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
-    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/file_actions/copy/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -723,7 +787,7 @@ public class File {
   * Parameters:
   *   destination (required) - string - Move destination path.
   */
-  public static File move() throws IOException{
+  public static File move() throws IOException {
     return move(null, null,null);
   }
   public static File move(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -738,24 +802,37 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
-    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/file_actions/move/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -773,7 +850,7 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static File beginUpload() throws IOException{
+  public static File beginUpload() throws IOException {
     return beginUpload(null, null,null);
   }
   public static File beginUpload(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -788,45 +865,52 @@ public class File {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
-
     if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: part must be of type Long parameters[\"part\"]");
     }
-
     if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: parts must be of type Long parameters[\"parts\"]");
     }
-
     if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
     }
-
     if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
     }
-
     if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: size must be of type Long parameters[\"size\"]");
     }
-
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/file_actions/begin_upload/%s", urlParts);
+
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }

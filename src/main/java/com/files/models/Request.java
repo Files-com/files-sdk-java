@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +143,7 @@ public class Request {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static List<Request> list() throws IOException{
+  public static List<Request> list() throws IOException {
     return list(null,null);
   }
   public static List<Request> list( HashMap<String, Object> parameters) throws IOException {
@@ -153,27 +155,27 @@ public class Request {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
+
+
     String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -194,7 +196,7 @@ public class Request {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static Request getFolder() throws IOException{
+  public static Request getFolder() throws IOException {
     return getFolder(null, null,null);
   }
   public static Request getFolder(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -209,33 +211,43 @@ public class Request {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
+
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
     if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
     }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (!(path instanceof String) ) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/requests/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/requests/folders/%s", urlParts);
+
     TypeReference<Request> typeReference = new TypeReference<Request>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -248,7 +260,7 @@ public class Request {
   *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  public static Request create() throws IOException{
+  public static Request create() throws IOException {
     return create(null,null);
   }
   public static Request create( HashMap<String, Object> parameters) throws IOException {
@@ -260,18 +272,16 @@ public class Request {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
-
     if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
     }
-
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
@@ -282,7 +292,10 @@ public class Request {
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
+
+
     String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<Request> typeReference = new TypeReference<Request>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -290,7 +303,7 @@ public class Request {
 
   /**
   */
-  public static Request delete() throws IOException{
+  public static Request delete() throws IOException {
     return delete(null, null,null);
   }
   public static Request delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -305,17 +318,31 @@ public class Request {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/requests/%s", urlParts);
+
     TypeReference<Request> typeReference = new TypeReference<Request>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

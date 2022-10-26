@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +74,7 @@ public class Priority {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   path (required) - string - The path to query for priorities
   */
-  public static List<Priority> list() throws IOException{
+  public static List<Priority> list() throws IOException {
     return list(null, null,null);
   }
   public static List<Priority> list(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -87,17 +89,17 @@ public class Priority {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
+
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -105,7 +107,10 @@ public class Priority {
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
+
+
     String url = String.format("%s%s/priorities", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<Priority>> typeReference = new TypeReference<List<Priority>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }

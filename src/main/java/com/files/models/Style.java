@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,7 +119,7 @@ public class Style {
   * Parameters:
   *   path (required) - string - Style path.
   */
-  public static List<Style> find() throws IOException{
+  public static List<Style> find() throws IOException {
     return find(null, null,null);
   }
   public static List<Style> find(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -132,17 +134,31 @@ public class Style {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+
+
+    if (!(path instanceof String) ) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/styles/%s", urlParts);
+
     TypeReference<List<Style>> typeReference = new TypeReference<List<Style>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -159,7 +175,7 @@ public class Style {
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
-  public static Style update() throws IOException{
+  public static Style update() throws IOException {
     return update(null, null,null);
   }
   public static Style update(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -174,24 +190,37 @@ public class Style {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("file") && !(parameters.get("file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: file must be of type byte[] parameters[\"file\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("file") || parameters.get("file") == null) {
       throw new NullPointerException("Parameter missing: file parameters[\"file\"]");
     }
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/styles/%s", urlParts);
+
     TypeReference<Style> typeReference = new TypeReference<Style>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -199,7 +228,7 @@ public class Style {
 
   /**
   */
-  public static Style delete() throws IOException{
+  public static Style delete() throws IOException {
     return delete(null, null,null);
   }
   public static Style delete(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -214,17 +243,31 @@ public class Style {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+
+
+    if (!(path instanceof String) ) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/styles/%s", urlParts);
+
     TypeReference<Style> typeReference = new TypeReference<Style>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

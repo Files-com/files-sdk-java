@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -174,7 +176,7 @@ public class Lock {
   *   path (required) - string - Path to operate on.
   *   include_children - boolean - Include locks from children objects?
   */
-  public static List<Lock> listFor() throws IOException{
+  public static List<Lock> listFor() throws IOException {
     return listFor(null, null,null);
   }
   public static List<Lock> listFor(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -189,29 +191,40 @@ public class Lock {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
+
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (!(path instanceof String) ) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
     if (parameters.containsKey("include_children") && !(parameters.get("include_children") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: include_children must be of type Boolean parameters[\"include_children\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/locks/%s", urlParts);
+
     TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -225,7 +238,7 @@ public class Lock {
   *   recursive - string - Does lock apply to subfolders?
   *   timeout - int64 - Lock timeout length
   */
-  public static Lock create() throws IOException{
+  public static Lock create() throws IOException {
     return create(null, null,null);
   }
   public static Lock create(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -240,33 +253,43 @@ public class Lock {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("allow_access_by_any_user") && !(parameters.get("allow_access_by_any_user") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: allow_access_by_any_user must be of type Boolean parameters[\"allow_access_by_any_user\"]");
     }
-
     if (parameters.containsKey("exclusive") && !(parameters.get("exclusive") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: exclusive must be of type Boolean parameters[\"exclusive\"]");
     }
-
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type String parameters[\"recursive\"]");
     }
-
     if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: timeout must be of type Long parameters[\"timeout\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/locks/%s", urlParts);
+
     TypeReference<Lock> typeReference = new TypeReference<Lock>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -276,7 +299,7 @@ public class Lock {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public static Lock delete() throws IOException{
+  public static Lock delete() throws IOException {
     return delete(null, null,null);
   }
   public static Lock delete(String path,  HashMap<String, Object> parameters) throws IOException {
@@ -291,24 +314,37 @@ public class Lock {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (path != null){
-      parameters.put("path",path);
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = ((String) parameters.get("path"));
     }
 
+
+    if (!(path instanceof String) ) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
     if (parameters.containsKey("token") && !(parameters.get("token") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
     }
 
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("token") || parameters.get("token") == null) {
       throw new NullPointerException("Parameter missing: token parameters[\"token\"]");
     }
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/locks/%s", urlParts);
+
     TypeReference<Lock> typeReference = new TypeReference<Lock>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +131,7 @@ public class ActionNotificationExportResult {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action_notification_export_id (required) - int64 - ID of the associated action notification export.
   */
-  public static List<ActionNotificationExportResult> list() throws IOException{
+  public static List<ActionNotificationExportResult> list() throws IOException {
     return list(null,null);
   }
   public static List<ActionNotificationExportResult> list( HashMap<String, Object> parameters) throws IOException {
@@ -141,18 +143,16 @@ public class ActionNotificationExportResult {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("action_notification_export_id") && !(parameters.get("action_notification_export_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: action_notification_export_id must be of type Long parameters[\"action_notification_export_id\"]");
     }
@@ -160,7 +160,10 @@ public class ActionNotificationExportResult {
     if (!parameters.containsKey("action_notification_export_id") || parameters.get("action_notification_export_id") == null) {
       throw new NullPointerException("Parameter missing: action_notification_export_id parameters[\"action_notification_export_id\"]");
     }
+
+
     String url = String.format("%s%s/action_notification_export_results", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<ActionNotificationExportResult>> typeReference = new TypeReference<List<ActionNotificationExportResult>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }

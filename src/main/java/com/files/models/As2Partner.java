@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -188,7 +190,7 @@ public class As2Partner {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static List<As2Partner> list() throws IOException{
+  public static List<As2Partner> list() throws IOException {
     return list(null,null);
   }
   public static List<As2Partner> list( HashMap<String, Object> parameters) throws IOException {
@@ -200,15 +202,18 @@ public class As2Partner {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
+
+
     String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<As2Partner>> typeReference = new TypeReference<List<As2Partner>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -225,7 +230,7 @@ public class As2Partner {
   * Parameters:
   *   id (required) - int64 - As2 Partner ID.
   */
-  public static List<As2Partner> find() throws IOException{
+  public static List<As2Partner> find() throws IOException {
     return find(null, null,null);
   }
   public static List<As2Partner> find(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -240,17 +245,31 @@ public class As2Partner {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/as2_partners/%s", urlParts);
+
     TypeReference<List<As2Partner>> typeReference = new TypeReference<List<As2Partner>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
@@ -271,7 +290,7 @@ public class As2Partner {
   *   as2_station_id (required) - int64 - Id of As2Station for this partner
   *   server_certificate - string - Remote server certificate security setting
   */
-  public static As2Partner create() throws IOException{
+  public static As2Partner create() throws IOException {
     return create(null,null);
   }
   public static As2Partner create( HashMap<String, Object> parameters) throws IOException {
@@ -283,22 +302,19 @@ public class As2Partner {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
     }
-
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
-
     if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long parameters[\"as2_station_id\"]");
     }
-
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
@@ -315,7 +331,10 @@ public class As2Partner {
     if (!parameters.containsKey("as2_station_id") || parameters.get("as2_station_id") == null) {
       throw new NullPointerException("Parameter missing: as2_station_id parameters[\"as2_station_id\"]");
     }
+
+
     String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -328,7 +347,7 @@ public class As2Partner {
   *   server_certificate - string - Remote server certificate security setting
   *   public_certificate - string
   */
-  public static As2Partner update() throws IOException{
+  public static As2Partner update() throws IOException {
     return update(null, null,null);
   }
   public static As2Partner update(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -343,33 +362,43 @@ public class As2Partner {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
-    }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
 
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-
     if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
     }
-
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
-
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/as2_partners/%s", urlParts);
+
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
@@ -377,7 +406,7 @@ public class As2Partner {
 
   /**
   */
-  public static As2Partner delete() throws IOException{
+  public static As2Partner delete() throws IOException {
     return delete(null, null,null);
   }
   public static As2Partner delete(Long id,  HashMap<String, Object> parameters) throws IOException {
@@ -392,17 +421,31 @@ public class As2Partner {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id != null){
-      parameters.put("id",id);
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
     }
-    if (parameters.containsKey("id") && !(parameters.get("id") instanceof Long )) {
+
+
+    if (!(id instanceof Long) ) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
-    if (!parameters.containsKey("id") || parameters.get("id") == null) {
-      throw new NullPointerException("Parameter missing: id parameters[\"id\"]");
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), id);
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/as2_partners/%s", urlParts);
+
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }

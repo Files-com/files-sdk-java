@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -128,7 +130,7 @@ public class InboxRegistration {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   folder_behavior_id - int64 - ID of the associated Inbox.
   */
-  public static List<InboxRegistration> list() throws IOException{
+  public static List<InboxRegistration> list() throws IOException {
     return list(null,null);
   }
   public static List<InboxRegistration> list( HashMap<String, Object> parameters) throws IOException {
@@ -140,19 +142,21 @@ public class InboxRegistration {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
     if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long parameters[\"folder_behavior_id\"]");
     }
 
+
+
     String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
     TypeReference<List<InboxRegistration>> typeReference = new TypeReference<List<InboxRegistration>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }

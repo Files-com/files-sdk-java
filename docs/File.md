@@ -17,6 +17,7 @@
   "region": "us-east-1",
   "permissions": "rwd",
   "subfolders_locked?": true,
+  "is_locked": true,
   "download_uri": "https://mysite.files.com/...",
   "priority_color": "red",
   "preview_id": 1,
@@ -37,6 +38,7 @@
 * `region` / `region`  (string): Region location
 * `permissions` / `permissions`  (string): A short string representing the current user's permissions.  Can be `r`,`w`,`d`, `l` or any combination
 * `subfolders_locked?` / `subfoldersLocked`  (boolean): Are subfolders locked and unable to be modified?
+* `is_locked` / `isLocked`  (boolean): Is this folder locked and unable to be modified?
 * `download_uri` / `downloadUri`  (string): Link to download file. Provided only in response to a download request.
 * `priority_color` / `priorityColor`  (string): Bookmark/priority color of file/folder
 * `preview_id` / `previewId`  (int64): File preview ID

@@ -154,6 +154,14 @@ public class Folder {
   public Boolean subfoldersLocked;
 
   /**
+  * Is this folder locked and unable to be modified?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("is_locked")
+  public Boolean isLocked;
+
+  /**
   * Link to download file. Provided only in response to a download request.
   */
   @Getter

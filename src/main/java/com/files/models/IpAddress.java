@@ -128,6 +128,40 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
+  public static IpAddress getExavaultReserved() throws IOException {
+    return getExavaultReserved(null,null);
+  }
+  public static IpAddress getExavaultReserved( HashMap<String, Object> parameters) throws IOException {
+    return getExavaultReserved(parameters, null);
+  }
+
+
+  public static IpAddress getExavaultReserved( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+
+
+
+    String url = String.format("%s%s/ip_addresses/exavault-reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<IpAddress> typeReference = new TypeReference<IpAddress>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   cursor - string - Used for pagination.  Send a cursor value to resume an existing list from the point at which you left off.  Get a cursor from an existing list via either the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
+  *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  */
   public static IpAddress getReserved() throws IOException {
     return getReserved(null,null);
   }

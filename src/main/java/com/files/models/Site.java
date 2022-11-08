@@ -151,6 +151,13 @@ public class Site {
   public Boolean bundlePasswordRequired;
 
   /**
+  * Do Bundle owners receive registration notification?
+  */
+  @Getter
+  @JsonProperty("bundle_registration_notifications")
+  public String bundleRegistrationNotifications;
+
+  /**
   * Do Bundles require recipients for sharing?
   */
   @Getter
@@ -1125,6 +1132,7 @@ public class Site {
   *   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
   *   bundle_password_required - boolean - Do Bundles require password protection?
   *   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
+  *   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
   *   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
   *   opt_out_global - boolean - Use servers in the USA only?
   *   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
@@ -1386,6 +1394,9 @@ public class Site {
     }
     if (parameters.containsKey("bundle_require_share_recipient") && !(parameters.get("bundle_require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: bundle_require_share_recipient must be of type Boolean parameters[\"bundle_require_share_recipient\"]");
+    }
+    if (parameters.containsKey("bundle_registration_notifications") && !(parameters.get("bundle_registration_notifications") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_registration_notifications must be of type String parameters[\"bundle_registration_notifications\"]");
     }
     if (parameters.containsKey("password_requirements_apply_to_bundles") && !(parameters.get("password_requirements_apply_to_bundles") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: password_requirements_apply_to_bundles must be of type Boolean parameters[\"password_requirements_apply_to_bundles\"]");

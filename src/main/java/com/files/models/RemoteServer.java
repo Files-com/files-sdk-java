@@ -397,6 +397,30 @@ public class RemoteServer {
   public Boolean enableDedicatedIps;
 
   /**
+  * Local permissions for files agent. read_only, write_only, or read_write
+  */
+  @Getter
+  @Setter
+  @JsonProperty("files_agent_permission_set")
+  public String filesAgentPermissionSet;
+
+  /**
+  * Agent local root path
+  */
+  @Getter
+  @Setter
+  @JsonProperty("files_agent_root")
+  public String filesAgentRoot;
+
+  /**
+  * Files Agent API Token
+  */
+  @Getter
+  @Setter
+  @JsonProperty("files_agent_api_token")
+  public String filesAgentApiToken;
+
+  /**
   * AWS secret key.
   */
   @Getter
@@ -509,6 +533,24 @@ public class RemoteServer {
   public String s3CompatibleSecretKey;
 
   /**
+  * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+  *
+  * Parameters:
+  *   api_token - string - Files Agent API Token
+  *   permission_set - string -
+  *   root - string - Agent local root path
+  *   hostname - string
+  *   port - int64 - Incoming port for files agent connections
+  *   status - string - either running or shutdown
+  *   config_version - string - agent config version
+  *   private_key - string - private key
+  *   public_key - string - public key
+  */
+  public RemoteServer configurationFile(HashMap<String, Object> parameters) {
+    return configurationFile(parameters);
+  }
+
+  /**
   * Parameters:
   *   aws_access_key - string - AWS Access Key.
   *   aws_secret_key - string - AWS secret key.
@@ -559,6 +601,8 @@ public class RemoteServer {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
+  *   files_agent_root - string - Agent local root path
+  *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -682,6 +726,55 @@ public class RemoteServer {
 
   /**
   * Parameters:
+  *   id (required) - int64 - Remote Server ID.
+  */
+  public static List<RemoteServer> findConfigurationFile() throws IOException {
+    return findConfigurationFile(null, null,null);
+  }
+  public static List<RemoteServer> findConfigurationFile(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return findConfigurationFile(id, parameters, null);
+  }
+
+  public static List<RemoteServer> findConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return findConfigurationFile(null, parameters, options);
+  }
+
+  public static List<RemoteServer> findConfigurationFile(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
+    }
+
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/remote_servers/%s/configuration_file", urlParts);
+
+    TypeReference<List<RemoteServer>> typeReference = new TypeReference<List<RemoteServer>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   aws_access_key - string - AWS Access Key.
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.
@@ -731,6 +824,8 @@ public class RemoteServer {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
+  *   files_agent_root - string - Agent local root path
+  *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   */
   public static RemoteServer create() throws IOException {
     return create(null,null);
@@ -892,10 +987,102 @@ public class RemoteServer {
     if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
     }
+    if (parameters.containsKey("files_agent_root") && !(parameters.get("files_agent_root") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: files_agent_root must be of type String parameters[\"files_agent_root\"]");
+    }
+    if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");
+    }
 
 
 
     String url = String.format("%s%s/remote_servers", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+  *
+  * Parameters:
+  *   api_token - string - Files Agent API Token
+  *   permission_set - string -
+  *   root - string - Agent local root path
+  *   hostname - string
+  *   port - int64 - Incoming port for files agent connections
+  *   status - string - either running or shutdown
+  *   config_version - string - agent config version
+  *   private_key - string - private key
+  *   public_key - string - public key
+  */
+  public static RemoteServer configurationFile() throws IOException {
+    return configurationFile(null, null,null);
+  }
+  public static RemoteServer configurationFile(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return configurationFile(id, parameters, null);
+  }
+
+  public static RemoteServer configurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return configurationFile(null, parameters, options);
+  }
+
+  public static RemoteServer configurationFile(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
+    }
+
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("api_token") && !(parameters.get("api_token") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: api_token must be of type String parameters[\"api_token\"]");
+    }
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
+    }
+    if (parameters.containsKey("root") && !(parameters.get("root") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: root must be of type String parameters[\"root\"]");
+    }
+    if (parameters.containsKey("hostname") && !(parameters.get("hostname") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: hostname must be of type String parameters[\"hostname\"]");
+    }
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    }
+    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
+    }
+    if (parameters.containsKey("config_version") && !(parameters.get("config_version") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: config_version must be of type String parameters[\"config_version\"]");
+    }
+    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+    if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/remote_servers/%s/configuration_file", urlParts);
 
     TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -953,6 +1140,8 @@ public class RemoteServer {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   s3_compatible_access_key - string - S3-compatible Access Key.
   *   s3_compatible_secret_key - string - S3-compatible secret key
+  *   files_agent_root - string - Agent local root path
+  *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   */
   public static RemoteServer update() throws IOException {
     return update(null, null,null);
@@ -1123,6 +1312,12 @@ public class RemoteServer {
     }
     if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
+    }
+    if (parameters.containsKey("files_agent_root") && !(parameters.get("files_agent_root") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: files_agent_root must be of type String parameters[\"files_agent_root\"]");
+    }
+    if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");
     }
 
     if (id == null) {

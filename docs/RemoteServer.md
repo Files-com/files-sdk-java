@@ -46,7 +46,10 @@
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
   "s3_compatible_access_key": "example",
-  "enable_dedicated_ips": true
+  "enable_dedicated_ips": true,
+  "files_agent_permission_set": "read_write",
+  "files_agent_root": "example",
+  "files_agent_api_token": "example"
 }
 ```
 
@@ -93,6 +96,9 @@
 * `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible endpoint
 * `s3_compatible_access_key` / `s3CompatibleAccessKey`  (string): S3-compatible Access Key.
 * `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
+* `files_agent_permission_set` / `filesAgentPermissionSet`  (string): Local permissions for files agent. read_only, write_only, or read_write
+* `files_agent_root` / `filesAgentRoot`  (string): Agent local root path
+* `files_agent_api_token` / `filesAgentApiToken`  (string): Files Agent API Token
 * `aws_secret_key` / `awsSecretKey`  (string): AWS secret key.
 * `password` / `password`  (string): Password if needed.
 * `private_key` / `privateKey`  (string): Private key if needed.
@@ -133,6 +139,23 @@ List<RemoteServer> remoteServer = RemoteServer.list(
 
 ```
 List<RemoteServer> remoteServer = RemoteServer.find(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
+
+```
+List<RemoteServer> remoteServer = RemoteServer.findConfigurationFile(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -207,6 +230,34 @@ RemoteServer remoteServer = RemoteServer.create(
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible Access Key.
 * `s3_compatible_secret_key` (String): S3-compatible secret key
+* `files_agent_root` (String): Agent local root path
+* `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
+
+
+---
+
+## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+
+```
+RemoteServer remoteServer = RemoteServer.configurationFile(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+* `api_token` (String): Files Agent API Token
+* `permission_set` (String): 
+* `root` (String): Agent local root path
+* `hostname` (String): 
+* `port` (Long): Incoming port for files agent connections
+* `status` (String): either running or shutdown
+* `config_version` (String): agent config version
+* `private_key` (String): private key
+* `public_key` (String): public key
 
 
 ---
@@ -273,6 +324,8 @@ RemoteServer remoteServer = RemoteServer.update(
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible Access Key.
 * `s3_compatible_secret_key` (String): S3-compatible secret key
+* `files_agent_root` (String): Agent local root path
+* `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
 
 
 ---
@@ -290,6 +343,42 @@ RemoteServer remoteServer = RemoteServer.delete(
 ### Parameters
 
 * `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
+
+```
+RemoteServer remoteServer = RemoteServer.List()[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("api_token", "example");
+parameters.put("permission_set", "full");
+parameters.put("root", "example");
+parameters.put("hostname", "example");
+parameters.put("port", 1);
+parameters.put("status", "example");
+parameters.put("config_version", "example");
+parameters.put("private_key", "example");
+parameters.put("public_key", "example");
+
+RemoteServer.ConfigurationFile(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+* `api_token` (String): Files Agent API Token
+* `permission_set` (String): 
+* `root` (String): Agent local root path
+* `hostname` (String): 
+* `port` (Long): Incoming port for files agent connections
+* `status` (String): either running or shutdown
+* `config_version` (String): agent config version
+* `private_key` (String): private key
+* `public_key` (String): public key
 
 
 ---
@@ -337,6 +426,8 @@ parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
 parameters.put("enable_dedicated_ips", true);
 parameters.put("s3_compatible_access_key", "example");
+parameters.put("files_agent_root", "example");
+parameters.put("files_agent_permission_set", "read_write");
 
 RemoteServer.Update(parameters);
 ```
@@ -393,6 +484,8 @@ RemoteServer.Update(parameters);
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `s3_compatible_access_key` (String): S3-compatible Access Key.
 * `s3_compatible_secret_key` (String): S3-compatible secret key
+* `files_agent_root` (String): Agent local root path
+* `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
 
 
 ---

@@ -70,13 +70,13 @@ public class PublicIpAddress {
   */
   @Getter
   @JsonProperty("ftp_enabled")
-  public String ftpEnabled;
+  public Boolean ftpEnabled;
 
   /**
   */
   @Getter
   @JsonProperty("sftp_enabled")
-  public String sftpEnabled;
+  public Boolean sftpEnabled;
 
 
 

@@ -258,6 +258,7 @@ RemoteServer remoteServer = RemoteServer.configurationFile(
 * `config_version` (String): agent config version
 * `private_key` (String): private key
 * `public_key` (String): public key
+* `server_host_key` (String): 
 
 
 ---
@@ -363,6 +364,7 @@ parameters.put("status", "example");
 parameters.put("config_version", "example");
 parameters.put("private_key", "example");
 parameters.put("public_key", "example");
+parameters.put("server_host_key", "example");
 
 RemoteServer.ConfigurationFile(parameters);
 ```
@@ -379,6 +381,7 @@ RemoteServer.ConfigurationFile(parameters);
 * `config_version` (String): agent config version
 * `private_key` (String): private key
 * `public_key` (String): public key
+* `server_host_key` (String): 
 
 
 ---

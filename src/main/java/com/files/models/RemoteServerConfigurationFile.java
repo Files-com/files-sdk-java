@@ -120,6 +120,12 @@ public class RemoteServerConfigurationFile {
   @JsonProperty("config_version")
   public String configVersion;
 
+  /**
+  */
+  @Getter
+  @JsonProperty("server_host_key")
+  public String serverHostKey;
+
 
 
 }

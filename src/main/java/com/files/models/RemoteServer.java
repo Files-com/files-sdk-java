@@ -545,6 +545,7 @@ public class RemoteServer {
   *   config_version - string - agent config version
   *   private_key - string - private key
   *   public_key - string - public key
+  *   server_host_key - string
   */
   public RemoteServer configurationFile(HashMap<String, Object> parameters) {
     return configurationFile(parameters);
@@ -1016,6 +1017,7 @@ public class RemoteServer {
   *   config_version - string - agent config version
   *   private_key - string - private key
   *   public_key - string - public key
+  *   server_host_key - string
   */
   public static RemoteServer configurationFile() throws IOException {
     return configurationFile(null, null,null);
@@ -1066,6 +1068,9 @@ public class RemoteServer {
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
+    }
+    if (parameters.containsKey("server_host_key") && !(parameters.get("server_host_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: server_host_key must be of type String parameters[\"server_host_key\"]");
     }
 
     if (id == null) {

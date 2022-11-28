@@ -121,7 +121,12 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.10.0</version>
+            <!-- This is at 3.x and not 4.x so our boomi connector can pass through Boomi's dependency scanner
+              as it currently doesn't support Kotlin and okhttp3 (v4) was rebuilt in Kotlin. 
+              OkHttp4 should be backwards compatible with 3, more can be read about it here:
+                https://square.github.io/okhttp/changelogs/upgrading_to_okhttp_4/
+            -->
+            <version>3.14.9</version>
         </dependency>
         <dependency>
             <groupId>com.github.devcsrj</groupId>

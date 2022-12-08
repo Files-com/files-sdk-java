@@ -47,9 +47,9 @@ You can set an API key globally, like this:
 Or, you can pass an API key per-request, in the Options HashMap at the end
 of every method.  Like this:
 
-    HashMap<String, Object> requestParameters = new HashMap<>();
-    requestParameters.put("api_key", "my-key");
-    Users.list(requestParameters);
+    HashMap<String, Object> requestOptions = new HashMap<>();
+    requestOptions.put("api_key", "my-key");
+    Users.list(null, requestOptions);
 
 That key will automatically be used for any followup actions that occur
 on models returned from the API.
@@ -66,9 +66,9 @@ Or, you can open a user session by calling `Session.create()`
 
 Then use it as follows:
 
-    HashMap<String, Object> requestParameters = new HashMap<>();
-    requestParameters.put("session_id", session.getId());
-    Users.list(requestParameters);
+    HashMap<String, Object> requestOptions = new HashMap<>();
+    requestOptions.put("session_id", session.getId());
+    Users.list(null, requestOptions);
 
 Or use if for all subsequent API calls globally like this:
 

@@ -137,6 +137,13 @@ public class Site {
   public Boolean askAboutOverwrites;
 
   /**
+  * Do Bundle owners receive activity notifications?
+  */
+  @Getter
+  @JsonProperty("bundle_activity_notifications")
+  public String bundleActivityNotifications;
+
+  /**
   * Site-wide Bundle expiration in days
   */
   @Getter
@@ -163,6 +170,13 @@ public class Site {
   @Getter
   @JsonProperty("bundle_require_share_recipient")
   public Boolean bundleRequireShareRecipient;
+
+  /**
+  * Do Bundle uploaders receive upload confirmation notifications?
+  */
+  @Getter
+  @JsonProperty("bundle_upload_receipt_notifications")
+  public String bundleUploadReceiptNotifications;
 
   /**
   * Preview watermark image applied to all bundle items.
@@ -1133,6 +1147,8 @@ public class Site {
   *   bundle_password_required - boolean - Do Bundles require password protection?
   *   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
   *   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
+  *   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
+  *   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
   *   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
   *   opt_out_global - boolean - Use servers in the USA only?
   *   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
@@ -1397,6 +1413,12 @@ public class Site {
     }
     if (parameters.containsKey("bundle_registration_notifications") && !(parameters.get("bundle_registration_notifications") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: bundle_registration_notifications must be of type String parameters[\"bundle_registration_notifications\"]");
+    }
+    if (parameters.containsKey("bundle_activity_notifications") && !(parameters.get("bundle_activity_notifications") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_activity_notifications must be of type String parameters[\"bundle_activity_notifications\"]");
+    }
+    if (parameters.containsKey("bundle_upload_receipt_notifications") && !(parameters.get("bundle_upload_receipt_notifications") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: bundle_upload_receipt_notifications must be of type String parameters[\"bundle_upload_receipt_notifications\"]");
     }
     if (parameters.containsKey("password_requirements_apply_to_bundles") && !(parameters.get("password_requirements_apply_to_bundles") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: password_requirements_apply_to_bundles must be of type Boolean parameters[\"password_requirements_apply_to_bundles\"]");

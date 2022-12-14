@@ -515,6 +515,22 @@ public class User {
   public String userRoot;
 
   /**
+  * Number of days remaining until password expires
+  */
+  @Getter
+  @Setter
+  @JsonProperty("days_remaining_until_password_expire")
+  public Date daysRemainingUntilPasswordExpire;
+
+  /**
+  * Password expiration datetime
+  */
+  @Getter
+  @Setter
+  @JsonProperty("password_expire_at")
+  public Date passwordExpireAt;
+
+  /**
   * An image file for your user avatar.
   */
   @Getter

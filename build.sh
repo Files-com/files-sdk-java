@@ -2,4 +2,4 @@
 
 #set -e
 
-mvn -B -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn clean package -Dmaven.test.skip=true
+mvn -B -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn clean package

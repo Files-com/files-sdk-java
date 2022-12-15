@@ -6,12 +6,13 @@ import com.files.exceptions.ApiErrorException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class FilesHttpInterceptor implements Interceptor {
-  protected static final Logger log = LogManager.getLogger(FilesHttpInterceptor.class);
+  protected static final Logger log = LoggerFactory.getLogger(FilesHttpInterceptor.class);
   private final String userAgent;
   private FilesConfig filesConfig = FilesConfig.getInstance();
 

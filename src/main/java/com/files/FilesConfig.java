@@ -1,8 +1,8 @@
 package com.files;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.threadly.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class FilesConfig {
-  private static final Logger log = LogManager.getLogger(FilesConfig.class);
+  private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
   private static volatile FilesConfig instance = null;
   private String hostname = "unknown";
   private Properties properties;

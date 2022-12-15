@@ -7,12 +7,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
 
 import com.files.FilesConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.threadly.util.StackSuppressedRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BufferPool {
-    private static final Logger log = LogManager.getLogger(BufferPool.class);
+    private static final Logger log = LoggerFactory.getLogger(BufferPool.class);
     private static final boolean TRACK_BUFFER_CREATION_STACK = true;
     public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
     public static final int T_BUFFER_SIZE = FilesConfig.getInstance().getCachedBufferTinySize();

@@ -8,8 +8,8 @@ import com.files.net.FilesOkHttpApi;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import okhttp3.ConnectionPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class FilesClient {
 
-  private static final Logger log = LogManager.getLogger(FilesClient.class);
+  private static final Logger log = LoggerFactory.getLogger(FilesClient.class);
   private static FilesApiInterface filesApi = new FilesOkHttpApi();
   public static String apiKey;
   public static Session session;

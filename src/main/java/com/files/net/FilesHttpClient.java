@@ -6,8 +6,8 @@ import devcsrj.okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class FilesHttpClient {
   private static FilesHttpClient instance;
-  protected static final Logger log = LogManager.getLogger(FilesHttpClient.class);
+  protected static final Logger log = LoggerFactory.getLogger(FilesHttpClient.class);
   protected OkHttpClient okHttpClient;
 
   protected FilesHttpClient() {

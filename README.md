@@ -129,6 +129,36 @@ You can set the following global options directly on the `FilesClient` module:
     File file = File.download("test.txt", null);
     file.saveAsLocalFile("/tmp/");
 
+### Logging
+
+#### Adding `com.files` logger to your `Loggers` root in the `log4j2.xml` file
+```xml
+<Loggers>
+    <!-- set preferred level -->
+    <Logger name="com.files" level="TRACE" />
+    <!-- to enable network request -->
+    <Logger name="okhttp3.logging.wire" level="INFO"/>
+</Loggers>
+```
+#### Creating a `resources/log4j2.xml` file
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- set preferred level -->
+        <Logger name="com.files" level="TRACE"/>
+        <!-- to enable network request -->
+        <Logger name="okhttp3.logging.wire" level="INFO"/>
+    </Loggers>
+</Configuration>
+```
+
+You can read more about log4j2 configuration [here](https://logging.apache.org/log4j/2.x/manual/configuration.html).
 
 ### Additional Object Documentation
 

@@ -11,8 +11,8 @@ import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.security.InvalidParameterException;
@@ -24,7 +24,7 @@ public class FilesOkHttpApi implements FilesApiInterface {
     .builder()
     .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
     .build();
-  protected static final Logger log = LogManager.getLogger(FilesOkHttpApi.class);
+  protected static final Logger log = LoggerFactory.getLogger(FilesOkHttpApi.class);
 
   public <T> List<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     String response = apiRequest(url, requestType, parameters, options);

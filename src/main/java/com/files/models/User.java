@@ -520,7 +520,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("days_remaining_until_password_expire")
-  public Date daysRemainingUntilPasswordExpire;
+  public Long daysRemainingUntilPasswordExpire;
 
   /**
   * Password expiration datetime

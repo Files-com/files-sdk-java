@@ -74,13 +74,6 @@ public class UsageSnapshot {
   public Date endAt;
 
   /**
-  * DEPRECATED: Usage snapshot created at date/time
-  */
-  @Getter
-  @JsonProperty("created_at")
-  public Date createdAt;
-
-  /**
   * Highest user count number in time period
   */
   @Getter
@@ -100,27 +93,6 @@ public class UsageSnapshot {
   @Getter
   @JsonProperty("high_water_storage")
   public Double highWaterStorage;
-
-  /**
-  * DEPRECATED: Number of downloads in report time period
-  */
-  @Getter
-  @JsonProperty("total_downloads")
-  public Long totalDownloads;
-
-  /**
-  * DEPRECATED: Number of uploads in time period
-  */
-  @Getter
-  @JsonProperty("total_uploads")
-  public Long totalUploads;
-
-  /**
-  * DEPRECATED: The last time this site usage report was updated
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
 
   /**
   * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)

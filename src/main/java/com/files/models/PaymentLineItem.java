@@ -80,13 +80,6 @@ public class PaymentLineItem {
   @JsonProperty("payment_id")
   public Long paymentId;
 
-  /**
-  * Payment line item updated at date/time
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
-
 
 
 }

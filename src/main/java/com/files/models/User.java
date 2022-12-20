@@ -500,13 +500,6 @@ public class User {
   public String typeOf2fa;
 
   /**
-  * User record most recently updated at.  Note this may be incremented because of internal or external updates.
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
-
-  /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   */
   @Getter

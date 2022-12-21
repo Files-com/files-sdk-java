@@ -124,6 +124,7 @@
   "smtp_port": 25,
   "smtp_username": "mail",
   "session_expiry": 6.0,
+  "session_expiry_minutes": 360,
   "ssl_required": true,
   "subdomain": "mysite",
   "switch_to_plan_date": "2000-01-01T01:00:00Z",
@@ -267,6 +268,7 @@
 * `smtp_port` / `smtpPort`  (int64): SMTP server port
 * `smtp_username` / `smtpUsername`  (string): SMTP server username
 * `session_expiry` / `sessionExpiry`  (double): Session expiry in hours
+* `session_expiry_minutes` / `sessionExpiryMinutes`  (int64): Session expiry in minutes
 * `ssl_required` / `sslRequired`  (boolean): Is SSL required?  Disabling this is insecure.
 * `subdomain` / `subdomain`  (string): Site subdomain
 * `switch_to_plan_date` / `switchToPlanDate`  (date-time): If switching plans, when does the new plan take effect?

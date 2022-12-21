@@ -136,6 +136,13 @@ public class BundleRegistration {
   @JsonProperty("bundle_recipient_id")
   public Long bundleRecipientId;
 
+  /**
+  * Registration creation date/time
+  */
+  @Getter
+  @JsonProperty("created_at")
+  public Date createdAt;
+
 
 
   /**

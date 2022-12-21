@@ -24,6 +24,7 @@
   "max_uses": 1,
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
+  "send_email_receipt_to_uploader": true,
   "user_id": 1,
   "username": "user",
   "clickwrap_id": 1,
@@ -59,6 +60,7 @@
 * `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
 * `note` / `note`  (string): Bundle internal note
 * `path_template` / `pathTemplate`  (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+* `send_email_receipt_to_uploader` / `sendEmailReceiptToUploader`  (boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `user_id` / `userId`  (int64): Bundle creator user ID
 * `username` / `username`  (string): Bundle creator username
 * `clickwrap_id` / `clickwrapId`  (int64): ID of the clickwrap to use with this bundle.
@@ -147,6 +149,7 @@ Bundle bundle = Bundle.create(
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
@@ -204,9 +207,10 @@ Bundle bundle = Bundle.update(
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
+* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
-* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
@@ -277,9 +281,10 @@ parameters.put("permissions", "read");
 parameters.put("preview_only", true);
 parameters.put("require_registration", true);
 parameters.put("require_share_recipient", true);
+parameters.put("send_email_receipt_to_uploader", true);
+parameters.put("skip_company", true);
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
-parameters.put("skip_company", true);
 parameters.put("watermark_attachment_delete", true);
 
 Bundle.Update(parameters);
@@ -304,9 +309,10 @@ Bundle.Update(parameters);
 * `preview_only` (Boolean): Restrict users to previewing files only?
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
+* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
-* `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 

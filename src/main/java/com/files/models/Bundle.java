@@ -212,6 +212,14 @@ public class Bundle {
   public String pathTemplate;
 
   /**
+  * Send delivery receipt to the uploader. Note: For writable share only
+  */
+  @Getter
+  @Setter
+  @JsonProperty("send_email_receipt_to_uploader")
+  public Boolean sendEmailReceiptToUploader;
+
+  /**
   * Bundle creator user ID
   */
   @Getter
@@ -337,9 +345,10 @@ public class Bundle {
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
+  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
@@ -514,6 +523,7 @@ public class Bundle {
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
@@ -582,6 +592,9 @@ public class Bundle {
     }
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
+    }
+    if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");
     }
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
@@ -688,9 +701,10 @@ public class Bundle {
   *   preview_only - boolean - Restrict users to previewing files only?
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
+  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
@@ -765,14 +779,17 @@ public class Bundle {
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
     }
+    if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");
+    }
+    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
+    }
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
     }
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
-    }
-    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean )) {
-      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
     }
     if (parameters.containsKey("watermark_attachment_delete") && !(parameters.get("watermark_attachment_delete") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_delete must be of type Boolean parameters[\"watermark_attachment_delete\"]");

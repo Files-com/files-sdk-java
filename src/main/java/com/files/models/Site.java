@@ -879,6 +879,13 @@ public class Site {
   public Double sessionExpiry;
 
   /**
+  * Session expiry in minutes
+  */
+  @Getter
+  @JsonProperty("session_expiry_minutes")
+  public Long sessionExpiryMinutes;
+
+  /**
   * Is SSL required?  Disabling this is insecure.
   */
   @Getter

@@ -122,6 +122,13 @@ public class InboxRegistration {
   @JsonProperty("inbox_title")
   public String inboxTitle;
 
+  /**
+  * Registration creation date/time
+  */
+  @Getter
+  @JsonProperty("created_at")
+  public Date createdAt;
+
 
 
   /**

@@ -77,12 +77,29 @@ public class BundleNotification {
   public Boolean notifyOnRegistration;
 
   /**
+  * Triggers bundle notification when a upload action occurs for it.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("notify_on_upload")
+  public Boolean notifyOnUpload;
+
+  /**
   * The id of the user to notify.
   */
   @Getter
   @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  /**
+  * Parameters:
+  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+  */
+  public BundleNotification update(HashMap<String, Object> parameters) {
+    return update(parameters);
+  }
 
   /**
   */
@@ -97,7 +114,7 @@ public class BundleNotification {
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The BundleNotification Object doesn't support updates.");
+      update(parameters);
     } else {
       BundleNotification newObject = BundleNotification.create(parameters, this.options);
     }
@@ -212,6 +229,7 @@ public class BundleNotification {
   * Parameters:
   *   user_id (required) - int64 - The id of the user to notify.
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   *   bundle_id (required) - int64 - Bundle ID to notify on
   */
   public static BundleNotification create() throws IOException {
@@ -233,6 +251,9 @@ public class BundleNotification {
     if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
     }
+    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
+    }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
     }
@@ -249,6 +270,62 @@ public class BundleNotification {
 
     TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+  */
+  public static BundleNotification update() throws IOException {
+    return update(null, null,null);
+  }
+  public static BundleNotification update(Long id,  HashMap<String, Object> parameters) throws IOException {
+    return update(id, parameters, null);
+  }
+
+  public static BundleNotification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return update(null, parameters, options);
+  }
+
+  public static BundleNotification update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = ((Long) parameters.get("id"));
+    }
+
+
+    if (!(id instanceof Long) ) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
+    }
+    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex){
+      }
+    }
+
+    String url = String.format("%s%s/bundle_notifications/%s", urlParts);
+
+    TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 

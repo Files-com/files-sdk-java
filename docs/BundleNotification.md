@@ -7,6 +7,7 @@
   "bundle_id": 1,
   "id": 1,
   "notify_on_registration": true,
+  "notify_on_upload": true,
   "user_id": 1
 }
 ```
@@ -14,6 +15,7 @@
 * `bundle_id` / `bundleId`  (int64): Bundle ID to notify on
 * `id` / `id`  (int64): Bundle Notification ID
 * `notify_on_registration` / `notifyOnRegistration`  (boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` / `notifyOnUpload`  (boolean): Triggers bundle notification when a upload action occurs for it.
 * `user_id` / `userId`  (int64): The id of the user to notify.
 
 
@@ -70,7 +72,27 @@ BundleNotification bundleNotification = BundleNotification.create(
 
 * `user_id` (Long): Required - The id of the user to notify.
 * `notify_on_registration` (Boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (Boolean): Triggers bundle notification when a upload action occurs for it.
 * `bundle_id` (Long): Required - Bundle ID to notify on
+
+
+---
+
+## Update Bundle Notification
+
+```
+BundleNotification bundleNotification = BundleNotification.update(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle Notification ID.
+* `notify_on_registration` (Boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (Boolean): Triggers bundle notification when a upload action occurs for it.
 
 
 ---
@@ -88,6 +110,28 @@ BundleNotification bundleNotification = BundleNotification.delete(
 ### Parameters
 
 * `id` (Long): Required - Bundle Notification ID.
+
+
+---
+
+## Update Bundle Notification
+
+```
+BundleNotification bundleNotification = BundleNotification.List()[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+parameters.put("notify_on_registration", true);
+parameters.put("notify_on_upload", true);
+
+BundleNotification.Update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle Notification ID.
+* `notify_on_registration` (Boolean): Triggers bundle notification when a registration action occurs for it.
+* `notify_on_upload` (Boolean): Triggers bundle notification when a upload action occurs for it.
 
 
 ---

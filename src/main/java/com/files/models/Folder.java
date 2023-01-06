@@ -298,6 +298,7 @@ public class Folder {
   * Parameters:
   *   path (required) - string - Path to operate on.
   *   mkdir_parents - boolean - Create parent directories if they do not exist?
+  *   provided_mtime - string - User provided modification time.
   */
   public static Folder create() throws IOException {
     return create(null, null,null);
@@ -324,6 +325,9 @@ public class Folder {
     }
     if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
+    }
+    if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
     }
 
     if (path == null) {

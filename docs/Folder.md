@@ -87,3 +87,4 @@ Folder folder = Folder.create(
 
 * `path` (String): Required - Path to operate on.
 * `mkdir_parents` (Boolean): Create parent directories if they do not exist?
+* `provided_mtime` (String): User provided modification time.

@@ -464,3 +464,4 @@ Site site = Site.update(
 * `ldap_password_change` (String): New LDAP password.
 * `ldap_password_change_confirmation` (String): Confirm new LDAP password.
 * `smtp_password` (String): Password for SMTP server.
+* `session_expiry_minutes` (Long): Session expiry in minutes

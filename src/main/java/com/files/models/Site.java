@@ -1224,6 +1224,7 @@ public class Site {
   *   ldap_password_change - string - New LDAP password.
   *   ldap_password_change_confirmation - string - Confirm new LDAP password.
   *   smtp_password - string - Password for SMTP server.
+  *   session_expiry_minutes - int64 - Session expiry in minutes
   */
   public static Site update() throws IOException {
     return update(null,null);
@@ -1630,6 +1631,9 @@ public class Site {
     }
     if (parameters.containsKey("smtp_password") && !(parameters.get("smtp_password") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: smtp_password must be of type String parameters[\"smtp_password\"]");
+    }
+    if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long parameters[\"session_expiry_minutes\"]");
     }
 
 

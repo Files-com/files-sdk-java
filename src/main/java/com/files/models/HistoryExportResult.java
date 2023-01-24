@@ -67,6 +67,13 @@ public class HistoryExportResult {
   public Long createdAt;
 
   /**
+  * When the action happened, in ISO8601 format.
+  */
+  @Getter
+  @JsonProperty("created_at_iso8601")
+  public Long createdAtIso8601;
+
+  /**
   * User ID
   */
   @Getter

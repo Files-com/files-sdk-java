@@ -227,7 +227,7 @@ public class BundleNotification {
 
   /**
   * Parameters:
-  *   user_id (required) - int64 - The id of the user to notify.
+  *   user_id - int64 - The id of the user to notify.
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   *   bundle_id (required) - int64 - Bundle ID to notify on
@@ -258,9 +258,6 @@ public class BundleNotification {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
     }
 
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
-    }
     if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
       throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
     }

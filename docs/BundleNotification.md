@@ -70,7 +70,7 @@ BundleNotification bundleNotification = BundleNotification.create(
 
 ### Parameters
 
-* `user_id` (Long): Required - The id of the user to notify.
+* `user_id` (Long): The id of the user to notify.
 * `notify_on_registration` (Boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (Boolean): Triggers bundle notification when a upload action occurs for it.
 * `bundle_id` (Long): Required - Bundle ID to notify on

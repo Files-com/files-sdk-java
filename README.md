@@ -38,18 +38,19 @@ There are multiple ways to authenticate to the API.
 #### Global API Key
 
 You can set an API key globally, like this:
-
+```java
     FilesClient.apiKey = "my-key";
-
+```
 
 #### Per-Request API Key
 
 Or, you can pass an API key per-request, in the Options HashMap at the end
 of every method.  Like this:
-
+```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("api_key", "my-key");
     Users.list(null, requestOptions);
+```
 
 That key will automatically be used for any followup actions that occur
 on models returned from the API.
@@ -58,40 +59,41 @@ on models returned from the API.
 #### User Session
 
 Or, you can open a user session by calling `Session.create()`
-
+```java
     HashMap<String, Object> sessionParameters = new HashMap<>();
     sessionParameters.put("username", "username");
     sessionParameters.put("password", "password");
     Session session = Session.create(sessionParameters);
+```
 
 Then use it as follows:
-
+```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("session_id", session.getId());
     Users.list(null, requestOptions);
+```
 
 Or use if for all subsequent API calls globally like this:
-
+```java
     FilesClient.session = session;
-
+```
 
 ### Setting Global Options
 
 You can set the following global options directly on the `FilesClient` module:
-
+```java
     FilesClient.setProperty("apiRoot", "https://files-mock-server:4041");
-
+```
 
 ### File Operations
 
 #### List root folder
-
-
+```java
     Folder.listFor("/", null)
-
+```
 
 #### Writing a file example
-
+```java
     // Will upload a file called "test.txt" and print its size
 
     import com.files.FilesClient;
@@ -110,24 +112,25 @@ You can set the following global options directly on the `FilesClient` module:
             }
         }
     }
-
+```
 
 #### Reading a file's text as a InputStream
-
-     File file = File.download("test.txt", null);
-     try(InputStream inputStream = file.getInputStream()) {
+```java
+    File file = File.download("test.txt", null);
+    try(InputStream inputStream = file.getInputStream()) {
        String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
          .lines()
          .collect(Collectors.joining("\n"));
          String filecontents = text;
-       }
-     }
+    }
+```
 
 
 #### Reading a file and writing it to your local drive.
-
+```java
     File file = File.download("test.txt", null);
     file.saveAsLocalFile("/tmp/");
+```
 
 ### Logging
 

@@ -634,6 +634,13 @@ public class Site {
   public Boolean officeIntegrationAvailable;
 
   /**
+  * Office integration application used to edit and view the MS Office documents
+  */
+  @Getter
+  @JsonProperty("office_integration_type")
+  public String officeIntegrationType;
+
+  /**
   * Link to scheduling a meeting with our Sales team
   */
   @Getter
@@ -1121,6 +1128,7 @@ public class Site {
   *   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
   *   welcome_screen - string - Does the welcome screen appear?
   *   office_integration_available - boolean - Allow users to use Office for the web?
+  *   office_integration_type - string - Office integration application used to edit and view the MS Office documents
   *   pin_all_remote_servers_to_site_region - boolean - If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
   *   motd_text - string - A message to show users when they connect via FTP or SFTP.
   *   motd_use_for_ftp - boolean - Show message to users connecting via FTP
@@ -1322,6 +1330,9 @@ public class Site {
     }
     if (parameters.containsKey("office_integration_available") && !(parameters.get("office_integration_available") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: office_integration_available must be of type Boolean parameters[\"office_integration_available\"]");
+    }
+    if (parameters.containsKey("office_integration_type") && !(parameters.get("office_integration_type") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: office_integration_type must be of type String parameters[\"office_integration_type\"]");
     }
     if (parameters.containsKey("pin_all_remote_servers_to_site_region") && !(parameters.get("pin_all_remote_servers_to_site_region") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: pin_all_remote_servers_to_site_region must be of type Boolean parameters[\"pin_all_remote_servers_to_site_region\"]");

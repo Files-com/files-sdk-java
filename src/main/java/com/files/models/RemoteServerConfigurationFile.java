@@ -126,6 +126,12 @@ public class RemoteServerConfigurationFile {
   @JsonProperty("server_host_key")
   public String serverHostKey;
 
+  /**
+  */
+  @Getter
+  @JsonProperty("subdomain")
+  public String subdomain;
+
 
 
 }

@@ -546,6 +546,7 @@ public class RemoteServer {
   *   private_key - string - private key
   *   public_key - string - public key
   *   server_host_key - string
+  *   subdomain - string
   */
   public RemoteServer configurationFile(HashMap<String, Object> parameters) {
     return configurationFile(parameters);
@@ -1018,6 +1019,7 @@ public class RemoteServer {
   *   private_key - string - private key
   *   public_key - string - public key
   *   server_host_key - string
+  *   subdomain - string
   */
   public static RemoteServer configurationFile() throws IOException {
     return configurationFile(null, null,null);
@@ -1071,6 +1073,9 @@ public class RemoteServer {
     }
     if (parameters.containsKey("server_host_key") && !(parameters.get("server_host_key") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: server_host_key must be of type String parameters[\"server_host_key\"]");
+    }
+    if (parameters.containsKey("subdomain") && !(parameters.get("subdomain") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: subdomain must be of type String parameters[\"subdomain\"]");
     }
 
     if (id == null) {

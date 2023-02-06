@@ -259,6 +259,7 @@ RemoteServer remoteServer = RemoteServer.configurationFile(
 * `private_key` (String): private key
 * `public_key` (String): public key
 * `server_host_key` (String): 
+* `subdomain` (String): 
 
 
 ---
@@ -365,6 +366,7 @@ parameters.put("config_version", "example");
 parameters.put("private_key", "example");
 parameters.put("public_key", "example");
 parameters.put("server_host_key", "example");
+parameters.put("subdomain", "example");
 
 RemoteServer.ConfigurationFile(parameters);
 ```
@@ -382,6 +384,7 @@ RemoteServer.ConfigurationFile(parameters);
 * `private_key` (String): private key
 * `public_key` (String): public key
 * `server_host_key` (String): 
+* `subdomain` (String): 
 
 
 ---

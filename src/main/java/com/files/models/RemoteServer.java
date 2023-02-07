@@ -421,6 +421,14 @@ public class RemoteServer {
   public String filesAgentApiToken;
 
   /**
+  * Filebase Bucket name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("filebase_bucket")
+  public String filebaseBucket;
+
+  /**
   * AWS secret key.
   */
   @Getter

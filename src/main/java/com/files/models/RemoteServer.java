@@ -429,6 +429,14 @@ public class RemoteServer {
   public String filebaseBucket;
 
   /**
+  * Filebase Access Key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("filebase_access_key")
+  public String filebaseAccessKey;
+
+  /**
   * AWS secret key.
   */
   @Getter
@@ -541,6 +549,14 @@ public class RemoteServer {
   public String s3CompatibleSecretKey;
 
   /**
+  * Filebase secret key
+  */
+  @Getter
+  @Setter
+  @JsonProperty("filebase_secret_key")
+  public String filebaseSecretKey;
+
+  /**
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
   *
   * Parameters:
@@ -613,6 +629,9 @@ public class RemoteServer {
   *   s3_compatible_secret_key - string - S3-compatible secret key
   *   files_agent_root - string - Agent local root path
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+  *   filebase_access_key - string - Filebase Access Key.
+  *   filebase_secret_key - string - Filebase secret key
+  *   filebase_bucket - string - Filebase Bucket name
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -836,6 +855,9 @@ public class RemoteServer {
   *   s3_compatible_secret_key - string - S3-compatible secret key
   *   files_agent_root - string - Agent local root path
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+  *   filebase_access_key - string - Filebase Access Key.
+  *   filebase_secret_key - string - Filebase secret key
+  *   filebase_bucket - string - Filebase Bucket name
   */
   public static RemoteServer create() throws IOException {
     return create(null,null);
@@ -1003,6 +1025,15 @@ public class RemoteServer {
     if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");
     }
+    if (parameters.containsKey("filebase_access_key") && !(parameters.get("filebase_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_access_key must be of type String parameters[\"filebase_access_key\"]");
+    }
+    if (parameters.containsKey("filebase_secret_key") && !(parameters.get("filebase_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_secret_key must be of type String parameters[\"filebase_secret_key\"]");
+    }
+    if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
+    }
 
 
 
@@ -1160,6 +1191,9 @@ public class RemoteServer {
   *   s3_compatible_secret_key - string - S3-compatible secret key
   *   files_agent_root - string - Agent local root path
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
+  *   filebase_access_key - string - Filebase Access Key.
+  *   filebase_secret_key - string - Filebase secret key
+  *   filebase_bucket - string - Filebase Bucket name
   */
   public static RemoteServer update() throws IOException {
     return update(null, null,null);
@@ -1336,6 +1370,15 @@ public class RemoteServer {
     }
     if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");
+    }
+    if (parameters.containsKey("filebase_access_key") && !(parameters.get("filebase_access_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_access_key must be of type String parameters[\"filebase_access_key\"]");
+    }
+    if (parameters.containsKey("filebase_secret_key") && !(parameters.get("filebase_secret_key") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_secret_key must be of type String parameters[\"filebase_secret_key\"]");
+    }
+    if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
     }
 
     if (id == null) {

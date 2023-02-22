@@ -39,7 +39,7 @@ public class FilesOkHttpApi implements FilesApiInterface {
     // by replacing the response path with the original created path parameter
     if (requestType.toString().equals("POST")
             && parameters != null
-            && parameters.get("action").toString().equals("put")
+            && parameters.getOrDefault("action","").toString().equals("put")
             && clazz.getType().toString().equals("class com.files.models.FileUploadPart")
     ) {
       HashMap<String, Object> responseMap = objectMapper.readValue(response, HashMap.class);

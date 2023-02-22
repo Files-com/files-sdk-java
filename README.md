@@ -49,7 +49,7 @@ of every method.  Like this:
 ```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("api_key", "my-key");
-    Users.list(null, requestOptions);
+    List<User> users = User.list(null, requestOptions);
 ```
 
 That key will automatically be used for any followup actions that occur
@@ -70,7 +70,7 @@ Then use it as follows:
 ```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("session_id", session.getId());
-    Users.list(null, requestOptions);
+    List<User> users = User.list(null, requestOptions);
 ```
 
 Or use if for all subsequent API calls globally like this:

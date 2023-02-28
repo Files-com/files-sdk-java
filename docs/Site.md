@@ -26,6 +26,7 @@
   "bundle_watermark_value": {
     "key": "example value"
   },
+  "uploads_via_email_authentication": true,
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
   "color2_text": "#0066a7",
@@ -171,6 +172,7 @@
 * `bundle_upload_receipt_notifications` / `bundleUploadReceiptNotifications`  (string): Do Bundle uploaders receive upload confirmation notifications?
 * `bundle_watermark_attachment` / `bundleWatermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `bundle_watermark_value` / `bundleWatermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `uploads_via_email_authentication` / `uploadsViaEmailAuthentication`  (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
 * `color2_left` / `color2Left`  (string): Page link and button color
 * `color2_link` / `color2Link`  (string): Top bar link color
 * `color2_text` / `color2Text`  (string): Page link and button color
@@ -451,6 +453,7 @@ Site site = Site.update(
 * `ldap_group_exclusion` (String): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
 * `ldap_group_inclusion` (String): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 * `ldap_base_dn` (String): Base DN for looking up users in LDAP server
+* `uploads_via_email_authentication` (Boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
 * `icon16_file` (byte[]): 
 * `icon16_delete` (Boolean): If true, will delete the file stored in icon16
 * `icon32_file` (byte[]): 

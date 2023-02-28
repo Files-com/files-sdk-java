@@ -195,6 +195,13 @@ public class Site {
   public Map<String, String> bundleWatermarkValue;
 
   /**
+  * Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+  */
+  @Getter
+  @JsonProperty("uploads_via_email_authentication")
+  public Boolean uploadsViaEmailAuthentication;
+
+  /**
   * Page link and button color
   */
   @Getter
@@ -1218,6 +1225,7 @@ public class Site {
   *   ldap_group_exclusion - string - Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
   *   ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
   *   ldap_base_dn - string - Base DN for looking up users in LDAP server
+  *   uploads_via_email_authentication - boolean - Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
   *   icon16_file - file
   *   icon16_delete - boolean - If true, will delete the file stored in icon16
   *   icon32_file - file
@@ -1596,6 +1604,9 @@ public class Site {
     }
     if (parameters.containsKey("ldap_base_dn") && !(parameters.get("ldap_base_dn") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: ldap_base_dn must be of type String parameters[\"ldap_base_dn\"]");
+    }
+    if (parameters.containsKey("uploads_via_email_authentication") && !(parameters.get("uploads_via_email_authentication") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: uploads_via_email_authentication must be of type Boolean parameters[\"uploads_via_email_authentication\"]");
     }
     if (parameters.containsKey("icon16_file") && !(parameters.get("icon16_file") instanceof byte[] )) {
       throw new IllegalArgumentException("Bad parameter: icon16_file must be of type byte[] parameters[\"icon16_file\"]");

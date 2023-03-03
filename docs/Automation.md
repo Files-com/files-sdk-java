@@ -22,6 +22,10 @@
   "description": "example",
   "path": "example",
   "user_id": 1,
+  "sync_ids": [
+    1,
+    2
+  ],
   "user_ids": [
     1,
     2
@@ -56,6 +60,7 @@
 * `description` / `description`  (string): Description for the this Automation.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
+* `sync_ids` / `syncIds`  (array): IDs of remote sync folder behaviors to run by this Automation
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
@@ -129,6 +134,7 @@ Automation automation = Automation.create(
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs.
+* `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
@@ -163,6 +169,7 @@ Automation automation = Automation.update(
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs.
+* `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
@@ -207,6 +214,7 @@ parameters.put("destination_replace_from", "example");
 parameters.put("destination_replace_to", "example");
 parameters.put("interval", "year");
 parameters.put("path", "example");
+parameters.put("sync_ids", [1,2]);
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
 parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
@@ -231,6 +239,7 @@ Automation.Update(parameters);
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs.
+* `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.

@@ -95,6 +95,14 @@ public class As2Partner {
   public String serverCertificate;
 
   /**
+  * `true` if remote server only accepts connections from dedicated IPs
+  */
+  @Getter
+  @Setter
+  @JsonProperty("enable_dedicated_ips")
+  public Boolean enableDedicatedIps;
+
+  /**
   * Serial of public certificate used for message security in hex format.
   */
   @Getter
@@ -163,6 +171,7 @@ public class As2Partner {
   *   uri - string - URL base for AS2 responses
   *   server_certificate - string - Remote server certificate security setting
   *   public_certificate - string
+  *   enable_dedicated_ips - boolean
   */
   public As2Partner update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -291,6 +300,7 @@ public class As2Partner {
   *   public_certificate (required) - string
   *   as2_station_id (required) - int64 - Id of As2Station for this partner
   *   server_certificate - string - Remote server certificate security setting
+  *   enable_dedicated_ips - boolean
   */
   public static As2Partner create() throws IOException {
     return create(null,null);
@@ -320,6 +330,9 @@ public class As2Partner {
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
+    }
 
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
@@ -348,6 +361,7 @@ public class As2Partner {
   *   uri - string - URL base for AS2 responses
   *   server_certificate - string - Remote server certificate security setting
   *   public_certificate - string
+  *   enable_dedicated_ips - boolean
   */
   public static As2Partner update() throws IOException {
     return update(null, null,null);
@@ -383,6 +397,9 @@ public class As2Partner {
     }
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
+    }
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
 
     if (id == null) {

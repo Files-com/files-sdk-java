@@ -135,11 +135,6 @@ public class BundleRecipient {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[has_registrations]=desc`). Valid fields are `has_registrations`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `has_registrations`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `has_registrations`.
-  *   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `has_registrations`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `has_registrations`.
   *   bundle_id (required) - int64 - List recipients for the bundle with this ID.
   */
   public static List<BundleRecipient> list() throws IOException {
@@ -169,21 +164,6 @@ public class BundleRecipient {
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");

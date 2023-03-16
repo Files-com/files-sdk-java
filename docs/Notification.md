@@ -78,13 +78,9 @@ List<Notification> notification = Notification.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[path]=desc`). Valid fields are `path`, `user_id` or `group_id`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `filter_like` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-* `group_id` (Long): DEPRECATED: Show notifications for this Group ID. Use `filter[group_id]` instead.
+* `group_id` (String): If set, return records where the specified field is equal to the supplied value.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
+* `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
 * `path` (String): Show notifications for this Path.
 * `include_ancestors` (Boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
 

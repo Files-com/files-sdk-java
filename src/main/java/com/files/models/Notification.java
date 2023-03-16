@@ -275,13 +275,9 @@ public class Notification {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[path]=desc`). Valid fields are `path`, `user_id` or `group_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   filter_like - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `user_id`, `group_id` or `path`.
-  *   group_id - int64 - DEPRECATED: Show notifications for this Group ID. Use `filter[group_id]` instead.
+  *   group_id - string - If set, return records where the specified field is equal to the supplied value.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   *   path - string - Show notifications for this Path.
   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
   */
@@ -310,26 +306,14 @@ public class Notification {
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof String )) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type String parameters[\"group_id\"]");
+    }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_like") && !(parameters.get("filter_like") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_like must be of type Map<String, String> parameters[\"filter_like\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long )) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map )) {
+      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");

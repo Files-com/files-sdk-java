@@ -38,9 +38,6 @@ List<SettingsChange> settingsChange = SettingsChange.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[api_key_id]=desc`). Valid fields are `api_key_id`, `created_at` or `user_id`.
+* `api_key_id` (String): If set, return records where the specified field is equal to the supplied value.
+* `user_id` (String): If set, return records where the specified field is equal to the supplied value.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `api_key_id` and `user_id`.
-* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-* `filter_like` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `api_key_id` and `user_id`.
-* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal to the supplied value. Valid fields are `api_key_id` and `user_id`.

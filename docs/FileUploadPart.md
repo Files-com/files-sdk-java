@@ -17,6 +17,7 @@
   "http_method": "PUT",
   "next_partsize": 1,
   "parallel_parts": true,
+  "retry_parts": true,
   "parameters": {
     "key": "example value"
   },
@@ -37,6 +38,7 @@
 * `http_method` / `httpMethod`  (string): HTTP Method to use for uploading the part, usually `PUT`
 * `next_partsize` / `nextPartsize`  (int64): Size in bytes for this part
 * `parallel_parts` / `parallelParts`  (boolean): If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
+* `retry_parts` / `retryParts`  (boolean): If `true`, parts may be retried. If `false`, a part cannot be retried and the upload should be restarted.
 * `parameters` / `parameters`  (object): Additional HTTP parameters to send with the upload
 * `part_number` / `partNumber`  (int64): Number of this upload part
 * `partsize` / `partsize`  (int64): Size in bytes for the next upload part

@@ -150,6 +150,13 @@ public class FileUploadPart {
   public Boolean parallelParts;
 
   /**
+  * If `true`, parts may be retried. If `false`, a part cannot be retried and the upload should be restarted.
+  */
+  @Getter
+  @JsonProperty("retry_parts")
+  public Boolean retryParts;
+
+  /**
   * Additional HTTP parameters to send with the upload
   */
   @Getter

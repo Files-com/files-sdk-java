@@ -167,6 +167,14 @@ public class Automation {
   public String description;
 
   /**
+  * If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("recurring_day")
+  public Long recurringDay;
+
+  /**
   * Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
@@ -257,6 +265,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
   public Automation update(HashMap<String, Object> parameters) {
@@ -430,6 +439,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation (required) - string - Automation type
   */
   public static Automation create() throws IOException {
@@ -496,6 +506,9 @@ public class Automation {
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long parameters[\"recurring_day\"]");
+    }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
@@ -531,6 +544,7 @@ public class Automation {
   *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
   public static Automation update() throws IOException {
@@ -606,6 +620,9 @@ public class Automation {
     }
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map )) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    }
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long )) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long parameters[\"recurring_day\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String )) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");

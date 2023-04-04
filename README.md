@@ -132,6 +132,16 @@ You can set the following global options directly on the `FilesClient` module:
     file.saveAsLocalFile("/tmp/");
 ```
 
+#### Comparing Case insensitive files and paths
+For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/topics/file-system-semantics#case-sensitivity).
+
+```java
+    if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
+        System.out.println("Paths are the same");
+    }
+```
+
+
 ### Logging
 
 #### Adding `com.files` logger to your `Loggers` root in the `log4j2.xml` file

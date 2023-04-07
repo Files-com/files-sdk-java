@@ -664,20 +664,6 @@ public class Site {
   public Boolean optOutGlobal;
 
   /**
-  * Last time the site was notified about an overage
-  */
-  @Getter
-  @JsonProperty("overage_notified_at")
-  public Date overageNotifiedAt;
-
-  /**
-  * Notify site email of overages?
-  */
-  @Getter
-  @JsonProperty("overage_notify")
-  public Boolean overageNotify;
-
-  /**
   * Is this site's billing overdue?
   */
   @Getter
@@ -1118,7 +1104,6 @@ public class Site {
   *   reply_to_email - string - Reply-to email for this site
   *   allow_bundle_names - boolean - Are manual Bundle names allowed?
   *   bundle_expiration - int64 - Site-wide Bundle expiration in days
-  *   overage_notify - boolean - Notify site email of overages?
   *   welcome_email_enabled - boolean - Will the welcome email be sent to new users?
   *   ask_about_overwrites - boolean - If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
   *   show_request_access_link - boolean - Show request access link for users without access?  Currently unused.
@@ -1283,9 +1268,6 @@ public class Site {
     }
     if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long )) {
       throw new IllegalArgumentException("Bad parameter: bundle_expiration must be of type Long parameters[\"bundle_expiration\"]");
-    }
-    if (parameters.containsKey("overage_notify") && !(parameters.get("overage_notify") instanceof Boolean )) {
-      throw new IllegalArgumentException("Bad parameter: overage_notify must be of type Boolean parameters[\"overage_notify\"]");
     }
     if (parameters.containsKey("welcome_email_enabled") && !(parameters.get("welcome_email_enabled") instanceof Boolean )) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_enabled must be of type Boolean parameters[\"welcome_email_enabled\"]");

@@ -93,8 +93,6 @@
   "office_integration_type": "example",
   "oncehub_link": "https://go.oncehub.com/files",
   "opt_out_global": true,
-  "overage_notified_at": "2000-01-01T01:00:00Z",
-  "overage_notify": true,
   "overdue": true,
   "password_min_length": 1,
   "password_require_letter": true,
@@ -239,8 +237,6 @@
 * `office_integration_type` / `officeIntegrationType`  (string): Office integration application used to edit and view the MS Office documents
 * `oncehub_link` / `oncehubLink`  (string): Link to scheduling a meeting with our Sales team
 * `opt_out_global` / `optOutGlobal`  (boolean): Use servers in the USA only?
-* `overage_notified_at` / `overageNotifiedAt`  (date-time): Last time the site was notified about an overage
-* `overage_notify` / `overageNotify`  (boolean): Notify site email of overages?
 * `overdue` / `overdue`  (boolean): Is this site's billing overdue?
 * `password_min_length` / `passwordMinLength`  (int64): Shortest password length for users
 * `password_require_letter` / `passwordRequireLetter`  (boolean): Require a letter in passwords?
@@ -346,7 +342,6 @@ Site site = Site.update(
 * `reply_to_email` (String): Reply-to email for this site
 * `allow_bundle_names` (Boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (Long): Site-wide Bundle expiration in days
-* `overage_notify` (Boolean): Notify site email of overages?
 * `welcome_email_enabled` (Boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.

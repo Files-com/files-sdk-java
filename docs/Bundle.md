@@ -68,7 +68,7 @@
 * `watermark_attachment` / `watermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `watermark_value` / `watermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `has_inbox` / `hasInbox`  (boolean): Does this bundle have an associated inbox?
-* `paths` / `paths`  (array): A list of paths in this bundle
+* `paths` / `paths`  (array): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
 * `password` / `password`  (string): Password for this bundle.
 * `form_field_set_id` / `formFieldSetId`  (int64): Id of Form Field Set to use with this bundle
 * `watermark_attachment_file` / `watermarkAttachmentFile`  (file): Preview watermark image applied to all bundle items.

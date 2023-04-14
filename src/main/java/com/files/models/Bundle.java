@@ -278,7 +278,7 @@ public class Bundle {
   public Boolean hasInbox;
 
   /**
-  * A list of paths in this bundle
+  * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
   @Getter
   @Setter

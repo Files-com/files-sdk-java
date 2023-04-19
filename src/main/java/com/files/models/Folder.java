@@ -224,6 +224,7 @@ public class Folder {
   *   path (required) - string - Path to operate on.
   *   filter - string - If specified, will filter folders/files list by this string.  Wildcards of `*` and `?` are acceptable here.
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+  *   sort_by - object - Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
   *   search - string - If `search_all` is `true`, provide the search string here.  Otherwise, this parameter acts like an alias of `filter`.
   *   search_all - boolean - Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the UI.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
   *   with_previews - boolean - Include file previews?
@@ -264,6 +265,9 @@ public class Folder {
     }
     if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");

@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,14 +32,16 @@ import lombok.Setter;
 public class FileUploadPart {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
 
   public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
     RequestMethods requestMethod;
     requestMethod = RequestMethods.PUT;
-    if (httpMethod == "post")  requestMethod = RequestMethods.POST;
+    if (httpMethod == "post") {
+      requestMethod = RequestMethods.POST;
+    }
     FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream, length);
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("action", "end");
@@ -50,7 +52,9 @@ public class FileUploadPart {
   public File putLocalFile(String source) throws IOException {
     RequestMethods requestMethod;
     requestMethod = RequestMethods.PUT;
-    if (httpMethod == "post")  requestMethod = RequestMethods.POST;
+    if (httpMethod == "post") {
+      requestMethod = RequestMethods.POST;
+    }
 
     java.io.File file = new java.io.File(source);
     long fileLength = file.length();
@@ -64,10 +68,15 @@ public class FileUploadPart {
       parameters.put("ref", ref);
       return File.completeUpload(this.path, parameters);
     } finally {
-      if (fileInputStream != null) fileInputStream.close();
-      if (bufferedInputStream != null) bufferedInputStream.close();
+      if (fileInputStream != null) { 
+        fileInputStream.close();
+      }
+      if (bufferedInputStream != null) {
+        bufferedInputStream.close();
+      }
     }
   }
+
   public FileUploadPart() {
     this(null, null);
   }
@@ -78,13 +87,14 @@ public class FileUploadPart {
 
   public FileUploadPart(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Content-Type and File to send
@@ -201,5 +211,3 @@ public class FileUploadPart {
 
 
 }
-
-

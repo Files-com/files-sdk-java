@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class WebhookTest {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public WebhookTest() {
     this(null, null);
@@ -46,13 +47,14 @@ public class WebhookTest {
 
   public WebhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Status HTTP code
@@ -189,43 +191,44 @@ public class WebhookTest {
   *   action - string - action for test body
   */
   public static WebhookTest create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static WebhookTest create( HashMap<String, Object> parameters) throws IOException {
+
+  public static WebhookTest create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static WebhookTest create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("url") && !(parameters.get("url") instanceof String )) {
+    if (parameters.containsKey("url") && !(parameters.get("url") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
     }
-    if (parameters.containsKey("method") && !(parameters.get("method") instanceof String )) {
+    if (parameters.containsKey("method") && !(parameters.get("method") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: method must be of type String parameters[\"method\"]");
     }
-    if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String )) {
+    if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
     }
-    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map )) {
+    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: headers must be of type Map<String, String> parameters[\"headers\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map )) {
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
     }
-    if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String )) {
+    if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");
     }
-    if (parameters.containsKey("file_as_body") && !(parameters.get("file_as_body") instanceof Boolean )) {
+    if (parameters.containsKey("file_as_body") && !(parameters.get("file_as_body") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: file_as_body must be of type Boolean parameters[\"file_as_body\"]");
     }
-    if (parameters.containsKey("file_form_field") && !(parameters.get("file_form_field") instanceof String )) {
+    if (parameters.containsKey("file_form_field") && !(parameters.get("file_form_field") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: file_form_field must be of type String parameters[\"file_form_field\"]");
     }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String )) {
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
 
@@ -242,5 +245,3 @@ public class WebhookTest {
 
 
 }
-
-

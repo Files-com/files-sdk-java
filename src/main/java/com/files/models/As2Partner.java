@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class As2Partner {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public As2Partner() {
     this(null, null);
@@ -46,13 +47,14 @@ public class As2Partner {
 
   public As2Partner(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Id of the AS2 Partner.
@@ -186,6 +188,7 @@ public class As2Partner {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -202,22 +205,23 @@ public class As2Partner {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
   public static List<As2Partner> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<As2Partner> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<As2Partner> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<As2Partner> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<As2Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
@@ -242,9 +246,10 @@ public class As2Partner {
   *   id (required) - int64 - As2 Partner ID.
   */
   public static List<As2Partner> find() throws IOException {
-    return find(null, null,null);
+    return find(null, null, null);
   }
-  public static List<As2Partner> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<As2Partner> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
@@ -252,16 +257,16 @@ public class As2Partner {
     return find(null, parameters, options);
   }
 
-  public static List<As2Partner> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<As2Partner> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -275,7 +280,8 @@ public class As2Partner {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -303,34 +309,35 @@ public class As2Partner {
   *   enable_dedicated_ips - boolean
   */
   public static As2Partner create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static As2Partner create( HashMap<String, Object> parameters) throws IOException {
+
+  public static As2Partner create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static As2Partner create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
+    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
     }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
+    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
-    if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long )) {
+    if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long parameters[\"as2_station_id\"]");
     }
-    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
+    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
-    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
 
@@ -364,9 +371,10 @@ public class As2Partner {
   *   enable_dedicated_ips - boolean
   */
   public static As2Partner update() throws IOException {
-    return update(null, null,null);
+    return update(null, null, null);
   }
-  public static As2Partner update(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static As2Partner update(Long id, HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
@@ -374,31 +382,31 @@ public class As2Partner {
     return update(null, parameters, options);
   }
 
-  public static As2Partner update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String )) {
+    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
     }
-    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String )) {
+    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String )) {
+    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
-    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean )) {
+    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
 
@@ -412,7 +420,8 @@ public class As2Partner {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -426,9 +435,10 @@ public class As2Partner {
   /**
   */
   public static As2Partner delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static As2Partner delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static As2Partner delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -436,16 +446,16 @@ public class As2Partner {
     return delete(null, parameters, options);
   }
 
-  public static As2Partner delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -459,7 +469,8 @@ public class As2Partner {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -478,5 +489,3 @@ public class As2Partner {
   }
 
 }
-
-

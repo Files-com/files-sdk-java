@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class ApiKey {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public ApiKey() {
     this(null, null);
@@ -46,13 +47,14 @@ public class ApiKey {
 
   public ApiKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * API Key ID
@@ -177,6 +179,7 @@ public class ApiKey {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -200,43 +203,44 @@ public class ApiKey {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
   */
   public static List<ApiKey> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<ApiKey> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<ApiKey> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<ApiKey> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map )) {
+    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
     }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map )) {
+    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
     }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map )) {
+    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
     }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map )) {
+    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
@@ -259,14 +263,15 @@ public class ApiKey {
   /**
   */
   public static List<ApiKey> findCurrent() throws IOException {
-    return findCurrent(null,null);
+    return findCurrent(null, null);
   }
-  public static List<ApiKey> findCurrent( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<ApiKey> findCurrent(HashMap<String, Object> parameters) throws IOException {
     return findCurrent(parameters, null);
   }
 
 
-  public static List<ApiKey> findCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -286,9 +291,10 @@ public class ApiKey {
   *   id (required) - int64 - Api Key ID.
   */
   public static List<ApiKey> find() throws IOException {
-    return find(null, null,null);
+    return find(null, null, null);
   }
-  public static List<ApiKey> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<ApiKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
@@ -296,16 +302,16 @@ public class ApiKey {
     return find(null, parameters, options);
   }
 
-  public static List<ApiKey> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -319,7 +325,8 @@ public class ApiKey {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -347,34 +354,35 @@ public class ApiKey {
   *   path - string - Folder path restriction for this api key.
   */
   public static ApiKey create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static ApiKey create( HashMap<String, Object> parameters) throws IOException {
+
+  public static ApiKey create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static ApiKey create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
@@ -394,25 +402,26 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey updateCurrent() throws IOException {
-    return updateCurrent(null,null);
+    return updateCurrent(null, null);
   }
-  public static ApiKey updateCurrent( HashMap<String, Object> parameters) throws IOException {
+
+  public static ApiKey updateCurrent(HashMap<String, Object> parameters) throws IOException {
     return updateCurrent(parameters, null);
   }
 
 
-  public static ApiKey updateCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey updateCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
 
@@ -433,9 +442,10 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey update() throws IOException {
-    return update(null, null,null);
+    return update(null, null, null);
   }
-  public static ApiKey update(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static ApiKey update(Long id, HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
@@ -443,28 +453,28 @@ public class ApiKey {
     return update(null, parameters, options);
   }
 
-  public static ApiKey update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String )) {
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String )) {
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String )) {
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
 
@@ -478,7 +488,8 @@ public class ApiKey {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -492,14 +503,15 @@ public class ApiKey {
   /**
   */
   public static ApiKey deleteCurrent() throws IOException {
-    return deleteCurrent(null,null);
+    return deleteCurrent(null, null);
   }
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters) throws IOException {
+
+  public static ApiKey deleteCurrent(HashMap<String, Object> parameters) throws IOException {
     return deleteCurrent(parameters, null);
   }
 
 
-  public static ApiKey deleteCurrent( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -517,9 +529,10 @@ public class ApiKey {
   /**
   */
   public static ApiKey delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static ApiKey delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static ApiKey delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -527,16 +540,16 @@ public class ApiKey {
     return delete(null, parameters, options);
   }
 
-  public static ApiKey delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -550,7 +563,8 @@ public class ApiKey {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -569,5 +583,3 @@ public class ApiKey {
   }
 
 }
-
-

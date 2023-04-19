@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class History {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public History() {
     this(null, null);
@@ -46,13 +47,14 @@ public class History {
 
   public History(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Action ID
@@ -158,9 +160,10 @@ public class History {
   *   path (required) - string - Path to operate on.
   */
   public static List<History> listForFile() throws IOException {
-    return listForFile(null, null,null);
+    return listForFile(null, null, null);
   }
-  public static List<History> listForFile(String path,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<History> listForFile(String path, HashMap<String, Object> parameters) throws IOException {
     return listForFile(path, parameters, null);
   }
 
@@ -168,34 +171,34 @@ public class History {
     return listForFile(null, parameters, options);
   }
 
-  public static List<History> listForFile(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<History> listForFile(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = ((String) parameters.get("path"));
+      path = (String) parameters.get("path");
     }
 
 
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String )) {
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (!(path instanceof String) ) {
+    if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
@@ -209,7 +212,8 @@ public class History {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -231,9 +235,10 @@ public class History {
   *   path (required) - string - Path to operate on.
   */
   public static List<History> listForFolder() throws IOException {
-    return listForFolder(null, null,null);
+    return listForFolder(null, null, null);
   }
-  public static List<History> listForFolder(String path,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<History> listForFolder(String path, HashMap<String, Object> parameters) throws IOException {
     return listForFolder(path, parameters, null);
   }
 
@@ -241,34 +246,34 @@ public class History {
     return listForFolder(null, parameters, options);
   }
 
-  public static List<History> listForFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<History> listForFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = ((String) parameters.get("path"));
+      path = (String) parameters.get("path");
     }
 
 
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String )) {
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (!(path instanceof String) ) {
+    if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
@@ -282,7 +287,8 @@ public class History {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -304,9 +310,10 @@ public class History {
   *   user_id (required) - int64 - User ID.
   */
   public static List<History> listForUser() throws IOException {
-    return listForUser(null, null,null);
+    return listForUser(null, null, null);
   }
-  public static List<History> listForUser(Long user_id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<History> listForUser(Long user_id, HashMap<String, Object> parameters) throws IOException {
     return listForUser(user_id, parameters, null);
   }
 
@@ -314,34 +321,34 @@ public class History {
     return listForUser(null, parameters, options);
   }
 
-  public static List<History> listForUser(Long user_id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<History> listForUser(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (user_id == null && parameters.containsKey("user_id") && parameters.get("user_id") != null) {
-      user_id = ((Long) parameters.get("user_id"));
+      user_id = (Long) parameters.get("user_id");
     }
 
 
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String )) {
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (!(user_id instanceof Long) ) {
+    if (!(user_id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
 
@@ -355,7 +362,8 @@ public class History {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -376,34 +384,35 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   */
   public static List<History> listLogins() throws IOException {
-    return listLogins(null,null);
+    return listLogins(null, null);
   }
-  public static List<History> listLogins( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<History> listLogins(HashMap<String, Object> parameters) throws IOException {
     return listLogins(parameters, null);
   }
 
 
-  public static List<History> listLogins( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<History> listLogins(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String )) {
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
 
@@ -428,40 +437,41 @@ public class History {
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   */
   public static List<History> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<History> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<History> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<History> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<History> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String )) {
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String )) {
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
     }
-    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String )) {
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map )) {
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map )) {
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
     }
 
@@ -482,5 +492,3 @@ public class History {
   }
 
 }
-
-

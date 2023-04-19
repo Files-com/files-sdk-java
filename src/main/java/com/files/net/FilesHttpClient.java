@@ -3,18 +3,17 @@ package com.files.net;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import devcsrj.okhttp3.logging.HttpLoggingInterceptor;
+import java.security.cert.CertificateException;
+import java.util.Arrays;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.security.cert.CertificateException;
-import java.util.Arrays;
 
 public class FilesHttpClient {
   private static FilesHttpClient instance;

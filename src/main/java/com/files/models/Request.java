@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class Request {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public Request() {
     this(null, null);
@@ -46,13 +47,14 @@ public class Request {
 
   public Request(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Request ID
@@ -127,6 +129,7 @@ public class Request {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -146,31 +149,32 @@ public class Request {
   *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
   public static List<Request> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<Request> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<Request> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<Request> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<Request> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean )) {
+    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
     }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
@@ -199,9 +203,10 @@ public class Request {
   *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
   public static Request getFolder() throws IOException {
-    return getFolder(null, null,null);
+    return getFolder(null, null, null);
   }
-  public static Request getFolder(String path,  HashMap<String, Object> parameters) throws IOException {
+
+  public static Request getFolder(String path, HashMap<String, Object> parameters) throws IOException {
     return getFolder(path, parameters, null);
   }
 
@@ -209,28 +214,28 @@ public class Request {
     return getFolder(null, parameters, options);
   }
 
-  public static Request getFolder(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = ((String) parameters.get("path"));
+      path = (String) parameters.get("path");
     }
 
 
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map )) {
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean )) {
+    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
     }
-    if (!(path instanceof String) ) {
+    if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
@@ -244,7 +249,8 @@ public class Request {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -263,28 +269,29 @@ public class Request {
   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
   public static Request create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static Request create( HashMap<String, Object> parameters) throws IOException {
+
+  public static Request create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static Request create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String )) {
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String )) {
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
-    if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String )) {
+    if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
     }
-    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String )) {
+    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
 
@@ -306,9 +313,10 @@ public class Request {
   /**
   */
   public static Request delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static Request delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static Request delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -316,16 +324,16 @@ public class Request {
     return delete(null, parameters, options);
   }
 
-  public static Request delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -339,7 +347,8 @@ public class Request {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -358,5 +367,3 @@ public class Request {
   }
 
 }
-
-

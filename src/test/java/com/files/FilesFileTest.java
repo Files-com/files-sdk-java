@@ -28,7 +28,7 @@ public class FilesFileTest {
   public void getFileStream() throws IOException {
     FilesClient.apiKey = "...";
     File file = File.download("test.txt", null);
-    try(InputStream inputStream = file.getInputStream()) {
+    try (InputStream inputStream = file.getInputStream()) {
       String text = new BufferedReader(
           new InputStreamReader(inputStream, StandardCharsets.UTF_8))
           .lines()

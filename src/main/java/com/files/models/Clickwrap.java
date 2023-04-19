@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class Clickwrap {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public Clickwrap() {
     this(null, null);
@@ -46,13 +47,14 @@ public class Clickwrap {
 
   public Clickwrap(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Clickwrap ID
@@ -123,6 +125,7 @@ public class Clickwrap {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -139,22 +142,23 @@ public class Clickwrap {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
   public static List<Clickwrap> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<Clickwrap> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<Clickwrap> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<Clickwrap> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<Clickwrap> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
 
@@ -179,9 +183,10 @@ public class Clickwrap {
   *   id (required) - int64 - Clickwrap ID.
   */
   public static List<Clickwrap> find() throws IOException {
-    return find(null, null,null);
+    return find(null, null, null);
   }
-  public static List<Clickwrap> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<Clickwrap> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
@@ -189,16 +194,16 @@ public class Clickwrap {
     return find(null, parameters, options);
   }
 
-  public static List<Clickwrap> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<Clickwrap> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -212,7 +217,8 @@ public class Clickwrap {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -239,31 +245,32 @@ public class Clickwrap {
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
   public static Clickwrap create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static Clickwrap create( HashMap<String, Object> parameters) throws IOException {
+
+  public static Clickwrap create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static Clickwrap create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
-    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String )) {
+    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
     }
-    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String )) {
+    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
     }
-    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String )) {
+    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
     }
 
@@ -285,9 +292,10 @@ public class Clickwrap {
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
   public static Clickwrap update() throws IOException {
-    return update(null, null,null);
+    return update(null, null, null);
   }
-  public static Clickwrap update(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static Clickwrap update(Long id, HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
@@ -295,31 +303,31 @@ public class Clickwrap {
     return update(null, parameters, options);
   }
 
-  public static Clickwrap update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
-    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String )) {
+    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
     }
-    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String )) {
+    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
     }
-    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String )) {
+    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
     }
 
@@ -333,7 +341,8 @@ public class Clickwrap {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -347,9 +356,10 @@ public class Clickwrap {
   /**
   */
   public static Clickwrap delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static Clickwrap delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static Clickwrap delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -357,16 +367,16 @@ public class Clickwrap {
     return delete(null, parameters, options);
   }
 
-  public static Clickwrap delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -380,7 +390,8 @@ public class Clickwrap {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -399,5 +410,3 @@ public class Clickwrap {
   }
 
 }
-
-

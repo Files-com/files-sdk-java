@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class Site {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public Site() {
     this(null, null);
@@ -46,13 +47,14 @@ public class Site {
 
   public Site(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Site name
@@ -1046,14 +1048,15 @@ public class Site {
   /**
   */
   public static Site get() throws IOException {
-    return get(null,null);
+    return get(null, null);
   }
-  public static Site get( HashMap<String, Object> parameters) throws IOException {
+
+  public static Site get(HashMap<String, Object> parameters) throws IOException {
     return get(parameters, null);
   }
 
 
-  public static Site get( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site get(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1071,14 +1074,15 @@ public class Site {
   /**
   */
   public static Site getUsage() throws IOException {
-    return getUsage(null,null);
+    return getUsage(null, null);
   }
-  public static Site getUsage( HashMap<String, Object> parameters) throws IOException {
+
+  public static Site getUsage(HashMap<String, Object> parameters) throws IOException {
     return getUsage(parameters, null);
   }
 
 
-  public static Site getUsage( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site getUsage(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1230,415 +1234,416 @@ public class Site {
   *   session_expiry_minutes - int64 - Session expiry in minutes
   */
   public static Site update() throws IOException {
-    return update(null,null);
+    return update(null, null);
   }
-  public static Site update( HashMap<String, Object> parameters) throws IOException {
+
+  public static Site update(HashMap<String, Object> parameters) throws IOException {
     return update(parameters, null);
   }
 
 
-  public static Site update( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String )) {
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("subdomain") && !(parameters.get("subdomain") instanceof String )) {
+    if (parameters.containsKey("subdomain") && !(parameters.get("subdomain") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: subdomain must be of type String parameters[\"subdomain\"]");
     }
-    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String )) {
+    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
     }
-    if (parameters.containsKey("domain_hsts_header") && !(parameters.get("domain_hsts_header") instanceof Boolean )) {
+    if (parameters.containsKey("domain_hsts_header") && !(parameters.get("domain_hsts_header") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: domain_hsts_header must be of type Boolean parameters[\"domain_hsts_header\"]");
     }
-    if (parameters.containsKey("domain_letsencrypt_chain") && !(parameters.get("domain_letsencrypt_chain") instanceof String )) {
+    if (parameters.containsKey("domain_letsencrypt_chain") && !(parameters.get("domain_letsencrypt_chain") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: domain_letsencrypt_chain must be of type String parameters[\"domain_letsencrypt_chain\"]");
     }
-    if (parameters.containsKey("email") && !(parameters.get("email") instanceof String )) {
+    if (parameters.containsKey("email") && !(parameters.get("email") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
     }
-    if (parameters.containsKey("reply_to_email") && !(parameters.get("reply_to_email") instanceof String )) {
+    if (parameters.containsKey("reply_to_email") && !(parameters.get("reply_to_email") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: reply_to_email must be of type String parameters[\"reply_to_email\"]");
     }
-    if (parameters.containsKey("allow_bundle_names") && !(parameters.get("allow_bundle_names") instanceof Boolean )) {
+    if (parameters.containsKey("allow_bundle_names") && !(parameters.get("allow_bundle_names") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bundle_names must be of type Boolean parameters[\"allow_bundle_names\"]");
     }
-    if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long )) {
+    if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_expiration must be of type Long parameters[\"bundle_expiration\"]");
     }
-    if (parameters.containsKey("welcome_email_enabled") && !(parameters.get("welcome_email_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("welcome_email_enabled") && !(parameters.get("welcome_email_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_enabled must be of type Boolean parameters[\"welcome_email_enabled\"]");
     }
-    if (parameters.containsKey("ask_about_overwrites") && !(parameters.get("ask_about_overwrites") instanceof Boolean )) {
+    if (parameters.containsKey("ask_about_overwrites") && !(parameters.get("ask_about_overwrites") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ask_about_overwrites must be of type Boolean parameters[\"ask_about_overwrites\"]");
     }
-    if (parameters.containsKey("show_request_access_link") && !(parameters.get("show_request_access_link") instanceof Boolean )) {
+    if (parameters.containsKey("show_request_access_link") && !(parameters.get("show_request_access_link") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: show_request_access_link must be of type Boolean parameters[\"show_request_access_link\"]");
     }
-    if (parameters.containsKey("welcome_email_cc") && !(parameters.get("welcome_email_cc") instanceof String )) {
+    if (parameters.containsKey("welcome_email_cc") && !(parameters.get("welcome_email_cc") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_cc must be of type String parameters[\"welcome_email_cc\"]");
     }
-    if (parameters.containsKey("welcome_email_subject") && !(parameters.get("welcome_email_subject") instanceof String )) {
+    if (parameters.containsKey("welcome_email_subject") && !(parameters.get("welcome_email_subject") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_subject must be of type String parameters[\"welcome_email_subject\"]");
     }
-    if (parameters.containsKey("welcome_custom_text") && !(parameters.get("welcome_custom_text") instanceof String )) {
+    if (parameters.containsKey("welcome_custom_text") && !(parameters.get("welcome_custom_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: welcome_custom_text must be of type String parameters[\"welcome_custom_text\"]");
     }
-    if (parameters.containsKey("language") && !(parameters.get("language") instanceof String )) {
+    if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
     }
-    if (parameters.containsKey("windows_mode_ftp") && !(parameters.get("windows_mode_ftp") instanceof Boolean )) {
+    if (parameters.containsKey("windows_mode_ftp") && !(parameters.get("windows_mode_ftp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: windows_mode_ftp must be of type Boolean parameters[\"windows_mode_ftp\"]");
     }
-    if (parameters.containsKey("default_time_zone") && !(parameters.get("default_time_zone") instanceof String )) {
+    if (parameters.containsKey("default_time_zone") && !(parameters.get("default_time_zone") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: default_time_zone must be of type String parameters[\"default_time_zone\"]");
     }
-    if (parameters.containsKey("desktop_app") && !(parameters.get("desktop_app") instanceof Boolean )) {
+    if (parameters.containsKey("desktop_app") && !(parameters.get("desktop_app") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: desktop_app must be of type Boolean parameters[\"desktop_app\"]");
     }
-    if (parameters.containsKey("desktop_app_session_ip_pinning") && !(parameters.get("desktop_app_session_ip_pinning") instanceof Boolean )) {
+    if (parameters.containsKey("desktop_app_session_ip_pinning") && !(parameters.get("desktop_app_session_ip_pinning") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: desktop_app_session_ip_pinning must be of type Boolean parameters[\"desktop_app_session_ip_pinning\"]");
     }
-    if (parameters.containsKey("desktop_app_session_lifetime") && !(parameters.get("desktop_app_session_lifetime") instanceof Long )) {
+    if (parameters.containsKey("desktop_app_session_lifetime") && !(parameters.get("desktop_app_session_lifetime") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: desktop_app_session_lifetime must be of type Long parameters[\"desktop_app_session_lifetime\"]");
     }
-    if (parameters.containsKey("mobile_app") && !(parameters.get("mobile_app") instanceof Boolean )) {
+    if (parameters.containsKey("mobile_app") && !(parameters.get("mobile_app") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mobile_app must be of type Boolean parameters[\"mobile_app\"]");
     }
-    if (parameters.containsKey("mobile_app_session_ip_pinning") && !(parameters.get("mobile_app_session_ip_pinning") instanceof Boolean )) {
+    if (parameters.containsKey("mobile_app_session_ip_pinning") && !(parameters.get("mobile_app_session_ip_pinning") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mobile_app_session_ip_pinning must be of type Boolean parameters[\"mobile_app_session_ip_pinning\"]");
     }
-    if (parameters.containsKey("mobile_app_session_lifetime") && !(parameters.get("mobile_app_session_lifetime") instanceof Long )) {
+    if (parameters.containsKey("mobile_app_session_lifetime") && !(parameters.get("mobile_app_session_lifetime") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: mobile_app_session_lifetime must be of type Long parameters[\"mobile_app_session_lifetime\"]");
     }
-    if (parameters.containsKey("folder_permissions_groups_only") && !(parameters.get("folder_permissions_groups_only") instanceof Boolean )) {
+    if (parameters.containsKey("folder_permissions_groups_only") && !(parameters.get("folder_permissions_groups_only") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: folder_permissions_groups_only must be of type Boolean parameters[\"folder_permissions_groups_only\"]");
     }
-    if (parameters.containsKey("welcome_screen") && !(parameters.get("welcome_screen") instanceof String )) {
+    if (parameters.containsKey("welcome_screen") && !(parameters.get("welcome_screen") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: welcome_screen must be of type String parameters[\"welcome_screen\"]");
     }
-    if (parameters.containsKey("office_integration_available") && !(parameters.get("office_integration_available") instanceof Boolean )) {
+    if (parameters.containsKey("office_integration_available") && !(parameters.get("office_integration_available") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_available must be of type Boolean parameters[\"office_integration_available\"]");
     }
-    if (parameters.containsKey("office_integration_type") && !(parameters.get("office_integration_type") instanceof String )) {
+    if (parameters.containsKey("office_integration_type") && !(parameters.get("office_integration_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_type must be of type String parameters[\"office_integration_type\"]");
     }
-    if (parameters.containsKey("pin_all_remote_servers_to_site_region") && !(parameters.get("pin_all_remote_servers_to_site_region") instanceof Boolean )) {
+    if (parameters.containsKey("pin_all_remote_servers_to_site_region") && !(parameters.get("pin_all_remote_servers_to_site_region") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: pin_all_remote_servers_to_site_region must be of type Boolean parameters[\"pin_all_remote_servers_to_site_region\"]");
     }
-    if (parameters.containsKey("motd_text") && !(parameters.get("motd_text") instanceof String )) {
+    if (parameters.containsKey("motd_text") && !(parameters.get("motd_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: motd_text must be of type String parameters[\"motd_text\"]");
     }
-    if (parameters.containsKey("motd_use_for_ftp") && !(parameters.get("motd_use_for_ftp") instanceof Boolean )) {
+    if (parameters.containsKey("motd_use_for_ftp") && !(parameters.get("motd_use_for_ftp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: motd_use_for_ftp must be of type Boolean parameters[\"motd_use_for_ftp\"]");
     }
-    if (parameters.containsKey("motd_use_for_sftp") && !(parameters.get("motd_use_for_sftp") instanceof Boolean )) {
+    if (parameters.containsKey("motd_use_for_sftp") && !(parameters.get("motd_use_for_sftp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: motd_use_for_sftp must be of type Boolean parameters[\"motd_use_for_sftp\"]");
     }
-    if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double )) {
+    if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");
     }
-    if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof Boolean )) {
+    if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ssl_required must be of type Boolean parameters[\"ssl_required\"]");
     }
-    if (parameters.containsKey("tls_disabled") && !(parameters.get("tls_disabled") instanceof Boolean )) {
+    if (parameters.containsKey("tls_disabled") && !(parameters.get("tls_disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: tls_disabled must be of type Boolean parameters[\"tls_disabled\"]");
     }
-    if (parameters.containsKey("sftp_insecure_ciphers") && !(parameters.get("sftp_insecure_ciphers") instanceof Boolean )) {
+    if (parameters.containsKey("sftp_insecure_ciphers") && !(parameters.get("sftp_insecure_ciphers") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_insecure_ciphers must be of type Boolean parameters[\"sftp_insecure_ciphers\"]");
     }
-    if (parameters.containsKey("disable_files_certificate_generation") && !(parameters.get("disable_files_certificate_generation") instanceof Boolean )) {
+    if (parameters.containsKey("disable_files_certificate_generation") && !(parameters.get("disable_files_certificate_generation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_files_certificate_generation must be of type Boolean parameters[\"disable_files_certificate_generation\"]");
     }
-    if (parameters.containsKey("user_lockout") && !(parameters.get("user_lockout") instanceof Boolean )) {
+    if (parameters.containsKey("user_lockout") && !(parameters.get("user_lockout") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: user_lockout must be of type Boolean parameters[\"user_lockout\"]");
     }
-    if (parameters.containsKey("user_lockout_tries") && !(parameters.get("user_lockout_tries") instanceof Long )) {
+    if (parameters.containsKey("user_lockout_tries") && !(parameters.get("user_lockout_tries") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_lockout_tries must be of type Long parameters[\"user_lockout_tries\"]");
     }
-    if (parameters.containsKey("user_lockout_within") && !(parameters.get("user_lockout_within") instanceof Long )) {
+    if (parameters.containsKey("user_lockout_within") && !(parameters.get("user_lockout_within") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_lockout_within must be of type Long parameters[\"user_lockout_within\"]");
     }
-    if (parameters.containsKey("user_lockout_lock_period") && !(parameters.get("user_lockout_lock_period") instanceof Long )) {
+    if (parameters.containsKey("user_lockout_lock_period") && !(parameters.get("user_lockout_lock_period") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_lockout_lock_period must be of type Long parameters[\"user_lockout_lock_period\"]");
     }
-    if (parameters.containsKey("include_password_in_welcome_email") && !(parameters.get("include_password_in_welcome_email") instanceof Boolean )) {
+    if (parameters.containsKey("include_password_in_welcome_email") && !(parameters.get("include_password_in_welcome_email") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_password_in_welcome_email must be of type Boolean parameters[\"include_password_in_welcome_email\"]");
     }
-    if (parameters.containsKey("allowed_countries") && !(parameters.get("allowed_countries") instanceof String )) {
+    if (parameters.containsKey("allowed_countries") && !(parameters.get("allowed_countries") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_countries must be of type String parameters[\"allowed_countries\"]");
     }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String )) {
+    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
     }
-    if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String )) {
+    if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: disallowed_countries must be of type String parameters[\"disallowed_countries\"]");
     }
-    if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long )) {
+    if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: days_to_retain_backups must be of type Long parameters[\"days_to_retain_backups\"]");
     }
-    if (parameters.containsKey("max_prior_passwords") && !(parameters.get("max_prior_passwords") instanceof Long )) {
+    if (parameters.containsKey("max_prior_passwords") && !(parameters.get("max_prior_passwords") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: max_prior_passwords must be of type Long parameters[\"max_prior_passwords\"]");
     }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long )) {
+    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
     }
-    if (parameters.containsKey("password_min_length") && !(parameters.get("password_min_length") instanceof Long )) {
+    if (parameters.containsKey("password_min_length") && !(parameters.get("password_min_length") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: password_min_length must be of type Long parameters[\"password_min_length\"]");
     }
-    if (parameters.containsKey("password_require_letter") && !(parameters.get("password_require_letter") instanceof Boolean )) {
+    if (parameters.containsKey("password_require_letter") && !(parameters.get("password_require_letter") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_letter must be of type Boolean parameters[\"password_require_letter\"]");
     }
-    if (parameters.containsKey("password_require_mixed") && !(parameters.get("password_require_mixed") instanceof Boolean )) {
+    if (parameters.containsKey("password_require_mixed") && !(parameters.get("password_require_mixed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_mixed must be of type Boolean parameters[\"password_require_mixed\"]");
     }
-    if (parameters.containsKey("password_require_special") && !(parameters.get("password_require_special") instanceof Boolean )) {
+    if (parameters.containsKey("password_require_special") && !(parameters.get("password_require_special") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_special must be of type Boolean parameters[\"password_require_special\"]");
     }
-    if (parameters.containsKey("password_require_number") && !(parameters.get("password_require_number") instanceof Boolean )) {
+    if (parameters.containsKey("password_require_number") && !(parameters.get("password_require_number") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_number must be of type Boolean parameters[\"password_require_number\"]");
     }
-    if (parameters.containsKey("password_require_unbreached") && !(parameters.get("password_require_unbreached") instanceof Boolean )) {
+    if (parameters.containsKey("password_require_unbreached") && !(parameters.get("password_require_unbreached") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_unbreached must be of type Boolean parameters[\"password_require_unbreached\"]");
     }
-    if (parameters.containsKey("sftp_user_root_enabled") && !(parameters.get("sftp_user_root_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("sftp_user_root_enabled") && !(parameters.get("sftp_user_root_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_user_root_enabled must be of type Boolean parameters[\"sftp_user_root_enabled\"]");
     }
-    if (parameters.containsKey("disable_password_reset") && !(parameters.get("disable_password_reset") instanceof Boolean )) {
+    if (parameters.containsKey("disable_password_reset") && !(parameters.get("disable_password_reset") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_password_reset must be of type Boolean parameters[\"disable_password_reset\"]");
     }
-    if (parameters.containsKey("immutable_files") && !(parameters.get("immutable_files") instanceof Boolean )) {
+    if (parameters.containsKey("immutable_files") && !(parameters.get("immutable_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: immutable_files must be of type Boolean parameters[\"immutable_files\"]");
     }
-    if (parameters.containsKey("session_pinned_by_ip") && !(parameters.get("session_pinned_by_ip") instanceof Boolean )) {
+    if (parameters.containsKey("session_pinned_by_ip") && !(parameters.get("session_pinned_by_ip") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: session_pinned_by_ip must be of type Boolean parameters[\"session_pinned_by_ip\"]");
     }
-    if (parameters.containsKey("bundle_password_required") && !(parameters.get("bundle_password_required") instanceof Boolean )) {
+    if (parameters.containsKey("bundle_password_required") && !(parameters.get("bundle_password_required") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_password_required must be of type Boolean parameters[\"bundle_password_required\"]");
     }
-    if (parameters.containsKey("bundle_require_share_recipient") && !(parameters.get("bundle_require_share_recipient") instanceof Boolean )) {
+    if (parameters.containsKey("bundle_require_share_recipient") && !(parameters.get("bundle_require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_require_share_recipient must be of type Boolean parameters[\"bundle_require_share_recipient\"]");
     }
-    if (parameters.containsKey("bundle_registration_notifications") && !(parameters.get("bundle_registration_notifications") instanceof String )) {
+    if (parameters.containsKey("bundle_registration_notifications") && !(parameters.get("bundle_registration_notifications") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: bundle_registration_notifications must be of type String parameters[\"bundle_registration_notifications\"]");
     }
-    if (parameters.containsKey("bundle_activity_notifications") && !(parameters.get("bundle_activity_notifications") instanceof String )) {
+    if (parameters.containsKey("bundle_activity_notifications") && !(parameters.get("bundle_activity_notifications") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: bundle_activity_notifications must be of type String parameters[\"bundle_activity_notifications\"]");
     }
-    if (parameters.containsKey("bundle_upload_receipt_notifications") && !(parameters.get("bundle_upload_receipt_notifications") instanceof String )) {
+    if (parameters.containsKey("bundle_upload_receipt_notifications") && !(parameters.get("bundle_upload_receipt_notifications") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: bundle_upload_receipt_notifications must be of type String parameters[\"bundle_upload_receipt_notifications\"]");
     }
-    if (parameters.containsKey("password_requirements_apply_to_bundles") && !(parameters.get("password_requirements_apply_to_bundles") instanceof Boolean )) {
+    if (parameters.containsKey("password_requirements_apply_to_bundles") && !(parameters.get("password_requirements_apply_to_bundles") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_requirements_apply_to_bundles must be of type Boolean parameters[\"password_requirements_apply_to_bundles\"]");
     }
-    if (parameters.containsKey("opt_out_global") && !(parameters.get("opt_out_global") instanceof Boolean )) {
+    if (parameters.containsKey("opt_out_global") && !(parameters.get("opt_out_global") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: opt_out_global must be of type Boolean parameters[\"opt_out_global\"]");
     }
-    if (parameters.containsKey("use_provided_modified_at") && !(parameters.get("use_provided_modified_at") instanceof Boolean )) {
+    if (parameters.containsKey("use_provided_modified_at") && !(parameters.get("use_provided_modified_at") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: use_provided_modified_at must be of type Boolean parameters[\"use_provided_modified_at\"]");
     }
-    if (parameters.containsKey("custom_namespace") && !(parameters.get("custom_namespace") instanceof Boolean )) {
+    if (parameters.containsKey("custom_namespace") && !(parameters.get("custom_namespace") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: custom_namespace must be of type Boolean parameters[\"custom_namespace\"]");
     }
-    if (parameters.containsKey("disable_users_from_inactivity_period_days") && !(parameters.get("disable_users_from_inactivity_period_days") instanceof Long )) {
+    if (parameters.containsKey("disable_users_from_inactivity_period_days") && !(parameters.get("disable_users_from_inactivity_period_days") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: disable_users_from_inactivity_period_days must be of type Long parameters[\"disable_users_from_inactivity_period_days\"]");
     }
-    if (parameters.containsKey("non_sso_groups_allowed") && !(parameters.get("non_sso_groups_allowed") instanceof Boolean )) {
+    if (parameters.containsKey("non_sso_groups_allowed") && !(parameters.get("non_sso_groups_allowed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: non_sso_groups_allowed must be of type Boolean parameters[\"non_sso_groups_allowed\"]");
     }
-    if (parameters.containsKey("non_sso_users_allowed") && !(parameters.get("non_sso_users_allowed") instanceof Boolean )) {
+    if (parameters.containsKey("non_sso_users_allowed") && !(parameters.get("non_sso_users_allowed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: non_sso_users_allowed must be of type Boolean parameters[\"non_sso_users_allowed\"]");
     }
-    if (parameters.containsKey("sharing_enabled") && !(parameters.get("sharing_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("sharing_enabled") && !(parameters.get("sharing_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sharing_enabled must be of type Boolean parameters[\"sharing_enabled\"]");
     }
-    if (parameters.containsKey("user_requests_enabled") && !(parameters.get("user_requests_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("user_requests_enabled") && !(parameters.get("user_requests_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: user_requests_enabled must be of type Boolean parameters[\"user_requests_enabled\"]");
     }
-    if (parameters.containsKey("user_requests_notify_admins") && !(parameters.get("user_requests_notify_admins") instanceof Boolean )) {
+    if (parameters.containsKey("user_requests_notify_admins") && !(parameters.get("user_requests_notify_admins") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: user_requests_notify_admins must be of type Boolean parameters[\"user_requests_notify_admins\"]");
     }
-    if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_enabled must be of type Boolean parameters[\"ftp_enabled\"]");
     }
-    if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
     }
-    if (parameters.containsKey("sftp_host_key_type") && !(parameters.get("sftp_host_key_type") instanceof String )) {
+    if (parameters.containsKey("sftp_host_key_type") && !(parameters.get("sftp_host_key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: sftp_host_key_type must be of type String parameters[\"sftp_host_key_type\"]");
     }
-    if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long )) {
+    if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_id must be of type Long parameters[\"active_sftp_host_key_id\"]");
     }
-    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map )) {
+    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Map<String, String> parameters[\"bundle_watermark_value\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_sms must be of type Boolean parameters[\"allowed_2fa_method_sms\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_u2f") && !(parameters.get("allowed_2fa_method_u2f") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_u2f") && !(parameters.get("allowed_2fa_method_u2f") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_u2f must be of type Boolean parameters[\"allowed_2fa_method_u2f\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_totp") && !(parameters.get("allowed_2fa_method_totp") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_totp") && !(parameters.get("allowed_2fa_method_totp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_totp must be of type Boolean parameters[\"allowed_2fa_method_totp\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_webauthn") && !(parameters.get("allowed_2fa_method_webauthn") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_webauthn") && !(parameters.get("allowed_2fa_method_webauthn") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_webauthn must be of type Boolean parameters[\"allowed_2fa_method_webauthn\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_yubi") && !(parameters.get("allowed_2fa_method_yubi") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_yubi") && !(parameters.get("allowed_2fa_method_yubi") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_yubi must be of type Boolean parameters[\"allowed_2fa_method_yubi\"]");
     }
-    if (parameters.containsKey("allowed_2fa_method_bypass_for_ftp_sftp_dav") && !(parameters.get("allowed_2fa_method_bypass_for_ftp_sftp_dav") instanceof Boolean )) {
+    if (parameters.containsKey("allowed_2fa_method_bypass_for_ftp_sftp_dav") && !(parameters.get("allowed_2fa_method_bypass_for_ftp_sftp_dav") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_bypass_for_ftp_sftp_dav must be of type Boolean parameters[\"allowed_2fa_method_bypass_for_ftp_sftp_dav\"]");
     }
-    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof Boolean )) {
+    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_2fa must be of type Boolean parameters[\"require_2fa\"]");
     }
-    if (parameters.containsKey("require_2fa_user_type") && !(parameters.get("require_2fa_user_type") instanceof String )) {
+    if (parameters.containsKey("require_2fa_user_type") && !(parameters.get("require_2fa_user_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: require_2fa_user_type must be of type String parameters[\"require_2fa_user_type\"]");
     }
-    if (parameters.containsKey("color2_top") && !(parameters.get("color2_top") instanceof String )) {
+    if (parameters.containsKey("color2_top") && !(parameters.get("color2_top") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: color2_top must be of type String parameters[\"color2_top\"]");
     }
-    if (parameters.containsKey("color2_left") && !(parameters.get("color2_left") instanceof String )) {
+    if (parameters.containsKey("color2_left") && !(parameters.get("color2_left") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: color2_left must be of type String parameters[\"color2_left\"]");
     }
-    if (parameters.containsKey("color2_link") && !(parameters.get("color2_link") instanceof String )) {
+    if (parameters.containsKey("color2_link") && !(parameters.get("color2_link") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: color2_link must be of type String parameters[\"color2_link\"]");
     }
-    if (parameters.containsKey("color2_text") && !(parameters.get("color2_text") instanceof String )) {
+    if (parameters.containsKey("color2_text") && !(parameters.get("color2_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: color2_text must be of type String parameters[\"color2_text\"]");
     }
-    if (parameters.containsKey("color2_top_text") && !(parameters.get("color2_top_text") instanceof String )) {
+    if (parameters.containsKey("color2_top_text") && !(parameters.get("color2_top_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: color2_top_text must be of type String parameters[\"color2_top_text\"]");
     }
-    if (parameters.containsKey("site_header") && !(parameters.get("site_header") instanceof String )) {
+    if (parameters.containsKey("site_header") && !(parameters.get("site_header") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: site_header must be of type String parameters[\"site_header\"]");
     }
-    if (parameters.containsKey("site_footer") && !(parameters.get("site_footer") instanceof String )) {
+    if (parameters.containsKey("site_footer") && !(parameters.get("site_footer") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: site_footer must be of type String parameters[\"site_footer\"]");
     }
-    if (parameters.containsKey("login_help_text") && !(parameters.get("login_help_text") instanceof String )) {
+    if (parameters.containsKey("login_help_text") && !(parameters.get("login_help_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: login_help_text must be of type String parameters[\"login_help_text\"]");
     }
-    if (parameters.containsKey("smtp_address") && !(parameters.get("smtp_address") instanceof String )) {
+    if (parameters.containsKey("smtp_address") && !(parameters.get("smtp_address") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_address must be of type String parameters[\"smtp_address\"]");
     }
-    if (parameters.containsKey("smtp_authentication") && !(parameters.get("smtp_authentication") instanceof String )) {
+    if (parameters.containsKey("smtp_authentication") && !(parameters.get("smtp_authentication") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_authentication must be of type String parameters[\"smtp_authentication\"]");
     }
-    if (parameters.containsKey("smtp_from") && !(parameters.get("smtp_from") instanceof String )) {
+    if (parameters.containsKey("smtp_from") && !(parameters.get("smtp_from") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_from must be of type String parameters[\"smtp_from\"]");
     }
-    if (parameters.containsKey("smtp_username") && !(parameters.get("smtp_username") instanceof String )) {
+    if (parameters.containsKey("smtp_username") && !(parameters.get("smtp_username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_username must be of type String parameters[\"smtp_username\"]");
     }
-    if (parameters.containsKey("smtp_port") && !(parameters.get("smtp_port") instanceof Long )) {
+    if (parameters.containsKey("smtp_port") && !(parameters.get("smtp_port") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: smtp_port must be of type Long parameters[\"smtp_port\"]");
     }
-    if (parameters.containsKey("ldap_enabled") && !(parameters.get("ldap_enabled") instanceof Boolean )) {
+    if (parameters.containsKey("ldap_enabled") && !(parameters.get("ldap_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_enabled must be of type Boolean parameters[\"ldap_enabled\"]");
     }
-    if (parameters.containsKey("ldap_type") && !(parameters.get("ldap_type") instanceof String )) {
+    if (parameters.containsKey("ldap_type") && !(parameters.get("ldap_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_type must be of type String parameters[\"ldap_type\"]");
     }
-    if (parameters.containsKey("ldap_host") && !(parameters.get("ldap_host") instanceof String )) {
+    if (parameters.containsKey("ldap_host") && !(parameters.get("ldap_host") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_host must be of type String parameters[\"ldap_host\"]");
     }
-    if (parameters.containsKey("ldap_host_2") && !(parameters.get("ldap_host_2") instanceof String )) {
+    if (parameters.containsKey("ldap_host_2") && !(parameters.get("ldap_host_2") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_host_2 must be of type String parameters[\"ldap_host_2\"]");
     }
-    if (parameters.containsKey("ldap_host_3") && !(parameters.get("ldap_host_3") instanceof String )) {
+    if (parameters.containsKey("ldap_host_3") && !(parameters.get("ldap_host_3") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_host_3 must be of type String parameters[\"ldap_host_3\"]");
     }
-    if (parameters.containsKey("ldap_port") && !(parameters.get("ldap_port") instanceof Long )) {
+    if (parameters.containsKey("ldap_port") && !(parameters.get("ldap_port") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: ldap_port must be of type Long parameters[\"ldap_port\"]");
     }
-    if (parameters.containsKey("ldap_secure") && !(parameters.get("ldap_secure") instanceof Boolean )) {
+    if (parameters.containsKey("ldap_secure") && !(parameters.get("ldap_secure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_secure must be of type Boolean parameters[\"ldap_secure\"]");
     }
-    if (parameters.containsKey("ldap_username") && !(parameters.get("ldap_username") instanceof String )) {
+    if (parameters.containsKey("ldap_username") && !(parameters.get("ldap_username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_username must be of type String parameters[\"ldap_username\"]");
     }
-    if (parameters.containsKey("ldap_username_field") && !(parameters.get("ldap_username_field") instanceof String )) {
+    if (parameters.containsKey("ldap_username_field") && !(parameters.get("ldap_username_field") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_username_field must be of type String parameters[\"ldap_username_field\"]");
     }
-    if (parameters.containsKey("ldap_domain") && !(parameters.get("ldap_domain") instanceof String )) {
+    if (parameters.containsKey("ldap_domain") && !(parameters.get("ldap_domain") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_domain must be of type String parameters[\"ldap_domain\"]");
     }
-    if (parameters.containsKey("ldap_user_action") && !(parameters.get("ldap_user_action") instanceof String )) {
+    if (parameters.containsKey("ldap_user_action") && !(parameters.get("ldap_user_action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_user_action must be of type String parameters[\"ldap_user_action\"]");
     }
-    if (parameters.containsKey("ldap_group_action") && !(parameters.get("ldap_group_action") instanceof String )) {
+    if (parameters.containsKey("ldap_group_action") && !(parameters.get("ldap_group_action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_group_action must be of type String parameters[\"ldap_group_action\"]");
     }
-    if (parameters.containsKey("ldap_user_include_groups") && !(parameters.get("ldap_user_include_groups") instanceof String )) {
+    if (parameters.containsKey("ldap_user_include_groups") && !(parameters.get("ldap_user_include_groups") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_user_include_groups must be of type String parameters[\"ldap_user_include_groups\"]");
     }
-    if (parameters.containsKey("ldap_group_exclusion") && !(parameters.get("ldap_group_exclusion") instanceof String )) {
+    if (parameters.containsKey("ldap_group_exclusion") && !(parameters.get("ldap_group_exclusion") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_group_exclusion must be of type String parameters[\"ldap_group_exclusion\"]");
     }
-    if (parameters.containsKey("ldap_group_inclusion") && !(parameters.get("ldap_group_inclusion") instanceof String )) {
+    if (parameters.containsKey("ldap_group_inclusion") && !(parameters.get("ldap_group_inclusion") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_group_inclusion must be of type String parameters[\"ldap_group_inclusion\"]");
     }
-    if (parameters.containsKey("ldap_base_dn") && !(parameters.get("ldap_base_dn") instanceof String )) {
+    if (parameters.containsKey("ldap_base_dn") && !(parameters.get("ldap_base_dn") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_base_dn must be of type String parameters[\"ldap_base_dn\"]");
     }
-    if (parameters.containsKey("uploads_via_email_authentication") && !(parameters.get("uploads_via_email_authentication") instanceof Boolean )) {
+    if (parameters.containsKey("uploads_via_email_authentication") && !(parameters.get("uploads_via_email_authentication") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: uploads_via_email_authentication must be of type Boolean parameters[\"uploads_via_email_authentication\"]");
     }
-    if (parameters.containsKey("icon16_file") && !(parameters.get("icon16_file") instanceof byte[] )) {
+    if (parameters.containsKey("icon16_file") && !(parameters.get("icon16_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: icon16_file must be of type byte[] parameters[\"icon16_file\"]");
     }
-    if (parameters.containsKey("icon16_delete") && !(parameters.get("icon16_delete") instanceof Boolean )) {
+    if (parameters.containsKey("icon16_delete") && !(parameters.get("icon16_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: icon16_delete must be of type Boolean parameters[\"icon16_delete\"]");
     }
-    if (parameters.containsKey("icon32_file") && !(parameters.get("icon32_file") instanceof byte[] )) {
+    if (parameters.containsKey("icon32_file") && !(parameters.get("icon32_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: icon32_file must be of type byte[] parameters[\"icon32_file\"]");
     }
-    if (parameters.containsKey("icon32_delete") && !(parameters.get("icon32_delete") instanceof Boolean )) {
+    if (parameters.containsKey("icon32_delete") && !(parameters.get("icon32_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: icon32_delete must be of type Boolean parameters[\"icon32_delete\"]");
     }
-    if (parameters.containsKey("icon48_file") && !(parameters.get("icon48_file") instanceof byte[] )) {
+    if (parameters.containsKey("icon48_file") && !(parameters.get("icon48_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: icon48_file must be of type byte[] parameters[\"icon48_file\"]");
     }
-    if (parameters.containsKey("icon48_delete") && !(parameters.get("icon48_delete") instanceof Boolean )) {
+    if (parameters.containsKey("icon48_delete") && !(parameters.get("icon48_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: icon48_delete must be of type Boolean parameters[\"icon48_delete\"]");
     }
-    if (parameters.containsKey("icon128_file") && !(parameters.get("icon128_file") instanceof byte[] )) {
+    if (parameters.containsKey("icon128_file") && !(parameters.get("icon128_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: icon128_file must be of type byte[] parameters[\"icon128_file\"]");
     }
-    if (parameters.containsKey("icon128_delete") && !(parameters.get("icon128_delete") instanceof Boolean )) {
+    if (parameters.containsKey("icon128_delete") && !(parameters.get("icon128_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: icon128_delete must be of type Boolean parameters[\"icon128_delete\"]");
     }
-    if (parameters.containsKey("logo_file") && !(parameters.get("logo_file") instanceof byte[] )) {
+    if (parameters.containsKey("logo_file") && !(parameters.get("logo_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: logo_file must be of type byte[] parameters[\"logo_file\"]");
     }
-    if (parameters.containsKey("logo_delete") && !(parameters.get("logo_delete") instanceof Boolean )) {
+    if (parameters.containsKey("logo_delete") && !(parameters.get("logo_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: logo_delete must be of type Boolean parameters[\"logo_delete\"]");
     }
-    if (parameters.containsKey("bundle_watermark_attachment_file") && !(parameters.get("bundle_watermark_attachment_file") instanceof byte[] )) {
+    if (parameters.containsKey("bundle_watermark_attachment_file") && !(parameters.get("bundle_watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_attachment_file must be of type byte[] parameters[\"bundle_watermark_attachment_file\"]");
     }
-    if (parameters.containsKey("bundle_watermark_attachment_delete") && !(parameters.get("bundle_watermark_attachment_delete") instanceof Boolean )) {
+    if (parameters.containsKey("bundle_watermark_attachment_delete") && !(parameters.get("bundle_watermark_attachment_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_attachment_delete must be of type Boolean parameters[\"bundle_watermark_attachment_delete\"]");
     }
-    if (parameters.containsKey("disable_2fa_with_delay") && !(parameters.get("disable_2fa_with_delay") instanceof Boolean )) {
+    if (parameters.containsKey("disable_2fa_with_delay") && !(parameters.get("disable_2fa_with_delay") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_2fa_with_delay must be of type Boolean parameters[\"disable_2fa_with_delay\"]");
     }
-    if (parameters.containsKey("ldap_password_change") && !(parameters.get("ldap_password_change") instanceof String )) {
+    if (parameters.containsKey("ldap_password_change") && !(parameters.get("ldap_password_change") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_password_change must be of type String parameters[\"ldap_password_change\"]");
     }
-    if (parameters.containsKey("ldap_password_change_confirmation") && !(parameters.get("ldap_password_change_confirmation") instanceof String )) {
+    if (parameters.containsKey("ldap_password_change_confirmation") && !(parameters.get("ldap_password_change_confirmation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_password_change_confirmation must be of type String parameters[\"ldap_password_change_confirmation\"]");
     }
-    if (parameters.containsKey("smtp_password") && !(parameters.get("smtp_password") instanceof String )) {
+    if (parameters.containsKey("smtp_password") && !(parameters.get("smtp_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_password must be of type String parameters[\"smtp_password\"]");
     }
-    if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long )) {
+    if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long parameters[\"session_expiry_minutes\"]");
     }
 
@@ -1652,5 +1657,3 @@ public class Site {
 
 
 }
-
-

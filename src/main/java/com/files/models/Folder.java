@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class Folder {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public Folder() {
     this(null, null);
@@ -46,13 +47,14 @@ public class Folder {
 
   public Folder(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * File/Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -228,9 +230,10 @@ public class Folder {
   *   with_priority_color - boolean - Include file priority color information?
   */
   public static List<Folder> listFor() throws IOException {
-    return listFor(null, null,null);
+    return listFor(null, null, null);
   }
-  public static List<Folder> listFor(String path,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<Folder> listFor(String path, HashMap<String, Object> parameters) throws IOException {
     return listFor(path, parameters, null);
   }
 
@@ -238,40 +241,40 @@ public class Folder {
     return listFor(null, parameters, options);
   }
 
-  public static List<Folder> listFor(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = ((String) parameters.get("path"));
+      path = (String) parameters.get("path");
     }
 
 
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (!(path instanceof String) ) {
+    if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof String )) {
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type String parameters[\"filter\"]");
     }
-    if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String )) {
+    if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
     }
-    if (parameters.containsKey("search") && !(parameters.get("search") instanceof String )) {
+    if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");
     }
-    if (parameters.containsKey("search_all") && !(parameters.get("search_all") instanceof Boolean )) {
+    if (parameters.containsKey("search_all") && !(parameters.get("search_all") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: search_all must be of type Boolean parameters[\"search_all\"]");
     }
-    if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean )) {
+    if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
     }
-    if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean )) {
+    if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
 
@@ -285,7 +288,8 @@ public class Folder {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -303,9 +307,10 @@ public class Folder {
   *   provided_mtime - string - User provided modification time.
   */
   public static Folder create() throws IOException {
-    return create(null, null,null);
+    return create(null, null, null);
   }
-  public static Folder create(String path,  HashMap<String, Object> parameters) throws IOException {
+
+  public static Folder create(String path, HashMap<String, Object> parameters) throws IOException {
     return create(path, parameters, null);
   }
 
@@ -313,22 +318,22 @@ public class Folder {
     return create(null, parameters, options);
   }
 
-  public static Folder create(String path,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Folder create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = ((String) parameters.get("path"));
+      path = (String) parameters.get("path");
     }
 
 
-    if (!(path instanceof String) ) {
+    if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean )) {
+    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
-    if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String )) {
+    if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
     }
 
@@ -342,7 +347,8 @@ public class Folder {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -354,5 +360,3 @@ public class Folder {
 
 
 }
-
-

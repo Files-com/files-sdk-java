@@ -3,18 +3,17 @@ package com.files.net;
 
 import com.files.FilesConfig;
 import com.files.exceptions.ApiErrorException;
+import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public class FilesHttpInterceptor implements Interceptor {
   protected static final Logger log = LoggerFactory.getLogger(FilesHttpInterceptor.class);
   private final String userAgent;
-  private FilesConfig filesConfig = FilesConfig.getInstance();
+  private final FilesConfig filesConfig = FilesConfig.getInstance();
 
   public FilesHttpInterceptor() {
     this.userAgent = filesConfig.getUserAgent();
@@ -37,8 +36,7 @@ public class FilesHttpInterceptor implements Interceptor {
         attempts++;
         response = chain.proceed(modifiedAgentRequest.build());
         status = response.code();
-        if (status != 429 || status <= 501
-          || attempts >= filesConfig.getUpstreamMaxAttempts()) {
+        if (status != 429 || status <= 501 || attempts >= filesConfig.getUpstreamMaxAttempts()) {
           break;
         }
         log.warn(String.format("HttpClient received retry condition of [%s].", status));
@@ -56,7 +54,7 @@ public class FilesHttpInterceptor implements Interceptor {
       String error = "An error occured.";
       log.error(String.format("Http Returned Status %d", status));
       try {
-         error = response.body().string();
+        error = response.body().string();
       } catch (Exception e) {
         // INOP to catch any connection closed errors.
       } finally {

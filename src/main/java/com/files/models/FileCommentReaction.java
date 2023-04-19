@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class FileCommentReaction {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public FileCommentReaction() {
     this(null, null);
@@ -46,13 +47,14 @@ public class FileCommentReaction {
 
   public FileCommentReaction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Reaction ID
@@ -95,6 +97,7 @@ public class FileCommentReaction {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -112,25 +115,26 @@ public class FileCommentReaction {
   *   emoji (required) - string - Emoji to react with.
   */
   public static FileCommentReaction create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static FileCommentReaction create( HashMap<String, Object> parameters) throws IOException {
+
+  public static FileCommentReaction create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static FileCommentReaction create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileCommentReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long )) {
+    if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: file_comment_id must be of type Long parameters[\"file_comment_id\"]");
     }
-    if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String )) {
+    if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: emoji must be of type String parameters[\"emoji\"]");
     }
 
@@ -152,9 +156,10 @@ public class FileCommentReaction {
   /**
   */
   public static FileCommentReaction delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static FileCommentReaction delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static FileCommentReaction delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -162,16 +167,16 @@ public class FileCommentReaction {
     return delete(null, parameters, options);
   }
 
-  public static FileCommentReaction delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileCommentReaction delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -185,7 +190,8 @@ public class FileCommentReaction {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -204,5 +210,3 @@ public class FileCommentReaction {
   }
 
 }
-
-

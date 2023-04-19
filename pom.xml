@@ -90,6 +90,39 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>4.42.0</version>
+                <configuration>
+                    <activeRecipes>
+                        <recipe>org.openrewrite.java.cleanup.Cleanup</recipe>
+                        <recipe>org.openrewrite.java.format.Spaces</recipe>
+                    </activeRecipes>
+                    <checkstyleConfigFile>config/checkstyle/checkstyle.xml</checkstyleConfigFile>
+                </configuration>
+                <executions>
+                    <execution>
+                    <id>validate</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                  <configLocation>config/checkstyle/checkstyle.xml</configLocation>
+                  <encoding>UTF-8</encoding>
+                  <consoleOutput>true</consoleOutput>
+                  <failsOnError>true</failsOnError>
+                  <linkXRef>false</linkXRef>
+                </configuration>
+              </plugin>
         </plugins>
         <resources>
             <resource>

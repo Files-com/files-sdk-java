@@ -1,24 +1,20 @@
 package com.files;
 
-import org.threadly.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.threadly.util.StringUtils;
 
 public class FilesConfig {
   private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
-  private static volatile FilesConfig instance = null;
-  private String hostname = "unknown";
-  private Properties properties;
+  private static volatile FilesConfig instance;
+  private final Properties properties;
 
   protected FilesConfig() {
     properties = new Properties();
-    try (InputStream file = FilesConfig.class.getResourceAsStream("/files-sdk.properties");) {
+    try (InputStream file = FilesConfig.class.getResourceAsStream("/files-sdk.properties")) {
       properties.load(file);
     } catch (IOException e) {
       log.warn("could not load configurator properties");
@@ -86,6 +82,7 @@ public class FilesConfig {
     // must be at least the size of the largest requested upload page
     return intProperty("cachedBufferLargeSize", 50331648 /* 48 MB */);
   }
+  
   public int getCachedBufferMaxBytes() {
     return intProperty("cachedBufferMaxBytes", (int) Math.min(Runtime.getRuntime().maxMemory() / 5,
             1610612736 /* 1.5 GB */));

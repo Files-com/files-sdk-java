@@ -1,0 +1,12 @@
+---
+styleConfigs:
+  - org.openrewrite.java.style.TabsAndIndentsStyle:
+      useTabCharacter: false
+      tabSize: 2
+      indentSize: 2
+      continuationIndent: 4
+      indentsRelativeToExpressionStart: true # or false
+      methodDeclarationParameters:
+        alignWhenMultiple: false
+  - org.openrewrite.java.style.ImportLayoutStyle:
+      classCountToUseStarImport: 9999

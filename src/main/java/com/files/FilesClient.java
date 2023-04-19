@@ -7,24 +7,21 @@ import com.files.net.FilesApiInterface;
 import com.files.net.FilesOkHttpApi;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
-import okhttp3.ConnectionPool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import okhttp3.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class FilesClient {
 
   private static final Logger log = LoggerFactory.getLogger(FilesClient.class);
-  private static FilesApiInterface filesApi = new FilesOkHttpApi();
+  private static final FilesApiInterface filesApi = new FilesOkHttpApi();
   public static String apiKey;
   public static Session session;
   public static ConnectionPool httpPool = new ConnectionPool(FilesConfig.getInstance().getUpstreamMaxConnections(), FilesConfig.getInstance().getUpstreamTimeout(), TimeUnit.MILLISECONDS);
@@ -37,7 +34,7 @@ public abstract class FilesClient {
     return filesApi.apiRequestItem(url, requestType, className, parameters, options);
   }
 
-  public static FilesInputStream getFileInputStream(String url, long start, long end) throws IOException{
+  public static FilesInputStream getFileInputStream(String url, long start, long end) throws IOException {
     return filesApi.getFileInputStream(url, start, end);
   }
 

@@ -1,47 +1,53 @@
 package com.files.net;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
-import com.files.FilesClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.files.FilesClient;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
-import okhttp3.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.List;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.security.InvalidParameterException;
-import java.util.HashMap;
-import java.util.List;
-
 public class FilesOkHttpApi implements FilesApiInterface {
   private final ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
   protected static final Logger log = LoggerFactory.getLogger(FilesOkHttpApi.class);
 
-  public <T> List<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public <T> List<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz,
+      HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     String response = apiRequest(url, requestType, parameters, options);
     return objectMapper.readValue(response, clazz);
   }
 
   public <T> T apiRequestItem(String url, HttpMethods.RequestMethods requestType, TypeReference<T> clazz,
-                              HashMap<String, Object> parameters, HashMap<String, Object> options) throws IllegalArgumentException, IOException {
+      HashMap<String, Object> parameters, HashMap<String, Object> options)
+      throws IllegalArgumentException, IOException {
     String response = apiRequest(url, requestType, parameters, options);
 
     // Fix the issue where timestamps are getting appended twice to file upload
     // by replacing the response path with the original created path parameter
-    if (requestType.toString().equals("POST")
-            && parameters != null
-            && parameters.getOrDefault("action","").toString().equals("put")
-            && clazz.getType().toString().equals("class com.files.models.FileUploadPart")
-    ) {
+    if ("POST".equals(requestType.toString())
+        && parameters != null
+        && "put".equals(parameters.getOrDefault("action", "").toString())
+        && "class com.files.models.FileUploadPart".equals(clazz.getType().toString())) {
       HashMap<String, Object> responseMap = objectMapper.readValue(response, HashMap.class);
       responseMap.replace("path", parameters.get("path"));
 
@@ -52,14 +58,14 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   private String apiRequest(String url, HttpMethods.RequestMethods requestType,
-                              HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+      HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     if (log.isDebugEnabled()) {
       log.debug(String.format("Sending a %s request to %s with parameters: %s and options %s", requestType, url,
           parameters, options));
     }
     Request.Builder request = new Request.Builder();
 
-    switch(requestType) {
+    switch (requestType) {
       case GET:
       case HEAD:
       case DELETE:
@@ -71,18 +77,18 @@ public class FilesOkHttpApi implements FilesApiInterface {
           });
         }
         request.url(httpBuilder.build().url());
-      break;
+        break;
       default:
         request.url(url);
-      break;
+        break;
     }
 
     FormBody.Builder body = new FormBody.Builder();
     if (parameters != null) {
-      for (String key : parameters.keySet()) {
+      for (String key: parameters.keySet()) {
         String parameterValue = parameters.get(key) instanceof String != true
-                ? String.valueOf(parameters.get(key))
-                : (String) parameters.get(key);
+            ? String.valueOf(parameters.get(key))
+            : (String) parameters.get(key);
 
         body.add(key, parameterValue);
       }
@@ -92,12 +98,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
 
     if (requiresAuth) {
       if (options.containsKey("session_id")) {
-        if (! (options.get("session_id") instanceof String)) {
+        if (!(options.get("session_id") instanceof String)) {
           throw new InvalidParameterException("Bad option: session_id must be of type String");
         }
         request.header("X-FilesApi-Auth", (String) options.get("session_id"));
       } else if (options.containsKey("api_key")) {
-        if (! (options.get("api_key") instanceof String)) {
+        if (!(options.get("api_key") instanceof String)) {
           throw new InvalidParameterException("Bad option: api_key must be of type string");
         }
         request.header("X-FilesApi-Key", (String) options.get("api_key"));
@@ -106,11 +112,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
       } else if (FilesClient.apiKey != null && FilesClient.apiKey.length() > 0) {
         request.header("X-FilesApi-Key", FilesClient.apiKey);
       } else {
-        throw new InvalidParameterException(String.format("Authentication required for API request: %s %s", url,requestType));
+        throw new InvalidParameterException(
+            String.format("Authentication required for API request: %s %s", url, requestType));
       }
     }
     updateRequestWithHttpMethod(request, body.build(), requestType);
-    Response response =  FilesHttpClient.getHttpClient().newCall(request.build()).execute();
+    Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
     String responseBody = response.body().string();
     response.body().close();
     return responseBody;
@@ -125,7 +132,8 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   @Override
-  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name, BufferedInputStream inputStream, long length) throws IOException {
+  public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name,
+      BufferedInputStream inputStream, long length) throws IOException {
     String uri = ModelUtils.forceMandatoryUriEncode(url);
     MediaType type = MediaType.parse("application/octet-stream");
     Request.Builder request = new Request.Builder();
@@ -137,7 +145,8 @@ public class FilesOkHttpApi implements FilesApiInterface {
     return 0;
   }
 
-  public static void updateRequestWithHttpMethod(Request.Builder request, RequestBody body, HttpMethods.RequestMethods requestType) {
+  public static void updateRequestWithHttpMethod(Request.Builder request, RequestBody body,
+      HttpMethods.RequestMethods requestType) {
     switch (requestType) {
       case DELETE:
         request.delete(body);
@@ -156,26 +165,33 @@ public class FilesOkHttpApi implements FilesApiInterface {
       case PUT:
         request.put(body);
         break;
+      default:
+        break;
     }
   }
 
   public static RequestBody create(final MediaType contentType,
-                                   final BufferedInputStream inputStream,
-                                   final long length) {
-    if (inputStream == null) throw new NullPointerException("inputStream == null");
+      final BufferedInputStream inputStream,
+      final long length) {
+    if (inputStream == null) {
+      throw new NullPointerException("inputStream == null");
+    }
 
     return new RequestBody() {
-      @Override public MediaType contentType() {
+      @Override
+      public MediaType contentType() {
         return contentType;
       }
 
-      @Override public long contentLength() {
+      @Override
+      public long contentLength() {
         return length;
       }
 
-      @Override public void writeTo(BufferedSink sink) throws IOException {
-          Source source = Okio.source(inputStream);
-          sink.writeAll(source);
+      @Override
+      public void writeTo(BufferedSink sink) throws IOException {
+        Source source = Okio.source(inputStream);
+        sink.writeAll(source);
       }
     };
   }

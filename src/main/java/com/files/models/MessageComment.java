@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.net.HttpMethods.RequestMethods;
-import com.files.util.ModelUtils;
 import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -32,9 +32,10 @@ import lombok.Setter;
 public class MessageComment {
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
-    .builder()
-    .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-    .build();
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
+
 
   public MessageComment() {
     this(null, null);
@@ -46,13 +47,14 @@ public class MessageComment {
 
   public MessageComment(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
-    try{
+    try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
       objectReader.readValue(objectMapper.writeValueAsString(parameters));
-    } catch (JsonProcessingException e){
+    } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
   }
+
 
   /**
   * Message Comment ID
@@ -103,6 +105,7 @@ public class MessageComment {
   public void destroy(HashMap<String, Object> parameters) {
     delete(parameters);
   }
+  
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -121,28 +124,29 @@ public class MessageComment {
   *   message_id (required) - int64 - Message comment to return comments for.
   */
   public static List<MessageComment> list() throws IOException {
-    return list(null,null);
+    return list(null, null);
   }
-  public static List<MessageComment> list( HashMap<String, Object> parameters) throws IOException {
+
+  public static List<MessageComment> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<MessageComment> list( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<MessageComment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String )) {
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long )) {
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long )) {
+    if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: message_id must be of type Long parameters[\"message_id\"]");
     }
 
@@ -170,9 +174,10 @@ public class MessageComment {
   *   id (required) - int64 - Message Comment ID.
   */
   public static List<MessageComment> find() throws IOException {
-    return find(null, null,null);
+    return find(null, null, null);
   }
-  public static List<MessageComment> find(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static List<MessageComment> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
@@ -180,16 +185,16 @@ public class MessageComment {
     return find(null, parameters, options);
   }
 
-  public static List<MessageComment> find(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static List<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -203,7 +208,8 @@ public class MessageComment {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -227,22 +233,23 @@ public class MessageComment {
   *   body (required) - string - Comment body.
   */
   public static MessageComment create() throws IOException {
-    return create(null,null);
+    return create(null, null);
   }
-  public static MessageComment create( HashMap<String, Object> parameters) throws IOException {
+
+  public static MessageComment create(HashMap<String, Object> parameters) throws IOException {
     return create(parameters, null);
   }
 
 
-  public static MessageComment create( HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long )) {
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
@@ -263,9 +270,10 @@ public class MessageComment {
   *   body (required) - string - Comment body.
   */
   public static MessageComment update() throws IOException {
-    return update(null, null,null);
+    return update(null, null, null);
   }
-  public static MessageComment update(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static MessageComment update(Long id, HashMap<String, Object> parameters) throws IOException {
     return update(id, parameters, null);
   }
 
@@ -273,19 +281,19 @@ public class MessageComment {
     return update(null, parameters, options);
   }
 
-  public static MessageComment update(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String )) {
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
@@ -302,7 +310,8 @@ public class MessageComment {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -316,9 +325,10 @@ public class MessageComment {
   /**
   */
   public static MessageComment delete() throws IOException {
-    return delete(null, null,null);
+    return delete(null, null, null);
   }
-  public static MessageComment delete(Long id,  HashMap<String, Object> parameters) throws IOException {
+
+  public static MessageComment delete(Long id, HashMap<String, Object> parameters) throws IOException {
     return delete(id, parameters, null);
   }
 
@@ -326,16 +336,16 @@ public class MessageComment {
     return delete(null, parameters, options);
   }
 
-  public static MessageComment delete(Long id,  HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = ((Long) parameters.get("id"));
+      id = (Long) parameters.get("id");
     }
 
 
-    if (!(id instanceof Long) ) {
+    if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
@@ -349,7 +359,8 @@ public class MessageComment {
     for (int i = 2; i < urlParts.length; i++) {
       try {
         urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex){
+      } catch (URISyntaxException ex) {
+        // NOOP
       }
     }
 
@@ -368,5 +379,3 @@ public class MessageComment {
   }
 
 }
-
-

@@ -57,6 +57,46 @@ public class Snapshot {
 
 
   /**
+  * When the snapshot expires.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("expires_at")
+  public Date expiresAt;
+
+  /**
+  * When the snapshot was finalized.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("finalized_at")
+  public Date finalizedAt;
+
+  /**
+  * A name for the snapshot.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("name")
+  public String name;
+
+  /**
+  * The user that created this snapshot, if applicable.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("user_id")
+  public Long userId;
+
+  /**
+  * The bundle using this snapshot, if applicable.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("bundle_id")
+  public Long bundleId;
+
+  /**
   * Snapshot ID.
   */
   @Getter

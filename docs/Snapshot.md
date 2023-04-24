@@ -1,5 +1,22 @@
 # Files.Models.Snapshot
 
+## Example Snapshot Object
+
+```
+{
+  "expires_at": "2000-01-01T01:00:00Z",
+  "finalized_at": "2000-01-01T01:00:00Z",
+  "name": "My Snapshot",
+  "user_id": 1,
+  "bundle_id": 1
+}
+```
+
+* `expires_at` / `expiresAt`  (date-time): When the snapshot expires.
+* `finalized_at` / `finalizedAt`  (date-time): When the snapshot was finalized.
+* `name` / `name`  (string): A name for the snapshot.
+* `user_id` / `userId`  (int64): The user that created this snapshot, if applicable.
+* `bundle_id` / `bundleId`  (int64): The bundle using this snapshot, if applicable.
 * `id` / `id`  (int64): Snapshot ID.
 
 

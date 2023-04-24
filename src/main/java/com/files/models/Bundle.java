@@ -224,6 +224,14 @@ public class Bundle {
   public Boolean sendEmailReceiptToUploader;
 
   /**
+  * ID of the snapshot containing this bundle's contents.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("snapshot_id")
+  public Long snapshotId;
+
+  /**
   * Bundle creator user ID
   */
   @Getter
@@ -304,6 +312,22 @@ public class Bundle {
   public Long formFieldSetId;
 
   /**
+  * If true, create a snapshot of this bundle's contents.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("create_snapshot")
+  public Boolean createSnapshot;
+
+  /**
+  * If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("finalize_snapshot")
+  public Boolean finalizeSnapshot;
+
+  /**
   * Preview watermark image applied to all bundle items.
   */
   @Getter
@@ -338,9 +362,11 @@ public class Bundle {
   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
   *   description - string - Public description
   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
+  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
@@ -514,8 +540,10 @@ public class Bundle {
   *   paths (required) - array(string) - A list of paths to include in this bundle.
   *   password - string - Password for this bundle.
   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
+  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
+  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   description - string - Public description
   *   note - string - Bundle internal note
@@ -559,11 +587,17 @@ public class Bundle {
     if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
     }
+    if (parameters.containsKey("create_snapshot") && !(parameters.get("create_snapshot") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: create_snapshot must be of type Boolean parameters[\"create_snapshot\"]");
+    }
     if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
     }
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
+    }
+    if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
     }
     if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long parameters[\"max_uses\"]");
@@ -697,9 +731,11 @@ public class Bundle {
   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
   *   description - string - Public description
   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   *   expires_at - string - Bundle expiration date/time
+  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
@@ -754,6 +790,9 @@ public class Bundle {
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
     }
+    if (parameters.containsKey("create_snapshot") && !(parameters.get("create_snapshot") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: create_snapshot must be of type Boolean parameters[\"create_snapshot\"]");
+    }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
@@ -762,6 +801,9 @@ public class Bundle {
     }
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
+    }
+    if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
     }
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");

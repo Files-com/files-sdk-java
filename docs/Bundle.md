@@ -40,6 +40,7 @@
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
   "send_email_receipt_to_uploader": true,
+  "snapshot_id": 1,
   "user_id": 1,
   "username": "user",
   "clickwrap_id": 1,
@@ -76,6 +77,7 @@
 * `note` / `note`  (string): Bundle internal note
 * `path_template` / `pathTemplate`  (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `send_email_receipt_to_uploader` / `sendEmailReceiptToUploader`  (boolean): Send delivery receipt to the uploader. Note: For writable share only
+* `snapshot_id` / `snapshotId`  (int64): ID of the snapshot containing this bundle's contents.
 * `user_id` / `userId`  (int64): Bundle creator user ID
 * `username` / `username`  (string): Bundle creator username
 * `clickwrap_id` / `clickwrapId`  (int64): ID of the clickwrap to use with this bundle.
@@ -86,6 +88,8 @@
 * `paths` / `paths`  (array): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
 * `password` / `password`  (string): Password for this bundle.
 * `form_field_set_id` / `formFieldSetId`  (int64): Id of Form Field Set to use with this bundle
+* `create_snapshot` / `createSnapshot`  (boolean): If true, create a snapshot of this bundle's contents.
+* `finalize_snapshot` / `finalizeSnapshot`  (boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `watermark_attachment_file` / `watermarkAttachmentFile`  (file): Preview watermark image applied to all bundle items.
 * `watermark_attachment_delete` / `watermarkAttachmentDelete`  (boolean): If true, will delete the file stored in watermark_attachment
 
@@ -150,8 +154,10 @@ Bundle bundle = Bundle.create(
 * `paths` (String[]): Required - A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
+* `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
+* `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `description` (String): Public description
 * `note` (String): Bundle internal note
@@ -210,9 +216,11 @@ Bundle bundle = Bundle.update(
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `description` (String): Public description
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
+* `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
@@ -284,9 +292,11 @@ parameters.put("password", "Password");
 parameters.put("form_field_set_id", 1);
 parameters.put("clickwrap_id", 1);
 parameters.put("code", "abc123");
+parameters.put("create_snapshot", true);
 parameters.put("description", "The public description of the bundle.");
 parameters.put("dont_separate_submissions_by_folder", true);
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("finalize_snapshot", true);
 parameters.put("inbox_id", 1);
 parameters.put("max_uses", 1);
 parameters.put("note", "The internal note on the bundle.");
@@ -312,9 +322,11 @@ Bundle.Update(parameters);
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
+* `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `description` (String): Public description
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `expires_at` (String): Bundle expiration date/time
+* `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note

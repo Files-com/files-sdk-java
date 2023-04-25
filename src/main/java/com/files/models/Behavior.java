@@ -65,7 +65,7 @@ public class Behavior {
   public Long id;
 
   /**
-  * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Folder path.  Note that Behavior paths cannot be updated once initially set.  You will need to remove and re-create the behavior on the new path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @Setter

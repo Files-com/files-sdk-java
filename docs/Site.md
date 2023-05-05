@@ -213,7 +213,8 @@
   "welcome_email_enabled": true,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": true,
-  "disable_users_from_inactivity_period_days": 1
+  "disable_users_from_inactivity_period_days": 1,
+  "group_admins_can_set_user_password": true
 }
 ```
 
@@ -358,6 +359,7 @@
 * `welcome_screen` / `welcomeScreen`  (string): Does the welcome screen appear?
 * `windows_mode_ftp` / `windowsModeFtp`  (boolean): Does FTP user Windows emulation mode?
 * `disable_users_from_inactivity_period_days` / `disableUsersFromInactivityPeriodDays`  (int64): If greater than zero, users will unable to login if they do not show activity within this number of days.
+* `group_admins_can_set_user_password` / `groupAdminsCanSetUserPassword`  (boolean): Allow group admins set password authentication method
 
 
 ---
@@ -478,6 +480,7 @@ Site site = Site.update(
 * `sftp_host_key_type` (String): Sftp Host Key Type
 * `active_sftp_host_key_id` (Long): Id of the currently selected custom SFTP Host Key
 * `bundle_watermark_value` (Map<String, String>): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `group_admins_can_set_user_password` (Boolean): Allow group admins set password authentication method
 * `allowed_2fa_method_sms` (Boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_u2f` (Boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?

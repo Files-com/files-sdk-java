@@ -1043,6 +1043,13 @@ public class Site {
   @JsonProperty("disable_users_from_inactivity_period_days")
   public Long disableUsersFromInactivityPeriodDays;
 
+  /**
+  * Allow group admins set password authentication method
+  */
+  @Getter
+  @JsonProperty("group_admins_can_set_user_password")
+  public Boolean groupAdminsCanSetUserPassword;
+
 
 
   /**
@@ -1177,6 +1184,7 @@ public class Site {
   *   sftp_host_key_type - string - Sftp Host Key Type
   *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+  *   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -1480,6 +1488,9 @@ public class Site {
     }
     if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Map<String, String> parameters[\"bundle_watermark_value\"]");
+    }
+    if (parameters.containsKey("group_admins_can_set_user_password") && !(parameters.get("group_admins_can_set_user_password") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_set_user_password must be of type Boolean parameters[\"group_admins_can_set_user_password\"]");
     }
     if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_sms must be of type Boolean parameters[\"allowed_2fa_method_sms\"]");

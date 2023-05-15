@@ -173,6 +173,7 @@ Bundle bundle = Bundle.create(
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
+* `snapshot_id` (Long): ID of the snapshot containing this bundle's contents.
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
 

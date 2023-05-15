@@ -559,6 +559,7 @@ public class Bundle {
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+  *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public static Bundle create() throws IOException {
@@ -643,6 +644,9 @@ public class Bundle {
     }
     if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
+    }
+    if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long parameters[\"snapshot_id\"]");
     }
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");

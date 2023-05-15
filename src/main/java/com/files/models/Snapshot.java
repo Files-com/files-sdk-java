@@ -97,6 +97,14 @@ public class Snapshot {
   public Long bundleId;
 
   /**
+  * An array of paths to add to the snapshot.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("paths")
+  public String[] paths;
+
+  /**
   * Snapshot ID.
   */
   @Getter
@@ -105,6 +113,10 @@ public class Snapshot {
   public Long id;
 
   /**
+  * Parameters:
+  *   expires_at - string - When the snapshot expires.
+  *   name - string - A name for the snapshot.
+  *   paths - array(string) - An array of paths to add to the snapshot.
   */
   public Snapshot update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -231,6 +243,10 @@ public class Snapshot {
   }
 
   /**
+  * Parameters:
+  *   expires_at - string - When the snapshot expires.
+  *   name - string - A name for the snapshot.
+  *   paths - array(string) - An array of paths to add to the snapshot.
   */
   public static Snapshot create() throws IOException {
     return create(null, null);
@@ -246,6 +262,15 @@ public class Snapshot {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
+    }
 
 
 
@@ -257,6 +282,10 @@ public class Snapshot {
 
 
   /**
+  * Parameters:
+  *   expires_at - string - When the snapshot expires.
+  *   name - string - A name for the snapshot.
+  *   paths - array(string) - An array of paths to add to the snapshot.
   */
   public static Snapshot update() throws IOException {
     return update(null, null, null);
@@ -281,6 +310,15 @@ public class Snapshot {
 
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
     }
 
     if (id == null) {

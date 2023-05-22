@@ -743,6 +743,13 @@ public class Site {
   public Boolean pinAllRemoteServersToSiteRegion;
 
   /**
+  * If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
+  */
+  @Getter
+  @JsonProperty("prevent_root_permissions_for_non_site_admins")
+  public Boolean preventRootPermissionsForNonSiteAdmins;
+
+  /**
   * Require two-factor authentication for all users?
   */
   @Getter
@@ -1170,6 +1177,7 @@ public class Site {
   *   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
   *   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
   *   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
+  *   prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
   *   opt_out_global - boolean - Use servers in the USA only?
   *   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
   *   custom_namespace - boolean - Is this site using a custom namespace for users?
@@ -1446,6 +1454,9 @@ public class Site {
     }
     if (parameters.containsKey("password_requirements_apply_to_bundles") && !(parameters.get("password_requirements_apply_to_bundles") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_requirements_apply_to_bundles must be of type Boolean parameters[\"password_requirements_apply_to_bundles\"]");
+    }
+    if (parameters.containsKey("prevent_root_permissions_for_non_site_admins") && !(parameters.get("prevent_root_permissions_for_non_site_admins") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: prevent_root_permissions_for_non_site_admins must be of type Boolean parameters[\"prevent_root_permissions_for_non_site_admins\"]");
     }
     if (parameters.containsKey("opt_out_global") && !(parameters.get("opt_out_global") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: opt_out_global must be of type Boolean parameters[\"opt_out_global\"]");

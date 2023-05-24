@@ -108,6 +108,7 @@
   "require_2fa": true,
   "require_2fa_stop_time": "2000-01-01T01:00:00Z",
   "require_2fa_user_type": "`site_admins`",
+  "require_logout_from_bundles_and_inboxes": true,
   "session": {
     "id": "60525f92e859c4c3d74cb02fd176b1525901b525",
     "language": "en",
@@ -321,6 +322,7 @@
 * `require_2fa` / `require2fa`  (boolean): Require two-factor authentication for all users?
 * `require_2fa_stop_time` / `require2faStopTime`  (date-time): If set, requirement for two-factor authentication has been scheduled to end on this date-time.
 * `require_2fa_user_type` / `require2faUserType`  (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
+* `require_logout_from_bundles_and_inboxes` / `requireLogoutFromBundlesAndInboxes`  (boolean): If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
 * `session` / `session`  (session): Current session
 * `session_pinned_by_ip` / `sessionPinnedByIp`  (boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 * `sftp_enabled` / `sftpEnabled`  (boolean): Is SFTP enabled?
@@ -458,6 +460,7 @@ Site site = Site.update(
 * `password_require_special` (Boolean): Require special characters in password?
 * `password_require_number` (Boolean): Require a number in passwords?
 * `password_require_unbreached` (Boolean): Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
+* `require_logout_from_bundles_and_inboxes` (Boolean): If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
 * `sftp_user_root_enabled` (Boolean): Use user FTP roots also for SFTP?
 * `disable_password_reset` (Boolean): Is password reset disabled?
 * `immutable_files` (Boolean): Are files protected from modification?

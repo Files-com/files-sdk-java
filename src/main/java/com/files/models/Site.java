@@ -771,6 +771,13 @@ public class Site {
   public String require2faUserType;
 
   /**
+  * If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+  */
+  @Getter
+  @JsonProperty("require_logout_from_bundles_and_inboxes")
+  public Boolean requireLogoutFromBundlesAndInboxes;
+
+  /**
   * Current session
   */
   @Getter
@@ -1167,6 +1174,7 @@ public class Site {
   *   password_require_special - boolean - Require special characters in password?
   *   password_require_number - boolean - Require a number in passwords?
   *   password_require_unbreached - boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
+  *   require_logout_from_bundles_and_inboxes - boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
   *   sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
   *   disable_password_reset - boolean - Is password reset disabled?
   *   immutable_files - boolean - Are files protected from modification?
@@ -1424,6 +1432,9 @@ public class Site {
     }
     if (parameters.containsKey("password_require_unbreached") && !(parameters.get("password_require_unbreached") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_unbreached must be of type Boolean parameters[\"password_require_unbreached\"]");
+    }
+    if (parameters.containsKey("require_logout_from_bundles_and_inboxes") && !(parameters.get("require_logout_from_bundles_and_inboxes") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: require_logout_from_bundles_and_inboxes must be of type Boolean parameters[\"require_logout_from_bundles_and_inboxes\"]");
     }
     if (parameters.containsKey("sftp_user_root_enabled") && !(parameters.get("sftp_user_root_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_user_root_enabled must be of type Boolean parameters[\"sftp_user_root_enabled\"]");

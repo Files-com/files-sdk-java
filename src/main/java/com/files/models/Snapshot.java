@@ -57,6 +57,14 @@ public class Snapshot {
 
 
   /**
+  * The snapshot's unique ID.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("id")
+  public Long id;
+
+  /**
   * When the snapshot expires.
   */
   @Getter
@@ -103,14 +111,6 @@ public class Snapshot {
   @Setter
   @JsonProperty("paths")
   public String[] paths;
-
-  /**
-  * Snapshot ID.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("id")
-  public Long id;
 
   /**
   * Parameters:

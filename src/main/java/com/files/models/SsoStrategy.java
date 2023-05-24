@@ -246,6 +246,13 @@ public class SsoStrategy {
   public String provisionSiteAdminGroups;
 
   /**
+  * Comma-separated list of group names whose members will be provisioned as Group Admins.
+  */
+  @Getter
+  @JsonProperty("provision_group_admin_groups")
+  public String provisionGroupAdminGroups;
+
+  /**
   * DEPRECATED: Auto-provisioned users get Sharing permission. Use a Group with the Bundle permission instead.
   */
   @Getter

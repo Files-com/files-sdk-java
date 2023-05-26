@@ -441,6 +441,14 @@ public class RemoteServer {
   public String filebaseAccessKey;
 
   /**
+  * List Team folders in root
+  */
+  @Getter
+  @Setter
+  @JsonProperty("dropbox_teams")
+  public Boolean dropboxTeams;
+
+  /**
   * AWS secret key.
   */
   @Getter
@@ -636,6 +644,7 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   dropbox_teams - boolean - List Team folders in root
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -868,6 +877,7 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   dropbox_teams - boolean - List Team folders in root
   */
   public static RemoteServer create() throws IOException {
     return create(null, null);
@@ -1045,6 +1055,9 @@ public class RemoteServer {
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
     }
+    if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
+    }
 
 
 
@@ -1207,6 +1220,7 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   dropbox_teams - boolean - List Team folders in root
   */
   public static RemoteServer update() throws IOException {
     return update(null, null, null);
@@ -1393,6 +1407,9 @@ public class RemoteServer {
     }
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
+    }
+    if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
     }
 
     if (id == null) {

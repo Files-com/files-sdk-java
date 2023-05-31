@@ -441,6 +441,30 @@ public class RemoteServer {
   public String filebaseAccessKey;
 
   /**
+  * Cloudflare Bucket name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("cloudflare_bucket")
+  public String cloudflareBucket;
+
+  /**
+  * Cloudflare Access Key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("cloudflare_access_key")
+  public String cloudflareAccessKey;
+
+  /**
+  * Cloudflare endpoint
+  */
+  @Getter
+  @Setter
+  @JsonProperty("cloudflare_endpoint")
+  public String cloudflareEndpoint;
+
+  /**
   * List Team folders in root
   */
   @Getter
@@ -569,6 +593,14 @@ public class RemoteServer {
   public String filebaseSecretKey;
 
   /**
+  * Cloudflare secret key
+  */
+  @Getter
+  @Setter
+  @JsonProperty("cloudflare_secret_key")
+  public String cloudflareSecretKey;
+
+  /**
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
   *
   * Parameters:
@@ -644,6 +676,10 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   cloudflare_access_key - string - Cloudflare Access Key.
+  *   cloudflare_secret_key - string - Cloudflare secret key
+  *   cloudflare_bucket - string - Cloudflare Bucket name
+  *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
@@ -877,6 +913,10 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   cloudflare_access_key - string - Cloudflare Access Key.
+  *   cloudflare_secret_key - string - Cloudflare secret key
+  *   cloudflare_bucket - string - Cloudflare Bucket name
+  *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
   */
   public static RemoteServer create() throws IOException {
@@ -1055,6 +1095,18 @@ public class RemoteServer {
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
     }
+    if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
+    }
+    if (parameters.containsKey("cloudflare_secret_key") && !(parameters.get("cloudflare_secret_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_secret_key must be of type String parameters[\"cloudflare_secret_key\"]");
+    }
+    if (parameters.containsKey("cloudflare_bucket") && !(parameters.get("cloudflare_bucket") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_bucket must be of type String parameters[\"cloudflare_bucket\"]");
+    }
+    if (parameters.containsKey("cloudflare_endpoint") && !(parameters.get("cloudflare_endpoint") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_endpoint must be of type String parameters[\"cloudflare_endpoint\"]");
+    }
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
     }
@@ -1220,6 +1272,10 @@ public class RemoteServer {
   *   filebase_access_key - string - Filebase Access Key.
   *   filebase_secret_key - string - Filebase secret key
   *   filebase_bucket - string - Filebase Bucket name
+  *   cloudflare_access_key - string - Cloudflare Access Key.
+  *   cloudflare_secret_key - string - Cloudflare secret key
+  *   cloudflare_bucket - string - Cloudflare Bucket name
+  *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
   */
   public static RemoteServer update() throws IOException {
@@ -1407,6 +1463,18 @@ public class RemoteServer {
     }
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
+    }
+    if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
+    }
+    if (parameters.containsKey("cloudflare_secret_key") && !(parameters.get("cloudflare_secret_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_secret_key must be of type String parameters[\"cloudflare_secret_key\"]");
+    }
+    if (parameters.containsKey("cloudflare_bucket") && !(parameters.get("cloudflare_bucket") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_bucket must be of type String parameters[\"cloudflare_bucket\"]");
+    }
+    if (parameters.containsKey("cloudflare_endpoint") && !(parameters.get("cloudflare_endpoint") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cloudflare_endpoint must be of type String parameters[\"cloudflare_endpoint\"]");
     }
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");

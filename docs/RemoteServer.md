@@ -52,6 +52,9 @@
   "files_agent_api_token": "example",
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
+  "cloudflare_bucket": "my-bucket",
+  "cloudflare_access_key": "example",
+  "cloudflare_endpoint": "https://<ACCOUNT_ID>.r2.cloudflarestorage.com",
   "dropbox_teams": true
 }
 ```
@@ -104,6 +107,9 @@
 * `files_agent_api_token` / `filesAgentApiToken`  (string): Files Agent API Token
 * `filebase_bucket` / `filebaseBucket`  (string): Filebase Bucket name
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase Access Key.
+* `cloudflare_bucket` / `cloudflareBucket`  (string): Cloudflare Bucket name
+* `cloudflare_access_key` / `cloudflareAccessKey`  (string): Cloudflare Access Key.
+* `cloudflare_endpoint` / `cloudflareEndpoint`  (string): Cloudflare endpoint
 * `dropbox_teams` / `dropboxTeams`  (boolean): List Team folders in root
 * `aws_secret_key` / `awsSecretKey`  (string): AWS secret key.
 * `password` / `password`  (string): Password if needed.
@@ -120,6 +126,7 @@
 * `azure_files_storage_access_key` / `azureFilesStorageAccessKey`  (string): Azure File Storage access key.
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible secret key
 * `filebase_secret_key` / `filebaseSecretKey`  (string): Filebase secret key
+* `cloudflare_secret_key` / `cloudflareSecretKey`  (string): Cloudflare secret key
 
 
 ---
@@ -242,6 +249,10 @@ RemoteServer remoteServer = RemoteServer.create(
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name
+* `cloudflare_access_key` (String): Cloudflare Access Key.
+* `cloudflare_secret_key` (String): Cloudflare secret key
+* `cloudflare_bucket` (String): Cloudflare Bucket name
+* `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
 
 
@@ -342,6 +353,10 @@ RemoteServer remoteServer = RemoteServer.update(
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name
+* `cloudflare_access_key` (String): Cloudflare Access Key.
+* `cloudflare_secret_key` (String): Cloudflare secret key
+* `cloudflare_bucket` (String): Cloudflare Bucket name
+* `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
 
 
@@ -451,6 +466,9 @@ parameters.put("files_agent_root", "example");
 parameters.put("files_agent_permission_set", "read_write");
 parameters.put("filebase_access_key", "example");
 parameters.put("filebase_bucket", "my-bucket");
+parameters.put("cloudflare_access_key", "example");
+parameters.put("cloudflare_bucket", "my-bucket");
+parameters.put("cloudflare_endpoint", "https://<ACCOUNT_ID>.r2.cloudflarestorage.com");
 parameters.put("dropbox_teams", true);
 
 RemoteServer.Update(parameters);
@@ -513,6 +531,10 @@ RemoteServer.Update(parameters);
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name
+* `cloudflare_access_key` (String): Cloudflare Access Key.
+* `cloudflare_secret_key` (String): Cloudflare secret key
+* `cloudflare_bucket` (String): Cloudflare Bucket name
+* `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
 
 

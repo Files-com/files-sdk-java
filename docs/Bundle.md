@@ -61,7 +61,7 @@
 * `description` / `description`  (string): Public description
 * `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
 * `permissions` / `permissions`  (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` / `previewOnly`  (boolean): Restrict users to previewing files only?
+* `preview_only` / `previewOnly`  (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `clickwrap_body` / `clickwrapBody`  (string): Legal text that must be agreed to prior to accessing Bundle.
@@ -164,7 +164,7 @@ Bundle bundle = Bundle.create(
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): Restrict users to previewing files only?
+* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `inbox_id` (Long): ID of the associated inbox, if available.
@@ -227,7 +227,7 @@ Bundle bundle = Bundle.update(
 * `note` (String): Bundle internal note
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): Restrict users to previewing files only?
+* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
@@ -333,7 +333,7 @@ Bundle.Update(parameters);
 * `note` (String): Bundle internal note
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): Restrict users to previewing files only?
+* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only

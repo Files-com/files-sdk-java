@@ -81,6 +81,14 @@ public class Bundle {
   public String description;
 
   /**
+  * Bundle expiration date/time
+  */
+  @Getter
+  @Setter
+  @JsonProperty("expires_at")
+  public Date expiresAt;
+
+  /**
   * Is this bundle password protected?
   */
   @Getter
@@ -182,14 +190,6 @@ public class Bundle {
   @Setter
   @JsonProperty("dont_separate_submissions_by_folder")
   public Boolean dontSeparateSubmissionsByFolder;
-
-  /**
-  * Bundle expiration date/time
-  */
-  @Getter
-  @Setter
-  @JsonProperty("expires_at")
-  public Date expiresAt;
 
   /**
   * Maximum number of times bundle can be accessed

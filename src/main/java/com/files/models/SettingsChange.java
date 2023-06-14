@@ -78,6 +78,13 @@ public class SettingsChange {
   public Long userId;
 
   /**
+  * The api key id responsible for this change
+  */
+  @Getter
+  @JsonProperty("api_key_id")
+  public Long apiKeyId;
+
+  /**
   * true if this change was performed by Files.com support.
   */
   @Getter
@@ -98,8 +105,6 @@ public class SettingsChange {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[api_key_id]=desc`). Valid fields are `api_key_id`, `created_at` or `user_id`.
-  *   api_key_id - string - If set, return records where the specified field is equal to the supplied value.
-  *   user_id - string - If set, return records where the specified field is equal to the supplied value.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
   */
   public static List<SettingsChange> list() throws IOException {
@@ -124,12 +129,6 @@ public class SettingsChange {
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("api_key_id") && !(parameters.get("api_key_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: api_key_id must be of type String parameters[\"api_key_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type String parameters[\"user_id\"]");
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");

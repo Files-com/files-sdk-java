@@ -106,8 +106,8 @@ public class AutomationRun {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[automation_id]=desc`). Valid fields are `automation_id`, `created_at` or `status`.
-  *   automation_id (required) - int64 - ID of the associated Automation.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `automation_id`. Valid field combinations are `[ automation_id, status ]`.
+  *   automation_id (required) - int64 - ID of the associated Automation.
   */
   public static List<AutomationRun> list() throws IOException {
     return list(null, null);
@@ -135,11 +135,11 @@ public class AutomationRun {
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("automation_id") && !(parameters.get("automation_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: automation_id must be of type Long parameters[\"automation_id\"]");
-    }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("automation_id") && !(parameters.get("automation_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: automation_id must be of type Long parameters[\"automation_id\"]");
     }
 
     if (!parameters.containsKey("automation_id") || parameters.get("automation_id") == null) {

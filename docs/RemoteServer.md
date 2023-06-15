@@ -55,7 +55,10 @@
   "cloudflare_bucket": "my-bucket",
   "cloudflare_access_key": "example",
   "cloudflare_endpoint": "https://<ACCOUNT_ID>.r2.cloudflarestorage.com",
-  "dropbox_teams": true
+  "dropbox_teams": true,
+  "linode_bucket": "my-bucket",
+  "linode_access_key": "example",
+  "linode_region": "us-east-1"
 }
 ```
 
@@ -111,6 +114,9 @@
 * `cloudflare_access_key` / `cloudflareAccessKey`  (string): Cloudflare Access Key.
 * `cloudflare_endpoint` / `cloudflareEndpoint`  (string): Cloudflare endpoint
 * `dropbox_teams` / `dropboxTeams`  (boolean): List Team folders in root
+* `linode_bucket` / `linodeBucket`  (string): Linode Bucket name
+* `linode_access_key` / `linodeAccessKey`  (string): Linode Access Key.
+* `linode_region` / `linodeRegion`  (string): Linode region
 * `aws_secret_key` / `awsSecretKey`  (string): AWS secret key.
 * `password` / `password`  (string): Password if needed.
 * `private_key` / `privateKey`  (string): Private key if needed.
@@ -127,6 +133,7 @@
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible secret key
 * `filebase_secret_key` / `filebaseSecretKey`  (string): Filebase secret key
 * `cloudflare_secret_key` / `cloudflareSecretKey`  (string): Cloudflare secret key
+* `linode_secret_key` / `linodeSecretKey`  (string): Linode secret key
 
 
 ---
@@ -254,6 +261,10 @@ RemoteServer remoteServer = RemoteServer.create(
 * `cloudflare_bucket` (String): Cloudflare Bucket name
 * `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
+* `linode_access_key` (String): Linode Access Key.
+* `linode_secret_key` (String): Linode secret key
+* `linode_bucket` (String): Linode Bucket name
+* `linode_region` (String): Linode region
 
 
 ---
@@ -358,6 +369,10 @@ RemoteServer remoteServer = RemoteServer.update(
 * `cloudflare_bucket` (String): Cloudflare Bucket name
 * `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
+* `linode_access_key` (String): Linode Access Key.
+* `linode_secret_key` (String): Linode secret key
+* `linode_bucket` (String): Linode Bucket name
+* `linode_region` (String): Linode region
 
 
 ---
@@ -470,6 +485,9 @@ parameters.put("cloudflare_access_key", "example");
 parameters.put("cloudflare_bucket", "my-bucket");
 parameters.put("cloudflare_endpoint", "https://<ACCOUNT_ID>.r2.cloudflarestorage.com");
 parameters.put("dropbox_teams", true);
+parameters.put("linode_access_key", "example");
+parameters.put("linode_bucket", "my-bucket");
+parameters.put("linode_region", "us-east-1");
 
 RemoteServer.Update(parameters);
 ```
@@ -536,6 +554,10 @@ RemoteServer.Update(parameters);
 * `cloudflare_bucket` (String): Cloudflare Bucket name
 * `cloudflare_endpoint` (String): Cloudflare endpoint
 * `dropbox_teams` (Boolean): List Team folders in root
+* `linode_access_key` (String): Linode Access Key.
+* `linode_secret_key` (String): Linode secret key
+* `linode_bucket` (String): Linode Bucket name
+* `linode_region` (String): Linode region
 
 
 ---

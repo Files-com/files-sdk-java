@@ -473,6 +473,30 @@ public class RemoteServer {
   public Boolean dropboxTeams;
 
   /**
+  * Linode Bucket name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("linode_bucket")
+  public String linodeBucket;
+
+  /**
+  * Linode Access Key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("linode_access_key")
+  public String linodeAccessKey;
+
+  /**
+  * Linode region
+  */
+  @Getter
+  @Setter
+  @JsonProperty("linode_region")
+  public String linodeRegion;
+
+  /**
   * AWS secret key.
   */
   @Getter
@@ -601,6 +625,14 @@ public class RemoteServer {
   public String cloudflareSecretKey;
 
   /**
+  * Linode secret key
+  */
+  @Getter
+  @Setter
+  @JsonProperty("linode_secret_key")
+  public String linodeSecretKey;
+
+  /**
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
   *
   * Parameters:
@@ -681,6 +713,10 @@ public class RemoteServer {
   *   cloudflare_bucket - string - Cloudflare Bucket name
   *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
+  *   linode_access_key - string - Linode Access Key.
+  *   linode_secret_key - string - Linode secret key
+  *   linode_bucket - string - Linode Bucket name
+  *   linode_region - string - Linode region
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -918,6 +954,10 @@ public class RemoteServer {
   *   cloudflare_bucket - string - Cloudflare Bucket name
   *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
+  *   linode_access_key - string - Linode Access Key.
+  *   linode_secret_key - string - Linode secret key
+  *   linode_bucket - string - Linode Bucket name
+  *   linode_region - string - Linode region
   */
   public static RemoteServer create() throws IOException {
     return create(null, null);
@@ -1110,6 +1150,18 @@ public class RemoteServer {
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
     }
+    if (parameters.containsKey("linode_access_key") && !(parameters.get("linode_access_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_access_key must be of type String parameters[\"linode_access_key\"]");
+    }
+    if (parameters.containsKey("linode_secret_key") && !(parameters.get("linode_secret_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_secret_key must be of type String parameters[\"linode_secret_key\"]");
+    }
+    if (parameters.containsKey("linode_bucket") && !(parameters.get("linode_bucket") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_bucket must be of type String parameters[\"linode_bucket\"]");
+    }
+    if (parameters.containsKey("linode_region") && !(parameters.get("linode_region") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_region must be of type String parameters[\"linode_region\"]");
+    }
 
 
 
@@ -1277,6 +1329,10 @@ public class RemoteServer {
   *   cloudflare_bucket - string - Cloudflare Bucket name
   *   cloudflare_endpoint - string - Cloudflare endpoint
   *   dropbox_teams - boolean - List Team folders in root
+  *   linode_access_key - string - Linode Access Key.
+  *   linode_secret_key - string - Linode secret key
+  *   linode_bucket - string - Linode Bucket name
+  *   linode_region - string - Linode region
   */
   public static RemoteServer update() throws IOException {
     return update(null, null, null);
@@ -1478,6 +1534,18 @@ public class RemoteServer {
     }
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
+    }
+    if (parameters.containsKey("linode_access_key") && !(parameters.get("linode_access_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_access_key must be of type String parameters[\"linode_access_key\"]");
+    }
+    if (parameters.containsKey("linode_secret_key") && !(parameters.get("linode_secret_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_secret_key must be of type String parameters[\"linode_secret_key\"]");
+    }
+    if (parameters.containsKey("linode_bucket") && !(parameters.get("linode_bucket") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_bucket must be of type String parameters[\"linode_bucket\"]");
+    }
+    if (parameters.containsKey("linode_region") && !(parameters.get("linode_region") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: linode_region must be of type String parameters[\"linode_region\"]");
     }
 
     if (id == null) {

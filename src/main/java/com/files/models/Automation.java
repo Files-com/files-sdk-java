@@ -249,6 +249,13 @@ public class Automation {
   public String destination;
 
   /**
+  * Manually run automation
+  */
+  public Automation manualRun(HashMap<String, Object> parameters) {
+    return manualRun(parameters);
+  }
+
+  /**
   * Parameters:
   *   source - string - Source Path
   *   destination - string - DEPRECATED: Destination Path. Use `destinations` instead.
@@ -522,6 +529,56 @@ public class Automation {
 
 
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Manually run automation
+  */
+  public static Automation manualRun() throws IOException {
+    return manualRun(null, null, null);
+  }
+
+  public static Automation manualRun(Long id, HashMap<String, Object> parameters) throws IOException {
+    return manualRun(id, parameters, null);
+  }
+
+  public static Automation manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return manualRun(null, parameters, options);
+  }
+
+  public static Automation manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/automations/%s/manual_run", urlParts);
 
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

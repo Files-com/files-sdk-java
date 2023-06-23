@@ -150,6 +150,23 @@ Automation automation = Automation.create(
 
 ---
 
+## Manually run automation
+
+```
+Automation automation = Automation.manualRun(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation ID.
+
+
+---
+
 ## Update Automation
 
 ```
@@ -194,6 +211,24 @@ Automation automation = Automation.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation ID.
+
+
+---
+
+## Manually run automation
+
+```
+Automation automation = Automation.List()[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+
+Automation.ManualRun
 ```
 
 ### Parameters

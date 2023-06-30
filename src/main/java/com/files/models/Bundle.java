@@ -129,6 +129,14 @@ public class Bundle {
   public Boolean requireShareRecipient;
 
   /**
+  * If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("require_logout")
+  public Boolean requireLogout;
+
+  /**
   * Legal text that must be agreed to prior to accessing Bundle.
   */
   @Getter

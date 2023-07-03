@@ -65,6 +65,46 @@ public class Bundle {
   public String code;
 
   /**
+  * Page link and button color
+  */
+  @Getter
+  @Setter
+  @JsonProperty("color_left")
+  public String colorLeft;
+
+  /**
+  * Top bar link color
+  */
+  @Getter
+  @Setter
+  @JsonProperty("color_link")
+  public String colorLink;
+
+  /**
+  * Page link and button color
+  */
+  @Getter
+  @Setter
+  @JsonProperty("color_text")
+  public String colorText;
+
+  /**
+  * Top bar background color
+  */
+  @Getter
+  @Setter
+  @JsonProperty("color_top")
+  public String colorTop;
+
+  /**
+  * Top bar text color
+  */
+  @Getter
+  @Setter
+  @JsonProperty("color_top_text")
+  public String colorTopText;
+
+  /**
   * Public URL of Share Link
   */
   @Getter

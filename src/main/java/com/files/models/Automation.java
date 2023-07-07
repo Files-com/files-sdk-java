@@ -89,7 +89,7 @@ public class Automation {
   public Boolean disabled;
 
   /**
-  * How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  * How this automation is triggered to run.
   */
   @Getter
   @Setter
@@ -137,7 +137,7 @@ public class Automation {
   public String source;
 
   /**
-  * Destination Path
+  * Destination Paths
   */
   @Getter
   @Setter
@@ -271,7 +271,7 @@ public class Automation {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -445,7 +445,7 @@ public class Automation {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -601,7 +601,7 @@ public class Automation {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
-  *   trigger - string - How this automation is triggered to run. One of: `realtime`, `daily`, `custom_schedule`, `webhook`, `email`, or `action`.
+  *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.

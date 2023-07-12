@@ -75,7 +75,7 @@ public class HistoryExportResult {
   */
   @Getter
   @JsonProperty("created_at_iso8601")
-  public Long createdAtIso8601;
+  public String createdAtIso8601;
 
   /**
   * User ID

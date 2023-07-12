@@ -78,11 +78,25 @@ public class EmailIncomingMessage {
   public String sender;
 
   /**
+  * Sender name
+  */
+  @Getter
+  @JsonProperty("sender_name")
+  public String senderName;
+
+  /**
   * Status of the message
   */
   @Getter
   @JsonProperty("status")
   public String status;
+
+  /**
+  * Body of the email
+  */
+  @Getter
+  @JsonProperty("body")
+  public String body;
 
   /**
   * Message describing the failure

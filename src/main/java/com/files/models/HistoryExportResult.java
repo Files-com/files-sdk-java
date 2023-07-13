@@ -190,11 +190,18 @@ public class HistoryExportResult {
   public Boolean targetRecursive;
 
   /**
-  * If searching for Histories about API keys, this is when the API key will expire
+  * If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
   */
   @Getter
   @JsonProperty("target_expires_at")
   public Long targetExpiresAt;
+
+  /**
+  * If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
+  */
+  @Getter
+  @JsonProperty("target_expires_at_iso8601")
+  public String targetExpiresAtIso8601;
 
   /**
   * If searching for Histories about API keys, this represents the permission set of the associated  API key

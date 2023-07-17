@@ -392,6 +392,14 @@ public class User {
   public String require2fa;
 
   /**
+  * Require user to login by specified date otherwise it will be disabled.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("require_login_by")
+  public Date requireLoginBy;
+
+  /**
   * Is 2fa active for the user?
   */
   @Getter

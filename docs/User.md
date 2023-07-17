@@ -48,6 +48,7 @@
   "public_keys_count": 1,
   "receive_admin_alerts": true,
   "require_2fa": "always_require",
+  "require_login_by": "2000-01-01T01:00:00Z",
   "active_2fa": true,
   "require_password_change": true,
   "password_expired": true,
@@ -110,6 +111,7 @@
 * `public_keys_count` / `publicKeysCount`  (int64): Number of public keys associated with this user
 * `receive_admin_alerts` / `receiveAdminAlerts`  (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_2fa` / `require2fa`  (string): 2FA required setting
+* `require_login_by` / `requireLoginBy`  (date-time): Require user to login by specified date otherwise it will be disabled.
 * `active_2fa` / `active2fa`  (boolean): Is 2fa active for the user?
 * `require_password_change` / `requirePasswordChange`  (boolean): Is a password change required upon next user login?
 * `password_expired` / `passwordExpired`  (boolean): Is user's password expired?

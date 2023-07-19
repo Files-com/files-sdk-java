@@ -88,7 +88,15 @@ public class PublicKey {
   public String fingerprint;
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
+  * Username of the user this public key is associated with
+  */
+  @Getter
+  @Setter
+  @JsonProperty("username")
+  public String username;
+
+  /**
+  * User ID this public key is associated with
   */
   @Getter
   @Setter

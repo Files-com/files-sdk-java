@@ -237,6 +237,7 @@ User user = User.create(
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
+* `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
 * `restapi_permission` (Boolean): Can this user access the REST API?
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
@@ -349,6 +350,7 @@ User user = User.update(
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
+* `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
 * `restapi_permission` (Boolean): Can this user access the REST API?
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
@@ -468,6 +470,7 @@ parameters.put("notes", "Internal notes on this user.");
 parameters.put("office_integration_enabled", true);
 parameters.put("password_validity_days", 1);
 parameters.put("receive_admin_alerts", true);
+parameters.put("require_login_by", "2000-01-01T01:00:00Z");
 parameters.put("require_password_change", true);
 parameters.put("restapi_permission", true);
 parameters.put("self_managed", true);
@@ -519,6 +522,7 @@ User.Update(parameters);
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
+* `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
 * `restapi_permission` (Boolean): Can this user access the REST API?
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?

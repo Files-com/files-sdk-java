@@ -669,6 +669,7 @@ public class User {
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the REST API?
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -883,6 +884,7 @@ public class User {
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the REST API?
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -1003,6 +1005,9 @@ public class User {
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
+    }
+    if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");
     }
     if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");
@@ -1236,6 +1241,7 @@ public class User {
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the REST API?
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
@@ -1366,6 +1372,9 @@ public class User {
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
+    }
+    if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");
     }
     if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");

@@ -209,6 +209,14 @@ public class Bundle {
   public Boolean skipEmail;
 
   /**
+  * Date when share will start to be accessible. If `nil` access granted right after create.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("start_access_on_date")
+  public Date startAccessOnDate;
+
+  /**
   * BundleRegistrations can be saved without providing company?
   */
   @Getter
@@ -607,6 +615,7 @@ public class Bundle {
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
@@ -692,6 +701,9 @@ public class Bundle {
     }
     if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
+    }
+    if (parameters.containsKey("start_access_on_date") && !(parameters.get("start_access_on_date") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_access_on_date must be of type String parameters[\"start_access_on_date\"]");
     }
     if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long parameters[\"snapshot_id\"]");

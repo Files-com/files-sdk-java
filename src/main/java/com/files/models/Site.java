@@ -169,6 +169,13 @@ public class Site {
   public String bundleRegistrationNotifications;
 
   /**
+  * Do Bundles require registration?
+  */
+  @Getter
+  @JsonProperty("bundle_require_registration")
+  public Boolean bundleRequireRegistration;
+
+  /**
   * Do Bundles require recipients for sharing?
   */
   @Getter
@@ -1180,6 +1187,7 @@ public class Site {
   *   immutable_files - boolean - Are files protected from modification?
   *   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
   *   bundle_password_required - boolean - Do Bundles require password protection?
+  *   bundle_require_registration - boolean - Do Bundles require registration?
   *   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
   *   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
   *   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
@@ -1450,6 +1458,9 @@ public class Site {
     }
     if (parameters.containsKey("bundle_password_required") && !(parameters.get("bundle_password_required") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_password_required must be of type Boolean parameters[\"bundle_password_required\"]");
+    }
+    if (parameters.containsKey("bundle_require_registration") && !(parameters.get("bundle_require_registration") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_require_registration must be of type Boolean parameters[\"bundle_require_registration\"]");
     }
     if (parameters.containsKey("bundle_require_share_recipient") && !(parameters.get("bundle_require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_require_share_recipient must be of type Boolean parameters[\"bundle_require_share_recipient\"]");

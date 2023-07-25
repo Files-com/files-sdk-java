@@ -38,6 +38,7 @@
   },
   "skip_name": true,
   "skip_email": true,
+  "start_access_on_date": "2000-01-01T01:00:00Z",
   "skip_company": true,
   "id": 1,
   "created_at": "2000-01-01T01:00:00Z",
@@ -81,6 +82,7 @@
 * `form_field_set` / `formFieldSet`  (formFieldSet): Custom Form to use
 * `skip_name` / `skipName`  (boolean): BundleRegistrations can be saved without providing name?
 * `skip_email` / `skipEmail`  (boolean): BundleRegistrations can be saved without providing email?
+* `start_access_on_date` / `startAccessOnDate`  (date-time): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_company` / `skipCompany`  (boolean): BundleRegistrations can be saved without providing company?
 * `id` / `id`  (int64): Bundle ID
 * `created_at` / `createdAt`  (date-time): Bundle created at date/time
@@ -185,6 +187,7 @@ Bundle bundle = Bundle.create(
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
+* `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `snapshot_id` (Long): ID of the snapshot containing this bundle's contents.
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 

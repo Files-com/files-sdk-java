@@ -20,6 +20,7 @@
   "bundle_expiration": 1,
   "bundle_password_required": true,
   "bundle_registration_notifications": "never",
+  "bundle_require_registration": true,
   "bundle_require_share_recipient": true,
   "bundle_upload_receipt_notifications": "never",
   "bundle_watermark_attachment": null,
@@ -237,6 +238,7 @@
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
 * `bundle_registration_notifications` / `bundleRegistrationNotifications`  (string): Do Bundle owners receive registration notification?
+* `bundle_require_registration` / `bundleRequireRegistration`  (boolean): Do Bundles require registration?
 * `bundle_require_share_recipient` / `bundleRequireShareRecipient`  (boolean): Do Bundles require recipients for sharing?
 * `bundle_upload_receipt_notifications` / `bundleUploadReceiptNotifications`  (string): Do Bundle uploaders receive upload confirmation notifications?
 * `bundle_watermark_attachment` / `bundleWatermarkAttachment`  (image): Preview watermark image applied to all bundle items.
@@ -467,6 +469,7 @@ Site site = Site.update(
 * `immutable_files` (Boolean): Are files protected from modification?
 * `session_pinned_by_ip` (Boolean): Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
 * `bundle_password_required` (Boolean): Do Bundles require password protection?
+* `bundle_require_registration` (Boolean): Do Bundles require registration?
 * `bundle_require_share_recipient` (Boolean): Do Bundles require recipients for sharing?
 * `bundle_registration_notifications` (String): Do Bundle owners receive registration notification?
 * `bundle_activity_notifications` (String): Do Bundle owners receive activity notifications?

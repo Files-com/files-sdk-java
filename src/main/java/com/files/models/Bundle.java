@@ -433,6 +433,7 @@ public class Bundle {
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
@@ -810,6 +811,7 @@ public class Bundle {
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
@@ -898,6 +900,9 @@ public class Bundle {
     }
     if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
+    }
+    if (parameters.containsKey("start_access_on_date") && !(parameters.get("start_access_on_date") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_access_on_date must be of type String parameters[\"start_access_on_date\"]");
     }
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");

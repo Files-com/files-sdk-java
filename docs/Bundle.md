@@ -247,6 +247,7 @@ Bundle bundle = Bundle.update(
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
+* `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
@@ -323,6 +324,7 @@ parameters.put("require_registration", true);
 parameters.put("require_share_recipient", true);
 parameters.put("send_email_receipt_to_uploader", true);
 parameters.put("skip_company", true);
+parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
 parameters.put("watermark_attachment_delete", true);
@@ -353,6 +355,7 @@ Bundle.Update(parameters);
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
+* `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment

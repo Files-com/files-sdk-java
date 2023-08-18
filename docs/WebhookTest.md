@@ -26,6 +26,7 @@
 * `file_as_body` / `fileAsBody`  (boolean): Send the file data as the request body?
 * `file_form_field` / `fileFormField`  (string): Send the file data as a named parameter in the request POST body
 * `action` / `action`  (string): action for test body
+* `use_dedicated_ips` / `useDedicatedIps`  (boolean): Use dedicated IPs for sending the webhook?
 
 
 ---
@@ -51,3 +52,4 @@ WebhookTest webhookTest = WebhookTest.create(
 * `file_as_body` (Boolean): Send the file data as the request body?
 * `file_form_field` (String): Send the file data as a named parameter in the request POST body
 * `action` (String): action for test body
+* `use_dedicated_ips` (Boolean): Use dedicated IPs for sending the webhook?

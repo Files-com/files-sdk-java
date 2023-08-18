@@ -168,6 +168,14 @@ public class WebhookTest {
   @JsonProperty("action")
   public String action;
 
+  /**
+  * Use dedicated IPs for sending the webhook?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("use_dedicated_ips")
+  public Boolean useDedicatedIps;
+
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -189,6 +197,7 @@ public class WebhookTest {
   *   file_as_body - boolean - Send the file data as the request body?
   *   file_form_field - string - Send the file data as a named parameter in the request POST body
   *   action - string - action for test body
+  *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
   */
   public static WebhookTest create() throws IOException {
     return create(null, null);
@@ -230,6 +239,9 @@ public class WebhookTest {
     }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("use_dedicated_ips") && !(parameters.get("use_dedicated_ips") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: use_dedicated_ips must be of type Boolean parameters[\"use_dedicated_ips\"]");
     }
 
     if (!parameters.containsKey("url") || parameters.get("url") == null) {

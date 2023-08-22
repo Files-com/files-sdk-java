@@ -41,7 +41,7 @@
 ## List As2 Partners
 
 ```
-List<As2Partner> as2Partner = As2Partner.list(
+ListIterator<As2Partner> as2Partner = As2Partner.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -59,7 +59,7 @@ List<As2Partner> as2Partner = As2Partner.list(
 ## Show As2 Partner
 
 ```
-List<As2Partner> as2Partner = As2Partner.find(
+ListIterator<As2Partner> as2Partner = As2Partner.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

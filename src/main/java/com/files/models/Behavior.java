@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -170,16 +171,16 @@ public class Behavior {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   */
-  public static List<Behavior> list() throws IOException {
+  public static ListIterator<Behavior> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<Behavior> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -208,11 +209,11 @@ public class Behavior {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Behavior> all() throws IOException {
+  public static ListIterator<Behavior> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -220,19 +221,19 @@ public class Behavior {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
-  public static List<Behavior> find() throws IOException {
+  public static ListIterator<Behavior> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<Behavior> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<Behavior> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<Behavior> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -266,11 +267,11 @@ public class Behavior {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Behavior> get() throws IOException {
+  public static ListIterator<Behavior> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<Behavior> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 
@@ -285,19 +286,19 @@ public class Behavior {
   *   recursive - string - Show behaviors above this path?
   *   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
   */
-  public static List<Behavior> listFor() throws IOException {
+  public static ListIterator<Behavior> listFor() throws IOException {
     return listFor(null, null, null);
   }
 
-  public static List<Behavior> listFor(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws IOException {
     return listFor(path, parameters, null);
   }
 
-  public static List<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listFor(null, parameters, options);
   }
 
-  public static List<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

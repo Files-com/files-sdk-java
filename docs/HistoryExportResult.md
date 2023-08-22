@@ -64,7 +64,7 @@
 ## List History Export Results
 
 ```
-List<HistoryExportResult> historyExportResult = HistoryExportResult.list(
+ListIterator<HistoryExportResult> historyExportResult = HistoryExportResult.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -22,7 +22,7 @@
 ## List Bundle Downloads
 
 ```
-List<BundleDownload> bundleDownload = BundleDownload.list(
+ListIterator<BundleDownload> bundleDownload = BundleDownload.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

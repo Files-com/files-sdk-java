@@ -65,7 +65,7 @@
 ## Show History Export
 
 ```
-List<HistoryExport> historyExport = HistoryExport.find(
+ListIterator<HistoryExport> historyExport = HistoryExport.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

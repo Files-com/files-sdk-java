@@ -26,7 +26,7 @@
 ## List Groups
 
 ```
-List<Group> group = Group.list(
+ListIterator<Group> group = Group.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -48,7 +48,7 @@ List<Group> group = Group.list(
 ## Show Group
 
 ```
-List<Group> group = Group.find(
+ListIterator<Group> group = Group.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

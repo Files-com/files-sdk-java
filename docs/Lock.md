@@ -38,7 +38,7 @@
 ## List Locks by path
 
 ```
-List<Lock> lock = Lock.listFor(
+ListIterator<Lock> lock = Lock.listFor(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -65,7 +65,7 @@
 ## List Notifications
 
 ```
-List<Notification> notification = Notification.list(
+ListIterator<Notification> notification = Notification.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -90,7 +90,7 @@ List<Notification> notification = Notification.list(
 ## Show Notification
 
 ```
-List<Notification> notification = Notification.find(
+ListIterator<Notification> notification = Notification.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

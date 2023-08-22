@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -141,16 +142,16 @@ public class Message {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   project_id (required) - int64 - Project for which to return messages.
   */
-  public static List<Message> list() throws IOException {
+  public static ListIterator<Message> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<Message> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Message> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<Message> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -179,11 +180,11 @@ public class Message {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Message> all() throws IOException {
+  public static ListIterator<Message> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<Message> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -191,19 +192,19 @@ public class Message {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
-  public static List<Message> find() throws IOException {
+  public static ListIterator<Message> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<Message> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<Message> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<Message> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -237,11 +238,11 @@ public class Message {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Message> get() throws IOException {
+  public static ListIterator<Message> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<Message> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

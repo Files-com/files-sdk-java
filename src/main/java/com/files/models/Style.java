@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -124,19 +125,19 @@ public class Style {
   * Parameters:
   *   path (required) - string - Style path.
   */
-  public static List<Style> find() throws IOException {
+  public static ListIterator<Style> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<Style> find(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters) throws IOException {
     return find(path, parameters, null);
   }
 
-  public static List<Style> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<Style> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -170,11 +171,11 @@ public class Style {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Style> get() throws IOException {
+  public static ListIterator<Style> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<Style> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(path, parameters, options);
   }
 

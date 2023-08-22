@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -165,16 +166,16 @@ public class ExternalEvent {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   */
-  public static List<ExternalEvent> list() throws IOException {
+  public static ListIterator<ExternalEvent> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<ExternalEvent> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -215,11 +216,11 @@ public class ExternalEvent {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<ExternalEvent> all() throws IOException {
+  public static ListIterator<ExternalEvent> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -227,19 +228,19 @@ public class ExternalEvent {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
-  public static List<ExternalEvent> find() throws IOException {
+  public static ListIterator<ExternalEvent> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<ExternalEvent> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<ExternalEvent> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -273,11 +274,11 @@ public class ExternalEvent {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<ExternalEvent> get() throws IOException {
+  public static ListIterator<ExternalEvent> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

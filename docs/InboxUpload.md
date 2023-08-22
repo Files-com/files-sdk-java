@@ -20,7 +20,7 @@
 ## List Inbox Uploads
 
 ```
-List<InboxUpload> inboxUpload = InboxUpload.list(
+ListIterator<InboxUpload> inboxUpload = InboxUpload.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

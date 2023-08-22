@@ -32,7 +32,7 @@
 ## List Bandwidth Snapshots
 
 ```
-List<BandwidthSnapshot> bandwidthSnapshot = BandwidthSnapshot.list(
+ListIterator<BandwidthSnapshot> bandwidthSnapshot = BandwidthSnapshot.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

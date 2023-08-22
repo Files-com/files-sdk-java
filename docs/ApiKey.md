@@ -40,7 +40,7 @@
 ## List Api Keys
 
 ```
-List<ApiKey> apiKey = ApiKey.list(
+ListIterator<ApiKey> apiKey = ApiKey.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -65,7 +65,7 @@ List<ApiKey> apiKey = ApiKey.list(
 ## Show information about current API key.  (Requires current API connection to be using an API key.)
 
 ```
-List<ApiKey> apiKey = ApiKey.findCurrent(
+ListIterator<ApiKey> apiKey = ApiKey.findCurrent(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -78,7 +78,7 @@ List<ApiKey> apiKey = ApiKey.findCurrent(
 ## Show Api Key
 
 ```
-List<ApiKey> apiKey = ApiKey.find(
+ListIterator<ApiKey> apiKey = ApiKey.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -18,7 +18,7 @@
 ## List Projects
 
 ```
-List<Project> project = Project.list(
+ListIterator<Project> project = Project.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -36,7 +36,7 @@ List<Project> project = Project.list(
 ## Show Project
 
 ```
-List<Project> project = Project.find(
+ListIterator<Project> project = Project.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

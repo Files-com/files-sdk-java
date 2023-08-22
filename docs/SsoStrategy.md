@@ -102,7 +102,7 @@
 ## List Sso Strategies
 
 ```
-List<SsoStrategy> ssoStrategy = SsoStrategy.list(
+ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -120,7 +120,7 @@ List<SsoStrategy> ssoStrategy = SsoStrategy.list(
 ## Show Sso Strategy
 
 ```
-List<SsoStrategy> ssoStrategy = SsoStrategy.find(
+ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

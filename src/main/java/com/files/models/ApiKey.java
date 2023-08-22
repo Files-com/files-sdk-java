@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -202,16 +203,16 @@ public class ApiKey {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
   */
-  public static List<ApiKey> list() throws IOException {
+  public static ListIterator<ApiKey> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<ApiKey> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -252,26 +253,26 @@ public class ApiKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<ApiKey> all() throws IOException {
+  public static ListIterator<ApiKey> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
   /**
   */
-  public static List<ApiKey> findCurrent() throws IOException {
+  public static ListIterator<ApiKey> findCurrent() throws IOException {
     return findCurrent(null, null);
   }
 
-  public static List<ApiKey> findCurrent(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters) throws IOException {
     return findCurrent(parameters, null);
   }
 
 
-  public static List<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -290,19 +291,19 @@ public class ApiKey {
   * Parameters:
   *   id (required) - int64 - Api Key ID.
   */
-  public static List<ApiKey> find() throws IOException {
+  public static ListIterator<ApiKey> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<ApiKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -336,11 +337,11 @@ public class ApiKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<ApiKey> get() throws IOException {
+  public static ListIterator<ApiKey> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

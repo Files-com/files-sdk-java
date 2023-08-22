@@ -24,7 +24,7 @@
 ## List Remote Bandwidth Snapshots
 
 ```
-List<RemoteBandwidthSnapshot> remoteBandwidthSnapshot = RemoteBandwidthSnapshot.list(
+ListIterator<RemoteBandwidthSnapshot> remoteBandwidthSnapshot = RemoteBandwidthSnapshot.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

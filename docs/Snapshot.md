@@ -27,7 +27,7 @@
 ## List Snapshots
 
 ```
-List<Snapshot> snapshot = Snapshot.list(
+ListIterator<Snapshot> snapshot = Snapshot.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -45,7 +45,7 @@ List<Snapshot> snapshot = Snapshot.list(
 ## Show Snapshot
 
 ```
-List<Snapshot> snapshot = Snapshot.find(
+ListIterator<Snapshot> snapshot = Snapshot.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

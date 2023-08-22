@@ -23,7 +23,7 @@
 ## List Message Comments
 
 ```
-List<MessageComment> messageComment = MessageComment.list(
+ListIterator<MessageComment> messageComment = MessageComment.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -43,7 +43,7 @@ List<MessageComment> messageComment = MessageComment.list(
 ## Show Message Comment
 
 ```
-List<MessageComment> messageComment = MessageComment.find(
+ListIterator<MessageComment> messageComment = MessageComment.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

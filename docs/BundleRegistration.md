@@ -42,7 +42,7 @@
 ## List Bundle Registrations
 
 ```
-List<BundleRegistration> bundleRegistration = BundleRegistration.list(
+ListIterator<BundleRegistration> bundleRegistration = BundleRegistration.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

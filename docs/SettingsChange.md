@@ -28,7 +28,7 @@
 ## List Settings Changes
 
 ```
-List<SettingsChange> settingsChange = SettingsChange.list(
+ListIterator<SettingsChange> settingsChange = SettingsChange.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

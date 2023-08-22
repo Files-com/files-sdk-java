@@ -27,7 +27,7 @@
 ## List Bundle Recipients
 
 ```
-List<BundleRecipient> bundleRecipient = BundleRecipient.list(
+ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -28,7 +28,7 @@
 ## List Requests
 
 ```
-List<Request> request = Request.list(
+ListIterator<Request> request = Request.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

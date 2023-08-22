@@ -23,7 +23,7 @@
 ## Show Style
 
 ```
-List<Style> style = Style.find(
+ListIterator<Style> style = Style.find(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -29,8 +29,8 @@ public class FilesAuthTest {
     // Setting API Key
     FilesClient.apiKey = apiKey;
     // Requesting all userss
-    List<User> allUsers = User.all();
-    assert(allUsers.size() == 1);
+    ListIterator<User> allUsers = User.all();
+    assert(allUsers.all().size() == 1);
   }
 
   @Test
@@ -47,8 +47,8 @@ public class FilesAuthTest {
   public void apiKeyInOptionsTest() throws IOException {
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("api_key", apiKey);
-    List<User> allUsers = User.all(null, parameters);
-    assert(allUsers.size() == 1);
+    ListIterator<User> allUsers = User.all(null, parameters);
+    assert(allUsers.all().size() == 1);
   }
 
   @Test
@@ -60,14 +60,14 @@ public class FilesAuthTest {
     Session session = Session.create(sessionParameters);
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("session_id", session.getId());
-    List<User> allUsers = User.all(null, parameters);
-    assert(allUsers.size() == 1);
+    ListIterator<User> allUsers = User.all(null, parameters);
+    assert(allUsers.all().size() == 1);
   }
 
   @Test
   public void noApiKey() throws IOException {
     try {
-      List<User> allUsers = User.all(null, null);
+      ListIterator<User> allUsers = User.all(null, null);
     } catch (IOException e) {
       if (e instanceof ApiErrorException.ApiAuthenticationException) {
         assert (e instanceof ApiErrorException.ApiAuthenticationException);

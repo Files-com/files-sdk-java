@@ -22,7 +22,7 @@
 ## Show site DNS configuration
 
 ```
-List<DnsRecord> dnsRecord = DnsRecord.list(
+ListIterator<DnsRecord> dnsRecord = DnsRecord.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

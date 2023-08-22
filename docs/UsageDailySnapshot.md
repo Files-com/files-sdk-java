@@ -38,7 +38,7 @@
 ## List Usage Daily Snapshots
 
 ```
-List<UsageDailySnapshot> usageDailySnapshot = UsageDailySnapshot.list(
+ListIterator<UsageDailySnapshot> usageDailySnapshot = UsageDailySnapshot.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

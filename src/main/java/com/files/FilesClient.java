@@ -5,6 +5,8 @@ import com.files.exceptions.ApiErrorException;
 import com.files.models.Session;
 import com.files.net.FilesApiInterface;
 import com.files.net.FilesOkHttpApi;
+import com.files.net.FilesResponse;
+import com.files.net.HttpMethods;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import java.io.BufferedInputStream;
@@ -26,7 +28,11 @@ public abstract class FilesClient {
   public static Session session;
   public static ConnectionPool httpPool = new ConnectionPool(FilesConfig.getInstance().getUpstreamMaxConnections(), FilesConfig.getInstance().getUpstreamTimeout(), TimeUnit.MILLISECONDS);
 
-  public static <T> List<T> requestList(String url, RequestMethods requestType, TypeReference<List<T>> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+    return filesApi.apiRequest(url, requestType, parameters, options);
+  }
+
+  public static <T> ListIterator<T> requestList(String url, RequestMethods requestType, TypeReference<List<T>> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return filesApi.apiRequestList(url, requestType, className, parameters, options);
   }
 

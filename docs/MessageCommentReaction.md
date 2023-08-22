@@ -19,7 +19,7 @@
 ## List Message Comment Reactions
 
 ```
-List<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.list(
+ListIterator<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -39,7 +39,7 @@ List<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.lis
 ## Show Message Comment Reaction
 
 ```
-List<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.find(
+ListIterator<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

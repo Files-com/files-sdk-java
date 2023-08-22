@@ -32,7 +32,7 @@
 ## List Behaviors
 
 ```
-List<Behavior> behavior = Behavior.list(
+ListIterator<Behavior> behavior = Behavior.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -53,7 +53,7 @@ List<Behavior> behavior = Behavior.list(
 ## Show Behavior
 
 ```
-List<Behavior> behavior = Behavior.find(
+ListIterator<Behavior> behavior = Behavior.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -70,7 +70,7 @@ List<Behavior> behavior = Behavior.find(
 ## List Behaviors by path
 
 ```
-List<Behavior> behavior = Behavior.listFor(
+ListIterator<Behavior> behavior = Behavior.listFor(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

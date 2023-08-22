@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -278,19 +279,19 @@ public class HistoryExport {
   * Parameters:
   *   id (required) - int64 - History Export ID.
   */
-  public static List<HistoryExport> find() throws IOException {
+  public static ListIterator<HistoryExport> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<HistoryExport> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<HistoryExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<HistoryExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -324,11 +325,11 @@ public class HistoryExport {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<HistoryExport> get() throws IOException {
+  public static ListIterator<HistoryExport> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<HistoryExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

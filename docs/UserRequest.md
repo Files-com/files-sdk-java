@@ -22,7 +22,7 @@
 ## List User Requests
 
 ```
-List<UserRequest> userRequest = UserRequest.list(
+ListIterator<UserRequest> userRequest = UserRequest.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -40,7 +40,7 @@ List<UserRequest> userRequest = UserRequest.list(
 ## Show User Request
 
 ```
-List<UserRequest> userRequest = UserRequest.find(
+ListIterator<UserRequest> userRequest = UserRequest.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

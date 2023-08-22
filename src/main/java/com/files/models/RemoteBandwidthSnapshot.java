@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -104,16 +105,16 @@ public class RemoteBandwidthSnapshot {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
   */
-  public static List<RemoteBandwidthSnapshot> list() throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -151,11 +152,11 @@ public class RemoteBandwidthSnapshot {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<RemoteBandwidthSnapshot> all() throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<RemoteBandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

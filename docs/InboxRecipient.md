@@ -26,7 +26,7 @@
 ## List Inbox Recipients
 
 ```
-List<InboxRecipient> inboxRecipient = InboxRecipient.list(
+ListIterator<InboxRecipient> inboxRecipient = InboxRecipient.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

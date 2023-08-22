@@ -76,7 +76,7 @@
 ## List Automations
 
 ```
-List<Automation> automation = Automation.list(
+ListIterator<Automation> automation = Automation.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -101,7 +101,7 @@ List<Automation> automation = Automation.list(
 ## Show Automation
 
 ```
-List<Automation> automation = Automation.find(
+ListIterator<Automation> automation = Automation.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

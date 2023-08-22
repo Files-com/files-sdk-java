@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -680,19 +681,19 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static List<File> find() throws IOException {
+  public static ListIterator<File> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<File> find(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<File> find(String path, HashMap<String, Object> parameters) throws IOException {
     return find(path, parameters, null);
   }
 
-  public static List<File> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<File> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -735,11 +736,11 @@ public class File {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<File> get() throws IOException {
+  public static ListIterator<File> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<File> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(path, parameters, options);
   }
 

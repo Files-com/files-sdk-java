@@ -26,7 +26,7 @@
 ## List Automation Runs
 
 ```
-List<AutomationRun> automationRun = AutomationRun.list(
+ListIterator<AutomationRun> automationRun = AutomationRun.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -48,7 +48,7 @@ List<AutomationRun> automationRun = AutomationRun.list(
 ## Show Automation Run
 
 ```
-List<AutomationRun> automationRun = AutomationRun.find(
+ListIterator<AutomationRun> automationRun = AutomationRun.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -91,16 +92,16 @@ public class InboxUpload {
   *   inbox_registration_id - int64 - InboxRegistration ID
   *   inbox_id - int64 - Inbox ID
   */
-  public static List<InboxUpload> list() throws IOException {
+  public static ListIterator<InboxUpload> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<InboxUpload> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<InboxUpload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -144,11 +145,11 @@ public class InboxUpload {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<InboxUpload> all() throws IOException {
+  public static ListIterator<InboxUpload> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

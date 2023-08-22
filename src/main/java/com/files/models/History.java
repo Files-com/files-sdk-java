@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -159,19 +160,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static List<History> listForFile() throws IOException {
+  public static ListIterator<History> listForFile() throws IOException {
     return listForFile(null, null, null);
   }
 
-  public static List<History> listForFile(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<History> listForFile(String path, HashMap<String, Object> parameters) throws IOException {
     return listForFile(path, parameters, null);
   }
 
-  public static List<History> listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForFile(null, parameters, options);
   }
 
-  public static List<History> listForFile(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForFile(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -234,19 +235,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static List<History> listForFolder() throws IOException {
+  public static ListIterator<History> listForFolder() throws IOException {
     return listForFolder(null, null, null);
   }
 
-  public static List<History> listForFolder(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<History> listForFolder(String path, HashMap<String, Object> parameters) throws IOException {
     return listForFolder(path, parameters, null);
   }
 
-  public static List<History> listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForFolder(null, parameters, options);
   }
 
-  public static List<History> listForFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -309,19 +310,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   user_id (required) - int64 - User ID.
   */
-  public static List<History> listForUser() throws IOException {
+  public static ListIterator<History> listForUser() throws IOException {
     return listForUser(null, null, null);
   }
 
-  public static List<History> listForUser(Long user_id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<History> listForUser(Long user_id, HashMap<String, Object> parameters) throws IOException {
     return listForUser(user_id, parameters, null);
   }
 
-  public static List<History> listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listForUser(null, parameters, options);
   }
 
-  public static List<History> listForUser(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listForUser(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -383,16 +384,16 @@ public class History {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   */
-  public static List<History> listLogins() throws IOException {
+  public static ListIterator<History> listLogins() throws IOException {
     return listLogins(null, null);
   }
 
-  public static List<History> listLogins(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<History> listLogins(HashMap<String, Object> parameters) throws IOException {
     return listLogins(parameters, null);
   }
 
 
-  public static List<History> listLogins(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> listLogins(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -436,16 +437,16 @@ public class History {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   */
-  public static List<History> list() throws IOException {
+  public static ListIterator<History> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<History> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<History> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<History> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -483,11 +484,11 @@ public class History {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<History> all() throws IOException {
+  public static ListIterator<History> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<History> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<History> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

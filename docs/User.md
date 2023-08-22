@@ -146,7 +146,7 @@
 ## List Users
 
 ```
-List<User> user = User.list(
+ListIterator<User> user = User.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -180,7 +180,7 @@ List<User> user = User.list(
 ## Show User
 
 ```
-List<User> user = User.find(
+ListIterator<User> user = User.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -34,7 +34,7 @@
 ## List Action Notification Export Results
 
 ```
-List<ActionNotificationExportResult> actionNotificationExportResult = ActionNotificationExportResult.list(
+ListIterator<ActionNotificationExportResult> actionNotificationExportResult = ActionNotificationExportResult.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

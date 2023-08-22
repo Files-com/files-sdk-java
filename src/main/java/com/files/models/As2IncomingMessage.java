@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -315,16 +316,16 @@ public class As2IncomingMessage {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   *   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
   */
-  public static List<As2IncomingMessage> list() throws IOException {
+  public static ListIterator<As2IncomingMessage> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<As2IncomingMessage> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<As2IncomingMessage> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -365,11 +366,11 @@ public class As2IncomingMessage {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<As2IncomingMessage> all() throws IOException {
+  public static ListIterator<As2IncomingMessage> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

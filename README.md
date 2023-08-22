@@ -49,7 +49,7 @@ of every method.  Like this:
 ```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("api_key", "my-key");
-    List<User> users = User.list(null, requestOptions);
+    List<User> users = User.list(null, requestOptions).all();
 ```
 
 That key will automatically be used for any followup actions that occur
@@ -70,7 +70,7 @@ Then use it as follows:
 ```java
     HashMap<String, Object> requestOptions = new HashMap<>();
     requestOptions.put("session_id", session.getId());
-    List<User> users = User.list(null, requestOptions);
+    List<User> users = User.list(null, requestOptions).all();
 ```
 
 Or use if for all subsequent API calls globally like this:
@@ -85,11 +85,33 @@ You can set the following global options directly on the `FilesClient` module:
     FilesClient.setProperty("apiRoot", "https://files-mock-server:4041");
 ```
 
+### Pagination
+
+For endpoints with pagination, operations such as `list` will return a `ListIterator` object. This object allows for accessing pages of
+results with `loadNextPage()`, `all()`, and auto-pagination using `listAutoPaging()`.
+
 ### File Operations
 
-#### List root folder
+#### List root folder (loads all pages into memory)
 ```java
-    Folder.listFor("/", null)
+    Folder.listFor("/", null).all()
+```
+
+#### List root folder with auto pagination (loads each page into memory)
+```java
+    for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
+        System.out.println(item.path);
+    }
+```
+
+#### List root folder with manual pagination (loads each page into memory)
+```java
+    ListIterator<Folder> listing = Folder.listFor("/", null);
+    do {
+        for (Folder item : listing.loadNextPage()) {
+            System.out.println(item.path);
+        }
+    } while (listing.hasNextPage());
 ```
 
 #### Writing a file example

@@ -38,7 +38,7 @@
 ## List Inbox Registrations
 
 ```
-List<InboxRegistration> inboxRegistration = InboxRegistration.list(
+ListIterator<InboxRegistration> inboxRegistration = InboxRegistration.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

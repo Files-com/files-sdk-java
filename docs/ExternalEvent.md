@@ -36,7 +36,7 @@
 ## List External Events
 
 ```
-List<ExternalEvent> externalEvent = ExternalEvent.list(
+ListIterator<ExternalEvent> externalEvent = ExternalEvent.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -61,7 +61,7 @@ List<ExternalEvent> externalEvent = ExternalEvent.list(
 ## Show External Event
 
 ```
-List<ExternalEvent> externalEvent = ExternalEvent.find(
+ListIterator<ExternalEvent> externalEvent = ExternalEvent.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

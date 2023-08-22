@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -98,16 +99,16 @@ public class BundleDownload {
   *   bundle_id - int64 - Bundle ID
   *   bundle_registration_id - int64 - BundleRegistration ID
   */
-  public static List<BundleDownload> list() throws IOException {
+  public static ListIterator<BundleDownload> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<BundleDownload> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<BundleDownload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -151,11 +152,11 @@ public class BundleDownload {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<BundleDownload> all() throws IOException {
+  public static ListIterator<BundleDownload> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -230,19 +231,19 @@ public class Folder {
   *   with_previews - boolean - Include file previews?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static List<Folder> listFor() throws IOException {
+  public static ListIterator<Folder> listFor() throws IOException {
     return listFor(null, null, null);
   }
 
-  public static List<Folder> listFor(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters) throws IOException {
     return listFor(path, parameters, null);
   }
 
-  public static List<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return listFor(null, parameters, options);
   }
 
-  public static List<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

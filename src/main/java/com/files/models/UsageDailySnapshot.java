@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -146,16 +147,16 @@ public class UsageDailySnapshot {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.
   */
-  public static List<UsageDailySnapshot> list() throws IOException {
+  public static ListIterator<UsageDailySnapshot> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<UsageDailySnapshot> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<UsageDailySnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -193,11 +194,11 @@ public class UsageDailySnapshot {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<UsageDailySnapshot> all() throws IOException {
+  public static ListIterator<UsageDailySnapshot> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<UsageDailySnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UsageDailySnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

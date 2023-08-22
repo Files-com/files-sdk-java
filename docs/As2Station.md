@@ -43,7 +43,7 @@
 ## List As2 Stations
 
 ```
-List<As2Station> as2Station = As2Station.list(
+ListIterator<As2Station> as2Station = As2Station.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -61,7 +61,7 @@ List<As2Station> as2Station = As2Station.list(
 ## Show As2 Station
 
 ```
-List<As2Station> as2Station = As2Station.find(
+ListIterator<As2Station> as2Station = As2Station.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

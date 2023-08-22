@@ -46,7 +46,7 @@
 ## List Usage Snapshots
 
 ```
-List<UsageSnapshot> usageSnapshot = UsageSnapshot.list(
+ListIterator<UsageSnapshot> usageSnapshot = UsageSnapshot.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

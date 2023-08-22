@@ -27,7 +27,7 @@
 ## List Group Users
 
 ```
-List<GroupUser> groupUser = GroupUser.list(
+ListIterator<GroupUser> groupUser = GroupUser.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

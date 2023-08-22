@@ -23,7 +23,7 @@
 ## List Sftp Host Keys
 
 ```
-List<SftpHostKey> sftpHostKey = SftpHostKey.list(
+ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -41,7 +41,7 @@ List<SftpHostKey> sftpHostKey = SftpHostKey.list(
 ## Show Sftp Host Key
 
 ```
-List<SftpHostKey> sftpHostKey = SftpHostKey.find(
+ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

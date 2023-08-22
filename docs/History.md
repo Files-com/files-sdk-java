@@ -42,7 +42,7 @@
 ## List history for specific file
 
 ```
-List<History> history = History.listForFile(
+ListIterator<History> history = History.listForFile(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -65,7 +65,7 @@ List<History> history = History.listForFile(
 ## List history for specific folder
 
 ```
-List<History> history = History.listForFolder(
+ListIterator<History> history = History.listForFolder(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -88,7 +88,7 @@ List<History> history = History.listForFolder(
 ## List history for specific user
 
 ```
-List<History> history = History.listForUser(
+ListIterator<History> history = History.listForUser(
     Long user_id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -111,7 +111,7 @@ List<History> history = History.listForUser(
 ## List site login history
 
 ```
-List<History> history = History.listLogins(
+ListIterator<History> history = History.listLogins(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -133,7 +133,7 @@ List<History> history = History.listLogins(
 ## List site full action history
 
 ```
-List<History> history = History.list(
+ListIterator<History> history = History.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -36,7 +36,7 @@
 ## List Form Field Sets
 
 ```
-List<FormFieldSet> formFieldSet = FormFieldSet.list(
+ListIterator<FormFieldSet> formFieldSet = FormFieldSet.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -55,7 +55,7 @@ List<FormFieldSet> formFieldSet = FormFieldSet.list(
 ## Show Form Field Set
 
 ```
-List<FormFieldSet> formFieldSet = FormFieldSet.find(
+ListIterator<FormFieldSet> formFieldSet = FormFieldSet.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

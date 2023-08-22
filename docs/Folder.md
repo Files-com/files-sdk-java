@@ -57,7 +57,7 @@
 ## List Folders by path
 
 ```
-List<Folder> folder = Folder.listFor(
+ListIterator<Folder> folder = Folder.listFor(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

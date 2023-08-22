@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
+import com.files.ListIterator;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
@@ -31,16 +32,15 @@ public class FilesOkHttpApi implements FilesApiInterface {
       .build();
   protected static final Logger log = LoggerFactory.getLogger(FilesOkHttpApi.class);
 
-  public <T> List<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz,
+  public <T> ListIterator<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz,
       HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
-    String response = apiRequest(url, requestType, parameters, options);
-    return objectMapper.readValue(response, clazz);
+    return new ListIterator<T>(url, requestType, clazz, parameters, options);
   }
 
   public <T> T apiRequestItem(String url, HttpMethods.RequestMethods requestType, TypeReference<T> clazz,
       HashMap<String, Object> parameters, HashMap<String, Object> options)
       throws IllegalArgumentException, IOException {
-    String response = apiRequest(url, requestType, parameters, options);
+    FilesResponse response = apiRequest(url, requestType, parameters, options);
 
     // Fix the issue where timestamps are getting appended twice to file upload
     // by replacing the response path with the original created path parameter
@@ -48,16 +48,16 @@ public class FilesOkHttpApi implements FilesApiInterface {
         && parameters != null
         && "put".equals(parameters.getOrDefault("action", "").toString())
         && "class com.files.models.FileUploadPart".equals(clazz.getType().toString())) {
-      HashMap<String, Object> responseMap = objectMapper.readValue(response, HashMap.class);
+      HashMap<String, Object> responseMap = objectMapper.readValue(response.getBody(), HashMap.class);
       responseMap.replace("path", parameters.get("path"));
 
       return objectMapper.convertValue(responseMap, clazz);
     }
 
-    return objectMapper.readValue(response, clazz);
+    return objectMapper.readValue(response.getBody(), clazz);
   }
 
-  private String apiRequest(String url, HttpMethods.RequestMethods requestType,
+  public FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType,
       HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     if (log.isDebugEnabled()) {
       log.debug(String.format("Sending a %s request to %s with parameters: %s and options %s", requestType, url,
@@ -120,7 +120,7 @@ public class FilesOkHttpApi implements FilesApiInterface {
     Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
     String responseBody = response.body().string();
     response.body().close();
-    return responseBody;
+    return new FilesResponse(response.code(), response.headers().toMultimap(), responseBody);
   }
 
   @Override

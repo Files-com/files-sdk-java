@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -729,16 +730,16 @@ public class User {
   *   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
   *   search - string - Searches for partial matches of name, username, or email.
   */
-  public static List<User> list() throws IOException {
+  public static ListIterator<User> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<User> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<User> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -785,11 +786,11 @@ public class User {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<User> all() throws IOException {
+  public static ListIterator<User> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -797,19 +798,19 @@ public class User {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
-  public static List<User> find() throws IOException {
+  public static ListIterator<User> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<User> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<User> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -843,11 +844,11 @@ public class User {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<User> get() throws IOException {
+  public static ListIterator<User> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

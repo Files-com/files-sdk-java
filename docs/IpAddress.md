@@ -24,7 +24,7 @@
 ## List IP Addresses associated with the current site
 
 ```
-List<IpAddress> ipAddress = IpAddress.list(
+ListIterator<IpAddress> ipAddress = IpAddress.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

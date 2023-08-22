@@ -80,7 +80,7 @@
 ## List As2 Outgoing Messages
 
 ```
-List<As2OutgoingMessage> as2OutgoingMessage = As2OutgoingMessage.list(
+ListIterator<As2OutgoingMessage> as2OutgoingMessage = As2OutgoingMessage.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

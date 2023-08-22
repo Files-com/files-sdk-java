@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -123,16 +124,16 @@ public class MessageComment {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   message_id (required) - int64 - Message comment to return comments for.
   */
-  public static List<MessageComment> list() throws IOException {
+  public static ListIterator<MessageComment> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<MessageComment> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<MessageComment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -161,11 +162,11 @@ public class MessageComment {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<MessageComment> all() throws IOException {
+  public static ListIterator<MessageComment> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<MessageComment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -173,19 +174,19 @@ public class MessageComment {
   * Parameters:
   *   id (required) - int64 - Message Comment ID.
   */
-  public static List<MessageComment> find() throws IOException {
+  public static ListIterator<MessageComment> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<MessageComment> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<MessageComment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -219,11 +220,11 @@ public class MessageComment {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<MessageComment> get() throws IOException {
+  public static ListIterator<MessageComment> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<MessageComment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

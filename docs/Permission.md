@@ -30,7 +30,7 @@
 ## List Permissions
 
 ```
-List<Permission> permission = Permission.list(
+ListIterator<Permission> permission = Permission.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

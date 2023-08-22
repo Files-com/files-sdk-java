@@ -18,7 +18,7 @@
 ## List Priorities
 
 ```
-List<Priority> priority = Priority.list(
+ListIterator<Priority> priority = Priority.list(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

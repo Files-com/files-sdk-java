@@ -26,7 +26,7 @@
 ## List User Cipher Uses
 
 ```
-List<UserCipherUse> userCipherUse = UserCipherUse.list(
+ListIterator<UserCipherUse> userCipherUse = UserCipherUse.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

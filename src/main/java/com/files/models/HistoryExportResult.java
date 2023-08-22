@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -240,16 +241,16 @@ public class HistoryExportResult {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   history_export_id (required) - int64 - ID of the associated history export.
   */
-  public static List<HistoryExportResult> list() throws IOException {
+  public static ListIterator<HistoryExportResult> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<HistoryExportResult> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -278,11 +279,11 @@ public class HistoryExportResult {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<HistoryExportResult> all() throws IOException {
+  public static ListIterator<HistoryExportResult> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 

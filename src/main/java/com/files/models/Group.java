@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
+import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -144,16 +145,16 @@ public class Group {
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
   *   ids - string - Comma-separated list of group ids to include in results.
   */
-  public static List<Group> list() throws IOException {
+  public static ListIterator<Group> list() throws IOException {
     return list(null, null);
   }
 
-  public static List<Group> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Group> list(HashMap<String, Object> parameters) throws IOException {
     return list(parameters, null);
   }
 
 
-  public static List<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -185,11 +186,11 @@ public class Group {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Group> all() throws IOException {
+  public static ListIterator<Group> all() throws IOException {
     return all(null, null);
   }
 
-  public static List<Group> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return list(parameters, options);
   }
 
@@ -197,19 +198,19 @@ public class Group {
   * Parameters:
   *   id (required) - int64 - Group ID.
   */
-  public static List<Group> find() throws IOException {
+  public static ListIterator<Group> find() throws IOException {
     return find(null, null, null);
   }
 
-  public static List<Group> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters) throws IOException {
     return find(id, parameters, null);
   }
 
-  public static List<Group> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(null, parameters, options);
   }
 
-  public static List<Group> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -243,11 +244,11 @@ public class Group {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static List<Group> get() throws IOException {
+  public static ListIterator<Group> get() throws IOException {
     return get(null, null, null);
   }
 
-  public static List<Group> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
     return find(id, parameters, options);
   }
 

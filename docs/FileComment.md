@@ -23,7 +23,7 @@
 ## List File Comments by path
 
 ```
-List<FileComment> fileComment = FileComment.listFor(
+ListIterator<FileComment> fileComment = FileComment.listFor(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

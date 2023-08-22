@@ -30,7 +30,7 @@
 ## List Email Incoming Messages
 
 ```
-List<EmailIncomingMessage> emailIncomingMessage = EmailIncomingMessage.list(
+ListIterator<EmailIncomingMessage> emailIncomingMessage = EmailIncomingMessage.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -88,7 +88,7 @@
 ## List As2 Incoming Messages
 
 ```
-List<As2IncomingMessage> as2IncomingMessage = As2IncomingMessage.list(
+ListIterator<As2IncomingMessage> as2IncomingMessage = As2IncomingMessage.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

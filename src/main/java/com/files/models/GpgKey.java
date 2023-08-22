@@ -115,10 +115,10 @@ public class GpgKey {
 
   /**
   * Parameters:
-  *   name (required) - string - Your GPG key name.
   *   public_key - string - Your GPG public key
   *   private_key - string - Your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+  *   name - string - Your GPG key name.
   */
   public GpgKey update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -251,10 +251,10 @@ public class GpgKey {
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   name (required) - string - Your GPG key name.
   *   public_key - string - Your GPG public key
   *   private_key - string - Your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+  *   name (required) - string - Your GPG key name.
   */
   public static GpgKey create() throws IOException {
     return create(null, null);
@@ -273,9 +273,6 @@ public class GpgKey {
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
     }
@@ -284,6 +281,9 @@ public class GpgKey {
     }
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
@@ -300,10 +300,10 @@ public class GpgKey {
 
   /**
   * Parameters:
-  *   name (required) - string - Your GPG key name.
   *   public_key - string - Your GPG public key
   *   private_key - string - Your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
+  *   name - string - Your GPG key name.
   */
   public static GpgKey update() throws IOException {
     return update(null, null, null);
@@ -329,9 +329,6 @@ public class GpgKey {
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
     }
@@ -341,12 +338,12 @@ public class GpgKey {
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
 
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
 
 

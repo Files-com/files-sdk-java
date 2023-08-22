@@ -74,10 +74,10 @@ GpgKey gpgKey = GpgKey.create(
 ### Parameters
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-* `name` (String): Required - Your GPG key name.
 * `public_key` (String): Your GPG public key
 * `private_key` (String): Your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
+* `name` (String): Required - Your GPG key name.
 
 
 ---
@@ -95,10 +95,10 @@ GpgKey gpgKey = GpgKey.update(
 ### Parameters
 
 * `id` (Long): Required - Gpg Key ID.
-* `name` (String): Required - Your GPG key name.
 * `public_key` (String): Your GPG public key
 * `private_key` (String): Your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
+* `name` (String): Your GPG key name.
 
 
 ---
@@ -127,10 +127,10 @@ GpgKey gpgKey = GpgKey.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("name", "key name");
 parameters.put("public_key", "7f8bc1210b09b9ddf469e6b6b8920e76");
 parameters.put("private_key", "ab236cfe4a195f0226bc2e674afdd6b0");
 parameters.put("private_key_password", "[your GPG private key password]");
+parameters.put("name", "key name");
 
 GpgKey.Update(parameters);
 ```
@@ -138,10 +138,10 @@ GpgKey.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Gpg Key ID.
-* `name` (String): Required - Your GPG key name.
 * `public_key` (String): Your GPG public key
 * `private_key` (String): Your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
+* `name` (String): Your GPG key name.
 
 
 ---

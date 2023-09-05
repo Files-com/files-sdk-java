@@ -106,16 +106,16 @@ public class Project {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<Project> list() throws IOException {
+  public static ListIterator<Project> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Project> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Project> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Project> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Project> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -135,11 +135,11 @@ public class Project {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Project> all() throws IOException {
+  public static ListIterator<Project> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Project> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Project> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -147,19 +147,19 @@ public class Project {
   * Parameters:
   *   id (required) - int64 - Project ID.
   */
-  public static ListIterator<Project> find() throws IOException {
+  public static ListIterator<Project> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Project> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Project> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -193,11 +193,11 @@ public class Project {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Project> get() throws IOException {
+  public static ListIterator<Project> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Project> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Project> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -205,16 +205,16 @@ public class Project {
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
-  public static Project create() throws IOException {
+  public static Project create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Project create(HashMap<String, Object> parameters) throws IOException {
+  public static Project create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Project create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -239,19 +239,19 @@ public class Project {
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
-  public static Project update() throws IOException {
+  public static Project update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Project update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Project update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Project update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Project update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -294,19 +294,19 @@ public class Project {
 
   /**
   */
-  public static Project delete() throws IOException {
+  public static Project delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Project delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Project delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Project delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Project delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -340,11 +340,11 @@ public class Project {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Project destroy() throws IOException {
+  public static Project destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Project destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Project destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

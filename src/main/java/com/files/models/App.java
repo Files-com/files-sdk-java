@@ -179,16 +179,16 @@ public class App {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `app_type`. Valid field combinations are `[ name, app_type ]` and `[ app_type, name ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
   */
-  public static ListIterator<App> list() throws IOException {
+  public static ListIterator<App> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<App> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<App> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<App> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<App> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -217,11 +217,11 @@ public class App {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<App> all() throws IOException {
+  public static ListIterator<App> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<App> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<App> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

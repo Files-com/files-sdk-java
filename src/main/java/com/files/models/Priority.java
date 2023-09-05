@@ -79,19 +79,19 @@ public class Priority {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   path (required) - string - The path to query for priorities
   */
-  public static ListIterator<Priority> list() throws IOException {
+  public static ListIterator<Priority> list() throws RuntimeException {
     return list(null, null, null);
   }
 
-  public static ListIterator<Priority> list(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Priority> list(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return list(path, parameters, null);
   }
 
-  public static ListIterator<Priority> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Priority> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(null, parameters, options);
   }
 
-  public static ListIterator<Priority> list(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Priority> list(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -121,11 +121,11 @@ public class Priority {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Priority> all() throws IOException {
+  public static ListIterator<Priority> all() throws RuntimeException {
     return all(null, null, null);
   }
 
-  public static ListIterator<Priority> all(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Priority> all(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(path, parameters, options);
   }
 

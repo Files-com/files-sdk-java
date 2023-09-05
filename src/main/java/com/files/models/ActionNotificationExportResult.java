@@ -136,16 +136,16 @@ public class ActionNotificationExportResult {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   action_notification_export_id (required) - int64 - ID of the associated action notification export.
   */
-  public static ListIterator<ActionNotificationExportResult> list() throws IOException {
+  public static ListIterator<ActionNotificationExportResult> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -174,11 +174,11 @@ public class ActionNotificationExportResult {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ActionNotificationExportResult> all() throws IOException {
+  public static ListIterator<ActionNotificationExportResult> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<ActionNotificationExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ActionNotificationExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

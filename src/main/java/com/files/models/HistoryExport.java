@@ -279,19 +279,19 @@ public class HistoryExport {
   * Parameters:
   *   id (required) - int64 - History Export ID.
   */
-  public static ListIterator<HistoryExport> find() throws IOException {
+  public static ListIterator<HistoryExport> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<HistoryExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -325,11 +325,11 @@ public class HistoryExport {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<HistoryExport> get() throws IOException {
+  public static ListIterator<HistoryExport> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<HistoryExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -358,16 +358,16 @@ public class HistoryExport {
   *   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
   *   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
   */
-  public static HistoryExport create() throws IOException {
+  public static HistoryExport create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static HistoryExport create(HashMap<String, Object> parameters) throws IOException {
+  public static HistoryExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static HistoryExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static HistoryExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

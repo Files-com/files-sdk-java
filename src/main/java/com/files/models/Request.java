@@ -149,16 +149,16 @@ public class Request {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static ListIterator<Request> list() throws IOException {
+  public static ListIterator<Request> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Request> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Request> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Request> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Request> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -187,11 +187,11 @@ public class Request {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Request> all() throws IOException {
+  public static ListIterator<Request> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Request> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Request> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -203,19 +203,19 @@ public class Request {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static Request getFolder() throws IOException {
+  public static Request getFolder() throws RuntimeException {
     return getFolder(null, null, null);
   }
 
-  public static Request getFolder(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Request getFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return getFolder(path, parameters, null);
   }
 
-  public static Request getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return getFolder(null, parameters, options);
   }
 
-  public static Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -269,16 +269,16 @@ public class Request {
   *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  public static Request create() throws IOException {
+  public static Request create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Request create(HashMap<String, Object> parameters) throws IOException {
+  public static Request create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Request create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -313,19 +313,19 @@ public class Request {
 
   /**
   */
-  public static Request delete() throws IOException {
+  public static Request delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Request delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Request delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Request delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Request delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -359,11 +359,11 @@ public class Request {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Request destroy() throws IOException {
+  public static Request destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Request destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Request destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

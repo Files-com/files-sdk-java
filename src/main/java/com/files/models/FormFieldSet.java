@@ -159,16 +159,16 @@ public class FormFieldSet {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<FormFieldSet> list() throws IOException {
+  public static ListIterator<FormFieldSet> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<FormFieldSet> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<FormFieldSet> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<FormFieldSet> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<FormFieldSet> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -191,11 +191,11 @@ public class FormFieldSet {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<FormFieldSet> all() throws IOException {
+  public static ListIterator<FormFieldSet> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<FormFieldSet> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<FormFieldSet> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -203,19 +203,19 @@ public class FormFieldSet {
   * Parameters:
   *   id (required) - int64 - Form Field Set ID.
   */
-  public static ListIterator<FormFieldSet> find() throws IOException {
+  public static ListIterator<FormFieldSet> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<FormFieldSet> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<FormFieldSet> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -249,11 +249,11 @@ public class FormFieldSet {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<FormFieldSet> get() throws IOException {
+  public static ListIterator<FormFieldSet> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<FormFieldSet> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<FormFieldSet> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -266,16 +266,16 @@ public class FormFieldSet {
   *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
-  public static FormFieldSet create() throws IOException {
+  public static FormFieldSet create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static FormFieldSet create(HashMap<String, Object> parameters) throws IOException {
+  public static FormFieldSet create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static FormFieldSet create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -316,19 +316,19 @@ public class FormFieldSet {
   *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
-  public static FormFieldSet update() throws IOException {
+  public static FormFieldSet update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static FormFieldSet update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static FormFieldSet update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static FormFieldSet update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static FormFieldSet update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -380,19 +380,19 @@ public class FormFieldSet {
 
   /**
   */
-  public static FormFieldSet delete() throws IOException {
+  public static FormFieldSet delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static FormFieldSet delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static FormFieldSet delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static FormFieldSet delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static FormFieldSet delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -426,11 +426,11 @@ public class FormFieldSet {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static FormFieldSet destroy() throws IOException {
+  public static FormFieldSet destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static FormFieldSet destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FormFieldSet destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

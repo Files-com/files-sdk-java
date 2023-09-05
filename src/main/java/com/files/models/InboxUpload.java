@@ -92,16 +92,16 @@ public class InboxUpload {
   *   inbox_registration_id - int64 - InboxRegistration ID
   *   inbox_id - int64 - Inbox ID
   */
-  public static ListIterator<InboxUpload> list() throws IOException {
+  public static ListIterator<InboxUpload> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -145,11 +145,11 @@ public class InboxUpload {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<InboxUpload> all() throws IOException {
+  public static ListIterator<InboxUpload> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

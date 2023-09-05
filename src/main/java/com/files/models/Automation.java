@@ -314,16 +314,16 @@ public class Automation {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
   *   with_deleted - boolean - Set to true to include deleted automations in the results.
   */
-  public static ListIterator<Automation> list() throws IOException {
+  public static ListIterator<Automation> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Automation> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Automation> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Automation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Automation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -364,11 +364,11 @@ public class Automation {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Automation> all() throws IOException {
+  public static ListIterator<Automation> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Automation> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Automation> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -376,19 +376,19 @@ public class Automation {
   * Parameters:
   *   id (required) - int64 - Automation ID.
   */
-  public static ListIterator<Automation> find() throws IOException {
+  public static ListIterator<Automation> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Automation> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Automation> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Automation> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Automation> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Automation> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Automation> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -422,11 +422,11 @@ public class Automation {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Automation> get() throws IOException {
+  public static ListIterator<Automation> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Automation> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Automation> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -452,16 +452,16 @@ public class Automation {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation (required) - string - Automation type
   */
-  public static Automation create() throws IOException {
+  public static Automation create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Automation create(HashMap<String, Object> parameters) throws IOException {
+  public static Automation create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Automation create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -539,19 +539,19 @@ public class Automation {
   /**
   * Manually run automation
   */
-  public static Automation manualRun() throws IOException {
+  public static Automation manualRun() throws RuntimeException {
     return manualRun(null, null, null);
   }
 
-  public static Automation manualRun(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Automation manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return manualRun(id, parameters, null);
   }
 
-  public static Automation manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return manualRun(null, parameters, options);
   }
 
-  public static Automation manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -608,19 +608,19 @@ public class Automation {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
-  public static Automation update() throws IOException {
+  public static Automation update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Automation update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Automation update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Automation update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Automation update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -714,19 +714,19 @@ public class Automation {
 
   /**
   */
-  public static Automation delete() throws IOException {
+  public static Automation delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Automation delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Automation delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Automation delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Automation delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -760,11 +760,11 @@ public class Automation {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Automation destroy() throws IOException {
+  public static Automation destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Automation destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Automation destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

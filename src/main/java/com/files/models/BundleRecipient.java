@@ -140,16 +140,16 @@ public class BundleRecipient {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
   *   bundle_id (required) - int64 - List recipients for the bundle with this ID.
   */
-  public static ListIterator<BundleRecipient> list() throws IOException {
+  public static ListIterator<BundleRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -184,11 +184,11 @@ public class BundleRecipient {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<BundleRecipient> all() throws IOException {
+  public static ListIterator<BundleRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<BundleRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -202,16 +202,16 @@ public class BundleRecipient {
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
-  public static BundleRecipient create() throws IOException {
+  public static BundleRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static BundleRecipient create(HashMap<String, Object> parameters) throws IOException {
+  public static BundleRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static BundleRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

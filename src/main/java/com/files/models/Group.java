@@ -145,16 +145,16 @@ public class Group {
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
   *   ids - string - Comma-separated list of group ids to include in results.
   */
-  public static ListIterator<Group> list() throws IOException {
+  public static ListIterator<Group> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Group> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Group> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -186,11 +186,11 @@ public class Group {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Group> all() throws IOException {
+  public static ListIterator<Group> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Group> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -198,19 +198,19 @@ public class Group {
   * Parameters:
   *   id (required) - int64 - Group ID.
   */
-  public static ListIterator<Group> find() throws IOException {
+  public static ListIterator<Group> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Group> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -244,11 +244,11 @@ public class Group {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Group> get() throws IOException {
+  public static ListIterator<Group> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Group> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Group> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -259,16 +259,16 @@ public class Group {
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
   */
-  public static Group create() throws IOException {
+  public static Group create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Group create(HashMap<String, Object> parameters) throws IOException {
+  public static Group create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Group create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -302,19 +302,19 @@ public class Group {
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
   */
-  public static Group update() throws IOException {
+  public static Group update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Group update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Group update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Group update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Group update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -363,19 +363,19 @@ public class Group {
 
   /**
   */
-  public static Group delete() throws IOException {
+  public static Group delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Group delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Group delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Group delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Group delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -409,11 +409,11 @@ public class Group {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Group destroy() throws IOException {
+  public static Group destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Group destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Group destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

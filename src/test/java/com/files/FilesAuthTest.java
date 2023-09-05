@@ -25,7 +25,7 @@ public class FilesAuthTest {
   }
 
   @Test
-  public void listAllUsers() throws IOException {
+  public void listAllUsers() throws Exception {
     // Setting API Key
     FilesClient.apiKey = apiKey;
     // Requesting all userss
@@ -44,7 +44,7 @@ public class FilesAuthTest {
   }
 
   @Test
-  public void apiKeyInOptionsTest() throws IOException {
+  public void apiKeyInOptionsTest() throws Exception {
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("api_key", apiKey);
     ListIterator<User> allUsers = User.all(null, parameters);
@@ -53,7 +53,7 @@ public class FilesAuthTest {
 
   @Test
   @Ignore // Doesn't work with mock-sever at this time due to session bug.
-  public void sessionInOptionsTest() throws IOException {
+  public void sessionInOptionsTest() throws Exception {
     HashMap<String, Object> sessionParameters = new HashMap<>();
     sessionParameters.put("username", "test-user");
     sessionParameters.put("password", "test-pass");
@@ -68,9 +68,9 @@ public class FilesAuthTest {
   public void noApiKey() throws IOException {
     try {
       ListIterator<User> allUsers = User.all(null, null);
-    } catch (IOException e) {
-      if (e instanceof ApiErrorException.ApiAuthenticationException) {
-        assert (e instanceof ApiErrorException.ApiAuthenticationException);
+    } catch (RuntimeException e) {
+      if (e instanceof ApiErrorException.AuthenticationException) {
+        assert (e instanceof ApiErrorException.AuthenticationException);
       } else {
         throw e;
       }

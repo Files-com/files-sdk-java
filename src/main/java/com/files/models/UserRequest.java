@@ -106,16 +106,16 @@ public class UserRequest {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<UserRequest> list() throws IOException {
+  public static ListIterator<UserRequest> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<UserRequest> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<UserRequest> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<UserRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UserRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -135,11 +135,11 @@ public class UserRequest {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<UserRequest> all() throws IOException {
+  public static ListIterator<UserRequest> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<UserRequest> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UserRequest> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -147,19 +147,19 @@ public class UserRequest {
   * Parameters:
   *   id (required) - int64 - User Request ID.
   */
-  public static ListIterator<UserRequest> find() throws IOException {
+  public static ListIterator<UserRequest> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<UserRequest> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<UserRequest> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<UserRequest> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UserRequest> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<UserRequest> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UserRequest> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -193,11 +193,11 @@ public class UserRequest {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<UserRequest> get() throws IOException {
+  public static ListIterator<UserRequest> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<UserRequest> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UserRequest> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -207,16 +207,16 @@ public class UserRequest {
   *   email (required) - string - Email of user requested
   *   details (required) - string - Details of the user request
   */
-  public static UserRequest create() throws IOException {
+  public static UserRequest create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static UserRequest create(HashMap<String, Object> parameters) throws IOException {
+  public static UserRequest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static UserRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -251,19 +251,19 @@ public class UserRequest {
 
   /**
   */
-  public static UserRequest delete() throws IOException {
+  public static UserRequest delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static UserRequest delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static UserRequest delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static UserRequest delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static UserRequest delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -297,11 +297,11 @@ public class UserRequest {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static UserRequest destroy() throws IOException {
+  public static UserRequest destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static UserRequest destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static UserRequest destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

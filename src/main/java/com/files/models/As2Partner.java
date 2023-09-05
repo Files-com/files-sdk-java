@@ -205,16 +205,16 @@ public class As2Partner {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<As2Partner> list() throws IOException {
+  public static ListIterator<As2Partner> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<As2Partner> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2Partner> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<As2Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -234,11 +234,11 @@ public class As2Partner {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2Partner> all() throws IOException {
+  public static ListIterator<As2Partner> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<As2Partner> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Partner> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -246,19 +246,19 @@ public class As2Partner {
   * Parameters:
   *   id (required) - int64 - As2 Partner ID.
   */
-  public static ListIterator<As2Partner> find() throws IOException {
+  public static ListIterator<As2Partner> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<As2Partner> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Partner> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -292,11 +292,11 @@ public class As2Partner {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2Partner> get() throws IOException {
+  public static ListIterator<As2Partner> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<As2Partner> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Partner> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -309,16 +309,16 @@ public class As2Partner {
   *   server_certificate - string - Remote server certificate security setting
   *   enable_dedicated_ips - boolean
   */
-  public static As2Partner create() throws IOException {
+  public static As2Partner create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static As2Partner create(HashMap<String, Object> parameters) throws IOException {
+  public static As2Partner create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static As2Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -371,19 +371,19 @@ public class As2Partner {
   *   public_certificate - string
   *   enable_dedicated_ips - boolean
   */
-  public static As2Partner update() throws IOException {
+  public static As2Partner update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static As2Partner update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static As2Partner update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static As2Partner update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static As2Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -435,19 +435,19 @@ public class As2Partner {
 
   /**
   */
-  public static As2Partner delete() throws IOException {
+  public static As2Partner delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static As2Partner delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static As2Partner delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static As2Partner delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static As2Partner delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -481,11 +481,11 @@ public class As2Partner {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static As2Partner destroy() throws IOException {
+  public static As2Partner destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static As2Partner destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Partner destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

@@ -1,7 +1,12 @@
 package com.files.net;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesConfig;
+import com.files.ResponseError;
 import com.files.exceptions.ApiErrorException;
 import java.io.IOException;
 import okhttp3.Interceptor;
@@ -12,6 +17,10 @@ import org.slf4j.LoggerFactory;
 
 public class FilesHttpInterceptor implements Interceptor {
   protected static final Logger log = LoggerFactory.getLogger(FilesHttpInterceptor.class);
+  private final ObjectMapper objectMapper = JsonMapper
+      .builder()
+      .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .build();
   private final String userAgent;
   private final FilesConfig filesConfig = FilesConfig.getInstance();
 
@@ -20,7 +29,7 @@ public class FilesHttpInterceptor implements Interceptor {
   }
 
   @Override
-  public Response intercept(Chain chain) throws IOException {
+  public Response intercept(Chain chain) throws RuntimeException {
     Request originalRequest = chain.request();
     Request.Builder modifiedAgentRequest = originalRequest.newBuilder();
 
@@ -46,21 +55,41 @@ public class FilesHttpInterceptor implements Interceptor {
       try {
         Thread.sleep((long) (Math.pow(2, attempts - 2) * filesConfig.getInitialRetryDelayMillis()));
       } catch (InterruptedException e) {
-        throw new IOException("Http Request Interrupted");
+        throw new ApiErrorException.ApiConnectionException("Http Request Interrupted");
       }
     }
 
     if ((status >= 400 && status <= 600) || status == null) {
-      String error = "An error occured.";
-      log.error(String.format("Http Returned Status %d", status));
+      String message = String.format("Http Returned Status %d", status);
+      log.error(message);
+      if (status >= 500) {
+        try {
+          throw new ApiErrorException.ServerErrorException(response.body().string());
+        } catch (IOException e) {
+          throw new ApiErrorException.ServerErrorException("Server responded with an error");
+        } finally {
+          response.body().close();
+        }
+      } else if (status == 403) {
+        try {
+          throw new ApiErrorException.AuthenticationException(response.body().string(), response.headers().toMultimap());
+        } catch (IOException e) {
+          throw new ApiErrorException.AuthenticationException("Unable to access this resource", response.headers().toMultimap());
+        } finally {
+          response.body().close();
+        }
+      }
+      ResponseError responseError = new ResponseError();
       try {
-        error = response.body().string();
+        responseError = objectMapper.readValue(response.body().string(), ResponseError.class);
+      } catch (JsonProcessingException e) {
+        throw new ApiErrorException.InvalidResponseException(e.getMessage());
       } catch (Exception e) {
         // INOP to catch any connection closed errors.
       } finally {
         response.body().close();
       }
-      throw ApiErrorException.forStatus(status, error);
+      throw ApiErrorException.forType(message, responseError, response.headers().toMultimap());
     }
 
     return response;

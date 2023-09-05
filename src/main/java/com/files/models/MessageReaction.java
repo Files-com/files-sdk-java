@@ -108,16 +108,16 @@ public class MessageReaction {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   message_id (required) - int64 - Message to return reactions for.
   */
-  public static ListIterator<MessageReaction> list() throws IOException {
+  public static ListIterator<MessageReaction> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<MessageReaction> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageReaction> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<MessageReaction> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageReaction> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -146,11 +146,11 @@ public class MessageReaction {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageReaction> all() throws IOException {
+  public static ListIterator<MessageReaction> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<MessageReaction> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageReaction> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -158,19 +158,19 @@ public class MessageReaction {
   * Parameters:
   *   id (required) - int64 - Message Reaction ID.
   */
-  public static ListIterator<MessageReaction> find() throws IOException {
+  public static ListIterator<MessageReaction> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<MessageReaction> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageReaction> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -204,11 +204,11 @@ public class MessageReaction {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageReaction> get() throws IOException {
+  public static ListIterator<MessageReaction> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<MessageReaction> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageReaction> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -217,16 +217,16 @@ public class MessageReaction {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static MessageReaction create() throws IOException {
+  public static MessageReaction create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static MessageReaction create(HashMap<String, Object> parameters) throws IOException {
+  public static MessageReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static MessageReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -252,19 +252,19 @@ public class MessageReaction {
 
   /**
   */
-  public static MessageReaction delete() throws IOException {
+  public static MessageReaction delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static MessageReaction delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static MessageReaction delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static MessageReaction delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageReaction delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static MessageReaction delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageReaction delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -298,11 +298,11 @@ public class MessageReaction {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static MessageReaction destroy() throws IOException {
+  public static MessageReaction destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static MessageReaction destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageReaction destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

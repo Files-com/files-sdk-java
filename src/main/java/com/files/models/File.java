@@ -393,19 +393,19 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static File download() throws IOException {
+  public static File download() throws RuntimeException {
     return download(null, null, null);
   }
 
-  public static File download(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File download(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return download(path, parameters, null);
   }
 
-  public static File download(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File download(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return download(null, parameters, options);
   }
 
-  public static File download(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File download(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -469,19 +469,19 @@ public class File {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static FileUploadPart create() throws IOException {
+  public static FileUploadPart create() throws RuntimeException {
     return create(null, null, null);
   }
 
-  public static FileUploadPart create(String path, HashMap<String, Object> parameters) throws IOException {
+  public static FileUploadPart create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
-  public static FileUploadPart create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileUploadPart create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
-  public static FileUploadPart create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FileUploadPart create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -560,19 +560,19 @@ public class File {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public static File update() throws IOException {
+  public static File update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static File update(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
   }
 
-  public static File update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static File update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -617,19 +617,19 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public static File delete() throws IOException {
+  public static File delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static File delete(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(path, parameters, null);
   }
 
-  public static File delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static File delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -666,11 +666,11 @@ public class File {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static File destroy() throws IOException {
+  public static File destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static File destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(path, parameters, options);
   }
 
@@ -681,19 +681,19 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static ListIterator<File> find() throws IOException {
+  public static ListIterator<File> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<File> find(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<File> find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
-  public static ListIterator<File> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<File> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -736,11 +736,11 @@ public class File {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<File> get() throws IOException {
+  public static ListIterator<File> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<File> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<File> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 
@@ -751,19 +751,19 @@ public class File {
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
   */
-  public static File copy() throws IOException {
+  public static File copy() throws RuntimeException {
     return copy(null, null, null);
   }
 
-  public static File copy(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return copy(path, parameters, null);
   }
 
-  public static File copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return copy(null, parameters, options);
   }
 
-  public static File copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -813,19 +813,19 @@ public class File {
   * Parameters:
   *   destination (required) - string - Move destination path.
   */
-  public static File move() throws IOException {
+  public static File move() throws RuntimeException {
     return move(null, null, null);
   }
 
-  public static File move(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File move(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return move(path, parameters, null);
   }
 
-  public static File move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return move(null, parameters, options);
   }
 
-  public static File move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -878,19 +878,19 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static File beginUpload() throws IOException {
+  public static File beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
   }
 
-  public static File beginUpload(String path, HashMap<String, Object> parameters) throws IOException {
+  public static File beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);
   }
 
-  public static File beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return beginUpload(null, parameters, options);
   }
 
-  public static File beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static File beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

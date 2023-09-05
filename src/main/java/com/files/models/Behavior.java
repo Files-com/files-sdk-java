@@ -171,16 +171,16 @@ public class Behavior {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   */
-  public static ListIterator<Behavior> list() throws IOException {
+  public static ListIterator<Behavior> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Behavior> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -209,11 +209,11 @@ public class Behavior {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Behavior> all() throws IOException {
+  public static ListIterator<Behavior> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -221,19 +221,19 @@ public class Behavior {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
-  public static ListIterator<Behavior> find() throws IOException {
+  public static ListIterator<Behavior> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Behavior> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -267,11 +267,11 @@ public class Behavior {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Behavior> get() throws IOException {
+  public static ListIterator<Behavior> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Behavior> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -286,19 +286,19 @@ public class Behavior {
   *   recursive - string - Show behaviors above this path?
   *   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
   */
-  public static ListIterator<Behavior> listFor() throws IOException {
+  public static ListIterator<Behavior> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
-  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
-  public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
-  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -363,16 +363,16 @@ public class Behavior {
   *   path (required) - string - Folder behaviors path.
   *   behavior (required) - string - Behavior type.
   */
-  public static Behavior create() throws IOException {
+  public static Behavior create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Behavior create(HashMap<String, Object> parameters) throws IOException {
+  public static Behavior create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Behavior create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -420,16 +420,16 @@ public class Behavior {
   *   body - object - Additional body parameters.
   *   action - string - action for test body
   */
-  public static Behavior webhookTest() throws IOException {
+  public static Behavior webhookTest() throws RuntimeException {
     return webhookTest(null, null);
   }
 
-  public static Behavior webhookTest(HashMap<String, Object> parameters) throws IOException {
+  public static Behavior webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
     return webhookTest(parameters, null);
   }
 
 
-  public static Behavior webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -475,19 +475,19 @@ public class Behavior {
   *   path - string - Folder behaviors path.
   *   attachment_delete - boolean - If true, will delete the file stored in attachment
   */
-  public static Behavior update() throws IOException {
+  public static Behavior update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Behavior update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Behavior update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Behavior update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Behavior update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -545,19 +545,19 @@ public class Behavior {
 
   /**
   */
-  public static Behavior delete() throws IOException {
+  public static Behavior delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Behavior delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Behavior delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Behavior delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Behavior delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -591,11 +591,11 @@ public class Behavior {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Behavior destroy() throws IOException {
+  public static Behavior destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Behavior destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Behavior destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

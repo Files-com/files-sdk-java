@@ -200,16 +200,16 @@ public class WebhookTest {
   *   action - string - action for test body
   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
   */
-  public static WebhookTest create() throws IOException {
+  public static WebhookTest create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static WebhookTest create(HashMap<String, Object> parameters) throws IOException {
+  public static WebhookTest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

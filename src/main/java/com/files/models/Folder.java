@@ -231,19 +231,19 @@ public class Folder {
   *   with_previews - boolean - Include file previews?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static ListIterator<Folder> listFor() throws IOException {
+  public static ListIterator<Folder> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
-  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
-  public static ListIterator<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
-  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -311,19 +311,19 @@ public class Folder {
   *   mkdir_parents - boolean - Create parent directories if they do not exist?
   *   provided_mtime - string - User provided modification time.
   */
-  public static Folder create() throws IOException {
+  public static Folder create() throws RuntimeException {
     return create(null, null, null);
   }
 
-  public static Folder create(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Folder create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
-  public static Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
-  public static Folder create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Folder create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

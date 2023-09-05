@@ -730,16 +730,16 @@ public class User {
   *   q[ssl_required] - string - If set, list only users with overridden SSL required setting.
   *   search - string - Searches for partial matches of name, username, or email.
   */
-  public static ListIterator<User> list() throws IOException {
+  public static ListIterator<User> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<User> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<User> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -786,11 +786,11 @@ public class User {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<User> all() throws IOException {
+  public static ListIterator<User> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -798,19 +798,19 @@ public class User {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
-  public static ListIterator<User> find() throws IOException {
+  public static ListIterator<User> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -844,11 +844,11 @@ public class User {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<User> get() throws IOException {
+  public static ListIterator<User> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -900,16 +900,16 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public static User create() throws IOException {
+  public static User create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static User create(HashMap<String, Object> parameters) throws IOException {
+  public static User create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static User create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1062,19 +1062,19 @@ public class User {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public static User unlock() throws IOException {
+  public static User unlock() throws RuntimeException {
     return unlock(null, null, null);
   }
 
-  public static User unlock(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static User unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return unlock(id, parameters, null);
   }
 
-  public static User unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return unlock(null, parameters, options);
   }
 
-  public static User unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1112,19 +1112,19 @@ public class User {
   /**
   * Resend user welcome email
   */
-  public static User resendWelcomeEmail() throws IOException {
+  public static User resendWelcomeEmail() throws RuntimeException {
     return resendWelcomeEmail(null, null, null);
   }
 
-  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return resendWelcomeEmail(id, parameters, null);
   }
 
-  public static User resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return resendWelcomeEmail(null, parameters, options);
   }
 
-  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1162,19 +1162,19 @@ public class User {
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public static User user2faReset() throws IOException {
+  public static User user2faReset() throws RuntimeException {
     return user2faReset(null, null, null);
   }
 
-  public static User user2faReset(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static User user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return user2faReset(id, parameters, null);
   }
 
-  public static User user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return user2faReset(null, parameters, options);
   }
 
-  public static User user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1257,19 +1257,19 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public static User update() throws IOException {
+  public static User update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static User update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static User update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static User update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static User update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1441,19 +1441,19 @@ public class User {
 
   /**
   */
-  public static User delete() throws IOException {
+  public static User delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static User delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static User delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static User delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static User delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1487,11 +1487,11 @@ public class User {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static User destroy() throws IOException {
+  public static User destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static User destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static User destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

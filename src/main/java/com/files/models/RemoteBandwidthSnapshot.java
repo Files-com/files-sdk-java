@@ -105,16 +105,16 @@ public class RemoteBandwidthSnapshot {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
   */
-  public static ListIterator<RemoteBandwidthSnapshot> list() throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -152,11 +152,11 @@ public class RemoteBandwidthSnapshot {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<RemoteBandwidthSnapshot> all() throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<RemoteBandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<RemoteBandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

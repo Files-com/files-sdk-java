@@ -1076,16 +1076,16 @@ public class Site {
 
   /**
   */
-  public static Site get() throws IOException {
+  public static Site get() throws RuntimeException {
     return get(null, null);
   }
 
-  public static Site get(HashMap<String, Object> parameters) throws IOException {
+  public static Site get(HashMap<String, Object> parameters) throws RuntimeException {
     return get(parameters, null);
   }
 
 
-  public static Site get(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site get(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1102,16 +1102,16 @@ public class Site {
 
   /**
   */
-  public static Site getUsage() throws IOException {
+  public static Site getUsage() throws RuntimeException {
     return getUsage(null, null);
   }
 
-  public static Site getUsage(HashMap<String, Object> parameters) throws IOException {
+  public static Site getUsage(HashMap<String, Object> parameters) throws RuntimeException {
     return getUsage(parameters, null);
   }
 
 
-  public static Site getUsage(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site getUsage(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1266,16 +1266,16 @@ public class Site {
   *   smtp_password - string - Password for SMTP server.
   *   session_expiry_minutes - int64 - Session expiry in minutes
   */
-  public static Site update() throws IOException {
+  public static Site update() throws RuntimeException {
     return update(null, null);
   }
 
-  public static Site update(HashMap<String, Object> parameters) throws IOException {
+  public static Site update(HashMap<String, Object> parameters) throws RuntimeException {
     return update(parameters, null);
   }
 
 
-  public static Site update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Site update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

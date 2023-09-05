@@ -203,16 +203,16 @@ public class ApiKey {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
   */
-  public static ListIterator<ApiKey> list() throws IOException {
+  public static ListIterator<ApiKey> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -253,26 +253,26 @@ public class ApiKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ApiKey> all() throws IOException {
+  public static ListIterator<ApiKey> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
   */
-  public static ListIterator<ApiKey> findCurrent() throws IOException {
+  public static ListIterator<ApiKey> findCurrent() throws RuntimeException {
     return findCurrent(null, null);
   }
 
-  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return findCurrent(parameters, null);
   }
 
 
-  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -291,19 +291,19 @@ public class ApiKey {
   * Parameters:
   *   id (required) - int64 - Api Key ID.
   */
-  public static ListIterator<ApiKey> find() throws IOException {
+  public static ListIterator<ApiKey> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -337,11 +337,11 @@ public class ApiKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ApiKey> get() throws IOException {
+  public static ListIterator<ApiKey> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -354,16 +354,16 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   path - string - Folder path restriction for this api key.
   */
-  public static ApiKey create() throws IOException {
+  public static ApiKey create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static ApiKey create(HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static ApiKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -402,16 +402,16 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static ApiKey updateCurrent() throws IOException {
+  public static ApiKey updateCurrent() throws RuntimeException {
     return updateCurrent(null, null);
   }
 
-  public static ApiKey updateCurrent(HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey updateCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return updateCurrent(parameters, null);
   }
 
 
-  public static ApiKey updateCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey updateCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -442,19 +442,19 @@ public class ApiKey {
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static ApiKey update() throws IOException {
+  public static ApiKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static ApiKey update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static ApiKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static ApiKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -503,16 +503,16 @@ public class ApiKey {
 
   /**
   */
-  public static ApiKey deleteCurrent() throws IOException {
+  public static ApiKey deleteCurrent() throws RuntimeException {
     return deleteCurrent(null, null);
   }
 
-  public static ApiKey deleteCurrent(HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey deleteCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return deleteCurrent(parameters, null);
   }
 
 
-  public static ApiKey deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -529,19 +529,19 @@ public class ApiKey {
 
   /**
   */
-  public static ApiKey delete() throws IOException {
+  public static ApiKey delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static ApiKey delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ApiKey delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static ApiKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static ApiKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -575,11 +575,11 @@ public class ApiKey {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static ApiKey destroy() throws IOException {
+  public static ApiKey destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static ApiKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ApiKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

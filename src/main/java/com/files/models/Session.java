@@ -138,16 +138,16 @@ public class Session {
   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
   *   partial_session_id - string - Identifier for a partially-completed login
   */
-  public static Session create() throws IOException {
+  public static Session create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Session create(HashMap<String, Object> parameters) throws IOException {
+  public static Session create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Session create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Session create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -176,16 +176,16 @@ public class Session {
 
   /**
   */
-  public static Session delete() throws IOException {
+  public static Session delete() throws RuntimeException {
     return delete(null, null);
   }
 
-  public static Session delete(HashMap<String, Object> parameters) throws IOException {
+  public static Session delete(HashMap<String, Object> parameters) throws RuntimeException {
     return delete(parameters, null);
   }
 
 
-  public static Session delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Session delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -199,11 +199,11 @@ public class Session {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Session destroy() throws IOException {
+  public static Session destroy() throws RuntimeException {
     return destroy(null, null);
   }
 
-  public static Session destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Session destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(parameters, options);
   }
 

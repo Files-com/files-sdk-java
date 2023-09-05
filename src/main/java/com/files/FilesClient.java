@@ -28,15 +28,15 @@ public abstract class FilesClient {
   public static Session session;
   public static ConnectionPool httpPool = new ConnectionPool(FilesConfig.getInstance().getUpstreamMaxConnections(), FilesConfig.getInstance().getUpstreamTimeout(), TimeUnit.MILLISECONDS);
 
-  public static FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return filesApi.apiRequest(url, requestType, parameters, options);
   }
 
-  public static <T> ListIterator<T> requestList(String url, RequestMethods requestType, TypeReference<List<T>> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static <T> ListIterator<T> requestList(String url, RequestMethods requestType, TypeReference<List<T>> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return filesApi.apiRequestList(url, requestType, className, parameters, options);
   }
 
-  public static <T> T requestItem(String url, RequestMethods requestType, TypeReference<T> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static <T> T requestItem(String url, RequestMethods requestType, TypeReference<T> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return filesApi.apiRequestItem(url, requestType, className, parameters, options);
   }
 

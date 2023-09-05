@@ -147,16 +147,16 @@ public class UsageDailySnapshot {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.
   */
-  public static ListIterator<UsageDailySnapshot> list() throws IOException {
+  public static ListIterator<UsageDailySnapshot> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -194,11 +194,11 @@ public class UsageDailySnapshot {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<UsageDailySnapshot> all() throws IOException {
+  public static ListIterator<UsageDailySnapshot> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<UsageDailySnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<UsageDailySnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

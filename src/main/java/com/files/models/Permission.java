@@ -153,16 +153,16 @@ public class Permission {
   *   group_id - string
   *   user_id - string
   */
-  public static ListIterator<Permission> list() throws IOException {
+  public static ListIterator<Permission> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Permission> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Permission> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Permission> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Permission> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -203,11 +203,11 @@ public class Permission {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Permission> all() throws IOException {
+  public static ListIterator<Permission> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Permission> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Permission> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -220,16 +220,16 @@ public class Permission {
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
   */
-  public static Permission create() throws IOException {
+  public static Permission create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Permission create(HashMap<String, Object> parameters) throws IOException {
+  public static Permission create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Permission create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Permission create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -264,19 +264,19 @@ public class Permission {
 
   /**
   */
-  public static Permission delete() throws IOException {
+  public static Permission delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Permission delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Permission delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Permission delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Permission delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Permission delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Permission delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -310,11 +310,11 @@ public class Permission {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Permission destroy() throws IOException {
+  public static Permission destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Permission destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Permission destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

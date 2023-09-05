@@ -131,16 +131,16 @@ public class SftpHostKey {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<SftpHostKey> list() throws IOException {
+  public static ListIterator<SftpHostKey> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -160,11 +160,11 @@ public class SftpHostKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<SftpHostKey> all() throws IOException {
+  public static ListIterator<SftpHostKey> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<SftpHostKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<SftpHostKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -172,19 +172,19 @@ public class SftpHostKey {
   * Parameters:
   *   id (required) - int64 - Sftp Host Key ID.
   */
-  public static ListIterator<SftpHostKey> find() throws IOException {
+  public static ListIterator<SftpHostKey> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<SftpHostKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<SftpHostKey> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<SftpHostKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<SftpHostKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<SftpHostKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<SftpHostKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -218,11 +218,11 @@ public class SftpHostKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<SftpHostKey> get() throws IOException {
+  public static ListIterator<SftpHostKey> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<SftpHostKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<SftpHostKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -231,16 +231,16 @@ public class SftpHostKey {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public static SftpHostKey create() throws IOException {
+  public static SftpHostKey create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static SftpHostKey create(HashMap<String, Object> parameters) throws IOException {
+  public static SftpHostKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static SftpHostKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -266,19 +266,19 @@ public class SftpHostKey {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public static SftpHostKey update() throws IOException {
+  public static SftpHostKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static SftpHostKey update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static SftpHostKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static SftpHostKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static SftpHostKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -321,19 +321,19 @@ public class SftpHostKey {
 
   /**
   */
-  public static SftpHostKey delete() throws IOException {
+  public static SftpHostKey delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static SftpHostKey delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static SftpHostKey delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static SftpHostKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static SftpHostKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -367,11 +367,11 @@ public class SftpHostKey {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static SftpHostKey destroy() throws IOException {
+  public static SftpHostKey destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static SftpHostKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static SftpHostKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

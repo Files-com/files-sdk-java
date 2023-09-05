@@ -476,16 +476,16 @@ public class Bundle {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   */
-  public static ListIterator<Bundle> list() throws IOException {
+  public static ListIterator<Bundle> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Bundle> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Bundle> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Bundle> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Bundle> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -526,11 +526,11 @@ public class Bundle {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Bundle> all() throws IOException {
+  public static ListIterator<Bundle> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Bundle> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Bundle> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -538,19 +538,19 @@ public class Bundle {
   * Parameters:
   *   id (required) - int64 - Bundle ID.
   */
-  public static ListIterator<Bundle> find() throws IOException {
+  public static ListIterator<Bundle> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Bundle> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Bundle> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Bundle> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Bundle> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Bundle> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Bundle> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -584,11 +584,11 @@ public class Bundle {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Bundle> get() throws IOException {
+  public static ListIterator<Bundle> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Bundle> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Bundle> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -621,16 +621,16 @@ public class Bundle {
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle create() throws IOException {
+  public static Bundle create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Bundle create(HashMap<String, Object> parameters) throws IOException {
+  public static Bundle create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Bundle create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -734,19 +734,19 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public static Bundle share() throws IOException {
+  public static Bundle share() throws RuntimeException {
     return share(null, null, null);
   }
 
-  public static Bundle share(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Bundle share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return share(id, parameters, null);
   }
 
-  public static Bundle share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return share(null, parameters, options);
   }
 
-  public static Bundle share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -818,19 +818,19 @@ public class Bundle {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle update() throws IOException {
+  public static Bundle update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Bundle update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Bundle update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Bundle update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Bundle update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -942,19 +942,19 @@ public class Bundle {
 
   /**
   */
-  public static Bundle delete() throws IOException {
+  public static Bundle delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Bundle delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Bundle delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Bundle delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Bundle delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -988,11 +988,11 @@ public class Bundle {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Bundle destroy() throws IOException {
+  public static Bundle destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Bundle destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Bundle destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

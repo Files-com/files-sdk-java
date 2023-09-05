@@ -99,16 +99,16 @@ public class BundleDownload {
   *   bundle_id - int64 - Bundle ID
   *   bundle_registration_id - int64 - BundleRegistration ID
   */
-  public static ListIterator<BundleDownload> list() throws IOException {
+  public static ListIterator<BundleDownload> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -152,11 +152,11 @@ public class BundleDownload {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<BundleDownload> all() throws IOException {
+  public static ListIterator<BundleDownload> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

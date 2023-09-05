@@ -241,16 +241,16 @@ public class HistoryExportResult {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   history_export_id (required) - int64 - ID of the associated history export.
   */
-  public static ListIterator<HistoryExportResult> list() throws IOException {
+  public static ListIterator<HistoryExportResult> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -279,11 +279,11 @@ public class HistoryExportResult {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<HistoryExportResult> all() throws IOException {
+  public static ListIterator<HistoryExportResult> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

@@ -125,19 +125,19 @@ public class Style {
   * Parameters:
   *   path (required) - string - Style path.
   */
-  public static ListIterator<Style> find() throws IOException {
+  public static ListIterator<Style> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
-  public static ListIterator<Style> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -171,11 +171,11 @@ public class Style {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Style> get() throws IOException {
+  public static ListIterator<Style> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Style> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Style> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 
@@ -183,19 +183,19 @@ public class Style {
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
-  public static Style update() throws IOException {
+  public static Style update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Style update(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Style update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
   }
 
-  public static Style update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Style update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -238,19 +238,19 @@ public class Style {
 
   /**
   */
-  public static Style delete() throws IOException {
+  public static Style delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Style delete(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Style delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(path, parameters, null);
   }
 
-  public static Style delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Style delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -284,11 +284,11 @@ public class Style {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Style destroy() throws IOException {
+  public static Style destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Style destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Style destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(path, parameters, options);
   }
 

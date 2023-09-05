@@ -142,16 +142,16 @@ public class Message {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   project_id (required) - int64 - Project for which to return messages.
   */
-  public static ListIterator<Message> list() throws IOException {
+  public static ListIterator<Message> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Message> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Message> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Message> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -180,11 +180,11 @@ public class Message {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Message> all() throws IOException {
+  public static ListIterator<Message> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Message> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -192,19 +192,19 @@ public class Message {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
-  public static ListIterator<Message> find() throws IOException {
+  public static ListIterator<Message> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Message> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -238,11 +238,11 @@ public class Message {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Message> get() throws IOException {
+  public static ListIterator<Message> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Message> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Message> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -253,16 +253,16 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message create() throws IOException {
+  public static Message create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Message create(HashMap<String, Object> parameters) throws IOException {
+  public static Message create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Message create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -304,19 +304,19 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message update() throws IOException {
+  public static Message update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Message update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Message update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Message update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Message update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -371,19 +371,19 @@ public class Message {
 
   /**
   */
-  public static Message delete() throws IOException {
+  public static Message delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Message delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Message delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Message delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Message delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -417,11 +417,11 @@ public class Message {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Message destroy() throws IOException {
+  public static Message destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Message destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Message destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

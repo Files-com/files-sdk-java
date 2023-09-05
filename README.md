@@ -90,6 +90,31 @@ You can set the following global options directly on the `FilesClient` module:
 For endpoints with pagination, operations such as `list` will return a `ListIterator` object. This object allows for accessing pages of
 results with `loadNextPage()`, `all()`, and auto-pagination using `listAutoPaging()`.
 
+### Error Handling
+
+Unexpected errors when attempting to connect to the API inherit from the base level `SdkException` class. They all contain a `getMessage()`
+to describe what went wrong.
+
+#### Unable to connect to the API
+```java
+try {
+    Folder.ListFor("/").all();
+} catch (ApiErrorException.ApiConnectionException e) {
+    System.out.println("Unable to list root folder: " + e.getMessage());
+}
+```
+
+Errors from the API inherit from `ApiErrorException.ApiException`. They all contain more parameters to describe the error such as `getHttpCode`, `GetError`, `getDetail`, etc.
+
+#### Path does not exist
+```java
+try {
+    Folder.ListFor("/doesnotexist").all();
+} catch (ApiErrorException.NotFoundException e) {
+    System.out.println("Unable to list folder: <" + e.getHttpStatus() + "> " + e.getError());
+}
+```
+
 ### File Operations
 
 #### List root folder (loads all pages into memory)

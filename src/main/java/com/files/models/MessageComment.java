@@ -124,16 +124,16 @@ public class MessageComment {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   message_id (required) - int64 - Message comment to return comments for.
   */
-  public static ListIterator<MessageComment> list() throws IOException {
+  public static ListIterator<MessageComment> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -162,11 +162,11 @@ public class MessageComment {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageComment> all() throws IOException {
+  public static ListIterator<MessageComment> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<MessageComment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -174,19 +174,19 @@ public class MessageComment {
   * Parameters:
   *   id (required) - int64 - Message Comment ID.
   */
-  public static ListIterator<MessageComment> find() throws IOException {
+  public static ListIterator<MessageComment> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<MessageComment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -220,11 +220,11 @@ public class MessageComment {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageComment> get() throws IOException {
+  public static ListIterator<MessageComment> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<MessageComment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<MessageComment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -233,16 +233,16 @@ public class MessageComment {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   body (required) - string - Comment body.
   */
-  public static MessageComment create() throws IOException {
+  public static MessageComment create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static MessageComment create(HashMap<String, Object> parameters) throws IOException {
+  public static MessageComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static MessageComment create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -270,19 +270,19 @@ public class MessageComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public static MessageComment update() throws IOException {
+  public static MessageComment update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static MessageComment update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static MessageComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static MessageComment update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static MessageComment update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -325,19 +325,19 @@ public class MessageComment {
 
   /**
   */
-  public static MessageComment delete() throws IOException {
+  public static MessageComment delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static MessageComment delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static MessageComment delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static MessageComment delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static MessageComment delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -371,11 +371,11 @@ public class MessageComment {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static MessageComment destroy() throws IOException {
+  public static MessageComment destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static MessageComment destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static MessageComment destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

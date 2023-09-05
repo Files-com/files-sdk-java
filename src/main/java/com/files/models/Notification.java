@@ -285,16 +285,16 @@ public class Notification {
   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
   *   group_id - string
   */
-  public static ListIterator<Notification> list() throws IOException {
+  public static ListIterator<Notification> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Notification> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Notification> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Notification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Notification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -335,11 +335,11 @@ public class Notification {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Notification> all() throws IOException {
+  public static ListIterator<Notification> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Notification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Notification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -347,19 +347,19 @@ public class Notification {
   * Parameters:
   *   id (required) - int64 - Notification ID.
   */
-  public static ListIterator<Notification> find() throws IOException {
+  public static ListIterator<Notification> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Notification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Notification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -393,11 +393,11 @@ public class Notification {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Notification> get() throws IOException {
+  public static ListIterator<Notification> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Notification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Notification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -421,16 +421,16 @@ public class Notification {
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
   */
-  public static Notification create() throws IOException {
+  public static Notification create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Notification create(HashMap<String, Object> parameters) throws IOException {
+  public static Notification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Notification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -512,19 +512,19 @@ public class Notification {
   *   triggering_user_ids - array(int64) - Only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
-  public static Notification update() throws IOException {
+  public static Notification update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Notification update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Notification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Notification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Notification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -600,19 +600,19 @@ public class Notification {
 
   /**
   */
-  public static Notification delete() throws IOException {
+  public static Notification delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Notification delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Notification delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Notification delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Notification delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -646,11 +646,11 @@ public class Notification {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Notification destroy() throws IOException {
+  public static Notification destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Notification destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Notification destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

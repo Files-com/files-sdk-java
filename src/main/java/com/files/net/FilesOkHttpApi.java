@@ -1,16 +1,18 @@
 package com.files.net;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.ListIterator;
+import com.files.exceptions.ApiErrorException;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import okhttp3.FormBody;
@@ -33,13 +35,13 @@ public class FilesOkHttpApi implements FilesApiInterface {
   protected static final Logger log = LoggerFactory.getLogger(FilesOkHttpApi.class);
 
   public <T> ListIterator<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz,
-      HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+      HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return new ListIterator<T>(url, requestType, clazz, parameters, options);
   }
 
   public <T> T apiRequestItem(String url, HttpMethods.RequestMethods requestType, TypeReference<T> clazz,
       HashMap<String, Object> parameters, HashMap<String, Object> options)
-      throws IllegalArgumentException, IOException {
+      throws IllegalArgumentException, RuntimeException {
     FilesResponse response = apiRequest(url, requestType, parameters, options);
 
     // Fix the issue where timestamps are getting appended twice to file upload
@@ -48,17 +50,26 @@ public class FilesOkHttpApi implements FilesApiInterface {
         && parameters != null
         && "put".equals(parameters.getOrDefault("action", "").toString())
         && "class com.files.models.FileUploadPart".equals(clazz.getType().toString())) {
-      HashMap<String, Object> responseMap = objectMapper.readValue(response.getBody(), HashMap.class);
+      HashMap<String, Object> responseMap;
+      try {
+        responseMap = objectMapper.readValue(response.getBody(), HashMap.class);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
       responseMap.replace("path", parameters.get("path"));
 
       return objectMapper.convertValue(responseMap, clazz);
     }
 
-    return objectMapper.readValue(response.getBody(), clazz);
+    try {
+      return objectMapper.readValue(response.getBody(), clazz);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType,
-      HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+      HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     if (log.isDebugEnabled()) {
       log.debug(String.format("Sending a %s request to %s with parameters: %s and options %s", requestType, url,
           parameters, options));
@@ -99,12 +110,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
     if (requiresAuth) {
       if (options.containsKey("session_id")) {
         if (!(options.get("session_id") instanceof String)) {
-          throw new InvalidParameterException("Bad option: session_id must be of type String");
+          throw new ApiErrorException.InvalidParameterException("Bad option: session_id must be of type String");
         }
         request.header("X-FilesApi-Auth", (String) options.get("session_id"));
       } else if (options.containsKey("api_key")) {
         if (!(options.get("api_key") instanceof String)) {
-          throw new InvalidParameterException("Bad option: api_key must be of type string");
+          throw new ApiErrorException.InvalidParameterException("Bad option: api_key must be of type string");
         }
         request.header("X-FilesApi-Key", (String) options.get("api_key"));
       } else if (FilesClient.session != null && FilesClient.session.getId().length() > 0) {
@@ -112,15 +123,19 @@ public class FilesOkHttpApi implements FilesApiInterface {
       } else if (FilesClient.apiKey != null && FilesClient.apiKey.length() > 0) {
         request.header("X-FilesApi-Key", FilesClient.apiKey);
       } else {
-        throw new InvalidParameterException(
-            String.format("Authentication required for API request: %s %s", url, requestType));
+        throw new ApiErrorException.AuthenticationException(
+            String.format("Authentication required for API request: %s %s", url, requestType), null);
       }
     }
     updateRequestWithHttpMethod(request, body.build(), requestType);
-    Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
-    String responseBody = response.body().string();
-    response.body().close();
-    return new FilesResponse(response.code(), response.headers().toMultimap(), responseBody);
+    try {
+      Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
+      String responseBody = response.body().string();
+      response.body().close();
+      return new FilesResponse(response.code(), response.headers().toMultimap(), responseBody);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

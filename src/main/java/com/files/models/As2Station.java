@@ -218,16 +218,16 @@ public class As2Station {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<As2Station> list() throws IOException {
+  public static ListIterator<As2Station> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<As2Station> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2Station> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<As2Station> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Station> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -247,11 +247,11 @@ public class As2Station {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2Station> all() throws IOException {
+  public static ListIterator<As2Station> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<As2Station> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Station> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -259,19 +259,19 @@ public class As2Station {
   * Parameters:
   *   id (required) - int64 - As2 Station ID.
   */
-  public static ListIterator<As2Station> find() throws IOException {
+  public static ListIterator<As2Station> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<As2Station> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2Station> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<As2Station> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Station> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<As2Station> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Station> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -305,11 +305,11 @@ public class As2Station {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2Station> get() throws IOException {
+  public static ListIterator<As2Station> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<As2Station> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2Station> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -320,16 +320,16 @@ public class As2Station {
   *   private_key (required) - string
   *   private_key_password - string
   */
-  public static As2Station create() throws IOException {
+  public static As2Station create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static As2Station create(HashMap<String, Object> parameters) throws IOException {
+  public static As2Station create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static As2Station create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -372,19 +372,19 @@ public class As2Station {
   *   private_key - string
   *   private_key_password - string
   */
-  public static As2Station update() throws IOException {
+  public static As2Station update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static As2Station update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static As2Station update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static As2Station update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static As2Station update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -433,19 +433,19 @@ public class As2Station {
 
   /**
   */
-  public static As2Station delete() throws IOException {
+  public static As2Station delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static As2Station delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static As2Station delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static As2Station delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static As2Station delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -479,11 +479,11 @@ public class As2Station {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static As2Station destroy() throws IOException {
+  public static As2Station destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static As2Station destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static As2Station destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

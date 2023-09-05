@@ -134,16 +134,16 @@ public class BundleNotification {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[bundle_id]=desc`). Valid fields are `bundle_id`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
   */
-  public static ListIterator<BundleNotification> list() throws IOException {
+  public static ListIterator<BundleNotification> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<BundleNotification> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<BundleNotification> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<BundleNotification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleNotification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -172,11 +172,11 @@ public class BundleNotification {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<BundleNotification> all() throws IOException {
+  public static ListIterator<BundleNotification> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<BundleNotification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleNotification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -184,19 +184,19 @@ public class BundleNotification {
   * Parameters:
   *   id (required) - int64 - Bundle Notification ID.
   */
-  public static ListIterator<BundleNotification> find() throws IOException {
+  public static ListIterator<BundleNotification> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<BundleNotification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleNotification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -230,11 +230,11 @@ public class BundleNotification {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<BundleNotification> get() throws IOException {
+  public static ListIterator<BundleNotification> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<BundleNotification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<BundleNotification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -245,16 +245,16 @@ public class BundleNotification {
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   *   bundle_id (required) - int64 - Bundle ID to notify on
   */
-  public static BundleNotification create() throws IOException {
+  public static BundleNotification create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static BundleNotification create(HashMap<String, Object> parameters) throws IOException {
+  public static BundleNotification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static BundleNotification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -289,19 +289,19 @@ public class BundleNotification {
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
-  public static BundleNotification update() throws IOException {
+  public static BundleNotification update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static BundleNotification update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static BundleNotification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static BundleNotification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static BundleNotification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -344,19 +344,19 @@ public class BundleNotification {
 
   /**
   */
-  public static BundleNotification delete() throws IOException {
+  public static BundleNotification delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static BundleNotification delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static BundleNotification delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static BundleNotification delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static BundleNotification delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -390,11 +390,11 @@ public class BundleNotification {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static BundleNotification destroy() throws IOException {
+  public static BundleNotification destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static BundleNotification destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static BundleNotification destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

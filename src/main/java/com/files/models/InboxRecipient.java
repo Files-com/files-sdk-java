@@ -131,16 +131,16 @@ public class InboxRecipient {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
   *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
   */
-  public static ListIterator<InboxRecipient> list() throws IOException {
+  public static ListIterator<InboxRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -172,11 +172,11 @@ public class InboxRecipient {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<InboxRecipient> all() throws IOException {
+  public static ListIterator<InboxRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<InboxRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -189,16 +189,16 @@ public class InboxRecipient {
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
-  public static InboxRecipient create() throws IOException {
+  public static InboxRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static InboxRecipient create(HashMap<String, Object> parameters) throws IOException {
+  public static InboxRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static InboxRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static InboxRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

@@ -182,19 +182,19 @@ public class Lock {
   *   path (required) - string - Path to operate on.
   *   include_children - boolean - Include locks from children objects?
   */
-  public static ListIterator<Lock> listFor() throws IOException {
+  public static ListIterator<Lock> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
-  public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
-  public static ListIterator<Lock> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Lock> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
-  public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -246,19 +246,19 @@ public class Lock {
   *   recursive - string - Does lock apply to subfolders?
   *   timeout - int64 - Lock timeout length
   */
-  public static Lock create() throws IOException {
+  public static Lock create() throws RuntimeException {
     return create(null, null, null);
   }
 
-  public static Lock create(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Lock create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
-  public static Lock create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Lock create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
-  public static Lock create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Lock create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -309,19 +309,19 @@ public class Lock {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public static Lock delete() throws IOException {
+  public static Lock delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Lock delete(String path, HashMap<String, Object> parameters) throws IOException {
+  public static Lock delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(path, parameters, null);
   }
 
-  public static Lock delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Lock delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Lock delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Lock delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -361,11 +361,11 @@ public class Lock {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Lock destroy() throws IOException {
+  public static Lock destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Lock destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Lock destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(path, parameters, options);
   }
 

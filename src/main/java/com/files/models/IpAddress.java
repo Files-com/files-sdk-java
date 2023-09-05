@@ -92,16 +92,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<IpAddress> list() throws IOException {
+  public static ListIterator<IpAddress> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<IpAddress> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<IpAddress> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<IpAddress> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<IpAddress> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -121,11 +121,11 @@ public class IpAddress {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<IpAddress> all() throws IOException {
+  public static ListIterator<IpAddress> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<IpAddress> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<IpAddress> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -134,16 +134,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static IpAddress getExavaultReserved() throws IOException {
+  public static IpAddress getExavaultReserved() throws RuntimeException {
     return getExavaultReserved(null, null);
   }
 
-  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters) throws IOException {
+  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getExavaultReserved(parameters, null);
   }
 
 
-  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -169,16 +169,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static IpAddress getReserved() throws IOException {
+  public static IpAddress getReserved() throws RuntimeException {
     return getReserved(null, null);
   }
 
-  public static IpAddress getReserved(HashMap<String, Object> parameters) throws IOException {
+  public static IpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getReserved(parameters, null);
   }
 
 
-  public static IpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static IpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

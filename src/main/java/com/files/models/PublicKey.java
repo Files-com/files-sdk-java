@@ -146,16 +146,16 @@ public class PublicKey {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<PublicKey> list() throws IOException {
+  public static ListIterator<PublicKey> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<PublicKey> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<PublicKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<PublicKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<PublicKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -178,11 +178,11 @@ public class PublicKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<PublicKey> all() throws IOException {
+  public static ListIterator<PublicKey> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<PublicKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<PublicKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -190,19 +190,19 @@ public class PublicKey {
   * Parameters:
   *   id (required) - int64 - Public Key ID.
   */
-  public static ListIterator<PublicKey> find() throws IOException {
+  public static ListIterator<PublicKey> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<PublicKey> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<PublicKey> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<PublicKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<PublicKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<PublicKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<PublicKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -236,11 +236,11 @@ public class PublicKey {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<PublicKey> get() throws IOException {
+  public static ListIterator<PublicKey> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<PublicKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<PublicKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -250,16 +250,16 @@ public class PublicKey {
   *   title (required) - string - Internal reference for key.
   *   public_key (required) - string - Actual contents of SSH key.
   */
-  public static PublicKey create() throws IOException {
+  public static PublicKey create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static PublicKey create(HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static PublicKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -293,19 +293,19 @@ public class PublicKey {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public static PublicKey update() throws IOException {
+  public static PublicKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static PublicKey update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static PublicKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static PublicKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -348,19 +348,19 @@ public class PublicKey {
 
   /**
   */
-  public static PublicKey delete() throws IOException {
+  public static PublicKey delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static PublicKey delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static PublicKey delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static PublicKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static PublicKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -394,11 +394,11 @@ public class PublicKey {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static PublicKey destroy() throws IOException {
+  public static PublicKey destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static PublicKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static PublicKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

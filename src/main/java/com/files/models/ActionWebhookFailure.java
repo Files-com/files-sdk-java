@@ -69,19 +69,19 @@ public class ActionWebhookFailure {
   /**
   * retry Action Webhook Failure
   */
-  public static ActionWebhookFailure retry() throws IOException {
+  public static ActionWebhookFailure retry() throws RuntimeException {
     return retry(null, null, null);
   }
 
-  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return retry(id, parameters, null);
   }
 
-  public static ActionWebhookFailure retry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ActionWebhookFailure retry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return retry(null, parameters, options);
   }
 
-  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

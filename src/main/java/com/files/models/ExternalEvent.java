@@ -166,16 +166,16 @@ public class ExternalEvent {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   */
-  public static ListIterator<ExternalEvent> list() throws IOException {
+  public static ListIterator<ExternalEvent> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -216,11 +216,11 @@ public class ExternalEvent {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> all() throws IOException {
+  public static ListIterator<ExternalEvent> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -228,19 +228,19 @@ public class ExternalEvent {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
-  public static ListIterator<ExternalEvent> find() throws IOException {
+  public static ListIterator<ExternalEvent> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -274,11 +274,11 @@ public class ExternalEvent {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> get() throws IOException {
+  public static ListIterator<ExternalEvent> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -287,16 +287,16 @@ public class ExternalEvent {
   *   status (required) - string - Status of event.
   *   body (required) - string - Event body
   */
-  public static ExternalEvent create() throws IOException {
+  public static ExternalEvent create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static ExternalEvent create(HashMap<String, Object> parameters) throws IOException {
+  public static ExternalEvent create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static ExternalEvent create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ExternalEvent create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 

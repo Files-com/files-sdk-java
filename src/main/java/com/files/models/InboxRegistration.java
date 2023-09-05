@@ -142,16 +142,16 @@ public class InboxRegistration {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   folder_behavior_id - int64 - ID of the associated Inbox.
   */
-  public static ListIterator<InboxRegistration> list() throws IOException {
+  public static ListIterator<InboxRegistration> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -174,11 +174,11 @@ public class InboxRegistration {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<InboxRegistration> all() throws IOException {
+  public static ListIterator<InboxRegistration> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<InboxRegistration> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<InboxRegistration> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

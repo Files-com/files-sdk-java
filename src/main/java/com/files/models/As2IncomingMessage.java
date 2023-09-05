@@ -316,16 +316,16 @@ public class As2IncomingMessage {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   *   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
   */
-  public static ListIterator<As2IncomingMessage> list() throws IOException {
+  public static ListIterator<As2IncomingMessage> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -366,11 +366,11 @@ public class As2IncomingMessage {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2IncomingMessage> all() throws IOException {
+  public static ListIterator<As2IncomingMessage> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

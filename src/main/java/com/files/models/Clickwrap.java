@@ -142,16 +142,16 @@ public class Clickwrap {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<Clickwrap> list() throws IOException {
+  public static ListIterator<Clickwrap> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Clickwrap> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Clickwrap> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Clickwrap> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Clickwrap> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -171,11 +171,11 @@ public class Clickwrap {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Clickwrap> all() throws IOException {
+  public static ListIterator<Clickwrap> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Clickwrap> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Clickwrap> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -183,19 +183,19 @@ public class Clickwrap {
   * Parameters:
   *   id (required) - int64 - Clickwrap ID.
   */
-  public static ListIterator<Clickwrap> find() throws IOException {
+  public static ListIterator<Clickwrap> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Clickwrap> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Clickwrap> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -229,11 +229,11 @@ public class Clickwrap {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Clickwrap> get() throws IOException {
+  public static ListIterator<Clickwrap> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Clickwrap> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<Clickwrap> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -245,16 +245,16 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap create() throws IOException {
+  public static Clickwrap create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static Clickwrap create(HashMap<String, Object> parameters) throws IOException {
+  public static Clickwrap create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static Clickwrap create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -292,19 +292,19 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap update() throws IOException {
+  public static Clickwrap update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static Clickwrap update(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Clickwrap update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static Clickwrap update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static Clickwrap update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -356,19 +356,19 @@ public class Clickwrap {
 
   /**
   */
-  public static Clickwrap delete() throws IOException {
+  public static Clickwrap delete() throws RuntimeException {
     return delete(null, null, null);
   }
 
-  public static Clickwrap delete(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static Clickwrap delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return delete(id, parameters, null);
   }
 
-  public static Clickwrap delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(null, parameters, options);
   }
 
-  public static Clickwrap delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -402,11 +402,11 @@ public class Clickwrap {
     return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
   }
 
-  public static Clickwrap destroy() throws IOException {
+  public static Clickwrap destroy() throws RuntimeException {
     return destroy(null, null, null);
   }
 
-  public static Clickwrap destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static Clickwrap destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return delete(id, parameters, options);
   }
 

@@ -110,16 +110,16 @@ public class AutomationRun {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `automation_id`. Valid field combinations are `[ automation_id, status ]`.
   *   automation_id (required) - int64 - ID of the associated Automation.
   */
-  public static ListIterator<AutomationRun> list() throws IOException {
+  public static ListIterator<AutomationRun> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<AutomationRun> list(HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<AutomationRun> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<AutomationRun> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<AutomationRun> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -154,11 +154,11 @@ public class AutomationRun {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<AutomationRun> all() throws IOException {
+  public static ListIterator<AutomationRun> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<AutomationRun> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<AutomationRun> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -166,19 +166,19 @@ public class AutomationRun {
   * Parameters:
   *   id (required) - int64 - Automation Run ID.
   */
-  public static ListIterator<AutomationRun> find() throws IOException {
+  public static ListIterator<AutomationRun> find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters) throws IOException {
+  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<AutomationRun> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<AutomationRun> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -212,11 +212,11 @@ public class AutomationRun {
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<AutomationRun> get() throws IOException {
+  public static ListIterator<AutomationRun> get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<AutomationRun> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
+  public static ListIterator<AutomationRun> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

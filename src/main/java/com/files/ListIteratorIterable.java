@@ -2,6 +2,7 @@ package com.files;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ListIteratorIterable<T> implements Iterable<T> {
   private final ListIterator<T> listIterator;
@@ -26,16 +27,11 @@ public class ListIteratorIterable<T> implements Iterable<T> {
         this.index++;
         if (this.index >= listIterator.data.size()) {
           if (listIterator.hasNextPage() || this.page == 0) {
-            try {
-              System.out.println("Fetching next page");
-              listIterator.loadNextPage();
-            } catch (IOException e) {
-              return null;
-            }
+            listIterator.loadNextPage();
             this.index = 0;
             this.page++;
           } else {
-            return null;
+            throw new NoSuchElementException("There are no more items in the list.");
           }
         }
 

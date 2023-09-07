@@ -60,7 +60,7 @@
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `description` / `description`  (string): Description for the this Automation.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `path` / `path`  (string): Path on which this Automation runs.  Supports globs. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
 * `sync_ids` / `syncIds`  (array): IDs of remote sync folder behaviors to run by this Automation
 * `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)

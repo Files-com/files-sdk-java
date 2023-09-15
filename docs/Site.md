@@ -84,6 +84,7 @@
   "ldap_username_field": "sAMAccountName",
   "login_help_text": "Login page help text.",
   "logo": null,
+  "login_page_background_image": null,
   "max_prior_passwords": 1,
   "motd_text": "example",
   "motd_use_for_ftp": true,
@@ -300,6 +301,7 @@
 * `ldap_username_field` / `ldapUsernameField`  (string): LDAP username field
 * `login_help_text` / `loginHelpText`  (string): Login help text
 * `logo` / `logo`  (image): Branded logo
+* `login_page_background_image` / `loginPageBackgroundImage`  (image): Branded login page background
 * `max_prior_passwords` / `maxPriorPasswords`  (int64): Number of prior passwords to disallow
 * `motd_text` / `motdText`  (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` / `motdUseForFtp`  (boolean): Show message to users connecting via FTP
@@ -541,6 +543,8 @@ Site site = Site.update(
 * `logo_delete` (Boolean): If true, will delete the file stored in logo
 * `bundle_watermark_attachment_file` (byte[]): 
 * `bundle_watermark_attachment_delete` (Boolean): If true, will delete the file stored in bundle_watermark_attachment
+* `login_page_background_image_file` (byte[]): 
+* `login_page_background_image_delete` (Boolean): If true, will delete the file stored in login_page_background_image
 * `disable_2fa_with_delay` (Boolean): If set to true, we will begin the process of disabling 2FA on this site.
 * `ldap_password_change` (String): New LDAP password.
 * `ldap_password_change_confirmation` (String): Confirm new LDAP password.

@@ -604,6 +604,13 @@ public class Site {
   public Image logo;
 
   /**
+  * Branded login page background
+  */
+  @Getter
+  @JsonProperty("login_page_background_image")
+  public Image loginPageBackgroundImage;
+
+  /**
   * Number of prior passwords to disallow
   */
   @Getter
@@ -1260,6 +1267,8 @@ public class Site {
   *   logo_delete - boolean - If true, will delete the file stored in logo
   *   bundle_watermark_attachment_file - file
   *   bundle_watermark_attachment_delete - boolean - If true, will delete the file stored in bundle_watermark_attachment
+  *   login_page_background_image_file - file
+  *   login_page_background_image_delete - boolean - If true, will delete the file stored in login_page_background_image
   *   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
   *   ldap_password_change - string - New LDAP password.
   *   ldap_password_change_confirmation - string - Confirm new LDAP password.
@@ -1675,6 +1684,12 @@ public class Site {
     }
     if (parameters.containsKey("bundle_watermark_attachment_delete") && !(parameters.get("bundle_watermark_attachment_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_attachment_delete must be of type Boolean parameters[\"bundle_watermark_attachment_delete\"]");
+    }
+    if (parameters.containsKey("login_page_background_image_file") && !(parameters.get("login_page_background_image_file") instanceof byte[])) {
+      throw new IllegalArgumentException("Bad parameter: login_page_background_image_file must be of type byte[] parameters[\"login_page_background_image_file\"]");
+    }
+    if (parameters.containsKey("login_page_background_image_delete") && !(parameters.get("login_page_background_image_delete") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: login_page_background_image_delete must be of type Boolean parameters[\"login_page_background_image_delete\"]");
     }
     if (parameters.containsKey("disable_2fa_with_delay") && !(parameters.get("disable_2fa_with_delay") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_2fa_with_delay must be of type Boolean parameters[\"disable_2fa_with_delay\"]");

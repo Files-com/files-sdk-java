@@ -156,6 +156,13 @@ public class Site {
   public Long bundleExpiration;
 
   /**
+  * Custom error message to show when bundle is not found.
+  */
+  @Getter
+  @JsonProperty("bundle_not_found_message")
+  public String bundleNotFoundMessage;
+
+  /**
   * Do Bundles require password protection?
   */
   @Getter
@@ -1194,6 +1201,7 @@ public class Site {
   *   disable_password_reset - boolean - Is password reset disabled?
   *   immutable_files - boolean - Are files protected from modification?
   *   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
+  *   bundle_not_found_message - string - Custom error message to show when bundle is not found.
   *   bundle_password_required - boolean - Do Bundles require password protection?
   *   bundle_require_registration - boolean - Do Bundles require registration?
   *   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
@@ -1465,6 +1473,9 @@ public class Site {
     }
     if (parameters.containsKey("session_pinned_by_ip") && !(parameters.get("session_pinned_by_ip") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: session_pinned_by_ip must be of type Boolean parameters[\"session_pinned_by_ip\"]");
+    }
+    if (parameters.containsKey("bundle_not_found_message") && !(parameters.get("bundle_not_found_message") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_not_found_message must be of type String parameters[\"bundle_not_found_message\"]");
     }
     if (parameters.containsKey("bundle_password_required") && !(parameters.get("bundle_password_required") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_password_required must be of type Boolean parameters[\"bundle_password_required\"]");

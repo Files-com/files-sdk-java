@@ -86,6 +86,13 @@ public class InboxRegistration {
   public String email;
 
   /**
+  * Registrant IP Address
+  */
+  @Getter
+  @JsonProperty("ip")
+  public String ip;
+
+  /**
   * Clickwrap text that was shown to the registrant
   */
   @Getter

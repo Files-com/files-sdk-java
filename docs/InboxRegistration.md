@@ -8,6 +8,7 @@
   "name": "account",
   "company": "Action Verb",
   "email": "john.doe@files.com",
+  "ip": "10.1.1.1",
   "clickwrap_body": "example",
   "form_field_set_id": 1,
   "form_field_data": {
@@ -24,6 +25,7 @@
 * `name` / `name`  (string): Registrant name
 * `company` / `company`  (string): Registrant company name
 * `email` / `email`  (string): Registrant email address
+* `ip` / `ip`  (string): Registrant IP Address
 * `clickwrap_body` / `clickwrapBody`  (string): Clickwrap text that was shown to the registrant
 * `form_field_set_id` / `formFieldSetId`  (int64): Id of associated form field set
 * `form_field_data` / `formFieldData`  (object): Data for form field set with form field ids as keys and user data as values

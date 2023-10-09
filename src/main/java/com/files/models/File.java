@@ -617,19 +617,19 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public static File delete() throws RuntimeException {
-    return delete(null, null, null);
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
   }
 
-  public static File delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return delete(path, parameters, null);
+  public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(path, parameters, null);
   }
 
-  public static File delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(null, parameters, options);
+  public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
   }
 
-  public static File delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -662,16 +662,15 @@ public class File {
 
     String url = String.format("%s%s/files/%s", urlParts);
 
-    TypeReference<File> typeReference = new TypeReference<File>() {};
-    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
 
-  public static File destroy() throws RuntimeException {
-    return destroy(null, null, null);
+  public static void destroy() throws RuntimeException {
+    destroy(null, null, null);
   }
 
-  public static File destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(path, parameters, options);
+  public static void destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(path, parameters, options);
   }
 
   /**

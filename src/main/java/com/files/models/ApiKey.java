@@ -503,16 +503,16 @@ public class ApiKey {
 
   /**
   */
-  public static ApiKey deleteCurrent() throws RuntimeException {
-    return deleteCurrent(null, null);
+  public static void deleteCurrent() throws RuntimeException {
+    deleteCurrent(null, null);
   }
 
-  public static ApiKey deleteCurrent(HashMap<String, Object> parameters) throws RuntimeException {
-    return deleteCurrent(parameters, null);
+  public static void deleteCurrent(HashMap<String, Object> parameters) throws RuntimeException {
+    deleteCurrent(parameters, null);
   }
 
 
-  public static ApiKey deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -522,26 +522,25 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
 
 
   /**
   */
-  public static ApiKey delete() throws RuntimeException {
-    return delete(null, null, null);
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
   }
 
-  public static ApiKey delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return delete(id, parameters, null);
+  public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(id, parameters, null);
   }
 
-  public static ApiKey delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(null, parameters, options);
+  public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
   }
 
-  public static ApiKey delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -571,16 +570,15 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_keys/%s", urlParts);
 
-    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
 
-  public static ApiKey destroy() throws RuntimeException {
-    return destroy(null, null, null);
+  public static void destroy() throws RuntimeException {
+    destroy(null, null, null);
   }
 
-  public static ApiKey destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(id, parameters, options);
+  public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(id, parameters, options);
   }
 
 }

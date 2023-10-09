@@ -371,19 +371,19 @@ public class Message {
 
   /**
   */
-  public static Message delete() throws RuntimeException {
-    return delete(null, null, null);
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
   }
 
-  public static Message delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return delete(id, parameters, null);
+  public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(id, parameters, null);
   }
 
-  public static Message delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(null, parameters, options);
+  public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
   }
 
-  public static Message delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -413,16 +413,15 @@ public class Message {
 
     String url = String.format("%s%s/messages/%s", urlParts);
 
-    TypeReference<Message> typeReference = new TypeReference<Message>() {};
-    return FilesClient.requestItem(url, RequestMethods.DELETE, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
 
-  public static Message destroy() throws RuntimeException {
-    return destroy(null, null, null);
+  public static void destroy() throws RuntimeException {
+    destroy(null, null, null);
   }
 
-  public static Message destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return delete(id, parameters, options);
+  public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(id, parameters, options);
   }
 
 }

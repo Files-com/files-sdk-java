@@ -23,7 +23,7 @@ public class PathUtils {
     newStr = TWO_OR_MORE_SLASHES.matcher(newStr).replaceAll("/");
 
     StringJoiner joiner = new StringJoiner("/");
-    for (String subStr: newStr.split("/")) {
+    for (String subStr : newStr.split("/")) {
       if (!".".equals(subStr) && !"..".equals(subStr)) {
         joiner.add(subStr);
       }
@@ -44,7 +44,7 @@ public class PathUtils {
 
   private static String transliterate(String str) {
     StringBuilder sb = new StringBuilder();
-    for (String substr: str.split("")) {
+    for (String substr : str.split("")) {
       sb.append(transliterationMap.getOrDefault(substr, substr));
     } 
     return sb.toString();

@@ -329,8 +329,8 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public File delete(HashMap<String, Object> parameters) {
-    return delete(parameters);
+  public void delete(HashMap<String, Object> parameters) {
+    delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

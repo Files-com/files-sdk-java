@@ -120,8 +120,8 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public GroupUser delete(HashMap<String, Object> parameters) {
-    return delete(parameters);
+  public void delete(HashMap<String, Object> parameters) {
+    delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

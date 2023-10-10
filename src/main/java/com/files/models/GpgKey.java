@@ -126,8 +126,8 @@ public class GpgKey {
 
   /**
   */
-  public GpgKey delete(HashMap<String, Object> parameters) {
-    return delete(parameters);
+  public void delete(HashMap<String, Object> parameters) {
+    delete(parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

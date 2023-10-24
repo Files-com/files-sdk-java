@@ -7,6 +7,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
 import java.io.IOException;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,6 +53,17 @@ public class FilesApiTest {
       assert("Folder missing not found.".equals(exception.getError()));
       assert("application/json; charset=utf-8".equals(exception.getHeaders().get("Content-Type").get(0)));
     }
+  }
+
+  @Test
+  public void handleEmptyResponse() throws Exception {
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
+
+    int count = 0;
+    for (Folder folder : Folder.listFor("/missing", null).listAutoPaging()) {
+      count++;
+    }
+    assert(count == 0);
   }
 
   @Test

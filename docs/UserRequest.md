@@ -40,7 +40,7 @@ ListIterator<UserRequest> userRequest = UserRequest.list(
 ## Show User Request
 
 ```
-ListIterator<UserRequest> userRequest = UserRequest.find(
+UserRequest userRequest = UserRequest.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

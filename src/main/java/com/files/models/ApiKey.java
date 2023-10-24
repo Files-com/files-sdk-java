@@ -263,16 +263,16 @@ public class ApiKey {
 
   /**
   */
-  public static ListIterator<ApiKey> findCurrent() throws RuntimeException {
+  public static ApiKey findCurrent() throws RuntimeException {
     return findCurrent(null, null);
   }
 
-  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ApiKey findCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return findCurrent(parameters, null);
   }
 
 
-  public static ListIterator<ApiKey> findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ApiKey findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -282,8 +282,8 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 
@@ -291,19 +291,19 @@ public class ApiKey {
   * Parameters:
   *   id (required) - int64 - Api Key ID.
   */
-  public static ListIterator<ApiKey> find() throws RuntimeException {
+  public static ApiKey find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ApiKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<ApiKey> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ApiKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<ApiKey> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ApiKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -333,15 +333,15 @@ public class ApiKey {
 
     String url = String.format("%s%s/api_keys/%s", urlParts);
 
-    TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ApiKey> get() throws RuntimeException {
+  public static ApiKey get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<ApiKey> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ApiKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

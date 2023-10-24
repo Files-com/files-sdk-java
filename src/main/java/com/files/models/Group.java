@@ -198,19 +198,19 @@ public class Group {
   * Parameters:
   *   id (required) - int64 - Group ID.
   */
-  public static ListIterator<Group> find() throws RuntimeException {
+  public static Group find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Group find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Group> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Group find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Group> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Group find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -240,15 +240,15 @@ public class Group {
 
     String url = String.format("%s%s/groups/%s", urlParts);
 
-    TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Group> typeReference = new TypeReference<Group>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Group> get() throws RuntimeException {
+  public static Group get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Group> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Group get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

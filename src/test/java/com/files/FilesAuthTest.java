@@ -39,6 +39,13 @@ public class FilesAuthTest {
   }
 
   @Test
+  public void findUser() throws Exception {
+    User user = User.find((long)1, null);
+    assert("user".equals(user.username));
+    assert("example".equals(user.email));
+  }
+
+  @Test
   @Ignore // Doesn't work with mock-sever at this time due to session bug.
   public void session() throws IOException {
     HashMap<String, Object> parameters = new HashMap<>();

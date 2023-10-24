@@ -279,19 +279,19 @@ public class HistoryExport {
   * Parameters:
   *   id (required) - int64 - History Export ID.
   */
-  public static ListIterator<HistoryExport> find() throws RuntimeException {
+  public static HistoryExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static HistoryExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<HistoryExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static HistoryExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<HistoryExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static HistoryExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -321,15 +321,15 @@ public class HistoryExport {
 
     String url = String.format("%s%s/history_exports/%s", urlParts);
 
-    TypeReference<List<HistoryExport>> typeReference = new TypeReference<List<HistoryExport>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<HistoryExport> typeReference = new TypeReference<HistoryExport>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<HistoryExport> get() throws RuntimeException {
+  public static HistoryExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<HistoryExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static HistoryExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

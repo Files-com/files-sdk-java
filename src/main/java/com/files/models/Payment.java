@@ -203,19 +203,19 @@ public class Payment {
   * Parameters:
   *   id (required) - int64 - Payment ID.
   */
-  public static ListIterator<Payment> find() throws RuntimeException {
+  public static Payment find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Payment> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Payment find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Payment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Payment find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Payment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Payment find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -245,15 +245,15 @@ public class Payment {
 
     String url = String.format("%s%s/payments/%s", urlParts);
 
-    TypeReference<List<Payment>> typeReference = new TypeReference<List<Payment>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Payment> typeReference = new TypeReference<Payment>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Payment> get() throws RuntimeException {
+  public static Payment get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Payment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Payment get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

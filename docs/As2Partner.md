@@ -59,7 +59,7 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 ## Show As2 Partner
 
 ```
-ListIterator<As2Partner> as2Partner = As2Partner.find(
+As2Partner as2Partner = As2Partner.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

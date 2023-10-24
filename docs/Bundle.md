@@ -138,7 +138,7 @@ ListIterator<Bundle> bundle = Bundle.list(
 ## Show Bundle
 
 ```
-ListIterator<Bundle> bundle = Bundle.find(
+Bundle bundle = Bundle.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

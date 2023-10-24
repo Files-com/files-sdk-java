@@ -41,7 +41,7 @@
 ## Show Action Notification Export
 
 ```
-ListIterator<ActionNotificationExport> actionNotificationExport = ActionNotificationExport.find(
+ActionNotificationExport actionNotificationExport = ActionNotificationExport.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

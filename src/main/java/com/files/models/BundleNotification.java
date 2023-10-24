@@ -184,19 +184,19 @@ public class BundleNotification {
   * Parameters:
   *   id (required) - int64 - Bundle Notification ID.
   */
-  public static ListIterator<BundleNotification> find() throws RuntimeException {
+  public static BundleNotification find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static BundleNotification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<BundleNotification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static BundleNotification find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<BundleNotification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static BundleNotification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -226,15 +226,15 @@ public class BundleNotification {
 
     String url = String.format("%s%s/bundle_notifications/%s", urlParts);
 
-    TypeReference<List<BundleNotification>> typeReference = new TypeReference<List<BundleNotification>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<BundleNotification> get() throws RuntimeException {
+  public static BundleNotification get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<BundleNotification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static BundleNotification get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

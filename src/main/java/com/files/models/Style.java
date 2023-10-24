@@ -125,19 +125,19 @@ public class Style {
   * Parameters:
   *   path (required) - string - Style path.
   */
-  public static ListIterator<Style> find() throws RuntimeException {
+  public static Style find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Style find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
-  public static ListIterator<Style> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Style find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Style> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Style find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -167,15 +167,15 @@ public class Style {
 
     String url = String.format("%s%s/styles/%s", urlParts);
 
-    TypeReference<List<Style>> typeReference = new TypeReference<List<Style>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Style> typeReference = new TypeReference<Style>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Style> get() throws RuntimeException {
+  public static Style get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Style> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Style get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 

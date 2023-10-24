@@ -39,7 +39,7 @@ ListIterator<MessageCommentReaction> messageCommentReaction = MessageCommentReac
 ## Show Message Comment Reaction
 
 ```
-ListIterator<MessageCommentReaction> messageCommentReaction = MessageCommentReaction.find(
+MessageCommentReaction messageCommentReaction = MessageCommentReaction.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

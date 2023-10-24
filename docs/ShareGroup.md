@@ -50,7 +50,7 @@ ListIterator<ShareGroup> shareGroup = ShareGroup.list(
 ## Show Share Group
 
 ```
-ListIterator<ShareGroup> shareGroup = ShareGroup.find(
+ShareGroup shareGroup = ShareGroup.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

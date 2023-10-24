@@ -90,7 +90,7 @@ ListIterator<Notification> notification = Notification.list(
 ## Show Notification
 
 ```
-ListIterator<Notification> notification = Notification.find(
+Notification notification = Notification.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

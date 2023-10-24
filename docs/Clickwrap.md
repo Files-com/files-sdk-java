@@ -44,7 +44,7 @@ ListIterator<Clickwrap> clickwrap = Clickwrap.list(
 ## Show Clickwrap
 
 ```
-ListIterator<Clickwrap> clickwrap = Clickwrap.find(
+Clickwrap clickwrap = Clickwrap.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

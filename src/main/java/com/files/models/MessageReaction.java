@@ -158,19 +158,19 @@ public class MessageReaction {
   * Parameters:
   *   id (required) - int64 - Message Reaction ID.
   */
-  public static ListIterator<MessageReaction> find() throws RuntimeException {
+  public static MessageReaction find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static MessageReaction find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<MessageReaction> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageReaction find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<MessageReaction> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageReaction find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -200,15 +200,15 @@ public class MessageReaction {
 
     String url = String.format("%s%s/message_reactions/%s", urlParts);
 
-    TypeReference<List<MessageReaction>> typeReference = new TypeReference<List<MessageReaction>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<MessageReaction> typeReference = new TypeReference<MessageReaction>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageReaction> get() throws RuntimeException {
+  public static MessageReaction get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<MessageReaction> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageReaction get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

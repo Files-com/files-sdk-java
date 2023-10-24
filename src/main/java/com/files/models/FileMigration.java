@@ -126,19 +126,19 @@ public class FileMigration {
   * Parameters:
   *   id (required) - int64 - File Migration ID.
   */
-  public static ListIterator<FileMigration> find() throws RuntimeException {
+  public static FileMigration find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<FileMigration> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static FileMigration find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<FileMigration> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileMigration find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<FileMigration> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileMigration find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -168,15 +168,15 @@ public class FileMigration {
 
     String url = String.format("%s%s/file_migrations/%s", urlParts);
 
-    TypeReference<List<FileMigration>> typeReference = new TypeReference<List<FileMigration>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<FileMigration> typeReference = new TypeReference<FileMigration>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<FileMigration> get() throws RuntimeException {
+  public static FileMigration get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<FileMigration> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileMigration get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

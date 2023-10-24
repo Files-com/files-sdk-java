@@ -166,19 +166,19 @@ public class AutomationRun {
   * Parameters:
   *   id (required) - int64 - Automation Run ID.
   */
-  public static ListIterator<AutomationRun> find() throws RuntimeException {
+  public static AutomationRun find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static AutomationRun find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<AutomationRun> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AutomationRun find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<AutomationRun> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AutomationRun find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -208,15 +208,15 @@ public class AutomationRun {
 
     String url = String.format("%s%s/automation_runs/%s", urlParts);
 
-    TypeReference<List<AutomationRun>> typeReference = new TypeReference<List<AutomationRun>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<AutomationRun> get() throws RuntimeException {
+  public static AutomationRun get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<AutomationRun> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AutomationRun get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

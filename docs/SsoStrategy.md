@@ -120,7 +120,7 @@ ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
 ## Show Sso Strategy
 
 ```
-ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.find(
+SsoStrategy ssoStrategy = SsoStrategy.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

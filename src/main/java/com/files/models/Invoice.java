@@ -203,19 +203,19 @@ public class Invoice {
   * Parameters:
   *   id (required) - int64 - Invoice ID.
   */
-  public static ListIterator<Invoice> find() throws RuntimeException {
+  public static Invoice find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Invoice> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Invoice find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Invoice> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Invoice find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Invoice> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Invoice find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -245,15 +245,15 @@ public class Invoice {
 
     String url = String.format("%s%s/invoices/%s", urlParts);
 
-    TypeReference<List<Invoice>> typeReference = new TypeReference<List<Invoice>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Invoice> typeReference = new TypeReference<Invoice>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Invoice> get() throws RuntimeException {
+  public static Invoice get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Invoice> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Invoice get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

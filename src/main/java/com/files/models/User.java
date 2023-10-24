@@ -798,19 +798,19 @@ public class User {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
-  public static ListIterator<User> find() throws RuntimeException {
+  public static User find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static User find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<User> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static User find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<User> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static User find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -840,15 +840,15 @@ public class User {
 
     String url = String.format("%s%s/users/%s", urlParts);
 
-    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<User> typeReference = new TypeReference<User>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<User> get() throws RuntimeException {
+  public static User get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<User> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static User get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

@@ -192,19 +192,19 @@ public class Message {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
-  public static ListIterator<Message> find() throws RuntimeException {
+  public static Message find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Message find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Message> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Message find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Message> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Message find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -234,15 +234,15 @@ public class Message {
 
     String url = String.format("%s%s/messages/%s", urlParts);
 
-    TypeReference<List<Message>> typeReference = new TypeReference<List<Message>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Message> typeReference = new TypeReference<Message>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Message> get() throws RuntimeException {
+  public static Message get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Message> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Message get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

@@ -680,19 +680,19 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static ListIterator<File> find() throws RuntimeException {
+  public static File find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<File> find(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static File find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
-  public static ListIterator<File> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static File find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<File> find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static File find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -731,15 +731,15 @@ public class File {
 
     String url = String.format("%s%s/file_actions/metadata/%s", urlParts);
 
-    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<File> typeReference = new TypeReference<File>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<File> get() throws RuntimeException {
+  public static File get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<File> get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static File get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 

@@ -53,7 +53,7 @@ ListIterator<Behavior> behavior = Behavior.list(
 ## Show Behavior
 
 ```
-ListIterator<Behavior> behavior = Behavior.find(
+Behavior behavior = Behavior.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

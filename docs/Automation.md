@@ -101,7 +101,7 @@ ListIterator<Automation> automation = Automation.list(
 ## Show Automation
 
 ```
-ListIterator<Automation> automation = Automation.find(
+Automation automation = Automation.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

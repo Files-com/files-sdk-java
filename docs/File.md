@@ -153,7 +153,7 @@ File file = File.delete(
 ## Find file/folder by path
 
 ```
-ListIterator<File> file = File.find(
+File file = File.find(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

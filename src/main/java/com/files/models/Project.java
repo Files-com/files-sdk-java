@@ -147,19 +147,19 @@ public class Project {
   * Parameters:
   *   id (required) - int64 - Project ID.
   */
-  public static ListIterator<Project> find() throws RuntimeException {
+  public static Project find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Project find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Project> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Project find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Project> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Project find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -189,15 +189,15 @@ public class Project {
 
     String url = String.format("%s%s/projects/%s", urlParts);
 
-    TypeReference<List<Project>> typeReference = new TypeReference<List<Project>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Project> typeReference = new TypeReference<Project>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Project> get() throws RuntimeException {
+  public static Project get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Project> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Project get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

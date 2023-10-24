@@ -174,19 +174,19 @@ public class MessageComment {
   * Parameters:
   *   id (required) - int64 - Message Comment ID.
   */
-  public static ListIterator<MessageComment> find() throws RuntimeException {
+  public static MessageComment find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static MessageComment find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<MessageComment> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageComment find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<MessageComment> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageComment find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -216,15 +216,15 @@ public class MessageComment {
 
     String url = String.format("%s%s/message_comments/%s", urlParts);
 
-    TypeReference<List<MessageComment>> typeReference = new TypeReference<List<MessageComment>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<MessageComment> typeReference = new TypeReference<MessageComment>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<MessageComment> get() throws RuntimeException {
+  public static MessageComment get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<MessageComment> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static MessageComment get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

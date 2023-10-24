@@ -347,19 +347,19 @@ public class Notification {
   * Parameters:
   *   id (required) - int64 - Notification ID.
   */
-  public static ListIterator<Notification> find() throws RuntimeException {
+  public static Notification find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Notification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Notification> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Notification find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Notification> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Notification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -389,15 +389,15 @@ public class Notification {
 
     String url = String.format("%s%s/notifications/%s", urlParts);
 
-    TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Notification> get() throws RuntimeException {
+  public static Notification get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Notification> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Notification get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

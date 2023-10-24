@@ -32,7 +32,7 @@
 ## Show File Migration
 
 ```
-ListIterator<FileMigration> fileMigration = FileMigration.find(
+FileMigration fileMigration = FileMigration.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

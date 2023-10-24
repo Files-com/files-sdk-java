@@ -183,19 +183,19 @@ public class ActionNotificationExport {
   * Parameters:
   *   id (required) - int64 - Action Notification Export ID.
   */
-  public static ListIterator<ActionNotificationExport> find() throws RuntimeException {
+  public static ActionNotificationExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<ActionNotificationExport> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<ActionNotificationExport> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ActionNotificationExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<ActionNotificationExport> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -225,15 +225,15 @@ public class ActionNotificationExport {
 
     String url = String.format("%s%s/action_notification_exports/%s", urlParts);
 
-    TypeReference<List<ActionNotificationExport>> typeReference = new TypeReference<List<ActionNotificationExport>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ActionNotificationExport> get() throws RuntimeException {
+  public static ActionNotificationExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<ActionNotificationExport> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ActionNotificationExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

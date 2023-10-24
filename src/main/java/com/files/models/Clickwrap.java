@@ -183,19 +183,19 @@ public class Clickwrap {
   * Parameters:
   *   id (required) - int64 - Clickwrap ID.
   */
-  public static ListIterator<Clickwrap> find() throws RuntimeException {
+  public static Clickwrap find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Clickwrap find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Clickwrap> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Clickwrap find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Clickwrap> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Clickwrap find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -225,15 +225,15 @@ public class Clickwrap {
 
     String url = String.format("%s%s/clickwraps/%s", urlParts);
 
-    TypeReference<List<Clickwrap>> typeReference = new TypeReference<List<Clickwrap>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Clickwrap> get() throws RuntimeException {
+  public static Clickwrap get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Clickwrap> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Clickwrap get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

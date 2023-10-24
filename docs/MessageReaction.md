@@ -39,7 +39,7 @@ ListIterator<MessageReaction> messageReaction = MessageReaction.list(
 ## Show Message Reaction
 
 ```
-ListIterator<MessageReaction> messageReaction = MessageReaction.find(
+MessageReaction messageReaction = MessageReaction.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

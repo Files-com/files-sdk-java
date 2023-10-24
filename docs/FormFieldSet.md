@@ -55,7 +55,7 @@ ListIterator<FormFieldSet> formFieldSet = FormFieldSet.list(
 ## Show Form Field Set
 
 ```
-ListIterator<FormFieldSet> formFieldSet = FormFieldSet.find(
+FormFieldSet formFieldSet = FormFieldSet.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

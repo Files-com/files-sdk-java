@@ -45,7 +45,7 @@ ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
 ## Show Bundle Notification
 
 ```
-ListIterator<BundleNotification> bundleNotification = BundleNotification.find(
+BundleNotification bundleNotification = BundleNotification.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

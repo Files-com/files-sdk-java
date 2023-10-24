@@ -64,7 +64,7 @@ ListIterator<Payment> payment = Payment.list(
 ## Show Payment
 
 ```
-ListIterator<Payment> payment = Payment.find(
+Payment payment = Payment.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -41,7 +41,7 @@ ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
 ## Show Sftp Host Key
 
 ```
-ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.find(
+SftpHostKey sftpHostKey = SftpHostKey.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

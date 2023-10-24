@@ -228,19 +228,19 @@ public class ExternalEvent {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
-  public static ListIterator<ExternalEvent> find() throws RuntimeException {
+  public static ExternalEvent find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ExternalEvent find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<ExternalEvent> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ExternalEvent find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ExternalEvent find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -270,15 +270,15 @@ public class ExternalEvent {
 
     String url = String.format("%s%s/external_events/%s", urlParts);
 
-    TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> get() throws RuntimeException {
+  public static ExternalEvent get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<ExternalEvent> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ExternalEvent get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

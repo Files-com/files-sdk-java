@@ -48,7 +48,7 @@ ListIterator<GpgKey> gpgKey = GpgKey.list(
 ## Show Gpg Key
 
 ```
-ListIterator<GpgKey> gpgKey = GpgKey.find(
+GpgKey gpgKey = GpgKey.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

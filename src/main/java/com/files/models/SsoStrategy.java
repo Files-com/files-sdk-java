@@ -420,19 +420,19 @@ public class SsoStrategy {
   * Parameters:
   *   id (required) - int64 - Sso Strategy ID.
   */
-  public static ListIterator<SsoStrategy> find() throws RuntimeException {
+  public static SsoStrategy find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<SsoStrategy> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static SsoStrategy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<SsoStrategy> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static SsoStrategy find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<SsoStrategy> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static SsoStrategy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -462,15 +462,15 @@ public class SsoStrategy {
 
     String url = String.format("%s%s/sso_strategies/%s", urlParts);
 
-    TypeReference<List<SsoStrategy>> typeReference = new TypeReference<List<SsoStrategy>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<SsoStrategy> typeReference = new TypeReference<SsoStrategy>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<SsoStrategy> get() throws RuntimeException {
+  public static SsoStrategy get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<SsoStrategy> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static SsoStrategy get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

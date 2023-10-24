@@ -203,19 +203,19 @@ public class FormFieldSet {
   * Parameters:
   *   id (required) - int64 - Form Field Set ID.
   */
-  public static ListIterator<FormFieldSet> find() throws RuntimeException {
+  public static FormFieldSet find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static FormFieldSet find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<FormFieldSet> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FormFieldSet find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<FormFieldSet> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FormFieldSet find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -245,15 +245,15 @@ public class FormFieldSet {
 
     String url = String.format("%s%s/form_field_sets/%s", urlParts);
 
-    TypeReference<List<FormFieldSet>> typeReference = new TypeReference<List<FormFieldSet>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<FormFieldSet> get() throws RuntimeException {
+  public static FormFieldSet get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<FormFieldSet> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FormFieldSet get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

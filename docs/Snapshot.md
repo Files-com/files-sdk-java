@@ -45,7 +45,7 @@ ListIterator<Snapshot> snapshot = Snapshot.list(
 ## Show Snapshot
 
 ```
-ListIterator<Snapshot> snapshot = Snapshot.find(
+Snapshot snapshot = Snapshot.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

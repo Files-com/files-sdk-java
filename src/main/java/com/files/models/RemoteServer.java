@@ -789,19 +789,19 @@ public class RemoteServer {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
-  public static ListIterator<RemoteServer> find() throws RuntimeException {
+  public static RemoteServer find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<RemoteServer> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static RemoteServer find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<RemoteServer> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServer find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<RemoteServer> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServer find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -831,15 +831,15 @@ public class RemoteServer {
 
     String url = String.format("%s%s/remote_servers/%s", urlParts);
 
-    TypeReference<List<RemoteServer>> typeReference = new TypeReference<List<RemoteServer>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<RemoteServer> get() throws RuntimeException {
+  public static RemoteServer get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<RemoteServer> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServer get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -847,19 +847,19 @@ public class RemoteServer {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
-  public static ListIterator<RemoteServer> findConfigurationFile() throws RuntimeException {
+  public static RemoteServer findConfigurationFile() throws RuntimeException {
     return findConfigurationFile(null, null, null);
   }
 
-  public static ListIterator<RemoteServer> findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static RemoteServer findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return findConfigurationFile(id, parameters, null);
   }
 
-  public static ListIterator<RemoteServer> findConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServer findConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return findConfigurationFile(null, parameters, options);
   }
 
-  public static ListIterator<RemoteServer> findConfigurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServer findConfigurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -889,8 +889,8 @@ public class RemoteServer {
 
     String url = String.format("%s%s/remote_servers/%s/configuration_file", urlParts);
 
-    TypeReference<List<RemoteServer>> typeReference = new TypeReference<List<RemoteServer>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
 

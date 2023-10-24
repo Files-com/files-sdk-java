@@ -246,19 +246,19 @@ public class As2Partner {
   * Parameters:
   *   id (required) - int64 - As2 Partner ID.
   */
-  public static ListIterator<As2Partner> find() throws RuntimeException {
+  public static As2Partner find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static As2Partner find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<As2Partner> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static As2Partner find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<As2Partner> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static As2Partner find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -288,15 +288,15 @@ public class As2Partner {
 
     String url = String.format("%s%s/as2_partners/%s", urlParts);
 
-    TypeReference<List<As2Partner>> typeReference = new TypeReference<List<As2Partner>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<As2Partner> get() throws RuntimeException {
+  public static As2Partner get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<As2Partner> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static As2Partner get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

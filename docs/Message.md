@@ -46,7 +46,7 @@ ListIterator<Message> message = Message.list(
 ## Show Message
 
 ```
-ListIterator<Message> message = Message.find(
+Message message = Message.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

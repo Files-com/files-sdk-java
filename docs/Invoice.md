@@ -64,7 +64,7 @@ ListIterator<Invoice> invoice = Invoice.list(
 ## Show Invoice
 
 ```
-ListIterator<Invoice> invoice = Invoice.find(
+Invoice invoice = Invoice.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

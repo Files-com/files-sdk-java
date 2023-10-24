@@ -61,7 +61,7 @@ ListIterator<ExternalEvent> externalEvent = ExternalEvent.list(
 ## Show External Event
 
 ```
-ListIterator<ExternalEvent> externalEvent = ExternalEvent.find(
+ExternalEvent externalEvent = ExternalEvent.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

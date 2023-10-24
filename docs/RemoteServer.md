@@ -159,7 +159,7 @@ ListIterator<RemoteServer> remoteServer = RemoteServer.list(
 ## Show Remote Server
 
 ```
-ListIterator<RemoteServer> remoteServer = RemoteServer.find(
+RemoteServer remoteServer = RemoteServer.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -176,7 +176,7 @@ ListIterator<RemoteServer> remoteServer = RemoteServer.find(
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
 ```
-ListIterator<RemoteServer> remoteServer = RemoteServer.findConfigurationFile(
+RemoteServer remoteServer = RemoteServer.findConfigurationFile(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

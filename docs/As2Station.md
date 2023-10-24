@@ -61,7 +61,7 @@ ListIterator<As2Station> as2Station = As2Station.list(
 ## Show As2 Station
 
 ```
-ListIterator<As2Station> as2Station = As2Station.find(
+As2Station as2Station = As2Station.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

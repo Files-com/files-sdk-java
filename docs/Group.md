@@ -48,7 +48,7 @@ ListIterator<Group> group = Group.list(
 ## Show Group
 
 ```
-ListIterator<Group> group = Group.find(
+Group group = Group.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

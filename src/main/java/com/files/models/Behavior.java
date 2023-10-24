@@ -221,19 +221,19 @@ public class Behavior {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
-  public static ListIterator<Behavior> find() throws RuntimeException {
+  public static Behavior find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static Behavior find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ListIterator<Behavior> find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Behavior find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ListIterator<Behavior> find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Behavior find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -263,15 +263,15 @@ public class Behavior {
 
     String url = String.format("%s%s/behaviors/%s", urlParts);
 
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Behavior> get() throws RuntimeException {
+  public static Behavior get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ListIterator<Behavior> get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static Behavior get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

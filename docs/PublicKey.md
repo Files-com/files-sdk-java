@@ -46,7 +46,7 @@ ListIterator<PublicKey> publicKey = PublicKey.list(
 ## Show Public Key
 
 ```
-ListIterator<PublicKey> publicKey = PublicKey.find(
+PublicKey publicKey = PublicKey.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

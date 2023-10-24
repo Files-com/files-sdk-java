@@ -31,6 +31,11 @@ public class FilesAuthTest {
     // Requesting all userss
     ListIterator<User> allUsers = User.all();
     assert(allUsers.all().size() == 1);
+    int count = 0;
+    for (User user : allUsers.listAutoPaging()) {
+      count++;
+    }
+    assert(count == 1);
   }
 
   @Test

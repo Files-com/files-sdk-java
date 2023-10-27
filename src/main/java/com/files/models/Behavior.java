@@ -422,16 +422,16 @@ public class Behavior {
   *   body - object - Additional body parameters.
   *   action - string - action for test body
   */
-  public static Behavior webhookTest() throws RuntimeException {
-    return webhookTest(null, null);
+  public static void webhookTest() throws RuntimeException {
+    webhookTest(null, null);
   }
 
-  public static Behavior webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
-    return webhookTest(parameters, null);
+  public static void webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
+    webhookTest(parameters, null);
   }
 
 
-  public static Behavior webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -462,8 +462,7 @@ public class Behavior {
 
     String url = String.format("%s%s/behaviors/webhook/test", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

@@ -621,22 +621,22 @@ public class User {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public User unlock(HashMap<String, Object> parameters) {
-    return unlock(parameters);
+  public void unlock(HashMap<String, Object> parameters) {
+    unlock(parameters);
   }
 
   /**
   * Resend user welcome email
   */
-  public User resendWelcomeEmail(HashMap<String, Object> parameters) {
-    return resendWelcomeEmail(parameters);
+  public void resendWelcomeEmail(HashMap<String, Object> parameters) {
+    resendWelcomeEmail(parameters);
   }
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public User user2faReset(HashMap<String, Object> parameters) {
-    return user2faReset(parameters);
+  public void user2faReset(HashMap<String, Object> parameters) {
+    user2faReset(parameters);
   }
 
   /**
@@ -1064,19 +1064,19 @@ public class User {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public static User unlock() throws RuntimeException {
-    return unlock(null, null, null);
+  public static void unlock() throws RuntimeException {
+    unlock(null, null, null);
   }
 
-  public static User unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return unlock(id, parameters, null);
+  public static void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    unlock(id, parameters, null);
   }
 
-  public static User unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return unlock(null, parameters, options);
+  public static void unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    unlock(null, parameters, options);
   }
 
-  public static User unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1106,27 +1106,26 @@ public class User {
 
     String url = String.format("%s%s/users/%s/unlock", urlParts);
 
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 
   /**
   * Resend user welcome email
   */
-  public static User resendWelcomeEmail() throws RuntimeException {
-    return resendWelcomeEmail(null, null, null);
+  public static void resendWelcomeEmail() throws RuntimeException {
+    resendWelcomeEmail(null, null, null);
   }
 
-  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return resendWelcomeEmail(id, parameters, null);
+  public static void resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    resendWelcomeEmail(id, parameters, null);
   }
 
-  public static User resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return resendWelcomeEmail(null, parameters, options);
+  public static void resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    resendWelcomeEmail(null, parameters, options);
   }
 
-  public static User resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1156,27 +1155,26 @@ public class User {
 
     String url = String.format("%s%s/users/%s/resend_welcome_email", urlParts);
 
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public static User user2faReset() throws RuntimeException {
-    return user2faReset(null, null, null);
+  public static void user2faReset() throws RuntimeException {
+    user2faReset(null, null, null);
   }
 
-  public static User user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return user2faReset(id, parameters, null);
+  public static void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    user2faReset(id, parameters, null);
   }
 
-  public static User user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return user2faReset(null, parameters, options);
+  public static void user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    user2faReset(null, parameters, options);
   }
 
-  public static User user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1206,8 +1204,7 @@ public class User {
 
     String url = String.format("%s%s/users/%s/2fa/reset", urlParts);
 
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

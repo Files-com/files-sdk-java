@@ -370,8 +370,8 @@ public class SsoStrategy {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
-  public SsoStrategy sync(HashMap<String, Object> parameters) {
-    return sync(parameters);
+  public void sync(HashMap<String, Object> parameters) {
+    sync(parameters);
   }
 
 
@@ -479,19 +479,19 @@ public class SsoStrategy {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
-  public static SsoStrategy sync() throws RuntimeException {
-    return sync(null, null, null);
+  public static void sync() throws RuntimeException {
+    sync(null, null, null);
   }
 
-  public static SsoStrategy sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return sync(id, parameters, null);
+  public static void sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    sync(id, parameters, null);
   }
 
-  public static SsoStrategy sync(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return sync(null, parameters, options);
+  public static void sync(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    sync(null, parameters, options);
   }
 
-  public static SsoStrategy sync(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void sync(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -521,8 +521,7 @@ public class SsoStrategy {
 
     String url = String.format("%s%s/sso_strategies/%s/sync", urlParts);
 
-    TypeReference<SsoStrategy> typeReference = new TypeReference<SsoStrategy>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

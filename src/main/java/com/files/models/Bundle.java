@@ -410,8 +410,8 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public Bundle share(HashMap<String, Object> parameters) {
-    return share(parameters);
+  public void share(HashMap<String, Object> parameters) {
+    share(parameters);
   }
 
   /**
@@ -736,19 +736,19 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public static Bundle share() throws RuntimeException {
-    return share(null, null, null);
+  public static void share() throws RuntimeException {
+    share(null, null, null);
   }
 
-  public static Bundle share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return share(id, parameters, null);
+  public static void share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    share(id, parameters, null);
   }
 
-  public static Bundle share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return share(null, parameters, options);
+  public static void share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    share(null, parameters, options);
   }
 
-  public static Bundle share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -787,8 +787,7 @@ public class Bundle {
 
     String url = String.format("%s%s/bundles/%s/share", urlParts);
 
-    TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

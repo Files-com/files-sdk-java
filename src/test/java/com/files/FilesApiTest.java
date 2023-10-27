@@ -1,6 +1,7 @@
 package com.files;
 
 import com.files.exceptions.ApiErrorException;
+import com.files.models.Bundle;
 import com.files.models.Folder;
 import com.files.models.User;
 import okhttp3.HttpUrl;
@@ -95,6 +96,14 @@ public class FilesApiTest {
       assert("Folder missing not found.".equals(exception.getError()));
       assert("application/json; charset=utf-8".equals(exception.getHeaders().get("Content-Type").get(0)));
     }
+  }
+
+  @Test
+  public void handleNoResponseData() throws Exception {
+    mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody(""));
+
+    // Should not throw an exception
+    Bundle.share((long)1, null);
   }
 
   @Test

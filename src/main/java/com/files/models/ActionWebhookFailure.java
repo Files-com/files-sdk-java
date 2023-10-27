@@ -62,8 +62,8 @@ public class ActionWebhookFailure {
   /**
   * retry Action Webhook Failure
   */
-  public ActionWebhookFailure retry(HashMap<String, Object> parameters) {
-    return retry(parameters);
+  public void retry(HashMap<String, Object> parameters) {
+    retry(parameters);
   }
 
 
@@ -71,19 +71,19 @@ public class ActionWebhookFailure {
   /**
   * retry Action Webhook Failure
   */
-  public static ActionWebhookFailure retry() throws RuntimeException {
-    return retry(null, null, null);
+  public static void retry() throws RuntimeException {
+    retry(null, null, null);
   }
 
-  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return retry(id, parameters, null);
+  public static void retry(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    retry(id, parameters, null);
   }
 
-  public static ActionWebhookFailure retry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return retry(null, parameters, options);
+  public static void retry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    retry(null, parameters, options);
   }
 
-  public static ActionWebhookFailure retry(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void retry(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -113,8 +113,7 @@ public class ActionWebhookFailure {
 
     String url = String.format("%s%s/action_webhook_failures/%s/retry", urlParts);
 
-    TypeReference<ActionWebhookFailure> typeReference = new TypeReference<ActionWebhookFailure>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

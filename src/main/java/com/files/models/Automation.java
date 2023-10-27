@@ -254,8 +254,8 @@ public class Automation {
   /**
   * Manually run automation
   */
-  public Automation manualRun(HashMap<String, Object> parameters) {
-    return manualRun(parameters);
+  public void manualRun(HashMap<String, Object> parameters) {
+    manualRun(parameters);
   }
 
   /**
@@ -541,19 +541,19 @@ public class Automation {
   /**
   * Manually run automation
   */
-  public static Automation manualRun() throws RuntimeException {
-    return manualRun(null, null, null);
+  public static void manualRun() throws RuntimeException {
+    manualRun(null, null, null);
   }
 
-  public static Automation manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return manualRun(id, parameters, null);
+  public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    manualRun(id, parameters, null);
   }
 
-  public static Automation manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return manualRun(null, parameters, options);
+  public static void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    manualRun(null, parameters, options);
   }
 
-  public static Automation manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -583,8 +583,7 @@ public class Automation {
 
     String url = String.format("%s%s/automations/%s/manual_run", urlParts);
 
-    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

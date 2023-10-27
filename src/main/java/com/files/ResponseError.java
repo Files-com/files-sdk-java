@@ -12,6 +12,8 @@ public class ResponseError {
   public String instance;
   @JsonProperty("model_errors")
   public HashMap<String, String[]> modelErrors;
+  @JsonProperty("model_error_keys")
+  public HashMap<String, String[]> modelErrorKeys;
   public String title;
   public String type;
 }

@@ -2,11 +2,13 @@ package com.files;
 
 import com.files.exceptions.ApiErrorException;
 import com.files.models.Folder;
+import com.files.models.User;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -30,6 +32,46 @@ public class FilesApiTest {
   @After
   public void tearDown() throws IOException {
     mockWebServer.shutdown();
+  }
+
+  @Test
+  public void handleSaveError() throws Exception {
+    final String body =
+      "{"
+    +    "\"error\": \"Error saving model.\","
+    +    "\"http-code\": 422,"
+    +    "\"instance\": \"508503b0-2423-4edc-a46f-77d77ac4a7e3\","
+    +    "\"model_errors\": {"
+    +      "\"username\": ["
+    +        "\"Username must not contain multiple spaces together\","
+    +        "\"Username must not begin or end with a space\""
+    +      "]"
+    +    "},"
+    +    "\"model_error_keys\": {"
+    +      "\"username\": ["
+    +        "\"multiple_spaces\","
+    +        "\"leading_trailing_space\""
+    +      "]"
+    +    "},"
+    +    "\"errors\": ["
+    +      "\"Username must not contain multiple spaces together\","
+    +      "\"Username must not begin or end with a space\""
+    +    "],"
+    +    "\"title\": \"Model Save Error\","
+    +    "\"type\": \"processing-failure/model-save-error\""
+    +  "}";
+    mockWebServer.enqueue(new MockResponse().setResponseCode(400).addHeader("Content-Type", "application/json; charset=utf-8").setBody(body));
+    HashMap<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("username", "testuser");
+
+    try {
+      User user = new User(parameters);
+      user.save();
+    } catch (ApiErrorException e) {
+      assert(e instanceof ApiErrorException.ModelSaveErrorException);
+      ApiErrorException.ModelSaveErrorException exception = (ApiErrorException.ModelSaveErrorException)e;
+      assert("processing-failure/model-save-error".equals(exception.getType()));
+    }
   }
 
   @Test

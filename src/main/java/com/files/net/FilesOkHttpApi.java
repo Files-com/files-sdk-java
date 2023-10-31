@@ -2,7 +2,6 @@ package com.files.net;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -15,7 +14,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -68,10 +66,6 @@ public class FilesOkHttpApi implements FilesApiInterface {
     }
   }
 
-  private String objectToString(Object object) {
-    return object instanceof String ? (String) object : String.valueOf(object);
-  }
-
   public FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType,
       HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     if (log.isDebugEnabled()) {
@@ -98,18 +92,12 @@ public class FilesOkHttpApi implements FilesApiInterface {
         break;
     }
 
-    FormBody.Builder body = new FormBody.Builder();
+    String body = null;
     if (parameters != null) {
-      for (String key : parameters.keySet()) {
-        Object parameter = parameters.get(key);
-
-        if (parameter.getClass().isArray()) {
-          for (Object parameterItem : (Object[]) parameter) {
-            body.add(key + "[]", objectToString(parameterItem));
-          }
-        } else {
-          body.add(key, objectToString(parameter));
-        }
+      try {
+        body = objectMapper.writeValueAsString(parameters);
+      } catch (JsonProcessingException e) {
+        throw new ApiErrorException.InvalidParameterException(e.getMessage());
       }
     }
 
@@ -135,7 +123,7 @@ public class FilesOkHttpApi implements FilesApiInterface {
             String.format("Authentication required for API request: %s %s", url, requestType), null);
       }
     }
-    updateRequestWithHttpMethod(request, body.build(), requestType);
+    updateRequestWithHttpMethod(request, RequestBody.create(MediaType.parse("application/json"), body), requestType);
     try {
       Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
       String responseBody = response.body().string();

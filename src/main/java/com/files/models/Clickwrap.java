@@ -158,13 +158,13 @@ public class Clickwrap {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -206,12 +206,12 @@ public class Clickwrap {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -261,6 +261,7 @@ public class Clickwrap {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -276,7 +277,6 @@ public class Clickwrap {
     if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
     }
-
 
 
     String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -315,6 +315,10 @@ public class Clickwrap {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -332,10 +336,6 @@ public class Clickwrap {
     }
     if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -379,12 +379,12 @@ public class Clickwrap {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

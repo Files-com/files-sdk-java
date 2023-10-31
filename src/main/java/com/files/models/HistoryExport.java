@@ -302,12 +302,12 @@ public class HistoryExport {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -372,6 +372,7 @@ public class HistoryExport {
   public static HistoryExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
+
 
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
@@ -440,7 +441,6 @@ public class HistoryExport {
     if (parameters.containsKey("query_target_permission_set") && !(parameters.get("query_target_permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: query_target_permission_set must be of type String parameters[\"query_target_permission_set\"]");
     }
-
 
 
     String url = String.format("%s%s/history_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

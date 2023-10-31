@@ -115,6 +115,7 @@ public class BundleDownload {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -145,7 +146,6 @@ public class BundleDownload {
     if (parameters.containsKey("bundle_registration_id") && !(parameters.get("bundle_registration_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_registration_id must be of type Long parameters[\"bundle_registration_id\"]");
     }
-
 
 
     String url = String.format("%s%s/bundle_downloads", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

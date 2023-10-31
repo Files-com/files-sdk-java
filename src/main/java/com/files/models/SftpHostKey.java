@@ -147,13 +147,13 @@ public class SftpHostKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -195,12 +195,12 @@ public class SftpHostKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -247,13 +247,13 @@ public class SftpHostKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
     }
-
 
 
     String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -289,6 +289,10 @@ public class SftpHostKey {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -297,10 +301,6 @@ public class SftpHostKey {
     }
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -344,12 +344,12 @@ public class SftpHostKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

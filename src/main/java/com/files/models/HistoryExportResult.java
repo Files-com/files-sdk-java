@@ -257,6 +257,10 @@ public class HistoryExportResult {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("history_export_id") || parameters.get("history_export_id") == null) {
+      throw new NullPointerException("Parameter missing: history_export_id parameters[\"history_export_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -268,10 +272,6 @@ public class HistoryExportResult {
     }
     if (parameters.containsKey("history_export_id") && !(parameters.get("history_export_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: history_export_id must be of type Long parameters[\"history_export_id\"]");
-    }
-
-    if (!parameters.containsKey("history_export_id") || parameters.get("history_export_id") == null) {
-      throw new NullPointerException("Parameter missing: history_export_id parameters[\"history_export_id\"]");
     }
 
 

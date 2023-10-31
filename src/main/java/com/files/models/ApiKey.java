@@ -219,6 +219,7 @@ public class ApiKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -246,7 +247,6 @@ public class ApiKey {
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
 
 
     String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -314,12 +314,12 @@ public class ApiKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -370,6 +370,7 @@ public class ApiKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -388,7 +389,6 @@ public class ApiKey {
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-
 
 
     String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -418,6 +418,7 @@ public class ApiKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
@@ -427,7 +428,6 @@ public class ApiKey {
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
-
 
 
     String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -465,6 +465,10 @@ public class ApiKey {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -479,10 +483,6 @@ public class ApiKey {
     }
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -551,12 +551,12 @@ public class ApiKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

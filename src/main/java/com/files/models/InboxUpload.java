@@ -108,6 +108,7 @@ public class InboxUpload {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -138,7 +139,6 @@ public class InboxUpload {
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
-
 
 
     String url = String.format("%s%s/inbox_uploads", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

@@ -148,12 +148,12 @@ public class Style {
     }
 
 
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
 
@@ -206,18 +206,18 @@ public class Style {
     }
 
 
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("file") && !(parameters.get("file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: file must be of type byte[] parameters[\"file\"]");
-    }
-
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("file") || parameters.get("file") == null) {
       throw new NullPointerException("Parameter missing: file parameters[\"file\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("file") && !(parameters.get("file") instanceof byte[])) {
+      throw new IllegalArgumentException("Bad parameter: file must be of type byte[] parameters[\"file\"]");
     }
 
 
@@ -261,12 +261,12 @@ public class Style {
     }
 
 
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
 

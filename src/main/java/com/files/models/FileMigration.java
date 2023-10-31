@@ -149,12 +149,12 @@ public class FileMigration {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

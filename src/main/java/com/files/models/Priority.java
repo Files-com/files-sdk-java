@@ -102,6 +102,10 @@ public class Priority {
     }
 
 
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -110,10 +114,6 @@ public class Priority {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
 
 

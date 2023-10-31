@@ -330,6 +330,7 @@ public class Automation {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -357,7 +358,6 @@ public class Automation {
     if (parameters.containsKey("with_deleted") && !(parameters.get("with_deleted") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_deleted must be of type Boolean parameters[\"with_deleted\"]");
     }
-
 
 
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -399,12 +399,12 @@ public class Automation {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -468,6 +468,10 @@ public class Automation {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
+      throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
+    }
+
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
@@ -526,10 +530,6 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
 
-    if (!parameters.containsKey("automation") || parameters.get("automation") == null) {
-      throw new NullPointerException("Parameter missing: automation parameters[\"automation\"]");
-    }
-
 
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
@@ -562,12 +562,12 @@ public class Automation {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -630,6 +630,10 @@ public class Automation {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -691,10 +695,6 @@ public class Automation {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
     }
 
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
 
     String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
 
@@ -736,12 +736,12 @@ public class Automation {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

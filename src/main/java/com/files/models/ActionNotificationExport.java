@@ -206,12 +206,12 @@ public class ActionNotificationExport {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -266,6 +266,7 @@ public class ActionNotificationExport {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -296,7 +297,6 @@ public class ActionNotificationExport {
     if (parameters.containsKey("query_folder") && !(parameters.get("query_folder") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: query_folder must be of type String parameters[\"query_folder\"]");
     }
-
 
 
     String url = String.format("%s%s/action_notification_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

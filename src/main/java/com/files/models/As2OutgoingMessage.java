@@ -304,6 +304,7 @@ public class As2OutgoingMessage {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -331,7 +332,6 @@ public class As2OutgoingMessage {
     if (parameters.containsKey("as2_partner_id") && !(parameters.get("as2_partner_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: as2_partner_id must be of type Long parameters[\"as2_partner_id\"]");
     }
-
 
 
     String url = String.format("%s%s/as2_outgoing_messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

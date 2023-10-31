@@ -169,6 +169,7 @@ public class Permission {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -196,7 +197,6 @@ public class Permission {
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type String parameters[\"user_id\"]");
     }
-
 
 
     String url = String.format("%s%s/permissions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -236,6 +236,7 @@ public class Permission {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
@@ -254,7 +255,6 @@ public class Permission {
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
-
 
 
     String url = String.format("%s%s/permissions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -287,12 +287,12 @@ public class Permission {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

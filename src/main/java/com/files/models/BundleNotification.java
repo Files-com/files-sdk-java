@@ -150,6 +150,7 @@ public class BundleNotification {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -165,7 +166,6 @@ public class BundleNotification {
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
 
 
     String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -207,12 +207,12 @@ public class BundleNotification {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -261,6 +261,10 @@ public class BundleNotification {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
+      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -272,10 +276,6 @@ public class BundleNotification {
     }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
-    }
-
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
     }
 
 
@@ -312,6 +312,10 @@ public class BundleNotification {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -320,10 +324,6 @@ public class BundleNotification {
     }
     if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -367,12 +367,12 @@ public class BundleNotification {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

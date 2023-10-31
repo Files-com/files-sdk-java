@@ -187,6 +187,7 @@ public class Behavior {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -202,7 +203,6 @@ public class Behavior {
     if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
     }
-
 
 
     String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -244,12 +244,12 @@ public class Behavior {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -309,6 +309,10 @@ public class Behavior {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -332,10 +336,6 @@ public class Behavior {
     }
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -379,6 +379,13 @@ public class Behavior {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("behavior") || parameters.get("behavior") == null) {
+      throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
+    }
+
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
     }
@@ -396,13 +403,6 @@ public class Behavior {
     }
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
-    }
-
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("behavior") || parameters.get("behavior") == null) {
-      throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
     }
 
 
@@ -436,6 +436,10 @@ public class Behavior {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("url") || parameters.get("url") == null) {
+      throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
+    }
+
     if (parameters.containsKey("url") && !(parameters.get("url") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
     }
@@ -453,10 +457,6 @@ public class Behavior {
     }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-
-    if (!parameters.containsKey("url") || parameters.get("url") == null) {
-      throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
     }
 
 
@@ -497,6 +497,10 @@ public class Behavior {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -520,10 +524,6 @@ public class Behavior {
     }
     if (parameters.containsKey("attachment_delete") && !(parameters.get("attachment_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: attachment_delete must be of type Boolean parameters[\"attachment_delete\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -567,12 +567,12 @@ public class Behavior {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

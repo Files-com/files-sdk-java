@@ -146,6 +146,10 @@ public class FileComment {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -154,10 +158,6 @@ public class FileComment {
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -197,18 +197,18 @@ public class FileComment {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
+    }
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
 
@@ -244,18 +244,18 @@ public class FileComment {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
 
@@ -299,12 +299,12 @@ public class FileComment {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

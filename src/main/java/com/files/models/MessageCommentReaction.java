@@ -124,6 +124,10 @@ public class MessageCommentReaction {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("message_comment_id") || parameters.get("message_comment_id") == null) {
+      throw new NullPointerException("Parameter missing: message_comment_id parameters[\"message_comment_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -135,10 +139,6 @@ public class MessageCommentReaction {
     }
     if (parameters.containsKey("message_comment_id") && !(parameters.get("message_comment_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: message_comment_id must be of type Long parameters[\"message_comment_id\"]");
-    }
-
-    if (!parameters.containsKey("message_comment_id") || parameters.get("message_comment_id") == null) {
-      throw new NullPointerException("Parameter missing: message_comment_id parameters[\"message_comment_id\"]");
     }
 
 
@@ -181,12 +181,12 @@ public class MessageCommentReaction {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -233,15 +233,15 @@ public class MessageCommentReaction {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
+      throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
     if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: emoji must be of type String parameters[\"emoji\"]");
-    }
-
-    if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
-      throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
     }
 
 
@@ -275,12 +275,12 @@ public class MessageCommentReaction {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

@@ -172,6 +172,20 @@ public class Site {
   public Boolean bundlePasswordRequired;
 
   /**
+  * List of email domains to disallow when entering a Bundle/Inbox recipients
+  */
+  @Getter
+  @JsonProperty("bundle_recipient_blacklist_domains")
+  public Object[] bundleRecipientBlacklistDomains;
+
+  /**
+  * Disallow free email domains for Bundle/Inbox recipients?
+  */
+  @Getter
+  @JsonProperty("bundle_recipient_blacklist_free_email_domains")
+  public Boolean bundleRecipientBlacklistFreeEmailDomains;
+
+  /**
   * Do Bundle owners receive registration notification?
   */
   @Getter
@@ -1227,6 +1241,8 @@ public class Site {
   *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
+  *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
+  *   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -1297,6 +1313,7 @@ public class Site {
   public static Site update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
+
 
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
@@ -1548,6 +1565,12 @@ public class Site {
     if (parameters.containsKey("group_admins_can_set_user_password") && !(parameters.get("group_admins_can_set_user_password") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_set_user_password must be of type Boolean parameters[\"group_admins_can_set_user_password\"]");
     }
+    if (parameters.containsKey("bundle_recipient_blacklist_free_email_domains") && !(parameters.get("bundle_recipient_blacklist_free_email_domains") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_recipient_blacklist_free_email_domains must be of type Boolean parameters[\"bundle_recipient_blacklist_free_email_domains\"]");
+    }
+    if (parameters.containsKey("bundle_recipient_blacklist_domains") && !(parameters.get("bundle_recipient_blacklist_domains") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: bundle_recipient_blacklist_domains must be of type String[] parameters[\"bundle_recipient_blacklist_domains\"]");
+    }
     if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_sms must be of type Boolean parameters[\"allowed_2fa_method_sms\"]");
     }
@@ -1719,7 +1742,6 @@ public class Site {
     if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long parameters[\"session_expiry_minutes\"]");
     }
-
 
 
     String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

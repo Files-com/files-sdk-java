@@ -157,6 +157,7 @@ public class ShareGroup {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -166,7 +167,6 @@ public class ShareGroup {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/share_groups", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -208,12 +208,12 @@ public class ShareGroup {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -262,6 +262,13 @@ public class ShareGroup {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
+    if (!parameters.containsKey("members") || parameters.get("members") == null) {
+      throw new NullPointerException("Parameter missing: members parameters[\"members\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -273,13 +280,6 @@ public class ShareGroup {
     }
     if (parameters.containsKey("members") && !(parameters.get("members") instanceof Object[])) {
       throw new IllegalArgumentException("Bad parameter: members must be of type Object[] parameters[\"members\"]");
-    }
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("members") || parameters.get("members") == null) {
-      throw new NullPointerException("Parameter missing: members parameters[\"members\"]");
     }
 
 
@@ -317,6 +317,10 @@ public class ShareGroup {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -328,10 +332,6 @@ public class ShareGroup {
     }
     if (parameters.containsKey("members") && !(parameters.get("members") instanceof Object[])) {
       throw new IllegalArgumentException("Bad parameter: members must be of type Object[] parameters[\"members\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -375,12 +375,12 @@ public class ShareGroup {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

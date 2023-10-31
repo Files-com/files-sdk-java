@@ -140,6 +140,10 @@ public class MessageComment {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("message_id") || parameters.get("message_id") == null) {
+      throw new NullPointerException("Parameter missing: message_id parameters[\"message_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -151,10 +155,6 @@ public class MessageComment {
     }
     if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: message_id must be of type Long parameters[\"message_id\"]");
-    }
-
-    if (!parameters.containsKey("message_id") || parameters.get("message_id") == null) {
-      throw new NullPointerException("Parameter missing: message_id parameters[\"message_id\"]");
     }
 
 
@@ -197,12 +197,12 @@ public class MessageComment {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -249,15 +249,15 @@ public class MessageComment {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("body") || parameters.get("body") == null) {
+      throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-
-    if (!parameters.containsKey("body") || parameters.get("body") == null) {
-      throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
 
 
@@ -293,18 +293,18 @@ public class MessageComment {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
 
@@ -348,12 +348,12 @@ public class MessageComment {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

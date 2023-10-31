@@ -147,6 +147,10 @@ public class InboxRecipient {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
+      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -161,10 +165,6 @@ public class InboxRecipient {
     }
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
-    }
-
-    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
-      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
     }
 
 
@@ -205,6 +205,13 @@ public class InboxRecipient {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
+      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
+    }
+    if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
+      throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
+    }
+
     if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
     }
@@ -222,13 +229,6 @@ public class InboxRecipient {
     }
     if (parameters.containsKey("share_after_create") && !(parameters.get("share_after_create") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: share_after_create must be of type Boolean parameters[\"share_after_create\"]");
-    }
-
-    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
-      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
-    }
-    if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
-      throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
 
 

@@ -156,6 +156,10 @@ public class BundleRecipient {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
+      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -173,10 +177,6 @@ public class BundleRecipient {
     }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
-    }
-
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
     }
 
 
@@ -218,6 +218,13 @@ public class BundleRecipient {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
+      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
+    }
+    if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
+      throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -238,13 +245,6 @@ public class BundleRecipient {
     }
     if (parameters.containsKey("share_after_create") && !(parameters.get("share_after_create") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: share_after_create must be of type Boolean parameters[\"share_after_create\"]");
-    }
-
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
-    }
-    if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
-      throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
 
 

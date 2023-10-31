@@ -216,6 +216,10 @@ public class WebhookTest {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("url") || parameters.get("url") == null) {
+      throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
+    }
+
     if (parameters.containsKey("url") && !(parameters.get("url") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
     }
@@ -245,10 +249,6 @@ public class WebhookTest {
     }
     if (parameters.containsKey("use_dedicated_ips") && !(parameters.get("use_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: use_dedicated_ips must be of type Boolean parameters[\"use_dedicated_ips\"]");
-    }
-
-    if (!parameters.containsKey("url") || parameters.get("url") == null) {
-      throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
     }
 
 

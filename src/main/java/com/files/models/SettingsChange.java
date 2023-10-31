@@ -124,6 +124,7 @@ public class SettingsChange {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -136,7 +137,6 @@ public class SettingsChange {
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-
 
 
     String url = String.format("%s%s/settings_changes", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

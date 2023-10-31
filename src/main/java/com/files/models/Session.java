@@ -154,6 +154,7 @@ public class Session {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
@@ -166,7 +167,6 @@ public class Session {
     if (parameters.containsKey("partial_session_id") && !(parameters.get("partial_session_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: partial_session_id must be of type String parameters[\"partial_session_id\"]");
     }
-
 
 
     String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

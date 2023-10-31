@@ -152,6 +152,10 @@ public class ActionNotificationExportResult {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("action_notification_export_id") || parameters.get("action_notification_export_id") == null) {
+      throw new NullPointerException("Parameter missing: action_notification_export_id parameters[\"action_notification_export_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -163,10 +167,6 @@ public class ActionNotificationExportResult {
     }
     if (parameters.containsKey("action_notification_export_id") && !(parameters.get("action_notification_export_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: action_notification_export_id must be of type Long parameters[\"action_notification_export_id\"]");
-    }
-
-    if (!parameters.containsKey("action_notification_export_id") || parameters.get("action_notification_export_id") == null) {
-      throw new NullPointerException("Parameter missing: action_notification_export_id parameters[\"action_notification_export_id\"]");
     }
 
 

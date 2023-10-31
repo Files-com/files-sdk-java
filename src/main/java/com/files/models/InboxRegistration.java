@@ -165,6 +165,7 @@ public class InboxRegistration {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -174,7 +175,6 @@ public class InboxRegistration {
     if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long parameters[\"folder_behavior_id\"]");
     }
-
 
 
     String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

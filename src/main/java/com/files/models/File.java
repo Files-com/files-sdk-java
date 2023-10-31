@@ -416,6 +416,10 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -430,10 +434,6 @@ public class File {
     }
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -495,6 +495,10 @@ public class File {
       parameters.put("path", path);
     }
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -530,10 +534,6 @@ public class File {
     }
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
     if (!parameters.containsKey("action")) {
@@ -583,6 +583,10 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -591,10 +595,6 @@ public class File {
     }
     if (parameters.containsKey("priority_color") && !(parameters.get("priority_color") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: priority_color must be of type String parameters[\"priority_color\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -640,15 +640,15 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -703,6 +703,10 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -714,10 +718,6 @@ public class File {
     }
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -773,6 +773,13 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -781,13 +788,6 @@ public class File {
     }
     if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: structure must be of type Boolean parameters[\"structure\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
     }
 
 
@@ -835,18 +835,18 @@ public class File {
     }
 
 
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
       throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
 
 
@@ -900,6 +900,10 @@ public class File {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -923,10 +927,6 @@ public class File {
     }
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 

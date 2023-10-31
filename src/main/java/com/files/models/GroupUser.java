@@ -161,6 +161,7 @@ public class GroupUser {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -173,7 +174,6 @@ public class GroupUser {
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
-
 
 
     String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -210,6 +210,13 @@ public class GroupUser {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
+      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
+    }
+    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
+      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
+    }
+
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
@@ -218,13 +225,6 @@ public class GroupUser {
     }
     if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
-    }
-
-    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
-      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
-    }
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
 
 
@@ -262,6 +262,16 @@ public class GroupUser {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
+      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
+    }
+    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
+      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -273,16 +283,6 @@ public class GroupUser {
     }
     if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
-      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
-    }
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
     }
 
 
@@ -329,16 +329,6 @@ public class GroupUser {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
@@ -347,6 +337,16 @@ public class GroupUser {
     }
     if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
       throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    }
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
 
 

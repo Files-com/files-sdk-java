@@ -126,6 +126,10 @@ public class AutomationRun {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("automation_id") || parameters.get("automation_id") == null) {
+      throw new NullPointerException("Parameter missing: automation_id parameters[\"automation_id\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -143,10 +147,6 @@ public class AutomationRun {
     }
     if (parameters.containsKey("automation_id") && !(parameters.get("automation_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: automation_id must be of type Long parameters[\"automation_id\"]");
-    }
-
-    if (!parameters.containsKey("automation_id") || parameters.get("automation_id") == null) {
-      throw new NullPointerException("Parameter missing: automation_id parameters[\"automation_id\"]");
     }
 
 
@@ -189,12 +189,12 @@ public class AutomationRun {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

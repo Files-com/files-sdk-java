@@ -173,6 +173,7 @@ public class BundleRegistration {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -185,7 +186,6 @@ public class BundleRegistration {
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
     }
-
 
 
     String url = String.format("%s%s/bundle_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

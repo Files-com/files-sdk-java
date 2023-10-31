@@ -221,13 +221,13 @@ public class As2Partner {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -269,12 +269,12 @@ public class As2Partner {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -325,6 +325,19 @@ public class As2Partner {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
+    if (!parameters.containsKey("uri") || parameters.get("uri") == null) {
+      throw new NullPointerException("Parameter missing: uri parameters[\"uri\"]");
+    }
+    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
+      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
+    }
+    if (!parameters.containsKey("as2_station_id") || parameters.get("as2_station_id") == null) {
+      throw new NullPointerException("Parameter missing: as2_station_id parameters[\"as2_station_id\"]");
+    }
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -342,19 +355,6 @@ public class As2Partner {
     }
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
-    }
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("uri") || parameters.get("uri") == null) {
-      throw new NullPointerException("Parameter missing: uri parameters[\"uri\"]");
-    }
-    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
-      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
-    }
-    if (!parameters.containsKey("as2_station_id") || parameters.get("as2_station_id") == null) {
-      throw new NullPointerException("Parameter missing: as2_station_id parameters[\"as2_station_id\"]");
     }
 
 
@@ -394,6 +394,10 @@ public class As2Partner {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -411,10 +415,6 @@ public class As2Partner {
     }
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -458,12 +458,12 @@ public class As2Partner {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

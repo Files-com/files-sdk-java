@@ -234,13 +234,13 @@ public class As2Station {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -282,12 +282,12 @@ public class As2Station {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -336,6 +336,16 @@ public class As2Station {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
+    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
+      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
+    }
+    if (!parameters.containsKey("private_key") || parameters.get("private_key") == null) {
+      throw new NullPointerException("Parameter missing: private_key parameters[\"private_key\"]");
+    }
+
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -347,16 +357,6 @@ public class As2Station {
     }
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
-    }
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
-      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
-    }
-    if (!parameters.containsKey("private_key") || parameters.get("private_key") == null) {
-      throw new NullPointerException("Parameter missing: private_key parameters[\"private_key\"]");
     }
 
 
@@ -395,6 +395,10 @@ public class As2Station {
     }
 
 
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
@@ -409,10 +413,6 @@ public class As2Station {
     }
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
 
@@ -456,12 +456,12 @@ public class As2Station {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

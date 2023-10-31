@@ -205,6 +205,10 @@ public class Lock {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -216,10 +220,6 @@ public class Lock {
     }
     if (parameters.containsKey("include_children") && !(parameters.get("include_children") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_children must be of type Boolean parameters[\"include_children\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -269,6 +269,10 @@ public class Lock {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
@@ -283,10 +287,6 @@ public class Lock {
     }
     if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: timeout must be of type Long parameters[\"timeout\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -332,18 +332,18 @@ public class Lock {
     }
 
 
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("token") && !(parameters.get("token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
-    }
-
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
     if (!parameters.containsKey("token") || parameters.get("token") == null) {
       throw new NullPointerException("Parameter missing: token parameters[\"token\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("token") && !(parameters.get("token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
     }
 
 

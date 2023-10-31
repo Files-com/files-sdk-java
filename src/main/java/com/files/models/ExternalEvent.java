@@ -182,6 +182,7 @@ public class ExternalEvent {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -209,7 +210,6 @@ public class ExternalEvent {
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-
 
 
     String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -251,12 +251,12 @@ public class ExternalEvent {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -303,18 +303,18 @@ public class ExternalEvent {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-
     if (!parameters.containsKey("status") || parameters.get("status") == null) {
       throw new NullPointerException("Parameter missing: status parameters[\"status\"]");
     }
     if (!parameters.containsKey("body") || parameters.get("body") == null) {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
+    }
+
+    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
+    }
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
     }
 
 

@@ -183,6 +183,10 @@ public class History {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
@@ -203,10 +207,6 @@ public class History {
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -258,6 +258,10 @@ public class History {
     }
 
 
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
@@ -278,10 +282,6 @@ public class History {
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
 
@@ -333,6 +333,10 @@ public class History {
     }
 
 
+    if (user_id == null) {
+      throw new NullPointerException("Argument or Parameter missing: user_id parameters[\"user_id\"]");
+    }
+
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
@@ -353,10 +357,6 @@ public class History {
     }
     if (!(user_id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-
-    if (user_id == null) {
-      throw new NullPointerException("Argument or Parameter missing: user_id parameters[\"user_id\"]");
     }
 
 
@@ -400,6 +400,7 @@ public class History {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
@@ -418,7 +419,6 @@ public class History {
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
-
 
 
     String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -453,6 +453,7 @@ public class History {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
     }
@@ -477,7 +478,6 @@ public class History {
     if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
     }
-
 
 
     String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());

@@ -162,6 +162,7 @@ public class PublicKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -171,7 +172,6 @@ public class PublicKey {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-
 
 
     String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -213,12 +213,12 @@ public class PublicKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 
@@ -266,6 +266,13 @@ public class PublicKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("title") || parameters.get("title") == null) {
+      throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
+    }
+    if (!parameters.containsKey("public_key") || parameters.get("public_key") == null) {
+      throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
+    }
+
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
     }
@@ -274,13 +281,6 @@ public class PublicKey {
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
-    }
-
-    if (!parameters.containsKey("title") || parameters.get("title") == null) {
-      throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
-    }
-    if (!parameters.containsKey("public_key") || parameters.get("public_key") == null) {
-      throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
     }
 
 
@@ -316,18 +316,18 @@ public class PublicKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
     if (!parameters.containsKey("title") || parameters.get("title") == null) {
       throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
     }
 
 
@@ -371,12 +371,12 @@ public class PublicKey {
     }
 
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
-    }
-
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
 
 

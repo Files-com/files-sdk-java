@@ -14,7 +14,10 @@ public class PathUtils {
   private static final Pattern BACKSLASH = Pattern.compile("\\\\");
   private static final Pattern LEADING_AND_TRAILING_SLASHES = Pattern.compile("(/)*$|^(/)*");
   private static final Pattern TWO_OR_MORE_SLASHES = Pattern.compile("(/){2,}");
-  
+
+  protected PathUtils() {
+  }
+
   public static String normalize_for_comparison(String str) {
     String newStr = str;
     newStr = NULL_BYTE.matcher(newStr).replaceAll("");
@@ -27,7 +30,7 @@ public class PathUtils {
       if (!".".equals(subStr) && !"..".equals(subStr)) {
         joiner.add(subStr);
       }
-    } 
+    }
     newStr = joiner.toString();
 
     newStr = Normalizer.normalize(newStr, Normalizer.Form.NFKC);
@@ -46,11 +49,11 @@ public class PathUtils {
     StringBuilder sb = new StringBuilder();
     for (String substr: str.split("")) {
       sb.append(transliterationMap.getOrDefault(substr, substr));
-    } 
+    }
     return sb.toString();
   }
- 
-  private static final Map<String, String> transliterationMap = Stream.of(new String[][]{ 
+
+  private static final Map<String, String> transliterationMap = Stream.of(new String[][]{
     {"À", "A"},
     {"Á", "A"},
     {"Â", "A"},
@@ -231,9 +234,6 @@ public class PathUtils {
     {"Ž", "Z"},
     {"ž", "z"},
   }).collect(Collectors.collectingAndThen(
-      Collectors.toMap(data -> data[0], data -> data[1]), 
+      Collectors.toMap(data -> data[0], data -> data[1]),
       Collections::<String, String>unmodifiableMap));
-
-  private PathUtils() {
-  }
 }

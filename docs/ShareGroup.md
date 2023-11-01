@@ -8,7 +8,7 @@
   "name": "Test group 1",
   "notes": "This group is defined for testing purposes",
   "user_id": 1,
-  "share_group_members": [
+  "members": [
     {
       "name": "John Doe",
       "company": "Acme Ltd",
@@ -22,8 +22,7 @@
 * `name` / `name`  (string): Name of the share group
 * `notes` / `notes`  (string): Additional notes of the share group
 * `user_id` / `userId`  (int64): Owner User ID
-* `share_group_members` / `shareGroupMembers`  (array): A list of share group members
-* `members` / `members`  (array(object)): A list of share group members.
+* `members` / `members`  (array): A list of share group members
 
 
 ---

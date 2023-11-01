@@ -96,14 +96,6 @@ public class ShareGroup {
   */
   @Getter
   @Setter
-  @JsonProperty("share_group_members")
-  public Object[] shareGroupMembers;
-
-  /**
-  * A list of share group members.
-  */
-  @Getter
-  @Setter
   @JsonProperty("members")
   public Object[] members;
 

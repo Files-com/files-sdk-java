@@ -74,10 +74,10 @@ Group group = Group.create(
 
 ### Parameters
 
-* `name` (String): Group name.
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (String): Required - Group name.
 
 
 ---
@@ -95,10 +95,10 @@ Group group = Group.update(
 ### Parameters
 
 * `id` (Long): Required - Group ID.
-* `name` (String): Group name.
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (String): Group name.
 
 
 ---
@@ -127,10 +127,10 @@ Group group = Group.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("name", "owners");
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
+parameters.put("name", "owners");
 
 Group.Update(parameters);
 ```
@@ -138,10 +138,10 @@ Group.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Group ID.
-* `name` (String): Group name.
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `name` (String): Group name.
 
 
 ---

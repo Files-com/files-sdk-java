@@ -900,7 +900,7 @@ public class User {
   *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
-  *   username - string - User's username
+  *   username (required) - string - User's username
   */
   public static User create() throws RuntimeException {
     return create(null, null);
@@ -916,6 +916,9 @@ public class User {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("username") || parameters.get("username") == null) {
+      throw new NullPointerException("Parameter missing: username parameters[\"username\"]");
+    }
 
     if (parameters.containsKey("avatar_file") && !(parameters.get("avatar_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: avatar_file must be of type byte[] parameters[\"avatar_file\"]");

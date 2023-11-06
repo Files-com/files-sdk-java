@@ -109,10 +109,10 @@ public class Group {
 
   /**
   * Parameters:
-  *   name - string - Group name.
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+  *   name - string - Group name.
   */
   public Group update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -256,10 +256,10 @@ public class Group {
 
   /**
   * Parameters:
-  *   name - string - Group name.
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+  *   name (required) - string - Group name.
   */
   public static Group create() throws RuntimeException {
     return create(null, null);
@@ -275,10 +275,10 @@ public class Group {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
+
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
     }
@@ -287,6 +287,9 @@ public class Group {
     }
     if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 
@@ -299,10 +302,10 @@ public class Group {
 
   /**
   * Parameters:
-  *   name - string - Group name.
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+  *   name - string - Group name.
   */
   public static Group update() throws RuntimeException {
     return update(null, null, null);
@@ -332,9 +335,6 @@ public class Group {
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
     }
@@ -343,6 +343,9 @@ public class Group {
     }
     if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 

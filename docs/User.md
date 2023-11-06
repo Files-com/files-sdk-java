@@ -250,7 +250,7 @@ User user = User.create(
 * `require_2fa` (String): 2FA required setting
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
-* `username` (String): User's username
+* `username` (String): Required - User's username
 
 
 ---

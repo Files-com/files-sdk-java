@@ -60,25 +60,11 @@ public class App {
 
 
   /**
-  * Name of the App
+  * The type of the App
   */
   @Getter
-  @JsonProperty("name")
-  public String name;
-
-  /**
-  * Long form description of the App
-  */
-  @Getter
-  @JsonProperty("extended_description")
-  public String extendedDescription;
-
-  /**
-  * Short description of the App
-  */
-  @Getter
-  @JsonProperty("short_description")
-  public String shortDescription;
+  @JsonProperty("app_type")
+  public String appType;
 
   /**
   * Collection of named links to documentation
@@ -88,53 +74,18 @@ public class App {
   public Map<String, String> documentationLinks;
 
   /**
-  * App icon
+  * Long description for the in-App landing page
   */
   @Getter
-  @JsonProperty("icon_url")
-  public String iconUrl;
+  @JsonProperty("extended_description")
+  public String extendedDescription;
 
   /**
-  * Full size logo for the App
+  * Long form description of the App
   */
   @Getter
-  @JsonProperty("logo_url")
-  public String logoUrl;
-
-  /**
-  * Screenshots of the App
-  */
-  @Getter
-  @JsonProperty("screenshot_list_urls")
-  public Object[] screenshotListUrls;
-
-  /**
-  * Logo thumbnail for the App
-  */
-  @Getter
-  @JsonProperty("logo_thumbnail_url")
-  public String logoThumbnailUrl;
-
-  /**
-  * Associated SSO Strategy type, if any
-  */
-  @Getter
-  @JsonProperty("sso_strategy_type")
-  public String ssoStrategyType;
-
-  /**
-  * Associated Remote Server type, if any
-  */
-  @Getter
-  @JsonProperty("remote_server_type")
-  public String remoteServerType;
-
-  /**
-  * Associated Folder Behavior type, if any
-  */
-  @Getter
-  @JsonProperty("folder_behavior_type")
-  public String folderBehaviorType;
+  @JsonProperty("extended_description_for_marketing_site")
+  public String extendedDescriptionForMarketingSite;
 
   /**
   * Link to external homepage
@@ -144,6 +95,48 @@ public class App {
   public String externalHomepageUrl;
 
   /**
+  * Is featured on the App listing?
+  */
+  @Getter
+  @JsonProperty("featured")
+  public Boolean featured;
+
+  /**
+  * Associated Folder Behavior type, if any
+  */
+  @Getter
+  @JsonProperty("folder_behavior_type")
+  public String folderBehaviorType;
+
+  /**
+  * App icon
+  */
+  @Getter
+  @JsonProperty("icon_url")
+  public String iconUrl;
+
+  /**
+  * Logo thumbnail for the App
+  */
+  @Getter
+  @JsonProperty("logo_thumbnail_url")
+  public String logoThumbnailUrl;
+
+  /**
+  * Full size logo for the App
+  */
+  @Getter
+  @JsonProperty("logo_url")
+  public String logoUrl;
+
+  /**
+  * Marketing introdution of the App
+  */
+  @Getter
+  @JsonProperty("marketing_intro")
+  public String marketingIntro;
+
+  /**
   * Marketing video page
   */
   @Getter
@@ -151,25 +144,60 @@ public class App {
   public String marketingYoutubeUrl;
 
   /**
+  * Name of the App
+  */
+  @Getter
+  @JsonProperty("name")
+  public String name;
+
+  /**
+  * Package manager install command
+  */
+  @Getter
+  @JsonProperty("package_manager_install_command")
+  public String packageManagerInstallCommand;
+
+  /**
+  * Associated Remote Server type, if any
+  */
+  @Getter
+  @JsonProperty("remote_server_type")
+  public String remoteServerType;
+
+  /**
+  * Screenshots of the App
+  */
+  @Getter
+  @JsonProperty("screenshot_list_urls")
+  public Object[] screenshotListUrls;
+
+  /**
+  * Link to SDK installation instructions
+  */
+  @Getter
+  @JsonProperty("sdk_installation_instructions_link")
+  public String sdkInstallationInstructionsLink;
+
+  /**
+  * Short description of the App
+  */
+  @Getter
+  @JsonProperty("short_description")
+  public String shortDescription;
+
+  /**
+  * Associated SSO Strategy type, if any
+  */
+  @Getter
+  @JsonProperty("sso_strategy_type")
+  public String ssoStrategyType;
+
+  /**
   * Tutorial video page
   */
   @Getter
   @JsonProperty("tutorial_youtube_url")
   public String tutorialYoutubeUrl;
-
-  /**
-  * The type of the App
-  */
-  @Getter
-  @JsonProperty("app_type")
-  public String appType;
-
-  /**
-  * Is featured on the App listing?
-  */
-  @Getter
-  @JsonProperty("featured")
-  public Boolean featured;
 
 
 

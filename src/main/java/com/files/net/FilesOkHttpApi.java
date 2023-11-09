@@ -14,6 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -82,7 +83,13 @@ public class FilesOkHttpApi implements FilesApiInterface {
 
         if (parameters != null) {
           parameters.forEach((key, value) -> {
-            httpBuilder.addQueryParameter(key, value.toString());
+            if (value instanceof Map) {
+              ((Map<?, ?>) value).forEach((key2, value2) -> {
+                httpBuilder.addQueryParameter(key + "[" + key2 + "]", value2.toString());
+              });
+            } else {
+              httpBuilder.addQueryParameter(key, value.toString());
+            }
           });
         }
         request.url(httpBuilder.build().url());

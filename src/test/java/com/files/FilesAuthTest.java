@@ -2,6 +2,7 @@ package com.files;
 
 import com.files.exceptions.ApiErrorException;
 import com.files.models.File;
+import com.files.models.Folder;
 import com.files.models.Session;
 import com.files.models.User;
 import org.junit.Before;
@@ -33,6 +34,25 @@ public class FilesAuthTest {
     assert(allUsers.all().size() == 1);
     int count = 0;
     for (User user : allUsers.listAutoPaging()) {
+      count++;
+    }
+    assert(count == 1);
+  }
+
+  @Test
+  public void listFolder() throws Exception {
+    // Setting API Key
+    FilesClient.apiKey = apiKey;
+
+    HashMap<String, Object> parameters = new HashMap<>();
+    HashMap<String, String> sortBy = new HashMap<>();
+    sortBy.put("path", "asc");
+    parameters.put("sort_by", sortBy);
+    parameters.put("preview_size", "large");
+    ListIterator<Folder> items = Folder.listFor("test", parameters);
+    assert(items.all().size() == 1);
+    int count = 0;
+    for (Folder item : items.listAutoPaging()) {
       count++;
     }
     assert(count == 1);

@@ -115,6 +115,13 @@ public class EmailIncomingMessage {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+  * Title of the Inbox associated with this message
+  */
+  @Getter
+  @JsonProperty("inbox_title")
+  public String inboxTitle;
+
 
 
   /**

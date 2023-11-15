@@ -10,17 +10,21 @@ The Files.com Java client library provides convenient access to the Files.com AP
 A maven jar is available through [maven-central](https://search.maven.org/).
 To use the package add the following to your `pom.xml` file.
 
+```xml
     <dependency>
         <groupId>com.files</groupId>
         <artifactId>files-sdk</artifactId>
     </dependency>
+```
 
 
 ### Gradle
 
 To add the dependency to your Gradle project add this to your
 
+```groovy
     compile group: 'com.files', name: 'files-sdk'
+```
 
 
 ### Requirements

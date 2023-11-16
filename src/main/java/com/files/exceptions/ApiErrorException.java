@@ -944,6 +944,18 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class TwoFactorAuthenticationCountryBlacklistedException extends ProcessingFailureException {
+    public TwoFactorAuthenticationCountryBlacklistedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class TwoFactorAuthenticationGeneralErrorException extends ProcessingFailureException {
+    public TwoFactorAuthenticationGeneralErrorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class UpdatesNotAllowedForRemotesException extends ProcessingFailureException {
     public UpdatesNotAllowedForRemotesException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

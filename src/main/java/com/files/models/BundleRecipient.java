@@ -105,14 +105,6 @@ public class BundleRecipient {
   public Date sentAt;
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("user_id")
-  public Long userId;
-
-  /**
   * Bundle to share.
   */
   @Getter
@@ -140,7 +132,6 @@ public class BundleRecipient {
 
   /**
   * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[has_registrations]=desc`). Valid fields are `has_registrations`.
@@ -165,9 +156,6 @@ public class BundleRecipient {
       throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -201,7 +189,6 @@ public class BundleRecipient {
 
   /**
   * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   bundle_id (required) - int64 - Bundle to share.
   *   recipient (required) - string - Email addresses to share this bundle with.
   *   name - string - Name of recipient.
@@ -230,9 +217,6 @@ public class BundleRecipient {
       throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
     }

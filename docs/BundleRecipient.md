@@ -17,7 +17,6 @@
 * `note` / `note`  (string): A note sent to the recipient with the bundle.
 * `recipient` / `recipient`  (string): The recipient's email address.
 * `sent_at` / `sentAt`  (date-time): When the Bundle was shared with this recipient.
-* `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `bundle_id` / `bundleId`  (int64): Bundle to share.
 * `share_after_create` / `shareAfterCreate`  (boolean): Set to true to share the link with the recipient upon creation.
 
@@ -36,7 +35,6 @@ ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
 
 ### Parameters
 
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[has_registrations]=desc`). Valid fields are `has_registrations`.
@@ -58,7 +56,6 @@ BundleRecipient bundleRecipient = BundleRecipient.create(
 
 ### Parameters
 
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `bundle_id` (Long): Required - Bundle to share.
 * `recipient` (String): Required - Email addresses to share this bundle with.
 * `name` (String): Name of recipient.

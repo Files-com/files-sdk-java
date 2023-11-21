@@ -165,13 +165,6 @@ ListIterator<User> user = User.list(
 * `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `ids` (String): comma-separated list of User IDs
-* `q[username]` (String): List users matching username.
-* `q[email]` (String): List users matching email.
-* `q[notes]` (String): List users matching notes field.
-* `q[admin]` (String): If `true`, list only admin users.
-* `q[allowed_ips]` (String): If set, list only users with overridden allowed IP setting.
-* `q[password_validity_days]` (String): If set, list only users with overridden password validity days setting.
-* `q[ssl_required]` (String): If set, list only users with overridden SSL required setting.
 * `search` (String): Searches for partial matches of name, username, or email.
 
 

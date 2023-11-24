@@ -39,6 +39,7 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_sas_token": "storage-sas-token",
   "azure_blob_storage_container": "container-name",
+  "azure_blob_storage_hierarchical_namespace": true,
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_sas_token": "storage-sas-token",
   "azure_files_storage_share_name": "share-name",
@@ -97,6 +98,7 @@
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
 * `azure_blob_storage_sas_token` / `azureBlobStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
+* `azure_blob_storage_hierarchical_namespace` / `azureBlobStorageHierarchicalNamespace`  (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_files_storage_account` / `azureFilesStorageAccount`  (string): Azure File Storage Account name
 * `azure_files_storage_sas_token` / `azureFilesStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_files_storage_share_name` / `azureFilesStorageShareName`  (string): Azure File Storage Share name
@@ -241,6 +243,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
@@ -349,6 +352,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
@@ -468,6 +472,7 @@ parameters.put("rackspace_container", "my-container");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
+parameters.put("azure_blob_storage_hierarchical_namespace", true);
 parameters.put("azure_blob_storage_sas_token", "storage-sas-token");
 parameters.put("azure_files_storage_account", "storage-account-name");
 parameters.put("azure_files_storage_share_name", "share-name");
@@ -534,6 +539,7 @@ RemoteServer.Update(parameters);
 * `one_drive_account_type` (String): Either personal or business_other account types
 * `azure_blob_storage_account` (String): Azure Blob Storage Account name
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
+* `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name

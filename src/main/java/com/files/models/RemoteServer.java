@@ -345,6 +345,14 @@ public class RemoteServer {
   public String azureBlobStorageContainer;
 
   /**
+  * Enable when storage account has hierarchical namespace feature enabled
+  */
+  @Getter
+  @Setter
+  @JsonProperty("azure_blob_storage_hierarchical_namespace")
+  public Boolean azureBlobStorageHierarchicalNamespace;
+
+  /**
   * Azure File Storage Account name
   */
   @Getter
@@ -701,6 +709,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
@@ -942,6 +951,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
@@ -1098,6 +1108,9 @@ public class RemoteServer {
     }
     if (parameters.containsKey("azure_blob_storage_container") && !(parameters.get("azure_blob_storage_container") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
+    }
+    if (parameters.containsKey("azure_blob_storage_hierarchical_namespace") && !(parameters.get("azure_blob_storage_hierarchical_namespace") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_hierarchical_namespace must be of type Boolean parameters[\"azure_blob_storage_hierarchical_namespace\"]");
     }
     if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
@@ -1317,6 +1330,7 @@ public class RemoteServer {
   *   one_drive_account_type - string - Either personal or business_other account types
   *   azure_blob_storage_account - string - Azure Blob Storage Account name
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
+  *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
@@ -1486,6 +1500,9 @@ public class RemoteServer {
     }
     if (parameters.containsKey("azure_blob_storage_container") && !(parameters.get("azure_blob_storage_container") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_container must be of type String parameters[\"azure_blob_storage_container\"]");
+    }
+    if (parameters.containsKey("azure_blob_storage_hierarchical_namespace") && !(parameters.get("azure_blob_storage_hierarchical_namespace") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_hierarchical_namespace must be of type Boolean parameters[\"azure_blob_storage_hierarchical_namespace\"]");
     }
     if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");

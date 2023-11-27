@@ -16,4 +16,5 @@ public class ResponseError {
   public HashMap<String, String[]> modelErrorKeys;
   public String title;
   public String type;
+  public HashMap<String, Object> data;
 }

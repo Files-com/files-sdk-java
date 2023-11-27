@@ -152,17 +152,20 @@ public class FilesApiTest {
 
   @Test
   public void handleHostnameMismatch() throws Exception {
-    final String body = "You have connected to a URL that has different security settings than those required for your site.";
-    mockWebServer.enqueue(new MockResponse().addHeader("x-files-host", "test.example.com").setResponseCode(403).setBody(body));
+    final String body = "{\"error\":\"You have connected to a URL that has different security settings than those required for your site.\"}";
+    mockWebServer.enqueue(new MockResponse().addHeader("x-files-host", "test.host").setResponseCode(403).setBody(body));
 
     try {
       Folder.listFor("/", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert(e instanceof ApiErrorException.AuthenticationException);
-      ApiErrorException.AuthenticationException exception = (ApiErrorException.AuthenticationException)e;
-      assert(exception.getMessage().equals(body));
-      assert("test.example.com".equals(exception.getHeaders().get("x-files-host").get(0)));
+      assert(e instanceof ApiErrorException.LockoutRegionMismatchException);
+      ApiErrorException.LockoutRegionMismatchException exception = (ApiErrorException.LockoutRegionMismatchException)e;
+      assert(exception.getHttpCode() == 401);
+      assert("Lockout Region Mismatch".equals(exception.getTitle()));
+      assert("not-authenticated/lockout-region-mismatch".equals(exception.getType()));
+      assert("Your account must login using a different server, test.host.".equals(exception.getError()));
+      assert(exception.getData().get("host").equals("test.host"));
     }
   }
 
@@ -172,7 +175,11 @@ public class FilesApiTest {
         "{"
       +   "\"type\": \"not-authenticated/lockout-region-mismatch\","
       +   "\"http-code\": 401,"
-      +   "\"title\": \"Lockout Region Mismatch\""
+      +   "\"title\": \"Lockout Region Mismatch\","
+      +   "\"error\":\"Your account must login using a different server, test.host.\","
+      +   "\"data\": {"
+      +      "\"host\": \"test.host\""
+      +   "}"
       + "}";
     mockWebServer.enqueue(new MockResponse().setResponseCode(401).addHeader("Content-Type", "application/json; charset=utf-8").setBody(body));
 
@@ -184,6 +191,9 @@ public class FilesApiTest {
       ApiErrorException.LockoutRegionMismatchException exception = (ApiErrorException.LockoutRegionMismatchException)e;
       assert(exception.getHttpCode() == 401);
       assert("Lockout Region Mismatch".equals(exception.getTitle()));
+      assert("not-authenticated/lockout-region-mismatch".equals(exception.getType()));
+      assert("Your account must login using a different server, test.host.".equals(exception.getError()));
+      assert(exception.getData().get("host").equals("test.host"));
     }
   }
 }

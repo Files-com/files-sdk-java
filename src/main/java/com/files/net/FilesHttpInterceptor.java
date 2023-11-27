@@ -9,6 +9,9 @@ import com.files.FilesConfig;
 import com.files.ResponseError;
 import com.files.exceptions.ApiErrorException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -71,10 +74,25 @@ public class FilesHttpInterceptor implements Interceptor {
           response.body().close();
         }
       } else if (status == 403) {
+        Map<String, List<String>> headers = response.headers().toMultimap();
         try {
-          throw new ApiErrorException.AuthenticationException(response.body().string(), response.headers().toMultimap());
+          String body = response.body().string();
+          if (body.contains("You have connected to a URL")) {
+            ResponseError responseError = new ResponseError();
+            HashMap<String, Object> data = new HashMap<>();
+
+            data.put("host", headers.get("x-files-host").get(0));
+            responseError.title = "Lockout Region Mismatch";
+            responseError.httpCode = 401;
+            responseError.error = "Your account must login using a different server, " + data.get("host") + ".";
+            responseError.type = "not-authenticated/lockout-region-mismatch";
+            responseError.data = data;
+            throw new ApiErrorException.LockoutRegionMismatchException(responseError.title, responseError, headers);
+          } else {
+            throw new ApiErrorException.AuthenticationException(body, headers);
+          }
         } catch (IOException e) {
-          throw new ApiErrorException.AuthenticationException("Unable to access this resource", response.headers().toMultimap());
+          throw new ApiErrorException.AuthenticationException("Unable to access this resource", headers);
         } finally {
           response.body().close();
         }

@@ -74,6 +74,10 @@ public class ApiErrorException extends SdkException {
     return responseError.type;
   }
 
+  public Map<String, Object> getData() {
+    return responseError.data;
+  }
+
   @Override
   public String toString() {
     return "[" + responseError.httpCode + "] " + getMessage();

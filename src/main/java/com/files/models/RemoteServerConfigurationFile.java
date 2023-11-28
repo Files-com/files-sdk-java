@@ -78,11 +78,17 @@ public class RemoteServerConfigurationFile {
   public String permissionSet;
 
   /**
-  * Files Agent API Token
+  * private key
   */
   @Getter
-  @JsonProperty("api_token")
-  public String apiToken;
+  @JsonProperty("private_key")
+  public String privateKey;
+
+  /**
+  */
+  @Getter
+  @JsonProperty("subdomain")
+  public String subdomain;
 
   /**
   * Agent local root path
@@ -90,6 +96,13 @@ public class RemoteServerConfigurationFile {
   @Getter
   @JsonProperty("root")
   public String root;
+
+  /**
+  * Files Agent API Token
+  */
+  @Getter
+  @JsonProperty("api_token")
+  public String apiToken;
 
   /**
   * Incoming port for files agent connections
@@ -112,25 +125,11 @@ public class RemoteServerConfigurationFile {
   public String publicKey;
 
   /**
-  * private key
-  */
-  @Getter
-  @JsonProperty("private_key")
-  public String privateKey;
-
-  /**
   * either running or shutdown
   */
   @Getter
   @JsonProperty("status")
   public String status;
-
-  /**
-  * agent config version
-  */
-  @Getter
-  @JsonProperty("config_version")
-  public String configVersion;
 
   /**
   */
@@ -139,10 +138,11 @@ public class RemoteServerConfigurationFile {
   public String serverHostKey;
 
   /**
+  * agent config version
   */
   @Getter
-  @JsonProperty("subdomain")
-  public String subdomain;
+  @JsonProperty("config_version")
+  public String configVersion;
 
 
 

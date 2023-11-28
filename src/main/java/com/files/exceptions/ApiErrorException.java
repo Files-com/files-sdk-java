@@ -510,6 +510,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class FilesAgentFailedAuthorizationException extends NotAuthorizedException {
+    public FilesAgentFailedAuthorizationException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class FolderAdminOrBillingPermissionRequiredException extends NotAuthorizedException {
     public FolderAdminOrBillingPermissionRequiredException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -1010,6 +1016,12 @@ public class ApiErrorException extends SdkException {
 
   public static class ServiceUnavailableException extends ApiErrorException {
     public ServiceUnavailableException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class AgentUnavailableException extends ServiceUnavailableException {
+    public AgentUnavailableException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

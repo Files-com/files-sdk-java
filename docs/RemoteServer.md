@@ -51,6 +51,7 @@
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
   "files_agent_api_token": "example",
+  "files_agent_version": "example",
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
   "cloudflare_bucket": "my-bucket",
@@ -110,6 +111,7 @@
 * `files_agent_permission_set` / `filesAgentPermissionSet`  (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` / `filesAgentRoot`  (string): Agent local root path
 * `files_agent_api_token` / `filesAgentApiToken`  (string): Files Agent API Token
+* `files_agent_version` / `filesAgentVersion`  (string): Files Agent version
 * `filebase_bucket` / `filebaseBucket`  (string): Filebase Bucket name
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase Access Key.
 * `cloudflare_bucket` / `cloudflareBucket`  (string): Cloudflare Bucket name
@@ -256,6 +258,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `s3_compatible_secret_key` (String): S3-compatible secret key
 * `files_agent_root` (String): Agent local root path
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
+* `files_agent_version` (String): Files Agent version
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name
@@ -365,6 +368,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `s3_compatible_secret_key` (String): S3-compatible secret key
 * `files_agent_root` (String): Agent local root path
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
+* `files_agent_version` (String): Files Agent version
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name
@@ -484,6 +488,7 @@ parameters.put("enable_dedicated_ips", true);
 parameters.put("s3_compatible_access_key", "example");
 parameters.put("files_agent_root", "example");
 parameters.put("files_agent_permission_set", "read_write");
+parameters.put("files_agent_version", "example");
 parameters.put("filebase_access_key", "example");
 parameters.put("filebase_bucket", "my-bucket");
 parameters.put("cloudflare_access_key", "example");
@@ -552,6 +557,7 @@ RemoteServer.Update(parameters);
 * `s3_compatible_secret_key` (String): S3-compatible secret key
 * `files_agent_root` (String): Agent local root path
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
+* `files_agent_version` (String): Files Agent version
 * `filebase_access_key` (String): Filebase Access Key.
 * `filebase_secret_key` (String): Filebase secret key
 * `filebase_bucket` (String): Filebase Bucket name

@@ -119,7 +119,8 @@ public class FilesApiTest {
 
   @Test
   public void handleBadGateway() throws Exception {
-    mockWebServer.enqueue(new MockResponse().setResponseCode(502).setBody("Bad Gateway"));
+    final String body = "<html><head><title>502 Bad Gateway</title></head><body><center><h1>502 Bad Gateway</h1></center><hr><center>files.com</center></body></html>";
+    mockWebServer.enqueue(new MockResponse().setResponseCode(502).setBody(body));
 
     try {
       Folder.listFor("/", null).all();
@@ -127,7 +128,7 @@ public class FilesApiTest {
     } catch (RuntimeException e) {
       assert(e instanceof ApiErrorException.ServerErrorException);
       ApiErrorException.ServerErrorException exception = (ApiErrorException.ServerErrorException)e;
-      assert("Bad Gateway".equals(e.getMessage()));
+      assert(e.getMessage().equals(body));
     }
   }
 
@@ -152,7 +153,16 @@ public class FilesApiTest {
 
   @Test
   public void handleHostnameMismatch() throws Exception {
-    final String body = "{\"error\":\"You have connected to a URL that has different security settings than those required for your site.\"}";
+    final String body =
+        "{"
+      +   "\"type\": \"not-authenticated/lockout-region-mismatch\","
+      +   "\"http-code\": 403,"
+      +   "\"title\": \"Lockout Region Mismatch\","
+      +   "\"error\":\"You have connected to a URL that has different security settings than those required for your site.\","
+      +   "\"data\": {"
+      +      "\"host\": \"test.host\""
+      +   "}"
+      + "}";
     mockWebServer.enqueue(new MockResponse().addHeader("x-files-host", "test.host").setResponseCode(403).setBody(body));
 
     try {
@@ -161,10 +171,10 @@ public class FilesApiTest {
     } catch (RuntimeException e) {
       assert(e instanceof ApiErrorException.LockoutRegionMismatchException);
       ApiErrorException.LockoutRegionMismatchException exception = (ApiErrorException.LockoutRegionMismatchException)e;
-      assert(exception.getHttpCode() == 401);
+      assert(exception.getHttpCode() == 403);
       assert("Lockout Region Mismatch".equals(exception.getTitle()));
       assert("not-authenticated/lockout-region-mismatch".equals(exception.getType()));
-      assert("Your account must login using a different server, test.host.".equals(exception.getError()));
+      assert("You have connected to a URL that has different security settings than those required for your site.".equals(exception.getError()));
       assert(exception.getData().get("host").equals("test.host"));
     }
   }

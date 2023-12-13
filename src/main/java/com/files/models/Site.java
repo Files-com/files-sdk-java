@@ -121,6 +121,13 @@ public class Site {
   public Long adminUserId;
 
   /**
+  * Allow admins to bypass the locked subfolders setting.
+  */
+  @Getter
+  @JsonProperty("admins_bypass_locked_subfolders")
+  public Boolean adminsBypassLockedSubfolders;
+
+  /**
   * Are manual Bundle names allowed?
   */
   @Getter
@@ -1248,6 +1255,7 @@ public class Site {
   *   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
   *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
   *   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
+  *   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
   *   allowed_2fa_method_sms - boolean - Is SMS two factor authentication allowed?
   *   allowed_2fa_method_u2f - boolean - Is U2F two factor authentication allowed?
   *   allowed_2fa_method_totp - boolean - Is TOTP two factor authentication allowed?
@@ -1575,6 +1583,9 @@ public class Site {
     }
     if (parameters.containsKey("bundle_recipient_blacklist_domains") && !(parameters.get("bundle_recipient_blacklist_domains") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: bundle_recipient_blacklist_domains must be of type String[] parameters[\"bundle_recipient_blacklist_domains\"]");
+    }
+    if (parameters.containsKey("admins_bypass_locked_subfolders") && !(parameters.get("admins_bypass_locked_subfolders") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: admins_bypass_locked_subfolders must be of type Boolean parameters[\"admins_bypass_locked_subfolders\"]");
     }
     if (parameters.containsKey("allowed_2fa_method_sms") && !(parameters.get("allowed_2fa_method_sms") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allowed_2fa_method_sms must be of type Boolean parameters[\"allowed_2fa_method_sms\"]");

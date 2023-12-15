@@ -100,6 +100,13 @@ public class SsoStrategy {
   public Long id;
 
   /**
+  * Count of users with this SSO Strategy
+  */
+  @Getter
+  @JsonProperty("user_count")
+  public Long userCount;
+
+  /**
   * Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
   */
   @Getter

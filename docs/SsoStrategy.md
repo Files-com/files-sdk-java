@@ -9,6 +9,7 @@
   "label": "My Corporate SSO Provider",
   "logo_url": "https://mysite.files.com/.../logo.png",
   "id": 1,
+  "user_count": 1,
   "saml_provider_cert_fingerprint": "example",
   "saml_provider_issuer_url": "example",
   "saml_provider_metadata_content": "example",
@@ -56,6 +57,7 @@
 * `label` / `label`  (string): Custom label for the SSO provider on the login page.
 * `logo_url` / `logoUrl`  (string): URL holding a custom logo for the SSO provider on the login page.
 * `id` / `id`  (int64): ID
+* `user_count` / `userCount`  (int64): Count of users with this SSO Strategy
 * `saml_provider_cert_fingerprint` / `samlProviderCertFingerprint`  (string): Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
 * `saml_provider_issuer_url` / `samlProviderIssuerUrl`  (string): Identity provider issuer url
 * `saml_provider_metadata_content` / `samlProviderMetadataContent`  (string): Custom identity provider metadata

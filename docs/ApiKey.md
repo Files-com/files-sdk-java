@@ -12,7 +12,6 @@
   "key": "[key]",
   "last_use_at": "2000-01-01T01:00:00Z",
   "name": "My Main API Key",
-  "path": "shared/docs",
   "permission_set": "full",
   "platform": "win32",
   "url": "example",
@@ -28,11 +27,11 @@
 * `key` / `key`  (string): API Key actual key string
 * `last_use_at` / `lastUseAt`  (date-time): API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
 * `name` / `name`  (string): Internal name for the API Key.  For your use.
-* `path` / `path`  (string): Folder path restriction for this api key. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `permission_set` / `permissionSet`  (string): Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `platform` / `platform`  (string): If this API key represents a Desktop app, what platform was it created on?
 * `url` / `url`  (string): URL for API host.
 * `user_id` / `userId`  (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
+* `path` / `path`  (string): Folder path restriction for this api key.
 
 
 ---

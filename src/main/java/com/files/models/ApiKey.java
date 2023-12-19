@@ -128,14 +128,6 @@ public class ApiKey {
   public String name;
 
   /**
-  * Folder path restriction for this api key. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("path")
-  public String path;
-
-  /**
   * Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   @Getter
@@ -166,6 +158,14 @@ public class ApiKey {
   @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  /**
+  * Folder path restriction for this api key.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("path")
+  public String path;
 
   /**
   * Parameters:

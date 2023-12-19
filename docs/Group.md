@@ -9,7 +9,11 @@
   "admin_ids": "1",
   "notes": "example",
   "user_ids": "1",
-  "usernames": "example"
+  "usernames": "example",
+  "ftp_permission": true,
+  "sftp_permission": true,
+  "dav_permission": true,
+  "restapi_permission": true
 }
 ```
 
@@ -19,6 +23,10 @@
 * `notes` / `notes`  (string): Notes about this group
 * `user_ids` / `userIds`  (string): Comma-delimited list of user IDs who belong to this group (separated by commas)
 * `usernames` / `usernames`  (string): Comma-delimited list of usernames who belong to this group (separated by commas)
+* `ftp_permission` / `ftpPermission`  (boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+* `sftp_permission` / `sftpPermission`  (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+* `dav_permission` / `davPermission`  (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+* `restapi_permission` / `restapiPermission`  (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 
 
 ---
@@ -77,6 +85,10 @@ Group group = Group.create(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+* `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+* `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+* `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `name` (String): Required - Group name.
 
 
@@ -98,6 +110,10 @@ Group group = Group.update(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+* `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+* `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+* `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `name` (String): Group name.
 
 
@@ -130,6 +146,10 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
+parameters.put("ftp_permission", true);
+parameters.put("sftp_permission", true);
+parameters.put("dav_permission", true);
+parameters.put("restapi_permission", true);
 parameters.put("name", "owners");
 
 Group.Update(parameters);
@@ -141,6 +161,10 @@ Group.Update(parameters);
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+* `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+* `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+* `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `name` (String): Group name.
 
 

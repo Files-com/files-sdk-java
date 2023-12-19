@@ -502,6 +502,7 @@ Site site = Site.update(
 * `sftp_enabled` (Boolean): Is SFTP enabled?
 * `sftp_host_key_type` (String): Sftp Host Key Type
 * `active_sftp_host_key_id` (Long): Id of the currently selected custom SFTP Host Key
+* `protocol_access_groups_only` (Boolean): If `true`, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `bundle_watermark_value` (Map<String, String>): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_set_user_password` (Boolean): Allow group admins set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (Boolean): Disallow free email domains for Bundle/Inbox recipients?

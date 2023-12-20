@@ -73,6 +73,14 @@ public class Automation {
   public Long id;
 
   /**
+  * Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("always_overwrite_size_matching_files")
+  public Boolean alwaysOverwriteSizeMatchingFiles;
+
+  /**
   * Automation type
   */
   @Getter
@@ -89,6 +97,38 @@ public class Automation {
   public Boolean deleted;
 
   /**
+  * Description for the this Automation.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("description")
+  public String description;
+
+  /**
+  * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("destination_replace_from")
+  public String destinationReplaceFrom;
+
+  /**
+  * If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("destination_replace_to")
+  public String destinationReplaceTo;
+
+  /**
+  * Destination Paths
+  */
+  @Getter
+  @Setter
+  @JsonProperty("destinations")
+  public Object[] destinations;
+
+  /**
   * If true, this automation will not run.
   */
   @Getter
@@ -97,12 +137,12 @@ public class Automation {
   public Boolean disabled;
 
   /**
-  * How this automation is triggered to run.
+  * IDs of Groups for the Automation (i.e. who to Request File from)
   */
   @Getter
   @Setter
-  @JsonProperty("trigger")
-  public String trigger;
+  @JsonProperty("group_ids")
+  public Object[] groupIds;
 
   /**
   * If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -129,6 +169,22 @@ public class Automation {
   public String name;
 
   /**
+  * Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("path")
+  public String path;
+
+  /**
+  * If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("recurring_day")
+  public Long recurringDay;
+
+  /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
   */
   @Getter
@@ -145,92 +201,12 @@ public class Automation {
   public String source;
 
   /**
-  * Destination Paths
-  */
-  @Getter
-  @Setter
-  @JsonProperty("destinations")
-  public Object[] destinations;
-
-  /**
-  * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("destination_replace_from")
-  public String destinationReplaceFrom;
-
-  /**
-  * If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("destination_replace_to")
-  public String destinationReplaceTo;
-
-  /**
-  * Description for the this Automation.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("description")
-  public String description;
-
-  /**
-  * If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("recurring_day")
-  public Long recurringDay;
-
-  /**
-  * Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("path")
-  public String path;
-
-  /**
-  * User ID of the Automation's creator.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("user_id")
-  public Long userId;
-
-  /**
   * IDs of remote sync folder behaviors to run by this Automation
   */
   @Getter
   @Setter
   @JsonProperty("sync_ids")
   public Object[] syncIds;
-
-  /**
-  * IDs of Users for the Automation (i.e. who to Request File from)
-  */
-  @Getter
-  @Setter
-  @JsonProperty("user_ids")
-  public Object[] userIds;
-
-  /**
-  * IDs of Groups for the Automation (i.e. who to Request File from)
-  */
-  @Getter
-  @Setter
-  @JsonProperty("group_ids")
-  public Object[] groupIds;
-
-  /**
-  * If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("webhook_url")
-  public String webhookUrl;
 
   /**
   * If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -241,12 +217,44 @@ public class Automation {
   public Object[] triggerActions;
 
   /**
+  * How this automation is triggered to run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("trigger")
+  public String trigger;
+
+  /**
+  * User ID of the Automation's creator.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("user_id")
+  public Long userId;
+
+  /**
+  * IDs of Users for the Automation (i.e. who to Request File from)
+  */
+  @Getter
+  @Setter
+  @JsonProperty("user_ids")
+  public Object[] userIds;
+
+  /**
   * A Hash of attributes specific to the automation type.
   */
   @Getter
   @Setter
   @JsonProperty("value")
   public Map<String, String> value;
+
+  /**
+  * If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("webhook_url")
+  public String webhookUrl;
 
   /**
   * DEPRECATED: Destination Path. Use `destinations` instead.
@@ -276,6 +284,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
@@ -450,6 +459,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
@@ -509,6 +519,9 @@ public class Automation {
     }
     if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    }
+    if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -605,6 +618,7 @@ public class Automation {
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   schedule - object - Custom schedule for running this automation.
+  *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   name - string - Name for this automation.
@@ -674,6 +688,9 @@ public class Automation {
     }
     if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    }
+    if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");

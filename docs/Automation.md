@@ -5,69 +5,71 @@
 ```
 {
   "id": 1,
+  "always_overwrite_size_matching_files": true,
   "automation": "create_folder",
   "deleted": true,
-  "disabled": true,
-  "trigger": "daily",
-  "interval": "week",
-  "last_modified_at": "2000-01-01T01:00:00Z",
-  "name": "example",
-  "schedule": "example",
-  "source": "example",
+  "description": "example",
+  "destination_replace_from": "example",
+  "destination_replace_to": "example",
   "destinations": [
     "destination"
   ],
-  "destination_replace_from": "example",
-  "destination_replace_to": "example",
-  "description": "example",
-  "recurring_day": 25,
-  "path": "example",
-  "user_id": 1,
-  "sync_ids": [
-    1,
-    2
-  ],
-  "user_ids": [
-    1,
-    2
-  ],
+  "disabled": true,
   "group_ids": [
     1,
     2
   ],
-  "webhook_url": "https://app.files.com/api/webhooks/abc123",
+  "interval": "week",
+  "last_modified_at": "2000-01-01T01:00:00Z",
+  "name": "example",
+  "path": "example",
+  "recurring_day": 25,
+  "schedule": "example",
+  "source": "example",
+  "sync_ids": [
+    1,
+    2
+  ],
   "trigger_actions": [
     "create"
   ],
+  "trigger": "daily",
+  "user_id": 1,
+  "user_ids": [
+    1,
+    2
+  ],
   "value": {
     "limit": "1"
-  }
+  },
+  "webhook_url": "https://app.files.com/api/webhooks/abc123"
 }
 ```
 
 * `id` / `id`  (int64): Automation ID
+* `always_overwrite_size_matching_files` / `alwaysOverwriteSizeMatchingFiles`  (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `automation` / `automation`  (string): Automation type
 * `deleted` / `deleted`  (boolean): Indicates if the automation has been deleted.
+* `description` / `description`  (string): Description for the this Automation.
+* `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
+* `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
+* `destinations` / `destinations`  (array): Destination Paths
 * `disabled` / `disabled`  (boolean): If true, this automation will not run.
-* `trigger` / `trigger`  (string): How this automation is triggered to run.
+* `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `last_modified_at` / `lastModifiedAt`  (date-time): Time when automation was last modified. Does not change for name or description updates.
 * `name` / `name`  (string): Name for this automation.
+* `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
-* `destinations` / `destinations`  (array): Destination Paths
-* `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
-* `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-* `description` / `description`  (string): Description for the this Automation.
-* `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `user_id` / `userId`  (int64): User ID of the Automation's creator.
 * `sync_ids` / `syncIds`  (array): IDs of remote sync folder behaviors to run by this Automation
-* `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
-* `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
-* `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `trigger_actions` / `triggerActions`  (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `trigger` / `trigger`  (string): How this automation is triggered to run.
+* `user_id` / `userId`  (int64): User ID of the Automation's creator.
+* `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
+* `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
 
 
@@ -138,6 +140,7 @@ Automation automation = Automation.create(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.
@@ -191,6 +194,7 @@ Automation automation = Automation.update(
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.
@@ -255,6 +259,7 @@ parameters.put("sync_ids", [1,2]);
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
 parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
+parameters.put("always_overwrite_size_matching_files", true);
 parameters.put("description", "example");
 parameters.put("disabled", true);
 parameters.put("name", "example");
@@ -281,6 +286,7 @@ Automation.Update(parameters);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `name` (String): Name for this automation.

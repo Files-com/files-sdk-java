@@ -128,7 +128,7 @@ public class ApiKey {
   public String name;
 
   /**
-  * Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  * Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   @Getter
   @Setter
@@ -160,19 +160,11 @@ public class ApiKey {
   public Long userId;
 
   /**
-  * Folder path restriction for this api key.
-  */
-  @Getter
-  @Setter
-  @JsonProperty("path")
-  public String path;
-
-  /**
   * Parameters:
   *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public ApiKey update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -358,8 +350,7 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
-  *   path - string - Folder path restriction for this api key.
+  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey create() throws RuntimeException {
     return create(null, null);
@@ -391,9 +382,6 @@ public class ApiKey {
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
 
 
     String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -407,7 +395,7 @@ public class ApiKey {
   * Parameters:
   *   expires_at - string - API Key expiration date
   *   name - string - Internal name for the API Key.  For your use.
-  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey updateCurrent() throws RuntimeException {
     return updateCurrent(null, null);
@@ -447,7 +435,7 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey update() throws RuntimeException {
     return update(null, null, null);

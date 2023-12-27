@@ -161,10 +161,10 @@ public class ApiKey {
 
   /**
   * Parameters:
-  *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   name - string - Internal name for the API Key.  For your use.
   */
   public ApiKey update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -347,10 +347,10 @@ public class ApiKey {
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   name (required) - string - Internal name for the API Key.  For your use.
   */
   public static ApiKey create() throws RuntimeException {
     return create(null, null);
@@ -366,12 +366,12 @@ public class ApiKey {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -381,6 +381,9 @@ public class ApiKey {
     }
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 
@@ -432,10 +435,10 @@ public class ApiKey {
 
   /**
   * Parameters:
-  *   name - string - Internal name for the API Key.  For your use.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
+  *   name - string - Internal name for the API Key.  For your use.
   */
   public static ApiKey update() throws RuntimeException {
     return update(null, null, null);
@@ -465,9 +468,6 @@ public class ApiKey {
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
@@ -476,6 +476,9 @@ public class ApiKey {
     }
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 

@@ -88,12 +88,20 @@ public class PublicKey {
   public Date createdAt;
 
   /**
-  * Public key fingerprint
+  * Public key fingerprint (MD5)
   */
   @Getter
   @Setter
   @JsonProperty("fingerprint")
   public String fingerprint;
+
+  /**
+  * Public key fingerprint (SHA256)
+  */
+  @Getter
+  @Setter
+  @JsonProperty("fingerprint_sha256")
+  public String fingerprintSha256;
 
   /**
   * Username of the user this public key is associated with

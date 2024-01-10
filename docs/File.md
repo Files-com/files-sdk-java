@@ -42,7 +42,7 @@
 * `md5` / `md5`  (string): File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
 * `mime_type` / `mimeType`  (string): MIME Type.  This is determined by the filename extension and is not stored separately internally.
 * `region` / `region`  (string): Region location
-* `permissions` / `permissions`  (string): A short string representing the current user's permissions.  Can be `r`,`w`,`d`, `l` or any combination
+* `permissions` / `permissions`  (string): A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
 * `subfolders_locked?` / `subfoldersLocked`  (boolean): Are subfolders locked and unable to be modified?
 * `is_locked` / `isLocked`  (boolean): Is this folder locked and unable to be modified?
 * `download_uri` / `downloadUri`  (string): Link to download file. Provided only in response to a download request.

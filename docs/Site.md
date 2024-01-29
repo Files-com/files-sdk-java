@@ -43,6 +43,8 @@
   "created_at": "2000-01-01T01:00:00Z",
   "currency": "USD",
   "custom_namespace": true,
+  "dav_enabled": true,
+  "dav_user_root_enabled": true,
   "days_to_retain_backups": 30,
   "default_time_zone": "Pacific Time (US & Canada)",
   "desktop_app": true,
@@ -264,6 +266,8 @@
 * `created_at` / `createdAt`  (date-time): Time this site was created
 * `currency` / `currency`  (string): Preferred currency
 * `custom_namespace` / `customNamespace`  (boolean): Is this site using a custom namespace for users?
+* `dav_enabled` / `davEnabled`  (boolean): Is WebDAV enabled?
+* `dav_user_root_enabled` / `davUserRootEnabled`  (boolean): Use user FTP roots also for WebDAV?
 * `days_to_retain_backups` / `daysToRetainBackups`  (int64): Number of days to keep deleted files
 * `default_time_zone` / `defaultTimeZone`  (string): Site default time zone
 * `desktop_app` / `desktopApp`  (boolean): Is the desktop app enabled?
@@ -476,6 +480,7 @@ Site site = Site.update(
 * `password_require_number` (Boolean): Require a number in passwords?
 * `password_require_unbreached` (Boolean): Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
 * `require_logout_from_bundles_and_inboxes` (Boolean): If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+* `dav_user_root_enabled` (Boolean): Use user FTP roots also for WebDAV?
 * `sftp_user_root_enabled` (Boolean): Use user FTP roots also for SFTP?
 * `disable_password_reset` (Boolean): Is password reset disabled?
 * `immutable_files` (Boolean): Are files protected from modification?
@@ -498,6 +503,7 @@ Site site = Site.update(
 * `sharing_enabled` (Boolean): Allow bundle creation
 * `user_requests_enabled` (Boolean): Enable User Requests feature
 * `user_requests_notify_admins` (Boolean): Send email to site admins when a user request is received?
+* `dav_enabled` (Boolean): Is WebDAV enabled?
 * `ftp_enabled` (Boolean): Is FTP enabled?
 * `sftp_enabled` (Boolean): Is SFTP enabled?
 * `sftp_host_key_type` (String): Sftp Host Key Type

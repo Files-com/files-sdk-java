@@ -310,6 +310,20 @@ public class Site {
   public Boolean customNamespace;
 
   /**
+  * Is WebDAV enabled?
+  */
+  @Getter
+  @JsonProperty("dav_enabled")
+  public Boolean davEnabled;
+
+  /**
+  * Use user FTP roots also for WebDAV?
+  */
+  @Getter
+  @JsonProperty("dav_user_root_enabled")
+  public Boolean davUserRootEnabled;
+
+  /**
   * Number of days to keep deleted files
   */
   @Getter
@@ -1225,6 +1239,7 @@ public class Site {
   *   password_require_number - boolean - Require a number in passwords?
   *   password_require_unbreached - boolean - Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
   *   require_logout_from_bundles_and_inboxes - boolean - If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
+  *   dav_user_root_enabled - boolean - Use user FTP roots also for WebDAV?
   *   sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
   *   disable_password_reset - boolean - Is password reset disabled?
   *   immutable_files - boolean - Are files protected from modification?
@@ -1247,6 +1262,7 @@ public class Site {
   *   sharing_enabled - boolean - Allow bundle creation
   *   user_requests_enabled - boolean - Enable User Requests feature
   *   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
+  *   dav_enabled - boolean - Is WebDAV enabled?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
   *   sftp_host_key_type - string - Sftp Host Key Type
@@ -1495,6 +1511,9 @@ public class Site {
     if (parameters.containsKey("require_logout_from_bundles_and_inboxes") && !(parameters.get("require_logout_from_bundles_and_inboxes") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_logout_from_bundles_and_inboxes must be of type Boolean parameters[\"require_logout_from_bundles_and_inboxes\"]");
     }
+    if (parameters.containsKey("dav_user_root_enabled") && !(parameters.get("dav_user_root_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: dav_user_root_enabled must be of type Boolean parameters[\"dav_user_root_enabled\"]");
+    }
     if (parameters.containsKey("sftp_user_root_enabled") && !(parameters.get("sftp_user_root_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_user_root_enabled must be of type Boolean parameters[\"sftp_user_root_enabled\"]");
     }
@@ -1560,6 +1579,9 @@ public class Site {
     }
     if (parameters.containsKey("user_requests_notify_admins") && !(parameters.get("user_requests_notify_admins") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: user_requests_notify_admins must be of type Boolean parameters[\"user_requests_notify_admins\"]");
+    }
+    if (parameters.containsKey("dav_enabled") && !(parameters.get("dav_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: dav_enabled must be of type Boolean parameters[\"dav_enabled\"]");
     }
     if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_enabled must be of type Boolean parameters[\"ftp_enabled\"]");

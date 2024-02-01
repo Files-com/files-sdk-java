@@ -243,10 +243,10 @@ public class BundleNotification {
 
   /**
   * Parameters:
-  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   *   bundle_id (required) - int64 - Bundle ID to notify on
   *   user_id - int64 - The id of the user to notify.
+  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
   public static BundleNotification create() throws RuntimeException {
     return create(null, null);
@@ -266,17 +266,17 @@ public class BundleNotification {
       throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
     }
 
-    if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
-    }
-    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
     }
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
+    }
+    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
     }
 
 

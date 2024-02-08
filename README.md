@@ -184,7 +184,7 @@ try {
 ```
 
 #### Comparing Case insensitive files and paths
-For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/topics/file-system-semantics#case-sensitivity).
+For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 
 ```java
     if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {

@@ -96,6 +96,10 @@ public class FilesConfig {
     return intProperty("initialRetryDelayMillis", 500);
   }
 
+  public int getMaximumRetrySeconds() {
+    return intProperty("maximumRetrySeconds", 10);
+  }
+
   public String getSdkVersion() {
     return properties.getProperty("sdkVersion", "0.0.1");
   }

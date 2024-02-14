@@ -107,13 +107,6 @@ public class InvoiceLineItem {
   public Date serviceStartAt;
 
   /**
-  * Invoice line item updated date/time
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
-
-  /**
   * Plan name
   */
   @Getter

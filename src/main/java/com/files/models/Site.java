@@ -1017,13 +1017,6 @@ public class Site {
   public Date trialUntil;
 
   /**
-  * Last time this Site was updated
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
-
-  /**
   * Allow uploaders to set `provided_modified_at` for uploaded files?
   */
   @Getter

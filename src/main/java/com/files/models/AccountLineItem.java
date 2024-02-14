@@ -155,13 +155,6 @@ public class AccountLineItem {
   @JsonProperty("type")
   public String type;
 
-  /**
-  * Line item updated at
-  */
-  @Getter
-  @JsonProperty("updated_at")
-  public Date updatedAt;
-
 
 
 }

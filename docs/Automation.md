@@ -24,7 +24,16 @@
   "name": "example",
   "path": "example",
   "recurring_day": 25,
-  "schedule": "example",
+  "schedule_days_of_week": [
+    0,
+    2,
+    4
+  ],
+  "schedule_times_of_day": [
+    "06:30",
+    "14:30"
+  ],
+  "schedule_time_zone": "Eastern Time (US & Canada)",
   "source": "example",
   "sync_ids": [
     1,
@@ -61,7 +70,9 @@
 * `name` / `name`  (string): Name for this automation.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_days_of_week` / `scheduleDaysOfWeek`  (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_times_of_day` / `scheduleTimesOfDay`  (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+* `schedule_time_zone` / `scheduleTimeZone`  (string): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
 * `source` / `source`  (string): Source Path
 * `sync_ids` / `syncIds`  (array): IDs of remote sync folder behaviors to run by this Automation
 * `trigger_actions` / `triggerActions`  (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -139,7 +150,9 @@ Automation automation = Automation.create(
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
@@ -193,7 +206,9 @@ Automation automation = Automation.update(
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
@@ -258,7 +273,9 @@ parameters.put("path", "example");
 parameters.put("sync_ids", [1,2]);
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
-parameters.put("schedule", {"days_of_week":[0,1,3],"times_of_day":["7:30","11:30"],"time_zone":"Eastern Time (US & Canada)"});
+parameters.put("schedule_days_of_week", [0,1,3]);
+parameters.put("schedule_times_of_day", ["7:30","11:30"]);
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("always_overwrite_size_matching_files", true);
 parameters.put("description", "example");
 parameters.put("disabled", true);
@@ -285,7 +302,9 @@ Automation.Update(parameters);
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-* `schedule` (Map<String, String>): Custom schedule for running this automation.
+* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+* `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.

@@ -189,8 +189,24 @@ public class Automation {
   */
   @Getter
   @Setter
-  @JsonProperty("schedule")
-  public Map<String, String> schedule;
+  @JsonProperty("schedule_days_of_week")
+  public Object[] scheduleDaysOfWeek;
+
+  /**
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("schedule_times_of_day")
+  public Object[] scheduleTimesOfDay;
+
+  /**
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("schedule_time_zone")
+  public String scheduleTimeZone;
 
   /**
   * Source Path
@@ -283,7 +299,9 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object - Custom schedule for running this automation.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
@@ -458,7 +476,9 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object - Custom schedule for running this automation.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
@@ -517,8 +537,14 @@ public class Automation {
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
-    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
+    }
+    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
     }
     if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");
@@ -617,7 +643,9 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object - Custom schedule for running this automation.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
@@ -686,8 +714,14 @@ public class Automation {
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
-    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
+    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
+    }
+    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
     }
     if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");

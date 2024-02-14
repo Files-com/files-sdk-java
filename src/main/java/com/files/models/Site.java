@@ -1223,6 +1223,7 @@ public class Site {
   *   motd_text - string - A message to show users when they connect via FTP or SFTP.
   *   motd_use_for_ftp - boolean - Show message to users connecting via FTP
   *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
+  *   left_navigation_visibility - object - Visibility settings for account navigation
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - Are Insecure TLS and SFTP Ciphers allowed?  Enabling this is insecure.
@@ -1449,6 +1450,9 @@ public class Site {
     }
     if (parameters.containsKey("motd_use_for_sftp") && !(parameters.get("motd_use_for_sftp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: motd_use_for_sftp must be of type Boolean parameters[\"motd_use_for_sftp\"]");
+    }
+    if (parameters.containsKey("left_navigation_visibility") && !(parameters.get("left_navigation_visibility") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: left_navigation_visibility must be of type Map<String, String> parameters[\"left_navigation_visibility\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

@@ -103,7 +103,7 @@ Behavior behavior = Behavior.create(
 
 ### Parameters
 
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
@@ -148,7 +148,7 @@ Behavior behavior = Behavior.update(
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
@@ -196,7 +196,7 @@ Behavior.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (String): The value of the folder behavior.  Can be a integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.

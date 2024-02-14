@@ -13,7 +13,20 @@
     4
   ],
   "form_fields": [
-    null
+    {
+      "id": 1,
+      "label": "Sample Label",
+      "required": true,
+      "help_text": "Help Text",
+      "field_type": "text",
+      "options_for_select": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "default_option": "red",
+      "form_field_set_id": 1
+    }
   ],
   "skip_name": true,
   "skip_email": true,
@@ -141,7 +154,7 @@ parameters.put("title", "Sample Form Title");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
 parameters.put("skip_company", true);
-parameters.put("form_fields", [null]);
+parameters.put("form_fields", [{"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]);
 
 FormFieldSet.Update(parameters);
 ```

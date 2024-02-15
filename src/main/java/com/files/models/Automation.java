@@ -185,7 +185,23 @@ public class Automation {
   public Long recurringDay;
 
   /**
-  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("schedule")
+  public Map<String, String> schedule;
+
+  /**
+  * If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("human_readable_schedule")
+  public String humanReadableSchedule;
+
+  /**
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
   */
   @Getter
   @Setter
@@ -193,7 +209,7 @@ public class Automation {
   public Object[] scheduleDaysOfWeek;
 
   /**
-  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
   */
   @Getter
   @Setter
@@ -201,7 +217,7 @@ public class Automation {
   public Object[] scheduleTimesOfDay;
 
   /**
-  * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run.
+  * If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
   */
   @Getter
   @Setter

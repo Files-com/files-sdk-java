@@ -38,21 +38,21 @@
 
 * `id` / `id`  (int64): Notification ID
 * `path` / `path`  (string): Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `group_id` / `groupId`  (int64): Notification group id
-* `group_name` / `groupName`  (string): Group name if applicable
-* `triggering_group_ids` / `triggeringGroupIds`  (array): Only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` / `triggeringUserIds`  (array): Only notify on actions made one of the specified users
+* `group_id` / `groupId`  (int64): ID of Group to receive notifications
+* `group_name` / `groupName`  (string): Group name, if a Group ID is set
+* `triggering_group_ids` / `triggeringGroupIds`  (array): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` / `triggeringUserIds`  (array): If set, will onlynotify on actions made one of the specified users
 * `trigger_by_share_recipients` / `triggerByShareRecipients`  (boolean): Notify when actions are performed by a share recipient?
-* `notify_user_actions` / `notifyUserActions`  (boolean): Trigger notification on notification user actions?
-* `notify_on_copy` / `notifyOnCopy`  (boolean): Triggers notification when copying files to this path
-* `notify_on_delete` / `notifyOnDelete`  (boolean): Triggers notification when deleting files from this path
-* `notify_on_download` / `notifyOnDownload`  (boolean): Triggers notification when downloading files from this path
-* `notify_on_move` / `notifyOnMove`  (boolean): Triggers notification when moving files to this path
-* `notify_on_upload` / `notifyOnUpload`  (boolean): Triggers notification when uploading new files to this path
-* `recursive` / `recursive`  (boolean): Enable notifications for each subfolder in this path
+* `notify_user_actions` / `notifyUserActions`  (boolean): If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
+* `notify_on_copy` / `notifyOnCopy`  (boolean): Trigger on files copied to this path?
+* `notify_on_delete` / `notifyOnDelete`  (boolean): Trigger on files deleted in this path?
+* `notify_on_download` / `notifyOnDownload`  (boolean): Trigger on files downloaded in this path?
+* `notify_on_move` / `notifyOnMove`  (boolean): Trigger on files moved to this path?
+* `notify_on_upload` / `notifyOnUpload`  (boolean): Trigger on files created/uploaded/updated/changed in this path?
+* `recursive` / `recursive`  (boolean): Apply notification recursively?  This will enable notifications for each subfolder.
 * `send_interval` / `sendInterval`  (string): The time interval that notifications are aggregated to
-* `message` / `message`  (string): Custom message to include in notification emails.
-* `triggering_filenames` / `triggeringFilenames`  (array): Array of filenames (possibly with wildcards) to match for action path
+* `message` / `message`  (string): Custom message to include in notification emails
+* `triggering_filenames` / `triggeringFilenames`  (array): Array of filenames (possibly with wildcards) to scope trigger
 * `unsubscribed` / `unsubscribed`  (boolean): Is the user unsubscribed from this notification?
 * `unsubscribed_reason` / `unsubscribedReason`  (string): The reason that the user unsubscribed
 * `user_id` / `userId`  (int64): Notification user ID
@@ -118,17 +118,17 @@ Notification notification = Notification.create(
 
 * `user_id` (Long): The id of the user to notify. Provide `user_id`, `username` or `group_id`.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-* `notify_on_delete` (Boolean): Triggers notification when deleting files from this path
-* `notify_on_download` (Boolean): Triggers notification when downloading files from this path
-* `notify_on_move` (Boolean): Triggers notification when moving files to this path
-* `notify_on_upload` (Boolean): Triggers notification when uploading new files to this path
+* `notify_on_delete` (Boolean): Trigger on files deleted in this path?
+* `notify_on_download` (Boolean): Trigger on files downloaded in this path?
+* `notify_on_move` (Boolean): Trigger on files moved to this path?
+* `notify_on_upload` (Boolean): Trigger on files created/uploaded/updated/changed in this path?
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-* `message` (String): Custom message to include in notification emails.
-* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to match for action path
-* `triggering_group_ids` (Long[]): Only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (Long[]): Only notify on actions made one of the specified users
+* `message` (String): Custom message to include in notification emails
+* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to scope trigger
+* `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` (Long[]): If set, will onlynotify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
 * `group_id` (Long): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 * `path` (String): Path
@@ -151,17 +151,17 @@ Notification notification = Notification.update(
 
 * `id` (Long): Required - Notification ID.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-* `notify_on_delete` (Boolean): Triggers notification when deleting files from this path
-* `notify_on_download` (Boolean): Triggers notification when downloading files from this path
-* `notify_on_move` (Boolean): Triggers notification when moving files to this path
-* `notify_on_upload` (Boolean): Triggers notification when uploading new files to this path
+* `notify_on_delete` (Boolean): Trigger on files deleted in this path?
+* `notify_on_download` (Boolean): Trigger on files downloaded in this path?
+* `notify_on_move` (Boolean): Trigger on files moved to this path?
+* `notify_on_upload` (Boolean): Trigger on files created/uploaded/updated/changed in this path?
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-* `message` (String): Custom message to include in notification emails.
-* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to match for action path
-* `triggering_group_ids` (Long[]): Only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (Long[]): Only notify on actions made one of the specified users
+* `message` (String): Custom message to include in notification emails
+* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to scope trigger
+* `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` (Long[]): If set, will onlynotify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
 
 
@@ -212,17 +212,17 @@ Notification.Update(parameters);
 
 * `id` (Long): Required - Notification ID.
 * `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-* `notify_on_delete` (Boolean): Triggers notification when deleting files from this path
-* `notify_on_download` (Boolean): Triggers notification when downloading files from this path
-* `notify_on_move` (Boolean): Triggers notification when moving files to this path
-* `notify_on_upload` (Boolean): Triggers notification when uploading new files to this path
+* `notify_on_delete` (Boolean): Trigger on files deleted in this path?
+* `notify_on_download` (Boolean): Trigger on files downloaded in this path?
+* `notify_on_move` (Boolean): Trigger on files moved to this path?
+* `notify_on_upload` (Boolean): Trigger on files created/uploaded/updated/changed in this path?
 * `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
 * `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
 * `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-* `message` (String): Custom message to include in notification emails.
-* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to match for action path
-* `triggering_group_ids` (Long[]): Only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (Long[]): Only notify on actions made one of the specified users
+* `message` (String): Custom message to include in notification emails
+* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to scope trigger
+* `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` (Long[]): If set, will onlynotify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
 
 

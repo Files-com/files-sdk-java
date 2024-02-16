@@ -8,7 +8,11 @@
   "automation_id": 1,
   "completed_at": "2000-01-01T01:00:00Z",
   "created_at": "2000-01-01T01:00:00Z",
+  "runtime": "2000-01-01T01:00:00Z",
   "status": "success",
+  "run_stage": "planning",
+  "successful_operations": 1,
+  "failed_operations": 1,
   "status_messages_url": "https://www.example.com/log_file.txt"
 }
 ```
@@ -17,7 +21,11 @@
 * `automation_id` / `automationId`  (int64): ID of the associated Automation.
 * `completed_at` / `completedAt`  (date-time): Automation run completion/failure date/time.
 * `created_at` / `createdAt`  (date-time): Automation run start date/time.
+* `runtime` / `runtime`  (date-time): Automation run runtime.
 * `status` / `status`  (string): The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
+* `run_stage` / `runStage`  (string): The stage currently being executed in the execution environment.  One of `queued_for_planning`, `planning`, `queued_for_execution`, `executing`, or `finished`.
+* `successful_operations` / `successfulOperations`  (int64): Count of successful operations.
+* `failed_operations` / `failedOperations`  (int64): Count of failed operations.
 * `status_messages_url` / `statusMessagesUrl`  (string): Link to status messages log file.
 
 

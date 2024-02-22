@@ -42,6 +42,7 @@ There are multiple ways to authenticate to the API.
 #### Global API Key
 
 You can set an API key globally, like this:
+
 ```java
     FilesClient.apiKey = "my-key";
 ```

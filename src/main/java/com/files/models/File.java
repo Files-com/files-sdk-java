@@ -387,7 +387,7 @@ public class File {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      FileUploadPart newObject = File.create(parameters, this.options);
+      File.create(parameters, this.options);
     }
   }
 
@@ -757,19 +757,19 @@ public class File {
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
   */
-  public static File copy() throws RuntimeException {
+  public static FileAction copy() throws RuntimeException {
     return copy(null, null, null);
   }
 
-  public static File copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static FileAction copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return copy(path, parameters, null);
   }
 
-  public static File copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileAction copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return copy(null, parameters, options);
   }
 
-  public static File copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileAction copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -808,7 +808,7 @@ public class File {
 
     String url = String.format("%s%s/file_actions/copy/%s", urlParts);
 
-    TypeReference<File> typeReference = new TypeReference<File>() {};
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
@@ -819,19 +819,19 @@ public class File {
   * Parameters:
   *   destination (required) - string - Move destination path.
   */
-  public static File move() throws RuntimeException {
+  public static FileAction move() throws RuntimeException {
     return move(null, null, null);
   }
 
-  public static File move(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static FileAction move(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return move(path, parameters, null);
   }
 
-  public static File move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileAction move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return move(null, parameters, options);
   }
 
-  public static File move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileAction move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -867,7 +867,7 @@ public class File {
 
     String url = String.format("%s%s/file_actions/move/%s", urlParts);
 
-    TypeReference<File> typeReference = new TypeReference<File>() {};
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
@@ -884,19 +884,19 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static File beginUpload() throws RuntimeException {
+  public static FileUploadPart beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
   }
 
-  public static File beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);
   }
 
-  public static File beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileUploadPart beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return beginUpload(null, parameters, options);
   }
 
-  public static File beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -947,7 +947,7 @@ public class File {
 
     String url = String.format("%s%s/file_actions/begin_upload/%s", urlParts);
 
-    TypeReference<File> typeReference = new TypeReference<File>() {};
+    TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

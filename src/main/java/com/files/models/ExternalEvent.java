@@ -157,7 +157,7 @@ public class ExternalEvent {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The ExternalEvent Object doesn't support updates.");
     } else {
-      ExternalEvent newObject = ExternalEvent.create(parameters, this.options);
+      ExternalEvent.create(parameters, this.options);
     }
   }
 

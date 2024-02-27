@@ -120,7 +120,7 @@ public class MessageComment {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      MessageComment newObject = MessageComment.create(parameters, this.options);
+      MessageComment.create(parameters, this.options);
     }
   }
 

@@ -122,7 +122,7 @@ Group group = Group.update(
 ## Delete Group
 
 ```
-Group group = Group.delete(
+void group = Group.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -102,7 +102,7 @@ PublicKey publicKey = PublicKey.update(
 ## Delete Public Key
 
 ```
-PublicKey publicKey = PublicKey.delete(
+void publicKey = PublicKey.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

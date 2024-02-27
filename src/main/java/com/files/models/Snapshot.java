@@ -146,7 +146,7 @@ public class Snapshot {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Snapshot newObject = Snapshot.create(parameters, this.options);
+      Snapshot.create(parameters, this.options);
     }
   }
 

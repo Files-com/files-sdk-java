@@ -104,7 +104,7 @@ public class MessageReaction {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The MessageReaction Object doesn't support updates.");
     } else {
-      MessageReaction newObject = MessageReaction.create(parameters, this.options);
+      MessageReaction.create(parameters, this.options);
     }
   }
 

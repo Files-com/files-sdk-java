@@ -441,7 +441,7 @@ Site site = Site.get(
 ## Get the most recent usage snapshot (usage data for billing purposes) for a Site
 
 ```
-Site site = Site.getUsage(
+UsageSnapshot site = Site.getUsage(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

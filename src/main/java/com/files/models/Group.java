@@ -175,7 +175,7 @@ public class Group {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Group newObject = Group.create(parameters, this.options);
+      Group.create(parameters, this.options);
     }
   }
 

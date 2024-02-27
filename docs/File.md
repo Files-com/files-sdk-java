@@ -135,7 +135,7 @@ File file = File.update(
 ## Delete file/folder
 
 ```
-File file = File.delete(
+void file = File.delete(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -173,7 +173,7 @@ File file = File.find(
 ## Copy file/folder
 
 ```
-File file = File.copy(
+FileAction file = File.copy(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -192,7 +192,7 @@ File file = File.copy(
 ## Move file/folder
 
 ```
-File file = File.move(
+FileAction file = File.move(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -210,7 +210,7 @@ File file = File.move(
 ## Begin file upload
 
 ```
-File file = File.beginUpload(
+FileUploadPart file = File.beginUpload(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -283,7 +283,7 @@ File.Update(parameters);
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-File file = new File(attributes);
+void file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -304,7 +304,7 @@ File.Delete(parameters);
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-File file = new File(attributes);
+FileAction file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -327,7 +327,7 @@ File.Copy(parameters);
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-File file = new File(attributes);
+FileAction file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -348,7 +348,7 @@ File.Move(parameters);
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-File file = new File(attributes);
+FileUploadPart file = new File(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

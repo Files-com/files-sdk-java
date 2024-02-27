@@ -138,7 +138,7 @@ public class Message {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Message newObject = Message.create(parameters, this.options);
+      Message.create(parameters, this.options);
     }
   }
 

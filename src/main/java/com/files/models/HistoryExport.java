@@ -278,7 +278,7 @@ public class HistoryExport {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The HistoryExport Object doesn't support updates.");
     } else {
-      HistoryExport newObject = HistoryExport.create(parameters, this.options);
+      HistoryExport.create(parameters, this.options);
     }
   }
 

@@ -141,7 +141,7 @@ public class GroupUser {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      GroupUser newObject = GroupUser.create(parameters, this.options);
+      GroupUser.create(parameters, this.options);
     }
   }
 

@@ -76,7 +76,7 @@ UserRequest userRequest = UserRequest.create(
 ## Delete User Request
 
 ```
-UserRequest userRequest = UserRequest.delete(
+void userRequest = UserRequest.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

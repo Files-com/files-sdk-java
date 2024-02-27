@@ -116,7 +116,7 @@ Behavior behavior = Behavior.create(
 ## Test webhook
 
 ```
-Behavior behavior = Behavior.webhookTest(
+void behavior = Behavior.webhookTest(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -162,7 +162,7 @@ Behavior behavior = Behavior.update(
 ## Delete Behavior
 
 ```
-Behavior behavior = Behavior.delete(
+void behavior = Behavior.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

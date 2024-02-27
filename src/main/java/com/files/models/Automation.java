@@ -348,7 +348,7 @@ public class Automation {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Automation newObject = Automation.create(parameters, this.options);
+      Automation.create(parameters, this.options);
     }
   }
 

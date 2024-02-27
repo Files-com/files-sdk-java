@@ -90,7 +90,7 @@ Request request = Request.create(
 ## Delete Request
 
 ```
-Request request = Request.delete(
+void request = Request.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

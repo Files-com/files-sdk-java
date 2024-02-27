@@ -49,10 +49,10 @@ public class FilesAuthTest {
     sortBy.put("path", "asc");
     parameters.put("sort_by", sortBy);
     parameters.put("preview_size", "large");
-    ListIterator<Folder> items = Folder.listFor("test", parameters);
+    ListIterator<File> items = Folder.listFor("test", parameters);
     assert(items.all().size() == 1);
     int count = 0;
-    for (Folder item : items.listAutoPaging()) {
+    for (File item : items.listAutoPaging()) {
       count++;
     }
     assert(count == 1);

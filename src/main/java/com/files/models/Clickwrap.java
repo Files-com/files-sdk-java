@@ -140,7 +140,7 @@ public class Clickwrap {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Clickwrap newObject = Clickwrap.create(parameters, this.options);
+      Clickwrap.create(parameters, this.options);
     }
   }
 

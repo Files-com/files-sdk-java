@@ -104,7 +104,7 @@ public class Project {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Project newObject = Project.create(parameters, this.options);
+      Project.create(parameters, this.options);
     }
   }
 

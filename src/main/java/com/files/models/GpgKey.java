@@ -147,7 +147,7 @@ public class GpgKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      GpgKey newObject = GpgKey.create(parameters, this.options);
+      GpgKey.create(parameters, this.options);
     }
   }
 

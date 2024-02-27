@@ -5,7 +5,7 @@
 ## retry Action Webhook Failure
 
 ```
-ActionWebhookFailure actionWebhookFailure = ActionWebhookFailure.retry(
+void actionWebhookFailure = ActionWebhookFailure.retry(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -23,7 +23,7 @@ ActionWebhookFailure actionWebhookFailure = ActionWebhookFailure.retry(
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-ActionWebhookFailure actionWebhookFailure = new ActionWebhookFailure(attributes);
+void actionWebhookFailure = new ActionWebhookFailure(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

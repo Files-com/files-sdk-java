@@ -251,7 +251,7 @@ User user = User.create(
 ## Unlock user who has been locked out due to failed logins
 
 ```
-User user = User.unlock(
+void user = User.unlock(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -268,7 +268,7 @@ User user = User.unlock(
 ## Resend user welcome email
 
 ```
-User user = User.resendWelcomeEmail(
+void user = User.resendWelcomeEmail(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -285,7 +285,7 @@ User user = User.resendWelcomeEmail(
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```
-User user = User.user2faReset(
+void user = User.user2faReset(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -364,7 +364,7 @@ User user = User.update(
 ## Delete User
 
 ```
-User user = User.delete(
+void user = User.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

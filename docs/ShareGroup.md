@@ -106,7 +106,7 @@ ShareGroup shareGroup = ShareGroup.update(
 ## Delete Share Group
 
 ```
-ShareGroup shareGroup = ShareGroup.delete(
+void shareGroup = ShareGroup.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

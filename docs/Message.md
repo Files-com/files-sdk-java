@@ -112,7 +112,7 @@ Message message = Message.update(
 ## Delete Message
 
 ```
-Message message = Message.delete(
+void message = Message.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -58,7 +58,7 @@ Style style = Style.update(
 ## Delete Style
 
 ```
-Style style = Style.delete(
+void style = Style.delete(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -97,7 +97,7 @@ Style.Update(parameters);
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-Style style = new Style(attributes);
+void style = new Style(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

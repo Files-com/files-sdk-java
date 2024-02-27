@@ -173,7 +173,7 @@ Automation automation = Automation.create(
 ## Manually run automation
 
 ```
-Automation automation = Automation.manualRun(
+void automation = Automation.manualRun(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -229,7 +229,7 @@ Automation automation = Automation.update(
 ## Delete Automation
 
 ```
-Automation automation = Automation.delete(
+void automation = Automation.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

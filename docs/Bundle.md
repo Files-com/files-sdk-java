@@ -213,7 +213,7 @@ Bundle bundle = Bundle.create(
 ## Send email(s) with a link to bundle
 
 ```
-Bundle bundle = Bundle.share(
+void bundle = Bundle.share(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -275,7 +275,7 @@ Bundle bundle = Bundle.update(
 ## Delete Bundle
 
 ```
-Bundle bundle = Bundle.delete(
+void bundle = Bundle.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -42,7 +42,7 @@ ListIterator<IpAddress> ipAddress = IpAddress.list(
 ## List all possible public SmartFile IP addresses
 
 ```
-IpAddress ipAddress = IpAddress.getSmartfileReserved(
+PublicIpAddress ipAddress = IpAddress.getSmartfileReserved(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -60,7 +60,7 @@ IpAddress ipAddress = IpAddress.getSmartfileReserved(
 ## List all possible public ExaVault IP addresses
 
 ```
-IpAddress ipAddress = IpAddress.getExavaultReserved(
+PublicIpAddress ipAddress = IpAddress.getExavaultReserved(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -78,7 +78,7 @@ IpAddress ipAddress = IpAddress.getExavaultReserved(
 ## List all possible public IP addresses
 
 ```
-IpAddress ipAddress = IpAddress.getReserved(
+PublicIpAddress ipAddress = IpAddress.getReserved(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

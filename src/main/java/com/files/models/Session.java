@@ -134,7 +134,7 @@ public class Session {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Session Object doesn't support updates.");
     } else {
-      Session newObject = Session.create(parameters, this.options);
+      Session.create(parameters, this.options);
     }
   }
 

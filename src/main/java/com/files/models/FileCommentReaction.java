@@ -112,7 +112,7 @@ public class FileCommentReaction {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The FileCommentReaction Object doesn't support updates.");
     } else {
-      FileCommentReaction newObject = FileCommentReaction.create(parameters, this.options);
+      FileCommentReaction.create(parameters, this.options);
     }
   }
 

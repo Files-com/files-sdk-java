@@ -126,7 +126,7 @@ public class BundleRecipient {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The BundleRecipient Object doesn't support updates.");
     } else {
-      BundleRecipient newObject = BundleRecipient.create(parameters, this.options);
+      BundleRecipient.create(parameters, this.options);
     }
   }
 

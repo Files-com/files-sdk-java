@@ -182,7 +182,7 @@ public class ActionNotificationExport {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The ActionNotificationExport Object doesn't support updates.");
     } else {
-      ActionNotificationExport newObject = ActionNotificationExport.create(parameters, this.options);
+      ActionNotificationExport.create(parameters, this.options);
     }
   }
 

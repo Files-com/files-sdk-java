@@ -764,7 +764,7 @@ public class RemoteServer {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      RemoteServer newObject = RemoteServer.create(parameters, this.options);
+      RemoteServer.create(parameters, this.options);
     }
   }
 
@@ -872,19 +872,19 @@ public class RemoteServer {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
-  public static RemoteServer findConfigurationFile() throws RuntimeException {
+  public static RemoteServerConfigurationFile findConfigurationFile() throws RuntimeException {
     return findConfigurationFile(null, null, null);
   }
 
-  public static RemoteServer findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static RemoteServerConfigurationFile findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return findConfigurationFile(id, parameters, null);
   }
 
-  public static RemoteServer findConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServerConfigurationFile findConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return findConfigurationFile(null, parameters, options);
   }
 
-  public static RemoteServer findConfigurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServerConfigurationFile findConfigurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -914,7 +914,7 @@ public class RemoteServer {
 
     String url = String.format("%s%s/remote_servers/%s/configuration_file", urlParts);
 
-    TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    TypeReference<RemoteServerConfigurationFile> typeReference = new TypeReference<RemoteServerConfigurationFile>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -1222,19 +1222,19 @@ public class RemoteServer {
   *   server_host_key - string
   *   subdomain - string
   */
-  public static RemoteServer configurationFile() throws RuntimeException {
+  public static RemoteServerConfigurationFile configurationFile() throws RuntimeException {
     return configurationFile(null, null, null);
   }
 
-  public static RemoteServer configurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return configurationFile(id, parameters, null);
   }
 
-  public static RemoteServer configurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return configurationFile(null, parameters, options);
   }
 
-  public static RemoteServer configurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1297,7 +1297,7 @@ public class RemoteServer {
 
     String url = String.format("%s%s/remote_servers/%s/configuration_file", urlParts);
 
-    TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    TypeReference<RemoteServerConfigurationFile> typeReference = new TypeReference<RemoteServerConfigurationFile>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

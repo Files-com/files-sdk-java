@@ -156,7 +156,7 @@ public class FormFieldSet {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      FormFieldSet newObject = FormFieldSet.create(parameters, this.options);
+      FormFieldSet.create(parameters, this.options);
     }
   }
 

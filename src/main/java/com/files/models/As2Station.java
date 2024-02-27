@@ -216,7 +216,7 @@ public class As2Station {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      As2Station newObject = As2Station.create(parameters, this.options);
+      As2Station.create(parameters, this.options);
     }
   }
 

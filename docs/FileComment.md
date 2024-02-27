@@ -81,7 +81,7 @@ FileComment fileComment = FileComment.update(
 ## Delete File Comment
 
 ```
-FileComment fileComment = FileComment.delete(
+void fileComment = FileComment.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

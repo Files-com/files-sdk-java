@@ -170,7 +170,7 @@ Notification notification = Notification.update(
 ## Delete Notification
 
 ```
-Notification notification = Notification.delete(
+void notification = Notification.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

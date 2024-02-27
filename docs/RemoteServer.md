@@ -180,7 +180,7 @@ RemoteServer remoteServer = RemoteServer.find(
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
 ```
-RemoteServer remoteServer = RemoteServer.findConfigurationFile(
+RemoteServerConfigurationFile remoteServer = RemoteServer.findConfigurationFile(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -278,7 +278,7 @@ RemoteServer remoteServer = RemoteServer.create(
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
-RemoteServer remoteServer = RemoteServer.configurationFile(
+RemoteServerConfigurationFile remoteServer = RemoteServer.configurationFile(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -388,7 +388,7 @@ RemoteServer remoteServer = RemoteServer.update(
 ## Delete Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.delete(
+void remoteServer = RemoteServer.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

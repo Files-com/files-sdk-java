@@ -141,16 +141,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static IpAddress getSmartfileReserved() throws RuntimeException {
+  public static PublicIpAddress getSmartfileReserved() throws RuntimeException {
     return getSmartfileReserved(null, null);
   }
 
-  public static IpAddress getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getSmartfileReserved(parameters, null);
   }
 
 
-  public static IpAddress getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -166,7 +166,7 @@ public class IpAddress {
 
     String url = String.format("%s%s/ip_addresses/smartfile-reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<IpAddress> typeReference = new TypeReference<IpAddress>() {};
+    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -176,16 +176,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static IpAddress getExavaultReserved() throws RuntimeException {
+  public static PublicIpAddress getExavaultReserved() throws RuntimeException {
     return getExavaultReserved(null, null);
   }
 
-  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getExavaultReserved(parameters, null);
   }
 
 
-  public static IpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -201,7 +201,7 @@ public class IpAddress {
 
     String url = String.format("%s%s/ip_addresses/exavault-reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<IpAddress> typeReference = new TypeReference<IpAddress>() {};
+    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -211,16 +211,16 @@ public class IpAddress {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static IpAddress getReserved() throws RuntimeException {
+  public static PublicIpAddress getReserved() throws RuntimeException {
     return getReserved(null, null);
   }
 
-  public static IpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static PublicIpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getReserved(parameters, null);
   }
 
 
-  public static IpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PublicIpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -236,7 +236,7 @@ public class IpAddress {
 
     String url = String.format("%s%s/ip_addresses/reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<IpAddress> typeReference = new TypeReference<IpAddress>() {};
+    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 

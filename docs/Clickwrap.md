@@ -104,7 +104,7 @@ Clickwrap clickwrap = Clickwrap.update(
 ## Delete Clickwrap
 
 ```
-Clickwrap clickwrap = Clickwrap.delete(
+void clickwrap = Clickwrap.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -190,7 +190,7 @@ public class WebhookTest {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The WebhookTest Object doesn't support updates.");
     } else {
-      WebhookTest newObject = WebhookTest.create(parameters, this.options);
+      WebhookTest.create(parameters, this.options);
     }
   }
 

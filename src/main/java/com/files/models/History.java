@@ -167,19 +167,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static ListIterator<History> listForFile() throws RuntimeException {
+  public static ListIterator<Action> listForFile() throws RuntimeException {
     return listForFile(null, null, null);
   }
 
-  public static ListIterator<History> listForFile(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<Action> listForFile(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listForFile(path, parameters, null);
   }
 
-  public static ListIterator<History> listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listForFile(null, parameters, options);
   }
 
-  public static ListIterator<History> listForFile(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForFile(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -227,7 +227,7 @@ public class History {
 
     String url = String.format("%s%s/history/files/%s", urlParts);
 
-    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -242,19 +242,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
-  public static ListIterator<History> listForFolder() throws RuntimeException {
+  public static ListIterator<Action> listForFolder() throws RuntimeException {
     return listForFolder(null, null, null);
   }
 
-  public static ListIterator<History> listForFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<Action> listForFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listForFolder(path, parameters, null);
   }
 
-  public static ListIterator<History> listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listForFolder(null, parameters, options);
   }
 
-  public static ListIterator<History> listForFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -302,7 +302,7 @@ public class History {
 
     String url = String.format("%s%s/history/folders/%s", urlParts);
 
-    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -317,19 +317,19 @@ public class History {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   user_id (required) - int64 - User ID.
   */
-  public static ListIterator<History> listForUser() throws RuntimeException {
+  public static ListIterator<Action> listForUser() throws RuntimeException {
     return listForUser(null, null, null);
   }
 
-  public static ListIterator<History> listForUser(Long user_id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<Action> listForUser(Long user_id, HashMap<String, Object> parameters) throws RuntimeException {
     return listForUser(user_id, parameters, null);
   }
 
-  public static ListIterator<History> listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForUser(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listForUser(null, parameters, options);
   }
 
-  public static ListIterator<History> listForUser(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listForUser(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -377,7 +377,7 @@ public class History {
 
     String url = String.format("%s%s/history/users/%s", urlParts);
 
-    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -391,16 +391,16 @@ public class History {
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   */
-  public static ListIterator<History> listLogins() throws RuntimeException {
+  public static ListIterator<Action> listLogins() throws RuntimeException {
     return listLogins(null, null);
   }
 
-  public static ListIterator<History> listLogins(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<Action> listLogins(HashMap<String, Object> parameters) throws RuntimeException {
     return listLogins(parameters, null);
   }
 
 
-  public static ListIterator<History> listLogins(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> listLogins(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -428,7 +428,7 @@ public class History {
 
     String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
@@ -444,16 +444,16 @@ public class History {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   */
-  public static ListIterator<History> list() throws RuntimeException {
+  public static ListIterator<Action> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<History> list(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<Action> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<History> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -487,15 +487,15 @@ public class History {
 
     String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<History>> typeReference = new TypeReference<List<History>>() {};
+    TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<History> all() throws RuntimeException {
+  public static ListIterator<Action> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<History> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<Action> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 

@@ -1158,16 +1158,16 @@ public class Site {
 
   /**
   */
-  public static Site getUsage() throws RuntimeException {
+  public static UsageSnapshot getUsage() throws RuntimeException {
     return getUsage(null, null);
   }
 
-  public static Site getUsage(HashMap<String, Object> parameters) throws RuntimeException {
+  public static UsageSnapshot getUsage(HashMap<String, Object> parameters) throws RuntimeException {
     return getUsage(parameters, null);
   }
 
 
-  public static Site getUsage(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static UsageSnapshot getUsage(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -1177,7 +1177,7 @@ public class Site {
 
     String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<Site> typeReference = new TypeReference<Site>() {};
+    TypeReference<UsageSnapshot> typeReference = new TypeReference<UsageSnapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 

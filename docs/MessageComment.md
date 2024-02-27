@@ -99,7 +99,7 @@ MessageComment messageComment = MessageComment.update(
 ## Delete Message Comment
 
 ```
-MessageComment messageComment = MessageComment.delete(
+void messageComment = MessageComment.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

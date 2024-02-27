@@ -77,7 +77,7 @@ Permission permission = Permission.create(
 ## Delete Permission
 
 ```
-Permission permission = Permission.delete(
+void permission = Permission.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

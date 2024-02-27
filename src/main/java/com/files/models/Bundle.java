@@ -467,7 +467,7 @@ public class Bundle {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Bundle newObject = Bundle.create(parameters, this.options);
+      Bundle.create(parameters, this.options);
     }
   }
 

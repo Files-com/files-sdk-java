@@ -276,7 +276,7 @@ public class Notification {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Notification newObject = Notification.create(parameters, this.options);
+      Notification.create(parameters, this.options);
     }
   }
 

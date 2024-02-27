@@ -162,16 +162,16 @@ public class Payment {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
   */
-  public static ListIterator<Payment> list() throws RuntimeException {
+  public static ListIterator<AccountLineItem> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<Payment> list(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<AccountLineItem> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<Payment> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<AccountLineItem> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -187,15 +187,15 @@ public class Payment {
 
     String url = String.format("%s%s/payments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<Payment>> typeReference = new TypeReference<List<Payment>>() {};
+    TypeReference<List<AccountLineItem>> typeReference = new TypeReference<List<AccountLineItem>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<Payment> all() throws RuntimeException {
+  public static ListIterator<AccountLineItem> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<Payment> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<AccountLineItem> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
@@ -203,19 +203,19 @@ public class Payment {
   * Parameters:
   *   id (required) - int64 - Payment ID.
   */
-  public static Payment find() throws RuntimeException {
+  public static AccountLineItem find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static Payment find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static AccountLineItem find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static Payment find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AccountLineItem find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static Payment find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AccountLineItem find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -245,15 +245,15 @@ public class Payment {
 
     String url = String.format("%s%s/payments/%s", urlParts);
 
-    TypeReference<Payment> typeReference = new TypeReference<Payment>() {};
+    TypeReference<AccountLineItem> typeReference = new TypeReference<AccountLineItem>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static Payment get() throws RuntimeException {
+  public static AccountLineItem get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static Payment get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static AccountLineItem get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

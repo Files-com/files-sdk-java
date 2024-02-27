@@ -95,7 +95,7 @@ SftpHostKey sftpHostKey = SftpHostKey.update(
 ## Delete Sftp Host Key
 
 ```
-SftpHostKey sftpHostKey = SftpHostKey.delete(
+void sftpHostKey = SftpHostKey.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

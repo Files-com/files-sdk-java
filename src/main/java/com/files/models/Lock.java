@@ -178,7 +178,7 @@ public class Lock {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Lock Object doesn't support updates.");
     } else {
-      Lock newObject = Lock.create(parameters, this.options);
+      Lock.create(parameters, this.options);
     }
   }
 

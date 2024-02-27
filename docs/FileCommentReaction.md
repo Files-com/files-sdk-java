@@ -39,7 +39,7 @@ FileCommentReaction fileCommentReaction = FileCommentReaction.create(
 ## Delete File Comment Reaction
 
 ```
-FileCommentReaction fileCommentReaction = FileCommentReaction.delete(
+void fileCommentReaction = FileCommentReaction.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -57,7 +57,7 @@ FileCommentReaction fileCommentReaction = FileCommentReaction.delete(
 
 ```
 HashMap<Object, String> attributes = new HashMap<>();
-FileCommentReaction fileCommentReaction = new FileCommentReaction(attributes);
+void fileCommentReaction = new FileCommentReaction(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

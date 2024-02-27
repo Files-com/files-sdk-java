@@ -46,7 +46,7 @@ Session session = Session.create(
 ## Delete user session (log out)
 
 ```
-Session session = Session.delete(
+void session = Session.delete(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

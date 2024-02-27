@@ -712,7 +712,7 @@ public class User {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      User newObject = User.create(parameters, this.options);
+      User.create(parameters, this.options);
     }
   }
 

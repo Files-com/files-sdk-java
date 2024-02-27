@@ -139,7 +139,7 @@ SsoStrategy ssoStrategy = SsoStrategy.find(
 ## Synchronize provisioning data with the SSO remote server
 
 ```
-SsoStrategy ssoStrategy = SsoStrategy.sync(
+void ssoStrategy = SsoStrategy.sync(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

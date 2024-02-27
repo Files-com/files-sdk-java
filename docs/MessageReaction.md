@@ -74,7 +74,7 @@ MessageReaction messageReaction = MessageReaction.create(
 ## Delete Message Reaction
 
 ```
-MessageReaction messageReaction = MessageReaction.delete(
+void messageReaction = MessageReaction.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

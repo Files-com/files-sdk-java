@@ -129,7 +129,7 @@ public class BundleNotification {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      BundleNotification newObject = BundleNotification.create(parameters, this.options);
+      BundleNotification.create(parameters, this.options);
     }
   }
 

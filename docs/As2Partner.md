@@ -120,7 +120,7 @@ As2Partner as2Partner = As2Partner.update(
 ## Delete As2 Partner
 
 ```
-As2Partner as2Partner = As2Partner.delete(
+void as2Partner = As2Partner.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

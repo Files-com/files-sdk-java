@@ -100,7 +100,7 @@ BundleNotification bundleNotification = BundleNotification.update(
 ## Delete Bundle Notification
 
 ```
-BundleNotification bundleNotification = BundleNotification.delete(
+void bundleNotification = BundleNotification.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -58,7 +58,7 @@
 ## List Invoices
 
 ```
-ListIterator<Invoice> invoice = Invoice.list(
+ListIterator<AccountLineItem> invoice = Invoice.list(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -76,7 +76,7 @@ ListIterator<Invoice> invoice = Invoice.list(
 ## Show Invoice
 
 ```
-Invoice invoice = Invoice.find(
+AccountLineItem invoice = Invoice.find(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -203,7 +203,7 @@ public class As2Partner {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      As2Partner newObject = As2Partner.create(parameters, this.options);
+      As2Partner.create(parameters, this.options);
     }
   }
 

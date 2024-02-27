@@ -129,7 +129,7 @@ public class SftpHostKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      SftpHostKey newObject = SftpHostKey.create(parameters, this.options);
+      SftpHostKey.create(parameters, this.options);
     }
   }
 

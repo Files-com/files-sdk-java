@@ -166,7 +166,7 @@ public class Behavior {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      Behavior newObject = Behavior.create(parameters, this.options);
+      Behavior.create(parameters, this.options);
     }
   }
 

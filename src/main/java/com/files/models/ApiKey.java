@@ -186,7 +186,7 @@ public class ApiKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      ApiKey newObject = ApiKey.create(parameters, this.options);
+      ApiKey.create(parameters, this.options);
     }
   }
 

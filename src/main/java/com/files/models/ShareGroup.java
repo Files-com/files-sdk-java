@@ -130,7 +130,7 @@ public class ShareGroup {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      ShareGroup newObject = ShareGroup.create(parameters, this.options);
+      ShareGroup.create(parameters, this.options);
     }
   }
 

@@ -144,7 +144,7 @@ public class Request {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Request Object doesn't support updates.");
     } else {
-      Request newObject = Request.create(parameters, this.options);
+      Request.create(parameters, this.options);
     }
   }
 

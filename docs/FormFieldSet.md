@@ -129,7 +129,7 @@ FormFieldSet formFieldSet = FormFieldSet.update(
 ## Delete Form Field Set
 
 ```
-FormFieldSet formFieldSet = FormFieldSet.delete(
+void formFieldSet = FormFieldSet.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

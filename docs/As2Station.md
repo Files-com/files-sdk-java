@@ -119,7 +119,7 @@ As2Station as2Station = As2Station.update(
 ## Delete As2 Station
 
 ```
-As2Station as2Station = As2Station.delete(
+void as2Station = As2Station.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

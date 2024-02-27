@@ -126,7 +126,7 @@ public class InboxRecipient {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The InboxRecipient Object doesn't support updates.");
     } else {
-      InboxRecipient newObject = InboxRecipient.create(parameters, this.options);
+      InboxRecipient.create(parameters, this.options);
     }
   }
 

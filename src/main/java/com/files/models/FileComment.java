@@ -120,7 +120,7 @@ public class FileComment {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      FileComment newObject = FileComment.create(parameters, this.options);
+      FileComment.create(parameters, this.options);
     }
   }
 

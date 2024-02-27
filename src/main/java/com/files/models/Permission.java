@@ -144,7 +144,7 @@ public class Permission {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Permission Object doesn't support updates.");
     } else {
-      Permission newObject = Permission.create(parameters, this.options);
+      Permission.create(parameters, this.options);
     }
   }
 

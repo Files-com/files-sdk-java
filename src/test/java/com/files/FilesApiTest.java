@@ -2,6 +2,7 @@ package com.files;
 
 import com.files.exceptions.ApiErrorException;
 import com.files.models.Bundle;
+import com.files.models.File;
 import com.files.models.Folder;
 import com.files.models.User;
 import okhttp3.HttpUrl;
@@ -111,7 +112,7 @@ public class FilesApiTest {
     mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
 
     int count = 0;
-    for (Folder folder : Folder.listFor("/missing", null).listAutoPaging()) {
+    for (File file : Folder.listFor("/missing", null).listAutoPaging()) {
       count++;
     }
     assert(count == 0);

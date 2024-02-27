@@ -107,7 +107,7 @@ GpgKey gpgKey = GpgKey.update(
 ## Delete Gpg Key
 
 ```
-GpgKey gpgKey = GpgKey.delete(
+void gpgKey = GpgKey.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -151,7 +151,7 @@ public class PublicKey {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       update(parameters);
     } else {
-      PublicKey newObject = PublicKey.create(parameters, this.options);
+      PublicKey.create(parameters, this.options);
     }
   }
 

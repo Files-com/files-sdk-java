@@ -221,7 +221,7 @@ public class Folder {
     if (parameters.containsKey("id") && parameters.get("id") != null) {
       throw new UnsupportedOperationException("The Folder Object doesn't support updates.");
     } else {
-      Folder newObject = Folder.create(parameters, this.options);
+      Folder.create(parameters, this.options);
     }
   }
 
@@ -238,19 +238,19 @@ public class Folder {
   *   with_previews - boolean - Include file previews?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static ListIterator<Folder> listFor() throws RuntimeException {
+  public static ListIterator<File> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
-  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<File> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
-  public static ListIterator<Folder> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<File> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
-  public static ListIterator<Folder> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<File> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -307,7 +307,7 @@ public class Folder {
 
     String url = String.format("%s%s/folders/%s", urlParts);
 
-    TypeReference<List<Folder>> typeReference = new TypeReference<List<Folder>>() {};
+    TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 

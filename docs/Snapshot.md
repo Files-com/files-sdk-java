@@ -101,7 +101,7 @@ Snapshot snapshot = Snapshot.update(
 ## Delete Snapshot
 
 ```
-Snapshot snapshot = Snapshot.delete(
+void snapshot = Snapshot.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

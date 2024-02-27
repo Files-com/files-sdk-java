@@ -79,7 +79,7 @@ Lock lock = Lock.create(
 ## Delete Lock
 
 ```
-Lock lock = Lock.delete(
+void lock = Lock.delete(
     String path, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

@@ -154,7 +154,7 @@ ApiKey apiKey = ApiKey.update(
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
 ```
-ApiKey apiKey = ApiKey.deleteCurrent(
+void apiKey = ApiKey.deleteCurrent(
     
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -167,7 +167,7 @@ ApiKey apiKey = ApiKey.deleteCurrent(
 ## Delete Api Key
 
 ```
-ApiKey apiKey = ApiKey.delete(
+void apiKey = ApiKey.delete(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null

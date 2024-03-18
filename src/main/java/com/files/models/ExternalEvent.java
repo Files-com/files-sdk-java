@@ -144,6 +144,22 @@ public class ExternalEvent {
   public Long bytesSynced;
 
   /**
+  * For sync events, the number of files considered for the sync.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("compared_files")
+  public Long comparedFiles;
+
+  /**
+  * For sync events, the number of folders listed and considered for the sync.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("compared_folders")
+  public Long comparedFolders;
+
+  /**
   * Associated Remote Server type, if any
   */
   @Getter

@@ -618,6 +618,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class RecaptchaFailedException extends NotAuthorizedException {
+    public RecaptchaFailedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class SelfManagedRequiredException extends NotAuthorizedException {
     public SelfManagedRequiredException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

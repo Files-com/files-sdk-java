@@ -81,6 +81,14 @@ public class Group {
   public String name;
 
   /**
+  * A list of allowed IPs if applicable.  Newline delimited
+  */
+  @Getter
+  @Setter
+  @JsonProperty("allowed_ips")
+  public String allowedIps;
+
+  /**
   * Comma-delimited list of user IDs who are group administrators (separated by commas)
   */
   @Getter
@@ -153,6 +161,7 @@ public class Group {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
   public Group update(HashMap<String, Object> parameters) {
@@ -304,6 +313,7 @@ public class Group {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name (required) - string - Group name.
   */
   public static Group create() throws RuntimeException {
@@ -345,6 +355,9 @@ public class Group {
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
     }
+    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -366,6 +379,7 @@ public class Group {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
   public static Group update() throws RuntimeException {
@@ -416,6 +430,9 @@ public class Group {
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
+    }
+    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

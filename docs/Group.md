@@ -6,7 +6,6 @@
 {
   "id": 1,
   "name": "owners",
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "admin_ids": "1",
   "notes": "example",
   "user_ids": "1",
@@ -20,7 +19,6 @@
 
 * `id` / `id`  (int64): Group ID
 * `name` / `name`  (string): Group name
-* `allowed_ips` / `allowedIps`  (string): A list of allowed IPs if applicable.  Newline delimited
 * `admin_ids` / `adminIds`  (string): Comma-delimited list of user IDs who are group administrators (separated by commas)
 * `notes` / `notes`  (string): Notes about this group
 * `user_ids` / `userIds`  (string): Comma-delimited list of user IDs who belong to this group (separated by commas)
@@ -91,7 +89,6 @@ Group group = Group.create(
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Required - Group name.
 
 
@@ -117,7 +114,6 @@ Group group = Group.update(
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
 
 
@@ -154,7 +150,6 @@ parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
 parameters.put("restapi_permission", true);
-parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
 
 Group.Update(parameters);
@@ -170,7 +165,6 @@ Group.Update(parameters);
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-* `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
 
 

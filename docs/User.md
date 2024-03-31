@@ -9,7 +9,7 @@
   "admin_group_ids": [
     1
   ],
-  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
+  "allowed_ips": "127.0.0.1",
   "attachments_permission": true,
   "api_keys_count": 1,
   "authenticate_until": "2000-01-01T01:00:00Z",
@@ -444,7 +444,7 @@ parameters.put("email", "example");
 parameters.put("group_id", 1);
 parameters.put("group_ids", "example");
 parameters.put("announcements_read", true);
-parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("allowed_ips", "127.0.0.1");
 parameters.put("attachments_permission", true);
 parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
 parameters.put("authentication_method", "password");

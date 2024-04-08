@@ -310,6 +310,13 @@ public class SsoStrategy {
   public String provisionCompany;
 
   /**
+  * 2FA required setting for auto provisioned users.
+  */
+  @Getter
+  @JsonProperty("provision_require_2fa")
+  public String provisionRequire2fa;
+
+  /**
   * Base DN for looking up users in LDAP server
   */
   @Getter

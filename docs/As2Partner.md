@@ -9,6 +9,7 @@
   "name": "AS2 Partner Name",
   "uri": "example",
   "server_certificate": "require_match",
+  "mdn_validation_level": "none",
   "enable_dedicated_ips": true,
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "public_certificate_md5": "example",
@@ -25,6 +26,7 @@
 * `name` / `name`  (string): The partner's formal AS2 name.
 * `uri` / `uri`  (string): Public URI for sending AS2 message to.
 * `server_certificate` / `serverCertificate`  (string): Remote server certificate security setting
+* `mdn_validation_level` / `mdnValidationLevel`  (string): MDN Validation Level
 * `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `hex_public_certificate_serial` / `hexPublicCertificateSerial`  (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` / `publicCertificateMd5`  (string): MD5 hash of public certificate used for message security.
@@ -90,6 +92,7 @@ As2Partner as2Partner = As2Partner.create(
 * `public_certificate` (String): Required - 
 * `as2_station_id` (Long): Required - Id of As2Station for this partner
 * `server_certificate` (String): Remote server certificate security setting
+* `mdn_validation_level` (String): MDN Validation Level
 * `enable_dedicated_ips` (Boolean): 
 
 
@@ -111,6 +114,7 @@ As2Partner as2Partner = As2Partner.update(
 * `name` (String): AS2 Name
 * `uri` (String): URL base for AS2 responses
 * `server_certificate` (String): Remote server certificate security setting
+* `mdn_validation_level` (String): MDN Validation Level
 * `public_certificate` (String): 
 * `enable_dedicated_ips` (Boolean): 
 
@@ -144,6 +148,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
 parameters.put("server_certificate", "require_match");
+parameters.put("mdn_validation_level", "none");
 parameters.put("enable_dedicated_ips", true);
 
 As2Partner.Update(parameters);
@@ -155,6 +160,7 @@ As2Partner.Update(parameters);
 * `name` (String): AS2 Name
 * `uri` (String): URL base for AS2 responses
 * `server_certificate` (String): Remote server certificate security setting
+* `mdn_validation_level` (String): MDN Validation Level
 * `public_certificate` (String): 
 * `enable_dedicated_ips` (Boolean): 
 

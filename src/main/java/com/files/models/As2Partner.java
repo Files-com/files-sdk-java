@@ -105,6 +105,14 @@ public class As2Partner {
   public String serverCertificate;
 
   /**
+  * MDN Validation Level
+  */
+  @Getter
+  @Setter
+  @JsonProperty("mdn_validation_level")
+  public String mdnValidationLevel;
+
+  /**
   * `true` if remote server only accepts connections from dedicated IPs
   */
   @Getter
@@ -180,6 +188,7 @@ public class As2Partner {
   *   name - string - AS2 Name
   *   uri - string - URL base for AS2 responses
   *   server_certificate - string - Remote server certificate security setting
+  *   mdn_validation_level - string - MDN Validation Level
   *   public_certificate - string
   *   enable_dedicated_ips - boolean
   */
@@ -314,6 +323,7 @@ public class As2Partner {
   *   public_certificate (required) - string
   *   as2_station_id (required) - int64 - Id of As2Station for this partner
   *   server_certificate - string - Remote server certificate security setting
+  *   mdn_validation_level - string - MDN Validation Level
   *   enable_dedicated_ips - boolean
   */
   public static As2Partner create() throws RuntimeException {
@@ -358,6 +368,9 @@ public class As2Partner {
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
+    if (parameters.containsKey("mdn_validation_level") && !(parameters.get("mdn_validation_level") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: mdn_validation_level must be of type String parameters[\"mdn_validation_level\"]");
+    }
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
     }
@@ -375,6 +388,7 @@ public class As2Partner {
   *   name - string - AS2 Name
   *   uri - string - URL base for AS2 responses
   *   server_certificate - string - Remote server certificate security setting
+  *   mdn_validation_level - string - MDN Validation Level
   *   public_certificate - string
   *   enable_dedicated_ips - boolean
   */
@@ -414,6 +428,9 @@ public class As2Partner {
     }
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
+    }
+    if (parameters.containsKey("mdn_validation_level") && !(parameters.get("mdn_validation_level") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: mdn_validation_level must be of type String parameters[\"mdn_validation_level\"]");
     }
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");

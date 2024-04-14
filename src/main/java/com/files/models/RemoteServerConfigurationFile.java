@@ -65,84 +65,133 @@ public class RemoteServerConfigurationFile {
 
 
   /**
-  * Agent ID
+  * The remote server ID of the agent
   */
   @Getter
   @JsonProperty("id")
   public Long id;
 
   /**
+  * The permission set for the agent ['read_write', 'read_only', 'write_only']
   */
   @Getter
   @JsonProperty("permission_set")
   public String permissionSet;
 
   /**
-  * private key
+  * The private key for the agent
   */
   @Getter
   @JsonProperty("private_key")
   public String privateKey;
 
   /**
+  * Files.com subdomain site name
   */
   @Getter
   @JsonProperty("subdomain")
   public String subdomain;
 
   /**
-  * Agent local root path
+  * The root directory for the agent
   */
   @Getter
   @JsonProperty("root")
   public String root;
 
   /**
-  * Files Agent API Token
+  * Follow symlinks when traversing directories
   */
   @Getter
-  @JsonProperty("api_token")
-  public String apiToken;
+  @JsonProperty("follow_links")
+  public Boolean followLinks;
 
   /**
-  * Incoming port for files agent connections
+  * Preferred network protocol ['udp', 'tcp']
   */
   @Getter
-  @JsonProperty("port")
-  public Long port;
+  @JsonProperty("prefer_protocol")
+  public String preferProtocol;
 
   /**
+  * DNS lookup method ['auto','doh','system']
   */
   @Getter
-  @JsonProperty("hostname")
-  public String hostname;
+  @JsonProperty("dns")
+  public String dns;
 
   /**
-  * public key
+  * Proxy all outbound traffic through files.com proxy server
   */
   @Getter
-  @JsonProperty("public_key")
-  public String publicKey;
+  @JsonProperty("proxy_all_outbound")
+  public Boolean proxyAllOutbound;
 
   /**
-  * either running or shutdown
+  * Custom site endpoint URL
   */
   @Getter
-  @JsonProperty("status")
-  public String status;
+  @JsonProperty("endpoint_override")
+  public String endpointOverride;
 
   /**
+  * Log file name and location
   */
   @Getter
-  @JsonProperty("server_host_key")
-  public String serverHostKey;
+  @JsonProperty("log_file")
+  public String logFile;
 
   /**
-  * agent config version
+  * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal']
   */
   @Getter
-  @JsonProperty("config_version")
-  public String configVersion;
+  @JsonProperty("log_level")
+  public String logLevel;
+
+  /**
+  * Log route for agent logs. (default 5)
+  */
+  @Getter
+  @JsonProperty("log_rotate_num")
+  public Long logRotateNum;
+
+  /**
+  * Log route size in MB for agent logs. (default 20MB)
+  */
+  @Getter
+  @JsonProperty("log_rotate_size")
+  public Long logRotateSize;
+
+  /**
+  * Maximum number of concurrent jobs (default CPU Count * 4)
+  */
+  @Getter
+  @JsonProperty("max_concurrent_jobs")
+  public Long maxConcurrentJobs;
+
+  /**
+  * Graceful shutdown timeout in seconds
+  */
+  @Getter
+  @JsonProperty("graceful_shutdown_timeout")
+  public Long gracefulShutdownTimeout;
+
+  /**
+  * File transfer (upload/download) rate limit
+  *   limit - period , with the given periods:
+  * * 'S': second
+  * * 'M': minute
+  * * 'H': hour
+  * * 'D': day
+  * Examples:
+  * * 5 requests/second: '5-S'
+  * * 10 requests/minute: '10-M'
+  * * 1000 requests/hour: '1000-H'
+  * * 2000 requests/day: '2000-D'
+  */
+  @Getter
+  @JsonProperty("transfer_rate_limit")
+  public String transferRateLimit;
 
 
 

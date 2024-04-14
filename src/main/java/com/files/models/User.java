@@ -512,12 +512,20 @@ public class User {
   public String timeZone;
 
   /**
-  * Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
+  * Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
   */
   @Getter
   @Setter
   @JsonProperty("type_of_2fa")
   public String typeOf2fa;
+
+  /**
+  * Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("type_of_2fa_for_display")
+  public String typeOf2faForDisplay;
 
   /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.

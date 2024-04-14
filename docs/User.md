@@ -63,6 +63,7 @@
   "externally_managed": true,
   "time_zone": "Pacific Time (US & Canada)",
   "type_of_2fa": "yubi",
+  "type_of_2fa_for_display": "yubi",
   "user_root": "example",
   "days_remaining_until_password_expire": 1,
   "password_expire_at": "2000-01-01T01:00:00Z"
@@ -125,7 +126,8 @@
 * `subscribe_to_newsletter` / `subscribeToNewsletter`  (boolean): Is the user subscribed to the newsletter?
 * `externally_managed` / `externallyManaged`  (boolean): Is this user managed by a SsoStrategy?
 * `time_zone` / `timeZone`  (string): User time zone
-* `type_of_2fa` / `typeOf2fa`  (string): Type(s) of 2FA methods in use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.
+* `type_of_2fa` / `typeOf2fa`  (string): Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `u2f`, `yubi`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
+* `type_of_2fa_for_display` / `typeOf2faForDisplay`  (string): Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
 * `user_root` / `userRoot`  (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
 * `days_remaining_until_password_expire` / `daysRemainingUntilPasswordExpire`  (int64): Number of days remaining until password expires
 * `password_expire_at` / `passwordExpireAt`  (date-time): Password expiration datetime

@@ -59,6 +59,7 @@
   "max_uses": 1,
   "note": "The internal note on the bundle.",
   "path_template": "{{name}}_{{ip}}",
+  "path_template_time_zone": "Eastern Time (US & Canada)",
   "send_email_receipt_to_uploader": true,
   "snapshot_id": 1,
   "user_id": 1,
@@ -105,7 +106,8 @@
 * `dont_separate_submissions_by_folder` / `dontSeparateSubmissionsByFolder`  (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
 * `note` / `note`  (string): Bundle internal note
-* `path_template` / `pathTemplate`  (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+* `path_template` / `pathTemplate`  (string): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+* `path_template_time_zone` / `pathTemplateTimeZone`  (string): Timezone to use when rendering timestamps in path templates.
 * `send_email_receipt_to_uploader` / `sendEmailReceiptToUploader`  (boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `snapshot_id` / `snapshotId`  (int64): ID of the snapshot containing this bundle's contents.
 * `user_id` / `userId`  (int64): Bundle creator user ID
@@ -192,7 +194,8 @@ Bundle bundle = Bundle.create(
 * `description` (String): Public description
 * `note` (String): Bundle internal note
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
-* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+* `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
@@ -256,7 +259,8 @@ Bundle bundle = Bundle.update(
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
-* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+* `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
@@ -334,6 +338,7 @@ parameters.put("inbox_id", 1);
 parameters.put("max_uses", 1);
 parameters.put("note", "The internal note on the bundle.");
 parameters.put("path_template", "{{name}}_{{ip}}");
+parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
 parameters.put("permissions", "read");
 parameters.put("preview_only", true);
 parameters.put("require_registration", true);
@@ -364,7 +369,8 @@ Bundle.Update(parameters);
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `note` (String): Bundle internal note
-* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+* `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+* `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?

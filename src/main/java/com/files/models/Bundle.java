@@ -272,12 +272,20 @@ public class Bundle {
   public String note;
 
   /**
-  * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+  * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   */
   @Getter
   @Setter
   @JsonProperty("path_template")
   public String pathTemplate;
+
+  /**
+  * Timezone to use when rendering timestamps in path templates.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("path_template_time_zone")
+  public String pathTemplateTimeZone;
 
   /**
   * Send delivery receipt to the uploader. Note: For writable share only
@@ -434,7 +442,8 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -613,7 +622,8 @@ public class Bundle {
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -684,6 +694,9 @@ public class Bundle {
     }
     if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
+    }
+    if (parameters.containsKey("path_template_time_zone") && !(parameters.get("path_template_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path_template_time_zone must be of type String parameters[\"path_template_time_zone\"]");
     }
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
@@ -811,7 +824,8 @@ public class Bundle {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   note - string - Bundle internal note
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, and any custom form data.
+  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
@@ -893,6 +907,9 @@ public class Bundle {
     }
     if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
+    }
+    if (parameters.containsKey("path_template_time_zone") && !(parameters.get("path_template_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path_template_time_zone must be of type String parameters[\"path_template_time_zone\"]");
     }
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");

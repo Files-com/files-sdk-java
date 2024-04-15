@@ -121,6 +121,14 @@ public class Behavior {
   public Map<String, String> value;
 
   /**
+  * If true, the parent folder's behavior will be disabled for this folder.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("disable_parent_folder_behavior")
+  public Boolean disableParentFolderBehavior;
+
+  /**
   * Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
   */
   @Getter

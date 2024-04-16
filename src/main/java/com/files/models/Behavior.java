@@ -148,6 +148,7 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
@@ -373,6 +374,7 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   path (required) - string - Folder behaviors path.
@@ -404,6 +406,9 @@ public class Behavior {
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
+    }
+    if (parameters.containsKey("disable_parent_folder_behavior") && !(parameters.get("disable_parent_folder_behavior") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: disable_parent_folder_behavior must be of type Boolean parameters[\"disable_parent_folder_behavior\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -483,6 +488,7 @@ public class Behavior {
   * Parameters:
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
@@ -522,6 +528,9 @@ public class Behavior {
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
+    }
+    if (parameters.containsKey("disable_parent_folder_behavior") && !(parameters.get("disable_parent_folder_behavior") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: disable_parent_folder_behavior must be of type Boolean parameters[\"disable_parent_folder_behavior\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

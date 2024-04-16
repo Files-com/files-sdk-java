@@ -107,6 +107,7 @@ Behavior behavior = Behavior.create(
 
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `path` (String): Required - Folder behaviors path.
@@ -152,6 +153,7 @@ Behavior behavior = Behavior.update(
 * `id` (Long): Required - Behavior ID.
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
@@ -186,6 +188,7 @@ Behavior behavior = Behavior.List()[0];
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("value", "{\"method\": \"GET\"}");
+parameters.put("disable_parent_folder_behavior", true);
 parameters.put("name", "example");
 parameters.put("description", "example");
 parameters.put("behavior", "webhook");
@@ -200,6 +203,7 @@ Behavior.Update(parameters);
 * `id` (Long): Required - Behavior ID.
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+* `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.

@@ -7,7 +7,8 @@
   "id": 1,
   "name": "John Doe",
   "email": "example",
-  "details": "Changed Departments"
+  "details": "Changed Departments",
+  "company": "Acme Inc."
 }
 ```
 
@@ -15,6 +16,7 @@
 * `name` / `name`  (string): User's full name
 * `email` / `email`  (email): User email address
 * `details` / `details`  (string): Details of the user's request
+* `company` / `company`  (string): User's company name
 
 
 ---
@@ -69,6 +71,7 @@ UserRequest userRequest = UserRequest.create(
 * `name` (String): Required - Name of user requested
 * `email` (String): Required - Email of user requested
 * `details` (String): Required - Details of the user request
+* `company` (String): Company of the user requested
 
 
 ---

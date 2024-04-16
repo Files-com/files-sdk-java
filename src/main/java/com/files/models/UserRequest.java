@@ -97,6 +97,14 @@ public class UserRequest {
   public String details;
 
   /**
+  * User's company name
+  */
+  @Getter
+  @Setter
+  @JsonProperty("company")
+  public String company;
+
+  /**
   */
   public void delete(HashMap<String, Object> parameters) {
     delete(parameters);
@@ -213,6 +221,7 @@ public class UserRequest {
   *   name (required) - string - Name of user requested
   *   email (required) - string - Email of user requested
   *   details (required) - string - Details of the user request
+  *   company - string - Company of the user requested
   */
   public static UserRequest create() throws RuntimeException {
     return create(null, null);
@@ -246,6 +255,9 @@ public class UserRequest {
     }
     if (parameters.containsKey("details") && !(parameters.get("details") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: details must be of type String parameters[\"details\"]");
+    }
+    if (parameters.containsKey("company") && !(parameters.get("company") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
     }
 
 

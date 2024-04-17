@@ -660,9 +660,16 @@ public class RemoteServer {
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
   *
   * Parameters:
+  *   api_token - string - Files Agent API Token
   *   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
   *   root - string - The root directory for the agent
+  *   hostname - string
+  *   port - int64 - Incoming port for files agent connections
+  *   status - string - either running or shutdown
+  *   config_version - string - agent config version
   *   private_key - string - The private key for the agent
+  *   public_key - string - public key
+  *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
   public RemoteServer configurationFile(HashMap<String, Object> parameters) {
@@ -1203,9 +1210,16 @@ public class RemoteServer {
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
   *
   * Parameters:
+  *   api_token - string - Files Agent API Token
   *   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
   *   root - string - The root directory for the agent
+  *   hostname - string
+  *   port - int64 - Incoming port for files agent connections
+  *   status - string - either running or shutdown
+  *   config_version - string - agent config version
   *   private_key - string - The private key for the agent
+  *   public_key - string - public key
+  *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
   public static RemoteServerConfigurationFile configurationFile() throws RuntimeException {
@@ -1236,14 +1250,35 @@ public class RemoteServer {
     if (!(id instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
     }
+    if (parameters.containsKey("api_token") && !(parameters.get("api_token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: api_token must be of type String parameters[\"api_token\"]");
+    }
     if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
     if (parameters.containsKey("root") && !(parameters.get("root") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: root must be of type String parameters[\"root\"]");
     }
+    if (parameters.containsKey("hostname") && !(parameters.get("hostname") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: hostname must be of type String parameters[\"hostname\"]");
+    }
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    }
+    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
+    }
+    if (parameters.containsKey("config_version") && !(parameters.get("config_version") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: config_version must be of type String parameters[\"config_version\"]");
+    }
     if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+    if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
+    }
+    if (parameters.containsKey("server_host_key") && !(parameters.get("server_host_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: server_host_key must be of type String parameters[\"server_host_key\"]");
     }
     if (parameters.containsKey("subdomain") && !(parameters.get("subdomain") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: subdomain must be of type String parameters[\"subdomain\"]");

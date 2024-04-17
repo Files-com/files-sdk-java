@@ -193,6 +193,53 @@ public class RemoteServerConfigurationFile {
   @JsonProperty("transfer_rate_limit")
   public String transferRateLimit;
 
+  /**
+  * Files Agent API Token
+  */
+  @Getter
+  @JsonProperty("api_token")
+  public String apiToken;
+
+  /**
+  * Incoming port for files agent connections
+  */
+  @Getter
+  @JsonProperty("port")
+  public Long port;
+
+  /**
+  */
+  @Getter
+  @JsonProperty("hostname")
+  public String hostname;
+
+  /**
+  * public key
+  */
+  @Getter
+  @JsonProperty("public_key")
+  public String publicKey;
+
+  /**
+  * either running or shutdown
+  */
+  @Getter
+  @JsonProperty("status")
+  public String status;
+
+  /**
+  */
+  @Getter
+  @JsonProperty("server_host_key")
+  public String serverHostKey;
+
+  /**
+  * agent config version
+  */
+  @Getter
+  @JsonProperty("config_version")
+  public String configVersion;
+
 
 
 }

@@ -288,9 +288,16 @@ RemoteServerConfigurationFile remoteServer = RemoteServer.configurationFile(
 ### Parameters
 
 * `id` (Long): Required - Remote Server ID.
+* `api_token` (String): Files Agent API Token
 * `permission_set` (String): The permission set for the agent ['read_write', 'read_only', 'write_only']
 * `root` (String): The root directory for the agent
+* `hostname` (String): 
+* `port` (Long): Incoming port for files agent connections
+* `status` (String): either running or shutdown
+* `config_version` (String): agent config version
 * `private_key` (String): The private key for the agent
+* `public_key` (String): public key
+* `server_host_key` (String): 
 * `subdomain` (String): Files.com subdomain site name
 
 
@@ -402,9 +409,16 @@ RemoteServer remoteServer = RemoteServer.List()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
+parameters.put("api_token", "example");
 parameters.put("permission_set", "example");
 parameters.put("root", "C:\\Users\\");
+parameters.put("hostname", "example");
+parameters.put("port", 1);
+parameters.put("status", "example");
+parameters.put("config_version", "example");
 parameters.put("private_key", "example");
+parameters.put("public_key", "example");
+parameters.put("server_host_key", "example");
 parameters.put("subdomain", "example");
 
 RemoteServer.ConfigurationFile(parameters);
@@ -413,9 +427,16 @@ RemoteServer.ConfigurationFile(parameters);
 ### Parameters
 
 * `id` (Long): Required - Remote Server ID.
+* `api_token` (String): Files Agent API Token
 * `permission_set` (String): The permission set for the agent ['read_write', 'read_only', 'write_only']
 * `root` (String): The root directory for the agent
+* `hostname` (String): 
+* `port` (Long): Incoming port for files agent connections
+* `status` (String): either running or shutdown
+* `config_version` (String): agent config version
 * `private_key` (String): The private key for the agent
+* `public_key` (String): public key
+* `server_host_key` (String): 
 * `subdomain` (String): Files.com subdomain site name
 
 

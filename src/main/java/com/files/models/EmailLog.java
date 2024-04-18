@@ -106,6 +106,27 @@ public class EmailLog {
   @JsonProperty("cc")
   public String cc;
 
+  /**
+  * How was email deliered?  `customer_smtp` or `files.com`
+  */
+  @Getter
+  @JsonProperty("delivery_method")
+  public String deliveryMethod;
+
+  /**
+  * Customer SMTP Hostname used.
+  */
+  @Getter
+  @JsonProperty("smtp_hostname")
+  public String smtpHostname;
+
+  /**
+  * Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
+  */
+  @Getter
+  @JsonProperty("smtp_ip")
+  public String smtpIp;
+
 
 
   /**

@@ -9,7 +9,10 @@
   "status": "example",
   "subject": "example",
   "to": "example",
-  "cc": "example"
+  "cc": "example",
+  "delivery_method": "example",
+  "smtp_hostname": "example",
+  "smtp_ip": "example"
 }
 ```
 
@@ -19,6 +22,9 @@
 * `subject` / `subject`  (string): Subject line of E-Mail
 * `to` / `to`  (string): To field of E-Mail
 * `cc` / `cc`  (string): CC field of E-Mail
+* `delivery_method` / `deliveryMethod`  (string): How was email deliered?  `customer_smtp` or `files.com`
+* `smtp_hostname` / `smtpHostname`  (string): Customer SMTP Hostname used.
+* `smtp_ip` / `smtpIp`  (string): Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
 
 
 ---

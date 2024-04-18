@@ -260,6 +260,8 @@
   "user_lockout_within": 6,
   "user_requests_enabled": true,
   "user_requests_notify_admins": true,
+  "users_can_create_api_keys": true,
+  "users_can_create_ssh_keys": true,
   "welcome_custom_text": "Welcome to my site!",
   "welcome_email_cc": "example",
   "welcome_email_subject": "example",
@@ -416,6 +418,8 @@
 * `user_lockout_within` / `userLockoutWithin`  (int64): Number of hours for user lockout window
 * `user_requests_enabled` / `userRequestsEnabled`  (boolean): Enable User Requests feature
 * `user_requests_notify_admins` / `userRequestsNotifyAdmins`  (boolean): Send email to site admins when a user request is received?
+* `users_can_create_api_keys` / `usersCanCreateApiKeys`  (boolean): Allow users to create their own API keys?
+* `users_can_create_ssh_keys` / `usersCanCreateSshKeys`  (boolean): Allow users to create their own SSH keys?
 * `welcome_custom_text` / `welcomeCustomText`  (string): Custom text send in user welcome email
 * `welcome_email_cc` / `welcomeEmailCc`  (email): Include this email in welcome emails if enabled
 * `welcome_email_subject` / `welcomeEmailSubject`  (string): Include this email subject in welcome emails if enabled
@@ -548,6 +552,8 @@ Site site = Site.update(
 * `dav_enabled` (Boolean): Is WebDAV enabled?
 * `ftp_enabled` (Boolean): Is FTP enabled?
 * `sftp_enabled` (Boolean): Is SFTP enabled?
+* `users_can_create_api_keys` (Boolean): Allow users to create their own API keys?
+* `users_can_create_ssh_keys` (Boolean): Allow users to create their own SSH keys?
 * `sftp_host_key_type` (String): Sftp Host Key Type
 * `active_sftp_host_key_id` (Long): Id of the currently selected custom SFTP Host Key
 * `protocol_access_groups_only` (Boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.

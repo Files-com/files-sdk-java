@@ -1080,6 +1080,20 @@ public class Site {
   public Boolean userRequestsNotifyAdmins;
 
   /**
+  * Allow users to create their own API keys?
+  */
+  @Getter
+  @JsonProperty("users_can_create_api_keys")
+  public Boolean usersCanCreateApiKeys;
+
+  /**
+  * Allow users to create their own SSH keys?
+  */
+  @Getter
+  @JsonProperty("users_can_create_ssh_keys")
+  public Boolean usersCanCreateSshKeys;
+
+  /**
   * Custom text send in user welcome email
   */
   @Getter
@@ -1273,6 +1287,8 @@ public class Site {
   *   dav_enabled - boolean - Is WebDAV enabled?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
+  *   users_can_create_api_keys - boolean - Allow users to create their own API keys?
+  *   users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
   *   sftp_host_key_type - string - Sftp Host Key Type
   *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
   *   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
@@ -1600,6 +1616,12 @@ public class Site {
     }
     if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
+    }
+    if (parameters.containsKey("users_can_create_api_keys") && !(parameters.get("users_can_create_api_keys") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: users_can_create_api_keys must be of type Boolean parameters[\"users_can_create_api_keys\"]");
+    }
+    if (parameters.containsKey("users_can_create_ssh_keys") && !(parameters.get("users_can_create_ssh_keys") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: users_can_create_ssh_keys must be of type Boolean parameters[\"users_can_create_ssh_keys\"]");
     }
     if (parameters.containsKey("sftp_host_key_type") && !(parameters.get("sftp_host_key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: sftp_host_key_type must be of type String parameters[\"sftp_host_key_type\"]");

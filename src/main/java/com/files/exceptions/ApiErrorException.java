@@ -876,6 +876,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class FilenameTooLongException extends ProcessingFailureException {
+    public FilenameTooLongException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class FolderLockedException extends ProcessingFailureException {
     public FolderLockedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

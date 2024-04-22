@@ -368,6 +368,14 @@ public class Bundle {
   public Object[] paths;
 
   /**
+  * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("bundlepaths")
+  public BundlePath bundlepaths;
+
+  /**
   * Password for this bundle.
   */
   @Getter

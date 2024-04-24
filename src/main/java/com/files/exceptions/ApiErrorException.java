@@ -762,6 +762,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class AlreadyCompletedException extends ProcessingFailureException {
+    public AlreadyCompletedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class AutomationCannotBeRunManuallyException extends ProcessingFailureException {
     public AutomationCannotBeRunManuallyException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

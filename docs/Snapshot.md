@@ -78,6 +78,23 @@ Snapshot snapshot = Snapshot.create(
 
 ---
 
+## Finalize Snapshot
+
+```
+void snapshot = Snapshot.finalize(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Snapshot ID.
+
+
+---
+
 ## Update Snapshot
 
 ```
@@ -106,6 +123,24 @@ void snapshot = Snapshot.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Snapshot ID.
+
+
+---
+
+## Finalize Snapshot
+
+```
+Snapshot snapshot = Snapshot.List()[0];
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+
+Snapshot.Finalize
 ```
 
 ### Parameters

@@ -121,6 +121,13 @@ public class Snapshot {
   public String[] paths;
 
   /**
+  * Finalize Snapshot
+  */
+  public void performFinalize(HashMap<String, Object> parameters) {
+    performFinalize(parameters);
+  }
+
+  /**
   * Parameters:
   *   expires_at - string - When the snapshot expires.
   *   name - string - A name for the snapshot.
@@ -286,6 +293,55 @@ public class Snapshot {
 
     TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Finalize Snapshot
+  */
+  public static void performFinalize() throws RuntimeException {
+    performFinalize(null, null, null);
+  }
+
+  public static void performFinalize(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    performFinalize(id, parameters, null);
+  }
+
+  public static void performFinalize(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    performFinalize(null, parameters, options);
+  }
+
+  public static void performFinalize(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/snapshots/%s/finalize", urlParts);
+
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

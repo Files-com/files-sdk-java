@@ -373,7 +373,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("bundlepaths")
-  public BundlePath bundlepaths;
+  public Object[] bundlepaths;
 
   /**
   * Password for this bundle.

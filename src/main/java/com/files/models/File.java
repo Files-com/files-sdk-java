@@ -350,6 +350,7 @@ public class File {
   * Parameters:
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
+  *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
   public File copy(HashMap<String, Object> parameters) {
     return copy(parameters);
@@ -360,6 +361,7 @@ public class File {
   *
   * Parameters:
   *   destination (required) - string - Move destination path.
+  *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
   public File move(HashMap<String, Object> parameters) {
     return move(parameters);
@@ -756,6 +758,7 @@ public class File {
   * Parameters:
   *   destination (required) - string - Copy destination path.
   *   structure - boolean - Copy structure only?
+  *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
   public static FileAction copy() throws RuntimeException {
     return copy(null, null, null);
@@ -794,6 +797,9 @@ public class File {
     if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: structure must be of type Boolean parameters[\"structure\"]");
     }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
 
 
     String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
@@ -818,6 +824,7 @@ public class File {
   *
   * Parameters:
   *   destination (required) - string - Move destination path.
+  *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
   public static FileAction move() throws RuntimeException {
     return move(null, null, null);
@@ -852,6 +859,9 @@ public class File {
     }
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
     }
 
 

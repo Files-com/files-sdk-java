@@ -185,6 +185,7 @@ FileAction file = File.copy(
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Copy destination path.
 * `structure` (Boolean): Copy structure only?
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -203,6 +204,7 @@ FileAction file = File.move(
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -310,6 +312,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("destination", "destination");
 parameters.put("structure", true);
+parameters.put("overwrite", true);
 
 File.Copy(parameters);
 ```
@@ -319,6 +322,7 @@ File.Copy(parameters);
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Copy destination path.
 * `structure` (Boolean): Copy structure only?
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
@@ -332,6 +336,7 @@ FileAction file = new File(attributes);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("destination", "destination");
+parameters.put("overwrite", true);
 
 File.Move(parameters);
 ```
@@ -340,6 +345,7 @@ File.Move(parameters);
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---

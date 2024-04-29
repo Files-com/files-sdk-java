@@ -72,6 +72,13 @@ public class Site {
   public String name;
 
   /**
+  * Additional extensions that are considered text files
+  */
+  @Getter
+  @JsonProperty("additional_text_file_types")
+  public Object[] additionalTextFileTypes;
+
+  /**
   * Is SMS two factor authentication allowed?
   */
   @Getter
@@ -1245,6 +1252,7 @@ public class Site {
   *   motd_use_for_ftp - boolean - Show message to users connecting via FTP
   *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
   *   left_navigation_visibility - object - Visibility settings for account navigation
+  *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
@@ -1477,6 +1485,9 @@ public class Site {
     }
     if (parameters.containsKey("left_navigation_visibility") && !(parameters.get("left_navigation_visibility") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: left_navigation_visibility must be of type Map<String, String> parameters[\"left_navigation_visibility\"]");
+    }
+    if (parameters.containsKey("additional_text_file_types") && !(parameters.get("additional_text_file_types") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: additional_text_file_types must be of type String[] parameters[\"additional_text_file_types\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

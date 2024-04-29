@@ -128,6 +128,13 @@ public class ExavaultApiRequestLog {
   public Long responseCode;
 
   /**
+  * `false` if HTTP Response Code is 4xx or 5xx
+  */
+  @Getter
+  @JsonProperty("success")
+  public Boolean success;
+
+  /**
   * Duration (in milliseconds)
   */
   @Getter

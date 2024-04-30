@@ -137,6 +137,14 @@ public class Automation {
   public Boolean disabled;
 
   /**
+  * Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("flatten_destination_structure")
+  public Boolean flattenDestinationStructure;
+
+  /**
   * IDs of Groups for the Automation (i.e. who to Request File from)
   */
   @Getter
@@ -345,6 +353,7 @@ public class Automation {
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
+  *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
@@ -525,6 +534,7 @@ public class Automation {
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
+  *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
@@ -600,6 +610,9 @@ public class Automation {
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
+    }
+    if (parameters.containsKey("flatten_destination_structure") && !(parameters.get("flatten_destination_structure") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: flatten_destination_structure must be of type Boolean parameters[\"flatten_destination_structure\"]");
     }
     if (parameters.containsKey("ignore_locked_folders") && !(parameters.get("ignore_locked_folders") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ignore_locked_folders must be of type Boolean parameters[\"ignore_locked_folders\"]");
@@ -704,6 +717,7 @@ public class Automation {
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
+  *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
@@ -789,6 +803,9 @@ public class Automation {
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
+    }
+    if (parameters.containsKey("flatten_destination_structure") && !(parameters.get("flatten_destination_structure") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: flatten_destination_structure must be of type Boolean parameters[\"flatten_destination_structure\"]");
     }
     if (parameters.containsKey("ignore_locked_folders") && !(parameters.get("ignore_locked_folders") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ignore_locked_folders must be of type Boolean parameters[\"ignore_locked_folders\"]");

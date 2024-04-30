@@ -15,6 +15,7 @@
     "destination"
   ],
   "disabled": true,
+  "flatten_destination_structure": true,
   "group_ids": [
     1,
     2
@@ -69,6 +70,7 @@
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `destinations` / `destinations`  (array): Destination Paths
 * `disabled` / `disabled`  (boolean): If true, this automation will not run.
+* `flatten_destination_structure` / `flattenDestinationStructure`  (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
 * `ignore_locked_folders` / `ignoreLockedFolders`  (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
@@ -166,6 +168,7 @@ Automation automation = Automation.create(
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
+* `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
@@ -225,6 +228,7 @@ Automation automation = Automation.update(
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
+* `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
@@ -295,6 +299,7 @@ parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("always_overwrite_size_matching_files", true);
 parameters.put("description", "example");
 parameters.put("disabled", true);
+parameters.put("flatten_destination_structure", true);
 parameters.put("ignore_locked_folders", true);
 parameters.put("name", "example");
 parameters.put("overwrite_files", true);
@@ -327,6 +332,7 @@ Automation.Update(parameters);
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
+* `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.

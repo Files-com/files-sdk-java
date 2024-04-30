@@ -97,7 +97,7 @@ public class AutomationRun {
   */
   @Getter
   @JsonProperty("runtime")
-  public Date runtime;
+  public Double runtime;
 
   /**
   * The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.

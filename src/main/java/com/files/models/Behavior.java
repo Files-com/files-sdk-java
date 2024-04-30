@@ -129,6 +129,14 @@ public class Behavior {
   public Boolean disableParentFolderBehavior;
 
   /**
+  * Is behavior recursive?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("recursive")
+  public Boolean recursive;
+
+  /**
   * Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
   */
   @Getter
@@ -149,6 +157,7 @@ public class Behavior {
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
   *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+  *   recursive - boolean - Is behavior recursive?
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
@@ -299,7 +308,7 @@ public class Behavior {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   *   path (required) - string - Path to operate on.
-  *   recursive - string - Show behaviors above this path?
+  *   ancestor_behaviors - string - Show behaviors above this path?
   *   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
   */
   public static ListIterator<Behavior> listFor() throws RuntimeException {
@@ -345,8 +354,8 @@ public class Behavior {
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type String parameters[\"recursive\"]");
+    if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type String parameters[\"ancestor_behaviors\"]");
     }
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
@@ -375,6 +384,7 @@ public class Behavior {
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
   *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+  *   recursive - boolean - Is behavior recursive?
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   path (required) - string - Folder behaviors path.
@@ -409,6 +419,9 @@ public class Behavior {
     }
     if (parameters.containsKey("disable_parent_folder_behavior") && !(parameters.get("disable_parent_folder_behavior") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_parent_folder_behavior must be of type Boolean parameters[\"disable_parent_folder_behavior\"]");
+    }
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -489,6 +502,7 @@ public class Behavior {
   *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
   *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder.
+  *   recursive - boolean - Is behavior recursive?
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   behavior - string - Behavior type.
@@ -531,6 +545,9 @@ public class Behavior {
     }
     if (parameters.containsKey("disable_parent_folder_behavior") && !(parameters.get("disable_parent_folder_behavior") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_parent_folder_behavior must be of type Boolean parameters[\"disable_parent_folder_behavior\"]");
+    }
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

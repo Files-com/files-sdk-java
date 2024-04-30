@@ -13,7 +13,8 @@
   "value": {
     "key": "example value"
   },
-  "disable_parent_folder_behavior": true
+  "disable_parent_folder_behavior": true,
+  "recursive": true
 }
 ```
 
@@ -25,6 +26,7 @@
 * `description` / `description`  (string): Description for this behavior.
 * `value` / `value`  (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `disable_parent_folder_behavior` / `disableParentFolderBehavior`  (boolean): If true, the parent folder's behavior will be disabled for this folder.
+* `recursive` / `recursive`  (boolean): Is behavior recursive?
 * `attachment_file` / `attachmentFile`  (file): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `attachment_delete` / `attachmentDelete`  (boolean): If true, will delete the file stored in attachment
 
@@ -87,7 +89,7 @@ ListIterator<Behavior> behavior = Behavior.listFor(
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `behavior`.
 * `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
 * `path` (String): Required - Path to operate on.
-* `recursive` (String): Show behaviors above this path?
+* `ancestor_behaviors` (String): Show behaviors above this path?
 * `behavior` (String): DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
 
 
@@ -108,6 +110,7 @@ Behavior behavior = Behavior.create(
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
+* `recursive` (Boolean): Is behavior recursive?
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `path` (String): Required - Folder behaviors path.
@@ -154,6 +157,7 @@ Behavior behavior = Behavior.update(
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
+* `recursive` (Boolean): Is behavior recursive?
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.
@@ -189,6 +193,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("value", "{\"method\": \"GET\"}");
 parameters.put("disable_parent_folder_behavior", true);
+parameters.put("recursive", true);
 parameters.put("name", "example");
 parameters.put("description", "example");
 parameters.put("behavior", "webhook");
@@ -204,6 +209,7 @@ Behavior.Update(parameters);
 * `value` (String): The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
 * `disable_parent_folder_behavior` (Boolean): If true, the parent folder's behavior will be disabled for this folder.
+* `recursive` (Boolean): Is behavior recursive?
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `behavior` (String): Behavior type.

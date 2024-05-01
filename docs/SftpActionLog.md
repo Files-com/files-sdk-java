@@ -6,6 +6,7 @@
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "remote_ip": "example",
+  "server_ip": "example",
   "username": "example",
   "session_uid": "example",
   "seq_id": 1,
@@ -34,6 +35,7 @@
 
 * `timestamp` / `timestamp`  (date-time): Start Time of Action
 * `remote_ip` / `remoteIp`  (string): IP Address of SFTP Client
+* `server_ip` / `serverIp`  (string): IP Address of SFTP Server
 * `username` / `username`  (string): Username
 * `session_uid` / `sessionUid`  (string): Unique ID of the Session
 * `seq_id` / `seqId`  (int64): SFTP Sequence ID

@@ -79,6 +79,13 @@ public class SftpActionLog {
   public String remoteIp;
 
   /**
+  * IP Address of SFTP Server
+  */
+  @Getter
+  @JsonProperty("server_ip")
+  public String serverIp;
+
+  /**
   * Username
   */
   @Getter

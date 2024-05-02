@@ -37,11 +37,9 @@
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
   "azure_blob_storage_account": "storage-account-name",
-  "azure_blob_storage_sas_token": "storage-sas-token",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": true,
   "azure_files_storage_account": "storage-account-name",
-  "azure_files_storage_sas_token": "storage-sas-token",
   "azure_files_storage_share_name": "share-name",
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
@@ -97,11 +95,9 @@
 * `auth_account_name` / `authAccountName`  (string): Describes the authorized account
 * `one_drive_account_type` / `oneDriveAccountType`  (string): Either personal or business_other account types
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
-* `azure_blob_storage_sas_token` / `azureBlobStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` / `azureBlobStorageHierarchicalNamespace`  (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_files_storage_account` / `azureFilesStorageAccount`  (string): Azure File Storage Account name
-* `azure_files_storage_sas_token` / `azureFilesStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `azure_files_storage_share_name` / `azureFilesStorageShareName`  (string): Azure File Storage Share name
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
@@ -134,6 +130,7 @@
 * `reset_authentication` / `resetAuthentication`  (boolean): Reset authenticated account
 * `azure_blob_storage_access_key` / `azureBlobStorageAccessKey`  (string): Azure Blob Storage secret key.
 * `azure_files_storage_access_key` / `azureFilesStorageAccessKey`  (string): Azure File Storage access key.
+* `azure_blob_storage_sas_token` / `azureBlobStorageSasToken`  (string): Shared Access Signature (SAS) token
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible secret key
 * `filebase_secret_key` / `filebaseSecretKey`  (string): Filebase secret key
 * `cloudflare_secret_key` / `cloudflareSecretKey`  (string): Cloudflare secret key
@@ -249,7 +246,6 @@ RemoteServer remoteServer = RemoteServer.create(
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
-* `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -359,7 +355,6 @@ RemoteServer remoteServer = RemoteServer.update(
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
-* `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint
@@ -477,10 +472,8 @@ parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
 parameters.put("azure_blob_storage_hierarchical_namespace", true);
-parameters.put("azure_blob_storage_sas_token", "storage-sas-token");
 parameters.put("azure_files_storage_account", "storage-account-name");
 parameters.put("azure_files_storage_share_name", "share-name");
-parameters.put("azure_files_storage_sas_token", "storage-sas-token");
 parameters.put("s3_compatible_bucket", "my-bucket");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
@@ -548,7 +541,6 @@ RemoteServer.Update(parameters);
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
-* `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
 * `s3_compatible_region` (String): S3-compatible endpoint

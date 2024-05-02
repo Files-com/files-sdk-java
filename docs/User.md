@@ -21,6 +21,7 @@
   "created_at": "2000-01-01T01:00:00Z",
   "dav_permission": true,
   "disabled": true,
+  "disabled_expired_or_inactive": true,
   "email": "example",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": true,
@@ -84,7 +85,8 @@
 * `bypass_inactive_disable` / `bypassInactiveDisable`  (boolean): Exempt this user from being disabled based on inactivity?
 * `created_at` / `createdAt`  (date-time): When this user was created
 * `dav_permission` / `davPermission`  (boolean): Can the user connect with WebDAV?
-* `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `disabled_expired_or_inactive` / `disabledExpiredOrInactive`  (boolean): Computed property that returns true if user disabled or expired or inactive.
 * `email` / `email`  (email): User email address
 * `first_login_at` / `firstLoginAt`  (date-time): User's first login time
 * `ftp_permission` / `ftpPermission`  (boolean): Can the user access with FTP/FTPS?
@@ -221,7 +223,7 @@ User user = User.create(
 * `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
-* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language
@@ -334,7 +336,7 @@ User user = User.update(
 * `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
-* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language
@@ -506,7 +508,7 @@ User.Update(parameters);
 * `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
-* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes.  Users can be automatically disabled after an inactivity period via a Site setting.
+* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language

@@ -294,14 +294,14 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class ReauthenticationNeededFieldsException extends BadRequestException {
-    public ReauthenticationNeededFieldsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+  public static class PathCannotHaveTrailingWhitespaceException extends BadRequestException {
+    public PathCannotHaveTrailingWhitespaceException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }
 
-  public static class RequestParamPathCannotHaveTrailingWhitespaceException extends BadRequestException {
-    public RequestParamPathCannotHaveTrailingWhitespaceException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+  public static class ReauthenticationNeededFieldsException extends BadRequestException {
+    public ReauthenticationNeededFieldsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }
@@ -866,6 +866,12 @@ public class ApiErrorException extends SdkException {
 
   public static class FilePendingProcessingException extends ProcessingFailureException {
     public FilePendingProcessingException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class FileProcessingErrorException extends ProcessingFailureException {
+    public FileProcessingErrorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

@@ -936,6 +936,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidPriorityColorException extends ProcessingFailureException {
+    public InvalidPriorityColorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InvalidRangeException extends ProcessingFailureException {
     public InvalidRangeException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

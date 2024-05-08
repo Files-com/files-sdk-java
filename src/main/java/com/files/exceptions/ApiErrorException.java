@@ -780,6 +780,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class BehaviorNotAllowedOnRemoteServerException extends ProcessingFailureException {
+    public BehaviorNotAllowedOnRemoteServerException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class BundleOnlyAllowsPreviewsException extends ProcessingFailureException {
     public BundleOnlyAllowsPreviewsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

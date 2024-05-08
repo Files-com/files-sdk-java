@@ -96,8 +96,8 @@ public class SftpActionLog {
   * Unique ID of the Session
   */
   @Getter
-  @JsonProperty("session_uid")
-  public String sessionUid;
+  @JsonProperty("session_uuid")
+  public String sessionUuid;
 
   /**
   * SFTP Sequence ID

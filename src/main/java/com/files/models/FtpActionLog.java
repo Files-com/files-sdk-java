@@ -79,7 +79,7 @@ public class FtpActionLog {
   public String remoteIp;
 
   /**
-  * IP Address of SFTP Server
+  * IP Address of FTP Server
   */
   @Getter
   @JsonProperty("server_ip")

@@ -21,6 +21,7 @@
   "allow_bundle_names": true,
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
+  "always_mkdir_parents": true,
   "ask_about_overwrites": true,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
@@ -294,6 +295,7 @@
 * `allow_bundle_names` / `allowBundleNames`  (boolean): Are manual Bundle names allowed?
 * `allowed_countries` / `allowedCountries`  (string): Comma seperated list of allowed Country codes
 * `allowed_ips` / `allowedIps`  (string): List of allowed IP addresses
+* `always_mkdir_parents` / `alwaysMkdirParents`  (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
 * `ask_about_overwrites` / `askAboutOverwrites`  (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` / `bundleActivityNotifications`  (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
@@ -491,6 +493,7 @@ Site site = Site.update(
 * `welcome_email_enabled` (Boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.
+* `always_mkdir_parents` (Boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
 * `welcome_email_cc` (String): Include this email in welcome emails if enabled
 * `welcome_email_subject` (String): Include this email subject in welcome emails if enabled
 * `welcome_custom_text` (String): Custom text send in user welcome email

@@ -128,7 +128,7 @@ public class SftpActionLog {
   public String actionType;
 
   /**
-  * Path as sent by the Client (may not match Files.com path due to user root folders for SFTP) This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Path as sent by the Client (may not match Files.com path due to user root folders for SFTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")
@@ -149,25 +149,18 @@ public class SftpActionLog {
   public String name;
 
   /**
-  * Log Message
+  * SFTP Response Code Returned to the Client.
   */
   @Getter
-  @JsonProperty("message")
-  public String message;
+  @JsonProperty("sftp_response_code")
+  public String sftpResponseCode;
 
   /**
-  * Failure Reason Type
+  * SFTP Response Message Returned to the Client.
   */
   @Getter
-  @JsonProperty("failure_reason_type")
-  public String failureReasonType;
-
-  /**
-  * Failure Reason Message
-  */
-  @Getter
-  @JsonProperty("failure_reason_message")
-  public String failureReasonMessage;
+  @JsonProperty("sftp_response_message")
+  public String sftpResponseMessage;
 
   /**
   * MD5 Hash of the file. Not always available.
@@ -177,46 +170,11 @@ public class SftpActionLog {
   public String md5;
 
   /**
-  * SFTP Command Flags. Present for actions which involve flags.
-  */
-  @Getter
-  @JsonProperty("flags")
-  public String flags;
-
-  /**
-  * SFTP Command Handle. Present for actions which involve handles.
-  */
-  @Getter
-  @JsonProperty("handle")
-  public String handle;
-
-  /**
-  * SFTP Command Attrs. Present for action which involve attrs.
-  */
-  @Getter
-  @JsonProperty("attrs")
-  public String attrs;
-
-  /**
-  * Size. Present for action which involve size.
+  * Size of File That was Uploaded or Downloaded.
   */
   @Getter
   @JsonProperty("size")
   public String size;
-
-  /**
-  * Offset. Present for actions which involve offset.
-  */
-  @Getter
-  @JsonProperty("offset")
-  public String offset;
-
-  /**
-  * Length. Present for actions which involve length.
-  */
-  @Getter
-  @JsonProperty("length")
-  public String length;
 
   /**
   * Data Length in Bytes. Present for actions that transfer data.

@@ -1044,6 +1044,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class TooManyConcurrentLoginsException extends RateLimitedException {
+    public TooManyConcurrentLoginsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class TooManyConcurrentRequestsException extends RateLimitedException {
     public TooManyConcurrentRequestsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

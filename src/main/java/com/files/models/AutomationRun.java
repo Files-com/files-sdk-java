@@ -107,13 +107,6 @@ public class AutomationRun {
   public String status;
 
   /**
-  * The stage currently being executed in the execution environment.  One of `queued_for_planning`, `planning`, `queued_for_execution`, `executing`, or `finished`.
-  */
-  @Getter
-  @JsonProperty("run_stage")
-  public String runStage;
-
-  /**
   * Count of successful operations.
   */
   @Getter

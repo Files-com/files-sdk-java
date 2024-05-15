@@ -282,12 +282,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class OperationOnNonScimResourceException extends BadRequestException {
-    public OperationOnNonScimResourceException(String message, ResponseError responseError, Map<String, List<String>> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class PartNumberTooLargeException extends BadRequestException {
     public PartNumberTooLargeException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

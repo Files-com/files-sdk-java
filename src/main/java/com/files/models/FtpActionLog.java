@@ -107,6 +107,13 @@ public class FtpActionLog {
   public Long seqId;
 
   /**
+  * Authentication Ciphers
+  */
+  @Getter
+  @JsonProperty("auth_ciphers")
+  public String authCiphers;
+
+  /**
   * Action Type
   */
   @Getter

@@ -105,6 +105,78 @@ public class File {
   public String path;
 
   /**
+  * User ID of the User who created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_id")
+  public Long createdById;
+
+  /**
+  * ID of the API key that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_api_key_id")
+  public Long createdByApiKeyId;
+
+  /**
+  * ID of the AS2 Incoming Message that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_as2_incoming_message_id")
+  public Long createdByAs2IncomingMessageId;
+
+  /**
+  * ID of the Automation that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_automation_id")
+  public Long createdByAutomationId;
+
+  /**
+  * ID of the Bundle Registration that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_bundle_registration_id")
+  public Long createdByBundleRegistrationId;
+
+  /**
+  * ID of the Inbox that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_inbox_id")
+  public Long createdByInboxId;
+
+  /**
+  * ID of the Remote Server that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_remote_server_id")
+  public Long createdByRemoteServerId;
+
+  /**
+  * ID of the Remote Server Sync that created the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("created_by_remote_server_sync_id")
+  public Long createdByRemoteServerSyncId;
+
+  /**
+  * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("custom_metadata")
+  public Map<String, String> customMetadata;
+
+  /**
   * File/Folder display name
   */
   @Getter
@@ -134,6 +206,54 @@ public class File {
   @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  /**
+  * User ID of the User who last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_id")
+  public Long lastModifiedById;
+
+  /**
+  * ID of the API key that last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_api_key_id")
+  public Long lastModifiedByApiKeyId;
+
+  /**
+  * ID of the Automation that last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_automation_id")
+  public Long lastModifiedByAutomationId;
+
+  /**
+  * ID of the Bundle Registration that last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_bundle_registration_id")
+  public Long lastModifiedByBundleRegistrationId;
+
+  /**
+  * ID of the Remote Server that last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_remote_server_id")
+  public Long lastModifiedByRemoteServerId;
+
+  /**
+  * ID of the Remote Server Sync that last modified the file/folder
+  */
+  @Getter
+  @Setter
+  @JsonProperty("last_modified_by_remote_server_sync_id")
+  public Long lastModifiedByRemoteServerSyncId;
 
   /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
@@ -325,6 +445,7 @@ public class File {
 
   /**
   * Parameters:
+  *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
@@ -566,6 +687,7 @@ public class File {
 
   /**
   * Parameters:
+  *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
@@ -596,6 +718,9 @@ public class File {
 
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Map<String, String> parameters[\"custom_metadata\"]");
     }
     if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");

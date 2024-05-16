@@ -1086,6 +1086,18 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class MigrationInProgressException extends ServiceUnavailableException {
+    public MigrationInProgressException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteDisabledException extends ServiceUnavailableException {
+    public SiteDisabledException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class UploadsUnavailableException extends ServiceUnavailableException {
     public UploadsUnavailableException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

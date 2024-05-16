@@ -163,6 +163,13 @@ public class ApiRequestLog {
   public String errorType;
 
   /**
+  * Error message, if applicable
+  */
+  @Getter
+  @JsonProperty("error_message")
+  public String errorMessage;
+
+  /**
   * HTTP Response Code
   */
   @Getter

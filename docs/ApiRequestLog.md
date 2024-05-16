@@ -18,6 +18,7 @@
   "api_name": "example",
   "user_agent": "example",
   "error_type": "example",
+  "error_message": "example",
   "response_code": 1,
   "success": true,
   "duration_ms": 1
@@ -38,6 +39,7 @@
 * `api_name` / `apiName`  (string): Name of API Endpoint
 * `user_agent` / `userAgent`  (string): User-Agent
 * `error_type` / `errorType`  (string): Error type, if applicable
+* `error_message` / `errorMessage`  (string): Error message, if applicable
 * `response_code` / `responseCode`  (int64): HTTP Response Code
 * `success` / `success`  (boolean): `false` if HTTP Response Code is 4xx or 5xx
 * `duration_ms` / `durationMs`  (int64): Duration (in milliseconds)

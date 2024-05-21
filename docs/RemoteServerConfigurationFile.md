@@ -48,7 +48,7 @@
 * `max_concurrent_jobs` / `maxConcurrentJobs`  (int64): Maximum number of concurrent jobs (default CPU Count * 4)
 * `graceful_shutdown_timeout` / `gracefulShutdownTimeout`  (int64): Graceful shutdown timeout in seconds
 * `transfer_rate_limit` / `transferRateLimit`  (string): File transfer (upload/download) rate limit
- <limit>-<period>, with the given periods:
+ `<limit>-<period>`, with the given periods:
 * 'S': second
 * 'M': minute
 * 'H': hour

@@ -143,7 +143,7 @@ void group = Group.delete(
 ## Update Group
 
 ```
-Group group = Group.List()[0];
+Group group = Group.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -179,7 +179,7 @@ Group.Update(parameters);
 ## Delete Group
 
 ```
-Group group = Group.List()[0];
+Group group = Group.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

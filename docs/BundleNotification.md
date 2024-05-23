@@ -117,7 +117,7 @@ void bundleNotification = BundleNotification.delete(
 ## Update Bundle Notification
 
 ```
-BundleNotification bundleNotification = BundleNotification.List()[0];
+BundleNotification bundleNotification = BundleNotification.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -139,7 +139,7 @@ BundleNotification.Update(parameters);
 ## Delete Bundle Notification
 
 ```
-BundleNotification bundleNotification = BundleNotification.List()[0];
+BundleNotification bundleNotification = BundleNotification.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

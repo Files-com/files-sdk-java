@@ -262,7 +262,7 @@ void automation = Automation.delete(
 ## Manually run automation
 
 ```
-Automation automation = Automation.List()[0];
+Automation automation = Automation.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -280,7 +280,7 @@ Automation.ManualRun
 ## Update Automation
 
 ```
-Automation automation = Automation.List()[0];
+Automation automation = Automation.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -349,7 +349,7 @@ Automation.Update(parameters);
 ## Delete Automation
 
 ```
-Automation automation = Automation.List()[0];
+Automation automation = Automation.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

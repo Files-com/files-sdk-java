@@ -124,7 +124,7 @@ void gpgKey = GpgKey.delete(
 ## Update Gpg Key
 
 ```
-GpgKey gpgKey = GpgKey.List()[0];
+GpgKey gpgKey = GpgKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -150,7 +150,7 @@ GpgKey.Update(parameters);
 ## Delete Gpg Key
 
 ```
-GpgKey gpgKey = GpgKey.List()[0];
+GpgKey gpgKey = GpgKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

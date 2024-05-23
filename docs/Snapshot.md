@@ -135,7 +135,7 @@ void snapshot = Snapshot.delete(
 ## Finalize Snapshot
 
 ```
-Snapshot snapshot = Snapshot.List()[0];
+Snapshot snapshot = Snapshot.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -153,7 +153,7 @@ Snapshot.Finalize
 ## Update Snapshot
 
 ```
-Snapshot snapshot = Snapshot.List()[0];
+Snapshot snapshot = Snapshot.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -176,7 +176,7 @@ Snapshot.Update(parameters);
 ## Delete Snapshot
 
 ```
-Snapshot snapshot = Snapshot.List()[0];
+Snapshot snapshot = Snapshot.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

@@ -400,7 +400,7 @@ void remoteServer = RemoteServer.delete(
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
-RemoteServer remoteServer = RemoteServer.List()[0];
+RemoteServer remoteServer = RemoteServer.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -440,7 +440,7 @@ RemoteServer.ConfigurationFile(parameters);
 ## Update Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.List()[0];
+RemoteServer remoteServer = RemoteServer.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -569,7 +569,7 @@ RemoteServer.Update(parameters);
 ## Delete Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.List()[0];
+RemoteServer remoteServer = RemoteServer.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

@@ -123,7 +123,7 @@ void shareGroup = ShareGroup.delete(
 ## Update Share Group
 
 ```
-ShareGroup shareGroup = ShareGroup.List()[0];
+ShareGroup shareGroup = ShareGroup.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -147,7 +147,7 @@ ShareGroup.Update(parameters);
 ## Delete Share Group
 
 ```
-ShareGroup shareGroup = ShareGroup.List()[0];
+ShareGroup shareGroup = ShareGroup.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

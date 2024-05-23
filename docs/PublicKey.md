@@ -119,7 +119,7 @@ void publicKey = PublicKey.delete(
 ## Update Public Key
 
 ```
-PublicKey publicKey = PublicKey.List()[0];
+PublicKey publicKey = PublicKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -139,7 +139,7 @@ PublicKey.Update(parameters);
 ## Delete Public Key
 
 ```
-PublicKey publicKey = PublicKey.List()[0];
+PublicKey publicKey = PublicKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

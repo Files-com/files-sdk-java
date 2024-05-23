@@ -187,7 +187,7 @@ void notification = Notification.delete(
 ## Update Notification
 
 ```
-Notification notification = Notification.List()[0];
+Notification notification = Notification.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -231,7 +231,7 @@ Notification.Update(parameters);
 ## Delete Notification
 
 ```
-Notification notification = Notification.List()[0];
+Notification notification = Notification.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

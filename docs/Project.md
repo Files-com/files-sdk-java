@@ -105,7 +105,7 @@ void project = Project.delete(
 ## Update Project
 
 ```
-Project project = Project.List()[0];
+Project project = Project.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -125,7 +125,7 @@ Project.Update(parameters);
 ## Delete Project
 
 ```
-Project project = Project.List()[0];
+Project project = Project.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

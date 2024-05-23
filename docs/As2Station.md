@@ -136,7 +136,7 @@ void as2Station = As2Station.delete(
 ## Update As2 Station
 
 ```
-As2Station as2Station = As2Station.List()[0];
+As2Station as2Station = As2Station.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -159,7 +159,7 @@ As2Station.Update(parameters);
 ## Delete As2 Station
 
 ```
-As2Station as2Station = As2Station.List()[0];
+As2Station as2Station = As2Station.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

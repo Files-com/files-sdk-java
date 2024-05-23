@@ -385,7 +385,7 @@ void user = User.delete(
 ## Unlock user who has been locked out due to failed logins
 
 ```
-User user = User.List()[0];
+User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -403,7 +403,7 @@ User.Unlock
 ## Resend user welcome email
 
 ```
-User user = User.List()[0];
+User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -421,7 +421,7 @@ User.ResendWelcomeEmail
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```
-User user = User.List()[0];
+User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -439,7 +439,7 @@ User.User2faReset
 ## Update User
 
 ```
-User user = User.List()[0];
+User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -540,7 +540,7 @@ User.Update(parameters);
 ## Delete User
 
 ```
-User user = User.List()[0];
+User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

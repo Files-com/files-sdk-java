@@ -96,7 +96,7 @@ void userRequest = UserRequest.delete(
 ## Delete User Request
 
 ```
-UserRequest userRequest = UserRequest.List()[0];
+UserRequest userRequest = UserRequest.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

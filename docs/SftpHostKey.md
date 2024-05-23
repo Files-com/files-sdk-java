@@ -112,7 +112,7 @@ void sftpHostKey = SftpHostKey.delete(
 ## Update Sftp Host Key
 
 ```
-SftpHostKey sftpHostKey = SftpHostKey.List()[0];
+SftpHostKey sftpHostKey = SftpHostKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -133,7 +133,7 @@ SftpHostKey.Update(parameters);
 ## Delete Sftp Host Key
 
 ```
-SftpHostKey sftpHostKey = SftpHostKey.List()[0];
+SftpHostKey sftpHostKey = SftpHostKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

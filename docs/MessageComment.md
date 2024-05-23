@@ -116,7 +116,7 @@ void messageComment = MessageComment.delete(
 ## Update Message Comment
 
 ```
-MessageComment messageComment = MessageComment.List()[0];
+MessageComment messageComment = MessageComment.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -136,7 +136,7 @@ MessageComment.Update(parameters);
 ## Delete Message Comment
 
 ```
-MessageComment messageComment = MessageComment.List()[0];
+MessageComment messageComment = MessageComment.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

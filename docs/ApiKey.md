@@ -184,7 +184,7 @@ void apiKey = ApiKey.delete(
 ## Update Api Key
 
 ```
-ApiKey apiKey = ApiKey.List()[0];
+ApiKey apiKey = ApiKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -210,7 +210,7 @@ ApiKey.Update(parameters);
 ## Delete Api Key
 
 ```
-ApiKey apiKey = ApiKey.List()[0];
+ApiKey apiKey = ApiKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

@@ -75,8 +75,7 @@ void style = Style.delete(
 ## Update Style
 
 ```
-HashMap<Object, String> attributes = new HashMap<>();
-Style style = new Style(attributes);
+Style style = Style.Find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -96,8 +95,7 @@ Style.Update(parameters);
 ## Delete Style
 
 ```
-HashMap<Object, String> attributes = new HashMap<>();
-void style = new Style(attributes);
+Style style = Style.Find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

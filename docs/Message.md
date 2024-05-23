@@ -129,7 +129,7 @@ void message = Message.delete(
 ## Update Message
 
 ```
-Message message = Message.List()[0];
+Message message = Message.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -153,7 +153,7 @@ Message.Update(parameters);
 ## Delete Message
 
 ```
-Message message = Message.List()[0];
+Message message = Message.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

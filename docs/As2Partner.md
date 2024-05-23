@@ -141,7 +141,7 @@ void as2Partner = As2Partner.delete(
 ## Update As2 Partner
 
 ```
-As2Partner as2Partner = As2Partner.List()[0];
+As2Partner as2Partner = As2Partner.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
@@ -170,7 +170,7 @@ As2Partner.Update(parameters);
 ## Delete As2 Partner
 
 ```
-As2Partner as2Partner = As2Partner.List()[0];
+As2Partner as2Partner = As2Partner.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 

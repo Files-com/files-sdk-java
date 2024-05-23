@@ -76,7 +76,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("additional_text_file_types")
-  public Object[] additionalTextFileTypes;
+  public String[] additionalTextFileTypes;
 
   /**
   * Is SMS two factor authentication allowed?
@@ -216,7 +216,7 @@ public class Site {
   */
   @Getter
   @JsonProperty("bundle_recipient_blacklist_domains")
-  public Object[] bundleRecipientBlacklistDomains;
+  public String[] bundleRecipientBlacklistDomains;
 
   /**
   * Disallow free email domains for Bundle/Inbox recipients?

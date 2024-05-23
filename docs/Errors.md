@@ -13,5 +13,5 @@
 }
 ```
 
-* `fields` / `fields`  (array): A list of fields where errors occur
-* `messages` / `messages`  (array): A list of error messages
+* `fields` / `fields`  (array(string)): A list of fields where errors occur
+* `messages` / `messages`  (array(string)): A list of error messages

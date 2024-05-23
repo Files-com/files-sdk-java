@@ -86,7 +86,7 @@ public class FormFieldSet {
   @Getter
   @Setter
   @JsonProperty("form_layout")
-  public Object[] formLayout;
+  public Long[] formLayout;
 
   /**
   * Associated form fields

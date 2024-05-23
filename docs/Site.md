@@ -282,7 +282,7 @@
 ```
 
 * `name` / `name`  (string): Site name
-* `additional_text_file_types` / `additionalTextFileTypes`  (array): Additional extensions that are considered text files
+* `additional_text_file_types` / `additionalTextFileTypes`  (array(string)): Additional extensions that are considered text files
 * `allowed_2fa_method_sms` / `allowed2faMethodSms`  (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` / `allowed2faMethodTotp`  (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_u2f` / `allowed2faMethodU2f`  (boolean): Is U2F two factor authentication allowed?
@@ -302,7 +302,7 @@
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
 * `bundle_not_found_message` / `bundleNotFoundMessage`  (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
-* `bundle_recipient_blacklist_domains` / `bundleRecipientBlacklistDomains`  (array): List of email domains to disallow when entering a Bundle/Inbox recipients
+* `bundle_recipient_blacklist_domains` / `bundleRecipientBlacklistDomains`  (array(string)): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `bundle_recipient_blacklist_free_email_domains` / `bundleRecipientBlacklistFreeEmailDomains`  (boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_registration_notifications` / `bundleRegistrationNotifications`  (string): Do Bundle owners receive registration notification?
 * `bundle_require_registration` / `bundleRequireRegistration`  (boolean): Do Bundles require registration?

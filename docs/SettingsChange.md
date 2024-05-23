@@ -15,7 +15,7 @@
 }
 ```
 
-* `changes` / `changes`  (array): Markdown-formatted change messages.
+* `changes` / `changes`  (array(string)): Markdown-formatted change messages.
 * `created_at` / `createdAt`  (date-time): The time this change was made
 * `user_id` / `userId`  (int64): The user id responsible for this change
 * `api_key_id` / `apiKeyId`  (int64): The api key id responsible for this change

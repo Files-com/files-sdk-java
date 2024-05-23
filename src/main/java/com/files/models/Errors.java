@@ -69,14 +69,14 @@ public class Errors {
   */
   @Getter
   @JsonProperty("fields")
-  public Object[] fields;
+  public String[] fields;
 
   /**
   * A list of error messages
   */
   @Getter
   @JsonProperty("messages")
-  public Object[] messages;
+  public String[] messages;
 
 
 

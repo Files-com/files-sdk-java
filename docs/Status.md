@@ -27,6 +27,6 @@
 * `message` / `message`  (string): Error message
 * `status` / `status`  (string): Status message
 * `data` / `data`  (auto): Additional data
-* `errors` / `errors`  (array): A list of api errors
+* `errors` / `errors`  (array(object)): A list of api errors
 * `clickwrap_id` / `clickwrapId`  (int64): Required Clickwrap id
 * `clickwrap_body` / `clickwrapBody`  (string): Required Clickwrap body

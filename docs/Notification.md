@@ -40,8 +40,8 @@
 * `path` / `path`  (string): Folder path to notify on This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `group_id` / `groupId`  (int64): ID of Group to receive notifications
 * `group_name` / `groupName`  (string): Group name, if a Group ID is set
-* `triggering_group_ids` / `triggeringGroupIds`  (array): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` / `triggeringUserIds`  (array): If set, will onlynotify on actions made one of the specified users
+* `triggering_group_ids` / `triggeringGroupIds`  (array(int64)): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` / `triggeringUserIds`  (array(int64)): If set, will onlynotify on actions made one of the specified users
 * `trigger_by_share_recipients` / `triggerByShareRecipients`  (boolean): Notify when actions are performed by a share recipient?
 * `notify_user_actions` / `notifyUserActions`  (boolean): If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
 * `notify_on_copy` / `notifyOnCopy`  (boolean): Trigger on files copied to this path?
@@ -52,7 +52,7 @@
 * `recursive` / `recursive`  (boolean): Apply notification recursively?  This will enable notifications for each subfolder.
 * `send_interval` / `sendInterval`  (string): The time interval that notifications are aggregated to
 * `message` / `message`  (string): Custom message to include in notification emails
-* `triggering_filenames` / `triggeringFilenames`  (array): Array of filenames (possibly with wildcards) to scope trigger
+* `triggering_filenames` / `triggeringFilenames`  (array(string)): Array of filenames (possibly with wildcards) to scope trigger
 * `unsubscribed` / `unsubscribed`  (boolean): Is the user unsubscribed from this notification?
 * `unsubscribed_reason` / `unsubscribedReason`  (string): The reason that the user unsubscribed
 * `user_id` / `userId`  (int64): Notification user ID

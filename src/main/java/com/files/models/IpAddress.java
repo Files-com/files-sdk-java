@@ -90,7 +90,7 @@ public class IpAddress {
   */
   @Getter
   @JsonProperty("ip_addresses")
-  public Object[] ipAddresses;
+  public String[] ipAddresses;
 
 
 

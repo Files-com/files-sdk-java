@@ -365,7 +365,7 @@ public class Bundle {
   @Getter
   @Setter
   @JsonProperty("paths")
-  public Object[] paths;
+  public String[] paths;
 
   /**
   * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.

@@ -174,7 +174,7 @@ public class App {
   */
   @Getter
   @JsonProperty("screenshot_list_urls")
-  public Object[] screenshotListUrls;
+  public String[] screenshotListUrls;
 
   /**
   * Link to SDK installation instructions

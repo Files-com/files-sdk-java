@@ -126,7 +126,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("destinations")
-  public Object[] destinations;
+  public String[] destinations;
 
   /**
   * If true, this automation will not run.
@@ -150,7 +150,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("group_ids")
-  public Object[] groupIds;
+  public Long[] groupIds;
 
   /**
   * If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -238,7 +238,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("schedule_days_of_week")
-  public Object[] scheduleDaysOfWeek;
+  public Long[] scheduleDaysOfWeek;
 
   /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
@@ -246,7 +246,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("schedule_times_of_day")
-  public Object[] scheduleTimesOfDay;
+  public String[] scheduleTimesOfDay;
 
   /**
   * If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
@@ -270,7 +270,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("sync_ids")
-  public Object[] syncIds;
+  public Long[] syncIds;
 
   /**
   * If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
@@ -278,7 +278,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("trigger_actions")
-  public Object[] triggerActions;
+  public String[] triggerActions;
 
   /**
   * How this automation is triggered to run.
@@ -302,7 +302,7 @@ public class Automation {
   @Getter
   @Setter
   @JsonProperty("user_ids")
-  public Object[] userIds;
+  public Long[] userIds;
 
   /**
   * A Hash of attributes specific to the automation type.

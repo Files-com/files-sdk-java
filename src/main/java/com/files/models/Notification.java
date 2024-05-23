@@ -102,7 +102,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_group_ids")
-  public Object[] triggeringGroupIds;
+  public Long[] triggeringGroupIds;
 
   /**
   * If set, will onlynotify on actions made one of the specified users
@@ -110,7 +110,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_user_ids")
-  public Object[] triggeringUserIds;
+  public Long[] triggeringUserIds;
 
   /**
   * Notify when actions are performed by a share recipient?
@@ -198,7 +198,7 @@ public class Notification {
   @Getter
   @Setter
   @JsonProperty("triggering_filenames")
-  public Object[] triggeringFilenames;
+  public String[] triggeringFilenames;
 
   /**
   * Is the user unsubscribed from this notification?

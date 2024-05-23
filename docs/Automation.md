@@ -68,10 +68,10 @@
 * `description` / `description`  (string): Description for the this Automation.
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
-* `destinations` / `destinations`  (array): Destination Paths
+* `destinations` / `destinations`  (array(string)): Destination Paths
 * `disabled` / `disabled`  (boolean): If true, this automation will not run.
 * `flatten_destination_structure` / `flattenDestinationStructure`  (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
-* `group_ids` / `groupIds`  (array): IDs of Groups for the Automation (i.e. who to Request File from)
+* `group_ids` / `groupIds`  (array(int64)): IDs of Groups for the Automation (i.e. who to Request File from)
 * `ignore_locked_folders` / `ignoreLockedFolders`  (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `last_modified_at` / `lastModifiedAt`  (date-time): Time when automation was last modified. Does not change for name or description updates.
@@ -82,15 +82,15 @@
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
 * `human_readable_schedule` / `humanReadableSchedule`  (string): If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
-* `schedule_days_of_week` / `scheduleDaysOfWeek`  (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-* `schedule_times_of_day` / `scheduleTimesOfDay`  (array): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
+* `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
 * `source` / `source`  (string): Source Path
-* `sync_ids` / `syncIds`  (array): IDs of remote sync folder behaviors to run by this Automation
-* `trigger_actions` / `triggerActions`  (array): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
+* `sync_ids` / `syncIds`  (array(int64)): IDs of remote sync folder behaviors to run by this Automation
+* `trigger_actions` / `triggerActions`  (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `trigger` / `trigger`  (string): How this automation is triggered to run.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
-* `user_ids` / `userIds`  (array): IDs of Users for the Automation (i.e. who to Request File from)
+* `user_ids` / `userIds`  (array(int64)): IDs of Users for the Automation (i.e. who to Request File from)
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
 * `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
 * `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.

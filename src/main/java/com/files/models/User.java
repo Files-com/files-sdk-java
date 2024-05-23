@@ -86,7 +86,7 @@ public class User {
   @Getter
   @Setter
   @JsonProperty("admin_group_ids")
-  public Object[] adminGroupIds;
+  public Long[] adminGroupIds;
 
   /**
   * A list of allowed IPs if applicable.  Newline delimited

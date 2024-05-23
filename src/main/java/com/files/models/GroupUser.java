@@ -102,7 +102,7 @@ public class GroupUser {
   @Getter
   @Setter
   @JsonProperty("usernames")
-  public Object[] usernames;
+  public String[] usernames;
 
   /**
   * Group User ID.

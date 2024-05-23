@@ -46,7 +46,7 @@
 * `name` / `name`  (string): Name of the App
 * `package_manager_install_command` / `packageManagerInstallCommand`  (string): Package manager install command
 * `remote_server_type` / `remoteServerType`  (string): Associated Remote Server type, if any
-* `screenshot_list_urls` / `screenshotListUrls`  (array): Screenshots of the App
+* `screenshot_list_urls` / `screenshotListUrls`  (array(string)): Screenshots of the App
 * `sdk_installation_instructions_link` / `sdkInstallationInstructionsLink`  (string): Link to SDK installation instructions
 * `short_description` / `shortDescription`  (string): Short description of the App
 * `sso_strategy_type` / `ssoStrategyType`  (string): Associated SSO Strategy type, if any

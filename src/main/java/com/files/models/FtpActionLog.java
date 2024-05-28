@@ -160,7 +160,7 @@ public class FtpActionLog {
   */
   @Getter
   @JsonProperty("responseCode")
-  public String responseCode;
+  public Long responseCode;
 
   /**
   * FTP Response Message

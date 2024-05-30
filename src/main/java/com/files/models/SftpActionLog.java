@@ -174,14 +174,14 @@ public class SftpActionLog {
   */
   @Getter
   @JsonProperty("size")
-  public String size;
+  public Long size;
 
   /**
   * Data Length in Bytes. Present for actions that transfer data.
   */
   @Getter
   @JsonProperty("data_length")
-  public String dataLength;
+  public Long dataLength;
 
   /**
   * Number of entries returned when listing files and folders

@@ -248,10 +248,10 @@ public class Lock {
   /**
   * Parameters:
   *   path (required) - string - Path
-  *   allow_access_by_any_user - boolean - Allow lock to be updated by any user?
+  *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
   *   exclusive - boolean - Is lock exclusive?
-  *   recursive - string - Does lock apply to subfolders?
-  *   timeout - int64 - Lock timeout length
+  *   recursive - boolean - Does lock apply to subfolders?
+  *   timeout - int64 - Lock timeout in seconds
   */
   public static Lock create() throws RuntimeException {
     return create(null, null, null);
@@ -287,8 +287,8 @@ public class Lock {
     if (parameters.containsKey("exclusive") && !(parameters.get("exclusive") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: exclusive must be of type Boolean parameters[\"exclusive\"]");
     }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type String parameters[\"recursive\"]");
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
     if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: timeout must be of type Long parameters[\"timeout\"]");

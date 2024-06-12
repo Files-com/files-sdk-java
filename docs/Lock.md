@@ -68,10 +68,10 @@ Lock lock = Lock.create(
 ### Parameters
 
 * `path` (String): Required - Path
-* `allow_access_by_any_user` (Boolean): Allow lock to be updated by any user?
+* `allow_access_by_any_user` (Boolean): Can lock be modified by users other than its creator?
 * `exclusive` (Boolean): Is lock exclusive?
-* `recursive` (String): Does lock apply to subfolders?
-* `timeout` (Long): Lock timeout length
+* `recursive` (Boolean): Does lock apply to subfolders?
+* `timeout` (Long): Lock timeout in seconds
 
 
 ---

@@ -160,8 +160,6 @@ Behavior behavior = Behavior.update(
 * `recursive` (Boolean): Is behavior recursive?
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
-* `behavior` (String): Behavior type.
-* `path` (String): Folder behaviors path.
 * `attachment_delete` (Boolean): If true, will delete the file stored in attachment
 
 
@@ -196,8 +194,6 @@ parameters.put("disable_parent_folder_behavior", true);
 parameters.put("recursive", true);
 parameters.put("name", "example");
 parameters.put("description", "example");
-parameters.put("behavior", "webhook");
-parameters.put("path", "example");
 parameters.put("attachment_delete", true);
 
 Behavior.Update(parameters);
@@ -212,8 +208,6 @@ Behavior.Update(parameters);
 * `recursive` (Boolean): Is behavior recursive?
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
-* `behavior` (String): Behavior type.
-* `path` (String): Folder behaviors path.
 * `attachment_delete` (Boolean): If true, will delete the file stored in attachment
 
 

@@ -160,8 +160,6 @@ public class Behavior {
   *   recursive - boolean - Is behavior recursive?
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
-  *   behavior - string - Behavior type.
-  *   path - string - Folder behaviors path.
   *   attachment_delete - boolean - If true, will delete the file stored in attachment
   */
   public Behavior update(HashMap<String, Object> parameters) {
@@ -505,8 +503,6 @@ public class Behavior {
   *   recursive - boolean - Is behavior recursive?
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
-  *   behavior - string - Behavior type.
-  *   path - string - Folder behaviors path.
   *   attachment_delete - boolean - If true, will delete the file stored in attachment
   */
   public static Behavior update() throws RuntimeException {
@@ -554,12 +550,6 @@ public class Behavior {
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
     if (parameters.containsKey("attachment_delete") && !(parameters.get("attachment_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: attachment_delete must be of type Boolean parameters[\"attachment_delete\"]");

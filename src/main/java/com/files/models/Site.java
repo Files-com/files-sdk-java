@@ -1052,6 +1052,13 @@ public class Site {
   public Date trialUntil;
 
   /**
+  * If using custom SMTP, should we use dedicated IPs to deliver emails?
+  */
+  @Getter
+  @JsonProperty("use_dedicated_ips_for_smtp")
+  public Boolean useDedicatedIpsForSmtp;
+
+  /**
   * Allow uploaders to set `provided_modified_at` for uploaded files?
   */
   @Getter
@@ -1346,6 +1353,7 @@ public class Site {
   *   site_header - string - Custom site header text
   *   site_footer - string - Custom site footer text
   *   login_help_text - string - Login help text
+  *   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
   *   smtp_address - string - SMTP server hostname or IP
   *   smtp_authentication - string - SMTP server authentication type
   *   smtp_from - string - From address to use when mailing through custom SMTP
@@ -1741,6 +1749,9 @@ public class Site {
     }
     if (parameters.containsKey("login_help_text") && !(parameters.get("login_help_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: login_help_text must be of type String parameters[\"login_help_text\"]");
+    }
+    if (parameters.containsKey("use_dedicated_ips_for_smtp") && !(parameters.get("use_dedicated_ips_for_smtp") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: use_dedicated_ips_for_smtp must be of type Boolean parameters[\"use_dedicated_ips_for_smtp\"]");
     }
     if (parameters.containsKey("smtp_address") && !(parameters.get("smtp_address") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_address must be of type String parameters[\"smtp_address\"]");

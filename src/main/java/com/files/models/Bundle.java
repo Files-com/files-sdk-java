@@ -153,7 +153,6 @@ public class Bundle {
   public String permissions;
 
   /**
-  * DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   */
   @Getter
   @Setter
@@ -453,7 +452,6 @@ public class Bundle {
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
@@ -493,6 +491,8 @@ public class Bundle {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[created_at]=desc`). Valid fields are `created_at` and `code`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
@@ -523,6 +523,12 @@ public class Bundle {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -633,7 +639,6 @@ public class Bundle {
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   inbox_id - int64 - ID of the associated inbox, if available.
@@ -708,9 +713,6 @@ public class Bundle {
     }
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
-    }
-    if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
@@ -835,7 +837,6 @@ public class Bundle {
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
   *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   preview_only - boolean - DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
@@ -921,9 +922,6 @@ public class Bundle {
     }
     if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
-    }
-    if (parameters.containsKey("preview_only") && !(parameters.get("preview_only") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: preview_only must be of type Boolean parameters[\"preview_only\"]");
     }
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");

@@ -137,7 +137,7 @@ public class Behavior {
   public Boolean recursive;
 
   /**
-  * Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
+  * Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   */
   @Getter
   @Setter
@@ -145,7 +145,7 @@ public class Behavior {
   public byte[] attachmentFile;
 
   /**
-  * If true, will delete the file stored in attachment
+  * If `true`, delete the file stored in `attachment`.
   */
   @Getter
   @Setter
@@ -154,13 +154,13 @@ public class Behavior {
 
   /**
   * Parameters:
-  *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-  *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-  *   recursive - boolean - Is behavior recursive?
+  *   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+  *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
-  *   attachment_delete - boolean - If true, will delete the file stored in attachment
+  *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
   public Behavior update(HashMap<String, Object> parameters) {
     return update(parameters);
@@ -190,6 +190,8 @@ public class Behavior {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
@@ -214,6 +216,12 @@ public class Behavior {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -302,12 +310,14 @@ public class Behavior {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   *   path (required) - string - Path to operate on.
-  *   ancestor_behaviors - string - Show behaviors above this path?
-  *   behavior - string - DEPRECATED: If set only shows folder behaviors matching this behavior type. Use `filter[behavior]` instead.
+  *   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
+  *   behavior - string
   */
   public static ListIterator<Behavior> listFor() throws RuntimeException {
     return listFor(null, null, null);
@@ -340,6 +350,12 @@ public class Behavior {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -352,8 +368,8 @@ public class Behavior {
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type String parameters[\"ancestor_behaviors\"]");
+    if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type Boolean parameters[\"ancestor_behaviors\"]");
     }
     if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
@@ -379,13 +395,13 @@ public class Behavior {
 
   /**
   * Parameters:
-  *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-  *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-  *   recursive - boolean - Is behavior recursive?
+  *   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+  *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
-  *   path (required) - string - Folder behaviors path.
+  *   path (required) - string - Path where this behavior should apply.
   *   behavior (required) - string - Behavior type.
   */
   public static Behavior create() throws RuntimeException {
@@ -445,11 +461,11 @@ public class Behavior {
   /**
   * Parameters:
   *   url (required) - string - URL for testing the webhook.
-  *   method - string - HTTP method(GET or POST).
-  *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-  *   headers - object - Additional request headers.
-  *   body - object - Additional body parameters.
-  *   action - string - action for test body
+  *   method - string - HTTP request method (GET or POST).
+  *   encoding - string - Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
+  *   headers - object - Additional request headers to send via HTTP.
+  *   body - object - Additional body parameters to include in the webhook payload.
+  *   action - string - Action for test body.
   */
   public static void webhookTest() throws RuntimeException {
     webhookTest(null, null);
@@ -497,13 +513,13 @@ public class Behavior {
 
   /**
   * Parameters:
-  *   value - string - The value of the folder behavior.  Can be an integer, array, or hash depending on the type of folder behavior. See The Behavior Types section for example values for each type of behavior.
-  *   attachment_file - file - Certain behaviors may require a file, for instance, the "watermark" behavior requires a watermark image
-  *   disable_parent_folder_behavior - boolean - If true, the parent folder's behavior will be disabled for this folder and its children.
-  *   recursive - boolean - Is behavior recursive?
+  *   value - string - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+  *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
-  *   attachment_delete - boolean - If true, will delete the file stored in attachment
+  *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
   public static Behavior update() throws RuntimeException {
     return update(null, null, null);

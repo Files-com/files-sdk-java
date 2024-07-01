@@ -31,6 +31,7 @@
 * `platform` / `platform`  (string): If this API key represents a Desktop app, what platform was it created on?
 * `url` / `url`  (string): URL for API host.
 * `user_id` / `userId`  (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
+* `path` / `path`  (string): Folder path restriction for this api key.
 
 
 ---
@@ -50,6 +51,8 @@ ListIterator<ApiKey> apiKey = ApiKey.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): 
+* `page` (Long): 
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[expires_at]=desc`). Valid fields are `expires_at`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
 * `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
@@ -107,6 +110,7 @@ ApiKey apiKey = ApiKey.create(
 * `expires_at` (String): API Key expiration date
 * `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Required - Internal name for the API Key.  For your use.
+* `path` (String): Folder path restriction for this api key.
 
 
 ---

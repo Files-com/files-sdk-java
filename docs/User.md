@@ -75,7 +75,7 @@
 * `username` / `username`  (string): User's username
 * `admin_group_ids` / `adminGroupIds`  (array(int64)): List of group IDs of which this user is an administrator
 * `allowed_ips` / `allowedIps`  (string): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` / `attachmentsPermission`  (boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+* `attachments_permission` / `attachmentsPermission`  (boolean): If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `api_keys_count` / `apiKeysCount`  (int64): Number of api keys associated with this user
 * `authenticate_until` / `authenticateUntil`  (date-time): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` / `authenticationMethod`  (string): How is this user authenticated?
@@ -161,6 +161,8 @@ ListIterator<User> user = User.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): 
+* `page` (Long): 
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[authenticate_until]=desc`). Valid fields are `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `company`, `name`, `site_admin`, `receive_admin_alerts`, `password_validity_days`, `ssl_required` or `not_site_admin`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`. Valid field combinations are `[ not_site_admin, username ]`.
 * `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
@@ -216,7 +218,7 @@ User user = User.create(
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+* `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -329,7 +331,7 @@ User user = User.update(
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+* `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
@@ -501,7 +503,7 @@ User.Update(parameters);
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): DEPRECATED: Can the user create Bundles (aka Share Links)? Use the bundle permission instead.
+* `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?

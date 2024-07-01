@@ -23,6 +23,7 @@
   "ignore_locked_folders": true,
   "interval": "week",
   "last_modified_at": "2000-01-01T01:00:00Z",
+  "legacy_folder_matching": true,
   "name": "example",
   "overwrite_files": true,
   "path": "example",
@@ -75,6 +76,7 @@
 * `ignore_locked_folders` / `ignoreLockedFolders`  (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `last_modified_at` / `lastModifiedAt`  (date-time): Time when automation was last modified. Does not change for name or description updates.
+* `legacy_folder_matching` / `legacyFolderMatching`  (boolean): If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` / `name`  (string): Name for this automation.
 * `overwrite_files` / `overwriteFiles`  (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -93,7 +95,7 @@
 * `user_ids` / `userIds`  (array(int64)): IDs of Users for the Automation (i.e. who to Request File from)
 * `value` / `value`  (object): A Hash of attributes specific to the automation type.
 * `webhook_url` / `webhookUrl`  (string): If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
-* `destination` / `destination`  (string): DEPRECATED: Destination Path. Use `destinations` instead.
+* `destination` / `destination`  (string): 
 
 
 ---
@@ -112,6 +114,8 @@ ListIterator<Automation> automation = Automation.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): 
+* `page` (Long): 
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[automation]=desc`). Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at` or `automation`. Valid field combinations are `[ automation, disabled ]` and `[ disabled, automation ]`.
 * `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
@@ -153,7 +157,7 @@ Automation automation = Automation.create(
 ### Parameters
 
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
+* `destination` (String): 
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -162,6 +166,7 @@ Automation automation = Automation.create(
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): 
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
@@ -170,6 +175,7 @@ Automation automation = Automation.create(
 * `disabled` (Boolean): If true, this automation will not run.
 * `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
+* `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
@@ -213,7 +219,7 @@ Automation automation = Automation.update(
 
 * `id` (Long): Required - Automation ID.
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
+* `destination` (String): 
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -222,6 +228,7 @@ Automation automation = Automation.update(
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): 
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
@@ -230,6 +237,7 @@ Automation automation = Automation.update(
 * `disabled` (Boolean): If true, this automation will not run.
 * `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
+* `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
@@ -293,6 +301,7 @@ parameters.put("path", "example");
 parameters.put("sync_ids", [1,2]);
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
+parameters.put("schedule", "example");
 parameters.put("schedule_days_of_week", [0,1,3]);
 parameters.put("schedule_times_of_day", ["7:30","11:30"]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
@@ -301,6 +310,7 @@ parameters.put("description", "example");
 parameters.put("disabled", true);
 parameters.put("flatten_destination_structure", true);
 parameters.put("ignore_locked_folders", true);
+parameters.put("legacy_folder_matching", true);
 parameters.put("name", "example");
 parameters.put("overwrite_files", true);
 parameters.put("path_time_zone", "Eastern Time (US & Canada)");
@@ -317,7 +327,7 @@ Automation.Update(parameters);
 
 * `id` (Long): Required - Automation ID.
 * `source` (String): Source Path
-* `destination` (String): DEPRECATED: Destination Path. Use `destinations` instead.
+* `destination` (String): 
 * `destinations` (String[]): A list of String destination paths or Hash of folder_path and optional file_path.
 * `destination_replace_from` (String): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -326,6 +336,7 @@ Automation.Update(parameters);
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
+* `schedule` (Map<String, String>): 
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
@@ -334,6 +345,7 @@ Automation.Update(parameters);
 * `disabled` (Boolean): If true, this automation will not run.
 * `flatten_destination_structure` (Boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
+* `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.

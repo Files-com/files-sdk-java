@@ -84,6 +84,8 @@ public class Priority {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   path (required) - string - The path to query for priorities
   */
   public static ListIterator<Priority> list() throws RuntimeException {
@@ -116,6 +118,12 @@ public class Priority {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");

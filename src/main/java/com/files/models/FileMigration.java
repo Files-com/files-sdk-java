@@ -93,7 +93,6 @@ public class FileMigration {
   public Long filesMoved;
 
   /**
-  * Deprecated: used to return a count of the applicable files.  Currently returns 0 always.  On remote servers, it is not possible to reliably determine the number of affected files for every migration operation.
   */
   @Getter
   @JsonProperty("files_total")

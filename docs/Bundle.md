@@ -97,7 +97,7 @@
 * `expires_at` / `expiresAt`  (date-time): Bundle expiration date/time
 * `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
 * `permissions` / `permissions`  (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` / `previewOnly`  (boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
+* `preview_only` / `previewOnly`  (boolean): 
 * `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `require_logout` / `requireLogout`  (boolean): If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
@@ -150,6 +150,8 @@ ListIterator<Bundle> bundle = Bundle.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): 
+* `page` (Long): 
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[created_at]=desc`). Valid fields are `created_at` and `code`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
 * `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
@@ -204,7 +206,6 @@ Bundle bundle = Bundle.create(
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `inbox_id` (Long): ID of the associated inbox, if available.
@@ -269,7 +270,6 @@ Bundle bundle = Bundle.update(
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
@@ -347,7 +347,6 @@ parameters.put("note", "The internal note on the bundle.");
 parameters.put("path_template", "{{name}}_{{ip}}");
 parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
 parameters.put("permissions", "read");
-parameters.put("preview_only", true);
 parameters.put("require_registration", true);
 parameters.put("require_share_recipient", true);
 parameters.put("send_email_receipt_to_uploader", true);
@@ -379,7 +378,6 @@ Bundle.Update(parameters);
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
-* `preview_only` (Boolean): DEPRECATED: Restrict users to previewing files only. Use `permissions` instead.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only

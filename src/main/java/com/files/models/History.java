@@ -164,6 +164,8 @@ public class History {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
@@ -207,6 +209,12 @@ public class History {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -239,6 +247,8 @@ public class History {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   path (required) - string - Path to operate on.
   */
@@ -282,6 +292,12 @@ public class History {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -314,6 +330,8 @@ public class History {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   *   user_id (required) - int64 - User ID.
   */
@@ -357,6 +375,12 @@ public class History {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -389,6 +413,8 @@ public class History {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[user_id]=desc`). Valid fields are `user_id` and `created_at`.
   */
   public static ListIterator<Action> listLogins() throws RuntimeException {
@@ -421,6 +447,12 @@ public class History {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
+    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -440,6 +472,8 @@ public class History {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   action - string
+  *   page - int64
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[path]=desc`). Valid fields are `path`, `folder`, `user_id` or `created_at`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
@@ -473,6 +507,12 @@ public class History {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");

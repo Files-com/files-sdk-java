@@ -9,6 +9,7 @@
   "name": "AS2 Partner Name",
   "uri": "example",
   "server_certificate": "require_match",
+  "http_auth_username": "username",
   "mdn_validation_level": "none",
   "enable_dedicated_ips": true,
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
@@ -21,13 +22,14 @@
 }
 ```
 
-* `id` / `id`  (int64): Id of the AS2 Partner.
-* `as2_station_id` / `as2StationId`  (int64): Id of the AS2 Station associated with this partner.
+* `id` / `id`  (int64): ID of the AS2 Partner.
+* `as2_station_id` / `as2StationId`  (int64): ID of the AS2 Station associated with this partner.
 * `name` / `name`  (string): The partner's formal AS2 name.
-* `uri` / `uri`  (string): Public URI for sending AS2 message to.
-* `server_certificate` / `serverCertificate`  (string): Remote server certificate security setting
-* `mdn_validation_level` / `mdnValidationLevel`  (string): MDN Validation Level controls how to evaluate message transfer success based on a partner's MDN response. NOTE: This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-* `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
+* `uri` / `uri`  (string): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+* `server_certificate` / `serverCertificate`  (string): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `http_auth_username` / `httpAuthUsername`  (string): Username to send to server for HTTP Authentication.
+* `mdn_validation_level` / `mdnValidationLevel`  (string): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
+* `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
 * `hex_public_certificate_serial` / `hexPublicCertificateSerial`  (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` / `publicCertificateMd5`  (string): MD5 hash of public certificate used for message security.
 * `public_certificate_subject` / `publicCertificateSubject`  (string): Subject of public certificate used for message security.
@@ -35,7 +37,8 @@
 * `public_certificate_serial` / `publicCertificateSerial`  (string): Serial of public certificate used for message security.
 * `public_certificate_not_before` / `publicCertificateNotBefore`  (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` / `publicCertificateNotAfter`  (string): Not after value of public certificate used for message security.
-* `public_certificate` / `publicCertificate`  (string): 
+* `http_auth_password` / `httpAuthPassword`  (string): Password to send to server for HTTP Authentication.
+* `public_certificate` / `publicCertificate`  (string): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
 
 
 ---
@@ -54,6 +57,8 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `action` (String): 
+* `page` (Long): 
 
 
 ---
@@ -87,13 +92,15 @@ As2Partner as2Partner = As2Partner.create(
 
 ### Parameters
 
-* `name` (String): Required - AS2 Name
-* `uri` (String): Required - URL base for AS2 responses
-* `public_certificate` (String): Required - 
-* `as2_station_id` (Long): Required - Id of As2Station for this partner
-* `server_certificate` (String): Remote server certificate security setting
-* `mdn_validation_level` (String): MDN Validation Level
-* `enable_dedicated_ips` (Boolean): 
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `http_auth_username` (String): Username to send to server for HTTP Authentication.
+* `http_auth_password` (String): Password to send to server for HTTP Authentication.
+* `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
+* `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `as2_station_id` (Long): Required - ID of the AS2 Station associated with this partner.
+* `name` (String): Required - The partner's formal AS2 name.
+* `uri` (String): Required - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+* `public_certificate` (String): Required - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
 
 
 ---
@@ -111,12 +118,14 @@ As2Partner as2Partner = As2Partner.update(
 ### Parameters
 
 * `id` (Long): Required - As2 Partner ID.
-* `name` (String): AS2 Name
-* `uri` (String): URL base for AS2 responses
-* `server_certificate` (String): Remote server certificate security setting
-* `mdn_validation_level` (String): MDN Validation Level
-* `public_certificate` (String): 
-* `enable_dedicated_ips` (Boolean): 
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `http_auth_username` (String): Username to send to server for HTTP Authentication.
+* `http_auth_password` (String): Password to send to server for HTTP Authentication.
+* `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
+* `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `name` (String): The partner's formal AS2 name.
+* `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+* `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
 
 
 ---
@@ -145,11 +154,12 @@ As2Partner as2Partner = As2Partner.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
+parameters.put("enable_dedicated_ips", true);
+parameters.put("http_auth_username", "username");
+parameters.put("mdn_validation_level", "none");
+parameters.put("server_certificate", "require_match");
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
-parameters.put("server_certificate", "require_match");
-parameters.put("mdn_validation_level", "none");
-parameters.put("enable_dedicated_ips", true);
 
 As2Partner.Update(parameters);
 ```
@@ -157,12 +167,14 @@ As2Partner.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - As2 Partner ID.
-* `name` (String): AS2 Name
-* `uri` (String): URL base for AS2 responses
-* `server_certificate` (String): Remote server certificate security setting
-* `mdn_validation_level` (String): MDN Validation Level
-* `public_certificate` (String): 
-* `enable_dedicated_ips` (Boolean): 
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `http_auth_username` (String): Username to send to server for HTTP Authentication.
+* `http_auth_password` (String): Password to send to server for HTTP Authentication.
+* `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
+* `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `name` (String): The partner's formal AS2 name.
+* `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+* `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
 
 
 ---

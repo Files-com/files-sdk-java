@@ -92,6 +92,9 @@ Or use if for all subsequent API calls globally like this:
 
 You can set the following global options directly on the `FilesClient` module:
 ```java
+    // Set the apiRoot to your site subdomain if your site is configured to disable global acceleration.
+    // Otherwise, don't change this setting for production.
+    // For dev/CI, you can point this to the mock server.
     FilesClient.setProperty("apiRoot", "https://files-mock-server:4041");
 ```
 

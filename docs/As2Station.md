@@ -40,7 +40,7 @@
 
 ---
 
-## List As2 Stations
+## List AS2 Stations
 
 ```
 ListIterator<As2Station> as2Station = As2Station.list(
@@ -60,7 +60,7 @@ ListIterator<As2Station> as2Station = As2Station.list(
 
 ---
 
-## Show As2 Station
+## Show AS2 Station
 
 ```
 As2Station as2Station = As2Station.find(
@@ -77,7 +77,7 @@ As2Station as2Station = As2Station.find(
 
 ---
 
-## Create As2 Station
+## Create AS2 Station
 
 ```
 As2Station as2Station = As2Station.create(
@@ -97,7 +97,7 @@ As2Station as2Station = As2Station.create(
 
 ---
 
-## Update As2 Station
+## Update AS2 Station
 
 ```
 As2Station as2Station = As2Station.update(
@@ -118,7 +118,7 @@ As2Station as2Station = As2Station.update(
 
 ---
 
-## Delete As2 Station
+## Delete AS2 Station
 
 ```
 void as2Station = As2Station.delete(
@@ -135,7 +135,7 @@ void as2Station = As2Station.delete(
 
 ---
 
-## Update As2 Station
+## Update AS2 Station
 
 ```
 As2Station as2Station = As2Station.Find(id);
@@ -158,7 +158,7 @@ As2Station.Update(parameters);
 
 ---
 
-## Delete As2 Station
+## Delete AS2 Station
 
 ```
 As2Station as2Station = As2Station.Find(id);

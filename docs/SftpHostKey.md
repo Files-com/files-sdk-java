@@ -20,7 +20,7 @@
 
 ---
 
-## List Sftp Host Keys
+## List SFTP Host Keys
 
 ```
 ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
@@ -40,7 +40,7 @@ ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
 
 ---
 
-## Show Sftp Host Key
+## Show SFTP Host Key
 
 ```
 SftpHostKey sftpHostKey = SftpHostKey.find(
@@ -57,7 +57,7 @@ SftpHostKey sftpHostKey = SftpHostKey.find(
 
 ---
 
-## Create Sftp Host Key
+## Create SFTP Host Key
 
 ```
 SftpHostKey sftpHostKey = SftpHostKey.create(
@@ -75,7 +75,7 @@ SftpHostKey sftpHostKey = SftpHostKey.create(
 
 ---
 
-## Update Sftp Host Key
+## Update SFTP Host Key
 
 ```
 SftpHostKey sftpHostKey = SftpHostKey.update(
@@ -94,7 +94,7 @@ SftpHostKey sftpHostKey = SftpHostKey.update(
 
 ---
 
-## Delete Sftp Host Key
+## Delete SFTP Host Key
 
 ```
 void sftpHostKey = SftpHostKey.delete(
@@ -111,7 +111,7 @@ void sftpHostKey = SftpHostKey.delete(
 
 ---
 
-## Update Sftp Host Key
+## Update SFTP Host Key
 
 ```
 SftpHostKey sftpHostKey = SftpHostKey.Find(id);
@@ -132,7 +132,7 @@ SftpHostKey.Update(parameters);
 
 ---
 
-## Delete Sftp Host Key
+## Delete SFTP Host Key
 
 ```
 SftpHostKey sftpHostKey = SftpHostKey.Find(id);

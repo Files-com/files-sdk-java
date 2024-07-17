@@ -105,7 +105,7 @@ public class User {
   public Boolean attachmentsPermission;
 
   /**
-  * Number of api keys associated with this user
+  * Number of API keys associated with this user
   */
   @Getter
   @Setter

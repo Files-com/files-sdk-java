@@ -77,7 +77,7 @@
 
 ---
 
-## List As2 Outgoing Messages
+## List AS2 Outgoing Messages
 
 ```
 ListIterator<As2OutgoingMessage> as2OutgoingMessage = As2OutgoingMessage.list(

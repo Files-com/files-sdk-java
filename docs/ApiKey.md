@@ -31,12 +31,12 @@
 * `platform` / `platform`  (string): If this API key represents a Desktop app, what platform was it created on?
 * `url` / `url`  (string): URL for API host.
 * `user_id` / `userId`  (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
-* `path` / `path`  (string): Folder path restriction for this api key.
+* `path` / `path`  (string): Folder path restriction for this API key.
 
 
 ---
 
-## List Api Keys
+## List API Keys
 
 ```
 ListIterator<ApiKey> apiKey = ApiKey.list(
@@ -76,7 +76,7 @@ ApiKey apiKey = ApiKey.findCurrent(
 
 ---
 
-## Show Api Key
+## Show API Key
 
 ```
 ApiKey apiKey = ApiKey.find(
@@ -93,7 +93,7 @@ ApiKey apiKey = ApiKey.find(
 
 ---
 
-## Create Api Key
+## Create API Key
 
 ```
 ApiKey apiKey = ApiKey.create(
@@ -110,7 +110,7 @@ ApiKey apiKey = ApiKey.create(
 * `expires_at` (String): API Key expiration date
 * `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Required - Internal name for the API Key.  For your use.
-* `path` (String): Folder path restriction for this api key.
+* `path` (String): Folder path restriction for this API key.
 
 
 ---
@@ -134,7 +134,7 @@ ApiKey apiKey = ApiKey.updateCurrent(
 
 ---
 
-## Update Api Key
+## Update API Key
 
 ```
 ApiKey apiKey = ApiKey.update(
@@ -168,7 +168,7 @@ void apiKey = ApiKey.deleteCurrent(
 
 ---
 
-## Delete Api Key
+## Delete API Key
 
 ```
 void apiKey = ApiKey.delete(
@@ -185,7 +185,7 @@ void apiKey = ApiKey.delete(
 
 ---
 
-## Update Api Key
+## Update API Key
 
 ```
 ApiKey apiKey = ApiKey.Find(id);
@@ -211,7 +211,7 @@ ApiKey.Update(parameters);
 
 ---
 
-## Delete Api Key
+## Delete API Key
 
 ```
 ApiKey apiKey = ApiKey.Find(id);

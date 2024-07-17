@@ -51,7 +51,7 @@
 
 ---
 
-## List Sftp Action Logs
+## List SFTP Action Logs
 
 ```
 ListIterator<SftpActionLog> sftpActionLog = SftpActionLog.list(

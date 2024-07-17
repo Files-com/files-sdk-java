@@ -43,7 +43,7 @@
 
 ---
 
-## List As2 Partners
+## List AS2 Partners
 
 ```
 ListIterator<As2Partner> as2Partner = As2Partner.list(
@@ -63,7 +63,7 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 
 ---
 
-## Show As2 Partner
+## Show AS2 Partner
 
 ```
 As2Partner as2Partner = As2Partner.find(
@@ -80,7 +80,7 @@ As2Partner as2Partner = As2Partner.find(
 
 ---
 
-## Create As2 Partner
+## Create AS2 Partner
 
 ```
 As2Partner as2Partner = As2Partner.create(
@@ -105,7 +105,7 @@ As2Partner as2Partner = As2Partner.create(
 
 ---
 
-## Update As2 Partner
+## Update AS2 Partner
 
 ```
 As2Partner as2Partner = As2Partner.update(
@@ -130,7 +130,7 @@ As2Partner as2Partner = As2Partner.update(
 
 ---
 
-## Delete As2 Partner
+## Delete AS2 Partner
 
 ```
 void as2Partner = As2Partner.delete(
@@ -147,7 +147,7 @@ void as2Partner = As2Partner.delete(
 
 ---
 
-## Update As2 Partner
+## Update AS2 Partner
 
 ```
 As2Partner as2Partner = As2Partner.Find(id);
@@ -179,7 +179,7 @@ As2Partner.Update(parameters);
 
 ---
 
-## Delete As2 Partner
+## Delete AS2 Partner
 
 ```
 As2Partner as2Partner = As2Partner.Find(id);

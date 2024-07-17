@@ -43,7 +43,7 @@
 
 ---
 
-## List Web Dav Action Logs
+## List WebDAV Action Logs
 
 ```
 ListIterator<WebDavActionLog> webDavActionLog = WebDavActionLog.list(

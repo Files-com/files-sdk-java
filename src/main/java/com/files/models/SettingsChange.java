@@ -86,7 +86,7 @@ public class SettingsChange {
   public Long userId;
 
   /**
-  * The api key id responsible for this change
+  * The API key id responsible for this change
   */
   @Getter
   @JsonProperty("api_key_id")

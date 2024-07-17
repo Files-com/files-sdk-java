@@ -85,7 +85,7 @@
 
 ---
 
-## List As2 Incoming Messages
+## List AS2 Incoming Messages
 
 ```
 ListIterator<As2IncomingMessage> as2IncomingMessage = As2IncomingMessage.list(

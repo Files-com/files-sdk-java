@@ -25,7 +25,7 @@
 
 ---
 
-## List Gpg Keys
+## List GPG Keys
 
 ```
 ListIterator<GpgKey> gpgKey = GpgKey.list(
@@ -47,7 +47,7 @@ ListIterator<GpgKey> gpgKey = GpgKey.list(
 
 ---
 
-## Show Gpg Key
+## Show GPG Key
 
 ```
 GpgKey gpgKey = GpgKey.find(
@@ -64,7 +64,7 @@ GpgKey gpgKey = GpgKey.find(
 
 ---
 
-## Create Gpg Key
+## Create GPG Key
 
 ```
 GpgKey gpgKey = GpgKey.create(
@@ -85,7 +85,7 @@ GpgKey gpgKey = GpgKey.create(
 
 ---
 
-## Update Gpg Key
+## Update GPG Key
 
 ```
 GpgKey gpgKey = GpgKey.update(
@@ -106,7 +106,7 @@ GpgKey gpgKey = GpgKey.update(
 
 ---
 
-## Delete Gpg Key
+## Delete GPG Key
 
 ```
 void gpgKey = GpgKey.delete(
@@ -123,7 +123,7 @@ void gpgKey = GpgKey.delete(
 
 ---
 
-## Update Gpg Key
+## Update GPG Key
 
 ```
 GpgKey gpgKey = GpgKey.Find(id);
@@ -149,7 +149,7 @@ GpgKey.Update(parameters);
 
 ---
 
-## Delete Gpg Key
+## Delete GPG Key
 
 ```
 GpgKey gpgKey = GpgKey.Find(id);

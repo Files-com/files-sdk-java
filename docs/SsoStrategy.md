@@ -103,7 +103,7 @@
 
 ---
 
-## List Sso Strategies
+## List SSO Strategies
 
 ```
 ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
@@ -123,7 +123,7 @@ ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
 
 ---
 
-## Show Sso Strategy
+## Show SSO Strategy
 
 ```
 SsoStrategy ssoStrategy = SsoStrategy.find(

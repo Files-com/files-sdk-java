@@ -247,6 +247,13 @@ public class Site {
   public Boolean bundleRequireShareRecipient;
 
   /**
+  * Do Bundles require internal notes?
+  */
+  @Getter
+  @JsonProperty("bundle_require_note")
+  public Boolean bundleRequireNote;
+
+  /**
   * Do Bundle uploaders receive upload confirmation notifications?
   */
   @Getter
@@ -1275,6 +1282,7 @@ public class Site {
   *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
   *   left_navigation_visibility - object - Visibility settings for account navigation
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
+  *   bundle_require_note - boolean - Do Bundles require internal notes?
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
@@ -1515,6 +1523,9 @@ public class Site {
     }
     if (parameters.containsKey("additional_text_file_types") && !(parameters.get("additional_text_file_types") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: additional_text_file_types must be of type String[] parameters[\"additional_text_file_types\"]");
+    }
+    if (parameters.containsKey("bundle_require_note") && !(parameters.get("bundle_require_note") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_require_note must be of type Boolean parameters[\"bundle_require_note\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

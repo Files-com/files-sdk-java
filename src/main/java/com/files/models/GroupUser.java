@@ -118,7 +118,8 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public GroupUser update(HashMap<String, Object> parameters) {
+  public GroupUser update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return GroupUser.update(this.id, parameters);
   }
 
@@ -127,22 +128,19 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     GroupUser.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      GroupUser.create(parameters, this.options);
-    }
+    GroupUser.create(parameters, this.options);
   }
 
   /**
@@ -209,9 +207,6 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static GroupUser create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static GroupUser create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -254,9 +249,6 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?
   */
-  public static GroupUser update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static GroupUser update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -321,9 +313,6 @@ public class GroupUser {
   *   group_id (required) - int64 - Group ID from which to remove user.
   *   user_id (required) - int64 - User ID to remove from group.
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

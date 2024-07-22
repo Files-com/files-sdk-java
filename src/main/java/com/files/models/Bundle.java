@@ -430,7 +430,8 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public void share(HashMap<String, Object> parameters) {
+  public void share() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Bundle.share(this.id, parameters);
   }
 
@@ -462,28 +463,26 @@ public class Bundle {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public Bundle update(HashMap<String, Object> parameters) {
+  public Bundle update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Bundle.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Bundle.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Bundle.create(parameters, this.options);
-    }
+    Bundle.create(parameters, this.options);
   }
 
   /**
@@ -568,9 +567,6 @@ public class Bundle {
   * Parameters:
   *   id (required) - int64 - Bundle ID.
   */
-  public static Bundle find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Bundle find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -651,9 +647,6 @@ public class Bundle {
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Bundle create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -764,9 +757,6 @@ public class Bundle {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public static void share() throws RuntimeException {
-    share(null, null, null);
-  }
 
   public static void share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     share(id, parameters, null);
@@ -847,9 +837,6 @@ public class Bundle {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public static Bundle update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Bundle update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -971,9 +958,6 @@ public class Bundle {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

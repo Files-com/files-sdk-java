@@ -110,28 +110,26 @@ public class ShareGroup {
   *   name - string - Name of the share group
   *   members - array(object) - A list of share group members.
   */
-  public ShareGroup update(HashMap<String, Object> parameters) {
+  public ShareGroup update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return ShareGroup.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     ShareGroup.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      ShareGroup.create(parameters, this.options);
-    }
+    ShareGroup.create(parameters, this.options);
   }
 
   /**
@@ -192,9 +190,6 @@ public class ShareGroup {
   * Parameters:
   *   id (required) - int64 - Share Group ID.
   */
-  public static ShareGroup find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static ShareGroup find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -253,9 +248,6 @@ public class ShareGroup {
   *   name (required) - string - Name of the share group
   *   members (required) - array(object) - A list of share group members.
   */
-  public static ShareGroup create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static ShareGroup create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -301,9 +293,6 @@ public class ShareGroup {
   *   name - string - Name of the share group
   *   members - array(object) - A list of share group members.
   */
-  public static ShareGroup update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static ShareGroup update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -359,9 +348,6 @@ public class ShareGroup {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

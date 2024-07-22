@@ -98,22 +98,19 @@ public class FileCommentReaction {
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     FileCommentReaction.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The FileCommentReaction Object doesn't support updates.");
-    } else {
-      FileCommentReaction.create(parameters, this.options);
-    }
+    FileCommentReaction.create(parameters, this.options);
   }
 
   /**
@@ -122,9 +119,6 @@ public class FileCommentReaction {
   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static FileCommentReaction create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static FileCommentReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -163,9 +157,6 @@ public class FileCommentReaction {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

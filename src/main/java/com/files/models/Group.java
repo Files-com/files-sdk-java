@@ -164,28 +164,26 @@ public class Group {
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
-  public Group update(HashMap<String, Object> parameters) {
+  public Group update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Group.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Group.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Group.create(parameters, this.options);
-    }
+    Group.create(parameters, this.options);
   }
 
   /**
@@ -258,9 +256,6 @@ public class Group {
   * Parameters:
   *   id (required) - int64 - Group ID.
   */
-  public static Group find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Group find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -324,9 +319,6 @@ public class Group {
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name (required) - string - Group name.
   */
-  public static Group create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Group create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -390,9 +382,6 @@ public class Group {
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
-  public static Group update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Group update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -466,9 +455,6 @@ public class Group {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

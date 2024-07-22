@@ -69,9 +69,6 @@ public class ActionWebhookFailure {
   /**
   * retry Action Webhook Failure
   */
-  public static void retry() throws RuntimeException {
-    retry(null, null, null);
-  }
 
   public static void retry(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     retry(id, parameters, null);

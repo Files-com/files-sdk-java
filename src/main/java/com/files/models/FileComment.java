@@ -100,28 +100,26 @@ public class FileComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public FileComment update(HashMap<String, Object> parameters) {
+  public FileComment update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return FileComment.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     FileComment.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      FileComment.create(parameters, this.options);
-    }
+    FileComment.create(parameters, this.options);
   }
 
   /**
@@ -196,9 +194,6 @@ public class FileComment {
   *   body (required) - string - Comment body.
   *   path (required) - string - File path.
   */
-  public static FileComment create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static FileComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -236,9 +231,6 @@ public class FileComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public static FileComment update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static FileComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -291,9 +283,6 @@ public class FileComment {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

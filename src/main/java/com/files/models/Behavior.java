@@ -162,28 +162,26 @@ public class Behavior {
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
-  public Behavior update(HashMap<String, Object> parameters) {
+  public Behavior update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Behavior.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Behavior.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Behavior.create(parameters, this.options);
-    }
+    Behavior.create(parameters, this.options);
   }
 
   /**
@@ -252,9 +250,6 @@ public class Behavior {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
-  public static Behavior find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Behavior find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -404,9 +399,6 @@ public class Behavior {
   *   path (required) - string - Path where this behavior should apply.
   *   behavior (required) - string - Behavior type.
   */
-  public static Behavior create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Behavior create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -467,9 +459,6 @@ public class Behavior {
   *   body - object - Additional body parameters to include in the webhook payload.
   *   action - string - Action for test body.
   */
-  public static void webhookTest() throws RuntimeException {
-    webhookTest(null, null);
-  }
 
   public static void webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
     webhookTest(parameters, null);
@@ -521,9 +510,6 @@ public class Behavior {
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
-  public static Behavior update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Behavior update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -591,9 +577,6 @@ public class Behavior {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

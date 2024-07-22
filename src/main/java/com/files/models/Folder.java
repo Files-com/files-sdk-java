@@ -338,11 +338,7 @@ public class Folder {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The Folder Object doesn't support updates.");
-    } else {
-      Folder.create(parameters, this.options);
-    }
+    Folder.create(parameters, this.options);
   }
 
   /**
@@ -442,9 +438,6 @@ public class Folder {
   *   mkdir_parents - boolean - Create parent directories if they do not exist?
   *   provided_mtime - string - User provided modification time.
   */
-  public static Folder create() throws RuntimeException {
-    return create(null, null, null);
-  }
 
   public static Folder create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);

@@ -161,22 +161,19 @@ public class Lock {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Lock.delete(this.path, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The Lock Object doesn't support updates.");
-    } else {
-      Lock.create(parameters, this.options);
-    }
+    Lock.create(parameters, this.options);
   }
 
   /**
@@ -258,9 +255,6 @@ public class Lock {
   *   recursive - boolean - Does lock apply to subfolders?
   *   timeout - int64 - Lock timeout in seconds
   */
-  public static Lock create() throws RuntimeException {
-    return create(null, null, null);
-  }
 
   public static Lock create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
@@ -321,9 +315,6 @@ public class Lock {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);

@@ -211,9 +211,6 @@ public class Payment {
   * Parameters:
   *   id (required) - int64 - Payment ID.
   */
-  public static AccountLineItem find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static AccountLineItem find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);

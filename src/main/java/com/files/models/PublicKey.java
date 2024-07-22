@@ -131,28 +131,26 @@ public class PublicKey {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public PublicKey update(HashMap<String, Object> parameters) {
+  public PublicKey update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return PublicKey.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     PublicKey.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      PublicKey.create(parameters, this.options);
-    }
+    PublicKey.create(parameters, this.options);
   }
 
   /**
@@ -213,9 +211,6 @@ public class PublicKey {
   * Parameters:
   *   id (required) - int64 - Public Key ID.
   */
-  public static PublicKey find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static PublicKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -273,9 +268,6 @@ public class PublicKey {
   *   title (required) - string - Internal reference for key.
   *   public_key (required) - string - Actual contents of SSH key.
   */
-  public static PublicKey create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static PublicKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -316,9 +308,6 @@ public class PublicKey {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public static PublicKey update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static PublicKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -371,9 +360,6 @@ public class PublicKey {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

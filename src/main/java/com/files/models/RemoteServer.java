@@ -680,7 +680,8 @@ public class RemoteServer {
   *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
-  public RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters) {
+  public RemoteServerConfigurationFile configurationFile() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return RemoteServer.configurationFile(this.id, parameters);
   }
 
@@ -752,28 +753,26 @@ public class RemoteServer {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
-  public RemoteServer update(HashMap<String, Object> parameters) {
+  public RemoteServer update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return RemoteServer.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     RemoteServer.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      RemoteServer.create(parameters, this.options);
-    }
+    RemoteServer.create(parameters, this.options);
   }
 
   /**
@@ -830,9 +829,6 @@ public class RemoteServer {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
-  public static RemoteServer find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static RemoteServer find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -888,9 +884,6 @@ public class RemoteServer {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
-  public static RemoteServerConfigurationFile findConfigurationFile() throws RuntimeException {
-    return findConfigurationFile(null, null, null);
-  }
 
   public static RemoteServerConfigurationFile findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return findConfigurationFile(id, parameters, null);
@@ -1003,9 +996,6 @@ public class RemoteServer {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
-  public static RemoteServer create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static RemoteServer create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -1238,9 +1228,6 @@ public class RemoteServer {
   *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
-  public static RemoteServerConfigurationFile configurationFile() throws RuntimeException {
-    return configurationFile(null, null, null);
-  }
 
   public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return configurationFile(id, parameters, null);
@@ -1386,9 +1373,6 @@ public class RemoteServer {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
-  public static RemoteServer update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static RemoteServer update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -1630,9 +1614,6 @@ public class RemoteServer {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

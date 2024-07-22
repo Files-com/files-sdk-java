@@ -127,28 +127,26 @@ public class GpgKey {
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name - string - Your GPG key name.
   */
-  public GpgKey update(HashMap<String, Object> parameters) {
+  public GpgKey update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return GpgKey.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     GpgKey.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      GpgKey.create(parameters, this.options);
-    }
+    GpgKey.create(parameters, this.options);
   }
 
   /**
@@ -213,9 +211,6 @@ public class GpgKey {
   * Parameters:
   *   id (required) - int64 - Gpg Key ID.
   */
-  public static GpgKey find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static GpgKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -275,9 +270,6 @@ public class GpgKey {
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name (required) - string - Your GPG key name.
   */
-  public static GpgKey create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static GpgKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -324,9 +316,6 @@ public class GpgKey {
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name - string - Your GPG key name.
   */
-  public static GpgKey update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static GpgKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -385,9 +374,6 @@ public class GpgKey {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

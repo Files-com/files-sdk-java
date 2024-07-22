@@ -179,20 +179,13 @@ public class ActionNotificationExport {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The ActionNotificationExport Object doesn't support updates.");
-    } else {
-      ActionNotificationExport.create(parameters, this.options);
-    }
+    ActionNotificationExport.create(parameters, this.options);
   }
 
   /**
   * Parameters:
   *   id (required) - int64 - Action Notification Export ID.
   */
-  public static ActionNotificationExport find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -257,9 +250,6 @@ public class ActionNotificationExport {
   *   query_path - string - Return notifications that were triggered by actions on this specific path.
   *   query_folder - string - Return notifications that were triggered by actions in this folder.
   */
-  public static ActionNotificationExport create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static ActionNotificationExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

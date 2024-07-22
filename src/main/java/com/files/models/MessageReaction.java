@@ -90,22 +90,19 @@ public class MessageReaction {
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     MessageReaction.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The MessageReaction Object doesn't support updates.");
-    } else {
-      MessageReaction.create(parameters, this.options);
-    }
+    MessageReaction.create(parameters, this.options);
   }
 
   /**
@@ -173,9 +170,6 @@ public class MessageReaction {
   * Parameters:
   *   id (required) - int64 - Message Reaction ID.
   */
-  public static MessageReaction find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static MessageReaction find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -232,9 +226,6 @@ public class MessageReaction {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   emoji (required) - string - Emoji to react with.
   */
-  public static MessageReaction create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static MessageReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -267,9 +258,6 @@ public class MessageReaction {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

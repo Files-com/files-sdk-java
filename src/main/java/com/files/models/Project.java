@@ -84,28 +84,26 @@ public class Project {
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
-  public Project update(HashMap<String, Object> parameters) {
+  public Project update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Project.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Project.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Project.create(parameters, this.options);
-    }
+    Project.create(parameters, this.options);
   }
 
   /**
@@ -162,9 +160,6 @@ public class Project {
   * Parameters:
   *   id (required) - int64 - Project ID.
   */
-  public static Project find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Project find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -220,9 +215,6 @@ public class Project {
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
-  public static Project create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Project create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -254,9 +246,6 @@ public class Project {
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
-  public static Project update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Project update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -309,9 +298,6 @@ public class Project {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

@@ -106,12 +106,13 @@ public class UserRequest {
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     UserRequest.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
@@ -170,9 +171,6 @@ public class UserRequest {
   * Parameters:
   *   id (required) - int64 - User Request ID.
   */
-  public static UserRequest find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static UserRequest find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -231,9 +229,6 @@ public class UserRequest {
   *   details (required) - string - Details of the user request
   *   company - string - Company of the user requested
   */
-  public static UserRequest create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static UserRequest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -278,9 +273,6 @@ public class UserRequest {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

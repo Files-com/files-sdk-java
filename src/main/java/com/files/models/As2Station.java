@@ -196,28 +196,26 @@ public class As2Station {
   *   private_key - string
   *   private_key_password - string
   */
-  public As2Station update(HashMap<String, Object> parameters) {
+  public As2Station update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return As2Station.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     As2Station.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      As2Station.create(parameters, this.options);
-    }
+    As2Station.create(parameters, this.options);
   }
 
   /**
@@ -274,9 +272,6 @@ public class As2Station {
   * Parameters:
   *   id (required) - int64 - As2 Station ID.
   */
-  public static As2Station find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static As2Station find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -335,9 +330,6 @@ public class As2Station {
   *   private_key (required) - string
   *   private_key_password - string
   */
-  public static As2Station create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static As2Station create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -387,9 +379,6 @@ public class As2Station {
   *   private_key - string
   *   private_key_password - string
   */
-  public static As2Station update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static As2Station update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -448,9 +437,6 @@ public class As2Station {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

@@ -211,9 +211,6 @@ public class Invoice {
   * Parameters:
   *   id (required) - int64 - Invoice ID.
   */
-  public static AccountLineItem find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static AccountLineItem find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);

@@ -109,28 +109,26 @@ public class BundleNotification {
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
-  public BundleNotification update(HashMap<String, Object> parameters) {
+  public BundleNotification update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return BundleNotification.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     BundleNotification.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      BundleNotification.create(parameters, this.options);
-    }
+    BundleNotification.create(parameters, this.options);
   }
 
   /**
@@ -195,9 +193,6 @@ public class BundleNotification {
   * Parameters:
   *   id (required) - int64 - Bundle Notification ID.
   */
-  public static BundleNotification find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static BundleNotification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -256,9 +251,6 @@ public class BundleNotification {
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
-  public static BundleNotification create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static BundleNotification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -300,9 +292,6 @@ public class BundleNotification {
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
-  public static BundleNotification update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static BundleNotification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -355,9 +344,6 @@ public class BundleNotification {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

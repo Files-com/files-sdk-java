@@ -130,22 +130,19 @@ public class Request {
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Request.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The Request Object doesn't support updates.");
-    } else {
-      Request.create(parameters, this.options);
-    }
+    Request.create(parameters, this.options);
   }
 
   /**
@@ -292,9 +289,6 @@ public class Request {
   *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  public static Request create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Request create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -336,9 +330,6 @@ public class Request {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

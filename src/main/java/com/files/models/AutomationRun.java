@@ -198,9 +198,6 @@ public class AutomationRun {
   * Parameters:
   *   id (required) - int64 - Automation Run ID.
   */
-  public static AutomationRun find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static AutomationRun find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);

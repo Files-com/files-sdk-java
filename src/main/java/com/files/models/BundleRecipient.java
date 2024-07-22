@@ -123,11 +123,7 @@ public class BundleRecipient {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The BundleRecipient Object doesn't support updates.");
-    } else {
-      BundleRecipient.create(parameters, this.options);
-    }
+    BundleRecipient.create(parameters, this.options);
   }
 
   /**
@@ -204,9 +200,6 @@ public class BundleRecipient {
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
-  public static BundleRecipient create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static BundleRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

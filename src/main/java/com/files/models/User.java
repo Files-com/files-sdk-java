@@ -642,21 +642,24 @@ public class User {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public void unlock(HashMap<String, Object> parameters) {
+  public void unlock() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     User.unlock(this.id, parameters);
   }
 
   /**
   * Resend user welcome email
   */
-  public void resendWelcomeEmail(HashMap<String, Object> parameters) {
+  public void resendWelcomeEmail() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     User.resendWelcomeEmail(this.id, parameters);
   }
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public void user2faReset(HashMap<String, Object> parameters) {
+  public void user2faReset() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     User.user2faReset(this.id, parameters);
   }
 
@@ -708,28 +711,26 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public User update(HashMap<String, Object> parameters) {
+  public User update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return User.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     User.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      User.create(parameters, this.options);
-    }
+    User.create(parameters, this.options);
   }
 
   /**
@@ -822,9 +823,6 @@ public class User {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
-  public static User find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static User find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -924,9 +922,6 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username (required) - string - User's username
   */
-  public static User create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static User create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -1089,9 +1084,6 @@ public class User {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public static void unlock() throws RuntimeException {
-    unlock(null, null, null);
-  }
 
   public static void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     unlock(id, parameters, null);
@@ -1138,9 +1130,6 @@ public class User {
   /**
   * Resend user welcome email
   */
-  public static void resendWelcomeEmail() throws RuntimeException {
-    resendWelcomeEmail(null, null, null);
-  }
 
   public static void resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     resendWelcomeEmail(id, parameters, null);
@@ -1187,9 +1176,6 @@ public class User {
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public static void user2faReset() throws RuntimeException {
-    user2faReset(null, null, null);
-  }
 
   public static void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     user2faReset(id, parameters, null);
@@ -1281,9 +1267,6 @@ public class User {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public static User update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static User update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -1465,9 +1448,6 @@ public class User {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

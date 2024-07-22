@@ -211,28 +211,26 @@ public class As2Partner {
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
-  public As2Partner update(HashMap<String, Object> parameters) {
+  public As2Partner update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return As2Partner.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     As2Partner.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      As2Partner.create(parameters, this.options);
-    }
+    As2Partner.create(parameters, this.options);
   }
 
   /**
@@ -289,9 +287,6 @@ public class As2Partner {
   * Parameters:
   *   id (required) - int64 - As2 Partner ID.
   */
-  public static As2Partner find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static As2Partner find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -355,9 +350,6 @@ public class As2Partner {
   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate (required) - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
-  public static As2Partner create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static As2Partner create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -429,9 +421,6 @@ public class As2Partner {
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
-  public static As2Partner update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static As2Partner update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -502,9 +491,6 @@ public class As2Partner {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

@@ -338,7 +338,8 @@ public class Automation {
   /**
   * Manually run automation
   */
-  public void manualRun(HashMap<String, Object> parameters) {
+  public void manualRun() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Automation.manualRun(this.id, parameters);
   }
 
@@ -373,28 +374,26 @@ public class Automation {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
-  public Automation update(HashMap<String, Object> parameters) {
+  public Automation update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Automation.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Automation.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Automation.create(parameters, this.options);
-    }
+    Automation.create(parameters, this.options);
   }
 
   /**
@@ -479,9 +478,6 @@ public class Automation {
   * Parameters:
   *   id (required) - int64 - Automation ID.
   */
-  public static Automation find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Automation find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -564,9 +560,6 @@ public class Automation {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation (required) - string - Automation type
   */
-  public static Automation create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Automation create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -678,9 +671,6 @@ public class Automation {
   /**
   * Manually run automation
   */
-  public static void manualRun() throws RuntimeException {
-    manualRun(null, null, null);
-  }
 
   public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
@@ -755,9 +745,6 @@ public class Automation {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
-  public static Automation update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Automation update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -888,9 +875,6 @@ public class Automation {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

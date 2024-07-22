@@ -174,28 +174,26 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name - string - Internal name for the API Key.  For your use.
   */
-  public ApiKey update(HashMap<String, Object> parameters) {
+  public ApiKey update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return ApiKey.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     ApiKey.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      ApiKey.create(parameters, this.options);
-    }
+    ApiKey.create(parameters, this.options);
   }
 
   /**
@@ -278,9 +276,6 @@ public class ApiKey {
 
   /**
   */
-  public static ApiKey findCurrent() throws RuntimeException {
-    return findCurrent(null, null);
-  }
 
   public static ApiKey findCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return findCurrent(parameters, null);
@@ -306,9 +301,6 @@ public class ApiKey {
   * Parameters:
   *   id (required) - int64 - Api Key ID.
   */
-  public static ApiKey find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static ApiKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -369,9 +361,6 @@ public class ApiKey {
   *   name (required) - string - Internal name for the API Key.  For your use.
   *   path - string - Folder path restriction for this API key.
   */
-  public static ApiKey create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static ApiKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -420,9 +409,6 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  public static ApiKey updateCurrent() throws RuntimeException {
-    return updateCurrent(null, null);
-  }
 
   public static ApiKey updateCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return updateCurrent(parameters, null);
@@ -460,9 +446,6 @@ public class ApiKey {
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations).  Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name - string - Internal name for the API Key.  For your use.
   */
-  public static ApiKey update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static ApiKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -521,9 +504,6 @@ public class ApiKey {
 
   /**
   */
-  public static void deleteCurrent() throws RuntimeException {
-    deleteCurrent(null, null);
-  }
 
   public static void deleteCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     deleteCurrent(parameters, null);
@@ -546,9 +526,6 @@ public class ApiKey {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

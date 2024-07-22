@@ -100,28 +100,26 @@ public class MessageComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public MessageComment update(HashMap<String, Object> parameters) {
+  public MessageComment update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return MessageComment.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     MessageComment.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      MessageComment.create(parameters, this.options);
-    }
+    MessageComment.create(parameters, this.options);
   }
 
   /**
@@ -189,9 +187,6 @@ public class MessageComment {
   * Parameters:
   *   id (required) - int64 - Message Comment ID.
   */
-  public static MessageComment find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static MessageComment find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -248,9 +243,6 @@ public class MessageComment {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   body (required) - string - Comment body.
   */
-  public static MessageComment create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static MessageComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -285,9 +277,6 @@ public class MessageComment {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public static MessageComment update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static MessageComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -340,9 +329,6 @@ public class MessageComment {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

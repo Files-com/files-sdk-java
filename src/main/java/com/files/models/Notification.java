@@ -256,28 +256,26 @@ public class Notification {
   *   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
-  public Notification update(HashMap<String, Object> parameters) {
+  public Notification update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Notification.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Notification.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Notification.create(parameters, this.options);
-    }
+    Notification.create(parameters, this.options);
   }
 
   /**
@@ -362,9 +360,6 @@ public class Notification {
   * Parameters:
   *   id (required) - int64 - Notification ID.
   */
-  public static Notification find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Notification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -436,9 +431,6 @@ public class Notification {
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
   */
-  public static Notification create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Notification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -527,9 +519,6 @@ public class Notification {
   *   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
-  public static Notification update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Notification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -615,9 +604,6 @@ public class Notification {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

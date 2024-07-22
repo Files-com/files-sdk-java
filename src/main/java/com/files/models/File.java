@@ -439,7 +439,8 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public File download(HashMap<String, Object> parameters) {
+  public File download() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return File.download(this.path, parameters);
   }
 
@@ -449,7 +450,8 @@ public class File {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public File update(HashMap<String, Object> parameters) {
+  public File update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return File.update(this.path, parameters);
   }
 
@@ -457,12 +459,13 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     File.delete(this.path, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
   /**
@@ -473,7 +476,8 @@ public class File {
   *   structure - boolean - Copy structure only?
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public FileAction copy(HashMap<String, Object> parameters) {
+  public FileAction copy() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return File.copy(this.path, parameters);
   }
 
@@ -484,7 +488,8 @@ public class File {
   *   destination (required) - string - Move destination path.
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public FileAction move(HashMap<String, Object> parameters) {
+  public FileAction move() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return File.move(this.path, parameters);
   }
 
@@ -500,18 +505,15 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public FileUploadPart beginUpload(HashMap<String, Object> parameters) {
+  public FileUploadPart beginUpload() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return File.beginUpload(this.path, parameters);
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      File.create(parameters, this.options);
-    }
+    File.create(parameters, this.options);
   }
 
   /**
@@ -523,9 +525,6 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static File download() throws RuntimeException {
-    return download(null, null, null);
-  }
 
   public static File download(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return download(path, parameters, null);
@@ -599,9 +598,6 @@ public class File {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static FileUploadPart create() throws RuntimeException {
-    return create(null, null, null);
-  }
 
   public static FileUploadPart create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
@@ -691,9 +687,6 @@ public class File {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public static File update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static File update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
@@ -751,9 +744,6 @@ public class File {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
@@ -814,9 +804,6 @@ public class File {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public static File find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static File find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
@@ -885,9 +872,6 @@ public class File {
   *   structure - boolean - Copy structure only?
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public static FileAction copy() throws RuntimeException {
-    return copy(null, null, null);
-  }
 
   public static FileAction copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return copy(path, parameters, null);
@@ -951,9 +935,6 @@ public class File {
   *   destination (required) - string - Move destination path.
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public static FileAction move() throws RuntimeException {
-    return move(null, null, null);
-  }
 
   public static FileAction move(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return move(path, parameters, null);
@@ -1019,9 +1000,6 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public static FileUploadPart beginUpload() throws RuntimeException {
-    return beginUpload(null, null, null);
-  }
 
   public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);

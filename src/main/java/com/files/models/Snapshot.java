@@ -123,7 +123,8 @@ public class Snapshot {
   /**
   * Finalize Snapshot
   */
-  public void performFinalize(HashMap<String, Object> parameters) {
+  public void performFinalize() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Snapshot.performFinalize(this.id, parameters);
   }
 
@@ -133,28 +134,26 @@ public class Snapshot {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
-  public Snapshot update(HashMap<String, Object> parameters) {
+  public Snapshot update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Snapshot.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Snapshot.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Snapshot.create(parameters, this.options);
-    }
+    Snapshot.create(parameters, this.options);
   }
 
   /**
@@ -211,9 +210,6 @@ public class Snapshot {
   * Parameters:
   *   id (required) - int64 - Snapshot ID.
   */
-  public static Snapshot find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Snapshot find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -271,9 +267,6 @@ public class Snapshot {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
-  public static Snapshot create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Snapshot create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -307,9 +300,6 @@ public class Snapshot {
   /**
   * Finalize Snapshot
   */
-  public static void performFinalize() throws RuntimeException {
-    performFinalize(null, null, null);
-  }
 
   public static void performFinalize(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     performFinalize(id, parameters, null);
@@ -359,9 +349,6 @@ public class Snapshot {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
-  public static Snapshot update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Snapshot update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -417,9 +404,6 @@ public class Snapshot {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

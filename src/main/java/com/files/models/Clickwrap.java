@@ -120,28 +120,26 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public Clickwrap update(HashMap<String, Object> parameters) {
+  public Clickwrap update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Clickwrap.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Clickwrap.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Clickwrap.create(parameters, this.options);
-    }
+    Clickwrap.create(parameters, this.options);
   }
 
   /**
@@ -198,9 +196,6 @@ public class Clickwrap {
   * Parameters:
   *   id (required) - int64 - Clickwrap ID.
   */
-  public static Clickwrap find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Clickwrap find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -260,9 +255,6 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Clickwrap create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -307,9 +299,6 @@ public class Clickwrap {
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  public static Clickwrap update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Clickwrap update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -371,9 +360,6 @@ public class Clickwrap {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

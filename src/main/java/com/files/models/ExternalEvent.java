@@ -170,11 +170,7 @@ public class ExternalEvent {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The ExternalEvent Object doesn't support updates.");
-    } else {
-      ExternalEvent.create(parameters, this.options);
-    }
+    ExternalEvent.create(parameters, this.options);
   }
 
   /**
@@ -259,9 +255,6 @@ public class ExternalEvent {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
-  public static ExternalEvent find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static ExternalEvent find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -318,9 +311,6 @@ public class ExternalEvent {
   *   status (required) - string - Status of event.
   *   body (required) - string - Event body
   */
-  public static ExternalEvent create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static ExternalEvent create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

@@ -118,28 +118,26 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public Message update(HashMap<String, Object> parameters) {
+  public Message update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return Message.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Message.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      Message.create(parameters, this.options);
-    }
+    Message.create(parameters, this.options);
   }
 
   /**
@@ -207,9 +205,6 @@ public class Message {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
-  public static Message find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static Message find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -268,9 +263,6 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Message create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -319,9 +311,6 @@ public class Message {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public static Message update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static Message update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -386,9 +375,6 @@ public class Message {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

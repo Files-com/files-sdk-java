@@ -388,7 +388,8 @@ public class SsoStrategy {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
-  public void sync(HashMap<String, Object> parameters) {
+  public void sync() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     SsoStrategy.sync(this.id, parameters);
   }
 
@@ -448,9 +449,6 @@ public class SsoStrategy {
   * Parameters:
   *   id (required) - int64 - Sso Strategy ID.
   */
-  public static SsoStrategy find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static SsoStrategy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -505,9 +503,6 @@ public class SsoStrategy {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
-  public static void sync() throws RuntimeException {
-    sync(null, null, null);
-  }
 
   public static void sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     sync(id, parameters, null);

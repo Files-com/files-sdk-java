@@ -109,28 +109,26 @@ public class SftpHostKey {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public SftpHostKey update(HashMap<String, Object> parameters) {
+  public SftpHostKey update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return SftpHostKey.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     SftpHostKey.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      SftpHostKey.create(parameters, this.options);
-    }
+    SftpHostKey.create(parameters, this.options);
   }
 
   /**
@@ -187,9 +185,6 @@ public class SftpHostKey {
   * Parameters:
   *   id (required) - int64 - Sftp Host Key ID.
   */
-  public static SftpHostKey find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static SftpHostKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -246,9 +241,6 @@ public class SftpHostKey {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public static SftpHostKey create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static SftpHostKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -281,9 +273,6 @@ public class SftpHostKey {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public static SftpHostKey update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static SftpHostKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -336,9 +325,6 @@ public class SftpHostKey {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

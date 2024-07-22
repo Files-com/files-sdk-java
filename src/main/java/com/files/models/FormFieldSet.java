@@ -136,28 +136,26 @@ public class FormFieldSet {
   *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
-  public FormFieldSet update(HashMap<String, Object> parameters) {
+  public FormFieldSet update() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     return FormFieldSet.update(this.id, parameters);
   }
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     FormFieldSet.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      update(parameters);
-    } else {
-      FormFieldSet.create(parameters, this.options);
-    }
+    FormFieldSet.create(parameters, this.options);
   }
 
   /**
@@ -218,9 +216,6 @@ public class FormFieldSet {
   * Parameters:
   *   id (required) - int64 - Form Field Set ID.
   */
-  public static FormFieldSet find() throws RuntimeException {
-    return find(null, null, null);
-  }
 
   public static FormFieldSet find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -281,9 +276,6 @@ public class FormFieldSet {
   *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
-  public static FormFieldSet create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static FormFieldSet create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -331,9 +323,6 @@ public class FormFieldSet {
   *   skip_company - boolean - Skip validating company
   *   form_fields - array(object)
   */
-  public static FormFieldSet update() throws RuntimeException {
-    return update(null, null, null);
-  }
 
   public static FormFieldSet update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -395,9 +384,6 @@ public class FormFieldSet {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

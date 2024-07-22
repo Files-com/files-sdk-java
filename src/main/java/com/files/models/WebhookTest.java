@@ -187,11 +187,7 @@ public class WebhookTest {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The WebhookTest Object doesn't support updates.");
-    } else {
-      WebhookTest.create(parameters, this.options);
-    }
+    WebhookTest.create(parameters, this.options);
   }
 
   /**
@@ -207,9 +203,6 @@ public class WebhookTest {
   *   action - string - action for test body
   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
   */
-  public static WebhookTest create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static WebhookTest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

@@ -130,22 +130,19 @@ public class Permission {
 
   /**
   */
-  public void delete(HashMap<String, Object> parameters) {
+  public void delete() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Permission.delete(this.id, parameters);
   }
 
-  public void destroy(HashMap<String, Object> parameters) {
-    delete(parameters);
+  public void destroy(HashMap<String, Object> parameters) throws IOException {
+    delete();
   }
 
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    if (parameters.containsKey("id") && parameters.get("id") != null) {
-      throw new UnsupportedOperationException("The Permission Object doesn't support updates.");
-    } else {
-      Permission.create(parameters, this.options);
-    }
+    Permission.create(parameters, this.options);
   }
 
   /**
@@ -235,9 +232,6 @@ public class Permission {
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
   */
-  public static Permission create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Permission create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -279,9 +273,6 @@ public class Permission {
 
   /**
   */
-  public static void delete() throws RuntimeException {
-    delete(null, null, null);
-  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);

@@ -1195,9 +1195,6 @@ public class Site {
 
   /**
   */
-  public static Site get() throws RuntimeException {
-    return get(null, null);
-  }
 
   public static Site get(HashMap<String, Object> parameters) throws RuntimeException {
     return get(parameters, null);
@@ -1221,9 +1218,6 @@ public class Site {
 
   /**
   */
-  public static UsageSnapshot getUsage() throws RuntimeException {
-    return getUsage(null, null);
-  }
 
   public static UsageSnapshot getUsage(HashMap<String, Object> parameters) throws RuntimeException {
     return getUsage(parameters, null);
@@ -1404,9 +1398,6 @@ public class Site {
   *   smtp_password - string - Password for SMTP server.
   *   session_expiry_minutes - int64 - Session expiry in minutes
   */
-  public static Site update() throws RuntimeException {
-    return update(null, null);
-  }
 
   public static Site update(HashMap<String, Object> parameters) throws RuntimeException {
     return update(parameters, null);

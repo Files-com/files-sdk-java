@@ -505,6 +505,14 @@ public class RemoteServer {
   public String linodeRegion;
 
   /**
+  * If true, this remote server supports file versioning. This value is determined automatically by Files.com.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("supports_versioning")
+  public Boolean supportsVersioning;
+
+  /**
   * AWS secret key.
   */
   @Getter

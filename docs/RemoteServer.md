@@ -58,7 +58,8 @@
   "dropbox_teams": true,
   "linode_bucket": "my-bucket",
   "linode_access_key": "example",
-  "linode_region": "us-east-1"
+  "linode_region": "us-east-1",
+  "supports_versioning": true
 }
 ```
 
@@ -117,6 +118,7 @@
 * `linode_bucket` / `linodeBucket`  (string): Linode Bucket name
 * `linode_access_key` / `linodeAccessKey`  (string): Linode Access Key.
 * `linode_region` / `linodeRegion`  (string): Linode region
+* `supports_versioning` / `supportsVersioning`  (boolean): If true, this remote server supports file versioning. This value is determined automatically by Files.com.
 * `aws_secret_key` / `awsSecretKey`  (string): AWS secret key.
 * `password` / `password`  (string): Password if needed.
 * `private_key` / `privateKey`  (string): Private key if needed.

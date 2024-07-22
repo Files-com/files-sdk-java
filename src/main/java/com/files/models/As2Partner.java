@@ -212,13 +212,13 @@ public class As2Partner {
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
   public As2Partner update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return As2Partner.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    As2Partner.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

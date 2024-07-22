@@ -643,21 +643,21 @@ public class User {
   * Unlock user who has been locked out due to failed logins
   */
   public void unlock(HashMap<String, Object> parameters) {
-    unlock(parameters);
+    User.unlock(this.id, parameters);
   }
 
   /**
   * Resend user welcome email
   */
   public void resendWelcomeEmail(HashMap<String, Object> parameters) {
-    resendWelcomeEmail(parameters);
+    User.resendWelcomeEmail(this.id, parameters);
   }
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
   public void user2faReset(HashMap<String, Object> parameters) {
-    user2faReset(parameters);
+    User.user2faReset(this.id, parameters);
   }
 
   /**
@@ -709,13 +709,13 @@ public class User {
   *   username - string - User's username
   */
   public User update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return User.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    User.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

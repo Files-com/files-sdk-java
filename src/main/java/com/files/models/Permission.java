@@ -131,7 +131,7 @@ public class Permission {
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Permission.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

@@ -119,7 +119,7 @@ public class GroupUser {
   *   admin - boolean - Is the user a group administrator?
   */
   public GroupUser update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return GroupUser.update(this.id, parameters);
   }
 
   /**
@@ -128,7 +128,7 @@ public class GroupUser {
   *   user_id (required) - int64 - User ID to remove from group.
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    GroupUser.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

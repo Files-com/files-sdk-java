@@ -339,7 +339,7 @@ public class Automation {
   * Manually run automation
   */
   public void manualRun(HashMap<String, Object> parameters) {
-    manualRun(parameters);
+    Automation.manualRun(this.id, parameters);
   }
 
   /**
@@ -374,13 +374,13 @@ public class Automation {
   *   automation - string - Automation type
   */
   public Automation update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Automation.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Automation.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

@@ -163,13 +163,13 @@ public class Behavior {
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
   public Behavior update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Behavior.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Behavior.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

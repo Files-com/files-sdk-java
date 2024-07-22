@@ -440,7 +440,7 @@ public class File {
   *   with_priority_color - boolean - Include file priority color information?
   */
   public File download(HashMap<String, Object> parameters) {
-    return download(parameters);
+    return File.download(this.path, parameters);
   }
 
   /**
@@ -450,7 +450,7 @@ public class File {
   *   priority_color - string - Priority/Bookmark color of file.
   */
   public File update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return File.update(this.path, parameters);
   }
 
   /**
@@ -458,7 +458,7 @@ public class File {
   *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    File.delete(this.path, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {
@@ -473,8 +473,8 @@ public class File {
   *   structure - boolean - Copy structure only?
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public File copy(HashMap<String, Object> parameters) {
-    return copy(parameters);
+  public FileAction copy(HashMap<String, Object> parameters) {
+    return File.copy(this.path, parameters);
   }
 
   /**
@@ -484,8 +484,8 @@ public class File {
   *   destination (required) - string - Move destination path.
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public File move(HashMap<String, Object> parameters) {
-    return move(parameters);
+  public FileAction move(HashMap<String, Object> parameters) {
+    return File.move(this.path, parameters);
   }
 
   /**
@@ -500,8 +500,8 @@ public class File {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public File beginUpload(HashMap<String, Object> parameters) {
-    return beginUpload(parameters);
+  public FileUploadPart beginUpload(HashMap<String, Object> parameters) {
+    return File.beginUpload(this.path, parameters);
   }
 
 

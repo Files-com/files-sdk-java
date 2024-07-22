@@ -257,13 +257,13 @@ public class Notification {
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
   public Notification update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Notification.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Notification.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

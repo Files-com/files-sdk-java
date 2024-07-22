@@ -137,13 +137,13 @@ public class FormFieldSet {
   *   form_fields - array(object)
   */
   public FormFieldSet update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return FormFieldSet.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    FormFieldSet.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

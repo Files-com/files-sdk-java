@@ -680,8 +680,8 @@ public class RemoteServer {
   *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
-  public RemoteServer configurationFile(HashMap<String, Object> parameters) {
-    return configurationFile(parameters);
+  public RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters) {
+    return RemoteServer.configurationFile(this.id, parameters);
   }
 
   /**
@@ -753,13 +753,13 @@ public class RemoteServer {
   *   linode_region - string - Linode region
   */
   public RemoteServer update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return RemoteServer.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    RemoteServer.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

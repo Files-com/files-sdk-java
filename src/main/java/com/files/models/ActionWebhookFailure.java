@@ -64,13 +64,6 @@ public class ActionWebhookFailure {
   }
 
 
-  /**
-  * retry Action Webhook Failure
-  */
-  public void retry(HashMap<String, Object> parameters) {
-    retry(parameters);
-  }
-
 
 
   /**

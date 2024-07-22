@@ -431,7 +431,7 @@ public class Bundle {
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
   public void share(HashMap<String, Object> parameters) {
-    share(parameters);
+    Bundle.share(this.id, parameters);
   }
 
   /**
@@ -463,13 +463,13 @@ public class Bundle {
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public Bundle update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Bundle.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Bundle.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

@@ -128,13 +128,13 @@ public class GpgKey {
   *   name - string - Your GPG key name.
   */
   public GpgKey update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return GpgKey.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    GpgKey.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

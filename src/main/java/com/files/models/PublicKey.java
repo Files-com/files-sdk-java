@@ -132,13 +132,13 @@ public class PublicKey {
   *   title (required) - string - Internal reference for key.
   */
   public PublicKey update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return PublicKey.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    PublicKey.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

@@ -91,7 +91,7 @@ public class MessageReaction {
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    MessageReaction.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

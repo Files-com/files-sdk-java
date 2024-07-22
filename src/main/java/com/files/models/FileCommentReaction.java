@@ -99,7 +99,7 @@ public class FileCommentReaction {
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    FileCommentReaction.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

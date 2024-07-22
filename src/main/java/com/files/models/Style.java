@@ -109,13 +109,13 @@ public class Style {
   *   file (required) - file - Logo for custom branding.
   */
   public Style update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Style.update(this.path, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Style.delete(this.path, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

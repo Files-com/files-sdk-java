@@ -110,13 +110,13 @@ public class BundleNotification {
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
   public BundleNotification update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return BundleNotification.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    BundleNotification.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

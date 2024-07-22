@@ -162,7 +162,7 @@ public class Lock {
   *   token (required) - string - Lock token
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Lock.delete(this.path, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

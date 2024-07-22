@@ -389,7 +389,7 @@ public class SsoStrategy {
   * Synchronize provisioning data with the SSO remote server
   */
   public void sync(HashMap<String, Object> parameters) {
-    sync(parameters);
+    SsoStrategy.sync(this.id, parameters);
   }
 
 

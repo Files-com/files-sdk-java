@@ -85,13 +85,13 @@ public class Project {
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */
   public Project update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Project.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Project.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

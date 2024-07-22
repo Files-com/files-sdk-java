@@ -124,7 +124,7 @@ public class Snapshot {
   * Finalize Snapshot
   */
   public void performFinalize(HashMap<String, Object> parameters) {
-    performFinalize(parameters);
+    Snapshot.performFinalize(this.id, parameters);
   }
 
   /**
@@ -134,13 +134,13 @@ public class Snapshot {
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
   public Snapshot update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Snapshot.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Snapshot.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

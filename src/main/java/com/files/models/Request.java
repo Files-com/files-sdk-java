@@ -131,7 +131,7 @@ public class Request {
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Request.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

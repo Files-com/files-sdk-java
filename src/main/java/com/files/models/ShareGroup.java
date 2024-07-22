@@ -111,13 +111,13 @@ public class ShareGroup {
   *   members - array(object) - A list of share group members.
   */
   public ShareGroup update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return ShareGroup.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    ShareGroup.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

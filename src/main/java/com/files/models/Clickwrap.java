@@ -121,13 +121,13 @@ public class Clickwrap {
   *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
   public Clickwrap update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return Clickwrap.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    Clickwrap.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

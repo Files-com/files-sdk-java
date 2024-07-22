@@ -197,13 +197,13 @@ public class As2Station {
   *   private_key_password - string
   */
   public As2Station update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return As2Station.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    As2Station.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

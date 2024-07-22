@@ -175,13 +175,13 @@ public class ApiKey {
   *   name - string - Internal name for the API Key.  For your use.
   */
   public ApiKey update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return ApiKey.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    ApiKey.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

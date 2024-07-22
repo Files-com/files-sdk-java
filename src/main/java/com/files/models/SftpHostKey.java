@@ -110,13 +110,13 @@ public class SftpHostKey {
   *   private_key - string - The private key data.
   */
   public SftpHostKey update(HashMap<String, Object> parameters) {
-    return update(parameters);
+    return SftpHostKey.update(this.id, parameters);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) {
-    delete(parameters);
+    SftpHostKey.delete(this.id, parameters);
   }
 
   public void destroy(HashMap<String, Object> parameters) {

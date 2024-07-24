@@ -33,7 +33,7 @@
 * `seq_id` / `seqId`  (int64): FTP Sequence ID
 * `auth_ciphers` / `authCiphers`  (string): Authentication Ciphers
 * `action_type` / `actionType`  (string): Action Type
-* `path` / `path`  (string): Path as sent by the Client (may not match Files.com path due to user root folders for FTP) This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` / `path`  (string): Path as sent by the Client (may not match Files.com path due to user root folders for FTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `true_path` / `truePath`  (string): Path on Files.com
 * `name` / `name`  (string): Name of File
 * `cmd` / `cmd`  (string): FTP Command Name

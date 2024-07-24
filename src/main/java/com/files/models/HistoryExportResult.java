@@ -107,7 +107,7 @@ public class HistoryExportResult {
   public Long parentId;
 
   /**
-  * Path of the related action This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @JsonProperty("path")

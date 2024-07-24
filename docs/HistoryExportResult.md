@@ -38,7 +38,7 @@
 * `user_id` / `userId`  (int64): User ID
 * `file_id` / `fileId`  (int64): File ID related to the action
 * `parent_id` / `parentId`  (int64): ID of the parent folder
-* `path` / `path`  (string): Path of the related action This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` / `path`  (string): Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `folder` / `folder`  (string): Folder in which the action occurred
 * `src` / `src`  (string): File move originated from this path
 * `destination` / `destination`  (string): File moved to this destination folder

@@ -12,7 +12,7 @@
 ```
 
 * `id` / `id`  (int64): Style ID
-* `path` / `path`  (string): Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` / `path`  (string): Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `logo` / `logo`  (image): Logo
 * `thumbnail` / `thumbnail`  (image): Logo thumbnail
 * `file` / `file`  (file): Logo for custom branding.

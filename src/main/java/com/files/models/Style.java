@@ -73,7 +73,7 @@ public class Style {
   public Long id;
 
   /**
-  * Folder path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @Setter

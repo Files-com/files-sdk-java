@@ -11,7 +11,7 @@
 ```
 
 * `inbox_registration` / `inboxRegistration`  (inboxRegistration): 
-* `path` / `path`  (string): Upload path This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+* `path` / `path`  (string): Upload path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `created_at` / `createdAt`  (date-time): Upload date/time
 
 

@@ -438,6 +438,7 @@ public class File {
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
+  *   point_in_time - string - Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
   */
   public File download() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -524,6 +525,7 @@ public class File {
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
+  *   point_in_time - string - Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
   */
 
   public static File download(String path, HashMap<String, Object> parameters) throws RuntimeException {
@@ -561,6 +563,9 @@ public class File {
     }
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
+    }
+    if (parameters.containsKey("point_in_time") && !(parameters.get("point_in_time") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: point_in_time must be of type String parameters[\"point_in_time\"]");
     }
 
 

@@ -111,6 +111,7 @@ File file = File.download(
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (Boolean): Include file preview information?
 * `with_priority_color` (Boolean): Include file priority color information?
+* `point_in_time` (String): Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 
 
 ---
@@ -286,6 +287,7 @@ File.Download(parameters);
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (Boolean): Include file preview information?
 * `with_priority_color` (Boolean): Include file priority color information?
+* `point_in_time` (String): Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 
 
 ---

@@ -100,13 +100,6 @@ public class SettingsChange {
   public Boolean userIsFilesSupport;
 
   /**
-  * true if this change was performed by a user on a parent site.
-  */
-  @Getter
-  @JsonProperty("user_is_from_parent_site")
-  public Boolean userIsFromParentSite;
-
-  /**
   * The username of the user responsible for this change
   */
   @Getter

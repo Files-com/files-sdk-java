@@ -414,12 +414,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class InvalidSessionException extends NotAuthenticatedException {
-    public InvalidSessionException(String message, ResponseError responseError, Map<String, List<String>> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class InvalidUsernameOrPasswordException extends NotAuthenticatedException {
     public InvalidUsernameOrPasswordException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -554,12 +548,6 @@ public class ApiErrorException extends SdkException {
 
   public static class InsufficientPermissionForParamsException extends NotAuthorizedException {
     public InsufficientPermissionForParamsException(String message, ResponseError responseError, Map<String, List<String>> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
-  public static class InsufficientPermissionForSiteException extends NotAuthorizedException {
-    public InsufficientPermissionForSiteException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

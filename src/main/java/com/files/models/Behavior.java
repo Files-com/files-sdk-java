@@ -188,9 +188,7 @@ public class Behavior {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string
-  *   page - int64
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior` and `impacts_ui`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   */
@@ -214,12 +212,6 @@ public class Behavior {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -305,14 +297,11 @@ public class Behavior {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string
-  *   page - int64
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[behavior]=desc`). Valid fields are `behavior` and `impacts_ui`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior` and `impacts_ui`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
   *   path (required) - string - Path to operate on.
   *   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
-  *   behavior - string
   */
   public static ListIterator<Behavior> listFor() throws RuntimeException {
     return listFor(null, null, null);
@@ -345,12 +334,6 @@ public class Behavior {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
-    }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
@@ -365,9 +348,6 @@ public class Behavior {
     }
     if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type Boolean parameters[\"ancestor_behaviors\"]");
-    }
-    if (parameters.containsKey("behavior") && !(parameters.get("behavior") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: behavior must be of type String parameters[\"behavior\"]");
     }
 
 

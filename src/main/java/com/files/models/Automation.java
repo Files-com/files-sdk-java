@@ -329,13 +329,6 @@ public class Automation {
   public String webhookUrl;
 
   /**
-  */
-  @Getter
-  @Setter
-  @JsonProperty("destination")
-  public String destination;
-
-  /**
   * Manually run automation
   */
   public void manualRun() throws IOException {
@@ -346,7 +339,6 @@ public class Automation {
   /**
   * Parameters:
   *   source - string - Source Path
-  *   destination - string
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -355,7 +347,6 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -400,9 +391,7 @@ public class Automation {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   action - string
-  *   page - int64
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction (e.g. `sort_by[automation]=desc`). Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at` or `automation`. Valid field combinations are `[ automation, disabled ]` and `[ disabled, automation ]`.
   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
@@ -430,12 +419,6 @@ public class Automation {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("page") && !(parameters.get("page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: page must be of type Long parameters[\"page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -532,7 +515,6 @@ public class Automation {
   /**
   * Parameters:
   *   source - string - Source Path
-  *   destination - string
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -541,7 +523,6 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -578,9 +559,6 @@ public class Automation {
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
     if (parameters.containsKey("destinations") && !(parameters.get("destinations") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: destinations must be of type String[] parameters[\"destinations\"]");
     }
@@ -604,9 +582,6 @@ public class Automation {
     }
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
@@ -717,7 +692,6 @@ public class Automation {
   /**
   * Parameters:
   *   source - string - Source Path
-  *   destination - string
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
@@ -726,7 +700,6 @@ public class Automation {
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
-  *   schedule - object
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
@@ -773,9 +746,6 @@ public class Automation {
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
     }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
     if (parameters.containsKey("destinations") && !(parameters.get("destinations") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: destinations must be of type String[] parameters[\"destinations\"]");
     }
@@ -799,9 +769,6 @@ public class Automation {
     }
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-    if (parameters.containsKey("schedule") && !(parameters.get("schedule") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: schedule must be of type Map<String, String> parameters[\"schedule\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");

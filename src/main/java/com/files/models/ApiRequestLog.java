@@ -100,6 +100,13 @@ public class ApiRequestLog {
   public String username;
 
   /**
+  * true if this change was performed by a user on a parent site.
+  */
+  @Getter
+  @JsonProperty("user_is_from_parent_site")
+  public Boolean userIsFromParentSite;
+
+  /**
   * API Interface
   */
   @Getter

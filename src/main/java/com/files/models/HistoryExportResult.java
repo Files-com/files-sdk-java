@@ -149,6 +149,13 @@ public class HistoryExportResult {
   public String username;
 
   /**
+  * true if this change was performed by a user on a parent site.
+  */
+  @Getter
+  @JsonProperty("user_is_from_parent_site")
+  public Boolean userIsFromParentSite;
+
+  /**
   * What action was taken. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
   */
   @Getter

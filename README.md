@@ -1,138 +1,443 @@
 # Files.com Java Client
 
+The content included here should be enough to get started, but please visit our
+[Developer Documentation Website](https://developers.files.com/java/) for the complete documentation.
+
+## Introduction
+
 The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.
 
+### Installation
 
-## Installation
-
-
-### Maven
+#### Maven
 
 A maven jar is available through [maven-central](https://search.maven.org/).
 To use the package add the following to your `pom.xml` file.
 
 ```xml
-    <dependency>
-        <groupId>com.files</groupId>
-        <artifactId>files-sdk</artifactId>
-    </dependency>
+<dependency>
+    <groupId>com.files</groupId>
+    <artifactId>files-sdk</artifactId>
+</dependency>
 ```
 
-
-### Gradle
+#### Gradle
 
 To add the dependency to your Gradle project add this to your
 
 ```groovy
-    compile group: 'com.files', name: 'files-sdk'
+compile group: 'com.files', name: 'files-sdk'
 ```
 
-
-### Requirements
+#### Requirements
 
 The Files.com Java SDK supports all versions of Java beginning with Java 8 (Also known as 1.8).
 
+<Note title="Repository">
+Explore the [files-sdk-java](https://github.com/Files-com/files-sdk-java) code on GitHub.
+</Note>
 
-## Usage
+### Getting Support
 
+The Files.com team is happy to help with any SDK Integration challenges you
+may face.
 
-### Authentication
+Just email support@files.com and we'll get the process started.
 
-There are multiple ways to authenticate to the Files.com SDK for Java.
+## Authentication
 
+### Authenticate with an API Key
 
-#### Global API Key
+Authenticating with an API key is the recommended authentication method for most scenarios, and is
+the method used in the examples on this site.
 
-You can set an API key globally, like this:
+To use the API or SDKs with an API Key, first generate an API key from the [web
+interface](https://www.files.com/docs/sdk-and-apis/api-keys) or [via the API or an
+SDK](/java/resources/developers/api-keys).
 
-```java
-    FilesClient.apiKey = "my-key";
+Note that when using a user-specific API key, if the user is an administrator, you will have full
+access to the entire API. If the user is not an administrator, you will only be able to access files
+that user can access, and no access will be granted to site administration functions in the API.
+
+```java title="Example Request"
+FilesClient.apiKey = "YOUR_API_KEY";
+// Alternatively, you can specify the API key on a per-object
+// basis in options HashMap to a model constructor.
+
+HashMap<String, Object> requestOptions = new HashMap()<>;
+requestOptions.put("api_key", "my-key");
+User user = new User(params, requestParameters);
+
+// You may also specify the API key on a per-request basis in
+// in the final parameter to static methods.
+HashMap<String, Object> requestOptions = new HashMap()<>;
+requestOptions.put("api_key", "my-key");
+User.find(id, params, requestOptions);
 ```
 
+<Note>
+Don't forget to replace the placeholder, `YOUR_API_KEY`, with your actual API key.
+</Note>
 
-#### Per-Request API Key
+### Authenticate with a Session
 
-Or, you can pass an API key per-request, in the Options HashMap at the end
-of every method.  Like this:
+You can also authenticate to the REST API or SDKs by creating a user session using the username and
+password of an active user. If the user is an administrator, the session will have full access to
+the entire API. Sessions created from regular user accounts will only be able to access files that
+user can access, and no access will be granted to site administration functions.
 
-```java
-    HashMap<String, Object> requestOptions = new HashMap<>();
-    requestOptions.put("api_key", "my-key");
-    List<User> users = User.list(null, requestOptions).all();
+API sessions use the exact same session timeout settings as web interface sessions. When an API
+session times out, simply create a new session and resume where you left off. This process is not
+automatically handled by SDKs because we do not want to store password information in memory without
+your explicit consent.
+
+#### Logging in
+
+To create a session, the `create` method is called on the `Session` object with the user's username and
+password.
+
+This returns a session object that can be used to authenticate SDK method calls.
+
+```java title="Example Request"
+HashMap<String, Object> sessionParameters = new HashMap<>()
+sessionParameters.put("username", "username");
+sessionParameters.put("password", "password");
+Session session = Session.create(parameters)
 ```
 
-That key will automatically be used for any followup actions that occur
-on models returned from the API.
+#### Using a session
 
+Once a session has been created, you can store the session globally, use the session per object, or use the session per request to authenticate SDK operations.
 
-#### User Session
+```java title="Example Request"
+// You may set the returned session to be used by default for subsequent requests.
+FilesClient.session = session;
 
-Or, you can open a user session by calling `Session.create()`
-```java
-    HashMap<String, Object> sessionParameters = new HashMap<>();
-    sessionParameters.put("username", "username");
-    sessionParameters.put("password", "password");
-    Session session = Session.create(sessionParameters);
+// Alternatively, you can specify the session ID on a per-object basis
+// in the second parameter to a model constructor.
+HashMap<String, Object> requestParameters = new HashMap<>();
+requestParameters.put("session_id", session.getId());
+user = new User(params, requestParameters);
+
+// You may also specify the session ID on a per-request basis in the final parameter to static methods.
+HashMap<String, Object> requestParameters = new HashMap<>();
+requestParameters.put("session_id", session.getId());
+User.find(id, params, requestParameters);
+
 ```
 
-Then use it as follows:
-```java
-    HashMap<String, Object> requestOptions = new HashMap<>();
-    requestOptions.put("session_id", session.getId());
-    List<User> users = User.list(null, requestOptions).all();
+#### Logging out
+
+User sessions can be ended calling the `destroy` method on the `session` object.
+
+```java title="Example Request"
+session.destroy()
 ```
 
-Or use if for all subsequent API calls globally like this:
-```java
-    FilesClient.session = session;
+## Configuration
+
+### Configuration options
+
+#### Base URL
+
+Setting the base URL for the API is required if your site is configured to disable global acceleration.
+This can also be set to use a mock server in development or CI.
+
+```java title="Example setting"
+FilesClient.setProperty("apiRoot", "https://MY-SUBDOMAIN.files.com");
 ```
 
+### Logging
 
-### Setting Global Options
+The Files.com SDK is compatible with the standard log4j logging scheme.
 
-You can set the following global options directly on the `FilesClient` module:
-```java
-    // Set the apiRoot to your site subdomain if your site is configured to disable global acceleration.
-    // Otherwise, don't change this setting for production.
-    // For dev/CI, you can point this to the mock server.
-    FilesClient.setProperty("apiRoot", "https://files-mock-server:4041");
+Add `com.files` logger to your `Loggers` root in the `log4j2.xml` file.
+
+```xml title="log4j2.xml"
+<Loggers>
+    <!-- set preferred level -->
+    <Logger name="com.files" level="TRACE" />
+    <!-- to enable network request -->
+    <Logger name="okhttp3.logging.wire" level="INFO"/>
+</Loggers>
 ```
 
-### Pagination
+Create a `resources/log4j2.xml` file.
 
-For endpoints with pagination, operations such as `list` will return a `ListIterator` object. This object allows for accessing pages of
-results with `loadNextPage()`, `all()`, and auto-pagination using `listAutoPaging()`.
+```xml title="resources/log4j2.xml"
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- set preferred level -->
+        <Logger name="com.files" level="TRACE"/>
+        <!-- to enable network request -->
+        <Logger name="okhttp3.logging.wire" level="INFO"/>
+    </Loggers>
+</Configuration>
+```
 
+You can read more about [log4j2 configuration](https://logging.apache.org/log4j/2.x/manual/configuration.html).
 
-### Error Handling
+## Errors
 
-Unexpected errors when attempting to connect to the API inherit from the base level `SdkException` class. They all contain a `getMessage()`
-to describe what went wrong.
+The Files.com Java SDK will return errors by raising exceptions. There are many exception classes defined in the Files SDK that correspond
+to specific errors.
 
+The raised exceptions come from two categories:
 
-#### Unable to connect to the API
+1.  SDK Exceptions - errors that originate within the SDK
+2.  API Exceptions - errors that occur due to the response from the Files.com API.  These errors are grouped into common error types.
 
-```java
-try {
-    Folder.ListFor("/").all();
-} catch (ApiErrorException.ApiConnectionException e) {
-    System.out.println("Unable to list root folder: " + e.getMessage());
+There are several types of exceptions within each category.  Exception classes indicate different types of errors and are named in a
+fashion that describe the general premise of the originating error.  More details can be found in the exception object message using the
+`getMessage()` method.
+
+Use standard Java exception handling to detect and deal with errors.  It is generally recommended to catch specific errors first, then
+catch the general `SdkException` exception as a catch-all.
+
+```java title="Example Error Handling"
+package com.filescom.app;
+import java.util.HashMap;
+
+import com.files.models.*;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
+
+public class App
+{
+    public static void main( String[] args )
+    {
+        HashMap<String, Object> sessionParameters = new HashMap<>();
+        sessionParameters.put("username", "USERNAME");
+        sessionParameters.put("password", "BADPASSWORD");
+
+        try{
+            Session session = Session.create(sessionParameters);
+        }
+        catch(NotAuthenticatedException e){
+            System.out.println("Authentication Error Occrured (" + e.getClass().getName() +"): " + e.getMessage());
+        }
+        catch(SdkException e){
+            System.out.println("Unknown Error Occrured (" + e.getClass().getName() +"): " + e.getMessage());
+        }
+
+        System.out.println( "The End." );
+    }
 }
+
 ```
 
-Errors from the API inherit from `ApiErrorException.ApiException`. They all contain more parameters to describe the error such as `getHttpCode`, `GetError`, `getDetail`, etc.
+### Error Types
 
+#### SDK Errors
 
-#### Path does not exist
+SDK errors are general errors that occur within the SDK code.  These errors generate exceptions.  Each of these
+exception classes inherit from a standard `SdkException` base class.
 
-```java
-try {
-    Folder.ListFor("/doesnotexist").all();
-} catch (ApiErrorException.NotFoundException e) {
-    System.out.println("Unable to list folder: <" + e.getHttpStatus() + "> " + e.getError());
-}
+```shell title="Example SDK Exception Class Inheritance Structure"
+com.files.exceptions.ApiErrorException.ApiConnectionException ->
+com.files.exceptions.SdkException ->
+RuntimeException
 ```
+##### SDK Exception Classes
 
+| Exception Class Name| Description |
+| --------------- | ------------ |
+| `ApiConnectionException`| The Files.com API cannot be reached |
+| `AuthenticationException`| Authentication Failer on the Files.com API |
+| `InvalidParameterException`| A passed in parameter is invalid |
+| `InvalidResponseException`| A bad formed response came back from the API |
+| `ServerErrorException`| The API service responded with a bad response (ie, 5xx) |
+
+#### API Errors
+
+API errors are errors returned by the Files.com API.  Each exception class inherits from an error group base class.
+The error group base class indicates a particular type of error.
+
+```shell title="Example API Exception Class Inheritance Structure"
+com.files.exceptions.ApiErrorException.FolderAdminPermissionRequiredException ->
+com.files.exceptions.ApiErrorException.NotAuthorizedException ->
+com.files.exceptions.ApiErrorException ->
+com.files.exceptions.SdkException ->
+RuntimeException
+```
+##### API Exception Classes
+
+| Exception Class Name | Error Group |
+| --------- | --------- |
+|`AgentUpgradeRequiredException`|  `BadRequestException` |
+|`AttachmentTooLargeException`|  `BadRequestException` |
+|`CannotDownloadDirectoryException`|  `BadRequestException` |
+|`CantMoveWithMultipleLocationsException`|  `BadRequestException` |
+|`DatetimeParseException`|  `BadRequestException` |
+|`DestinationSameException`|  `BadRequestException` |
+|`FolderMustNotBeAFileException`|  `BadRequestException` |
+|`InvalidBodyException`|  `BadRequestException` |
+|`InvalidCursorException`|  `BadRequestException` |
+|`InvalidCursorTypeForSortException`|  `BadRequestException` |
+|`InvalidEtagsException`|  `BadRequestException` |
+|`InvalidFilterAliasCombinationException`|  `BadRequestException` |
+|`InvalidFilterCombinationException`|  `BadRequestException` |
+|`InvalidFilterFieldException`|  `BadRequestException` |
+|`InvalidFilterParamException`|  `BadRequestException` |
+|`InvalidFilterParamValueException`|  `BadRequestException` |
+|`InvalidInputEncodingException`|  `BadRequestException` |
+|`InvalidInterfaceException`|  `BadRequestException` |
+|`InvalidOauthProviderException`|  `BadRequestException` |
+|`InvalidPathException`|  `BadRequestException` |
+|`InvalidReturnToUrlException`|  `BadRequestException` |
+|`InvalidUploadOffsetException`|  `BadRequestException` |
+|`InvalidUploadPartGapException`|  `BadRequestException` |
+|`InvalidUploadPartSizeException`|  `BadRequestException` |
+|`MethodNotAllowedException`|  `BadRequestException` |
+|`NoValidInputParamsException`|  `BadRequestException` |
+|`PartNumberTooLargeException`|  `BadRequestException` |
+|`PathCannotHaveTrailingWhitespaceException`|  `BadRequestException` |
+|`ReauthenticationNeededFieldsException`|  `BadRequestException` |
+|`RequestParamsContainInvalidCharacterException`|  `BadRequestException` |
+|`RequestParamsInvalidException`|  `BadRequestException` |
+|`RequestParamsRequiredException`|  `BadRequestException` |
+|`SearchAllOnChildPathException`|  `BadRequestException` |
+|`UnsupportedCurrencyException`|  `BadRequestException` |
+|`UnsupportedHttpResponseFormatException`|  `BadRequestException` |
+|`UnsupportedMediaTypeException`|  `BadRequestException` |
+|`UserIdInvalidException`|  `BadRequestException` |
+|`UserIdOnUserEndpointException`|  `BadRequestException` |
+|`UserRequiredException`|  `BadRequestException` |
+|`AdditionalAuthenticationRequiredException`|  `NotAuthenticatedException` |
+|`AuthenticationRequiredException`|  `NotAuthenticatedException` |
+|`BundleRegistrationCodeFailedException`|  `NotAuthenticatedException` |
+|`FilesAgentTokenFailedException`|  `NotAuthenticatedException` |
+|`InboxRegistrationCodeFailedException`|  `NotAuthenticatedException` |
+|`InvalidCredentialsException`|  `NotAuthenticatedException` |
+|`InvalidOauthException`|  `NotAuthenticatedException` |
+|`InvalidOrExpiredCodeException`|  `NotAuthenticatedException` |
+|`InvalidSessionException`|  `NotAuthenticatedException` |
+|`InvalidUsernameOrPasswordException`|  `NotAuthenticatedException` |
+|`LockedOutException`|  `NotAuthenticatedException` |
+|`LockoutRegionMismatchException`|  `NotAuthenticatedException` |
+|`OneTimePasswordIncorrectException`|  `NotAuthenticatedException` |
+|`TwoFactorAuthenticationErrorException`|  `NotAuthenticatedException` |
+|`TwoFactorAuthenticationSetupExpiredException`|  `NotAuthenticatedException` |
+|`ApiKeyIsDisabledException`|  `NotAuthorizedException` |
+|`ApiKeyIsPathRestrictedException`|  `NotAuthorizedException` |
+|`ApiKeyOnlyForDesktopAppException`|  `NotAuthorizedException` |
+|`ApiKeyOnlyForMobileAppException`|  `NotAuthorizedException` |
+|`ApiKeyOnlyForOfficeIntegrationException`|  `NotAuthorizedException` |
+|`BillingPermissionRequiredException`|  `NotAuthorizedException` |
+|`BundleMaximumUsesReachedException`|  `NotAuthorizedException` |
+|`CannotLoginWhileUsingKeyException`|  `NotAuthorizedException` |
+|`CantActForOtherUserException`|  `NotAuthorizedException` |
+|`ContactAdminForPasswordChangeHelpException`|  `NotAuthorizedException` |
+|`FilesAgentFailedAuthorizationException`|  `NotAuthorizedException` |
+|`FolderAdminOrBillingPermissionRequiredException`|  `NotAuthorizedException` |
+|`FolderAdminPermissionRequiredException`|  `NotAuthorizedException` |
+|`FullPermissionRequiredException`|  `NotAuthorizedException` |
+|`HistoryPermissionRequiredException`|  `NotAuthorizedException` |
+|`InsufficientPermissionForParamsException`|  `NotAuthorizedException` |
+|`InsufficientPermissionForSiteException`|  `NotAuthorizedException` |
+|`MustAuthenticateWithApiKeyException`|  `NotAuthorizedException` |
+|`NeedAdminPermissionForInboxException`|  `NotAuthorizedException` |
+|`NonAdminsMustQueryByFolderOrPathException`|  `NotAuthorizedException` |
+|`NotAllowedToCreateBundleException`|  `NotAuthorizedException` |
+|`PasswordChangeNotRequiredException`|  `NotAuthorizedException` |
+|`PasswordChangeRequiredException`|  `NotAuthorizedException` |
+|`ReadOnlySessionException`|  `NotAuthorizedException` |
+|`ReadPermissionRequiredException`|  `NotAuthorizedException` |
+|`ReauthenticationFailedException`|  `NotAuthorizedException` |
+|`ReauthenticationFailedFinalException`|  `NotAuthorizedException` |
+|`ReauthenticationNeededActionException`|  `NotAuthorizedException` |
+|`RecaptchaFailedException`|  `NotAuthorizedException` |
+|`SelfManagedRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminRequiredException`|  `NotAuthorizedException` |
+|`SiteFilesAreImmutableException`|  `NotAuthorizedException` |
+|`TwoFactorAuthenticationRequiredException`|  `NotAuthorizedException` |
+|`UserIdWithoutSiteAdminException`|  `NotAuthorizedException` |
+|`WriteAndBundlePermissionRequiredException`|  `NotAuthorizedException` |
+|`WritePermissionRequiredException`|  `NotAuthorizedException` |
+|`ZipDownloadIpMismatchException`|  `NotAuthorizedException` |
+|`ApiKeyNotFoundException`|  `NotFoundException` |
+|`BundlePathNotFoundException`|  `NotFoundException` |
+|`BundleRegistrationNotFoundException`|  `NotFoundException` |
+|`CodeNotFoundException`|  `NotFoundException` |
+|`FileNotFoundException`|  `NotFoundException` |
+|`FileUploadNotFoundException`|  `NotFoundException` |
+|`FolderNotFoundException`|  `NotFoundException` |
+|`GroupNotFoundException`|  `NotFoundException` |
+|`InboxNotFoundException`|  `NotFoundException` |
+|`NestedNotFoundException`|  `NotFoundException` |
+|`PlanNotFoundException`|  `NotFoundException` |
+|`SiteNotFoundException`|  `NotFoundException` |
+|`UserNotFoundException`|  `NotFoundException` |
+|`AlreadyCompletedException`|  `ProcessingFailureException` |
+|`AutomationCannotBeRunManuallyException`|  `ProcessingFailureException` |
+|`BehaviorNotAllowedOnRemoteServerException`|  `ProcessingFailureException` |
+|`BundleOnlyAllowsPreviewsException`|  `ProcessingFailureException` |
+|`BundleOperationRequiresSubfolderException`|  `ProcessingFailureException` |
+|`CouldNotCreateParentException`|  `ProcessingFailureException` |
+|`DestinationExistsException`|  `ProcessingFailureException` |
+|`DestinationFolderLimitedException`|  `ProcessingFailureException` |
+|`DestinationParentConflictException`|  `ProcessingFailureException` |
+|`DestinationParentDoesNotExistException`|  `ProcessingFailureException` |
+|`ExpiredPrivateKeyException`|  `ProcessingFailureException` |
+|`ExpiredPublicKeyException`|  `ProcessingFailureException` |
+|`ExportFailureException`|  `ProcessingFailureException` |
+|`ExportNotReadyException`|  `ProcessingFailureException` |
+|`FailedToChangePasswordException`|  `ProcessingFailureException` |
+|`FileLockedException`|  `ProcessingFailureException` |
+|`FileNotUploadedException`|  `ProcessingFailureException` |
+|`FilePendingProcessingException`|  `ProcessingFailureException` |
+|`FileProcessingErrorException`|  `ProcessingFailureException` |
+|`FileTooBigToDecryptException`|  `ProcessingFailureException` |
+|`FileTooBigToEncryptException`|  `ProcessingFailureException` |
+|`FileUploadedToWrongRegionException`|  `ProcessingFailureException` |
+|`FilenameTooLongException`|  `ProcessingFailureException` |
+|`FolderLockedException`|  `ProcessingFailureException` |
+|`FolderNotEmptyException`|  `ProcessingFailureException` |
+|`HistoryUnavailableException`|  `ProcessingFailureException` |
+|`InvalidBundleCodeException`|  `ProcessingFailureException` |
+|`InvalidFileTypeException`|  `ProcessingFailureException` |
+|`InvalidFilenameException`|  `ProcessingFailureException` |
+|`InvalidPriorityColorException`|  `ProcessingFailureException` |
+|`InvalidRangeException`|  `ProcessingFailureException` |
+|`ModelSaveErrorException`|  `ProcessingFailureException` |
+|`MultipleProcessingErrorsException`|  `ProcessingFailureException` |
+|`PathTooLongException`|  `ProcessingFailureException` |
+|`RecipientAlreadySharedException`|  `ProcessingFailureException` |
+|`RemoteServerErrorException`|  `ProcessingFailureException` |
+|`ResourceLockedException`|  `ProcessingFailureException` |
+|`SubfolderLockedException`|  `ProcessingFailureException` |
+|`TwoFactorAuthenticationCodeAlreadySentException`|  `ProcessingFailureException` |
+|`TwoFactorAuthenticationCountryBlacklistedException`|  `ProcessingFailureException` |
+|`TwoFactorAuthenticationGeneralErrorException`|  `ProcessingFailureException` |
+|`TwoFactorAuthenticationUnsubscribedRecipientException`|  `ProcessingFailureException` |
+|`UpdatesNotAllowedForRemotesException`|  `ProcessingFailureException` |
+|`DuplicateShareRecipientException`|  `RateLimitedException` |
+|`ReauthenticationRateLimitedException`|  `RateLimitedException` |
+|`TooManyConcurrentLoginsException`|  `RateLimitedException` |
+|`TooManyConcurrentRequestsException`|  `RateLimitedException` |
+|`TooManyLoginAttemptsException`|  `RateLimitedException` |
+|`TooManyRequestsException`|  `RateLimitedException` |
+|`TooManySharesException`|  `RateLimitedException` |
+|`AgentUnavailableException`|  `ServiceUnavailableException` |
+|`AutomationsUnavailableException`|  `ServiceUnavailableException` |
+|`MigrationInProgressException`|  `ServiceUnavailableException` |
+|`SiteDisabledException`|  `ServiceUnavailableException` |
+|`UploadsUnavailableException`|  `ServiceUnavailableException` |
+|`AccountAlreadyExistsException`|  `SiteConfigurationException` |
+|`AccountOverdueException`|  `SiteConfigurationException` |
+|`NoAccountForSiteException`|  `SiteConfigurationException` |
+|`SiteWasRemovedException`|  `SiteConfigurationException` |
+|`TrialExpiredException`|  `SiteConfigurationException` |
+|`TrialLockedException`|  `SiteConfigurationException` |
+|`UserRequestsEnabledRequiredException`|  `SiteConfigurationException` |
+
+## Examples
 
 ### File Operations
 
@@ -142,7 +447,6 @@ try {
     Folder.listFor("/", null).all()
 ```
 
-
 #### List root folder with auto pagination (loads each page into memory)
 
 ```java
@@ -150,7 +454,6 @@ try {
         System.out.println(item.path);
     }
 ```
-
 
 #### List root folder with manual pagination (loads each page into memory)
 
@@ -163,8 +466,7 @@ try {
     } while (listing.hasNextPage());
 ```
 
-
-#### Writing a file example
+#### Writing a file
 
 ```java
     // Will upload a file called "test.txt" and print its size
@@ -187,7 +489,6 @@ try {
     }
 ```
 
-
 #### Reading a file's text as a InputStream
 
 ```java
@@ -200,7 +501,6 @@ try {
     }
 ```
 
-
 #### Reading a file and writing it to your local drive
 
 ```java
@@ -208,6 +508,7 @@ try {
     file.saveAsLocalFile("/tmp/");
 ```
 
+### Miscellaneous
 
 #### Comparing Case insensitive files and paths
 
@@ -219,56 +520,20 @@ For related documentation see [Case Sensitivity Documentation](https://www.files
     }
 ```
 
+## Mock Server
 
-### Logging
+Files.com publishes a Files.com API server, which is useful for testing your use of the Files.com
+SDKs and other direct integrations against the Files.com API in an integration test environment.
 
-The Files.com SDK is compatible with the standard log4j logging scheme.
+It is a Ruby app that operates as a minimal server for the purpose of testing basic network
+operations and JSON encoding for your SDK or API client. It does not maintain state and it does not
+deeply inspect your submissions for correctness.
 
+Eventually we will add more features intended for integration testing, such as the ability to
+intentionally provoke errors.
 
-#### Adding `com.files` logger to your `Loggers` root in the `log4j2.xml` file
+Download the server as a Docker image via [Docker Hub](https://hub.docker.com/r/filescom/files-mock-server).
 
-```xml
-<Loggers>
-    <!-- set preferred level -->
-    <Logger name="com.files" level="TRACE" />
-    <!-- to enable network request -->
-    <Logger name="okhttp3.logging.wire" level="INFO"/>
-</Loggers>
-```
+The Source Code is also available on [GitHub](https://github.com/Files-com/files-mock-server).
 
-
-#### Creating a `resources/log4j2.xml` file
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-    <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </Console>
-    </Appenders>
-    <Loggers>
-        <!-- set preferred level -->
-        <Logger name="com.files" level="TRACE"/>
-        <!-- to enable network request -->
-        <Logger name="okhttp3.logging.wire" level="INFO"/>
-    </Loggers>
-</Configuration>
-```
-
-You can read more about log4j2 configuration [here](https://logging.apache.org/log4j/2.x/manual/configuration.html).
-
-
-### Additional Object Documentation
-
-Additional docs are available at https://developers.files.com/ and also
-in the `docs/` subdirectory of this directory.
-
-
-## Getting Support
-
-The Files.com team is happy to help with any SDK Integration challenges you
-may face.
-
-Just email support@files.com and we'll get the process started.
-
-
+A README is available on the GitHub link.

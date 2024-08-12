@@ -72,7 +72,7 @@ public class FileAction {
   public String status;
 
   /**
-  * If status is pending, this is the id of the FileMigration to check for status updates.
+  * If status is pending, this is the id of the File Migration to check for status updates.
   */
   @Getter
   @JsonProperty("file_migration_id")

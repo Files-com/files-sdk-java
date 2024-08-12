@@ -243,7 +243,7 @@ FileAction file = File.move(
 
 ---
 
-## Begin file upload
+## Begin File Upload
 
 ```
 FileUploadPart file = File.beginUpload(
@@ -382,7 +382,7 @@ File.Move(parameters);
 
 ---
 
-## Begin file upload
+## Begin File Upload
 
 ```
 File file = File.Find(path);

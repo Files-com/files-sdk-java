@@ -65,7 +65,7 @@ public class SftpHostKey {
 
 
   /**
-  * Sftp Host Key ID
+  * SFTP Host Key ID
   */
   @Getter
   @Setter

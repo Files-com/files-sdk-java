@@ -492,6 +492,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class BillingOrSiteAdminPermissionRequiredException extends NotAuthorizedException {
+    public BillingOrSiteAdminPermissionRequiredException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class BillingPermissionRequiredException extends NotAuthorizedException {
     public BillingPermissionRequiredException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

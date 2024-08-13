@@ -440,6 +440,14 @@ public class User {
   public Boolean passwordExpired;
 
   /**
+  * Is the user an allowed to view all (non-billing) site configuration for this site?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("readonly_site_admin")
+  public Boolean readonlySiteAdmin;
+
+  /**
   * Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
   */
   @Getter
@@ -695,6 +703,7 @@ public class User {
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
@@ -898,6 +907,7 @@ public class User {
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
@@ -1018,6 +1028,9 @@ public class User {
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
+    }
+    if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
@@ -1243,6 +1256,7 @@ public class User {
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
@@ -1373,6 +1387,9 @@ public class User {
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
+    }
+    if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");

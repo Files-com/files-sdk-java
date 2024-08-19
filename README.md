@@ -33,9 +33,7 @@ compile group: 'com.files', name: 'files-sdk'
 
 The Files.com Java SDK supports all versions of Java beginning with Java 8 (Also known as 1.8).
 
-<Note title="Repository">
 Explore the [files-sdk-java](https://github.com/Files-com/files-sdk-java) code on GitHub.
-</Note>
 
 ### Getting Support
 
@@ -75,9 +73,7 @@ requestOptions.put("api_key", "my-key");
 User.find(id, params, requestOptions);
 ```
 
-<Note>
 Don't forget to replace the placeholder, `YOUR_API_KEY`, with your actual API key.
-</Note>
 
 ### Authenticate with a Session
 

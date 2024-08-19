@@ -16,7 +16,7 @@ public class ModelUtils {
         .builder()
         .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
         .build();
-    
+
     TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {};
     HashMap<String, Object> parameters;
     try {

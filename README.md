@@ -220,10 +220,10 @@ public class App
             Session session = Session.create(sessionParameters);
         }
         catch(NotAuthenticatedException e){
-            System.out.println("Authentication Error Occrured (" + e.getClass().getName() +"): " + e.getMessage());
+            System.out.println("Authentication Error Occurred (" + e.getClass().getName() +"): " + e.getMessage());
         }
         catch(SdkException e){
-            System.out.println("Unknown Error Occrured (" + e.getClass().getName() +"): " + e.getMessage());
+            System.out.println("Unknown Error Occurred (" + e.getClass().getName() +"): " + e.getMessage());
         }
 
         System.out.println( "The End." );
@@ -249,7 +249,7 @@ RuntimeException
 | Exception Class Name| Description |
 | --------------- | ------------ |
 | `ApiConnectionException`| The Files.com API cannot be reached |
-| `AuthenticationException`| Authentication Failer on the Files.com API |
+| `AuthenticationException`| Authentication Failure on the Files.com API |
 | `InvalidParameterException`| A passed in parameter is invalid |
 | `InvalidResponseException`| A bad formed response came back from the API |
 | `ServerErrorException`| The API service responded with a bad response (ie, 5xx) |
@@ -445,68 +445,68 @@ RuntimeException
 #### List root folder (loads all pages into memory)
 
 ```java
-    Folder.listFor("/", null).all()
+Folder.listFor("/", null).all()
 ```
 
 #### List root folder with auto pagination (loads each page into memory)
 
 ```java
-    for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
-        System.out.println(item.path);
-    }
+for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
+    System.out.println(item.path);
+}
 ```
 
 #### List root folder with manual pagination (loads each page into memory)
 
 ```java
-    ListIterator<Folder> listing = Folder.listFor("/", null);
-    do {
-        for (Folder item : listing.loadNextPage()) {
-            System.out.println(item.path);
-        }
-    } while (listing.hasNextPage());
+ListIterator<Folder> listing = Folder.listFor("/", null);
+do {
+    for (Folder item : listing.loadNextPage()) {
+        System.out.println(item.path);
+    }
+} while (listing.hasNextPage());
 ```
 
 #### Writing a file
 
 ```java
-    // Will upload a file called "test.txt" and print its size
+// Will upload a file called "test.txt" and print its size
 
-    import com.files.FilesClient;
-    import com.files.models.File;
-    import java.io.IOException;
+import com.files.FilesClient;
+import com.files.models.File;
+import java.io.IOException;
 
-    public class App {
-        public static void main( String[] args ) {
-            FilesClient.apiKey = "YourAPIKeyHere";
+public class App {
+    public static void main( String[] args ) {
+        FilesClient.apiKey = "YourAPIKeyHere";
 
-            try {
-                File transferred = File.create("test.txt", null).putLocalFile("test.txt");
-                System.out.println("TransferedSize:"+transferred.getSize());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            File transferred = File.create("test.txt", null).putLocalFile("test.txt");
+            System.out.println("TransferredSize:"+transferred.getSize());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+}
 ```
 
 #### Reading a file's text as a InputStream
 
 ```java
-    File file = File.download("test.txt", null);
-    try(InputStream inputStream = file.getInputStream()) {
-       String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-         .lines()
-         .collect(Collectors.joining("\n"));
-         String filecontents = text;
-    }
+File file = File.download("test.txt", null);
+try(InputStream inputStream = file.getInputStream()) {
+    String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
+        String fileContents = text;
+}
 ```
 
 #### Reading a file and writing it to your local drive
 
 ```java
-    File file = File.download("test.txt", null);
-    file.saveAsLocalFile("/tmp/");
+File file = File.download("test.txt", null);
+file.saveAsLocalFile("/tmp/");
 ```
 
 ### Miscellaneous
@@ -516,9 +516,9 @@ RuntimeException
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 
 ```java
-    if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
-        System.out.println("Paths are the same");
-    }
+if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
+    System.out.println("Paths are the same");
+}
 ```
 
 ## Mock Server

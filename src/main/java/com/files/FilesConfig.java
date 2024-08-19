@@ -82,7 +82,7 @@ public class FilesConfig {
     // must be at least the size of the largest requested upload page
     return intProperty("cachedBufferLargeSize", 50331648 /* 48 MB */);
   }
-  
+
   public int getCachedBufferMaxBytes() {
     return intProperty("cachedBufferMaxBytes", (int) Math.min(Runtime.getRuntime().maxMemory() / 5,
             1610612736 /* 1.5 GB */));

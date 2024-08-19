@@ -76,7 +76,7 @@ public class FileUploadPart {
       parameters.put("ref", ref);
       return File.completeUpload(this.path, parameters);
     } finally {
-      if (fileInputStream != null) { 
+      if (fileInputStream != null) {
         fileInputStream.close();
       }
       if (bufferedInputStream != null) {

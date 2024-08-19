@@ -78,7 +78,7 @@ public class FilesApiTest {
 
   @Test
   public void handleNotFound() throws Exception {
-    final String body = 
+    final String body =
         "{"
       +   "\"type\": \"not-found/folder-not-found\","
       +   "\"http-code\": 404,"
@@ -182,7 +182,7 @@ public class FilesApiTest {
 
   @Test
   public void handleRegionMismatch() throws Exception {
-    final String body = 
+    final String body =
         "{"
       +   "\"type\": \"not-authenticated/lockout-region-mismatch\","
       +   "\"http-code\": 401,"

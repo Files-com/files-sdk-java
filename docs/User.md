@@ -141,7 +141,7 @@
 * `change_password_confirmation` / `changePasswordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `grant_permission` / `grantPermission`  (string): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` / `groupId`  (int64): Group ID to associate this user with.
-* `imported_password_hash` / `importedPasswordHash`  (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
+* `imported_password_hash` / `importedPasswordHash`  (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
 * `password` / `password`  (string): User password.
 * `password_confirmation` / `passwordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` / `announcementsRead`  (boolean): Signifies that the user has read all the announcements in the UI.
@@ -213,7 +213,7 @@ User user = User.create(
 * `grant_permission` (String): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
-* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
+* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
@@ -327,7 +327,7 @@ User user = User.update(
 * `grant_permission` (String): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
-* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
+* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
@@ -501,7 +501,7 @@ User.Update(parameters);
 * `grant_permission` (String): Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
-* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash menthods are MD5, SHA1, and SHA256.
+* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.

@@ -62,13 +62,13 @@ FilesClient.apiKey = "YOUR_API_KEY";
 // Alternatively, you can specify the API key on a per-object
 // basis in options HashMap to a model constructor.
 
-HashMap<String, Object> requestOptions = new HashMap()<>;
+HashMap<String, Object> requestOptions = new HashMap<>();
 requestOptions.put("api_key", "my-key");
-User user = new User(params, requestParameters);
+User user = new User(params, requestOptions);
 
 // You may also specify the API key on a per-request basis in
 // in the final parameter to static methods.
-HashMap<String, Object> requestOptions = new HashMap()<>;
+HashMap<String, Object> requestOptions = new HashMap<>();
 requestOptions.put("api_key", "my-key");
 User.find(id, params, requestOptions);
 ```
@@ -111,14 +111,14 @@ FilesClient.session = session;
 
 // Alternatively, you can specify the session ID on a per-object basis
 // in the second parameter to a model constructor.
-HashMap<String, Object> requestParameters = new HashMap<>();
-requestParameters.put("session_id", session.getId());
-user = new User(params, requestParameters);
+HashMap<String, Object> requestOptions = new HashMap<>();
+requestOptions.put("session_id", session.getId());
+user = new User(params, requestOptions);
 
 // You may also specify the session ID on a per-request basis in the final parameter to static methods.
-HashMap<String, Object> requestParameters = new HashMap<>();
-requestParameters.put("session_id", session.getId());
-User.find(id, params, requestParameters);
+HashMap<String, Object> requestOptions = new HashMap<>();
+requestOptions.put("session_id", session.getId());
+User.find(id, params, requestOptions);
 
 ```
 

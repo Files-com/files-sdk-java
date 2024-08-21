@@ -198,6 +198,13 @@ public class App {
   public String ssoStrategyType;
 
   /**
+  * Associated SIEM type, if any
+  */
+  @Getter
+  @JsonProperty("siem_type")
+  public String siemType;
+
+  /**
   * Tutorial video page
   */
   @Getter

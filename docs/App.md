@@ -27,6 +27,7 @@
   "sdk_installation_instructions_link": "example",
   "short_description": "example",
   "sso_strategy_type": "example",
+  "siem_type": "example",
   "tutorial_youtube_url": "example"
 }
 ```
@@ -50,6 +51,7 @@
 * `sdk_installation_instructions_link` / `sdkInstallationInstructionsLink`  (string): Link to SDK installation instructions
 * `short_description` / `shortDescription`  (string): Short description of the App
 * `sso_strategy_type` / `ssoStrategyType`  (string): Associated SSO Strategy type, if any
+* `siem_type` / `siemType`  (string): Associated SIEM type, if any
 * `tutorial_youtube_url` / `tutorialYoutubeUrl`  (string): Tutorial video page
 
 

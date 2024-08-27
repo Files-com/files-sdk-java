@@ -108,7 +108,6 @@ ListIterator<File> folder = Folder.listFor(
 * `search_all` (Boolean): Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the UI.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 * `with_previews` (Boolean): Include file previews?
 * `with_priority_color` (Boolean): Include file priority color information?
-* `point_in_time` (String): Point in time to view the folder. Available only on remote server mounts for S3 with versioned buckets.
 
 
 ---

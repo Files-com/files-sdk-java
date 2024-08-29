@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Request {
+public class Request implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -132,7 +133,7 @@ public class Request {
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Request.delete(this.id, parameters);
+    Request.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

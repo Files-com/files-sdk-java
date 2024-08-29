@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class File {
+public class File implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -441,7 +442,7 @@ public class File {
   */
   public File download() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return File.download(this.path, parameters);
+    return File.download(this.path, parameters, this.options);
   }
 
   /**
@@ -452,7 +453,7 @@ public class File {
   */
   public File update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return File.update(this.path, parameters);
+    return File.update(this.path, parameters, this.options);
   }
 
   /**
@@ -461,7 +462,7 @@ public class File {
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    File.delete(this.path, parameters);
+    File.delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
@@ -478,7 +479,7 @@ public class File {
   */
   public FileAction copy() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return File.copy(this.path, parameters);
+    return File.copy(this.path, parameters, this.options);
   }
 
   /**
@@ -490,7 +491,7 @@ public class File {
   */
   public FileAction move() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return File.move(this.path, parameters);
+    return File.move(this.path, parameters, this.options);
   }
 
   /**
@@ -507,7 +508,7 @@ public class File {
   */
   public FileUploadPart beginUpload() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return File.beginUpload(this.path, parameters);
+    return File.beginUpload(this.path, parameters, this.options);
   }
 
 

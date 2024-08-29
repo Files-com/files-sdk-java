@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShareGroup {
+public class ShareGroup implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -112,14 +113,14 @@ public class ShareGroup {
   */
   public ShareGroup update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return ShareGroup.update(this.id, parameters);
+    return ShareGroup.update(this.id, parameters, this.options);
   }
 
   /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    ShareGroup.delete(this.id, parameters);
+    ShareGroup.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

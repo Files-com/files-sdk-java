@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FormFieldSet {
+public class FormFieldSet implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -138,14 +139,14 @@ public class FormFieldSet {
   */
   public FormFieldSet update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return FormFieldSet.update(this.id, parameters);
+    return FormFieldSet.update(this.id, parameters, this.options);
   }
 
   /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    FormFieldSet.delete(this.id, parameters);
+    FormFieldSet.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

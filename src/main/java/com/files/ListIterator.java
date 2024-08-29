@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.files.FilesClient;
+import com.files.models.ModelInterface;
 import com.files.net.FilesResponse;
 import com.files.net.HttpMethods.RequestMethods;
 import java.util.ArrayList;
@@ -52,6 +52,11 @@ public class ListIterator<T> implements Iterable<T> {
     FilesResponse response = FilesClient.apiRequest(this.url, this.requestType, this.parameters, this.options);
     try {
       this.data = objectMapper.readValue(response.getBody(), this.className);
+      this.data.forEach(item -> {
+        if (item instanceof ModelInterface) {
+          ((ModelInterface) item).setOptions(this.options);
+        }
+      });
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }

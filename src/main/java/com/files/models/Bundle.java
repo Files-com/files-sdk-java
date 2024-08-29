@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Bundle {
+public class Bundle implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -432,7 +433,7 @@ public class Bundle {
   */
   public void share() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Bundle.share(this.id, parameters);
+    Bundle.share(this.id, parameters, this.options);
   }
 
   /**
@@ -465,14 +466,14 @@ public class Bundle {
   */
   public Bundle update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return Bundle.update(this.id, parameters);
+    return Bundle.update(this.id, parameters, this.options);
   }
 
   /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Bundle.delete(this.id, parameters);
+    Bundle.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

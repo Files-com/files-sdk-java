@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FileUploadPart {
+public class FileUploadPart implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -54,7 +55,7 @@ public class FileUploadPart {
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("action", "end");
     parameters.put("ref", ref);
-    return File.completeUpload(this.path, parameters);
+    return File.completeUpload(this.path, parameters, this.options);
   }
 
   public File putLocalFile(String source) throws IOException {
@@ -74,7 +75,7 @@ public class FileUploadPart {
       HashMap<String, Object> parameters = new HashMap<>();
       parameters.put("action", "end");
       parameters.put("ref", ref);
-      return File.completeUpload(this.path, parameters);
+      return File.completeUpload(this.path, parameters, this.options);
     } finally {
       if (fileInputStream != null) {
         fileInputStream.close();

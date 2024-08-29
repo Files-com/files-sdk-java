@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Style {
+public class Style implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -110,14 +111,14 @@ public class Style {
   */
   public Style update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return Style.update(this.path, parameters);
+    return Style.update(this.path, parameters, this.options);
   }
 
   /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Style.delete(this.path, parameters);
+    Style.delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

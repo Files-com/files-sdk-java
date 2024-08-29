@@ -1,7 +1,7 @@
 package com.files;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.files.exceptions.ApiErrorException;
+import com.files.models.ModelInterface;
 import com.files.models.Session;
 import com.files.net.FilesApiInterface;
 import com.files.net.FilesOkHttpApi;
@@ -11,10 +11,8 @@ import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import okhttp3.ConnectionPool;
 import org.slf4j.Logger;
@@ -37,7 +35,11 @@ public abstract class FilesClient {
   }
 
   public static <T> T requestItem(String url, RequestMethods requestType, TypeReference<T> className, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return filesApi.apiRequestItem(url, requestType, className, parameters, options);
+    final T item = filesApi.apiRequestItem(url, requestType, className, parameters, options);
+    if (item instanceof ModelInterface) {
+      ((ModelInterface) item).setOptions(options);
+    }
+    return item;
   }
 
   public static FilesInputStream getFileInputStream(String url, long start, long end) throws IOException {

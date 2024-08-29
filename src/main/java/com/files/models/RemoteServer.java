@@ -35,7 +35,8 @@ import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RemoteServer {
+public class RemoteServer implements ModelInterface {
+  @Setter
   private HashMap<String, Object> options;
   private ObjectMapper objectMapper = JsonMapper
       .builder()
@@ -682,7 +683,7 @@ public class RemoteServer {
   */
   public RemoteServerConfigurationFile configurationFile() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return RemoteServer.configurationFile(this.id, parameters);
+    return RemoteServer.configurationFile(this.id, parameters, this.options);
   }
 
   /**
@@ -755,14 +756,14 @@ public class RemoteServer {
   */
   public RemoteServer update() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    return RemoteServer.update(this.id, parameters);
+    return RemoteServer.update(this.id, parameters, this.options);
   }
 
   /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    RemoteServer.delete(this.id, parameters);
+    RemoteServer.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {

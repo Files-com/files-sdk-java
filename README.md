@@ -86,7 +86,7 @@ session times out, simply create a new session and resume where you left off. Th
 automatically handled by SDKs because we do not want to store password information in memory without
 your explicit consent.
 
-#### Logging in
+#### Logging In
 
 To create a session, the `create` method is called on the `Session` object with the user's username and
 password.
@@ -100,7 +100,7 @@ sessionParameters.put("password", "password");
 Session session = Session.create(parameters)
 ```
 
-#### Using a session
+#### Using a Session
 
 Once a session has been created, you can store the session globally, use the session per object, or use the session per request to authenticate SDK operations.
 
@@ -121,7 +121,7 @@ User.find(id, params, requestOptions);
 
 ```
 
-#### Logging out
+#### Logging Out
 
 User sessions can be ended calling the `destroy` method on the `session` object.
 
@@ -131,7 +131,7 @@ session.destroy()
 
 ## Configuration
 
-### Configuration options
+### Configuration Options
 
 #### Base URL
 
@@ -437,13 +437,13 @@ RuntimeException
 
 ### File Operations
 
-#### List root folder (loads all pages into memory)
+#### List Root Folder (loads all pages into memory)
 
 ```java
 Folder.listFor("/", null).all()
 ```
 
-#### List root folder with auto pagination (loads each page into memory)
+#### List Root Folder with Auto Pagination (loads each page into memory)
 
 ```java
 for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
@@ -451,7 +451,7 @@ for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
 }
 ```
 
-#### List root folder with manual pagination (loads each page into memory)
+#### List Root Folder with Manual Pagination (loads each page into memory)
 
 ```java
 ListIterator<Folder> listing = Folder.listFor("/", null);
@@ -462,7 +462,7 @@ do {
 } while (listing.hasNextPage());
 ```
 
-#### Writing a file
+#### Writing a File
 
 ```java
 // Will upload a file called "test.txt" and print its size
@@ -485,7 +485,7 @@ public class App {
 }
 ```
 
-#### Reading a file's text as a InputStream
+#### Reading a File's Text as a InputStream
 
 ```java
 File file = File.download("test.txt", null);
@@ -497,7 +497,7 @@ try(InputStream inputStream = file.getInputStream()) {
 }
 ```
 
-#### Reading a file and writing it to your local drive
+#### Reading a File and Writing it to Your Local Drive
 
 ```java
 File file = File.download("test.txt", null);
@@ -506,7 +506,7 @@ file.saveAsLocalFile("/tmp/");
 
 ### Miscellaneous
 
-#### Comparing Case insensitive files and paths
+#### Comparing Case-Insensitive Files and Paths
 
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 

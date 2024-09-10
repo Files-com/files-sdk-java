@@ -4,6 +4,7 @@
 
 ```
 {
+  "id": 1,
   "name": "My Site",
   "additional_text_file_types": [
     "example"
@@ -285,6 +286,7 @@
 }
 ```
 
+* `id` / `id`  (int64): Site Id
 * `name` / `name`  (string): Site name
 * `additional_text_file_types` / `additionalTextFileTypes`  (array(string)): Additional extensions that are considered text files
 * `allowed_2fa_method_sms` / `allowed2faMethodSms`  (boolean): Is SMS two factor authentication allowed?

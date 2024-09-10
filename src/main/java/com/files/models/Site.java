@@ -66,6 +66,13 @@ public class Site implements ModelInterface {
 
 
   /**
+  * Site Id
+  */
+  @Getter
+  @JsonProperty("id")
+  public Long id;
+
+  /**
   * Site name
   */
   @Getter

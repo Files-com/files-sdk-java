@@ -45,45 +45,93 @@ public class FileUploadPart implements ModelInterface {
       .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX"))
       .build();
 
-  public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
-    RequestMethods requestMethod;
-    requestMethod = RequestMethods.PUT;
-    if (httpMethod == "post") {
-      requestMethod = RequestMethods.POST;
+  public File putInputStream(InputStream inputStream, Date date) throws IOException, InterruptedException {
+    return putInputStream(inputStream, date, 6);
+  }
+
+  public File putInputStream(InputStream inputStream, Date date, int threadCount) throws IOException, InterruptedException {
+    final RequestMethods requestMethod = httpMethod == "post" ? RequestMethods.POST : RequestMethods.PUT;
+    final boolean isParallel = this.parallelParts && threadCount > 1;
+    final java.util.concurrent.ExecutorService executor = isParallel ? java.util.concurrent.Executors.newFixedThreadPool(threadCount) : null;
+    final java.util.concurrent.Semaphore semaphore = isParallel ? new java.util.concurrent.Semaphore(threadCount * 2) : null;
+    final List<java.util.concurrent.Future<Void>> concurrentUploads = new java.util.ArrayList<>();
+    FileUploadPart part = this;
+
+    try {
+      while (true) {
+        final byte[] buffer = new byte[part.partsize.intValue()];
+        final int bytesRead = inputStream.read(buffer);
+        if (bytesRead == -1) {
+          break;
+        }
+
+        if (isParallel) {
+          semaphore.acquire();
+
+          final FileUploadPart currentPart = part;
+          concurrentUploads.add(executor.submit(() -> {
+            try {
+              FilesClient.putBuffer(currentPart.uploadUri, requestMethod, currentPart.path, buffer, bytesRead);
+            } finally {
+              semaphore.release();
+            }
+            return null;
+          }));
+        } else {
+          FilesClient.putBuffer(part.uploadUri, requestMethod, part.path, buffer, bytesRead);
+        }
+
+        if (bytesRead < part.partsize) {
+          break;
+        }
+
+        final HashMap<String, Object> parameters = new HashMap<>(part.parameters);
+        parameters.put("ref", part.ref);
+        parameters.put("part", part.partNumber + 1);
+        part = File.create(part.path, parameters, part.options);
+      }
+
+      for (java.util.concurrent.Future<Void> future : concurrentUploads) {
+        try {
+          future.get();
+        } catch (java.util.concurrent.ExecutionException e) {
+          throw new IOException(e.getCause());
+        }
+      }
+    } finally {
+      if (executor != null) {
+        executor.shutdown();
+      }
     }
+
+    return part.completeUpload();
+  }
+
+  public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
+    final RequestMethods requestMethod = httpMethod == "post" ? RequestMethods.POST : RequestMethods.PUT;
     FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream, length);
-    HashMap<String, Object> parameters = new HashMap<>();
-    parameters.put("action", "end");
-    parameters.put("ref", ref);
-    return File.completeUpload(this.path, parameters, this.options);
+    return completeUpload();
   }
 
   public File putLocalFile(String source) throws IOException {
-    RequestMethods requestMethod;
-    requestMethod = RequestMethods.PUT;
-    if (httpMethod == "post") {
-      requestMethod = RequestMethods.POST;
-    }
-
     java.io.File file = new java.io.File(source);
     long fileLength = file.length();
-    FileInputStream fileInputStream = null;
     BufferedInputStream bufferedInputStream = null;
     try {
       bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-      FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, bufferedInputStream, fileLength);
-      HashMap<String, Object> parameters = new HashMap<>();
-      parameters.put("action", "end");
-      parameters.put("ref", ref);
-      return File.completeUpload(this.path, parameters, this.options);
+      return putBufferedInputStream(bufferedInputStream, fileLength, null);
     } finally {
-      if (fileInputStream != null) {
-        fileInputStream.close();
-      }
       if (bufferedInputStream != null) {
         bufferedInputStream.close();
       }
     }
+  }
+
+  private File completeUpload() throws IOException {
+    final HashMap<String, Object> parameters = new HashMap<>();
+    parameters.put("action", "end");
+    parameters.put("ref", this.ref);
+    return File.completeUpload(this.path, parameters, this.options);
   }
 
   public FileUploadPart() {

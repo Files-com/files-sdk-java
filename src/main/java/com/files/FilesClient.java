@@ -46,6 +46,10 @@ public abstract class FilesClient {
     return filesApi.getFileInputStream(url, start, end);
   }
 
+  public static long putBuffer(String url, RequestMethods requestType, String name, byte[] buffer, long length) throws IOException {
+    return filesApi.putBuffer(url, requestType, name, buffer, length);
+  }
+
   public static long putBufferedInputStream(String url, RequestMethods requestType, String name, BufferedInputStream inputStream, long length) throws IOException {
     return filesApi.putBufferedInputStream(url, requestType, name, inputStream, length);
   }

@@ -600,23 +600,25 @@ do {
 
 ```java
 // Will upload a file called "test.txt" and print its size
+File transferred = File.create("test.txt", null).putLocalFile("test.txt");
+System.out.println("TransferredSize:" + transferred.getSize());
+```
 
-import com.files.FilesClient;
-import com.files.models.File;
-import java.io.IOException;
+If the parent directories do not already exist, they can be automatically created by passing
+`mkdir_parents` in the `args`.
 
-public class App {
-    public static void main( String[] args ) {
-        FilesClient.apiKey = "YourAPIKeyHere";
+```java
+HashMap<String, Object> args = new HashMap<>();
+args.put("mkdir_parents", true);
+File.create("uploads/test.txt", args).putLocalFile("test.txt");
+```
 
-        try {
-            File transferred = File.create("test.txt", null).putLocalFile("test.txt");
-            System.out.println("TransferredSize:"+transferred.getSize());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
+Passing an `InputStream` to `putInputStream` will upload the file in chunks.
+
+```java
+// Upload will be parallelized if the destination supports it
+java.io.File file = new java.io.File("test.txt");
+File.create("test.txt", null).putInputStream(new FileInputStream(file), null);
 ```
 
 #### Reading a File's Text as a InputStream
@@ -627,7 +629,7 @@ try(InputStream inputStream = file.getInputStream()) {
     String text = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));
-        String fileContents = text;
+    String fileContents = text;
 }
 ```
 

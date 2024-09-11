@@ -33,7 +33,8 @@ public class FilesOkHttpApi implements FilesApiInterface {
       .build();
   protected static final Logger log = LoggerFactory.getLogger(FilesOkHttpApi.class);
 
-  public <T> ListIterator<T> apiRequestList(String url, HttpMethods.RequestMethods requestType, TypeReference<List<T>> clazz,
+  public <T> ListIterator<T> apiRequestList(String url, HttpMethods.RequestMethods requestType,
+      TypeReference<List<T>> clazz,
       HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return new ListIterator<T>(url, requestType, clazz, parameters, options);
   }
@@ -150,17 +151,31 @@ public class FilesOkHttpApi implements FilesApiInterface {
   }
 
   @Override
+  public long putBuffer(String url, HttpMethods.RequestMethods requestType, String name, byte[] buffer, long length)
+      throws IOException {
+    final MediaType type = MediaType.parse("application/octet-stream");
+    final RequestBody body = RequestBody.create(type, buffer, 0, (int) length);
+    sendRequest(url, requestType, body);
+    return 0;
+  }
+
+  @Override
   public long putBufferedInputStream(String url, HttpMethods.RequestMethods requestType, String name,
       BufferedInputStream inputStream, long length) throws IOException {
-    String uri = ModelUtils.forceMandatoryUriEncode(url);
-    MediaType type = MediaType.parse("application/octet-stream");
-    Request.Builder request = new Request.Builder();
-    request.addHeader("Content-type", "application/octet-stream");
-    request.url(uri);
-    RequestBody body = create(type, inputStream, length);
-    updateRequestWithHttpMethod(request, body, requestType);
-    Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();
+    final MediaType type = MediaType.parse("application/octet-stream");
+    final RequestBody body = create(type, inputStream, length);
+    sendRequest(url, requestType, body);
     return 0;
+  }
+
+  private Response sendRequest(String url, HttpMethods.RequestMethods requestType, RequestBody body)
+      throws IOException {
+    final String uri = ModelUtils.forceMandatoryUriEncode(url);
+    final Request.Builder request = new Request.Builder()
+        .addHeader("Content-type", body.contentType().toString())
+        .url(uri);
+    updateRequestWithHttpMethod(request, body, requestType);
+    return FilesHttpClient.getHttpClient().newCall(request.build()).execute();
   }
 
   public static void updateRequestWithHttpMethod(Request.Builder request, RequestBody body,

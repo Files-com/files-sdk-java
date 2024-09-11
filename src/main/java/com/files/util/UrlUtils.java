@@ -72,7 +72,7 @@ public class UrlUtils {
     Map<String, List<String>> queryParams = splitQuery(url);
 
     Date startDate = null;
-    for (Expire expire: EXPIRE_LIST) {
+    for (Expire expire : EXPIRE_LIST) {
       if (expire.expiresDate != null && queryParams.containsKey(expire.expiresStartDate)
           && queryParams.get(expire.expiresStartDate).size() == 1) {
         try {

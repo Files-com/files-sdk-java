@@ -74,7 +74,7 @@ public class Permission implements ModelInterface {
   public Long id;
 
   /**
-  * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+  * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @Getter
   @Setter
@@ -90,7 +90,7 @@ public class Permission implements ModelInterface {
   public Long userId;
 
   /**
-  * User's username
+  * Username (if applicable)
   */
   @Getter
   @Setter
@@ -106,7 +106,7 @@ public class Permission implements ModelInterface {
   public Long groupId;
 
   /**
-  * Group name if applicable
+  * Group name (if applicable)
   */
   @Getter
   @Setter
@@ -114,7 +114,7 @@ public class Permission implements ModelInterface {
   public String groupName;
 
   /**
-  * Permission type
+  * Permission type.  See the table referenced in the documentation for an explanation of each permission.
   */
   @Getter
   @Setter
@@ -122,7 +122,7 @@ public class Permission implements ModelInterface {
   public String permission;
 
   /**
-  * Does this permission apply to subfolders?
+  * Recursive: does this permission apply to subfolders?
   */
   @Getter
   @Setter

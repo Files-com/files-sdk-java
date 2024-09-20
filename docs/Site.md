@@ -11,7 +11,6 @@
   ],
   "allowed_2fa_method_sms": true,
   "allowed_2fa_method_totp": true,
-  "allowed_2fa_method_u2f": true,
   "allowed_2fa_method_webauthn": true,
   "allowed_2fa_method_yubi": true,
   "allowed_2fa_method_email": true,
@@ -166,7 +165,6 @@
     "two_factor_setup_needed": false,
     "allowed_2fa_method_sms": true,
     "allowed_2fa_method_totp": true,
-    "allowed_2fa_method_u2f": true,
     "allowed_2fa_method_webauthn": true,
     "allowed_2fa_method_yubi": true,
     "use_provided_modified_at": true,
@@ -291,7 +289,6 @@
 * `additional_text_file_types` / `additionalTextFileTypes`  (array(string)): Additional extensions that are considered text files
 * `allowed_2fa_method_sms` / `allowed2faMethodSms`  (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` / `allowed2faMethodTotp`  (boolean): Is TOTP two factor authentication allowed?
-* `allowed_2fa_method_u2f` / `allowed2faMethodU2f`  (boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_webauthn` / `allowed2faMethodWebauthn`  (boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` / `allowed2faMethodYubi`  (boolean): Is yubikey two factor authentication allowed?
 * `allowed_2fa_method_email` / `allowed2faMethodEmail`  (boolean): Is OTP via email two factor authentication allowed?
@@ -587,7 +584,6 @@ Site site = Site.update(
 * `bundle_recipient_blacklist_domains` (String[]): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `admins_bypass_locked_subfolders` (Boolean): Allow admins to bypass the locked subfolders setting.
 * `allowed_2fa_method_sms` (Boolean): Is SMS two factor authentication allowed?
-* `allowed_2fa_method_u2f` (Boolean): Is U2F two factor authentication allowed?
 * `allowed_2fa_method_totp` (Boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_webauthn` (Boolean): Is WebAuthn two factor authentication allowed?
 * `allowed_2fa_method_yubi` (Boolean): Is yubikey two factor authentication allowed?

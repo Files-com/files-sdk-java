@@ -1026,6 +1026,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class TwoFactorAuthenticationMethodUnsupportedErrorException extends ProcessingFailureException {
+    public TwoFactorAuthenticationMethodUnsupportedErrorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class TwoFactorAuthenticationUnsubscribedRecipientException extends ProcessingFailureException {
     public TwoFactorAuthenticationUnsubscribedRecipientException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

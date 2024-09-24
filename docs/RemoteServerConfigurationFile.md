@@ -18,7 +18,7 @@
   "log_level": "example",
   "log_rotate_num": 1,
   "log_rotate_size": 1,
-  "max_concurrent_jobs": 1,
+  "override_max_concurrent_jobs": 1,
   "graceful_shutdown_timeout": 1,
   "transfer_rate_limit": "example",
   "api_token": "example",
@@ -37,16 +37,16 @@
 * `subdomain` / `subdomain`  (string): Files.com subdomain site name
 * `root` / `root`  (string): The root directory for the agent
 * `follow_links` / `followLinks`  (boolean): Follow symlinks when traversing directories
-* `prefer_protocol` / `preferProtocol`  (string): Preferred network protocol ['udp', 'tcp']
-* `dns` / `dns`  (string): DNS lookup method ['auto','doh','system']
+* `prefer_protocol` / `preferProtocol`  (string): Preferred network protocol ['udp', 'tcp'] (default udp)
+* `dns` / `dns`  (string): DNS lookup method ['auto','doh','system'] (default auto)
 * `proxy_all_outbound` / `proxyAllOutbound`  (boolean): Proxy all outbound traffic through files.com proxy server
 * `endpoint_override` / `endpointOverride`  (string): Custom site endpoint URL
 * `log_file` / `logFile`  (string): Log file name and location
-* `log_level` / `logLevel`  (string): Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal']
+* `log_level` / `logLevel`  (string): Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
 * `log_rotate_num` / `logRotateNum`  (int64): Log route for agent logs. (default 5)
-* `log_rotate_size` / `logRotateSize`  (int64): Log route size in MB for agent logs. (default 20MB)
-* `max_concurrent_jobs` / `maxConcurrentJobs`  (int64): Maximum number of concurrent jobs (default CPU Count * 4)
-* `graceful_shutdown_timeout` / `gracefulShutdownTimeout`  (int64): Graceful shutdown timeout in seconds
+* `log_rotate_size` / `logRotateSize`  (int64): Log route size in MB for agent logs. (default 20)
+* `override_max_concurrent_jobs` / `overrideMaxConcurrentJobs`  (int64): Maximum number of concurrent jobs (default 1024)
+* `graceful_shutdown_timeout` / `gracefulShutdownTimeout`  (int64): Graceful shutdown timeout in seconds (default 15)
 * `transfer_rate_limit` / `transferRateLimit`  (string): File transfer (upload/download) rate limit
  `<limit>-<period>`, with the given periods:
 * 'S': second

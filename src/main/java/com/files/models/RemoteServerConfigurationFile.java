@@ -108,14 +108,14 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   public Boolean followLinks;
 
   /**
-  * Preferred network protocol ['udp', 'tcp']
+  * Preferred network protocol ['udp', 'tcp'] (default udp)
   */
   @Getter
   @JsonProperty("prefer_protocol")
   public String preferProtocol;
 
   /**
-  * DNS lookup method ['auto','doh','system']
+  * DNS lookup method ['auto','doh','system'] (default auto)
   */
   @Getter
   @JsonProperty("dns")
@@ -143,7 +143,7 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   public String logFile;
 
   /**
-  * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal']
+  * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
   */
   @Getter
   @JsonProperty("log_level")
@@ -157,21 +157,21 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   public Long logRotateNum;
 
   /**
-  * Log route size in MB for agent logs. (default 20MB)
+  * Log route size in MB for agent logs. (default 20)
   */
   @Getter
   @JsonProperty("log_rotate_size")
   public Long logRotateSize;
 
   /**
-  * Maximum number of concurrent jobs (default CPU Count * 4)
+  * Maximum number of concurrent jobs (default 1024)
   */
   @Getter
-  @JsonProperty("max_concurrent_jobs")
-  public Long maxConcurrentJobs;
+  @JsonProperty("override_max_concurrent_jobs")
+  public Long overrideMaxConcurrentJobs;
 
   /**
-  * Graceful shutdown timeout in seconds
+  * Graceful shutdown timeout in seconds (default 15)
   */
   @Getter
   @JsonProperty("graceful_shutdown_timeout")

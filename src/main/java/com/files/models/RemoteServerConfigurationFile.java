@@ -164,7 +164,7 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   public Long logRotateSize;
 
   /**
-  * Maximum number of concurrent jobs (default 1024)
+  * Maximum number of concurrent jobs (default 500)
   */
   @Getter
   @JsonProperty("override_max_concurrent_jobs")

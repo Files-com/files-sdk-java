@@ -138,6 +138,14 @@ public class Automation implements ModelInterface {
   public Boolean disabled;
 
   /**
+  * If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("exclude_pattern")
+  public String excludePattern;
+
+  /**
   * Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   */
   @Getter
@@ -266,7 +274,7 @@ public class Automation implements ModelInterface {
   public String scheduleTimeZone;
 
   /**
-  * Source Path
+  * Source path. Supports globs, except on remote mounts.
   */
   @Getter
   @Setter

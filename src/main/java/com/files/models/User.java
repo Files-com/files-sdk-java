@@ -545,12 +545,20 @@ public class User implements ModelInterface {
   public String typeOf2faForDisplay;
 
   /**
-  * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+  * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   */
   @Getter
   @Setter
   @JsonProperty("user_root")
   public String userRoot;
+
+  /**
+  * Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("user_home")
+  public String userHome;
 
   /**
   * Number of days remaining until password expires
@@ -718,7 +726,8 @@ public class User implements ModelInterface {
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
   *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
-  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+  *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
   public User update() throws IOException {
@@ -922,7 +931,8 @@ public class User implements ModelInterface {
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
   *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
-  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+  *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username (required) - string - User's username
   */
 
@@ -1074,6 +1084,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("user_root") && !(parameters.get("user_root") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_root must be of type String parameters[\"user_root\"]");
+    }
+    if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
@@ -1271,7 +1284,8 @@ public class User implements ModelInterface {
   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
   *   require_2fa - string - 2FA required setting
   *   time_zone - string - User time zone
-  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set.)  Note that this is not used for API, Desktop, or Web interface.
+  *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
+  *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
 
@@ -1433,6 +1447,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("user_root") && !(parameters.get("user_root") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_root must be of type String parameters[\"user_root\"]");
+    }
+    if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");

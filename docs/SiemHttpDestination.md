@@ -113,7 +113,7 @@
 
 ---
 
-## List Siem Http Destinations
+## List SIEM HTTP Destinations
 
 ```
 ListIterator<SiemHttpDestination> siemHttpDestination = SiemHttpDestination.list(
@@ -131,7 +131,7 @@ ListIterator<SiemHttpDestination> siemHttpDestination = SiemHttpDestination.list
 
 ---
 
-## Show Siem Http Destination
+## Show SIEM HTTP Destination
 
 ```
 SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(
@@ -148,7 +148,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(
 
 ---
 
-## Create Siem Http Destination
+## Create SIEM HTTP Destination
 
 ```
 SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
@@ -191,7 +191,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 
 ---
 
-## send_test_entry Siem Http Destination
+## send_test_entry SIEM HTTP Destination
 
 ```
 void siemHttpDestination = SiemHttpDestination.sendTestEntry(
@@ -235,7 +235,7 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 
 ---
 
-## Update Siem Http Destination
+## Update SIEM HTTP Destination
 
 ```
 SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
@@ -279,7 +279,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 
 ---
 
-## Delete Siem Http Destination
+## Delete SIEM HTTP Destination
 
 ```
 void siemHttpDestination = SiemHttpDestination.delete(
@@ -296,7 +296,7 @@ void siemHttpDestination = SiemHttpDestination.delete(
 
 ---
 
-## Update Siem Http Destination
+## Update SIEM HTTP Destination
 
 ```
 SiemHttpDestination siemHttpDestination = SiemHttpDestination.Find(id);
@@ -362,7 +362,7 @@ SiemHttpDestination.Update(parameters);
 
 ---
 
-## Delete Siem Http Destination
+## Delete SIEM HTTP Destination
 
 ```
 SiemHttpDestination siemHttpDestination = SiemHttpDestination.Find(id);

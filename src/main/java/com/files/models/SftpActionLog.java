@@ -94,6 +94,13 @@ public class SftpActionLog implements ModelInterface {
   public String username;
 
   /**
+  * Name of the SFTP Client provided at initial connection
+  */
+  @Getter
+  @JsonProperty("ssh_client_identification")
+  public String sshClientIdentification;
+
+  /**
   * Unique ID of the Session
   */
   @Getter

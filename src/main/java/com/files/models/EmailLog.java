@@ -108,7 +108,7 @@ public class EmailLog implements ModelInterface {
   public String cc;
 
   /**
-  * How was email deliered?  `customer_smtp` or `files.com`
+  * How was the email delivered?  `customer_smtp` or `files.com`
   */
   @Getter
   @JsonProperty("delivery_method")

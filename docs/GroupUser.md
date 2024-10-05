@@ -8,9 +8,7 @@
   "group_id": 1,
   "user_id": 1,
   "admin": true,
-  "usernames": [
-    "user"
-  ]
+  "usernames": "user"
 }
 ```
 
@@ -18,7 +16,7 @@
 * `group_id` / `groupId`  (int64): Group ID
 * `user_id` / `userId`  (int64): User ID
 * `admin` / `admin`  (boolean): Is this user an administrator of this group?
-* `usernames` / `usernames`  (array(string)): A list of usernames for users in this group
+* `usernames` / `usernames`  (string): Comma-delimited list of usernames who belong to this group (separated by commas).
 * `id` / `id`  (int64): Group User ID.
 
 

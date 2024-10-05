@@ -458,7 +458,7 @@ public class File implements ModelInterface {
 
   /**
   * Parameters:
-  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -743,7 +743,7 @@ public class File implements ModelInterface {
 
   /**
   * Parameters:
-  *   recursive - boolean - If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
   */
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {

@@ -82,7 +82,7 @@ public class SftpHostKey implements ModelInterface {
   public String name;
 
   /**
-  * MD5 Fingerpint of the public key
+  * MD5 Fingerprint of the public key
   */
   @Getter
   @Setter
@@ -90,7 +90,7 @@ public class SftpHostKey implements ModelInterface {
   public String fingerprintMd5;
 
   /**
-  * SHA256 Fingerpint of the public key
+  * SHA256 Fingerprint of the public key
   */
   @Getter
   @Setter

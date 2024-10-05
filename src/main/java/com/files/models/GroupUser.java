@@ -98,12 +98,12 @@ public class GroupUser implements ModelInterface {
   public Boolean admin;
 
   /**
-  * A list of usernames for users in this group
+  * Comma-delimited list of usernames who belong to this group (separated by commas).
   */
   @Getter
   @Setter
   @JsonProperty("usernames")
-  public String[] usernames;
+  public String usernames;
 
   /**
   * Group User ID.

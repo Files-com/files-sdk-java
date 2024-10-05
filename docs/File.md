@@ -178,7 +178,7 @@ void file = File.delete(
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---
@@ -329,7 +329,7 @@ File.Delete(parameters);
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folers.  Otherwise, will error on non-empty folders.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---

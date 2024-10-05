@@ -106,7 +106,7 @@ public class Notification implements ModelInterface {
   public Long[] triggeringGroupIds;
 
   /**
-  * If set, will onlynotify on actions made one of the specified users
+  * If set, will only notify on actions made one of the specified users
   */
   @Getter
   @Setter
@@ -254,7 +254,7 @@ public class Notification implements ModelInterface {
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
   public Notification update() throws IOException {
@@ -414,7 +414,7 @@ public class Notification implements ModelInterface {
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
   *   path - string - Path
@@ -505,7 +505,7 @@ public class Notification implements ModelInterface {
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will onlynotify on actions made one of the specified users
+  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   */
 

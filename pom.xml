@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.4.59-SNAPSHOT</version>
+    <version>1.4.60-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>

@@ -218,9 +218,9 @@ public class Permission implements ModelInterface {
 
   /**
   * Parameters:
+  *   path (required) - string - Folder path
   *   group_id - int64 - Group ID
-  *   path - string - Folder path
-  *   permission - string -  Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
+  *   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
   *   recursive - boolean - Apply to subfolders recursively?
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
@@ -236,12 +236,15 @@ public class Permission implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
+
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
     }
     if (parameters.containsKey("permission") && !(parameters.get("permission") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission must be of type String parameters[\"permission\"]");

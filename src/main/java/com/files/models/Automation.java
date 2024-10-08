@@ -407,7 +407,6 @@ public class Automation implements ModelInterface {
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
-  *   with_deleted - boolean - Set to true to include deleted automations in the results.
   */
   public static ListIterator<Automation> list() throws RuntimeException {
     return list(null, null);
@@ -447,9 +446,6 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
-    }
-    if (parameters.containsKey("with_deleted") && !(parameters.get("with_deleted") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_deleted must be of type Boolean parameters[\"with_deleted\"]");
     }
 
 

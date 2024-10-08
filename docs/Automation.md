@@ -121,7 +121,6 @@ ListIterator<Automation> automation = Automation.list(
 * `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
 * `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
-* `with_deleted` (Boolean): Set to true to include deleted automations in the results.
 
 
 ---

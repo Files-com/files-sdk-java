@@ -219,11 +219,12 @@ public class Permission implements ModelInterface {
   /**
   * Parameters:
   *   path (required) - string - Folder path
-  *   group_id - int64 - Group ID
+  *   group_id - int64 - Group ID. Provide `group_name` or `group_id`
   *   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
   *   recursive - boolean - Apply to subfolders recursively?
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
+  *   group_name - string - Group name.  Provide `group_name` or `group_id`
   */
 
   public static Permission create(HashMap<String, Object> parameters) throws RuntimeException {
@@ -257,6 +258,9 @@ public class Permission implements ModelInterface {
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
+    }
+    if (parameters.containsKey("group_name") && !(parameters.get("group_name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: group_name must be of type String parameters[\"group_name\"]");
     }
 
 

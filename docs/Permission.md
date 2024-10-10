@@ -65,11 +65,12 @@ Permission permission = Permission.create(
 ### Parameters
 
 * `path` (String): Required - Folder path
-* `group_id` (Long): Group ID
+* `group_id` (Long): Group ID. Provide `group_name` or `group_id`
 * `permission` (String): Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 * `recursive` (Boolean): Apply to subfolders recursively?
 * `user_id` (Long): User ID.  Provide `username` or `user_id`
 * `username` (String): User username.  Provide `username` or `user_id`
+* `group_name` (String): Group name.  Provide `group_name` or `group_id`
 
 
 ---

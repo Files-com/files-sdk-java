@@ -138,6 +138,14 @@ public class User implements ModelInterface {
   public String avatarUrl;
 
   /**
+  * Is this a billable user record?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("billable")
+  public Boolean billable;
+
+  /**
   * Allow this user to perform operations on the account, payments, and invoices?
   */
   @Getter

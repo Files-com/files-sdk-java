@@ -35,6 +35,7 @@
   "bundle_require_registration": true,
   "bundle_require_share_recipient": true,
   "bundle_require_note": true,
+  "bundle_send_shared_receipts": true,
   "bundle_upload_receipt_notifications": "never",
   "bundle_watermark_attachment": {
     "name": "My logo",
@@ -316,6 +317,7 @@
 * `bundle_require_registration` / `bundleRequireRegistration`  (boolean): Do Bundles require registration?
 * `bundle_require_share_recipient` / `bundleRequireShareRecipient`  (boolean): Do Bundles require recipients for sharing?
 * `bundle_require_note` / `bundleRequireNote`  (boolean): Do Bundles require internal notes?
+* `bundle_send_shared_receipts` / `bundleSendSharedReceipts`  (boolean): Do Bundle creators receive receipts of invitations?
 * `bundle_upload_receipt_notifications` / `bundleUploadReceiptNotifications`  (string): Do Bundle uploaders receive upload confirmation notifications?
 * `bundle_watermark_attachment` / `bundleWatermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `bundle_watermark_value` / `bundleWatermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
@@ -530,6 +532,7 @@ Site site = Site.update(
 * `left_navigation_visibility` (Map<String, String>): Visibility settings for account navigation
 * `additional_text_file_types` (String[]): Additional extensions that are considered text files
 * `bundle_require_note` (Boolean): Do Bundles require internal notes?
+* `bundle_send_shared_receipts` (Boolean): Do Bundle creators receive receipts of invitations?
 * `session_expiry` (Double): Session expiry in hours
 * `ssl_required` (Boolean): Is SSL required?  Disabling this is insecure.
 * `tls_disabled` (Boolean): DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.

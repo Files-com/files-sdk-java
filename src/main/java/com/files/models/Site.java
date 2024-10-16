@@ -255,6 +255,13 @@ public class Site implements ModelInterface {
   public Boolean bundleRequireNote;
 
   /**
+  * Do Bundle creators receive receipts of invitations?
+  */
+  @Getter
+  @JsonProperty("bundle_send_shared_receipts")
+  public Boolean bundleSendSharedReceipts;
+
+  /**
   * Do Bundle uploaders receive upload confirmation notifications?
   */
   @Getter
@@ -1292,6 +1299,7 @@ public class Site implements ModelInterface {
   *   left_navigation_visibility - object - Visibility settings for account navigation
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
+  *   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
@@ -1533,6 +1541,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("bundle_require_note") && !(parameters.get("bundle_require_note") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_require_note must be of type Boolean parameters[\"bundle_require_note\"]");
+    }
+    if (parameters.containsKey("bundle_send_shared_receipts") && !(parameters.get("bundle_send_shared_receipts") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_send_shared_receipts must be of type Boolean parameters[\"bundle_send_shared_receipts\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

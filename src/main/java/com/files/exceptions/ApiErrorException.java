@@ -198,12 +198,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class InvalidFilterCombinationException extends BadRequestException {
-    public InvalidFilterCombinationException(String message, ResponseError responseError, Map<String, List<String>> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class InvalidFilterFieldException extends BadRequestException {
     public InvalidFilterFieldException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -248,6 +242,12 @@ public class ApiErrorException extends SdkException {
 
   public static class InvalidReturnToUrlException extends BadRequestException {
     public InvalidReturnToUrlException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class InvalidSortFilterCombinationException extends BadRequestException {
+    public InvalidSortFilterCombinationException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

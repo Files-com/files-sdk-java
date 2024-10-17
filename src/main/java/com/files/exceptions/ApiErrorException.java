@@ -80,7 +80,7 @@ public class ApiErrorException extends SdkException {
 
   @Override
   public String toString() {
-    return "[" + getType() + "] " + getError();
+    return "[" + responseError.httpCode + "] " + getMessage();
   }
 
   public static class ApiConnectionException extends SdkException {

@@ -360,6 +360,14 @@ public class Bundle implements ModelInterface {
   public Boolean hasInbox;
 
   /**
+  * Should folder uploads be prevented?
+  */
+  @Getter
+  @Setter
+  @JsonProperty("dont_allow_folders_in_uploads")
+  public Boolean dontAllowFoldersInUploads;
+
+  /**
   * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
   @Getter

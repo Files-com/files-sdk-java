@@ -5,6 +5,7 @@ import com.files.FilesConfig;
 import devcsrj.okhttp3.logging.HttpLoggingInterceptor;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -30,6 +31,8 @@ public class FilesHttpClient {
       builder.hostnameVerifier((hostname, session) -> true);
       builder.retryOnConnectionFailure(false);
       builder.addInterceptor(new FilesHttpInterceptor());
+      builder.connectTimeout(30, TimeUnit.SECONDS);
+      builder.readTimeout(60, TimeUnit.SECONDS);
 
       if (FilesConfig.getInstance().getHttpLoggingEnabled() && log.isDebugEnabled()) {
         builder.addInterceptor(new HttpLoggingInterceptor());

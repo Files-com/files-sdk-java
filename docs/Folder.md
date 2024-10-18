@@ -101,11 +101,11 @@ ListIterator<File> folder = Folder.listFor(
 * `cursor` (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `path` (String): Required - Path to operate on.
-* `filter` (String): If specified, will filter folders/files list by name. Ignores text before last `/`. Wildcards of `*` and `?` are acceptable here.
+* `filter` (String): If specified, will filter folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `sort_by` (Map<String, String>): Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
 * `search` (String): If `search_all` is `true`, provide the search string here.  Otherwise, this parameter acts like an alias of `filter`.
-* `search_all` (Boolean): Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the UI.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
+* `search_all` (Boolean): Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
 * `with_previews` (Boolean): Include file previews?
 * `with_priority_color` (Boolean): Include file priority color information?
 

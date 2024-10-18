@@ -168,6 +168,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class FoldersNotAllowedException extends BadRequestException {
+    public FoldersNotAllowedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InvalidBodyException extends BadRequestException {
     public InvalidBodyException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

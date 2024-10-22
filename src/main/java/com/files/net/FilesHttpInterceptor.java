@@ -51,6 +51,9 @@ public class FilesHttpInterceptor implements Interceptor {
         log.warn(String.format("HttpClient received retry condition of [%s].", status));
       } catch (IOException e) {
         log.error(String.format("HttpClient received retry error condition due to IOException of [%s]", e.getMessage()));
+        if (attempts >= filesConfig.getUpstreamMaxAttempts()) {
+          throw new ApiErrorException.ApiConnectionException(e.getMessage());
+        }
       }
       try {
         Thread.sleep((long) (Math.pow(2, attempts - 2) * filesConfig.getInitialRetryDelayMillis()));

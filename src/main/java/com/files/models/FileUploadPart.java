@@ -55,12 +55,15 @@ public class FileUploadPart implements ModelInterface {
     final java.util.concurrent.ExecutorService executor = isParallel ? java.util.concurrent.Executors.newFixedThreadPool(threadCount) : null;
     final java.util.concurrent.Semaphore semaphore = isParallel ? new java.util.concurrent.Semaphore(threadCount * 2) : null;
     final List<java.util.concurrent.Future<Void>> concurrentUploads = new java.util.ArrayList<>();
+    BufferedInputStream bufferedInputStream = null;
     FileUploadPart part = this;
 
     try {
+      bufferedInputStream = new BufferedInputStream(inputStream);
+
       while (true) {
         final byte[] buffer = new byte[part.partsize.intValue()];
-        final int bytesRead = inputStream.read(buffer);
+        final int bytesRead = bufferedInputStream.read(buffer);
         if (bytesRead == -1) {
           break;
         }
@@ -81,10 +84,6 @@ public class FileUploadPart implements ModelInterface {
           FilesClient.putBuffer(part.uploadUri, requestMethod, part.path, buffer, bytesRead);
         }
 
-        if (bytesRead < part.partsize) {
-          break;
-        }
-
         final HashMap<String, Object> parameters = new HashMap<>(part.parameters);
         parameters.put("ref", part.ref);
         parameters.put("part", part.partNumber + 1);
@@ -99,6 +98,9 @@ public class FileUploadPart implements ModelInterface {
         }
       }
     } finally {
+      if (bufferedInputStream != null) {
+        bufferedInputStream.close();
+      }
       if (executor != null) {
         executor.shutdown();
       }

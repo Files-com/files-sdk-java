@@ -16,7 +16,7 @@ public class FilesFileTest {
   @Before
   public void setApiRoot() {
     FilesClient.apiKey = apiKey;
-    FilesClient.setProperty("apiRoot", "http://files-mock-server:4041");
+    FilesClient.setProperty("apiRoot", TestSettingsHelper.getInstance().getMockServerApiRoot());
   }
 
   @Test

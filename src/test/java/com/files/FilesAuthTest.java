@@ -9,27 +9,21 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class FilesAuthTest {
   private static final String apiKey = "mock-server-api-key";
   @Before
   public void setApiRoot() {
-    FilesClient.setProperty("apiRoot", "http://files-mock-server:4041");
+    FilesClient.setProperty("apiRoot", TestSettingsHelper.getInstance().getMockServerApiRoot());
   }
 
   @Test
   public void listAllUsers() throws Exception {
     // Setting API Key
     FilesClient.apiKey = apiKey;
-    // Requesting all userss
+    // Requesting all users
     ListIterator<User> allUsers = User.all();
     assert(allUsers.all().size() == 1);
     int count = 0;

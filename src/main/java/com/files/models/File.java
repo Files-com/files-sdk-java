@@ -289,6 +289,22 @@ public class File implements ModelInterface {
   public String md5;
 
   /**
+  * File SHA1 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("sha1")
+  public String sha1;
+
+  /**
+  * File SHA256 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("sha256")
+  public String sha256;
+
+  /**
   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
   */
   @Getter

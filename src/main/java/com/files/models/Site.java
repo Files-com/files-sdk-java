@@ -283,6 +283,34 @@ public class Site implements ModelInterface {
   public Map<String, String> bundleWatermarkValue;
 
   /**
+  * Calculate CRC32 checksums for files?
+  */
+  @Getter
+  @JsonProperty("calculate_file_checksums_crc32")
+  public Boolean calculateFileChecksumsCrc32;
+
+  /**
+  * Calculate MD5 checksums for files?
+  */
+  @Getter
+  @JsonProperty("calculate_file_checksums_md5")
+  public Boolean calculateFileChecksumsMd5;
+
+  /**
+  * Calculate SHA1 checksums for files?
+  */
+  @Getter
+  @JsonProperty("calculate_file_checksums_sha1")
+  public Boolean calculateFileChecksumsSha1;
+
+  /**
+  * Calculate SHA256 checksums for files?
+  */
+  @Getter
+  @JsonProperty("calculate_file_checksums_sha256")
+  public Boolean calculateFileChecksumsSha256;
+
+  /**
   * Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
   */
   @Getter
@@ -407,6 +435,13 @@ public class Site implements ModelInterface {
   @Getter
   @JsonProperty("desktop_app_session_lifetime")
   public Long desktopAppSessionLifetime;
+
+  /**
+  * Use legacy checksums mode?
+  */
+  @Getter
+  @JsonProperty("legacy_checksums_mode")
+  public Boolean legacyChecksumsMode;
 
   /**
   * Is the mobile app enabled?
@@ -1300,6 +1335,11 @@ public class Site implements ModelInterface {
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
   *   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
+  *   calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
+  *   calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
+  *   calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
+  *   calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
+  *   legacy_checksums_mode - boolean - Use legacy checksums mode?
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   tls_disabled - boolean - DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
@@ -1544,6 +1584,21 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("bundle_send_shared_receipts") && !(parameters.get("bundle_send_shared_receipts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_send_shared_receipts must be of type Boolean parameters[\"bundle_send_shared_receipts\"]");
+    }
+    if (parameters.containsKey("calculate_file_checksums_crc32") && !(parameters.get("calculate_file_checksums_crc32") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: calculate_file_checksums_crc32 must be of type Boolean parameters[\"calculate_file_checksums_crc32\"]");
+    }
+    if (parameters.containsKey("calculate_file_checksums_md5") && !(parameters.get("calculate_file_checksums_md5") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: calculate_file_checksums_md5 must be of type Boolean parameters[\"calculate_file_checksums_md5\"]");
+    }
+    if (parameters.containsKey("calculate_file_checksums_sha1") && !(parameters.get("calculate_file_checksums_sha1") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: calculate_file_checksums_sha1 must be of type Boolean parameters[\"calculate_file_checksums_sha1\"]");
+    }
+    if (parameters.containsKey("calculate_file_checksums_sha256") && !(parameters.get("calculate_file_checksums_sha256") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: calculate_file_checksums_sha256 must be of type Boolean parameters[\"calculate_file_checksums_sha256\"]");
+    }
+    if (parameters.containsKey("legacy_checksums_mode") && !(parameters.get("legacy_checksums_mode") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: legacy_checksums_mode must be of type Boolean parameters[\"legacy_checksums_mode\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

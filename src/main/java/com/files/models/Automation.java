@@ -274,7 +274,7 @@ public class Automation implements ModelInterface {
   public String scheduleTimeZone;
 
   /**
-  * Source path. Supports globs, except on remote mounts.
+  * Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   */
   @Getter
   @Setter
@@ -347,12 +347,12 @@ public class Automation implements ModelInterface {
 
   /**
   * Parameters:
-  *   source - string - Source Path
+  *   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
   *   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-  *   path - string - Path on which this Automation runs.  Supports globs.
+  *   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -520,12 +520,12 @@ public class Automation implements ModelInterface {
 
   /**
   * Parameters:
-  *   source - string - Source Path
+  *   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
   *   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-  *   path - string - Path on which this Automation runs.  Supports globs.
+  *   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -701,12 +701,12 @@ public class Automation implements ModelInterface {
 
   /**
   * Parameters:
-  *   source - string - Source Path
+  *   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   *   destinations - array(string) - A list of String destination paths or Hash of folder_path and optional file_path.
   *   destination_replace_from - string - If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   *   destination_replace_to - string - If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
   *   interval - string - How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-  *   path - string - Path on which this Automation runs.  Supports globs.
+  *   path - string - Path on which this Automation runs.  Supports globs, except on remote mounts.
   *   sync_ids - string - A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   user_ids - string - A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
   *   group_ids - string - A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.

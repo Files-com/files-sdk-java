@@ -114,6 +114,22 @@ public class As2Partner implements ModelInterface {
   public String httpAuthUsername;
 
   /**
+  * Additional HTTP Headers for outgoing message sent to this partner.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("additional_http_headers")
+  public Map<String, String> additionalHttpHeaders;
+
+  /**
+  * Default mime type of the file attached to the encrypted message
+  */
+  @Getter
+  @Setter
+  @JsonProperty("default_mime_type")
+  public String defaultMimeType;
+
+  /**
   * How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
   */
   @Getter
@@ -122,7 +138,7 @@ public class As2Partner implements ModelInterface {
   public String mdnValidationLevel;
 
   /**
-  * If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+  * If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   */
   @Getter
   @Setter
@@ -203,11 +219,13 @@ public class As2Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   name - string - The partner's formal AS2 name.
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -333,11 +351,13 @@ public class As2Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
   *   name (required) - string - The partner's formal AS2 name.
   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
@@ -382,6 +402,12 @@ public class As2Partner implements ModelInterface {
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
     }
+    if (parameters.containsKey("default_mime_type") && !(parameters.get("default_mime_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: default_mime_type must be of type String parameters[\"default_mime_type\"]");
+    }
+    if (parameters.containsKey("additional_http_headers") && !(parameters.get("additional_http_headers") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: additional_http_headers must be of type Map<String, String> parameters[\"additional_http_headers\"]");
+    }
     if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long parameters[\"as2_station_id\"]");
     }
@@ -405,11 +431,13 @@ public class As2Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   name - string - The partner's formal AS2 name.
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -453,6 +481,12 @@ public class As2Partner implements ModelInterface {
     }
     if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
+    }
+    if (parameters.containsKey("default_mime_type") && !(parameters.get("default_mime_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: default_mime_type must be of type String parameters[\"default_mime_type\"]");
+    }
+    if (parameters.containsKey("additional_http_headers") && !(parameters.get("additional_http_headers") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: additional_http_headers must be of type Map<String, String> parameters[\"additional_http_headers\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

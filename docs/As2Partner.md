@@ -10,6 +10,10 @@
   "uri": "example",
   "server_certificate": "require_match",
   "http_auth_username": "username",
+  "additional_http_headers": {
+    "key": "example value"
+  },
+  "default_mime_type": "application/octet-stream",
   "mdn_validation_level": "none",
   "enable_dedicated_ips": true,
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
@@ -28,8 +32,10 @@
 * `uri` / `uri`  (string): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `server_certificate` / `serverCertificate`  (string): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
 * `http_auth_username` / `httpAuthUsername`  (string): Username to send to server for HTTP Authentication.
+* `additional_http_headers` / `additionalHttpHeaders`  (object): Additional HTTP Headers for outgoing message sent to this partner.
+* `default_mime_type` / `defaultMimeType`  (string): Default mime type of the file attached to the encrypted message
 * `mdn_validation_level` / `mdnValidationLevel`  (string): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-* `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 * `hex_public_certificate_serial` / `hexPublicCertificateSerial`  (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` / `publicCertificateMd5`  (string): MD5 hash of public certificate used for message security.
 * `public_certificate_subject` / `publicCertificateSubject`  (string): Subject of public certificate used for message security.
@@ -90,11 +96,13 @@ As2Partner as2Partner = As2Partner.create(
 
 ### Parameters
 
-* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 * `http_auth_username` (String): Username to send to server for HTTP Authentication.
 * `http_auth_password` (String): Password to send to server for HTTP Authentication.
 * `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `default_mime_type` (String): Default mime type of the file attached to the encrypted message
+* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
 * `as2_station_id` (Long): Required - ID of the AS2 Station associated with this partner.
 * `name` (String): Required - The partner's formal AS2 name.
 * `uri` (String): Required - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
@@ -116,11 +124,13 @@ As2Partner as2Partner = As2Partner.update(
 ### Parameters
 
 * `id` (Long): Required - As2 Partner ID.
-* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 * `http_auth_username` (String): Username to send to server for HTTP Authentication.
 * `http_auth_password` (String): Password to send to server for HTTP Authentication.
 * `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `default_mime_type` (String): Default mime type of the file attached to the encrypted message
+* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -156,6 +166,8 @@ parameters.put("enable_dedicated_ips", true);
 parameters.put("http_auth_username", "username");
 parameters.put("mdn_validation_level", "none");
 parameters.put("server_certificate", "require_match");
+parameters.put("default_mime_type", "application/octet-stream");
+parameters.put("additional_http_headers", {"key":"example value"});
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
 
@@ -165,11 +177,13 @@ As2Partner.Update(parameters);
 ### Parameters
 
 * `id` (Long): Required - As2 Partner ID.
-* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 PArtner.
+* `enable_dedicated_ips` (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
 * `http_auth_username` (String): Username to send to server for HTTP Authentication.
 * `http_auth_password` (String): Password to send to server for HTTP Authentication.
 * `mdn_validation_level` (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+* `default_mime_type` (String): Default mime type of the file attached to the encrypted message
+* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.

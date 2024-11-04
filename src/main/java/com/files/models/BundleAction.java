@@ -87,13 +87,6 @@ public class BundleAction implements ModelInterface {
   public Date createdAt;
 
   /**
-  * Action occurrence date/time
-  */
-  @Getter
-  @JsonProperty("when")
-  public Date when;
-
-  /**
   * The destination path for this bundle action, if applicable
   */
   @Getter

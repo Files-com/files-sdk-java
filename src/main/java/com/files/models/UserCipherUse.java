@@ -87,6 +87,13 @@ public class UserCipherUse implements ModelInterface {
   public Date createdAt;
 
   /**
+  * Is this cipher considered insecure?
+  */
+  @Getter
+  @JsonProperty("insecure")
+  public Boolean insecure;
+
+  /**
   * The interface accessed
   */
   @Getter

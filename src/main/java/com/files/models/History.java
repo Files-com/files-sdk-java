@@ -119,7 +119,7 @@ public class History implements ModelInterface {
   */
   @Getter
   @JsonProperty("targets")
-  public Object[] targets;
+  public Map<String, String> targets;
 
   /**
   * User ID

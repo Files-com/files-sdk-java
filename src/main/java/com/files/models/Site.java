@@ -941,13 +941,6 @@ public class Site implements ModelInterface {
   public Session session;
 
   /**
-  * Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
-  */
-  @Getter
-  @JsonProperty("session_pinned_by_ip")
-  public Boolean sessionPinnedByIp;
-
-  /**
   * Is SFTP enabled?
   */
   @Getter
@@ -1368,7 +1361,6 @@ public class Site implements ModelInterface {
   *   sftp_user_root_enabled - boolean - Use user FTP roots also for SFTP?
   *   disable_password_reset - boolean - Is password reset disabled?
   *   immutable_files - boolean - Are files protected from modification?
-  *   session_pinned_by_ip - boolean - Are sessions locked to the same IP? (i.e. do users need to log in again if they change IPs?)
   *   bundle_not_found_message - string - Custom error message to show when bundle is not found.
   *   bundle_password_required - boolean - Do Bundles require password protection?
   *   bundle_require_registration - boolean - Do Bundles require registration?
@@ -1683,9 +1675,6 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("immutable_files") && !(parameters.get("immutable_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: immutable_files must be of type Boolean parameters[\"immutable_files\"]");
-    }
-    if (parameters.containsKey("session_pinned_by_ip") && !(parameters.get("session_pinned_by_ip") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: session_pinned_by_ip must be of type Boolean parameters[\"session_pinned_by_ip\"]");
     }
     if (parameters.containsKey("bundle_not_found_message") && !(parameters.get("bundle_not_found_message") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: bundle_not_found_message must be of type String parameters[\"bundle_not_found_message\"]");

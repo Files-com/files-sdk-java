@@ -489,6 +489,14 @@ public class User implements ModelInterface {
   public Boolean siteAdmin;
 
   /**
+  * Site ID
+  */
+  @Getter
+  @Setter
+  @JsonProperty("site_id")
+  public Long siteId;
+
+  /**
   * Skip Welcome page in the UI?
   */
   @Getter
@@ -764,7 +772,7 @@ public class User implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `name`, `company`, `site_admin`, `password_validity_days` or `ssl_required`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `authenticate_until`, `email`, `last_desktop_login_at`, `last_login_at`, `username`, `name`, `company`, `site_admin`, `password_validity_days` or `ssl_required`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until` or `not_site_admin`. Valid field combinations are `[ username, not_site_admin ]` and `[ name, company ]`.
   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
@@ -772,6 +780,7 @@ public class User implements ModelInterface {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
   *   ids - string - comma-separated list of User IDs
+  *   include_parent_site_users - boolean - Include users from the parent site.
   *   search - string - Searches for partial matches of name, username, or email.
   */
   public static ListIterator<User> list() throws RuntimeException {
@@ -818,6 +827,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("ids") && !(parameters.get("ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ids must be of type String parameters[\"ids\"]");
+    }
+    if (parameters.containsKey("include_parent_site_users") && !(parameters.get("include_parent_site_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_parent_site_users must be of type Boolean parameters[\"include_parent_site_users\"]");
     }
     if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");

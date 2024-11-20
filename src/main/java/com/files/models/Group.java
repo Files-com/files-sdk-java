@@ -154,6 +154,14 @@ public class Group implements ModelInterface {
   public Boolean restapiPermission;
 
   /**
+  * Site ID
+  */
+  @Getter
+  @Setter
+  @JsonProperty("site_id")
+  public Long siteId;
+
+  /**
   * Parameters:
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
@@ -191,10 +199,11 @@ public class Group implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `name`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
   *   ids - string - Comma-separated list of group ids to include in results.
+  *   include_parent_site_groups - boolean - Include groups from the parent site.
   */
   public static ListIterator<Group> list() throws RuntimeException {
     return list(null, null);
@@ -228,6 +237,9 @@ public class Group implements ModelInterface {
     }
     if (parameters.containsKey("ids") && !(parameters.get("ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ids must be of type String parameters[\"ids\"]");
+    }
+    if (parameters.containsKey("include_parent_site_groups") && !(parameters.get("include_parent_site_groups") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_parent_site_groups must be of type Boolean parameters[\"include_parent_site_groups\"]");
     }
 
 

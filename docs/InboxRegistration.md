@@ -52,3 +52,20 @@ ListIterator<InboxRegistration> inboxRegistration = InboxRegistration.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `folder_behavior_id` (Long): ID of the associated Inbox.
+
+
+---
+
+## Create Export Inbox Registration
+
+```
+Export inboxRegistration = InboxRegistration.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `folder_behavior_id` (Long): ID of the associated Inbox.

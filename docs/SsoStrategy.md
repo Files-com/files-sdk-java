@@ -155,6 +155,19 @@ void ssoStrategy = SsoStrategy.sync(
 
 ---
 
+## Create Export SSO Strategy
+
+```
+Export ssoStrategy = SsoStrategy.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## Synchronize provisioning data with the SSO remote server
 
 ```

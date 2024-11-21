@@ -242,4 +242,108 @@ public class IpAddress implements ModelInterface {
   }
 
 
+  /**
+  */
+  public static Export smartfileReservedCreateExport() throws RuntimeException {
+    return smartfileReservedCreateExport(null, null);
+  }
+
+  public static Export smartfileReservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return smartfileReservedCreateExport(parameters, null);
+  }
+
+
+  public static Export smartfileReservedCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/ip_addresses/smartfile-reserved/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  */
+  public static Export exavaultReservedCreateExport() throws RuntimeException {
+    return exavaultReservedCreateExport(null, null);
+  }
+
+  public static Export exavaultReservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return exavaultReservedCreateExport(parameters, null);
+  }
+
+
+  public static Export exavaultReservedCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/ip_addresses/exavault-reserved/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  */
+  public static Export reservedCreateExport() throws RuntimeException {
+    return reservedCreateExport(null, null);
+  }
+
+  public static Export reservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return reservedCreateExport(parameters, null);
+  }
+
+
+  public static Export reservedCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/ip_addresses/reserved/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/ip_addresses/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
 }

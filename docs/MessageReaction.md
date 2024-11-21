@@ -71,6 +71,24 @@ MessageReaction messageReaction = MessageReaction.create(
 
 ---
 
+## Create Export Message Reaction
+
+```
+Export messageReaction = MessageReaction.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `message_id` (Long): Required - Message to return reactions for.
+
+
+---
+
 ## Delete Message Reaction
 
 ```

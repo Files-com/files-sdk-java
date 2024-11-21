@@ -382,4 +382,59 @@ public class As2IncomingMessage implements ModelInterface {
     return list(parameters, options);
   }
 
+  /**
+  * Parameters:
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `as2_partner_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+  *   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
+    }
+    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
+    }
+    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
+    }
+    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
+    }
+    if (parameters.containsKey("as2_partner_id") && !(parameters.get("as2_partner_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: as2_partner_id must be of type Long parameters[\"as2_partner_id\"]");
+    }
+
+
+    String url = String.format("%s%s/as2_incoming_messages/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
 }

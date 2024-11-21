@@ -57,3 +57,27 @@ ListIterator<BundleDownload> bundleDownload = BundleDownload.list(
 * `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
 * `bundle_id` (Long): Bundle ID
 * `bundle_registration_id` (Long): BundleRegistration ID
+
+
+---
+
+## Create Export Bundle Download
+
+```
+Export bundleDownload = BundleDownload.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
+* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+* `bundle_id` (Long): Bundle ID
+* `bundle_registration_id` (Long): BundleRegistration ID

@@ -61,6 +61,24 @@ GroupUser groupUser = GroupUser.create(
 
 ---
 
+## Create Export Group User
+
+```
+Export groupUser = GroupUser.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  If provided, will return group_users of this user.
+* `group_id` (Long): Group ID.  If provided, will return group_users of this group.
+
+
+---
+
 ## Update Group User
 
 ```

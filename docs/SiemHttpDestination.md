@@ -191,6 +191,19 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 
 ---
 
+## Create Export SIEM HTTP Destination
+
+```
+Export siemHttpDestination = SiemHttpDestination.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## send_test_entry SIEM HTTP Destination
 
 ```

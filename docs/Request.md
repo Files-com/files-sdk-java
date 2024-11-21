@@ -87,6 +87,25 @@ Request request = Request.create(
 
 ---
 
+## Create Export Request
+
+```
+Export request = Request.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+* `mine` (Boolean): Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
+* `path` (String): Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
+
+
+---
+
 ## Delete Request
 
 ```

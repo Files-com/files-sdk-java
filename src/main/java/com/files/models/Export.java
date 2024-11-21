@@ -69,6 +69,7 @@ public class Export implements ModelInterface {
   * ID for this Export
   */
   @Getter
+  @Setter
   @JsonProperty("id")
   public Long id;
 
@@ -76,6 +77,7 @@ public class Export implements ModelInterface {
   * Status of the Export
   */
   @Getter
+  @Setter
   @JsonProperty("export_status")
   public String exportStatus;
 
@@ -83,17 +85,71 @@ public class Export implements ModelInterface {
   * Type of data being exported
   */
   @Getter
+  @Setter
   @JsonProperty("export_type")
   public String exportType;
+
+  /**
+  * Number of rows exported
+  */
+  @Getter
+  @Setter
+  @JsonProperty("export_rows")
+  public Long exportRows;
 
   /**
   * Link to download Export file.
   */
   @Getter
+  @Setter
   @JsonProperty("download_uri")
   public String downloadUri;
 
+  /**
+  * Export message
+  */
+  @Getter
+  @Setter
+  @JsonProperty("message")
+  public String message;
 
+  /**
+  * User ID.  Provide a value of `0` to operate the current session's user.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("user_id")
+  public Long userId;
+
+  /**
+  * If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `export_status` and `export_type`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("sort_by")
+  public Map<String, String> sortBy;
+
+  /**
+  * If set, return records where the specified field is equal to the supplied value. Valid fields are `export_status` and `export_type`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("filter")
+  public Map<String, String> filter;
+
+  /**
+  * If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("filter_prefix")
+  public Map<String, String> filterPrefix;
+
+
+  public void save() throws IOException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+    Export.create(parameters, this.options);
+  }
 
   /**
   * Parameters:
@@ -207,5 +263,48 @@ public class Export implements ModelInterface {
   public static Export get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
+
+  /**
+  * Parameters:
+  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `export_status` and `export_type`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `export_status` and `export_type`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
+  */
+  public static Export create() throws RuntimeException {
+    return create(null, null);
+  }
+
+  public static Export create(HashMap<String, Object> parameters) throws RuntimeException {
+    return create(parameters, null);
+  }
+
+
+  public static Export create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
+    }
+
+
+    String url = String.format("%s%s/exports/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
 }

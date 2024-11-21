@@ -282,6 +282,41 @@ public class BundleNotification implements ModelInterface {
 
   /**
   * Parameters:
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `bundle_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+
+
+    String url = String.format("%s%s/bundle_notifications/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */

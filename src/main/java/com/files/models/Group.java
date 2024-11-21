@@ -377,6 +377,53 @@ public class Group implements ModelInterface {
 
   /**
   * Parameters:
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `name`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+  *   ids - string - Comma-separated list of group ids to include in results.
+  *   include_parent_site_groups - boolean - Include groups from the parent site.
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
+    }
+    if (parameters.containsKey("ids") && !(parameters.get("ids") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: ids must be of type String parameters[\"ids\"]");
+    }
+    if (parameters.containsKey("include_parent_site_groups") && !(parameters.get("include_parent_site_groups") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_parent_site_groups must be of type Boolean parameters[\"include_parent_site_groups\"]");
+    }
+
+
+    String url = String.format("%s%s/groups/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.

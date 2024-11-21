@@ -79,6 +79,19 @@ Clickwrap clickwrap = Clickwrap.create(
 
 ---
 
+## Create Export Clickwrap
+
+```
+Export clickwrap = Clickwrap.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## Update Clickwrap
 
 ```

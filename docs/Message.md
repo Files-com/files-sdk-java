@@ -89,6 +89,24 @@ Message message = Message.create(
 
 ---
 
+## Create Export Message
+
+```
+Export message = Message.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `project_id` (Long): Required - Project for which to return messages.
+
+
+---
+
 ## Update Message
 
 ```

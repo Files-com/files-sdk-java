@@ -300,6 +300,44 @@ public class Message implements ModelInterface {
 
   /**
   * Parameters:
+  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+  *   project_id (required) - int64 - Project for which to return messages.
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+    if (!parameters.containsKey("project_id") || parameters.get("project_id") == null) {
+      throw new NullPointerException("Parameter missing: project_id parameters[\"project_id\"]");
+    }
+
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
+    }
+
+
+    String url = String.format("%s%s/messages/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   project_id (required) - int64 - Project to which the message should be attached.
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.

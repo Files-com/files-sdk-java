@@ -76,6 +76,19 @@ UserRequest userRequest = UserRequest.create(
 
 ---
 
+## Create Export User Request
+
+```
+Export userRequest = UserRequest.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## Delete User Request
 
 ```

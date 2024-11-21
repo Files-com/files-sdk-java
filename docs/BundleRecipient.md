@@ -62,3 +62,22 @@ BundleRecipient bundleRecipient = BundleRecipient.create(
 * `company` (String): Company of recipient.
 * `note` (String): Note to include in email.
 * `share_after_create` (Boolean): Set to true to share the link with the recipient upon creation.
+
+
+---
+
+## Create Export Bundle Recipient
+
+```
+Export bundleRecipient = BundleRecipient.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
+* `bundle_id` (Long): Required - List recipients for the bundle with this ID.

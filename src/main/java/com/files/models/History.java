@@ -507,4 +507,299 @@ public class History implements ModelInterface {
     return list(parameters, options);
   }
 
+  /**
+  * Parameters:
+  *   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+  *   end_at - string - Leave blank or set to a date/time to filter later entries.
+  *   display - string - Display format. Leave blank or set to `full` or `parent`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path` and `created_at`.
+  *   path (required) - int64
+  */
+  public static ListIterator<Export> listForFileCreateExport() throws RuntimeException {
+    return listForFileCreateExport(null, null, null);
+  }
+
+  public static ListIterator<Export> listForFileCreateExport(Long path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listForFileCreateExport(path, parameters, null);
+  }
+
+  public static ListIterator<Export> listForFileCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listForFileCreateExport(null, parameters, options);
+  }
+
+  public static ListIterator<Export> listForFileCreateExport(Long path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (Long) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
+    }
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
+    }
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (!(path instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type Long parameters[\"path\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(path)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/history/files/%s/create_export", urlParts);
+
+    TypeReference<List<Export>> typeReference = new TypeReference<List<Export>>() {};
+    return FilesClient.requestList(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+  *   end_at - string - Leave blank or set to a date/time to filter later entries.
+  *   display - string - Display format. Leave blank or set to `full` or `parent`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+  *   path (required) - int64
+  */
+  public static ListIterator<Export> listForFolderCreateExport() throws RuntimeException {
+    return listForFolderCreateExport(null, null, null);
+  }
+
+  public static ListIterator<Export> listForFolderCreateExport(Long path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listForFolderCreateExport(path, parameters, null);
+  }
+
+  public static ListIterator<Export> listForFolderCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listForFolderCreateExport(null, parameters, options);
+  }
+
+  public static ListIterator<Export> listForFolderCreateExport(Long path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (Long) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
+    }
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
+    }
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (!(path instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type Long parameters[\"path\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(path)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/history/folders/%s/create_export", urlParts);
+
+    TypeReference<List<Export>> typeReference = new TypeReference<List<Export>>() {};
+    return FilesClient.requestList(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+  *   end_at - string - Leave blank or set to a date/time to filter later entries.
+  *   display - string - Display format. Leave blank or set to `full` or `parent`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `user_id` and `created_at`.
+  *   user_id (required) - int64 - User ID.
+  */
+  public static ListIterator<Export> listForUserCreateExport() throws RuntimeException {
+    return listForUserCreateExport(null, null, null);
+  }
+
+  public static ListIterator<Export> listForUserCreateExport(Long user_id, HashMap<String, Object> parameters) throws RuntimeException {
+    return listForUserCreateExport(user_id, parameters, null);
+  }
+
+  public static ListIterator<Export> listForUserCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listForUserCreateExport(null, parameters, options);
+  }
+
+  public static ListIterator<Export> listForUserCreateExport(Long user_id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (user_id == null && parameters.containsKey("user_id") && parameters.get("user_id") != null) {
+      user_id = (Long) parameters.get("user_id");
+    }
+
+
+    if (user_id == null) {
+      throw new NullPointerException("Argument or Parameter missing: user_id parameters[\"user_id\"]");
+    }
+
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
+    }
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
+    }
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (!(user_id instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(user_id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/history/users/%s/create_export", urlParts);
+
+    TypeReference<List<Export>> typeReference = new TypeReference<List<Export>>() {};
+    return FilesClient.requestList(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+  *   end_at - string - Leave blank or set to a date/time to filter later entries.
+  *   display - string - Display format. Leave blank or set to `full` or `parent`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+  */
+  public static ListIterator<Export> listLoginsCreateExport() throws RuntimeException {
+    return listLoginsCreateExport(null, null);
+  }
+
+  public static ListIterator<Export> listLoginsCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return listLoginsCreateExport(parameters, null);
+  }
+
+
+  public static ListIterator<Export> listLoginsCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
+    }
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
+    }
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+
+
+    String url = String.format("%s%s/history/login/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<List<Export>> typeReference = new TypeReference<List<Export>>() {};
+    return FilesClient.requestList(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   start_at - string - Leave blank or set to a date/time to filter earlier entries.
+  *   end_at - string - Leave blank or set to a date/time to filter later entries.
+  *   display - string - Display format. Leave blank or set to `full` or `parent`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `created_at` or `user_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`. Valid field combinations are `[ user_id, folder ]`, `[ user_id, path ]`, `[ folder, path ]` or `[ user_id, folder, path ]`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+  */
+  public static ListIterator<Export> listCreateExport() throws RuntimeException {
+    return listCreateExport(null, null);
+  }
+
+  public static ListIterator<Export> listCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return listCreateExport(parameters, null);
+  }
+
+
+  public static ListIterator<Export> listCreateExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
+    }
+    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
+    }
+    if (parameters.containsKey("display") && !(parameters.get("display") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: display must be of type String parameters[\"display\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
+    }
+
+
+    String url = String.format("%s%s/history/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<List<Export>> typeReference = new TypeReference<List<Export>>() {};
+    return FilesClient.requestList(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
 }

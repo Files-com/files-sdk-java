@@ -111,6 +111,19 @@ As2Partner as2Partner = As2Partner.create(
 
 ---
 
+## Create Export AS2 Partner
+
+```
+Export as2Partner = As2Partner.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## Update AS2 Partner
 
 ```

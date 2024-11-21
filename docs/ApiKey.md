@@ -113,6 +113,29 @@ ApiKey apiKey = ApiKey.create(
 
 ---
 
+## Create Export API Key
+
+```
+Export apiKey = ApiKey.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
+* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
+
+
+---
+
 ## Update current API key.  (Requires current API connection to be using an API key.)
 
 ```

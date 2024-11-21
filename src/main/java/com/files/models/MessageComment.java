@@ -268,6 +268,44 @@ public class MessageComment implements ModelInterface {
 
   /**
   * Parameters:
+  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+  *   message_id (required) - int64 - Message comment to return comments for.
+  */
+  public static Export createExport() throws RuntimeException {
+    return createExport(null, null);
+  }
+
+  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
+    return createExport(parameters, null);
+  }
+
+
+  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+    if (!parameters.containsKey("message_id") || parameters.get("message_id") == null) {
+      throw new NullPointerException("Parameter missing: message_id parameters[\"message_id\"]");
+    }
+
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: message_id must be of type Long parameters[\"message_id\"]");
+    }
+
+
+    String url = String.format("%s%s/message_comments/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Export> typeReference = new TypeReference<Export>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   body (required) - string - Comment body.
   */
 

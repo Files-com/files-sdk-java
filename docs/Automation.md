@@ -202,6 +202,28 @@ void automation = Automation.manualRun(
 
 ---
 
+## Create Export Automation
+
+```
+Export automation = Automation.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation`, `disabled`, `last_modified_at` or `name`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at` or `automation`. Valid field combinations are `[ disabled, last_modified_at ]`, `[ disabled, automation ]`, `[ last_modified_at, automation ]` or `[ disabled, last_modified_at, automation ]`.
+* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
+* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
+* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
+* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
+
+
+---
+
 ## Update Automation
 
 ```

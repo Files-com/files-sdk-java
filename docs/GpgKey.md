@@ -83,6 +83,24 @@ GpgKey gpgKey = GpgKey.create(
 
 ---
 
+## Create Export GPG Key
+
+```
+Export gpgKey = GpgKey.createExport(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
+
+
+---
+
 ## Update GPG Key
 
 ```

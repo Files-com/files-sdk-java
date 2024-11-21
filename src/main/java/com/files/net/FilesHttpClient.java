@@ -10,15 +10,14 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class FilesHttpClient {
   private static FilesHttpClient instance;
-  protected static final Logger log = LoggerFactory.getLogger(FilesHttpClient.class);
   protected OkHttpClient okHttpClient;
 
   protected FilesHttpClient() {

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.4.98-SNAPSHOT</version>
+    <version>1.4.99-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -132,6 +132,8 @@
         </resources>
     </build>
     <properties>
+        <jackson.version>2.16.0</jackson.version>
+        <log4j.version>2.19.0</log4j.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
@@ -139,17 +141,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.13.5</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.13.5</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.5</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -168,11 +170,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.threadly</groupId>
-            <artifactId>threadly</artifactId>
-            <version>6.7</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.devcsrj</groupId>
             <artifactId>slf4j-okhttp3-logging-interceptor</artifactId>
             <version>1.0.1</version>
@@ -180,17 +177,17 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.19.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.19.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.19.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>

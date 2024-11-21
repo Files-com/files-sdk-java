@@ -3,14 +3,12 @@ package com.files;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.threadly.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FilesConfig {
-  private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
   private static volatile FilesConfig instance;
-  private final Properties properties;
+  private Properties properties;
 
   protected FilesConfig() {
     properties = new Properties();
@@ -34,7 +32,7 @@ public class FilesConfig {
 
   private int intProperty(String key, int defaultValue) {
     String strValue = properties.getProperty(key);
-    if (StringUtils.isNullOrEmpty(strValue)) {
+    if (isNullOrEmpty(strValue)) {
       return defaultValue;
     } else {
       return Integer.valueOf(strValue);
@@ -43,7 +41,7 @@ public class FilesConfig {
 
   private boolean boolProperty(String key, boolean defaultValue) {
     String strValue = properties.getProperty(key);
-    if (StringUtils.isNullOrEmpty(strValue)) {
+    if (isNullOrEmpty(strValue)) {
       return defaultValue;
     } else {
       return Boolean.valueOf(strValue);
@@ -133,4 +131,7 @@ public class FilesConfig {
     properties.setProperty(property, value);
   }
 
+  private boolean isNullOrEmpty(final String input) {
+    return input == null || input.isEmpty();
+  }
 }

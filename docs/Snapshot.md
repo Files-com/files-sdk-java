@@ -95,19 +95,6 @@ void snapshot = Snapshot.finalize(
 
 ---
 
-## Create an export CSV of Snapshot resources
-
-```
-Export snapshot = Snapshot.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Update Snapshot
 
 ```

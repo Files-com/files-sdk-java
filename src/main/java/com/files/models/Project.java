@@ -236,29 +236,6 @@ public class Project implements ModelInterface {
 
 
   /**
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-
-
-    String url = String.format("%s%s/projects/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
   * Parameters:
   *   global_access (required) - string - Global permissions.  Can be: `none`, `anyone_with_read`, `anyone_with_full`.
   */

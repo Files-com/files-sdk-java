@@ -314,42 +314,6 @@ public class Request implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-  *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-    String url = String.format("%s%s/requests/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
   */
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {

@@ -180,36 +180,4 @@ public class EmailLog implements ModelInterface {
     return list(parameters, options);
   }
 
-  /**
-  * Parameters:
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `start_date`, `end_date` or `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
-    }
-
-
-    String url = String.format("%s%s/email_logs/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
 }

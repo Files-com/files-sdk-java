@@ -86,16 +86,3 @@ AccountLineItem invoice = Invoice.find(
 ### Parameters
 
 * `id` (Long): Required - Invoice ID.
-
-
----
-
-## Create an export CSV of Invoice resources
-
-```
-Export invoice = Invoice.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```

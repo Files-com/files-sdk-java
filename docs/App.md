@@ -74,22 +74,3 @@ ListIterator<App> app = App.list(
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `app_type`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `app_type`. Valid field combinations are `[ name, app_type ]`.
 * `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
-
-
----
-
-## Create an export CSV of App resources
-
-```
-Export app = App.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `app_type`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `app_type`. Valid field combinations are `[ name, app_type ]`.
-* `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.

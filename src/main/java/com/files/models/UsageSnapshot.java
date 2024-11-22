@@ -214,27 +214,4 @@ public class UsageSnapshot implements ModelInterface {
     return list(parameters, options);
   }
 
-  /**
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-
-
-    String url = String.format("%s%s/usage_snapshots/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
 }

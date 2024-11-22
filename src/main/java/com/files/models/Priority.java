@@ -137,42 +137,4 @@ public class Priority implements ModelInterface {
     return list(path, parameters, options);
   }
 
-  /**
-  * Parameters:
-  *   path (required) - string - The path to query for priorities
-  */
-
-  public static Export createExport(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(path, parameters, null);
-  }
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return createExport(null, parameters, options);
-  }
-
-  public static Export createExport(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-    String url = String.format("%s%s/priorities/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
 }

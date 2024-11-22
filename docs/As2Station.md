@@ -95,19 +95,6 @@ As2Station as2Station = As2Station.create(
 
 ---
 
-## Create an export CSV of AS2 Station resources
-
-```
-Export as2Station = As2Station.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Update AS2 Station
 
 ```

@@ -78,24 +78,6 @@ MessageComment messageComment = MessageComment.create(
 
 ---
 
-## Create an export CSV of Message Comment resources
-
-```
-Export messageComment = MessageComment.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-* `message_id` (Long): Required - Message comment to return comments for.
-
-
----
-
 ## Update Message Comment
 
 ```

@@ -63,22 +63,3 @@ AutomationRun automationRun = AutomationRun.find(
 ### Parameters
 
 * `id` (Long): Required - Automation Run ID.
-
-
----
-
-## Create an export CSV of Automation Run resources
-
-```
-Export automationRun = AutomationRun.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation_id`, `created_at` or `status`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `automation_id`. Valid field combinations are `[ status, automation_id ]`.
-* `automation_id` (Long): Required - ID of the associated Automation.

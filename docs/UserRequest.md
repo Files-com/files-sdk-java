@@ -76,19 +76,6 @@ UserRequest userRequest = UserRequest.create(
 
 ---
 
-## Create an export CSV of User Request resources
-
-```
-Export userRequest = UserRequest.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Delete User Request
 
 ```

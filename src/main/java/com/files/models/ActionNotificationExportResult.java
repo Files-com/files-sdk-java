@@ -190,39 +190,4 @@ public class ActionNotificationExportResult implements ModelInterface {
     return list(parameters, options);
   }
 
-  /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   action_notification_export_id (required) - int64 - ID of the associated action notification export.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("action_notification_export_id") || parameters.get("action_notification_export_id") == null) {
-      throw new NullPointerException("Parameter missing: action_notification_export_id parameters[\"action_notification_export_id\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("action_notification_export_id") && !(parameters.get("action_notification_export_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: action_notification_export_id must be of type Long parameters[\"action_notification_export_id\"]");
-    }
-
-
-    String url = String.format("%s%s/action_notification_export_results/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
 }

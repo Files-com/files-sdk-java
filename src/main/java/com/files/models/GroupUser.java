@@ -238,38 +238,6 @@ public class GroupUser implements ModelInterface {
 
   /**
   * Parameters:
-  *   user_id - int64 - User ID.  If provided, will return group_users of this user.
-  *   group_id - int64 - Group ID.  If provided, will return group_users of this group.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
-    }
-
-
-    String url = String.format("%s%s/group_users/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Parameters:
   *   group_id (required) - int64 - Group ID to add user to.
   *   user_id (required) - int64 - User ID to add to group.
   *   admin - boolean - Is the user a group administrator?

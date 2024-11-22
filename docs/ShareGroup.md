@@ -83,23 +83,6 @@ ShareGroup shareGroup = ShareGroup.create(
 
 ---
 
-## Create an export CSV of Share Group resources
-
-```
-Export shareGroup = ShareGroup.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-
-
----
-
 ## Update Share Group
 
 ```

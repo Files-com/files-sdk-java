@@ -104,23 +104,6 @@ FormFieldSet formFieldSet = FormFieldSet.create(
 
 ---
 
-## Create an export CSV of Form Field Set resources
-
-```
-Export formFieldSet = FormFieldSet.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-
-
----
-
 ## Update Form Field Set
 
 ```

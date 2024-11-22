@@ -1312,42 +1312,6 @@ public class RemoteServer implements ModelInterface {
 
   /**
   * Parameters:
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ name, server_type ]`, `[ name, backblaze_b2_bucket ]`, `[ name, google_cloud_storage_bucket ]`, `[ name, wasabi_bucket ]`, `[ name, s3_bucket ]`, `[ name, rackspace_container ]`, `[ name, azure_blob_storage_container ]`, `[ name, azure_files_storage_share_name ]`, `[ name, s3_compatible_bucket ]`, `[ name, filebase_bucket ]`, `[ name, cloudflare_bucket ]` or `[ name, linode_bucket ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ name, backblaze_b2_bucket ]`, `[ name, google_cloud_storage_bucket ]`, `[ name, wasabi_bucket ]`, `[ name, s3_bucket ]`, `[ name, rackspace_container ]`, `[ name, azure_blob_storage_container ]`, `[ name, azure_files_storage_share_name ]`, `[ name, s3_compatible_bucket ]`, `[ name, filebase_bucket ]`, `[ name, cloudflare_bucket ]` or `[ name, linode_bucket ]`.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
-    }
-
-
-    String url = String.format("%s%s/remote_servers/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Parameters:
   *   aws_access_key - string - AWS Access Key.
   *   aws_secret_key - string - AWS secret key.
   *   password - string - Password if needed.

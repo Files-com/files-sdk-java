@@ -136,28 +136,6 @@ Notification notification = Notification.create(
 
 ---
 
-## Create an export CSV of Notification resources
-
-```
-Export notification = Notification.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `user_id` or `group_id`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
-* `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-* `path` (String): Show notifications for this Path.
-* `include_ancestors` (Boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
-* `group_id` (String): 
-
-
----
-
 ## Update Notification
 
 ```

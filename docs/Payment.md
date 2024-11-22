@@ -86,16 +86,3 @@ AccountLineItem payment = Payment.find(
 ### Parameters
 
 * `id` (Long): Required - Payment ID.
-
-
----
-
-## Create an export CSV of Payment resources
-
-```
-Export payment = Payment.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```

@@ -43,21 +43,3 @@ ListIterator<SettingsChange> settingsChange = SettingsChange.list(
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `api_key_id` or `user_id`.
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
-
-
----
-
-## Create an export CSV of Settings Change resources
-
-```
-Export settingsChange = SettingsChange.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `api_key_id` or `user_id`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.

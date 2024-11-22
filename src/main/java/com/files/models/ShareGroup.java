@@ -282,34 +282,6 @@ public class ShareGroup implements ModelInterface {
 
   /**
   * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-
-
-    String url = String.format("%s%s/share_groups/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Parameters:
   *   notes - string - Additional notes of the share group
   *   name - string - Name of the share group
   *   members - array(object) - A list of share group members.

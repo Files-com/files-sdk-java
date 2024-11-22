@@ -272,58 +272,6 @@ public class Permission implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `group_id`, `path` or `user_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ path, group_id ]`, `[ path, user_id ]` or `[ group_id, user_id ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-  *   path - string - Permission path.  If provided, will scope all permissions(including upward) to this path.
-  *   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
-  *   group_id - string
-  *   user_id - string
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("include_groups") && !(parameters.get("include_groups") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_groups must be of type Boolean parameters[\"include_groups\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type String parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type String parameters[\"user_id\"]");
-    }
-
-
-    String url = String.format("%s%s/permissions/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
   */
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {

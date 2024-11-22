@@ -79,19 +79,6 @@ Clickwrap clickwrap = Clickwrap.create(
 
 ---
 
-## Create an export CSV of Clickwrap resources
-
-```
-Export clickwrap = Clickwrap.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Update Clickwrap
 
 ```

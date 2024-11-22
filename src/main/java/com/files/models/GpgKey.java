@@ -304,38 +304,6 @@ public class GpgKey implements ModelInterface {
 
   /**
   * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
-  */
-
-  public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
-    return createExport(parameters, null);
-  }
-
-
-  public static Export createExport(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
-    }
-
-
-    String url = String.format("%s%s/gpg_keys/create_export", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Export> typeReference = new TypeReference<Export>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Parameters:
   *   public_key - string - Your GPG public key
   *   private_key - string - Your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.

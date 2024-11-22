@@ -71,24 +71,6 @@ MessageCommentReaction messageCommentReaction = MessageCommentReaction.create(
 
 ---
 
-## Create an export CSV of Message Comment Reaction resources
-
-```
-Export messageCommentReaction = MessageCommentReaction.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
-* `message_comment_id` (Long): Required - Message comment to return reactions for.
-
-
----
-
 ## Delete Message Comment Reaction
 
 ```

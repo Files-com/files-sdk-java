@@ -140,25 +140,6 @@ void behavior = Behavior.webhookTest(
 
 ---
 
-## Create an export CSV of Behavior resources
-
-```
-Export behavior = Behavior.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`.
-* `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `behavior`.
-
-
----
-
 ## Update Behavior
 
 ```

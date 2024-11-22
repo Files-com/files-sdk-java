@@ -67,19 +67,6 @@ Project project = Project.create(
 
 ---
 
-## Create an export CSV of Project resources
-
-```
-Export project = Project.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Update Project
 
 ```

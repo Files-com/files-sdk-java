@@ -73,19 +73,6 @@ SftpHostKey sftpHostKey = SftpHostKey.create(
 
 ---
 
-## Create an export CSV of SFTP Host Key resources
-
-```
-Export sftpHostKey = SftpHostKey.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Update SFTP Host Key
 
 ```

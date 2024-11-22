@@ -191,19 +191,6 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 
 ---
 
-## Create an export CSV of SIEM HTTP Destination resources
-
-```
-Export siemHttpDestination = SiemHttpDestination.createExport(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## send_test_entry SIEM HTTP Destination
 
 ```

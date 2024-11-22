@@ -83,7 +83,7 @@ ListIterator<HistoryExportResult> historyExportResult = HistoryExportResult.list
 
 ---
 
-## Create Export History Export Result
+## Create an export CSV of History Export Result resources
 
 ```
 Export historyExportResult = HistoryExportResult.createExport(

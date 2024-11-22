@@ -67,7 +67,7 @@ Project project = Project.create(
 
 ---
 
-## Create Export Project
+## Create an export CSV of Project resources
 
 ```
 Export project = Project.createExport(

@@ -54,7 +54,7 @@ ListIterator<EmailIncomingMessage> emailIncomingMessage = EmailIncomingMessage.l
 
 ---
 
-## Create Export Email Incoming Message
+## Create an export CSV of Email Incoming Message resources
 
 ```
 Export emailIncomingMessage = EmailIncomingMessage.createExport(

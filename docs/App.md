@@ -78,7 +78,7 @@ ListIterator<App> app = App.list(
 
 ---
 
-## Create Export App
+## Create an export CSV of App resources
 
 ```
 Export app = App.createExport(

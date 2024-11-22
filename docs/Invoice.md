@@ -90,7 +90,7 @@ AccountLineItem invoice = Invoice.find(
 
 ---
 
-## Create Export Invoice
+## Create an export CSV of Invoice resources
 
 ```
 Export invoice = Invoice.createExport(

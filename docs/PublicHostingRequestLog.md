@@ -47,7 +47,7 @@ ListIterator<PublicHostingRequestLog> publicHostingRequestLog = PublicHostingReq
 
 ---
 
-## Create Export Public Hosting Request Log
+## Create an export CSV of Public Hosting Request Log resources
 
 ```
 Export publicHostingRequestLog = PublicHostingRequestLog.createExport(

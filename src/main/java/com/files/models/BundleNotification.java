@@ -285,9 +285,6 @@ public class BundleNotification implements ModelInterface {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `bundle_id`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

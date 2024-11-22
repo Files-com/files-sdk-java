@@ -95,7 +95,7 @@ void snapshot = Snapshot.finalize(
 
 ---
 
-## Create Export Snapshot
+## Create an export CSV of Snapshot resources
 
 ```
 Export snapshot = Snapshot.createExport(

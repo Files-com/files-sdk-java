@@ -364,9 +364,6 @@ public class As2OutgoingMessage implements ModelInterface {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   *   as2_partner_id - int64 - As2 Partner ID.  If provided, will return message specific to that partner.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

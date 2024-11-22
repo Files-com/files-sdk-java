@@ -271,9 +271,6 @@ public class Export implements ModelInterface {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `export_status` and `export_type`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
   */
-  public static Export create() throws RuntimeException {
-    return create(null, null);
-  }
 
   public static Export create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

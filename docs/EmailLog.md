@@ -49,7 +49,7 @@ ListIterator<EmailLog> emailLog = EmailLog.list(
 
 ---
 
-## Create Export Email Log
+## Create an export CSV of Email Log resources
 
 ```
 Export emailLog = EmailLog.createExport(

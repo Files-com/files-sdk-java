@@ -244,9 +244,6 @@ public class IpAddress implements ModelInterface {
 
   /**
   */
-  public static Export smartfileReservedCreateExport() throws RuntimeException {
-    return smartfileReservedCreateExport(null, null);
-  }
 
   public static Export smartfileReservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
     return smartfileReservedCreateExport(parameters, null);
@@ -270,9 +267,6 @@ public class IpAddress implements ModelInterface {
 
   /**
   */
-  public static Export exavaultReservedCreateExport() throws RuntimeException {
-    return exavaultReservedCreateExport(null, null);
-  }
 
   public static Export exavaultReservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
     return exavaultReservedCreateExport(parameters, null);
@@ -296,9 +290,6 @@ public class IpAddress implements ModelInterface {
 
   /**
   */
-  public static Export reservedCreateExport() throws RuntimeException {
-    return reservedCreateExport(null, null);
-  }
 
   public static Export reservedCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
     return reservedCreateExport(parameters, null);
@@ -322,9 +313,6 @@ public class IpAddress implements ModelInterface {
 
   /**
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

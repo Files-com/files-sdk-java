@@ -67,7 +67,7 @@ AutomationRun automationRun = AutomationRun.find(
 
 ---
 
-## Create Export Automation Run
+## Create an export CSV of Automation Run resources
 
 ```
 Export automationRun = AutomationRun.createExport(

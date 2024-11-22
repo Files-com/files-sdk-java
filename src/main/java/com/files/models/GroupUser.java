@@ -241,9 +241,6 @@ public class GroupUser implements ModelInterface {
   *   user_id - int64 - User ID.  If provided, will return group_users of this user.
   *   group_id - int64 - Group ID.  If provided, will return group_users of this group.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

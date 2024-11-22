@@ -53,7 +53,7 @@ ListIterator<BandwidthSnapshot> bandwidthSnapshot = BandwidthSnapshot.list(
 
 ---
 
-## Create Export Bandwidth Snapshot
+## Create an export CSV of Bandwidth Snapshot resources
 
 ```
 Export bandwidthSnapshot = BandwidthSnapshot.createExport(

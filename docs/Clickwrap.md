@@ -79,7 +79,7 @@ Clickwrap clickwrap = Clickwrap.create(
 
 ---
 
-## Create Export Clickwrap
+## Create an export CSV of Clickwrap resources
 
 ```
 Export clickwrap = Clickwrap.createExport(

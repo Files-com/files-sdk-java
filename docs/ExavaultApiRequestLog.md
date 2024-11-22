@@ -53,7 +53,7 @@ ListIterator<ExavaultApiRequestLog> exavaultApiRequestLog = ExavaultApiRequestLo
 
 ---
 
-## Create Export Exavault API Request Log
+## Create an export CSV of Exavault API Request Log resources
 
 ```
 Export exavaultApiRequestLog = ExavaultApiRequestLog.createExport(

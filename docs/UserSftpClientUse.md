@@ -40,7 +40,7 @@ ListIterator<UserSftpClientUse> userSftpClientUse = UserSftpClientUse.list(
 
 ---
 
-## Create Export User SFTP Client Use
+## Create an export CSV of User SFTP Client Use resources
 
 ```
 Export userSftpClientUse = UserSftpClientUse.createExport(

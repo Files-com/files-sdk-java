@@ -73,7 +73,7 @@ ListIterator<SftpActionLog> sftpActionLog = SftpActionLog.list(
 
 ---
 
-## Create Export SFTP Action Log
+## Create an export CSV of SFTP Action Log resources
 
 ```
 Export sftpActionLog = SftpActionLog.createExport(

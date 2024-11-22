@@ -45,7 +45,7 @@ ListIterator<RemoteBandwidthSnapshot> remoteBandwidthSnapshot = RemoteBandwidthS
 
 ---
 
-## Create Export Remote Bandwidth Snapshot
+## Create an export CSV of Remote Bandwidth Snapshot resources
 
 ```
 Export remoteBandwidthSnapshot = RemoteBandwidthSnapshot.createExport(

@@ -41,7 +41,7 @@ ListIterator<InboxUpload> inboxUpload = InboxUpload.list(
 
 ---
 
-## Create Export Inbox Upload
+## Create an export CSV of Inbox Upload resources
 
 ```
 Export inboxUpload = InboxUpload.createExport(

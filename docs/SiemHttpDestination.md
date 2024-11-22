@@ -191,7 +191,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 
 ---
 
-## Create Export SIEM HTTP Destination
+## Create an export CSV of SIEM HTTP Destination resources
 
 ```
 Export siemHttpDestination = SiemHttpDestination.createExport(

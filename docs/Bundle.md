@@ -222,7 +222,7 @@ Bundle bundle = Bundle.create(
 
 ---
 
-## Create Export Bundle
+## Create an export CSV of Bundle resources
 
 ```
 Export bundle = Bundle.createExport(

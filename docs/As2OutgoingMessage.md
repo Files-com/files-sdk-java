@@ -102,7 +102,7 @@ ListIterator<As2OutgoingMessage> as2OutgoingMessage = As2OutgoingMessage.list(
 
 ---
 
-## Create Export AS2 Outgoing Message
+## Create an export CSV of AS2 Outgoing Message resources
 
 ```
 Export as2OutgoingMessage = As2OutgoingMessage.createExport(

@@ -67,7 +67,7 @@ ListIterator<FtpActionLog> ftpActionLog = FtpActionLog.list(
 
 ---
 
-## Create Export FTP Action Log
+## Create an export CSV of FTP Action Log resources
 
 ```
 Export ftpActionLog = FtpActionLog.createExport(

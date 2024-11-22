@@ -140,7 +140,7 @@ void behavior = Behavior.webhookTest(
 
 ---
 
-## Create Export Behavior
+## Create an export CSV of Behavior resources
 
 ```
 Export behavior = Behavior.createExport(

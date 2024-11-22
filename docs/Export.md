@@ -66,7 +66,7 @@ Export export = Export.find(
 
 ---
 
-## Create Export Export
+## Create an export CSV of Export resources
 
 ```
 Export export = Export.create(

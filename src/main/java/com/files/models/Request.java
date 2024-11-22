@@ -319,9 +319,6 @@ public class Request implements ModelInterface {
   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
   *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

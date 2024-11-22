@@ -63,7 +63,7 @@ ListIterator<WebDavActionLog> webDavActionLog = WebDavActionLog.list(
 
 ---
 
-## Create Export WebDAV Action Log
+## Create an export CSV of WebDAV Action Log resources
 
 ```
 Export webDavActionLog = WebDavActionLog.createExport(

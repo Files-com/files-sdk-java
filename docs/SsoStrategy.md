@@ -155,7 +155,7 @@ void ssoStrategy = SsoStrategy.sync(
 
 ---
 
-## Create Export SSO Strategy
+## Create an export CSV of SSO Strategy resources
 
 ```
 Export ssoStrategy = SsoStrategy.createExport(

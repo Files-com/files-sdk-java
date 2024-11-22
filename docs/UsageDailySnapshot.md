@@ -59,7 +59,7 @@ ListIterator<UsageDailySnapshot> usageDailySnapshot = UsageDailySnapshot.list(
 
 ---
 
-## Create Export Usage Daily Snapshot
+## Create an export CSV of Usage Daily Snapshot resources
 
 ```
 Export usageDailySnapshot = UsageDailySnapshot.createExport(

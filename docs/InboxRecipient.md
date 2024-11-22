@@ -66,7 +66,7 @@ InboxRecipient inboxRecipient = InboxRecipient.create(
 
 ---
 
-## Create Export Inbox Recipient
+## Create an export CSV of Inbox Recipient resources
 
 ```
 Export inboxRecipient = InboxRecipient.createExport(

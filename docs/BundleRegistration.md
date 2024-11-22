@@ -58,7 +58,7 @@ ListIterator<BundleRegistration> bundleRegistration = BundleRegistration.list(
 
 ---
 
-## Create Export Bundle Registration
+## Create an export CSV of Bundle Registration resources
 
 ```
 Export bundleRegistration = BundleRegistration.createExport(

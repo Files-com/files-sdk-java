@@ -201,9 +201,6 @@ public class InboxRegistration implements ModelInterface {
   * Parameters:
   *   folder_behavior_id - int64 - ID of the associated Inbox.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

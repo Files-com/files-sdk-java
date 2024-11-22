@@ -281,9 +281,6 @@ public class Permission implements ModelInterface {
   *   group_id - string
   *   user_id - string
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

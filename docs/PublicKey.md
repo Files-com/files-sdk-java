@@ -81,7 +81,7 @@ PublicKey publicKey = PublicKey.create(
 
 ---
 
-## Create Export Public Key
+## Create an export CSV of Public Key resources
 
 ```
 Export publicKey = PublicKey.createExport(

@@ -1271,9 +1271,6 @@ public class User implements ModelInterface {
   *   include_parent_site_users - boolean - Include users from the parent site.
   *   search - string - Searches for partial matches of name, username, or email.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

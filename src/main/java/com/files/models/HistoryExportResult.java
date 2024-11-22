@@ -307,9 +307,6 @@ public class HistoryExportResult implements ModelInterface {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   history_export_id (required) - int64 - ID of the associated history export.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

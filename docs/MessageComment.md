@@ -78,7 +78,7 @@ MessageComment messageComment = MessageComment.create(
 
 ---
 
-## Create Export Message Comment
+## Create an export CSV of Message Comment resources
 
 ```
 Export messageComment = MessageComment.createExport(

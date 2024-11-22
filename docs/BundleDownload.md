@@ -61,7 +61,7 @@ ListIterator<BundleDownload> bundleDownload = BundleDownload.list(
 
 ---
 
-## Create Export Bundle Download
+## Create an export CSV of Bundle Download resources
 
 ```
 Export bundleDownload = BundleDownload.createExport(

@@ -56,7 +56,7 @@ ListIterator<InboxRegistration> inboxRegistration = InboxRegistration.list(
 
 ---
 
-## Create Export Inbox Registration
+## Create an export CSV of Inbox Registration resources
 
 ```
 Export inboxRegistration = InboxRegistration.createExport(

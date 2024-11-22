@@ -179,9 +179,6 @@ public class BundleDownload implements ModelInterface {
   *   bundle_id - int64 - Bundle ID
   *   bundle_registration_id - int64 - BundleRegistration ID
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

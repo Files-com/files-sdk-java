@@ -59,7 +59,7 @@ ListIterator<OutboundConnectionLog> outboundConnectionLog = OutboundConnectionLo
 
 ---
 
-## Create Export Outbound Connection Log
+## Create an export CSV of Outbound Connection Log resources
 
 ```
 Export outboundConnectionLog = OutboundConnectionLog.createExport(

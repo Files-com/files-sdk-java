@@ -515,9 +515,6 @@ public class History implements ModelInterface {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path` and `created_at`.
   *   path (required) - int64
   */
-  public static ListIterator<Export> listForFileCreateExport() throws RuntimeException {
-    return listForFileCreateExport(null, null, null);
-  }
 
   public static ListIterator<Export> listForFileCreateExport(Long path, HashMap<String, Object> parameters) throws RuntimeException {
     return listForFileCreateExport(path, parameters, null);
@@ -582,9 +579,6 @@ public class History implements ModelInterface {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
   *   path (required) - int64
   */
-  public static ListIterator<Export> listForFolderCreateExport() throws RuntimeException {
-    return listForFolderCreateExport(null, null, null);
-  }
 
   public static ListIterator<Export> listForFolderCreateExport(Long path, HashMap<String, Object> parameters) throws RuntimeException {
     return listForFolderCreateExport(path, parameters, null);
@@ -649,9 +643,6 @@ public class History implements ModelInterface {
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `user_id` and `created_at`.
   *   user_id (required) - int64 - User ID.
   */
-  public static ListIterator<Export> listForUserCreateExport() throws RuntimeException {
-    return listForUserCreateExport(null, null, null);
-  }
 
   public static ListIterator<Export> listForUserCreateExport(Long user_id, HashMap<String, Object> parameters) throws RuntimeException {
     return listForUserCreateExport(user_id, parameters, null);
@@ -715,9 +706,6 @@ public class History implements ModelInterface {
   *   display - string - Display format. Leave blank or set to `full` or `parent`.
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
   */
-  public static ListIterator<Export> listLoginsCreateExport() throws RuntimeException {
-    return listLoginsCreateExport(null, null);
-  }
 
   public static ListIterator<Export> listLoginsCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
     return listLoginsCreateExport(parameters, null);
@@ -760,9 +748,6 @@ public class History implements ModelInterface {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`. Valid field combinations are `[ user_id, folder ]`, `[ user_id, path ]`, `[ folder, path ]` or `[ user_id, folder, path ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   */
-  public static ListIterator<Export> listCreateExport() throws RuntimeException {
-    return listCreateExport(null, null);
-  }
 
   public static ListIterator<Export> listCreateExport(HashMap<String, Object> parameters) throws RuntimeException {
     return listCreateExport(parameters, null);

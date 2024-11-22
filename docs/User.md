@@ -314,7 +314,7 @@ void user = User.user2faReset(
 
 ---
 
-## Create Export User
+## Create an export CSV of User resources
 
 ```
 Export user = User.createExport(

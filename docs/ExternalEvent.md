@@ -99,7 +99,7 @@ ExternalEvent externalEvent = ExternalEvent.create(
 
 ---
 
-## Create Export External Event
+## Create an export CSV of External Event resources
 
 ```
 Export externalEvent = ExternalEvent.createExport(

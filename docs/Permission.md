@@ -75,7 +75,7 @@ Permission permission = Permission.create(
 
 ---
 
-## Create Export Permission
+## Create an export CSV of Permission resources
 
 ```
 Export permission = Permission.createExport(

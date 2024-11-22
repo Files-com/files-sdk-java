@@ -66,7 +66,7 @@ BundleRecipient bundleRecipient = BundleRecipient.create(
 
 ---
 
-## Create Export Bundle Recipient
+## Create an export CSV of Bundle Recipient resources
 
 ```
 Export bundleRecipient = BundleRecipient.createExport(

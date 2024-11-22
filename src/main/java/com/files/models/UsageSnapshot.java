@@ -216,9 +216,6 @@ public class UsageSnapshot implements ModelInterface {
 
   /**
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

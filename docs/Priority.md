@@ -34,7 +34,7 @@ ListIterator<Priority> priority = Priority.list(
 
 ---
 
-## Create Export Priority
+## Create an export CSV of Priority resources
 
 ```
 Export priority = Priority.createExport(

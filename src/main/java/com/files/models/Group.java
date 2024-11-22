@@ -383,9 +383,6 @@ public class Group implements ModelInterface {
   *   ids - string - Comma-separated list of group ids to include in results.
   *   include_parent_site_groups - boolean - Include groups from the parent site.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

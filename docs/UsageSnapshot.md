@@ -61,7 +61,7 @@ ListIterator<UsageSnapshot> usageSnapshot = UsageSnapshot.list(
 
 ---
 
-## Create Export Usage Snapshot
+## Create an export CSV of Usage Snapshot resources
 
 ```
 Export usageSnapshot = UsageSnapshot.createExport(

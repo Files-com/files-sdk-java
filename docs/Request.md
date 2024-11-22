@@ -87,7 +87,7 @@ Request request = Request.create(
 
 ---
 
-## Create Export Request
+## Create an export CSV of Request resources
 
 ```
 Export request = Request.createExport(

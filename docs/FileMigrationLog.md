@@ -47,7 +47,7 @@ ListIterator<FileMigrationLog> fileMigrationLog = FileMigrationLog.list(
 
 ---
 
-## Create Export File Migration Log
+## Create an export CSV of File Migration Log resources
 
 ```
 Export fileMigrationLog = FileMigrationLog.createExport(

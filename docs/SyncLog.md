@@ -51,7 +51,7 @@ ListIterator<SyncLog> syncLog = SyncLog.list(
 
 ---
 
-## Create Export Sync Log
+## Create an export CSV of Sync Log resources
 
 ```
 Export syncLog = SyncLog.createExport(

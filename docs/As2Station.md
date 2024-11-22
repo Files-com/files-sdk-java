@@ -95,7 +95,7 @@ As2Station as2Station = As2Station.create(
 
 ---
 
-## Create Export AS2 Station
+## Create an export CSV of AS2 Station resources
 
 ```
 Export as2Station = As2Station.createExport(

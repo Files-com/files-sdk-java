@@ -1316,9 +1316,6 @@ public class RemoteServer implements ModelInterface {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ name, server_type ]`, `[ name, backblaze_b2_bucket ]`, `[ name, google_cloud_storage_bucket ]`, `[ name, wasabi_bucket ]`, `[ name, s3_bucket ]`, `[ name, rackspace_container ]`, `[ name, azure_blob_storage_container ]`, `[ name, azure_files_storage_share_name ]`, `[ name, s3_compatible_bucket ]`, `[ name, filebase_bucket ]`, `[ name, cloudflare_bucket ]` or `[ name, linode_bucket ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `rackspace_container`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ name, backblaze_b2_bucket ]`, `[ name, google_cloud_storage_bucket ]`, `[ name, wasabi_bucket ]`, `[ name, s3_bucket ]`, `[ name, rackspace_container ]`, `[ name, azure_blob_storage_container ]`, `[ name, azure_files_storage_share_name ]`, `[ name, s3_compatible_bucket ]`, `[ name, filebase_bucket ]`, `[ name, cloudflare_bucket ]` or `[ name, linode_bucket ]`.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

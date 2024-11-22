@@ -76,7 +76,7 @@ UserRequest userRequest = UserRequest.create(
 
 ---
 
-## Create Export User Request
+## Create an export CSV of User Request resources
 
 ```
 Export userRequest = UserRequest.createExport(

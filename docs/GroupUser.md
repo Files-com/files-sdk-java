@@ -61,7 +61,7 @@ GroupUser groupUser = GroupUser.create(
 
 ---
 
-## Create Export Group User
+## Create an export CSV of Group User resources
 
 ```
 Export groupUser = GroupUser.createExport(

@@ -244,9 +244,6 @@ public class BundleRecipient implements ModelInterface {
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
   *   bundle_id (required) - int64 - List recipients for the bundle with this ID.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

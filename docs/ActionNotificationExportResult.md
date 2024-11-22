@@ -51,7 +51,7 @@ ListIterator<ActionNotificationExportResult> actionNotificationExportResult = Ac
 
 ---
 
-## Create Export Action Notification Export Result
+## Create an export CSV of Action Notification Export Result resources
 
 ```
 Export actionNotificationExportResult = ActionNotificationExportResult.createExport(

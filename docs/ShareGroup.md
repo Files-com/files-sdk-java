@@ -83,7 +83,7 @@ ShareGroup shareGroup = ShareGroup.create(
 
 ---
 
-## Create Export Share Group
+## Create an export CSV of Share Group resources
 
 ```
 Export shareGroup = ShareGroup.createExport(

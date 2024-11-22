@@ -63,7 +63,7 @@ ListIterator<BundleAction> bundleAction = BundleAction.list(
 
 ---
 
-## Create Export Bundle Action
+## Create an export CSV of Bundle Action resources
 
 ```
 Export bundleAction = BundleAction.createExport(

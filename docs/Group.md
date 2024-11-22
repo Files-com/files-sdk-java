@@ -100,7 +100,7 @@ Group group = Group.create(
 
 ---
 
-## Create Export Group
+## Create an export CSV of Group resources
 
 ```
 Export group = Group.createExport(

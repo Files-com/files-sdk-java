@@ -136,7 +136,7 @@ Notification notification = Notification.create(
 
 ---
 
-## Create Export Notification
+## Create an export CSV of Notification resources
 
 ```
 Export notification = Notification.createExport(

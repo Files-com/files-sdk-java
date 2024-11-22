@@ -78,7 +78,7 @@ BundleNotification bundleNotification = BundleNotification.create(
 
 ---
 
-## Create Export Bundle Notification
+## Create an export CSV of Bundle Notification resources
 
 ```
 Export bundleNotification = BundleNotification.createExport(

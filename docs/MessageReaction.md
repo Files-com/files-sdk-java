@@ -71,7 +71,7 @@ MessageReaction messageReaction = MessageReaction.create(
 
 ---
 
-## Create Export Message Reaction
+## Create an export CSV of Message Reaction resources
 
 ```
 Export messageReaction = MessageReaction.createExport(

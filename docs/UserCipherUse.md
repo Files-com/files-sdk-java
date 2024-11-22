@@ -44,7 +44,7 @@ ListIterator<UserCipherUse> userCipherUse = UserCipherUse.list(
 
 ---
 
-## Create Export User Cipher Use
+## Create an export CSV of User Cipher Use resources
 
 ```
 Export userCipherUse = UserCipherUse.createExport(

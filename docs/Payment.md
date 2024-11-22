@@ -90,7 +90,7 @@ AccountLineItem payment = Payment.find(
 
 ---
 
-## Create Export Payment
+## Create an export CSV of Payment resources
 
 ```
 Export payment = Payment.createExport(

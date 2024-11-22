@@ -177,9 +177,6 @@ public class RemoteBandwidthSnapshot implements ModelInterface {
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

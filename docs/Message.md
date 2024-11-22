@@ -89,7 +89,7 @@ Message message = Message.create(
 
 ---
 
-## Create Export Message
+## Create an export CSV of Message resources
 
 ```
 Export message = Message.createExport(

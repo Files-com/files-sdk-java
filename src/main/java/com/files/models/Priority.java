@@ -141,9 +141,6 @@ public class Priority implements ModelInterface {
   * Parameters:
   *   path (required) - string - The path to query for priorities
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null, null);
-  }
 
   public static Export createExport(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(path, parameters, null);

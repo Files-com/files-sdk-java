@@ -306,7 +306,7 @@ RemoteServerConfigurationFile remoteServer = RemoteServer.configurationFile(
 
 ---
 
-## Create Export Remote Server
+## Create an export CSV of Remote Server resources
 
 ```
 Export remoteServer = RemoteServer.createExport(

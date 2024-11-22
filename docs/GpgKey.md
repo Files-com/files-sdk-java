@@ -83,7 +83,7 @@ GpgKey gpgKey = GpgKey.create(
 
 ---
 
-## Create Export GPG Key
+## Create an export CSV of GPG Key resources
 
 ```
 Export gpgKey = GpgKey.createExport(

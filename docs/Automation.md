@@ -202,7 +202,7 @@ void automation = Automation.manualRun(
 
 ---
 
-## Create Export Automation
+## Create an export CSV of Automation resources
 
 ```
 Export automation = Automation.createExport(

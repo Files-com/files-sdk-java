@@ -307,9 +307,6 @@ public class GpgKey implements ModelInterface {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
   */
-  public static Export createExport() throws RuntimeException {
-    return createExport(null, null);
-  }
 
   public static Export createExport(HashMap<String, Object> parameters) throws RuntimeException {
     return createExport(parameters, null);

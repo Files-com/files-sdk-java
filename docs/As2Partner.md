@@ -111,7 +111,7 @@ As2Partner as2Partner = As2Partner.create(
 
 ---
 
-## Create Export AS2 Partner
+## Create an export CSV of AS2 Partner resources
 
 ```
 Export as2Partner = As2Partner.createExport(

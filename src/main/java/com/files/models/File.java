@@ -448,7 +448,7 @@ public class File implements ModelInterface {
   public Boolean withRename;
 
   /**
-  * Download file
+  * Download File
   *
   * Parameters:
   *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
@@ -486,7 +486,7 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Copy file/folder
+  * Copy File/Folder
   *
   * Parameters:
   *   destination (required) - string - Copy destination path.
@@ -499,7 +499,7 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Move file/folder
+  * Move File/Folder
   *
   * Parameters:
   *   destination (required) - string - Move destination path.
@@ -534,7 +534,7 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Download file
+  * Download File
   *
   * Parameters:
   *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
@@ -882,7 +882,7 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Copy file/folder
+  * Copy File/Folder
   *
   * Parameters:
   *   destination (required) - string - Copy destination path.
@@ -946,7 +946,7 @@ public class File implements ModelInterface {
 
 
   /**
-  * Move file/folder
+  * Move File/Folder
   *
   * Parameters:
   *   destination (required) - string - Move destination path.

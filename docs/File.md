@@ -98,7 +98,7 @@
 
 ---
 
-## Download file
+## Download File
 
 ```
 File file = File.download(
@@ -119,7 +119,7 @@ File file = File.download(
 
 ---
 
-## Upload file
+## Upload File
 
 ```
 FileUploadPart file = File.create(
@@ -149,7 +149,7 @@ FileUploadPart file = File.create(
 
 ---
 
-## Update file/folder metadata
+## Update File/Folder Metadata
 
 ```
 File file = File.update(
@@ -169,7 +169,7 @@ File file = File.update(
 
 ---
 
-## Delete file/folder
+## Delete File/Folder
 
 ```
 void file = File.delete(
@@ -187,7 +187,7 @@ void file = File.delete(
 
 ---
 
-## Find file/folder by path
+## Find File/Folder by Path
 
 ```
 File file = File.find(
@@ -207,7 +207,7 @@ File file = File.find(
 
 ---
 
-## Copy file/folder
+## Copy File/Folder
 
 ```
 FileAction file = File.copy(
@@ -227,7 +227,7 @@ FileAction file = File.copy(
 
 ---
 
-## Move file/folder
+## Move File/Folder
 
 ```
 FileAction file = File.move(
@@ -270,7 +270,7 @@ FileUploadPart file = File.beginUpload(
 
 ---
 
-## Download file
+## Download File
 
 ```
 File file = File.Find(path);
@@ -294,7 +294,7 @@ File.Download(parameters);
 
 ---
 
-## Update file/folder metadata
+## Update File/Folder Metadata
 
 ```
 File file = File.Find(path);
@@ -318,7 +318,7 @@ File.Update(parameters);
 
 ---
 
-## Delete file/folder
+## Delete File/Folder
 
 ```
 File file = File.Find(path);
@@ -338,7 +338,7 @@ File.Delete(parameters);
 
 ---
 
-## Copy file/folder
+## Copy File/Folder
 
 ```
 File file = File.Find(path);
@@ -362,7 +362,7 @@ File.Copy(parameters);
 
 ---
 
-## Move file/folder
+## Move File/Folder
 
 ```
 File file = File.Find(path);

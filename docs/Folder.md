@@ -115,7 +115,7 @@ ListIterator<File> folder = Folder.listFor(
 
 ---
 
-## Create folder
+## Create Folder
 
 ```
 Folder folder = Folder.create(

@@ -472,7 +472,7 @@
 
 ---
 
-## Show site settings
+## Show Site Settings
 
 ```
 Site site = Site.get(
@@ -498,7 +498,7 @@ UsageSnapshot site = Site.getUsage(
 
 ---
 
-## Update site settings
+## Update Site Settings
 
 ```
 Site site = Site.update(

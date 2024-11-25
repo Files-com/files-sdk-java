@@ -338,7 +338,7 @@ public class Automation implements ModelInterface {
   public String webhookUrl;
 
   /**
-  * Manually run automation
+  * Manually Run Automation
   */
   public void manualRun() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -654,7 +654,7 @@ public class Automation implements ModelInterface {
 
 
   /**
-  * Manually run automation
+  * Manually Run Automation
   */
 
   public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {

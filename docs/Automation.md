@@ -185,7 +185,7 @@ Automation automation = Automation.create(
 
 ---
 
-## Manually run automation
+## Manually Run Automation
 
 ```
 void automation = Automation.manualRun(
@@ -263,7 +263,7 @@ void automation = Automation.delete(
 
 ---
 
-## Manually run automation
+## Manually Run Automation
 
 ```
 Automation automation = Automation.Find(id);

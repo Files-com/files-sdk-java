@@ -19,7 +19,7 @@
 
 ---
 
-## Show site DNS configuration
+## Show Site DNS Configuration
 
 ```
 ListIterator<DnsRecord> dnsRecord = DnsRecord.list(

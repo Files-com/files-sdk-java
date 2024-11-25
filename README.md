@@ -574,32 +574,7 @@ A README is available on the GitHub link.
 
 ## File/Folder Operations
 
-### File Operations
-
-#### List Root Folder (loads all pages into memory)
-
-```java
-Folder.listFor("/", null).all()
-```
-
-#### List Root Folder with Auto Pagination (loads each page into memory)
-
-```java
-for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
-    System.out.println(item.path);
-}
-```
-
-#### List Root Folder with Manual Pagination (loads each page into memory)
-
-```java
-ListIterator<Folder> listing = Folder.listFor("/", null);
-do {
-    for (Folder item : listing.loadNextPage()) {
-        System.out.println(item.path);
-    }
-} while (listing.hasNextPage());
-```
+### Upload
 
 #### Writing a File
 
@@ -626,6 +601,8 @@ java.io.File file = new java.io.File("test.txt");
 File.create("test.txt", null).putInputStream(new FileInputStream(file), null);
 ```
 
+### Download
+
 #### Reading a File's Text as a InputStream
 
 ```java
@@ -645,9 +622,34 @@ File file = File.download("test.txt", null);
 file.saveAsLocalFile("/tmp/");
 ```
 
-### Miscellaneous
+### List
 
-#### Comparing Case-Insensitive Files and Paths
+#### List Root Folder (loads all pages into memory)
+
+```java
+Folder.listFor("/", null).all()
+```
+
+#### List Root Folder with Auto Pagination (loads each page into memory)
+
+```java
+for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
+    System.out.println(item.path);
+}
+```
+
+#### List Root Folder with Manual Pagination (loads each page into memory)
+
+```java
+ListIterator<Folder> listing = Folder.listFor("/", null);
+do {
+    for (Folder item : listing.loadNextPage()) {
+        System.out.println(item.path);
+    }
+} while (listing.hasNextPage());
+```
+
+### Comparing Case-Insensitive Files and Paths
 
 For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
 

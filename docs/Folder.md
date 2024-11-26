@@ -90,7 +90,7 @@
 
 ---
 
-## List Folders by path
+## List Folders by Path
 
 ```
 ListIterator<File> folder = Folder.listFor(

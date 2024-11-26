@@ -71,7 +71,7 @@ Behavior behavior = Behavior.find(
 
 ---
 
-## List Behaviors by path
+## List Behaviors by Path
 
 ```
 ListIterator<Behavior> behavior = Behavior.listFor(

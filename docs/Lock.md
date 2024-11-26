@@ -35,7 +35,7 @@
 
 ---
 
-## List Locks by path
+## List Locks by Path
 
 ```
 ListIterator<Lock> lock = Lock.listFor(

@@ -554,29 +554,11 @@ RuntimeException
 |`TrialLockedException`|  `SiteConfigurationException` |
 |`UserRequestsEnabledRequiredException`|  `SiteConfigurationException` |
 
-## Mock Server
-
-Files.com publishes a Files.com API server, which is useful for testing your use of the Files.com
-SDKs and other direct integrations against the Files.com API in an integration test environment.
-
-It is a Ruby app that operates as a minimal server for the purpose of testing basic network
-operations and JSON encoding for your SDK or API client. It does not maintain state and it does not
-deeply inspect your submissions for correctness.
-
-Eventually we will add more features intended for integration testing, such as the ability to
-intentionally provoke errors.
-
-Download the server as a Docker image via [Docker Hub](https://hub.docker.com/r/filescom/files-mock-server).
-
-The Source Code is also available on [GitHub](https://github.com/Files-com/files-mock-server).
-
-A README is available on the GitHub link.
-
-## File/Folder Operations
+## Examples
 
 ### Upload
 
-#### Writing a File
+#### Upload a File
 
 ```java
 // Will upload a file called "test.txt" and print its size
@@ -601,7 +583,22 @@ java.io.File file = new java.io.File("test.txt");
 File.create("test.txt", null).putInputStream(new FileInputStream(file), null);
 ```
 
+#### Create a Folder
+
+```java
+HashMap<String, Object> args = new HashMap<>();
+args.put("mkdir_parents", true);
+Folder.create("path/to/folder/to/be/created", args);
+```
+
 ### Download
+
+#### Download a File
+
+```java
+File file = File.download("test.txt", null);
+file.saveAsLocalFile("/tmp/");
+```
 
 #### Reading a File's Text as a InputStream
 
@@ -615,38 +612,71 @@ try(InputStream inputStream = file.getInputStream()) {
 }
 ```
 
-#### Reading a File and Writing it to Your Local Drive
-
-```java
-File file = File.download("test.txt", null);
-file.saveAsLocalFile("/tmp/");
-```
-
 ### List
 
-#### List Root Folder (loads all pages into memory)
+#### List Folder Contents
+
+There are three ways to list folder contents:
+1. `all` - loads all items into memory
+2. `listAutoPaging` - automatically paginates and loads each page into memory
+3. `loadNextPage/hasNextPage` - manually paginates and loads each page into memory
 
 ```java
-Folder.listFor("/", null).all()
-```
-
-#### List Root Folder with Auto Pagination (loads each page into memory)
-
-```java
-for (Folder item : Folder.listFor("/", null).listAutoPaging()) {
+List<File> items = Folder.listFor("remote/path/to/folder/", null).all()
+for (File item : items) {
     System.out.println(item.path);
 }
 ```
 
-#### List Root Folder with Manual Pagination (loads each page into memory)
+```java
+for (File item : Folder.listFor("remote/path/to/folder/", null).listAutoPaging()) {
+    System.out.println(item.path);
+}
+```
 
 ```java
-ListIterator<Folder> listing = Folder.listFor("/", null);
+ListIterator<File> listing = Folder.listFor("remote/path/to/folder/", null);
 do {
-    for (Folder item : listing.loadNextPage()) {
+    for (File item : listing.loadNextPage()) {
         System.out.println(item.path);
     }
 } while (listing.hasNextPage());
+```
+
+### Copy
+
+The copy method works for both files and folders.
+
+```java
+HashMap<String, Object> args = new HashMap<>();
+args.put("destination", "destination/path");
+File.copy("source/path", args);
+```
+
+### Move
+
+The move method works for both files and folders.
+
+```java
+HashMap<String, Object> args = new HashMap<>();
+args.put("destination", "destination/path");
+File.move("source/path", args);
+```
+
+### Delete
+
+The delete method works for both files and folders.
+
+```java
+File.delete("path/to/file/or/folder", null);
+```
+
+In case the folder is not empty, you can use the `recursive` argument:
+
+```java
+HashMap<String, Object> args = new HashMap<>();
+args.put("recursive", true);
+File.delete("path/to/folder", args);
 ```
 
 ### Comparing Case-Insensitive Files and Paths
@@ -658,3 +688,21 @@ if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
     System.out.println("Paths are the same");
 }
 ```
+
+## Mock Server
+
+Files.com publishes a Files.com API server, which is useful for testing your use of the Files.com
+SDKs and other direct integrations against the Files.com API in an integration test environment.
+
+It is a Ruby app that operates as a minimal server for the purpose of testing basic network
+operations and JSON encoding for your SDK or API client. It does not maintain state and it does not
+deeply inspect your submissions for correctness.
+
+Eventually we will add more features intended for integration testing, such as the ability to
+intentionally provoke errors.
+
+Download the server as a Docker image via [Docker Hub](https://hub.docker.com/r/filescom/files-mock-server).
+
+The Source Code is also available on [GitHub](https://github.com/Files-com/files-mock-server).
+
+A README is available on the GitHub link.

@@ -400,6 +400,7 @@ RuntimeException
 |`InvalidFilterAliasCombinationException`|  `BadRequestException` |
 |`InvalidFilterFieldException`|  `BadRequestException` |
 |`InvalidFilterParamException`|  `BadRequestException` |
+|`InvalidFilterParamFormatException`|  `BadRequestException` |
 |`InvalidFilterParamValueException`|  `BadRequestException` |
 |`InvalidInputEncodingException`|  `BadRequestException` |
 |`InvalidInterfaceException`|  `BadRequestException` |

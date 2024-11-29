@@ -216,6 +216,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidFilterParamFormatException extends BadRequestException {
+    public InvalidFilterParamFormatException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InvalidFilterParamValueException extends BadRequestException {
     public InvalidFilterParamValueException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

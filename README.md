@@ -555,6 +555,22 @@ RuntimeException
 |`TrialLockedException`|  `SiteConfigurationException` |
 |`UserRequestsEnabledRequiredException`|  `SiteConfigurationException` |
 
+## Case Sensitivity
+
+The Files.com API compares files and paths in a case-insensitive manner.
+ For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
+
+The `PathUtils.isSame` function in the Files.com SDK is designed to help you determine if two paths on
+your native file system would be considered the same on Files.com. This is particularly important
+when handling errors related to duplicate file names and when developing tools for folder
+synchronization.
+
+```java title="Compare Case-Insensitive Files and Paths"
+if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
+    System.out.println("Paths are the same");
+}
+```
+
 ## Examples
 
 ### Upload
@@ -678,16 +694,6 @@ In case the folder is not empty, you can use the `recursive` argument:
 HashMap<String, Object> args = new HashMap<>();
 args.put("recursive", true);
 File.delete("path/to/folder", args);
-```
-
-### Comparing Case-Insensitive Files and Paths
-
-For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
-
-```java
-if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
-    System.out.println("Paths are the same");
-}
 ```
 
 ## Mock Server

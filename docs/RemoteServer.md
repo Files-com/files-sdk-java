@@ -71,7 +71,7 @@
 * `name` / `name`  (string): Internal name for your reference
 * `port` / `port`  (int64): Port for remote server.  Not needed for S3.
 * `max_connections` / `maxConnections`  (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-* `pin_to_site_region` / `pinToSiteRegion`  (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+* `pin_to_site_region` / `pinToSiteRegion`  (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `pinned_region` / `pinnedRegion`  (string): If set, all communications with this remote server are made through the provided region.
 * `s3_bucket` / `s3Bucket`  (string): S3 bucket name
 * `s3_region` / `s3Region`  (string): S3 region
@@ -227,7 +227,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.  Not needed for S3.
 * `s3_bucket` (String): S3 bucket name
 * `s3_region` (String): S3 region
@@ -337,7 +337,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.  Not needed for S3.
 * `s3_bucket` (String): S3 bucket name
 * `s3_region` (String): S3 region
@@ -524,7 +524,7 @@ RemoteServer.Update(parameters);
 * `hostname` (String): Hostname or IP address
 * `name` (String): Internal name for your reference
 * `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a sitewide setting which will force it to true.
+* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.  Not needed for S3.
 * `s3_bucket` (String): S3 bucket name
 * `s3_region` (String): S3 region

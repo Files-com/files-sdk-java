@@ -146,6 +146,14 @@ public class Automation implements ModelInterface {
   public String excludePattern;
 
   /**
+  * List of URLs to be imported and names to be used.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("import_urls")
+  public Object[] importUrls;
+
+  /**
   * Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   */
   @Getter
@@ -363,6 +371,7 @@ public class Automation implements ModelInterface {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+  *   import_urls - array(object) - List of URLs to be imported and names to be used.
   *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -536,6 +545,7 @@ public class Automation implements ModelInterface {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+  *   import_urls - array(object) - List of URLs to be imported and names to be used.
   *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -610,6 +620,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("exclude_pattern") && !(parameters.get("exclude_pattern") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: exclude_pattern must be of type String parameters[\"exclude_pattern\"]");
+    }
+    if (parameters.containsKey("import_urls") && !(parameters.get("import_urls") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: import_urls must be of type Object[] parameters[\"import_urls\"]");
     }
     if (parameters.containsKey("flatten_destination_structure") && !(parameters.get("flatten_destination_structure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: flatten_destination_structure must be of type Boolean parameters[\"flatten_destination_structure\"]");
@@ -717,6 +730,7 @@ public class Automation implements ModelInterface {
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
+  *   import_urls - array(object) - List of URLs to be imported and names to be used.
   *   flatten_destination_structure - boolean - Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
@@ -801,6 +815,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("exclude_pattern") && !(parameters.get("exclude_pattern") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: exclude_pattern must be of type String parameters[\"exclude_pattern\"]");
+    }
+    if (parameters.containsKey("import_urls") && !(parameters.get("import_urls") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: import_urls must be of type Object[] parameters[\"import_urls\"]");
     }
     if (parameters.containsKey("flatten_destination_structure") && !(parameters.get("flatten_destination_structure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: flatten_destination_structure must be of type Boolean parameters[\"flatten_destination_structure\"]");

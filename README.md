@@ -33,6 +33,12 @@ compile group: 'com.files', name: 'files-sdk'
 
 The Files.com Java SDK supports all versions of Java beginning with Java 8 (Also known as 1.8).
 
+### Files.com is Committed to Java
+
+Java is a core language used by the Files.com team for internal development.  This library is directly used by our official Boomi integration and our official MuleSoft integration.
+
+As such, this library is actively developed and should be expected to be highly performant.
+
 Explore the [files-sdk-java](https://github.com/Files-com/files-sdk-java) code on GitHub.
 
 ### Getting Support

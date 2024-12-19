@@ -151,9 +151,9 @@ FormFieldSet formFieldSet = FormFieldSet.Find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("title", "Sample Form Title");
-parameters.put("skip_email", true);
-parameters.put("skip_name", true);
-parameters.put("skip_company", true);
+parameters.put("skip_email", false);
+parameters.put("skip_name", false);
+parameters.put("skip_company", false);
 parameters.put("form_fields", [{"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]);
 
 FormFieldSet.Update(parameters);

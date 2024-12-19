@@ -454,7 +454,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("aws_access_key", "example");
 parameters.put("wasabi_access_key", "example");
-parameters.put("reset_authentication", true);
+parameters.put("reset_authentication", false);
 parameters.put("hostname", "remote-server.com");
 parameters.put("name", "My Remote server");
 parameters.put("max_connections", 1);

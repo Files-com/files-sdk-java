@@ -277,8 +277,8 @@ File file = File.Find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("with_previews", true);
-parameters.put("with_priority_color", true);
+parameters.put("with_previews", false);
+parameters.put("with_priority_color", false);
 
 File.Download(parameters);
 ```
@@ -325,7 +325,7 @@ File file = File.Find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("recursive", true);
+parameters.put("recursive", false);
 
 File.Delete(parameters);
 ```
@@ -346,8 +346,8 @@ File file = File.Find(path);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("destination", "destination");
-parameters.put("structure", true);
-parameters.put("overwrite", true);
+parameters.put("structure", false);
+parameters.put("overwrite", false);
 
 File.Copy(parameters);
 ```
@@ -370,7 +370,7 @@ File file = File.Find(path);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("destination", "destination");
-parameters.put("overwrite", true);
+parameters.put("overwrite", false);
 
 File.Move(parameters);
 ```
@@ -391,13 +391,13 @@ File file = File.Find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("mkdir_parents", true);
+parameters.put("mkdir_parents", false);
 parameters.put("part", 1);
 parameters.put("parts", 1);
 parameters.put("ref", "upload-1");
 parameters.put("restart", 1);
 parameters.put("size", 1);
-parameters.put("with_rename", true);
+parameters.put("with_rename", false);
 
 File.BeginUpload(parameters);
 ```

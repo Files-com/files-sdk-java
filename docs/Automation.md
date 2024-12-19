@@ -323,7 +323,7 @@ parameters.put("exclude_pattern", "path/to/exclude/*");
 parameters.put("import_urls", [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}]);
 parameters.put("flatten_destination_structure", true);
 parameters.put("ignore_locked_folders", true);
-parameters.put("legacy_folder_matching", true);
+parameters.put("legacy_folder_matching", false);
 parameters.put("name", "example");
 parameters.put("overwrite_files", true);
 parameters.put("path_time_zone", "Eastern Time (US & Canada)");

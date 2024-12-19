@@ -189,11 +189,11 @@ Behavior behavior = Behavior.Find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("value", "{\"method\": \"GET\"}");
-parameters.put("disable_parent_folder_behavior", true);
-parameters.put("recursive", true);
+parameters.put("disable_parent_folder_behavior", false);
+parameters.put("recursive", false);
 parameters.put("name", "example");
 parameters.put("description", "example");
-parameters.put("attachment_delete", true);
+parameters.put("attachment_delete", false);
 
 Behavior.Update(parameters);
 ```

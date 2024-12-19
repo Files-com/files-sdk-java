@@ -190,13 +190,13 @@ Notification notification = Notification.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("notify_on_copy", true);
+parameters.put("notify_on_copy", false);
 parameters.put("notify_on_delete", true);
 parameters.put("notify_on_download", true);
 parameters.put("notify_on_move", true);
 parameters.put("notify_on_upload", true);
-parameters.put("notify_user_actions", true);
-parameters.put("recursive", true);
+parameters.put("notify_user_actions", false);
+parameters.put("recursive", false);
 parameters.put("send_interval", "daily");
 parameters.put("message", "custom notification email message");
 parameters.put("triggering_filenames", ["*.jpg","notify_file.txt"]);

@@ -109,7 +109,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("group_id", 1);
 parameters.put("user_id", 1);
-parameters.put("admin", true);
+parameters.put("admin", false);
 
 GroupUser.Update(parameters);
 ```

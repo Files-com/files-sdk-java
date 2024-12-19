@@ -456,18 +456,18 @@ User user = User.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("avatar_delete", true);
+parameters.put("avatar_delete", false);
 parameters.put("email", "example");
 parameters.put("group_id", 1);
 parameters.put("group_ids", "example");
-parameters.put("announcements_read", true);
+parameters.put("announcements_read", false);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("attachments_permission", true);
 parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
 parameters.put("authentication_method", "password");
-parameters.put("billing_permission", true);
-parameters.put("bypass_inactive_disable", true);
-parameters.put("bypass_site_allowed_ips", true);
+parameters.put("billing_permission", false);
+parameters.put("bypass_inactive_disable", false);
+parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("disabled", true);
 parameters.put("ftp_permission", true);

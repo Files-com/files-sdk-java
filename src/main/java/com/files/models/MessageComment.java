@@ -128,6 +128,7 @@ public class MessageComment implements ModelInterface {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
   *   message_id (required) - int64 - Message comment to return comments for.
   */
   public static ListIterator<MessageComment> list() throws RuntimeException {
@@ -156,6 +157,9 @@ public class MessageComment implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long)) {
       throw new IllegalArgumentException("Bad parameter: message_id must be of type Long parameters[\"message_id\"]");

@@ -192,6 +192,13 @@ public class SftpActionLog implements ModelInterface {
   public Long dataLength;
 
   /**
+  * The number of bytes transferred for uploads and downloads.
+  */
+  @Getter
+  @JsonProperty("bytes_transferred")
+  public Long bytesTransferred;
+
+  /**
   * Number of entries returned when listing files and folders
   */
   @Getter

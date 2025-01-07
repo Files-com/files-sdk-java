@@ -846,6 +846,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class ExceededRuntimeLimitException extends ProcessingFailureException {
+    public ExceededRuntimeLimitException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class ExpiredPrivateKeyException extends ProcessingFailureException {
     public ExpiredPrivateKeyException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);

@@ -65,6 +65,10 @@ access to the entire API. If the user is not an administrator, you will only be 
 that user can access, and no access will be granted to site administration functions in the API.
 
 ```java title="Example Request"
+import com.files.FilesClient;
+import com.files.models.User;
+import java.util.HashMap;
+
 FilesClient.apiKey = "YOUR_API_KEY";
 // Alternatively, you can specify the API key on a per-object
 // basis in options HashMap to a model constructor.
@@ -102,6 +106,9 @@ password.
 This returns a session object that can be used to authenticate SDK method calls.
 
 ```java title="Example Request"
+import com.files.models.Session;
+import java.util.HashMap;
+
 HashMap<String, Object> sessionParameters = new HashMap<>()
 sessionParameters.put("username", "username");
 sessionParameters.put("password", "password");
@@ -113,6 +120,10 @@ Session session = Session.create(parameters)
 Once a session has been created, you can store the session globally, use the session per object, or use the session per request to authenticate SDK operations.
 
 ```java title="Example Request"
+import com.files.FilesClient;
+import com.files.models.User;
+import java.util.HashMap;
+
 // You may set the returned session to be used by default for subsequent requests.
 FilesClient.session = session;
 
@@ -149,6 +160,8 @@ Setting the base URL for the API is required if your site is configured to disab
 This can also be set to use a mock server in development or CI.
 
 ```java title="Example setting"
+import com.files.FilesClient;
+
 FilesClient.setProperty("apiRoot", "https://MY-SUBDOMAIN.files.com");
 ```
 
@@ -205,8 +218,11 @@ resource field name sort on and a value of either ```"asc"``` or ```"desc"``` to
 order.
 
 ```java title="Sort Example"
+import com.files.ListIterator;
+import com.files.models.User;
+import java.util.HashMap;
+
 // users sorted by username
-FilesClient.apiKey = "my-key";
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> sortArgs = new HashMap<>();
 sortArgs.put("username", "asc");
@@ -243,8 +259,11 @@ resource field name to filter on and a passed in value to use in the filter comp
 | `filter_lteq` | Range | Find resources that have a field value that is less than or equal to the passed in value.  (i.e., FIELD_VALUE \<= PASS_IN_VALUE). |
 
 ```java title="Exact Filter Example"
+import com.files.ListIterator;
+import com.files.models.User;
+import java.util.HashMap;
+
 // non admin users
-FilesClient.apiKey = "my-key";
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("not_site_admin", true);
@@ -258,8 +277,11 @@ for (User user : users.listAutoPaging()) {
 ```
 
 ```java title="Range Filter Example"
+import com.files.ListIterator;
+import com.files.models.User;
+import java.util.HashMap;
+
 // users who haven't logged in since 2024-01-01
-FilesClient.apiKey = "my-key";
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("last_login_at", "2024-01-01");
@@ -273,8 +295,11 @@ for (User user : users.listAutoPaging()) {
 ```
 
 ```java title="Pattern Filter Example"
+import com.files.ListIterator;
+import com.files.models.User;
+import java.util.HashMap;
+
 // users whose usernames start with 'test'
-FilesClient.apiKey = "my-key";
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("username", "test");
@@ -288,8 +313,11 @@ for (User user : users.listAutoPaging()) {
 ```
 
 ```java title="Combination Filter with Sort Example"
+import com.files.ListIterator;
+import com.files.models.User;
+import java.util.HashMap;
+
 // users whose usernames start with 'test' and are not admins
-FilesClient.apiKey = "my-key";
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> filterPrefixArgs = new HashMap<>();
 HashMap<String, Object> filterArgs = new HashMap<>();
@@ -577,6 +605,8 @@ when handling errors related to duplicate file names and when developing tools f
 synchronization.
 
 ```java title="Compare Case-Insensitive Files and Paths"
+import com.files.util.PathUtils;
+
 if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
     System.out.println("Paths are the same");
 }

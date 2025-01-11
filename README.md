@@ -66,22 +66,28 @@ that user can access, and no access will be granted to site administration funct
 
 ```java title="Example Request"
 import com.files.FilesClient;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
 FilesClient.apiKey = "YOUR_API_KEY";
-// Alternatively, you can specify the API key on a per-object
-// basis in options HashMap to a model constructor.
 
-HashMap<String, Object> requestOptions = new HashMap<>();
-requestOptions.put("api_key", "my-key");
-User user = new User(params, requestOptions);
+try {
+  // Alternatively, you can specify the API key on a per-object basis in options HashMap to a model constructor.
+  HashMap<String, Object> requestOptions = new HashMap<>();
+  requestOptions.put("api_key", "my-key");
+  User user = new User(params, requestOptions);
 
-// You may also specify the API key on a per-request basis in
-// in the final parameter to static methods.
-HashMap<String, Object> requestOptions = new HashMap<>();
-requestOptions.put("api_key", "my-key");
-User.find(id, params, requestOptions);
+  // You may also specify the API key on a per-request basis in the final parameter to static methods.
+  HashMap<String, Object> requestOptions = new HashMap<>();
+  requestOptions.put("api_key", "my-key");
+  User.find(id, params, requestOptions);
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
 ```
 
 Don't forget to replace the placeholder, `YOUR_API_KEY`, with your actual API key.
@@ -106,13 +112,22 @@ password.
 This returns a session object that can be used to authenticate SDK method calls.
 
 ```java title="Example Request"
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.Session;
 import java.util.HashMap;
 
 HashMap<String, Object> sessionParameters = new HashMap<>()
 sessionParameters.put("username", "username");
 sessionParameters.put("password", "password");
-Session session = Session.create(parameters)
+
+try {
+  Session session = Session.create(parameters);
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
 ```
 
 #### Using a Session
@@ -121,23 +136,29 @@ Once a session has been created, you can store the session globally, use the ses
 
 ```java title="Example Request"
 import com.files.FilesClient;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
 // You may set the returned session to be used by default for subsequent requests.
 FilesClient.session = session;
 
-// Alternatively, you can specify the session ID on a per-object basis
-// in the second parameter to a model constructor.
-HashMap<String, Object> requestOptions = new HashMap<>();
-requestOptions.put("session_id", session.getId());
-user = new User(params, requestOptions);
+try {
+  // Alternatively, you can specify the session ID on a per-object basis in the second parameter to a model constructor.
+  HashMap<String, Object> requestOptions = new HashMap<>();
+  requestOptions.put("session_id", session.getId());
+  user = new User(params, requestOptions);
 
-// You may also specify the session ID on a per-request basis in the final parameter to static methods.
-HashMap<String, Object> requestOptions = new HashMap<>();
-requestOptions.put("session_id", session.getId());
-User.find(id, params, requestOptions);
-
+  // You may also specify the session ID on a per-request basis in the final parameter to static methods.
+  HashMap<String, Object> requestOptions = new HashMap<>();
+  requestOptions.put("session_id", session.getId());
+  User.find(id, params, requestOptions);
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
 ```
 
 #### Logging Out
@@ -145,7 +166,16 @@ User.find(id, params, requestOptions);
 User sessions can be ended calling the `destroy` method on the `session` object.
 
 ```java title="Example Request"
-session.destroy()
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
+
+try {
+  session.destroy();
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
 ```
 
 ## Configuration
@@ -219,6 +249,8 @@ order.
 
 ```java title="Sort Example"
 import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
@@ -228,10 +260,16 @@ HashMap<String, Object> sortArgs = new HashMap<>();
 sortArgs.put("username", "asc");
 args.put("sort_by", sortArgs);
 
-ListIterator<User> users = User.list(args);
-for (User user : users.listAutoPaging()) {
-  // Operate on user
-  System.out.println(user.username);
+try {
+  ListIterator<User> users = User.list(args);
+  for (User user : users.listAutoPaging()) {
+    // Operate on user
+    System.out.println(user.username);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
 ```
 
@@ -260,6 +298,8 @@ resource field name to filter on and a passed in value to use in the filter comp
 
 ```java title="Exact Filter Example"
 import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
@@ -269,15 +309,23 @@ HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("not_site_admin", true);
 args.put("filter", filterArgs);
 
-ListIterator<User> users = User.list(args);
-for (User user : users.listAutoPaging()) {
-  // Operate on user
-  System.out.println(user.username);
+try {
+  ListIterator<User> users = User.list(args);
+  for (User user : users.listAutoPaging()) {
+    // Operate on user
+    System.out.println(user.username);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
 ```
 
 ```java title="Range Filter Example"
 import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
@@ -287,15 +335,23 @@ HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("last_login_at", "2024-01-01");
 args.put("filter_gteq", filterArgs);
 
-ListIterator<User> users = User.list(args);
-for (User user : users.listAutoPaging()) {
-  // Operate on user
-  System.out.println(user.username);
+try {
+  ListIterator<User> users = User.list(args);
+  for (User user : users.listAutoPaging()) {
+    // Operate on user
+    System.out.println(user.username);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
 ```
 
 ```java title="Pattern Filter Example"
 import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
@@ -305,15 +361,23 @@ HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("username", "test");
 args.put("filter_prefix", filterArgs);
 
-ListIterator<User> users = User.list(args);
-for (User user : users.listAutoPaging()) {
-  // Operate on user
-  System.out.println(user.username);
+try {
+  ListIterator<User> users = User.list(args);
+  for (User user : users.listAutoPaging()) {
+    // Operate on user
+    System.out.println(user.username);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
 ```
 
 ```java title="Combination Filter with Sort Example"
 import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
@@ -329,10 +393,16 @@ args.put("filter_prefix", filterPrefixArgs);
 args.put("filter", filterArgs);
 args.put("sort_by", sortArgs);
 
-ListIterator<User> users = User.list(args);
-for (User user : users.listAutoPaging()) {
-  // Operate on user
-  System.out.println(user.username);
+try {
+  ListIterator<User> users = User.list(args);
+  for (User user : users.listAutoPaging()) {
+    // Operate on user
+    System.out.println(user.username);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
 ```
 
@@ -354,35 +424,22 @@ Use standard Java exception handling to detect and deal with errors.  It is gene
 catch the general `SdkException` exception as a catch-all.
 
 ```java title="Example Error Handling"
-package com.filescom.app;
-import java.util.HashMap;
-
-import com.files.models.*;
 import com.files.exceptions.*;
 import com.files.exceptions.ApiErrorException.*;
+import com.files.models.*;
+import java.util.HashMap;
 
-public class App
-{
-    public static void main( String[] args )
-    {
-        HashMap<String, Object> sessionParameters = new HashMap<>();
-        sessionParameters.put("username", "USERNAME");
-        sessionParameters.put("password", "BADPASSWORD");
+HashMap<String, Object> sessionParameters = new HashMap<>();
+sessionParameters.put("username", "USERNAME");
+sessionParameters.put("password", "BADPASSWORD");
 
-        try{
-            Session session = Session.create(sessionParameters);
-        }
-        catch(NotAuthenticatedException e){
-            System.out.println("Authentication Error Occurred (" + e.getClass().getName() +"): " + e.getMessage());
-        }
-        catch(SdkException e){
-            System.out.println("Unknown Error Occurred (" + e.getClass().getName() +"): " + e.getMessage());
-        }
-
-        System.out.println( "The End." );
-    }
+try {
+  Session session = Session.create(sessionParameters);
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 }
-
 ```
 
 ### Error Types

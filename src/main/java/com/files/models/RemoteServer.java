@@ -362,6 +362,14 @@ public class RemoteServer implements ModelInterface {
   public String azureFilesStorageShareName;
 
   /**
+  * Custom DNS suffix
+  */
+  @Getter
+  @Setter
+  @JsonProperty("azure_files_storage_dns_suffix")
+  public String azureFilesStorageDnsSuffix;
+
+  /**
   * S3-compatible Bucket name
   */
   @Getter
@@ -731,6 +739,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -978,6 +987,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -1141,6 +1151,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("azure_files_storage_share_name") && !(parameters.get("azure_files_storage_share_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_share_name must be of type String parameters[\"azure_files_storage_share_name\"]");
+    }
+    if (parameters.containsKey("azure_files_storage_dns_suffix") && !(parameters.get("azure_files_storage_dns_suffix") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_dns_suffix must be of type String parameters[\"azure_files_storage_dns_suffix\"]");
     }
     if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");
@@ -1355,6 +1368,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
+  *   azure_files_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_sas_token - string - Shared Access Signature (SAS) token
   *   s3_compatible_bucket - string - S3-compatible Bucket name
   *   s3_compatible_endpoint - string - S3-compatible endpoint
@@ -1531,6 +1545,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("azure_files_storage_share_name") && !(parameters.get("azure_files_storage_share_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_share_name must be of type String parameters[\"azure_files_storage_share_name\"]");
+    }
+    if (parameters.containsKey("azure_files_storage_dns_suffix") && !(parameters.get("azure_files_storage_dns_suffix") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: azure_files_storage_dns_suffix must be of type String parameters[\"azure_files_storage_dns_suffix\"]");
     }
     if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");

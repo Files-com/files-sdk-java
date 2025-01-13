@@ -41,6 +41,7 @@
   "azure_blob_storage_hierarchical_namespace": true,
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
+  "azure_files_storage_dns_suffix": "file.core.windows.net",
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
@@ -100,6 +101,7 @@
 * `azure_blob_storage_hierarchical_namespace` / `azureBlobStorageHierarchicalNamespace`  (boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_files_storage_account` / `azureFilesStorageAccount`  (string): Azure File Storage Account name
 * `azure_files_storage_share_name` / `azureFilesStorageShareName`  (string): Azure File Storage Share name
+* `azure_files_storage_dns_suffix` / `azureFilesStorageDnsSuffix`  (string): Custom DNS suffix
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible endpoint
 * `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible endpoint
@@ -252,6 +254,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
+* `azure_files_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
@@ -362,6 +365,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
+* `azure_files_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint
@@ -482,6 +486,7 @@ parameters.put("azure_blob_storage_container", "container-name");
 parameters.put("azure_blob_storage_hierarchical_namespace", true);
 parameters.put("azure_files_storage_account", "storage-account-name");
 parameters.put("azure_files_storage_share_name", "share-name");
+parameters.put("azure_files_storage_dns_suffix", "file.core.windows.net");
 parameters.put("s3_compatible_bucket", "my-bucket");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
@@ -549,6 +554,7 @@ RemoteServer.Update(parameters);
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
+* `azure_files_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_sas_token` (String): Shared Access Signature (SAS) token
 * `s3_compatible_bucket` (String): S3-compatible Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible endpoint

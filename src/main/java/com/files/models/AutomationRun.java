@@ -94,6 +94,27 @@ public class AutomationRun implements ModelInterface {
   public Date createdAt;
 
   /**
+  * If set, this Automation run was retried due to `failure` or `partial_failure`.
+  */
+  @Getter
+  @JsonProperty("retried_at")
+  public Date retriedAt;
+
+  /**
+  * ID of the original run that this run is retrying.
+  */
+  @Getter
+  @JsonProperty("retry_of_run_id")
+  public Long retryOfRunId;
+
+  /**
+  * ID of the run that is or will be retrying this run.
+  */
+  @Getter
+  @JsonProperty("retried_in_run_id")
+  public Long retriedInRunId;
+
+  /**
   * Automation run runtime.
   */
   @Getter

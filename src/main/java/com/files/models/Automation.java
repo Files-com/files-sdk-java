@@ -242,6 +242,22 @@ public class Automation implements ModelInterface {
   public Long recurringDay;
 
   /**
+  * If the Automation fails, retry at this interval (in minutes).
+  */
+  @Getter
+  @Setter
+  @JsonProperty("retry_on_failure_interval_in_minutes")
+  public Long retryOnFailureIntervalInMinutes;
+
+  /**
+  * If the Automation fails, retry at most this many times.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("retry_on_failure_number_of_attempts")
+  public Long retryOnFailureNumberOfAttempts;
+
+  /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
   */
   @Getter
@@ -378,6 +394,8 @@ public class Automation implements ModelInterface {
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+  *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+  *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
   *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
@@ -552,6 +570,8 @@ public class Automation implements ModelInterface {
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+  *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+  *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
   *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
@@ -641,6 +661,12 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("path_time_zone") && !(parameters.get("path_time_zone") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_time_zone must be of type String parameters[\"path_time_zone\"]");
+    }
+    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long parameters[\"retry_on_failure_interval_in_minutes\"]");
+    }
+    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long parameters[\"retry_on_failure_number_of_attempts\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
@@ -737,6 +763,8 @@ public class Automation implements ModelInterface {
   *   name - string - Name for this automation.
   *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
+  *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).
+  *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.
   *   trigger - string - How this automation is triggered to run.
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   *   value - object - A Hash of attributes specific to the automation type.
@@ -836,6 +864,12 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("path_time_zone") && !(parameters.get("path_time_zone") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_time_zone must be of type String parameters[\"path_time_zone\"]");
+    }
+    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long parameters[\"retry_on_failure_interval_in_minutes\"]");
+    }
+    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long parameters[\"retry_on_failure_number_of_attempts\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");

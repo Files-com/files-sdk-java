@@ -100,8 +100,8 @@
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `path_time_zone` / `pathTimeZone`  (string): Timezone to use when rendering timestamps in paths.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `retry_on_failure_interval_in_minutes` / `retryOnFailureIntervalInMinutes`  (int64): If the Automation fails, retry at this interval (in minutes).
-* `retry_on_failure_number_of_attempts` / `retryOnFailureNumberOfAttempts`  (int64): If the Automation fails, retry at most this many times.
+* `retry_on_failure_interval_in_minutes` / `retryOnFailureIntervalInMinutes`  (int64): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
+* `retry_on_failure_number_of_attempts` / `retryOnFailureNumberOfAttempts`  (int64): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `schedule` / `schedule`  (object): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
 * `human_readable_schedule` / `humanReadableSchedule`  (string): If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -195,8 +195,8 @@ Automation automation = Automation.create(
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
-* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).
-* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.
+* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
+* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
@@ -259,8 +259,8 @@ Automation automation = Automation.update(
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
-* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).
-* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.
+* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
+* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.
@@ -372,8 +372,8 @@ Automation.Update(parameters);
 * `name` (String): Name for this automation.
 * `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
-* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).
-* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.
+* `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
+* `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
 * `value` (Map<String, String>): A Hash of attributes specific to the automation type.

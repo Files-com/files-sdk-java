@@ -651,6 +651,82 @@ RuntimeException
 |`TrialLockedException`|  `SiteConfigurationException` |
 |`UserRequestsEnabledRequiredException`|  `SiteConfigurationException` |
 
+## {frontmatter.title}
+
+Certain API operations return lists of objects. When the number of objects in the list is large,
+the API will paginate the results.
+
+The Files.com Java SDK provides multiple ways to paginate through lists of objects.
+
+### Automatic Pagination
+
+The `listAutoPaging` function automatically paginates and loads each page into memory.
+
+```java title="Example Request"
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
+import com.files.models.File;
+import com.files.models.Folder;
+
+try {
+  for (File item : Folder.listFor(path, null).listAutoPaging()) {
+    System.out.println(item.path);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
+```
+
+### Manual Pagination
+
+The `loadNextPage/hasNextPage` functions allow for manual pagination and loading of each page into memory.
+
+```java title="Example Request"
+import com.files.ListIterator;
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
+import com.files.models.File;
+import com.files.models.Folder;
+
+try {
+  ListIterator<File> listing = Folder.listFor(path, null);
+  do {
+    for (File item : listing.loadNextPage()) {
+      System.out.println(item.path);
+    }
+  } while (listing.hasNextPage());
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
+```
+
+### Load All Items
+
+The `all` function loads all items into memory.
+
+```java title="Example Request"
+import com.files.exceptions.*;
+import com.files.exceptions.ApiErrorException.*;
+import com.files.models.File;
+import com.files.models.Folder;
+import java.util.List;
+
+try {
+  List<File> items = Folder.listFor(path, null).all()
+  for (File item : items) {
+    System.out.println(item.path);
+  }
+} catch (NotAuthenticatedException e) {
+  System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+} catch (SdkException e) {
+  System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
+}
+```
+
 ## Case Sensitivity
 
 The Files.com API compares files and paths in a case-insensitive manner.

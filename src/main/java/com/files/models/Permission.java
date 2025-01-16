@@ -130,6 +130,14 @@ public class Permission implements ModelInterface {
   public Boolean recursive;
 
   /**
+  * Site ID
+  */
+  @Getter
+  @Setter
+  @JsonProperty("site_id")
+  public Long siteId;
+
+  /**
   */
   public void delete() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -150,7 +158,7 @@ public class Permission implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `group_id`, `path` or `user_id`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path` or `user_id`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ user_id, path ]` or `[ user_id, group_id ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   *   path - string - Permission path.  If provided, will scope all permissions(including upward) to this path.
@@ -225,6 +233,7 @@ public class Permission implements ModelInterface {
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
   *   group_name - string - Group name.  Provide `group_name` or `group_id`
+  *   site_id - int64 - Site ID. If not provided, will default to current site. Used when creating a permission for a child site.
   */
 
   public static Permission create(HashMap<String, Object> parameters) throws RuntimeException {
@@ -261,6 +270,9 @@ public class Permission implements ModelInterface {
     }
     if (parameters.containsKey("group_name") && !(parameters.get("group_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_name must be of type String parameters[\"group_name\"]");
+    }
+    if (parameters.containsKey("site_id") && !(parameters.get("site_id") instanceof Long)) {
+      throw new IllegalArgumentException("Bad parameter: site_id must be of type Long parameters[\"site_id\"]");
     }
 
 

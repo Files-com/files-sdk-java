@@ -486,6 +486,7 @@ RuntimeException
 |`CantMoveWithMultipleLocationsException`|  `BadRequestException` |
 |`DatetimeParseException`|  `BadRequestException` |
 |`DestinationSameException`|  `BadRequestException` |
+|`DoesNotSupportSortingException`|  `BadRequestException` |
 |`FolderMustNotBeAFileException`|  `BadRequestException` |
 |`FoldersNotAllowedException`|  `BadRequestException` |
 |`InvalidBodyException`|  `BadRequestException` |
@@ -502,11 +503,13 @@ RuntimeException
 |`InvalidOauthProviderException`|  `BadRequestException` |
 |`InvalidPathException`|  `BadRequestException` |
 |`InvalidReturnToUrlException`|  `BadRequestException` |
+|`InvalidSortFieldException`|  `BadRequestException` |
 |`InvalidSortFilterCombinationException`|  `BadRequestException` |
 |`InvalidUploadOffsetException`|  `BadRequestException` |
 |`InvalidUploadPartGapException`|  `BadRequestException` |
 |`InvalidUploadPartSizeException`|  `BadRequestException` |
 |`MethodNotAllowedException`|  `BadRequestException` |
+|`MultipleSortParamsNotAllowedException`|  `BadRequestException` |
 |`NoValidInputParamsException`|  `BadRequestException` |
 |`PartNumberTooLargeException`|  `BadRequestException` |
 |`PathCannotHaveTrailingWhitespaceException`|  `BadRequestException` |
@@ -515,6 +518,7 @@ RuntimeException
 |`RequestParamsInvalidException`|  `BadRequestException` |
 |`RequestParamsRequiredException`|  `BadRequestException` |
 |`SearchAllOnChildPathException`|  `BadRequestException` |
+|`UnrecognizedSortIndexException`|  `BadRequestException` |
 |`UnsupportedCurrencyException`|  `BadRequestException` |
 |`UnsupportedHttpResponseFormatException`|  `BadRequestException` |
 |`UnsupportedMediaTypeException`|  `BadRequestException` |

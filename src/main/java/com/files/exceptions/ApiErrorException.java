@@ -162,6 +162,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class DoesNotSupportSortingException extends BadRequestException {
+    public DoesNotSupportSortingException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class FolderMustNotBeAFileException extends BadRequestException {
     public FolderMustNotBeAFileException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -258,6 +264,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidSortFieldException extends BadRequestException {
+    public InvalidSortFieldException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InvalidSortFilterCombinationException extends BadRequestException {
     public InvalidSortFilterCombinationException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -284,6 +296,12 @@ public class ApiErrorException extends SdkException {
 
   public static class MethodNotAllowedException extends BadRequestException {
     public MethodNotAllowedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class MultipleSortParamsNotAllowedException extends BadRequestException {
+    public MultipleSortParamsNotAllowedException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }
@@ -332,6 +350,12 @@ public class ApiErrorException extends SdkException {
 
   public static class SearchAllOnChildPathException extends BadRequestException {
     public SearchAllOnChildPathException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class UnrecognizedSortIndexException extends BadRequestException {
+    public UnrecognizedSortIndexException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

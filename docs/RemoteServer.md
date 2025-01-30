@@ -32,7 +32,6 @@
   "rackspace_username": "rackspaceuser",
   "rackspace_region": "dfw",
   "rackspace_container": "my-container",
-  "auth_setup_link": "auth/:provider",
   "auth_status": "in_setup",
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
@@ -92,7 +91,6 @@
 * `rackspace_username` / `rackspaceUsername`  (string): Rackspace username used to login to the Rackspace Cloud Control Panel.
 * `rackspace_region` / `rackspaceRegion`  (string): Three letter airport code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
 * `rackspace_container` / `rackspaceContainer`  (string): The name of the container (top level directory) where files will sync.
-* `auth_setup_link` / `authSetupLink`  (string): Returns link to login with an Oauth provider
 * `auth_status` / `authStatus`  (string): Either `in_setup` or `complete`
 * `auth_account_name` / `authAccountName`  (string): Describes the authorized account
 * `one_drive_account_type` / `oneDriveAccountType`  (string): Either personal or business_other account types

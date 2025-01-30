@@ -290,14 +290,6 @@ public class RemoteServer implements ModelInterface {
   public String rackspaceContainer;
 
   /**
-  * Returns link to login with an Oauth provider
-  */
-  @Getter
-  @Setter
-  @JsonProperty("auth_setup_link")
-  public String authSetupLink;
-
-  /**
   * Either `in_setup` or `complete`
   */
   @Getter

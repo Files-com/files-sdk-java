@@ -317,6 +317,13 @@ public class SsoStrategy implements ModelInterface {
   public String provisionRequire2fa;
 
   /**
+  * URL-friendly, unique identifier for Azure SAML configuration
+  */
+  @Getter
+  @JsonProperty("identifier")
+  public String identifier;
+
+  /**
   * Base DN for looking up users in LDAP server
   */
   @Getter

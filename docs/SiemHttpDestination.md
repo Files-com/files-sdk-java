@@ -25,25 +25,25 @@
   "new_relic_api_key_masked": "example",
   "datadog_api_key_masked": "example",
   "sftp_action_send_enabled": true,
-  "sftp_action_records_sent_entries_sent": 1,
+  "sftp_action_entries_sent": 1,
   "ftp_action_send_enabled": true,
-  "ftp_action_records_sent_entries_sent": 1,
+  "ftp_action_entries_sent": 1,
   "web_dav_action_send_enabled": true,
-  "web_dav_action_records_sent_entries_sent": 1,
+  "web_dav_action_entries_sent": 1,
   "sync_send_enabled": true,
-  "sync_records_sent_entries_sent": 1,
+  "sync_entries_sent": 1,
   "outbound_connection_send_enabled": true,
-  "outbound_connection_records_sent_entries_sent": 1,
+  "outbound_connection_entries_sent": 1,
   "automation_send_enabled": true,
-  "automation_records_sent_entries_sent": 1,
+  "automation_entries_sent": 1,
   "api_request_send_enabled": true,
-  "api_request_records_sent_entries_sent": 1,
+  "api_request_entries_sent": 1,
   "public_hosting_request_send_enabled": true,
-  "public_hosting_request_records_sent_entries_sent": 1,
+  "public_hosting_request_entries_sent": 1,
   "email_send_enabled": true,
-  "email_records_sent_entries_sent": 1,
+  "email_entries_sent": 1,
   "exavault_api_request_send_enabled": true,
-  "exavault_api_request_records_sent_entries_sent": 1,
+  "exavault_api_request_entries_sent": 1,
   "last_http_call_target_type": "destination_url",
   "last_http_call_success": true,
   "last_http_call_response_code": 1,
@@ -75,25 +75,25 @@
 * `new_relic_api_key_masked` / `newRelicApiKeyMasked`  (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key_masked` / `datadogApiKeyMasked`  (string): Applicable only for destination type: datadog. API key provided by Datadog.
 * `sftp_action_send_enabled` / `sftpActionSendEnabled`  (boolean): Whether or not sending is enabled for sftp_action logs.
-* `sftp_action_records_sent_entries_sent` / `sftpActionRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `sftp_action_entries_sent` / `sftpActionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `ftp_action_send_enabled` / `ftpActionSendEnabled`  (boolean): Whether or not sending is enabled for ftp_action logs.
-* `ftp_action_records_sent_entries_sent` / `ftpActionRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `ftp_action_entries_sent` / `ftpActionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `web_dav_action_send_enabled` / `webDavActionSendEnabled`  (boolean): Whether or not sending is enabled for web_dav_action logs.
-* `web_dav_action_records_sent_entries_sent` / `webDavActionRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `web_dav_action_entries_sent` / `webDavActionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `sync_send_enabled` / `syncSendEnabled`  (boolean): Whether or not sending is enabled for sync logs.
-* `sync_records_sent_entries_sent` / `syncRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `sync_entries_sent` / `syncEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `outbound_connection_send_enabled` / `outboundConnectionSendEnabled`  (boolean): Whether or not sending is enabled for outbound_connection logs.
-* `outbound_connection_records_sent_entries_sent` / `outboundConnectionRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `outbound_connection_entries_sent` / `outboundConnectionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `automation_send_enabled` / `automationSendEnabled`  (boolean): Whether or not sending is enabled for automation logs.
-* `automation_records_sent_entries_sent` / `automationRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `automation_entries_sent` / `automationEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `api_request_send_enabled` / `apiRequestSendEnabled`  (boolean): Whether or not sending is enabled for api_request logs.
-* `api_request_records_sent_entries_sent` / `apiRequestRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `api_request_entries_sent` / `apiRequestEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `public_hosting_request_send_enabled` / `publicHostingRequestSendEnabled`  (boolean): Whether or not sending is enabled for public_hosting_request logs.
-* `public_hosting_request_records_sent_entries_sent` / `publicHostingRequestRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `public_hosting_request_entries_sent` / `publicHostingRequestEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `email_send_enabled` / `emailSendEnabled`  (boolean): Whether or not sending is enabled for email logs.
-* `email_records_sent_entries_sent` / `emailRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `email_entries_sent` / `emailEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `exavault_api_request_send_enabled` / `exavaultApiRequestSendEnabled`  (boolean): Whether or not sending is enabled for exavault_api_request logs.
-* `exavault_api_request_records_sent_entries_sent` / `exavaultApiRequestRecordsSentEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
+* `exavault_api_request_entries_sent` / `exavaultApiRequestEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `last_http_call_target_type` / `lastHttpCallTargetType`  (string): Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
 * `last_http_call_success` / `lastHttpCallSuccess`  (boolean): Was the last HTTP call made successful?
 * `last_http_call_response_code` / `lastHttpCallResponseCode`  (int64): Last HTTP Call Response Code

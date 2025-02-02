@@ -222,8 +222,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("sftp_action_records_sent_entries_sent")
-  public Long sftpActionRecordsSentEntriesSent;
+  @JsonProperty("sftp_action_entries_sent")
+  public Long sftpActionEntriesSent;
 
   /**
   * Whether or not sending is enabled for ftp_action logs.
@@ -238,8 +238,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("ftp_action_records_sent_entries_sent")
-  public Long ftpActionRecordsSentEntriesSent;
+  @JsonProperty("ftp_action_entries_sent")
+  public Long ftpActionEntriesSent;
 
   /**
   * Whether or not sending is enabled for web_dav_action logs.
@@ -254,8 +254,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("web_dav_action_records_sent_entries_sent")
-  public Long webDavActionRecordsSentEntriesSent;
+  @JsonProperty("web_dav_action_entries_sent")
+  public Long webDavActionEntriesSent;
 
   /**
   * Whether or not sending is enabled for sync logs.
@@ -270,8 +270,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("sync_records_sent_entries_sent")
-  public Long syncRecordsSentEntriesSent;
+  @JsonProperty("sync_entries_sent")
+  public Long syncEntriesSent;
 
   /**
   * Whether or not sending is enabled for outbound_connection logs.
@@ -286,8 +286,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("outbound_connection_records_sent_entries_sent")
-  public Long outboundConnectionRecordsSentEntriesSent;
+  @JsonProperty("outbound_connection_entries_sent")
+  public Long outboundConnectionEntriesSent;
 
   /**
   * Whether or not sending is enabled for automation logs.
@@ -302,8 +302,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("automation_records_sent_entries_sent")
-  public Long automationRecordsSentEntriesSent;
+  @JsonProperty("automation_entries_sent")
+  public Long automationEntriesSent;
 
   /**
   * Whether or not sending is enabled for api_request logs.
@@ -318,8 +318,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("api_request_records_sent_entries_sent")
-  public Long apiRequestRecordsSentEntriesSent;
+  @JsonProperty("api_request_entries_sent")
+  public Long apiRequestEntriesSent;
 
   /**
   * Whether or not sending is enabled for public_hosting_request logs.
@@ -334,8 +334,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("public_hosting_request_records_sent_entries_sent")
-  public Long publicHostingRequestRecordsSentEntriesSent;
+  @JsonProperty("public_hosting_request_entries_sent")
+  public Long publicHostingRequestEntriesSent;
 
   /**
   * Whether or not sending is enabled for email logs.
@@ -350,8 +350,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("email_records_sent_entries_sent")
-  public Long emailRecordsSentEntriesSent;
+  @JsonProperty("email_entries_sent")
+  public Long emailEntriesSent;
 
   /**
   * Whether or not sending is enabled for exavault_api_request logs.
@@ -366,8 +366,8 @@ public class SiemHttpDestination implements ModelInterface {
   */
   @Getter
   @Setter
-  @JsonProperty("exavault_api_request_records_sent_entries_sent")
-  public Long exavaultApiRequestRecordsSentEntriesSent;
+  @JsonProperty("exavault_api_request_entries_sent")
+  public Long exavaultApiRequestEntriesSent;
 
   /**
   * Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`

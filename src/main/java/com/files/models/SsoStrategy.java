@@ -320,8 +320,8 @@ public class SsoStrategy implements ModelInterface {
   * URL-friendly, unique identifier for Azure SAML configuration
   */
   @Getter
-  @JsonProperty("identifier")
-  public String identifier;
+  @JsonProperty("provider_identifier")
+  public String providerIdentifier;
 
   /**
   * Base DN for looking up users in LDAP server

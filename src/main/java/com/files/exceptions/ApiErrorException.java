@@ -1008,6 +1008,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidSiteException extends ProcessingFailureException {
+    public InvalidSiteException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class ModelSaveErrorException extends ProcessingFailureException {
     public ModelSaveErrorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
@@ -1034,6 +1040,12 @@ public class ApiErrorException extends SdkException {
 
   public static class RemoteServerErrorException extends ProcessingFailureException {
     public RemoteServerErrorException(String message, ResponseError responseError, Map<String, List<String>> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class ResourceBelongsToParentSiteException extends ProcessingFailureException {
+    public ResourceBelongsToParentSiteException(String message, ResponseError responseError, Map<String, List<String>> headers) {
       super(message, responseError, headers);
     }
   }

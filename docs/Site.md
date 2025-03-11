@@ -371,7 +371,7 @@
 * `reply_to_email` / `replyToEmail`  (email): Reply-to email for this site
 * `non_sso_groups_allowed` / `nonSsoGroupsAllowed`  (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` / `nonSsoUsersAllowed`  (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
-* `folder_permissions_groups_only` / `folderPermissionsGroupsOnly`  (boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
+* `folder_permissions_groups_only` / `folderPermissionsGroupsOnly`  (boolean): If true, permissions for this site must be bound to a group (not a user).
 * `hipaa` / `hipaa`  (boolean): Is there a signed HIPAA BAA between Files.com and this site?
 * `icon128` / `icon128`  (image): Branded icon 128x128
 * `icon16` / `icon16`  (image): Branded icon 16x16
@@ -537,7 +537,7 @@ Site site = Site.update(
 * `mobile_app` (Boolean): Is the mobile app enabled?
 * `mobile_app_session_ip_pinning` (Boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` (Long): Mobile app session lifetime (in hours)
-* `folder_permissions_groups_only` (Boolean): If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
+* `folder_permissions_groups_only` (Boolean): If true, permissions for this site must be bound to a group (not a user).
 * `welcome_screen` (String): Does the welcome screen appear?
 * `office_integration_available` (Boolean): If true, allows users to use a document editing integration.
 * `office_integration_type` (String): Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.

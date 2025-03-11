@@ -556,7 +556,7 @@ public class Site implements ModelInterface {
   public Boolean nonSsoUsersAllowed;
 
   /**
-  * If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
+  * If true, permissions for this site must be bound to a group (not a user).
   */
   @Getter
   @JsonProperty("folder_permissions_groups_only")
@@ -1323,7 +1323,7 @@ public class Site implements ModelInterface {
   *   mobile_app - boolean - Is the mobile app enabled?
   *   mobile_app_session_ip_pinning - boolean - Is mobile app session IP pinning enabled?
   *   mobile_app_session_lifetime - int64 - Mobile app session lifetime (in hours)
-  *   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user). Otherwise, permissions must be bound to a user.
+  *   folder_permissions_groups_only - boolean - If true, permissions for this site must be bound to a group (not a user).
   *   welcome_screen - string - Does the welcome screen appear?
   *   office_integration_available - boolean - If true, allows users to use a document editing integration.
   *   office_integration_type - string - Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.

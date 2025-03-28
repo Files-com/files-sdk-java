@@ -79,7 +79,7 @@
 ```
 
 * `id` / `id`  (int64): Automation ID
-* `always_overwrite_size_matching_files` / `alwaysOverwriteSizeMatchingFiles`  (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
+* `always_overwrite_size_matching_files` / `alwaysOverwriteSizeMatchingFiles`  (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `automation` / `automation`  (string): Automation type
 * `deleted` / `deleted`  (boolean): Indicates if the automation has been deleted.
 * `description` / `description`  (string): Description for the this Automation.
@@ -96,7 +96,7 @@
 * `last_modified_at` / `lastModifiedAt`  (date-time): Time when automation was last modified. Does not change for name or description updates.
 * `legacy_folder_matching` / `legacyFolderMatching`  (boolean): If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` / `name`  (string): Name for this automation.
-* `overwrite_files` / `overwriteFiles`  (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
+* `overwrite_files` / `overwriteFiles`  (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `path_time_zone` / `pathTimeZone`  (string): Timezone to use when rendering timestamps in paths.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -184,7 +184,7 @@ Automation automation = Automation.create(
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
-* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -193,7 +193,7 @@ Automation automation = Automation.create(
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -248,7 +248,7 @@ Automation automation = Automation.update(
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
-* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -257,7 +257,7 @@ Automation automation = Automation.update(
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -361,7 +361,7 @@ Automation.Update(parameters);
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
-* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.
+* `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -370,7 +370,7 @@ Automation.Update(parameters);
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `:always_overwrite_size_matching_files` option to override this.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.

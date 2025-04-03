@@ -98,7 +98,7 @@ public class AutomationRun implements ModelInterface {
   */
   @Getter
   @JsonProperty("retry_at")
-  public String retryAt;
+  public Date retryAt;
 
   /**
   * If set, this Automation run was retried due to `failure` or `partial_failure`.

@@ -103,7 +103,7 @@ public class Request implements ModelInterface {
   @Getter
   @Setter
   @JsonProperty("automation_id")
-  public String automationId;
+  public Long automationId;
 
   /**
   * User making the request (if applicable)

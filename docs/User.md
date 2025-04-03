@@ -23,7 +23,7 @@
   "dav_permission": true,
   "disabled": true,
   "disabled_expired_or_inactive": true,
-  "email": "example",
+  "email": "john.doe@files.com",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": true,
   "group_ids": "example",
@@ -457,7 +457,7 @@ User user = User.Find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 
 parameters.put("avatar_delete", false);
-parameters.put("email", "example");
+parameters.put("email", "john.doe@files.com");
 parameters.put("group_id", 1);
 parameters.put("group_ids", "example");
 parameters.put("announcements_read", false);

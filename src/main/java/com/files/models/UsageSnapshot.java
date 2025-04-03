@@ -91,7 +91,7 @@ public class UsageSnapshot implements ModelInterface {
   */
   @Getter
   @JsonProperty("high_water_user_count")
-  public Double highWaterUserCount;
+  public Long highWaterUserCount;
 
   /**
   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
@@ -106,13 +106,6 @@ public class UsageSnapshot implements ModelInterface {
   @Getter
   @JsonProperty("high_water_storage")
   public Double highWaterStorage;
-
-  /**
-  * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
-  */
-  @Getter
-  @JsonProperty("usage_by_top_level_dir")
-  public Map<String, String> usageByTopLevelDir;
 
   /**
   * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
@@ -169,6 +162,13 @@ public class UsageSnapshot implements ModelInterface {
   @Getter
   @JsonProperty("sync_bytes_sent")
   public Double syncBytesSent;
+
+  /**
+  * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
+  */
+  @Getter
+  @JsonProperty("usage_by_top_level_dir")
+  public Object[] usageByTopLevelDir;
 
 
 

@@ -5,9 +5,9 @@
 ```
 {
   "id": 1,
-  "name": "example",
-  "fingerprint_md5": "example",
-  "fingerprint_sha256": "example"
+  "name": "My Key",
+  "fingerprint_md5": "12:7e:f8:61:78:a4:b2:c2:ee:12:51:92:25:a7:42:cc",
+  "fingerprint_sha256": "SHA256:5ANRkDpXWA+PgOquzZAG9RtQ1Bt8KXYAH2hecr7LQk8"
 }
 ```
 
@@ -116,7 +116,7 @@ SftpHostKey sftpHostKey = SftpHostKey.Find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-parameters.put("name", "example");
+parameters.put("name", "My Key");
 
 SftpHostKey.Update(parameters);
 ```

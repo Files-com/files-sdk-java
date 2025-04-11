@@ -87,5 +87,4 @@ public class ShareGroupMember implements ModelInterface {
   public String email;
 
 
-
 }

@@ -101,22 +101,19 @@ public class FileComment implements ModelInterface {
   * Parameters:
   *   body (required) - string - Comment body.
   */
-  public FileComment update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public FileComment update(HashMap<String, Object> parameters) throws IOException {
     return FileComment.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     FileComment.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -157,8 +154,8 @@ public class FileComment implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
@@ -187,6 +184,9 @@ public class FileComment implements ModelInterface {
   *   body (required) - string - Comment body.
   *   path (required) - string - File path.
   */
+  public static FileComment create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static FileComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -224,6 +224,9 @@ public class FileComment implements ModelInterface {
   * Parameters:
   *   body (required) - string - Comment body.
   */
+  public static FileComment update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static FileComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -249,8 +252,8 @@ public class FileComment implements ModelInterface {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
@@ -276,6 +279,9 @@ public class FileComment implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -298,8 +304,8 @@ public class FileComment implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

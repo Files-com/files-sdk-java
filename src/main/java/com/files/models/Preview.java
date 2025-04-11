@@ -101,5 +101,4 @@ public class Preview implements ModelInterface {
   public String size;
 
 
-
 }

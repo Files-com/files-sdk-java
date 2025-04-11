@@ -681,8 +681,7 @@ public class RemoteServer implements ModelInterface {
   *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
-  public RemoteServerConfigurationFile configurationFile() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters) throws IOException {
     return RemoteServer.configurationFile(this.id, parameters, this.options);
   }
 
@@ -755,22 +754,19 @@ public class RemoteServer implements ModelInterface {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
-  public RemoteServer update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public RemoteServer update(HashMap<String, Object> parameters) throws IOException {
     return RemoteServer.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     RemoteServer.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -803,8 +799,8 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -835,6 +831,9 @@ public class RemoteServer implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
+  public static RemoteServer find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static RemoteServer find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -857,8 +856,8 @@ public class RemoteServer implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -890,6 +889,9 @@ public class RemoteServer implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Remote Server ID.
   */
+  public static RemoteServerConfigurationFile findConfigurationFile() throws RuntimeException {
+    return findConfigurationFile(null, null, null);
+  }
 
   public static RemoteServerConfigurationFile findConfigurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return findConfigurationFile(id, parameters, null);
@@ -912,8 +914,8 @@ public class RemoteServer implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -1003,6 +1005,9 @@ public class RemoteServer implements ModelInterface {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
+  public static RemoteServer create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static RemoteServer create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -1066,14 +1071,14 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long parameters[\"max_connections\"]");
+    if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long || parameters.get("max_connections") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long or Integer parameters[\"max_connections\"]");
     }
     if (parameters.containsKey("pin_to_site_region") && !(parameters.get("pin_to_site_region") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: pin_to_site_region must be of type Boolean parameters[\"pin_to_site_region\"]");
     }
-    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");
@@ -1238,6 +1243,9 @@ public class RemoteServer implements ModelInterface {
   *   server_host_key - string
   *   subdomain - string - Files.com subdomain site name
   */
+  public static RemoteServerConfigurationFile configurationFile() throws RuntimeException {
+    return configurationFile(null, null, null);
+  }
 
   public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return configurationFile(id, parameters, null);
@@ -1260,8 +1268,8 @@ public class RemoteServer implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("api_token") && !(parameters.get("api_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: api_token must be of type String parameters[\"api_token\"]");
@@ -1275,8 +1283,8 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("hostname") && !(parameters.get("hostname") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: hostname must be of type String parameters[\"hostname\"]");
     }
-    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
     }
     if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
@@ -1384,6 +1392,9 @@ public class RemoteServer implements ModelInterface {
   *   linode_bucket - string - Linode Bucket name
   *   linode_region - string - Linode region
   */
+  public static RemoteServer update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static RemoteServer update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -1406,8 +1417,8 @@ public class RemoteServer implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
@@ -1460,14 +1471,14 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long parameters[\"max_connections\"]");
+    if (parameters.containsKey("max_connections") && !(parameters.get("max_connections") instanceof Long || parameters.get("max_connections") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: max_connections must be of type Long or Integer parameters[\"max_connections\"]");
     }
     if (parameters.containsKey("pin_to_site_region") && !(parameters.get("pin_to_site_region") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: pin_to_site_region must be of type Boolean parameters[\"pin_to_site_region\"]");
     }
-    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: port must be of type Long parameters[\"port\"]");
+    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");
@@ -1628,6 +1639,9 @@ public class RemoteServer implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -1650,8 +1664,8 @@ public class RemoteServer implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

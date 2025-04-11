@@ -139,15 +139,13 @@ public class Permission implements ModelInterface {
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Permission.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -184,8 +182,8 @@ public class Permission implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -235,6 +233,9 @@ public class Permission implements ModelInterface {
   *   group_name - string - Group name.  Provide `group_name` or `group_id`
   *   site_id - int64 - Site ID. If not provided, will default to current site. Used when creating a permission for a child site.
   */
+  public static Permission create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Permission create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -253,8 +254,8 @@ public class Permission implements ModelInterface {
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
     if (parameters.containsKey("permission") && !(parameters.get("permission") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission must be of type String parameters[\"permission\"]");
@@ -262,8 +263,8 @@ public class Permission implements ModelInterface {
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
@@ -271,8 +272,8 @@ public class Permission implements ModelInterface {
     if (parameters.containsKey("group_name") && !(parameters.get("group_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_name must be of type String parameters[\"group_name\"]");
     }
-    if (parameters.containsKey("site_id") && !(parameters.get("site_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: site_id must be of type Long parameters[\"site_id\"]");
+    if (parameters.containsKey("site_id") && !(parameters.get("site_id") instanceof Long || parameters.get("site_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: site_id must be of type Long or Integer parameters[\"site_id\"]");
     }
 
 
@@ -285,6 +286,9 @@ public class Permission implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -307,8 +311,8 @@ public class Permission implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

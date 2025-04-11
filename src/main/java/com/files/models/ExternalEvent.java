@@ -176,7 +176,6 @@ public class ExternalEvent implements ModelInterface {
   @JsonProperty("remote_server_type")
   public String remoteServerType;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     ExternalEvent.create(parameters, this.options);
@@ -211,8 +210,8 @@ public class ExternalEvent implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -252,6 +251,9 @@ public class ExternalEvent implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - External Event ID.
   */
+  public static ExternalEvent find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static ExternalEvent find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -274,8 +276,8 @@ public class ExternalEvent implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -308,6 +310,9 @@ public class ExternalEvent implements ModelInterface {
   *   status (required) - string - Status of event.
   *   body (required) - string - Event body
   */
+  public static ExternalEvent create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static ExternalEvent create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

@@ -185,7 +185,6 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("use_dedicated_ips")
   public Boolean useDedicatedIps;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     WebhookTest.create(parameters, this.options);
@@ -204,6 +203,9 @@ public class WebhookTest implements ModelInterface {
   *   action - string - action for test body
   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
   */
+  public static WebhookTest create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static WebhookTest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);

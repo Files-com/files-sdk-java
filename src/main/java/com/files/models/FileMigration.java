@@ -128,11 +128,13 @@ public class FileMigration implements ModelInterface {
   public String logUrl;
 
 
-
   /**
   * Parameters:
   *   id (required) - int64 - File Migration ID.
   */
+  public static FileMigration find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static FileMigration find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -155,8 +157,8 @@ public class FileMigration implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

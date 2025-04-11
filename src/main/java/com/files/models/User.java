@@ -625,7 +625,7 @@ public class User implements ModelInterface {
   public String changePasswordConfirmation;
 
   /**
-  * Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+  * Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
   */
   @Getter
   @Setter
@@ -675,24 +675,21 @@ public class User implements ModelInterface {
   /**
   * Unlock user who has been locked out due to failed logins
   */
-  public void unlock() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void unlock(HashMap<String, Object> parameters) throws IOException {
     User.unlock(this.id, parameters, this.options);
   }
 
   /**
   * Resend user welcome email
   */
-  public void resendWelcomeEmail() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void resendWelcomeEmail(HashMap<String, Object> parameters) throws IOException {
     User.resendWelcomeEmail(this.id, parameters, this.options);
   }
 
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
-  public void user2faReset() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void user2faReset(HashMap<String, Object> parameters) throws IOException {
     User.user2faReset(this.id, parameters, this.options);
   }
 
@@ -703,7 +700,7 @@ public class User implements ModelInterface {
   *   change_password - string - Used for changing a password on an existing user.
   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
   *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+  *   grant_permission - string - Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
@@ -746,22 +743,19 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
-  public User update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public User update(HashMap<String, Object> parameters) throws IOException {
     return User.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     User.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -801,8 +795,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -854,6 +848,9 @@ public class User implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - User ID.
   */
+  public static User find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static User find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -876,8 +873,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -912,7 +909,7 @@ public class User implements ModelInterface {
   *   change_password - string - Used for changing a password on an existing user.
   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
   *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+  *   grant_permission - string - Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
@@ -955,6 +952,9 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username (required) - string - User's username
   */
+  public static User create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static User create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -988,8 +988,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("grant_permission") && !(parameters.get("grant_permission") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: grant_permission must be of type String parameters[\"grant_permission\"]");
     }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
@@ -1042,8 +1042,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
     }
-    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long parameters[\"notification_daily_send_time\"]");
+    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long || parameters.get("notification_daily_send_time") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long or Integer parameters[\"notification_daily_send_time\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -1057,8 +1057,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
     }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
+    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
     }
     if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
@@ -1090,8 +1090,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
     }
-    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long parameters[\"sso_strategy_id\"]");
+    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
     }
     if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
@@ -1123,6 +1123,9 @@ public class User implements ModelInterface {
   /**
   * Unlock user who has been locked out due to failed logins
   */
+  public static void unlock() throws RuntimeException {
+    unlock(null, null, null);
+  }
 
   public static void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     unlock(id, parameters, null);
@@ -1145,8 +1148,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -1169,6 +1172,9 @@ public class User implements ModelInterface {
   /**
   * Resend user welcome email
   */
+  public static void resendWelcomeEmail() throws RuntimeException {
+    resendWelcomeEmail(null, null, null);
+  }
 
   public static void resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     resendWelcomeEmail(id, parameters, null);
@@ -1191,8 +1197,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -1215,6 +1221,9 @@ public class User implements ModelInterface {
   /**
   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
   */
+  public static void user2faReset() throws RuntimeException {
+    user2faReset(null, null, null);
+  }
 
   public static void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     user2faReset(id, parameters, null);
@@ -1237,8 +1246,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -1265,7 +1274,7 @@ public class User implements ModelInterface {
   *   change_password - string - Used for changing a password on an existing user.
   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
   *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the user root.  Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+  *   grant_permission - string - Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
   *   group_id - int64 - Group ID to associate this user with.
   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
@@ -1308,6 +1317,9 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   */
+  public static User update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static User update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -1330,8 +1342,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("avatar_file") && !(parameters.get("avatar_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: avatar_file must be of type byte[] parameters[\"avatar_file\"]");
@@ -1351,8 +1363,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("grant_permission") && !(parameters.get("grant_permission") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: grant_permission must be of type String parameters[\"grant_permission\"]");
     }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long parameters[\"group_id\"]");
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
     if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
@@ -1405,8 +1417,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
     }
-    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long parameters[\"notification_daily_send_time\"]");
+    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long || parameters.get("notification_daily_send_time") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long or Integer parameters[\"notification_daily_send_time\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -1420,8 +1432,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
     }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
+    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
     }
     if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
@@ -1453,8 +1465,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
     }
-    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long parameters[\"sso_strategy_id\"]");
+    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
     }
     if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
@@ -1495,6 +1507,9 @@ public class User implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -1517,8 +1532,8 @@ public class User implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

@@ -157,5 +157,4 @@ public class AccountLineItem implements ModelInterface {
   public String type;
 
 
-
 }

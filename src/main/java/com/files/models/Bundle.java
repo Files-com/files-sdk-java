@@ -439,8 +439,7 @@ public class Bundle implements ModelInterface {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
-  public void share() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void share(HashMap<String, Object> parameters) throws IOException {
     Bundle.share(this.id, parameters, this.options);
   }
 
@@ -472,22 +471,19 @@ public class Bundle implements ModelInterface {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
-  public Bundle update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Bundle update(HashMap<String, Object> parameters) throws IOException {
     return Bundle.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Bundle.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -516,14 +512,14 @@ public class Bundle implements ModelInterface {
 
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -548,6 +544,9 @@ public class Bundle implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Bundle ID.
   */
+  public static Bundle find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Bundle find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -570,8 +569,8 @@ public class Bundle implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -628,6 +627,9 @@ public class Bundle implements ModelInterface {
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
+  public static Bundle create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Bundle create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -643,8 +645,8 @@ public class Bundle implements ModelInterface {
       throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
@@ -652,8 +654,8 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
     }
-    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
+    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long || parameters.get("form_field_set_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long or Integer parameters[\"form_field_set_id\"]");
     }
     if (parameters.containsKey("create_snapshot") && !(parameters.get("create_snapshot") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: create_snapshot must be of type Boolean parameters[\"create_snapshot\"]");
@@ -667,8 +669,8 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
     }
-    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long parameters[\"max_uses\"]");
+    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -691,11 +693,11 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
     }
-    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long parameters[\"clickwrap_id\"]");
+    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long || parameters.get("clickwrap_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long or Integer parameters[\"clickwrap_id\"]");
     }
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
+    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
     }
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
@@ -715,8 +717,8 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("start_access_on_date") && !(parameters.get("start_access_on_date") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_access_on_date must be of type String parameters[\"start_access_on_date\"]");
     }
-    if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long parameters[\"snapshot_id\"]");
+    if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long || parameters.get("snapshot_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long or Integer parameters[\"snapshot_id\"]");
     }
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
@@ -738,6 +740,9 @@ public class Bundle implements ModelInterface {
   *   note - string - Note to include in email.
   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
   */
+  public static void share() throws RuntimeException {
+    share(null, null, null);
+  }
 
   public static void share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     share(id, parameters, null);
@@ -760,8 +765,8 @@ public class Bundle implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("to") && !(parameters.get("to") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: to must be of type String[] parameters[\"to\"]");
@@ -818,6 +823,9 @@ public class Bundle implements ModelInterface {
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
+  public static Bundle update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Bundle update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -840,8 +848,8 @@ public class Bundle implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
@@ -849,11 +857,11 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
     }
-    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long parameters[\"form_field_set_id\"]");
+    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long || parameters.get("form_field_set_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long or Integer parameters[\"form_field_set_id\"]");
     }
-    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long parameters[\"clickwrap_id\"]");
+    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long || parameters.get("clickwrap_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long or Integer parameters[\"clickwrap_id\"]");
     }
     if (parameters.containsKey("code") && !(parameters.get("code") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
@@ -873,11 +881,11 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
     }
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long parameters[\"inbox_id\"]");
+    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
     }
-    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long parameters[\"max_uses\"]");
+    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
     }
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
@@ -939,6 +947,9 @@ public class Bundle implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -961,8 +972,8 @@ public class Bundle implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

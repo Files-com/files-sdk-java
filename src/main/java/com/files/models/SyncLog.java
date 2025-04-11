@@ -119,7 +119,7 @@ public class SyncLog implements ModelInterface {
   */
   @Getter
   @JsonProperty("size")
-  public String size;
+  public Long size;
 
   /**
   * File type
@@ -134,7 +134,6 @@ public class SyncLog implements ModelInterface {
   @Getter
   @JsonProperty("status")
   public String status;
-
 
 
   /**
@@ -162,8 +161,8 @@ public class SyncLog implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");

@@ -124,8 +124,7 @@ public class Snapshot implements ModelInterface {
   /**
   * Finalize Snapshot
   */
-  public void performFinalize() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void performFinalize(HashMap<String, Object> parameters) throws IOException {
     Snapshot.performFinalize(this.id, parameters, this.options);
   }
 
@@ -135,22 +134,19 @@ public class Snapshot implements ModelInterface {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
-  public Snapshot update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Snapshot update(HashMap<String, Object> parameters) throws IOException {
     return Snapshot.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Snapshot.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -180,8 +176,8 @@ public class Snapshot implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
 
@@ -203,6 +199,9 @@ public class Snapshot implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Snapshot ID.
   */
+  public static Snapshot find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Snapshot find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -225,8 +224,8 @@ public class Snapshot implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -260,6 +259,9 @@ public class Snapshot implements ModelInterface {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
+  public static Snapshot create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Snapshot create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -293,6 +295,9 @@ public class Snapshot implements ModelInterface {
   /**
   * Finalize Snapshot
   */
+  public static void performFinalize() throws RuntimeException {
+    performFinalize(null, null, null);
+  }
 
   public static void performFinalize(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     performFinalize(id, parameters, null);
@@ -315,8 +320,8 @@ public class Snapshot implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -342,6 +347,9 @@ public class Snapshot implements ModelInterface {
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
   */
+  public static Snapshot update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Snapshot update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -364,8 +372,8 @@ public class Snapshot implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
@@ -397,6 +405,9 @@ public class Snapshot implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -419,8 +430,8 @@ public class Snapshot implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

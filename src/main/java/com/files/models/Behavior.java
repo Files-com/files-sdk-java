@@ -163,22 +163,19 @@ public class Behavior implements ModelInterface {
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
-  public Behavior update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Behavior update(HashMap<String, Object> parameters) throws IOException {
     return Behavior.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Behavior.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -211,8 +208,8 @@ public class Behavior implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -243,6 +240,9 @@ public class Behavior implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Behavior ID.
   */
+  public static Behavior find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Behavior find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -265,8 +265,8 @@ public class Behavior implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -332,8 +332,8 @@ public class Behavior implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -380,6 +380,9 @@ public class Behavior implements ModelInterface {
   *   path (required) - string - Path where this behavior should apply.
   *   behavior (required) - string - Behavior type.
   */
+  public static Behavior create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Behavior create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -440,6 +443,9 @@ public class Behavior implements ModelInterface {
   *   body - object - Additional body parameters to include in the webhook payload.
   *   action - string - Action for test body.
   */
+  public static void webhookTest() throws RuntimeException {
+    webhookTest(null, null);
+  }
 
   public static void webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
     webhookTest(parameters, null);
@@ -491,6 +497,9 @@ public class Behavior implements ModelInterface {
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
   */
+  public static Behavior update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Behavior update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -513,8 +522,8 @@ public class Behavior implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
@@ -558,6 +567,9 @@ public class Behavior implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -580,8 +592,8 @@ public class Behavior implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

@@ -121,7 +121,6 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("share_after_create")
   public Boolean shareAfterCreate;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     BundleRecipient.create(parameters, this.options);
@@ -156,8 +155,8 @@ public class BundleRecipient implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -165,8 +164,8 @@ public class BundleRecipient implements ModelInterface {
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
+    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
     }
 
 
@@ -193,6 +192,9 @@ public class BundleRecipient implements ModelInterface {
   *   note - string - Note to include in email.
   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
   */
+  public static BundleRecipient create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static BundleRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -211,8 +213,8 @@ public class BundleRecipient implements ModelInterface {
       throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
     }
 
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long parameters[\"bundle_id\"]");
+    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
     }
     if (parameters.containsKey("recipient") && !(parameters.get("recipient") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: recipient must be of type String parameters[\"recipient\"]");

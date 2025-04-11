@@ -80,5 +80,4 @@ public class Image implements ModelInterface {
   public String uri;
 
 
-
 }

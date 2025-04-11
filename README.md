@@ -549,6 +549,7 @@ RuntimeException
 |`BillingOrSiteAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`BillingPermissionRequiredException`|  `NotAuthorizedException` |
 |`BundleMaximumUsesReachedException`|  `NotAuthorizedException` |
+|`BundlePermissionRequiredException`|  `NotAuthorizedException` |
 |`CannotLoginWhileUsingKeyException`|  `NotAuthorizedException` |
 |`CantActForOtherUserException`|  `NotAuthorizedException` |
 |`ContactAdminForPasswordChangeHelpException`|  `NotAuthorizedException` |

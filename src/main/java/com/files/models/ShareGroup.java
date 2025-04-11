@@ -111,22 +111,19 @@ public class ShareGroup implements ModelInterface {
   *   name - string - Name of the share group
   *   members - array(object) - A list of share group members.
   */
-  public ShareGroup update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public ShareGroup update(HashMap<String, Object> parameters) throws IOException {
     return ShareGroup.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     ShareGroup.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -154,14 +151,14 @@ public class ShareGroup implements ModelInterface {
 
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
 
@@ -183,6 +180,9 @@ public class ShareGroup implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Share Group ID.
   */
+  public static ShareGroup find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static ShareGroup find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -205,8 +205,8 @@ public class ShareGroup implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -241,6 +241,9 @@ public class ShareGroup implements ModelInterface {
   *   name (required) - string - Name of the share group
   *   members (required) - array(object) - A list of share group members.
   */
+  public static ShareGroup create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static ShareGroup create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -259,8 +262,8 @@ public class ShareGroup implements ModelInterface {
       throw new NullPointerException("Parameter missing: members parameters[\"members\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
@@ -286,6 +289,9 @@ public class ShareGroup implements ModelInterface {
   *   name - string - Name of the share group
   *   members - array(object) - A list of share group members.
   */
+  public static ShareGroup update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static ShareGroup update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -308,8 +314,8 @@ public class ShareGroup implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
@@ -341,6 +347,9 @@ public class ShareGroup implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -363,8 +372,8 @@ public class ShareGroup implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

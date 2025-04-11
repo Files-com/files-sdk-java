@@ -242,5 +242,4 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   public String configVersion;
 
 
-
 }

@@ -122,5 +122,4 @@ public class InvoiceLineItem implements ModelInterface {
   public String site;
 
 
-
 }

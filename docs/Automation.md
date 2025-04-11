@@ -107,7 +107,7 @@
 * `last_modified_at` / `lastModifiedAt`  (date-time): Time when automation was last modified. Does not change for name or description updates.
 * `legacy_folder_matching` / `legacyFolderMatching`  (boolean): If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` / `name`  (string): Name for this automation.
-* `overwrite_files` / `overwriteFiles`  (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+* `overwrite_files` / `overwriteFiles`  (boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path` / `path`  (string): Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `path_time_zone` / `pathTimeZone`  (string): Timezone to use when rendering timestamps in paths.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -204,7 +204,7 @@ Automation automation = Automation.create(
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -268,7 +268,7 @@ Automation automation = Automation.update(
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -381,7 +381,7 @@ Automation.Update(parameters);
 * `ignore_locked_folders` (Boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
 * `legacy_folder_matching` (Boolean): DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
 * `name` (String): Name for this automation.
-* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+* `overwrite_files` (Boolean): If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
 * `path_time_zone` (String): Timezone to use when rendering timestamps in paths.
 * `retry_on_failure_interval_in_minutes` (Long): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.

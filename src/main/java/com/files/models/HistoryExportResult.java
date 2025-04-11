@@ -248,7 +248,6 @@ public class HistoryExportResult implements ModelInterface {
   public Long targetUserId;
 
 
-
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
@@ -274,17 +273,17 @@ public class HistoryExportResult implements ModelInterface {
       throw new NullPointerException("Parameter missing: history_export_id parameters[\"history_export_id\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("history_export_id") && !(parameters.get("history_export_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: history_export_id must be of type Long parameters[\"history_export_id\"]");
+    if (parameters.containsKey("history_export_id") && !(parameters.get("history_export_id") instanceof Long || parameters.get("history_export_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: history_export_id must be of type Long or Integer parameters[\"history_export_id\"]");
     }
 
 

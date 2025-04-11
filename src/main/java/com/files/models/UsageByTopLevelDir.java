@@ -87,5 +87,4 @@ public class UsageByTopLevelDir implements ModelInterface {
   public Long count;
 
 
-
 }

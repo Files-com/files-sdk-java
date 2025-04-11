@@ -1249,9 +1249,11 @@ public class Site implements ModelInterface {
   public Boolean groupAdminsCanSetUserPassword;
 
 
-
   /**
   */
+  public static Site get() throws RuntimeException {
+    return get(null, null);
+  }
 
   public static Site get(HashMap<String, Object> parameters) throws RuntimeException {
     return get(parameters, null);
@@ -1275,6 +1277,9 @@ public class Site implements ModelInterface {
 
   /**
   */
+  public static UsageSnapshot getUsage() throws RuntimeException {
+    return getUsage(null, null);
+  }
 
   public static UsageSnapshot getUsage(HashMap<String, Object> parameters) throws RuntimeException {
     return getUsage(parameters, null);
@@ -1462,6 +1467,9 @@ public class Site implements ModelInterface {
   *   smtp_password - string - Password for SMTP server.
   *   session_expiry_minutes - int64 - Session expiry in minutes
   */
+  public static Site update() throws RuntimeException {
+    return update(null, null);
+  }
 
   public static Site update(HashMap<String, Object> parameters) throws RuntimeException {
     return update(parameters, null);
@@ -1498,8 +1506,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("allow_bundle_names") && !(parameters.get("allow_bundle_names") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bundle_names must be of type Boolean parameters[\"allow_bundle_names\"]");
     }
-    if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_expiration must be of type Long parameters[\"bundle_expiration\"]");
+    if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long || parameters.get("bundle_expiration") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_expiration must be of type Long or Integer parameters[\"bundle_expiration\"]");
     }
     if (parameters.containsKey("welcome_email_enabled") && !(parameters.get("welcome_email_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: welcome_email_enabled must be of type Boolean parameters[\"welcome_email_enabled\"]");
@@ -1537,8 +1545,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("desktop_app_session_ip_pinning") && !(parameters.get("desktop_app_session_ip_pinning") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: desktop_app_session_ip_pinning must be of type Boolean parameters[\"desktop_app_session_ip_pinning\"]");
     }
-    if (parameters.containsKey("desktop_app_session_lifetime") && !(parameters.get("desktop_app_session_lifetime") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: desktop_app_session_lifetime must be of type Long parameters[\"desktop_app_session_lifetime\"]");
+    if (parameters.containsKey("desktop_app_session_lifetime") && !(parameters.get("desktop_app_session_lifetime") instanceof Long || parameters.get("desktop_app_session_lifetime") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: desktop_app_session_lifetime must be of type Long or Integer parameters[\"desktop_app_session_lifetime\"]");
     }
     if (parameters.containsKey("mobile_app") && !(parameters.get("mobile_app") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mobile_app must be of type Boolean parameters[\"mobile_app\"]");
@@ -1546,8 +1554,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("mobile_app_session_ip_pinning") && !(parameters.get("mobile_app_session_ip_pinning") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mobile_app_session_ip_pinning must be of type Boolean parameters[\"mobile_app_session_ip_pinning\"]");
     }
-    if (parameters.containsKey("mobile_app_session_lifetime") && !(parameters.get("mobile_app_session_lifetime") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: mobile_app_session_lifetime must be of type Long parameters[\"mobile_app_session_lifetime\"]");
+    if (parameters.containsKey("mobile_app_session_lifetime") && !(parameters.get("mobile_app_session_lifetime") instanceof Long || parameters.get("mobile_app_session_lifetime") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: mobile_app_session_lifetime must be of type Long or Integer parameters[\"mobile_app_session_lifetime\"]");
     }
     if (parameters.containsKey("folder_permissions_groups_only") && !(parameters.get("folder_permissions_groups_only") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: folder_permissions_groups_only must be of type Boolean parameters[\"folder_permissions_groups_only\"]");
@@ -1621,14 +1629,14 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("user_lockout") && !(parameters.get("user_lockout") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: user_lockout must be of type Boolean parameters[\"user_lockout\"]");
     }
-    if (parameters.containsKey("user_lockout_tries") && !(parameters.get("user_lockout_tries") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_lockout_tries must be of type Long parameters[\"user_lockout_tries\"]");
+    if (parameters.containsKey("user_lockout_tries") && !(parameters.get("user_lockout_tries") instanceof Long || parameters.get("user_lockout_tries") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_lockout_tries must be of type Long or Integer parameters[\"user_lockout_tries\"]");
     }
-    if (parameters.containsKey("user_lockout_within") && !(parameters.get("user_lockout_within") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_lockout_within must be of type Long parameters[\"user_lockout_within\"]");
+    if (parameters.containsKey("user_lockout_within") && !(parameters.get("user_lockout_within") instanceof Long || parameters.get("user_lockout_within") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_lockout_within must be of type Long or Integer parameters[\"user_lockout_within\"]");
     }
-    if (parameters.containsKey("user_lockout_lock_period") && !(parameters.get("user_lockout_lock_period") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_lockout_lock_period must be of type Long parameters[\"user_lockout_lock_period\"]");
+    if (parameters.containsKey("user_lockout_lock_period") && !(parameters.get("user_lockout_lock_period") instanceof Long || parameters.get("user_lockout_lock_period") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_lockout_lock_period must be of type Long or Integer parameters[\"user_lockout_lock_period\"]");
     }
     if (parameters.containsKey("include_password_in_welcome_email") && !(parameters.get("include_password_in_welcome_email") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_password_in_welcome_email must be of type Boolean parameters[\"include_password_in_welcome_email\"]");
@@ -1642,20 +1650,20 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: disallowed_countries must be of type String parameters[\"disallowed_countries\"]");
     }
-    if (parameters.containsKey("days_before_deleting_disabled_users") && !(parameters.get("days_before_deleting_disabled_users") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: days_before_deleting_disabled_users must be of type Long parameters[\"days_before_deleting_disabled_users\"]");
+    if (parameters.containsKey("days_before_deleting_disabled_users") && !(parameters.get("days_before_deleting_disabled_users") instanceof Long || parameters.get("days_before_deleting_disabled_users") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: days_before_deleting_disabled_users must be of type Long or Integer parameters[\"days_before_deleting_disabled_users\"]");
     }
-    if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: days_to_retain_backups must be of type Long parameters[\"days_to_retain_backups\"]");
+    if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long || parameters.get("days_to_retain_backups") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: days_to_retain_backups must be of type Long or Integer parameters[\"days_to_retain_backups\"]");
     }
-    if (parameters.containsKey("max_prior_passwords") && !(parameters.get("max_prior_passwords") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: max_prior_passwords must be of type Long parameters[\"max_prior_passwords\"]");
+    if (parameters.containsKey("max_prior_passwords") && !(parameters.get("max_prior_passwords") instanceof Long || parameters.get("max_prior_passwords") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: max_prior_passwords must be of type Long or Integer parameters[\"max_prior_passwords\"]");
     }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long parameters[\"password_validity_days\"]");
+    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
     }
-    if (parameters.containsKey("password_min_length") && !(parameters.get("password_min_length") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: password_min_length must be of type Long parameters[\"password_min_length\"]");
+    if (parameters.containsKey("password_min_length") && !(parameters.get("password_min_length") instanceof Long || parameters.get("password_min_length") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: password_min_length must be of type Long or Integer parameters[\"password_min_length\"]");
     }
     if (parameters.containsKey("password_require_letter") && !(parameters.get("password_require_letter") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: password_require_letter must be of type Boolean parameters[\"password_require_letter\"]");
@@ -1726,8 +1734,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("custom_namespace") && !(parameters.get("custom_namespace") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: custom_namespace must be of type Boolean parameters[\"custom_namespace\"]");
     }
-    if (parameters.containsKey("disable_users_from_inactivity_period_days") && !(parameters.get("disable_users_from_inactivity_period_days") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: disable_users_from_inactivity_period_days must be of type Long parameters[\"disable_users_from_inactivity_period_days\"]");
+    if (parameters.containsKey("disable_users_from_inactivity_period_days") && !(parameters.get("disable_users_from_inactivity_period_days") instanceof Long || parameters.get("disable_users_from_inactivity_period_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: disable_users_from_inactivity_period_days must be of type Long or Integer parameters[\"disable_users_from_inactivity_period_days\"]");
     }
     if (parameters.containsKey("non_sso_groups_allowed") && !(parameters.get("non_sso_groups_allowed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: non_sso_groups_allowed must be of type Boolean parameters[\"non_sso_groups_allowed\"]");
@@ -1765,8 +1773,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("sftp_host_key_type") && !(parameters.get("sftp_host_key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: sftp_host_key_type must be of type String parameters[\"sftp_host_key_type\"]");
     }
-    if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_id must be of type Long parameters[\"active_sftp_host_key_id\"]");
+    if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long || parameters.get("active_sftp_host_key_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_id must be of type Long or Integer parameters[\"active_sftp_host_key_id\"]");
     }
     if (parameters.containsKey("protocol_access_groups_only") && !(parameters.get("protocol_access_groups_only") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: protocol_access_groups_only must be of type Boolean parameters[\"protocol_access_groups_only\"]");
@@ -1852,8 +1860,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("smtp_username") && !(parameters.get("smtp_username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_username must be of type String parameters[\"smtp_username\"]");
     }
-    if (parameters.containsKey("smtp_port") && !(parameters.get("smtp_port") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: smtp_port must be of type Long parameters[\"smtp_port\"]");
+    if (parameters.containsKey("smtp_port") && !(parameters.get("smtp_port") instanceof Long || parameters.get("smtp_port") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: smtp_port must be of type Long or Integer parameters[\"smtp_port\"]");
     }
     if (parameters.containsKey("ldap_enabled") && !(parameters.get("ldap_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_enabled must be of type Boolean parameters[\"ldap_enabled\"]");
@@ -1870,8 +1878,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("ldap_host_3") && !(parameters.get("ldap_host_3") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_host_3 must be of type String parameters[\"ldap_host_3\"]");
     }
-    if (parameters.containsKey("ldap_port") && !(parameters.get("ldap_port") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_port must be of type Long parameters[\"ldap_port\"]");
+    if (parameters.containsKey("ldap_port") && !(parameters.get("ldap_port") instanceof Long || parameters.get("ldap_port") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: ldap_port must be of type Long or Integer parameters[\"ldap_port\"]");
     }
     if (parameters.containsKey("ldap_secure") && !(parameters.get("ldap_secure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_secure must be of type Boolean parameters[\"ldap_secure\"]");
@@ -1960,8 +1968,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("smtp_password") && !(parameters.get("smtp_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_password must be of type String parameters[\"smtp_password\"]");
     }
-    if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long parameters[\"session_expiry_minutes\"]");
+    if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long || parameters.get("session_expiry_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long or Integer parameters[\"session_expiry_minutes\"]");
     }
 
 

@@ -162,15 +162,13 @@ public class Lock implements ModelInterface {
   * Parameters:
   *   token (required) - string - Lock token
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Lock.delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -212,8 +210,8 @@ public class Lock implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
@@ -248,6 +246,9 @@ public class Lock implements ModelInterface {
   *   recursive - boolean - Does lock apply to subfolders?
   *   timeout - int64 - Lock timeout in seconds
   */
+  public static Lock create() throws RuntimeException {
+    return create(null, null, null);
+  }
 
   public static Lock create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
@@ -282,8 +283,8 @@ public class Lock implements ModelInterface {
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
-    if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: timeout must be of type Long parameters[\"timeout\"]");
+    if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long || parameters.get("timeout") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: timeout must be of type Long or Integer parameters[\"timeout\"]");
     }
 
 
@@ -308,6 +309,9 @@ public class Lock implements ModelInterface {
   * Parameters:
   *   token (required) - string - Lock token
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);

@@ -210,7 +210,7 @@ public class Automation implements ModelInterface {
   public String name;
 
   /**
-  * If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+  * If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
   */
   @Getter
   @Setter
@@ -364,8 +364,7 @@ public class Automation implements ModelInterface {
   /**
   * Manually Run Automation
   */
-  public void manualRun() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void manualRun(HashMap<String, Object> parameters) throws IOException {
     Automation.manualRun(this.id, parameters, this.options);
   }
 
@@ -392,7 +391,7 @@ public class Automation implements ModelInterface {
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
   *   name - string - Name for this automation.
-  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
   *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
   *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -402,22 +401,19 @@ public class Automation implements ModelInterface {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
-  public Automation update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Automation update(HashMap<String, Object> parameters) throws IOException {
     return Automation.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Automation.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -453,8 +449,8 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -494,6 +490,9 @@ public class Automation implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Automation ID.
   */
+  public static Automation find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Automation find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -516,8 +515,8 @@ public class Automation implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -568,7 +567,7 @@ public class Automation implements ModelInterface {
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
   *   name - string - Name for this automation.
-  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
   *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
   *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -578,6 +577,9 @@ public class Automation implements ModelInterface {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation (required) - string - Automation type
   */
+  public static Automation create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Automation create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -662,11 +664,11 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("path_time_zone") && !(parameters.get("path_time_zone") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_time_zone must be of type String parameters[\"path_time_zone\"]");
     }
-    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long parameters[\"retry_on_failure_interval_in_minutes\"]");
+    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long || parameters.get("retry_on_failure_interval_in_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long or Integer parameters[\"retry_on_failure_interval_in_minutes\"]");
     }
-    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long parameters[\"retry_on_failure_number_of_attempts\"]");
+    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long || parameters.get("retry_on_failure_number_of_attempts") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long or Integer parameters[\"retry_on_failure_number_of_attempts\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
@@ -677,8 +679,8 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long parameters[\"recurring_day\"]");
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
@@ -695,6 +697,9 @@ public class Automation implements ModelInterface {
   /**
   * Manually Run Automation
   */
+  public static void manualRun() throws RuntimeException {
+    manualRun(null, null, null);
+  }
 
   public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
@@ -717,8 +722,8 @@ public class Automation implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -761,7 +766,7 @@ public class Automation implements ModelInterface {
   *   ignore_locked_folders - boolean - If true, the Lock Folders behavior will be disregarded for automated actions.
   *   legacy_folder_matching - boolean - DEPRECATED: If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
   *   name - string - Name for this automation.
-  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
+  *   overwrite_files - boolean - If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
   *   path_time_zone - string - Timezone to use when rendering timestamps in paths.
   *   retry_on_failure_interval_in_minutes - int64 - If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
   *   retry_on_failure_number_of_attempts - int64 - If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -771,6 +776,9 @@ public class Automation implements ModelInterface {
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
+  public static Automation update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Automation update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -793,8 +801,8 @@ public class Automation implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
@@ -865,11 +873,11 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("path_time_zone") && !(parameters.get("path_time_zone") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path_time_zone must be of type String parameters[\"path_time_zone\"]");
     }
-    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long parameters[\"retry_on_failure_interval_in_minutes\"]");
+    if (parameters.containsKey("retry_on_failure_interval_in_minutes") && !(parameters.get("retry_on_failure_interval_in_minutes") instanceof Long || parameters.get("retry_on_failure_interval_in_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_interval_in_minutes must be of type Long or Integer parameters[\"retry_on_failure_interval_in_minutes\"]");
     }
-    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long parameters[\"retry_on_failure_number_of_attempts\"]");
+    if (parameters.containsKey("retry_on_failure_number_of_attempts") && !(parameters.get("retry_on_failure_number_of_attempts") instanceof Long || parameters.get("retry_on_failure_number_of_attempts") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: retry_on_failure_number_of_attempts must be of type Long or Integer parameters[\"retry_on_failure_number_of_attempts\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
@@ -880,8 +888,8 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long parameters[\"recurring_day\"]");
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
@@ -907,6 +915,9 @@ public class Automation implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -929,8 +940,8 @@ public class Automation implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

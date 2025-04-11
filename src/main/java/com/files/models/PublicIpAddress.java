@@ -92,5 +92,4 @@ public class PublicIpAddress implements ModelInterface {
   public Boolean sftpEnabled;
 
 
-
 }

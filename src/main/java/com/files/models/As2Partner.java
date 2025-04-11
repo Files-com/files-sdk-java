@@ -230,22 +230,19 @@ public class As2Partner implements ModelInterface {
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
-  public As2Partner update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public As2Partner update(HashMap<String, Object> parameters) throws IOException {
     return As2Partner.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     As2Partner.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -275,8 +272,8 @@ public class As2Partner implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
 
@@ -298,6 +295,9 @@ public class As2Partner implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - As2 Partner ID.
   */
+  public static As2Partner find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static As2Partner find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -320,8 +320,8 @@ public class As2Partner implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -363,6 +363,9 @@ public class As2Partner implements ModelInterface {
   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate (required) - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
+  public static As2Partner create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static As2Partner create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -408,8 +411,8 @@ public class As2Partner implements ModelInterface {
     if (parameters.containsKey("additional_http_headers") && !(parameters.get("additional_http_headers") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: additional_http_headers must be of type Map<String, String> parameters[\"additional_http_headers\"]");
     }
-    if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long parameters[\"as2_station_id\"]");
+    if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long || parameters.get("as2_station_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long or Integer parameters[\"as2_station_id\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -442,6 +445,9 @@ public class As2Partner implements ModelInterface {
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
+  public static As2Partner update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static As2Partner update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -464,8 +470,8 @@ public class As2Partner implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
@@ -518,6 +524,9 @@ public class As2Partner implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -540,8 +549,8 @@ public class As2Partner implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

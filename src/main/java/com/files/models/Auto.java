@@ -72,5 +72,4 @@ public class Auto implements ModelInterface {
   public Map<String, String> dynamic;
 
 
-
 }

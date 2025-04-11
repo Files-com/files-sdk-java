@@ -119,22 +119,19 @@ public class Message implements ModelInterface {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
-  public Message update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Message update(HashMap<String, Object> parameters) throws IOException {
     return Message.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Message.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -166,17 +163,17 @@ public class Message implements ModelInterface {
       throw new NullPointerException("Parameter missing: project_id parameters[\"project_id\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
+    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long || parameters.get("project_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long or Integer parameters[\"project_id\"]");
     }
 
 
@@ -198,6 +195,9 @@ public class Message implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Message ID.
   */
+  public static Message find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Message find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -220,8 +220,8 @@ public class Message implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -256,6 +256,9 @@ public class Message implements ModelInterface {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
+  public static Message create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Message create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -277,11 +280,11 @@ public class Message implements ModelInterface {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
+    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long || parameters.get("project_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long or Integer parameters[\"project_id\"]");
     }
     if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
@@ -304,6 +307,9 @@ public class Message implements ModelInterface {
   *   subject (required) - string - Message subject.
   *   body (required) - string - Message body.
   */
+  public static Message update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Message update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -335,11 +341,11 @@ public class Message implements ModelInterface {
       throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long parameters[\"project_id\"]");
+    if (parameters.containsKey("project_id") && !(parameters.get("project_id") instanceof Long || parameters.get("project_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: project_id must be of type Long or Integer parameters[\"project_id\"]");
     }
     if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
@@ -368,6 +374,9 @@ public class Message implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -390,8 +399,8 @@ public class Message implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

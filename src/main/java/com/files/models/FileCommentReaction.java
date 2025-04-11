@@ -99,15 +99,13 @@ public class FileCommentReaction implements ModelInterface {
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     FileCommentReaction.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -120,6 +118,9 @@ public class FileCommentReaction implements ModelInterface {
   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
   *   emoji (required) - string - Emoji to react with.
   */
+  public static FileCommentReaction create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static FileCommentReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -138,11 +139,11 @@ public class FileCommentReaction implements ModelInterface {
       throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
-    if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: file_comment_id must be of type Long parameters[\"file_comment_id\"]");
+    if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long || parameters.get("file_comment_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: file_comment_id must be of type Long or Integer parameters[\"file_comment_id\"]");
     }
     if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: emoji must be of type String parameters[\"emoji\"]");
@@ -158,6 +159,9 @@ public class FileCommentReaction implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -180,8 +184,8 @@ public class FileCommentReaction implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

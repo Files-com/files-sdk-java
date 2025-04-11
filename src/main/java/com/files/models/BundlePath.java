@@ -80,5 +80,4 @@ public class BundlePath implements ModelInterface {
   public String path;
 
 
-
 }

@@ -352,7 +352,6 @@ public class Folder implements ModelInterface {
   @JsonProperty("mkdir_parents")
   public Boolean mkdirParents;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Folder.create(parameters, this.options);
@@ -399,8 +398,8 @@ public class Folder implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
@@ -451,6 +450,9 @@ public class Folder implements ModelInterface {
   *   mkdir_parents - boolean - Create parent directories if they do not exist?
   *   provided_mtime - string - User provided modification time.
   */
+  public static Folder create() throws RuntimeException {
+    return create(null, null, null);
+  }
 
   public static Folder create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);

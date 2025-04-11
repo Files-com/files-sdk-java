@@ -129,7 +129,6 @@ public class Session implements ModelInterface {
   @JsonProperty("partial_session_id")
   public String partialSessionId;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     Session.create(parameters, this.options);
@@ -142,6 +141,9 @@ public class Session implements ModelInterface {
   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
   *   partial_session_id - string - Identifier for a partially-completed login
   */
+  public static Session create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static Session create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -177,6 +179,9 @@ public class Session implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null);
+  }
 
   public static void delete(HashMap<String, Object> parameters) throws RuntimeException {
     delete(parameters, null);

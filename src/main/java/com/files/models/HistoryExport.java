@@ -273,7 +273,6 @@ public class HistoryExport implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     HistoryExport.create(parameters, this.options);
@@ -283,6 +282,9 @@ public class HistoryExport implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - History Export ID.
   */
+  public static HistoryExport find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static HistoryExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -305,8 +307,8 @@ public class HistoryExport implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -359,6 +361,9 @@ public class HistoryExport implements ModelInterface {
   *   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
   *   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
   */
+  public static HistoryExport create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static HistoryExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -371,8 +376,8 @@ public class HistoryExport implements ModelInterface {
 
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");

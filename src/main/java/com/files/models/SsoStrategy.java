@@ -396,11 +396,9 @@ public class SsoStrategy implements ModelInterface {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
-  public void sync() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void sync(HashMap<String, Object> parameters) throws IOException {
     SsoStrategy.sync(this.id, parameters, this.options);
   }
-
 
 
   /**
@@ -427,8 +425,8 @@ public class SsoStrategy implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -453,6 +451,9 @@ public class SsoStrategy implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Sso Strategy ID.
   */
+  public static SsoStrategy find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static SsoStrategy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -475,8 +476,8 @@ public class SsoStrategy implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -507,6 +508,9 @@ public class SsoStrategy implements ModelInterface {
   /**
   * Synchronize provisioning data with the SSO remote server
   */
+  public static void sync() throws RuntimeException {
+    sync(null, null, null);
+  }
 
   public static void sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     sync(id, parameters, null);
@@ -529,8 +533,8 @@ public class SsoStrategy implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

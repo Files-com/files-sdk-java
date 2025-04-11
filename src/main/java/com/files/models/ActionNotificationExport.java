@@ -177,7 +177,6 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
-
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
     ActionNotificationExport.create(parameters, this.options);
@@ -187,6 +186,9 @@ public class ActionNotificationExport implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Action Notification Export ID.
   */
+  public static ActionNotificationExport find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -209,8 +211,8 @@ public class ActionNotificationExport implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -251,6 +253,9 @@ public class ActionNotificationExport implements ModelInterface {
   *   query_path - string - Return notifications that were triggered by actions on this specific path.
   *   query_folder - string - Return notifications that were triggered by actions in this folder.
   */
+  public static ActionNotificationExport create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static ActionNotificationExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -263,8 +268,8 @@ public class ActionNotificationExport implements ModelInterface {
 
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");

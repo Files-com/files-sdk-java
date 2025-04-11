@@ -56,7 +56,32 @@ public class FilesAuthTest {
   public void findUser() throws Exception {
     User user = User.find((long)1, null);
     assert("user".equals(user.username));
-    assert("example".equals(user.email));
+    assert("john.doe@files.com".equals(user.email));
+  }
+
+  @Test
+  public void updateUser() throws Exception {
+    User user = User.find((long)1, null);
+    assert("user".equals(user.username));
+    assert("john.doe@files.com".equals(user.email));
+    // Set and Save pattern
+    user.setUsername("different");
+    user.save();
+    // Params pattern
+    HashMap<String, Object> data = new HashMap<>();
+    data.put("id", user.id);
+    data.put("username", "alsoDifferent");
+    User.update(data, null);
+    // Mock server doesn't support updates yet, above code tests that the method invocation itself does not throw Exception
+  }
+
+  @Test
+  public void resendWelcomeEmailForUser() throws Exception {
+    User user = User.find((long)1, null);
+    assert("user".equals(user.username));
+    assert(user.id == 1);
+    user.resendWelcomeEmail(null);
+    // Mock server should return 200 OK
   }
 
   @Test

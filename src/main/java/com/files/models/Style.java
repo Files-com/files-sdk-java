@@ -109,22 +109,19 @@ public class Style implements ModelInterface {
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
-  public Style update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public Style update(HashMap<String, Object> parameters) throws IOException {
     return Style.update(this.path, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     Style.delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     update();
@@ -135,6 +132,9 @@ public class Style implements ModelInterface {
   * Parameters:
   *   path (required) - string - Style path.
   */
+  public static Style find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static Style find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
@@ -190,6 +190,9 @@ public class Style implements ModelInterface {
   * Parameters:
   *   file (required) - file - Logo for custom branding.
   */
+  public static Style update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static Style update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
@@ -242,6 +245,9 @@ public class Style implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);

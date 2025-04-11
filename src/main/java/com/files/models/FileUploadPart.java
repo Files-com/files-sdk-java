@@ -268,5 +268,4 @@ public class FileUploadPart implements ModelInterface {
   public String uploadUri;
 
 
-
 }

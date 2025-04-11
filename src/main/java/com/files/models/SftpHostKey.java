@@ -110,22 +110,19 @@ public class SftpHostKey implements ModelInterface {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
-  public SftpHostKey update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public SftpHostKey update(HashMap<String, Object> parameters) throws IOException {
     return SftpHostKey.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     SftpHostKey.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -155,8 +152,8 @@ public class SftpHostKey implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
 
@@ -178,6 +175,9 @@ public class SftpHostKey implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Sftp Host Key ID.
   */
+  public static SftpHostKey find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static SftpHostKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -200,8 +200,8 @@ public class SftpHostKey implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -234,6 +234,9 @@ public class SftpHostKey implements ModelInterface {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
+  public static SftpHostKey create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static SftpHostKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -266,6 +269,9 @@ public class SftpHostKey implements ModelInterface {
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
+  public static SftpHostKey update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static SftpHostKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -288,8 +294,8 @@ public class SftpHostKey implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -318,6 +324,9 @@ public class SftpHostKey implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -340,8 +349,8 @@ public class SftpHostKey implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

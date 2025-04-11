@@ -132,22 +132,19 @@ public class PublicKey implements ModelInterface {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
-  public PublicKey update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public PublicKey update(HashMap<String, Object> parameters) throws IOException {
     return PublicKey.update(this.id, parameters, this.options);
   }
 
   /**
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     PublicKey.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -175,14 +172,14 @@ public class PublicKey implements ModelInterface {
 
 
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
 
@@ -204,6 +201,9 @@ public class PublicKey implements ModelInterface {
   * Parameters:
   *   id (required) - int64 - Public Key ID.
   */
+  public static PublicKey find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static PublicKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
@@ -226,8 +226,8 @@ public class PublicKey implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 
@@ -261,6 +261,9 @@ public class PublicKey implements ModelInterface {
   *   title (required) - string - Internal reference for key.
   *   public_key (required) - string - Actual contents of SSH key.
   */
+  public static PublicKey create() throws RuntimeException {
+    return create(null, null);
+  }
 
   public static PublicKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
@@ -279,8 +282,8 @@ public class PublicKey implements ModelInterface {
       throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
     }
 
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long parameters[\"user_id\"]");
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
@@ -301,6 +304,9 @@ public class PublicKey implements ModelInterface {
   * Parameters:
   *   title (required) - string - Internal reference for key.
   */
+  public static PublicKey update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static PublicKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
@@ -326,8 +332,8 @@ public class PublicKey implements ModelInterface {
       throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
@@ -353,6 +359,9 @@ public class PublicKey implements ModelInterface {
 
   /**
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
@@ -375,8 +384,8 @@ public class PublicKey implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long parameters[\"id\"]");
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
 
 

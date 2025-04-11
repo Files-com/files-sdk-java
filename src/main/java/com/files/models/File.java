@@ -456,8 +456,7 @@ public class File implements ModelInterface {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
-  public File download() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public File download(HashMap<String, Object> parameters) throws IOException {
     return File.download(this.path, parameters, this.options);
   }
 
@@ -467,8 +466,7 @@ public class File implements ModelInterface {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
-  public File update() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public File update(HashMap<String, Object> parameters) throws IOException {
     return File.update(this.path, parameters, this.options);
   }
 
@@ -476,13 +474,12 @@ public class File implements ModelInterface {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
   */
-  public void delete() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public void delete(HashMap<String, Object> parameters) throws IOException {
     File.delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
-    delete();
+    delete(parameters);
   }
 
   /**
@@ -493,8 +490,7 @@ public class File implements ModelInterface {
   *   structure - boolean - Copy structure only?
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public FileAction copy() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public FileAction copy(HashMap<String, Object> parameters) throws IOException {
     return File.copy(this.path, parameters, this.options);
   }
 
@@ -505,8 +501,7 @@ public class File implements ModelInterface {
   *   destination (required) - string - Move destination path.
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
-  public FileAction move() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public FileAction move(HashMap<String, Object> parameters) throws IOException {
     return File.move(this.path, parameters, this.options);
   }
 
@@ -522,11 +517,9 @@ public class File implements ModelInterface {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
-  public FileUploadPart beginUpload() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
+  public FileUploadPart beginUpload(HashMap<String, Object> parameters) throws IOException {
     return File.beginUpload(this.path, parameters, this.options);
   }
-
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
@@ -542,6 +535,9 @@ public class File implements ModelInterface {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
+  public static File download() throws RuntimeException {
+    return download(null, null, null);
+  }
 
   public static File download(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return download(path, parameters, null);
@@ -615,6 +611,9 @@ public class File implements ModelInterface {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
+  public static FileUploadPart create() throws RuntimeException {
+    return create(null, null, null);
+  }
 
   public static FileUploadPart create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
@@ -646,17 +645,17 @@ public class File implements ModelInterface {
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
     }
-    if (parameters.containsKey("length") && !(parameters.get("length") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: length must be of type Long parameters[\"length\"]");
+    if (parameters.containsKey("length") && !(parameters.get("length") instanceof Long || parameters.get("length") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: length must be of type Long or Integer parameters[\"length\"]");
     }
     if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
-    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: part must be of type Long parameters[\"part\"]");
+    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long || parameters.get("part") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: part must be of type Long or Integer parameters[\"part\"]");
     }
-    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: parts must be of type Long parameters[\"parts\"]");
+    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long || parameters.get("parts") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: parts must be of type Long or Integer parameters[\"parts\"]");
     }
     if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
@@ -664,11 +663,11 @@ public class File implements ModelInterface {
     if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
     }
-    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
+    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long || parameters.get("restart") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: restart must be of type Long or Integer parameters[\"restart\"]");
     }
-    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: size must be of type Long parameters[\"size\"]");
+    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long || parameters.get("size") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: size must be of type Long or Integer parameters[\"size\"]");
     }
     if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: structure must be of type String parameters[\"structure\"]");
@@ -704,6 +703,9 @@ public class File implements ModelInterface {
   *   provided_mtime - string - Modified time of file.
   *   priority_color - string - Priority/Bookmark color of file.
   */
+  public static File update() throws RuntimeException {
+    return update(null, null, null);
+  }
 
   public static File update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
@@ -761,6 +763,9 @@ public class File implements ModelInterface {
   * Parameters:
   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
   */
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
 
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
@@ -821,6 +826,9 @@ public class File implements ModelInterface {
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
   */
+  public static File find() throws RuntimeException {
+    return find(null, null, null);
+  }
 
   public static File find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
@@ -889,6 +897,9 @@ public class File implements ModelInterface {
   *   structure - boolean - Copy structure only?
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
+  public static FileAction copy() throws RuntimeException {
+    return copy(null, null, null);
+  }
 
   public static FileAction copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return copy(path, parameters, null);
@@ -952,6 +963,9 @@ public class File implements ModelInterface {
   *   destination (required) - string - Move destination path.
   *   overwrite - boolean - Overwrite existing file(s) in the destination?
   */
+  public static FileAction move() throws RuntimeException {
+    return move(null, null, null);
+  }
 
   public static FileAction move(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return move(path, parameters, null);
@@ -1017,6 +1031,9 @@ public class File implements ModelInterface {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   */
+  public static FileUploadPart beginUpload() throws RuntimeException {
+    return beginUpload(null, null, null);
+  }
 
   public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);
@@ -1045,20 +1062,20 @@ public class File implements ModelInterface {
     if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
     }
-    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: part must be of type Long parameters[\"part\"]");
+    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long || parameters.get("part") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: part must be of type Long or Integer parameters[\"part\"]");
     }
-    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: parts must be of type Long parameters[\"parts\"]");
+    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long || parameters.get("parts") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: parts must be of type Long or Integer parameters[\"parts\"]");
     }
     if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
     }
-    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: restart must be of type Long parameters[\"restart\"]");
+    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long || parameters.get("restart") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: restart must be of type Long or Integer parameters[\"restart\"]");
     }
-    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: size must be of type Long parameters[\"size\"]");
+    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long || parameters.get("size") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: size must be of type Long or Integer parameters[\"size\"]");
     }
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");

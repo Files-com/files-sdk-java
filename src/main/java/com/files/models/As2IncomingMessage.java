@@ -108,13 +108,6 @@ public class As2IncomingMessage implements ModelInterface {
   public Map<String, String> httpHeaders;
 
   /**
-  * JSON Structure of the activity log.
-  */
-  @Getter
-  @JsonProperty("activity_log")
-  public String activityLog;
-
-  /**
   * Result of processing.
   */
   @Getter
@@ -311,7 +304,6 @@ public class As2IncomingMessage implements ModelInterface {
   public String mdnResponseUri;
 
 
-
   /**
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
@@ -342,8 +334,8 @@ public class As2IncomingMessage implements ModelInterface {
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long parameters[\"per_page\"]");
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
@@ -363,8 +355,8 @@ public class As2IncomingMessage implements ModelInterface {
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
-    if (parameters.containsKey("as2_partner_id") && !(parameters.get("as2_partner_id") instanceof Long)) {
-      throw new IllegalArgumentException("Bad parameter: as2_partner_id must be of type Long parameters[\"as2_partner_id\"]");
+    if (parameters.containsKey("as2_partner_id") && !(parameters.get("as2_partner_id") instanceof Long || parameters.get("as2_partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: as2_partner_id must be of type Long or Integer parameters[\"as2_partner_id\"]");
     }
 
 

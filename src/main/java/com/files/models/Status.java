@@ -115,5 +115,4 @@ public class Status implements ModelInterface {
   public String clickwrapBody;
 
 
-
 }

@@ -107,12 +107,11 @@ void request = Request.delete(
 ## Delete Request
 
 ```
-Request request = Request.List()[0];
+Request request = Request.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Request.Delete
+request.delete(parameters);
 ```
 
 ### Parameters

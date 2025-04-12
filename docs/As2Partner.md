@@ -158,10 +158,9 @@ void as2Partner = As2Partner.delete(
 ## Update AS2 Partner
 
 ```
-As2Partner as2Partner = As2Partner.Find(id);
+As2Partner as2Partner = As2Partner.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("enable_dedicated_ips", true);
 parameters.put("http_auth_username", "username");
 parameters.put("mdn_validation_level", "none");
@@ -171,7 +170,7 @@ parameters.put("additional_http_headers", {"key":"example value"});
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
 
-As2Partner.Update(parameters);
+as2Partner.update(parameters);
 ```
 
 ### Parameters
@@ -194,12 +193,11 @@ As2Partner.Update(parameters);
 ## Delete AS2 Partner
 
 ```
-As2Partner as2Partner = As2Partner.Find(id);
+As2Partner as2Partner = As2Partner.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-As2Partner.Delete
+as2Partner.delete(parameters);
 ```
 
 ### Parameters

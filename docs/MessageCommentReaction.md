@@ -92,12 +92,11 @@ void messageCommentReaction = MessageCommentReaction.delete(
 ## Delete Message Comment Reaction
 
 ```
-MessageCommentReaction messageCommentReaction = MessageCommentReaction.Find(id);
+MessageCommentReaction messageCommentReaction = MessageCommentReaction.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-MessageCommentReaction.Delete
+messageCommentReaction.delete(parameters);
 ```
 
 ### Parameters

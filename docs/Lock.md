@@ -97,13 +97,12 @@ void lock = Lock.delete(
 ## Delete Lock
 
 ```
-Lock lock = Lock.List()[0];
+Lock lock = Lock.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("token", "token");
 
-Lock.Delete(parameters);
+lock.delete(parameters);
 ```
 
 ### Parameters

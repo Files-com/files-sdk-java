@@ -410,10 +410,9 @@ void remoteServer = RemoteServer.delete(
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
-RemoteServer remoteServer = RemoteServer.Find(id);
+RemoteServer remoteServer = RemoteServer.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("api_token", "example");
 parameters.put("permission_set", "example");
 parameters.put("root", "C:\\Users\\");
@@ -426,7 +425,7 @@ parameters.put("public_key", "example");
 parameters.put("server_host_key", "example");
 parameters.put("subdomain", "example");
 
-RemoteServer.ConfigurationFile(parameters);
+remoteServer.configurationFile(parameters);
 ```
 
 ### Parameters
@@ -450,10 +449,9 @@ RemoteServer.ConfigurationFile(parameters);
 ## Update Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.Find(id);
+RemoteServer remoteServer = RemoteServer.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("aws_access_key", "example");
 parameters.put("wasabi_access_key", "example");
 parameters.put("reset_authentication", false);
@@ -503,7 +501,7 @@ parameters.put("linode_access_key", "example");
 parameters.put("linode_bucket", "my-bucket");
 parameters.put("linode_region", "us-east-1");
 
-RemoteServer.Update(parameters);
+remoteServer.update(parameters);
 ```
 
 ### Parameters
@@ -582,12 +580,11 @@ RemoteServer.Update(parameters);
 ## Delete Remote Server
 
 ```
-RemoteServer remoteServer = RemoteServer.Find(id);
+RemoteServer remoteServer = RemoteServer.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-RemoteServer.Delete
+remoteServer.delete(parameters);
 ```
 
 ### Parameters

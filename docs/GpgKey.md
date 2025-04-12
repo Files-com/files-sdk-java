@@ -124,16 +124,15 @@ void gpgKey = GpgKey.delete(
 ## Update GPG Key
 
 ```
-GpgKey gpgKey = GpgKey.Find(id);
+GpgKey gpgKey = GpgKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("public_key", "7f8bc1210b09b9ddf469e6b6b8920e76");
 parameters.put("private_key", "ab236cfe4a195f0226bc2e674afdd6b0");
 parameters.put("private_key_password", "[your GPG private key password]");
 parameters.put("name", "key name");
 
-GpgKey.Update(parameters);
+gpgKey.update(parameters);
 ```
 
 ### Parameters
@@ -150,12 +149,11 @@ GpgKey.Update(parameters);
 ## Delete GPG Key
 
 ```
-GpgKey gpgKey = GpgKey.Find(id);
+GpgKey gpgKey = GpgKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-GpgKey.Delete
+gpgKey.delete(parameters);
 ```
 
 ### Parameters

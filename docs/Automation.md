@@ -301,12 +301,11 @@ void automation = Automation.delete(
 ## Manually Run Automation
 
 ```
-Automation automation = Automation.Find(id);
+Automation automation = Automation.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Automation.ManualRun
+automation.manualRun(parameters);
 ```
 
 ### Parameters
@@ -319,10 +318,9 @@ Automation.ManualRun
 ## Update Automation
 
 ```
-Automation automation = Automation.Find(id);
+Automation automation = Automation.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("source", "example");
 parameters.put("destinations", ["folder_a/file_a.txt",{"folder_path":"folder_b","file_path":"file_b.txt"},{"folder_path":"folder_c"}]);
 parameters.put("destination_replace_from", "example");
@@ -354,7 +352,7 @@ parameters.put("value", {"limit":"1"});
 parameters.put("recurring_day", 25);
 parameters.put("automation", "create_folder");
 
-Automation.Update(parameters);
+automation.update(parameters);
 ```
 
 ### Parameters
@@ -397,12 +395,11 @@ Automation.Update(parameters);
 ## Delete Automation
 
 ```
-Automation automation = Automation.Find(id);
+Automation automation = Automation.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Automation.Delete
+automation.delete(parameters);
 ```
 
 ### Parameters

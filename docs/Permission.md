@@ -98,12 +98,11 @@ void permission = Permission.delete(
 ## Delete Permission
 
 ```
-Permission permission = Permission.List()[0];
+Permission permission = Permission.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Permission.Delete
+permission.delete(parameters);
 ```
 
 ### Parameters

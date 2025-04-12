@@ -91,12 +91,11 @@ void messageReaction = MessageReaction.delete(
 ## Delete Message Reaction
 
 ```
-MessageReaction messageReaction = MessageReaction.Find(id);
+MessageReaction messageReaction = MessageReaction.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-MessageReaction.Delete
+messageReaction.delete(parameters);
 ```
 
 ### Parameters

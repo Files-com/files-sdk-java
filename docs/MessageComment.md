@@ -117,13 +117,12 @@ void messageComment = MessageComment.delete(
 ## Update Message Comment
 
 ```
-MessageComment messageComment = MessageComment.Find(id);
+MessageComment messageComment = MessageComment.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("body", "body");
 
-MessageComment.Update(parameters);
+messageComment.update(parameters);
 ```
 
 ### Parameters
@@ -137,12 +136,11 @@ MessageComment.Update(parameters);
 ## Delete Message Comment
 
 ```
-MessageComment messageComment = MessageComment.Find(id);
+MessageComment messageComment = MessageComment.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-MessageComment.Delete
+messageComment.delete(parameters);
 ```
 
 ### Parameters

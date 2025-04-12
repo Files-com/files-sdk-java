@@ -129,15 +129,14 @@ void message = Message.delete(
 ## Update Message
 
 ```
-Message message = Message.Find(id);
+Message message = Message.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("project_id", 1);
 parameters.put("subject", "Files.com Account Upgrade");
 parameters.put("body", "We should upgrade our Files.com account!");
 
-Message.Update(parameters);
+message.update(parameters);
 ```
 
 ### Parameters
@@ -153,12 +152,11 @@ Message.Update(parameters);
 ## Delete Message
 
 ```
-Message message = Message.Find(id);
+Message message = Message.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Message.Delete
+message.delete(parameters);
 ```
 
 ### Parameters

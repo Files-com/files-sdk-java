@@ -186,16 +186,15 @@ void apiKey = ApiKey.delete(
 ## Update API Key
 
 ```
-ApiKey apiKey = ApiKey.Find(id);
+ApiKey apiKey = ApiKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("description", "example");
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("permission_set", "full");
 parameters.put("name", "My Main API Key");
 
-ApiKey.Update(parameters);
+apiKey.update(parameters);
 ```
 
 ### Parameters
@@ -212,12 +211,11 @@ ApiKey.Update(parameters);
 ## Delete API Key
 
 ```
-ApiKey apiKey = ApiKey.Find(id);
+ApiKey apiKey = ApiKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-ApiKey.Delete
+apiKey.delete(parameters);
 ```
 
 ### Parameters

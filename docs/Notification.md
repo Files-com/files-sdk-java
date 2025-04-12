@@ -186,10 +186,9 @@ void notification = Notification.delete(
 ## Update Notification
 
 ```
-Notification notification = Notification.Find(id);
+Notification notification = Notification.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("notify_on_copy", false);
 parameters.put("notify_on_delete", true);
 parameters.put("notify_on_download", true);
@@ -204,7 +203,7 @@ parameters.put("triggering_group_ids", [1]);
 parameters.put("triggering_user_ids", [1]);
 parameters.put("trigger_by_share_recipients", true);
 
-Notification.Update(parameters);
+notification.update(parameters);
 ```
 
 ### Parameters
@@ -230,12 +229,11 @@ Notification.Update(parameters);
 ## Delete Notification
 
 ```
-Notification notification = Notification.Find(id);
+Notification notification = Notification.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Notification.Delete
+notification.delete(parameters);
 ```
 
 ### Parameters

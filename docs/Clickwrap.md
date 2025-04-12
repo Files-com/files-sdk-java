@@ -122,17 +122,16 @@ void clickwrap = Clickwrap.delete(
 ## Update Clickwrap
 
 ```
-Clickwrap clickwrap = Clickwrap.Find(id);
+Clickwrap clickwrap = Clickwrap.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("name", "Example Site NDA for Files.com Use");
 parameters.put("body", "[Legal body text]");
 parameters.put("use_with_bundles", "example");
 parameters.put("use_with_inboxes", "example");
 parameters.put("use_with_users", "example");
 
-Clickwrap.Update(parameters);
+clickwrap.update(parameters);
 ```
 
 ### Parameters
@@ -150,12 +149,11 @@ Clickwrap.Update(parameters);
 ## Delete Clickwrap
 
 ```
-Clickwrap clickwrap = Clickwrap.Find(id);
+Clickwrap clickwrap = Clickwrap.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Clickwrap.Delete
+clickwrap.delete(parameters);
 ```
 
 ### Parameters

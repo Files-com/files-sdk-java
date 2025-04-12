@@ -61,8 +61,7 @@ void fileCommentReaction = new FileCommentReaction(attributes);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-FileCommentReaction.Delete
+fileCommentReaction.delete(parameters);
 ```
 
 ### Parameters

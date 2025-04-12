@@ -161,12 +161,11 @@ void ssoStrategy = SsoStrategy.sync(
 ## Synchronize provisioning data with the SSO remote server
 
 ```
-SsoStrategy ssoStrategy = SsoStrategy.Find(id);
+SsoStrategy ssoStrategy = SsoStrategy.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-SsoStrategy.Sync
+ssoStrategy.sync(parameters);
 ```
 
 ### Parameters

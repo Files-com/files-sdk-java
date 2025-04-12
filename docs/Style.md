@@ -78,13 +78,12 @@ void style = Style.delete(
 ## Update Style
 
 ```
-Style style = Style.Find(path);
+Style style = Style.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("file", "file");
 
-Style.Update(parameters);
+style.update(parameters);
 ```
 
 ### Parameters
@@ -98,12 +97,11 @@ Style.Update(parameters);
 ## Delete Style
 
 ```
-Style style = Style.Find(path);
+Style style = Style.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Style.Delete
+style.delete(parameters);
 ```
 
 ### Parameters

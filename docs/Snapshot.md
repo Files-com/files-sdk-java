@@ -135,12 +135,11 @@ void snapshot = Snapshot.delete(
 ## Finalize Snapshot
 
 ```
-Snapshot snapshot = Snapshot.Find(id);
+Snapshot snapshot = Snapshot.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Snapshot.Finalize
+snapshot.finalize(parameters);
 ```
 
 ### Parameters
@@ -153,14 +152,13 @@ Snapshot.Finalize
 ## Update Snapshot
 
 ```
-Snapshot snapshot = Snapshot.Find(id);
+Snapshot snapshot = Snapshot.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("name", "My Snapshot");
 
-Snapshot.Update(parameters);
+snapshot.update(parameters);
 ```
 
 ### Parameters
@@ -176,12 +174,11 @@ Snapshot.Update(parameters);
 ## Delete Snapshot
 
 ```
-Snapshot snapshot = Snapshot.Find(id);
+Snapshot snapshot = Snapshot.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Snapshot.Delete
+snapshot.delete(parameters);
 ```
 
 ### Parameters

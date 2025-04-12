@@ -98,13 +98,12 @@ void fileComment = FileComment.delete(
 ## Update File Comment
 
 ```
-FileComment fileComment = FileComment.List()[0];
+FileComment fileComment = FileComment.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("body", "body");
 
-FileComment.Update(parameters);
+fileComment.update(parameters);
 ```
 
 ### Parameters
@@ -118,12 +117,11 @@ FileComment.Update(parameters);
 ## Delete File Comment
 
 ```
-FileComment fileComment = FileComment.List()[0];
+FileComment fileComment = FileComment.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-FileComment.Delete
+fileComment.delete(parameters);
 ```
 
 ### Parameters

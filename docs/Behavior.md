@@ -184,10 +184,9 @@ void behavior = Behavior.delete(
 ## Update Behavior
 
 ```
-Behavior behavior = Behavior.Find(id);
+Behavior behavior = Behavior.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("value", "{\"method\": \"GET\"}");
 parameters.put("disable_parent_folder_behavior", false);
 parameters.put("recursive", false);
@@ -195,7 +194,7 @@ parameters.put("name", "example");
 parameters.put("description", "example");
 parameters.put("attachment_delete", false);
 
-Behavior.Update(parameters);
+behavior.update(parameters);
 ```
 
 ### Parameters
@@ -215,12 +214,11 @@ Behavior.Update(parameters);
 ## Delete Behavior
 
 ```
-Behavior behavior = Behavior.Find(id);
+Behavior behavior = Behavior.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Behavior.Delete
+behavior.delete(parameters);
 ```
 
 ### Parameters

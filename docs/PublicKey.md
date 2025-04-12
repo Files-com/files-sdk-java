@@ -119,13 +119,12 @@ void publicKey = PublicKey.delete(
 ## Update Public Key
 
 ```
-PublicKey publicKey = PublicKey.Find(id);
+PublicKey publicKey = PublicKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("title", "My Main Key");
 
-PublicKey.Update(parameters);
+publicKey.update(parameters);
 ```
 
 ### Parameters
@@ -139,12 +138,11 @@ PublicKey.Update(parameters);
 ## Delete Public Key
 
 ```
-PublicKey publicKey = PublicKey.Find(id);
+PublicKey publicKey = PublicKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-PublicKey.Delete
+publicKey.delete(parameters);
 ```
 
 ### Parameters

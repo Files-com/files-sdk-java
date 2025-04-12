@@ -105,13 +105,12 @@ void project = Project.delete(
 ## Update Project
 
 ```
-Project project = Project.Find(id);
+Project project = Project.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("global_access", "global_access");
 
-Project.Update(parameters);
+project.update(parameters);
 ```
 
 ### Parameters
@@ -125,12 +124,11 @@ Project.Update(parameters);
 ## Delete Project
 
 ```
-Project project = Project.Find(id);
+Project project = Project.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Project.Delete
+project.delete(parameters);
 ```
 
 ### Parameters

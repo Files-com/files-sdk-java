@@ -299,10 +299,9 @@ void siemHttpDestination = SiemHttpDestination.delete(
 ## Update SIEM HTTP Destination
 
 ```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.Find(id);
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("name", "example");
 parameters.put("additional_headers", {"key":"example value"});
 parameters.put("sending_active", true);
@@ -325,7 +324,7 @@ parameters.put("exavault_api_request_send_enabled", true);
 parameters.put("destination_type", "example");
 parameters.put("destination_url", "example");
 
-SiemHttpDestination.Update(parameters);
+siemHttpDestination.update(parameters);
 ```
 
 ### Parameters
@@ -365,12 +364,11 @@ SiemHttpDestination.Update(parameters);
 ## Delete SIEM HTTP Destination
 
 ```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.Find(id);
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-SiemHttpDestination.Delete
+siemHttpDestination.delete(parameters);
 ```
 
 ### Parameters

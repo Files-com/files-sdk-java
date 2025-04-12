@@ -273,14 +273,13 @@ FileUploadPart file = File.beginUpload(
 ## Download File
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("with_previews", false);
 parameters.put("with_priority_color", false);
 
-File.Download(parameters);
+file.download(parameters);
 ```
 
 ### Parameters
@@ -297,15 +296,14 @@ File.Download(parameters);
 ## Update File/Folder Metadata
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("custom_metadata", {"key":"value"});
 parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
 parameters.put("priority_color", "red");
 
-File.Update(parameters);
+file.update(parameters);
 ```
 
 ### Parameters
@@ -321,13 +319,12 @@ File.Update(parameters);
 ## Delete File/Folder
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("recursive", false);
 
-File.Delete(parameters);
+file.delete(parameters);
 ```
 
 ### Parameters
@@ -341,15 +338,14 @@ File.Delete(parameters);
 ## Copy File/Folder
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("destination", "destination");
 parameters.put("structure", false);
 parameters.put("overwrite", false);
 
-File.Copy(parameters);
+file.copy(parameters);
 ```
 
 ### Parameters
@@ -365,14 +361,13 @@ File.Copy(parameters);
 ## Move File/Folder
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("destination", "destination");
 parameters.put("overwrite", false);
 
-File.Move(parameters);
+file.move(parameters);
 ```
 
 ### Parameters
@@ -387,10 +382,9 @@ File.Move(parameters);
 ## Begin File Upload
 
 ```
-File file = File.Find(path);
+File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("mkdir_parents", false);
 parameters.put("part", 1);
 parameters.put("parts", 1);
@@ -399,7 +393,7 @@ parameters.put("restart", 1);
 parameters.put("size", 1);
 parameters.put("with_rename", false);
 
-File.BeginUpload(parameters);
+file.beginUpload(parameters);
 ```
 
 ### Parameters

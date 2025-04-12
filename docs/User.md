@@ -398,12 +398,11 @@ void user = User.delete(
 ## Unlock user who has been locked out due to failed logins
 
 ```
-User user = User.Find(id);
+User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-User.Unlock
+user.unlock(parameters);
 ```
 
 ### Parameters
@@ -416,12 +415,11 @@ User.Unlock
 ## Resend user welcome email
 
 ```
-User user = User.Find(id);
+User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-User.ResendWelcomeEmail
+user.resendWelcomeEmail(parameters);
 ```
 
 ### Parameters
@@ -434,12 +432,11 @@ User.ResendWelcomeEmail
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```
-User user = User.Find(id);
+User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-User.User2faReset
+user.user2faReset(parameters);
 ```
 
 ### Parameters
@@ -452,10 +449,9 @@ User.User2faReset
 ## Update User
 
 ```
-User user = User.Find(id);
+User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("avatar_delete", false);
 parameters.put("email", "john.doe@files.com");
 parameters.put("group_id", 1);
@@ -497,7 +493,7 @@ parameters.put("user_root", "example");
 parameters.put("user_home", "example");
 parameters.put("username", "user");
 
-User.Update(parameters);
+user.update(parameters);
 ```
 
 ### Parameters
@@ -557,12 +553,11 @@ User.Update(parameters);
 ## Delete User
 
 ```
-User user = User.Find(id);
+User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-User.Delete
+user.delete(parameters);
 ```
 
 ### Parameters

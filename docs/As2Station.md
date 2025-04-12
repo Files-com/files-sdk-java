@@ -137,13 +137,12 @@ void as2Station = As2Station.delete(
 ## Update AS2 Station
 
 ```
-As2Station as2Station = As2Station.Find(id);
+As2Station as2Station = As2Station.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("name", "AS2 Station Name");
 
-As2Station.Update(parameters);
+as2Station.update(parameters);
 ```
 
 ### Parameters
@@ -160,12 +159,11 @@ As2Station.Update(parameters);
 ## Delete AS2 Station
 
 ```
-As2Station as2Station = As2Station.Find(id);
+As2Station as2Station = As2Station.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-As2Station.Delete
+as2Station.delete(parameters);
 ```
 
 ### Parameters

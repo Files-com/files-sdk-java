@@ -298,15 +298,14 @@ void bundle = Bundle.delete(
 ## Send email(s) with a link to bundle
 
 ```
-Bundle bundle = Bundle.Find(id);
+Bundle bundle = Bundle.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("to", ["johndoe@gmail.com"]);
 parameters.put("note", "Just a note.");
 parameters.put("recipients", [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]);
 
-Bundle.Share(parameters);
+bundle.share(parameters);
 ```
 
 ### Parameters
@@ -322,10 +321,9 @@ Bundle.Share(parameters);
 ## Update Bundle
 
 ```
-Bundle bundle = Bundle.Find(id);
+Bundle bundle = Bundle.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("paths", ["file.txt"]);
 parameters.put("password", "Password");
 parameters.put("form_field_set_id", 1);
@@ -351,7 +349,7 @@ parameters.put("skip_email", true);
 parameters.put("skip_name", true);
 parameters.put("watermark_attachment_delete", false);
 
-Bundle.Update(parameters);
+bundle.update(parameters);
 ```
 
 ### Parameters
@@ -389,12 +387,11 @@ Bundle.Update(parameters);
 ## Delete Bundle
 
 ```
-Bundle bundle = Bundle.Find(id);
+Bundle bundle = Bundle.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Bundle.Delete
+bundle.delete(parameters);
 ```
 
 ### Parameters

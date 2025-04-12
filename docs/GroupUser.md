@@ -103,15 +103,14 @@ void groupUser = GroupUser.delete(
 ## Update Group User
 
 ```
-GroupUser groupUser = GroupUser.List()[0];
+GroupUser groupUser = GroupUser.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("group_id", 1);
 parameters.put("user_id", 1);
 parameters.put("admin", false);
 
-GroupUser.Update(parameters);
+groupUser.update(parameters);
 ```
 
 ### Parameters
@@ -127,14 +126,13 @@ GroupUser.Update(parameters);
 ## Delete Group User
 
 ```
-GroupUser groupUser = GroupUser.List()[0];
+GroupUser groupUser = GroupUser.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("group_id", 1);
 parameters.put("user_id", 1);
 
-GroupUser.Delete(parameters);
+groupUser.delete(parameters);
 ```
 
 ### Parameters

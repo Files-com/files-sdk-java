@@ -117,14 +117,13 @@ void bundleNotification = BundleNotification.delete(
 ## Update Bundle Notification
 
 ```
-BundleNotification bundleNotification = BundleNotification.Find(id);
+BundleNotification bundleNotification = BundleNotification.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("notify_on_registration", true);
 parameters.put("notify_on_upload", true);
 
-BundleNotification.Update(parameters);
+bundleNotification.update(parameters);
 ```
 
 ### Parameters
@@ -139,12 +138,11 @@ BundleNotification.Update(parameters);
 ## Delete Bundle Notification
 
 ```
-BundleNotification bundleNotification = BundleNotification.Find(id);
+BundleNotification bundleNotification = BundleNotification.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-BundleNotification.Delete
+bundleNotification.delete(parameters);
 ```
 
 ### Parameters

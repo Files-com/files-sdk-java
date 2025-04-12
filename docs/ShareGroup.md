@@ -123,15 +123,14 @@ void shareGroup = ShareGroup.delete(
 ## Update Share Group
 
 ```
-ShareGroup shareGroup = ShareGroup.Find(id);
+ShareGroup shareGroup = ShareGroup.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("notes", "This group is defined for testing purposes");
 parameters.put("name", "Test group 1");
 parameters.put("members", [{"name":"John Doe","company":"Acme Ltd","email":"johndoe@gmail.com"}]);
 
-ShareGroup.Update(parameters);
+shareGroup.update(parameters);
 ```
 
 ### Parameters
@@ -147,12 +146,11 @@ ShareGroup.Update(parameters);
 ## Delete Share Group
 
 ```
-ShareGroup shareGroup = ShareGroup.Find(id);
+ShareGroup shareGroup = ShareGroup.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-ShareGroup.Delete
+shareGroup.delete(parameters);
 ```
 
 ### Parameters

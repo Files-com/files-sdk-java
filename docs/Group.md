@@ -146,10 +146,9 @@ void group = Group.delete(
 ## Update Group
 
 ```
-Group group = Group.Find(id);
+Group group = Group.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
@@ -160,7 +159,7 @@ parameters.put("restapi_permission", true);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
 
-Group.Update(parameters);
+group.update(parameters);
 ```
 
 ### Parameters
@@ -182,12 +181,11 @@ Group.Update(parameters);
 ## Delete Group
 
 ```
-Group group = Group.Find(id);
+Group group = Group.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-Group.Delete
+group.delete(parameters);
 ```
 
 ### Parameters

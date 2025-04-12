@@ -112,13 +112,12 @@ void sftpHostKey = SftpHostKey.delete(
 ## Update SFTP Host Key
 
 ```
-SftpHostKey sftpHostKey = SftpHostKey.Find(id);
+SftpHostKey sftpHostKey = SftpHostKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-
 parameters.put("name", "My Key");
 
-SftpHostKey.Update(parameters);
+sftpHostKey.update(parameters);
 ```
 
 ### Parameters
@@ -133,12 +132,11 @@ SftpHostKey.Update(parameters);
 ## Delete SFTP Host Key
 
 ```
-SftpHostKey sftpHostKey = SftpHostKey.Find(id);
+SftpHostKey sftpHostKey = SftpHostKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-
-SftpHostKey.Delete
+sftpHostKey.delete(parameters);
 ```
 
 ### Parameters

@@ -66,7 +66,7 @@ public class Restore implements ModelInterface {
 
 
   /**
-  * Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365
+  * Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
   */
   @Getter
   @Setter
@@ -130,7 +130,7 @@ public class Restore implements ModelInterface {
   public Long filesTotal;
 
   /**
-  * Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash.
+  * Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
   */
   @Getter
   @Setter
@@ -162,7 +162,7 @@ public class Restore implements ModelInterface {
   public String status;
 
   /**
-  * If trie, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+  * If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
   */
   @Getter
   @Setter
@@ -226,10 +226,11 @@ public class Restore implements ModelInterface {
 
   /**
   * Parameters:
-  *   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365
+  *   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+  *   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
   *   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
   *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-  *   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash.
+  *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
   */
   public static Restore create() throws RuntimeException {
     return create(null, null);
@@ -252,14 +253,17 @@ public class Restore implements ModelInterface {
     if (parameters.containsKey("earliest_date") && !(parameters.get("earliest_date") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: earliest_date must be of type String parameters[\"earliest_date\"]");
     }
+    if (parameters.containsKey("prefix") && !(parameters.get("prefix") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: prefix must be of type String parameters[\"prefix\"]");
+    }
     if (parameters.containsKey("restore_deleted_permissions") && !(parameters.get("restore_deleted_permissions") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restore_deleted_permissions must be of type Boolean parameters[\"restore_deleted_permissions\"]");
     }
     if (parameters.containsKey("restore_in_place") && !(parameters.get("restore_in_place") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restore_in_place must be of type Boolean parameters[\"restore_in_place\"]");
     }
-    if (parameters.containsKey("prefix") && !(parameters.get("prefix") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: prefix must be of type String parameters[\"prefix\"]");
+    if (parameters.containsKey("update_timestamps") && !(parameters.get("update_timestamps") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: update_timestamps must be of type Boolean parameters[\"update_timestamps\"]");
     }
 
 

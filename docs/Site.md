@@ -203,6 +203,7 @@
   "smtp_username": "mail",
   "session_expiry": 6.0,
   "session_expiry_minutes": 360,
+  "snapshot_sharing_enabled": true,
   "ssl_required": true,
   "subdomain": "mysite",
   "switch_to_plan_date": "2000-01-01T01:00:00Z",
@@ -445,6 +446,7 @@
 * `smtp_username` / `smtpUsername`  (string): SMTP server username
 * `session_expiry` / `sessionExpiry`  (double): Session expiry in hours
 * `session_expiry_minutes` / `sessionExpiryMinutes`  (int64): Session expiry in minutes
+* `snapshot_sharing_enabled` / `snapshotSharingEnabled`  (boolean): Allow snapshot share links creation
 * `ssl_required` / `sslRequired`  (boolean): Is SSL required?  Disabling this is insecure.
 * `subdomain` / `subdomain`  (string): Site subdomain
 * `switch_to_plan_date` / `switchToPlanDate`  (date-time): If switching plans, when does the new plan take effect?
@@ -600,6 +602,7 @@ Site site = Site.update(
 * `non_sso_groups_allowed` (Boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
 * `non_sso_users_allowed` (Boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `sharing_enabled` (Boolean): Allow bundle creation
+* `snapshot_sharing_enabled` (Boolean): Allow snapshot share links creation
 * `user_requests_enabled` (Boolean): Enable User Requests feature
 * `user_requests_notify_admins` (Boolean): Send email to site admins when a user request is received?
 * `dav_enabled` (Boolean): Is WebDAV enabled?

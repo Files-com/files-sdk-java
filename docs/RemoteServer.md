@@ -38,6 +38,7 @@
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": true,
+  "azure_blob_storage_dns_suffix": "usgovcloudapi.net",
   "azure_files_storage_account": "storage-account-name",
   "azure_files_storage_share_name": "share-name",
   "azure_files_storage_dns_suffix": "file.core.windows.net",
@@ -97,6 +98,7 @@
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage Account name
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` / `azureBlobStorageHierarchicalNamespace`  (boolean): Enable when storage account has hierarchical namespace feature enabled
+* `azure_blob_storage_dns_suffix` / `azureBlobStorageDnsSuffix`  (string): Custom DNS suffix
 * `azure_files_storage_account` / `azureFilesStorageAccount`  (string): Azure File Storage Account name
 * `azure_files_storage_share_name` / `azureFilesStorageShareName`  (string): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` / `azureFilesStorageDnsSuffix`  (string): Custom DNS suffix
@@ -250,6 +252,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (String): Custom DNS suffix
@@ -361,6 +364,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (String): Custom DNS suffix
@@ -480,6 +484,7 @@ parameters.put("one_drive_account_type", "personal");
 parameters.put("azure_blob_storage_account", "storage-account-name");
 parameters.put("azure_blob_storage_container", "container-name");
 parameters.put("azure_blob_storage_hierarchical_namespace", true);
+parameters.put("azure_blob_storage_dns_suffix", "usgovcloudapi.net");
 parameters.put("azure_files_storage_account", "storage-account-name");
 parameters.put("azure_files_storage_share_name", "share-name");
 parameters.put("azure_files_storage_dns_suffix", "file.core.windows.net");
@@ -548,6 +553,7 @@ remoteServer.update(parameters);
 * `azure_blob_storage_container` (String): Azure Blob Storage Container name
 * `azure_blob_storage_hierarchical_namespace` (Boolean): Enable when storage account has hierarchical namespace feature enabled
 * `azure_blob_storage_sas_token` (String): Shared Access Signature (SAS) token
+* `azure_blob_storage_dns_suffix` (String): Custom DNS suffix
 * `azure_files_storage_account` (String): Azure File Storage Account name
 * `azure_files_storage_share_name` (String): Azure File Storage Share name
 * `azure_files_storage_dns_suffix` (String): Custom DNS suffix

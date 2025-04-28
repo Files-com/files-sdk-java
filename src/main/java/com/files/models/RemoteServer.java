@@ -338,6 +338,14 @@ public class RemoteServer implements ModelInterface {
   public Boolean azureBlobStorageHierarchicalNamespace;
 
   /**
+  * Custom DNS suffix
+  */
+  @Getter
+  @Setter
+  @JsonProperty("azure_blob_storage_dns_suffix")
+  public String azureBlobStorageDnsSuffix;
+
+  /**
   * Azure File Storage Account name
   */
   @Getter
@@ -728,6 +736,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_blob_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
   *   azure_files_storage_dns_suffix - string - Custom DNS suffix
@@ -979,6 +988,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_blob_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
   *   azure_files_storage_dns_suffix - string - Custom DNS suffix
@@ -1142,6 +1152,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
+    }
+    if (parameters.containsKey("azure_blob_storage_dns_suffix") && !(parameters.get("azure_blob_storage_dns_suffix") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_dns_suffix must be of type String parameters[\"azure_blob_storage_dns_suffix\"]");
     }
     if (parameters.containsKey("azure_files_storage_account") && !(parameters.get("azure_files_storage_account") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");
@@ -1366,6 +1379,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_blob_storage_container - string - Azure Blob Storage Container name
   *   azure_blob_storage_hierarchical_namespace - boolean - Enable when storage account has hierarchical namespace feature enabled
   *   azure_blob_storage_sas_token - string - Shared Access Signature (SAS) token
+  *   azure_blob_storage_dns_suffix - string - Custom DNS suffix
   *   azure_files_storage_account - string - Azure File Storage Account name
   *   azure_files_storage_share_name - string - Azure File Storage Share name
   *   azure_files_storage_dns_suffix - string - Custom DNS suffix
@@ -1542,6 +1556,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
+    }
+    if (parameters.containsKey("azure_blob_storage_dns_suffix") && !(parameters.get("azure_blob_storage_dns_suffix") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_dns_suffix must be of type String parameters[\"azure_blob_storage_dns_suffix\"]");
     }
     if (parameters.containsKey("azure_files_storage_account") && !(parameters.get("azure_files_storage_account") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");

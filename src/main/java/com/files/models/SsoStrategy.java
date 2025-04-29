@@ -255,6 +255,13 @@ public class SsoStrategy implements ModelInterface {
   public String provisionEmailSignupGroups;
 
   /**
+  * Comma-separated list of group names whose members will be created as Read-Only Site Admins.
+  */
+  @Getter
+  @JsonProperty("provision_readonly_site_admin_groups")
+  public String provisionReadonlySiteAdminGroups;
+
+  /**
   * Comma-separated list of group names whose members will be created as Site Admins.
   */
   @Getter

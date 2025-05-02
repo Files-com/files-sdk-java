@@ -927,6 +927,13 @@ public class Site implements ModelInterface {
   public Date require2faStopTime;
 
   /**
+  * Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
+  */
+  @Getter
+  @JsonProperty("revoke_bundle_access_on_disable_or_delete")
+  public Boolean revokeBundleAccessOnDisableOrDelete;
+
+  /**
   * What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
   */
   @Getter
@@ -1410,6 +1417,7 @@ public class Site implements ModelInterface {
   *   sftp_host_key_type - string - Sftp Host Key Type
   *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
   *   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
+  *   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
   *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
@@ -1789,6 +1797,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("protocol_access_groups_only") && !(parameters.get("protocol_access_groups_only") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: protocol_access_groups_only must be of type Boolean parameters[\"protocol_access_groups_only\"]");
+    }
+    if (parameters.containsKey("revoke_bundle_access_on_disable_or_delete") && !(parameters.get("revoke_bundle_access_on_disable_or_delete") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: revoke_bundle_access_on_disable_or_delete must be of type Boolean parameters[\"revoke_bundle_access_on_disable_or_delete\"]");
     }
     if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Map<String, String> parameters[\"bundle_watermark_value\"]");

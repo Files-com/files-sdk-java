@@ -154,6 +154,7 @@
   "protocol_access_groups_only": true,
   "require_2fa": true,
   "require_2fa_stop_time": "2000-01-01T01:00:00Z",
+  "revoke_bundle_access_on_disable_or_delete": true,
   "require_2fa_user_type": "`site_admins`",
   "require_logout_from_bundles_and_inboxes": true,
   "session": {
@@ -425,6 +426,7 @@
 * `protocol_access_groups_only` / `protocolAccessGroupsOnly`  (boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `require_2fa` / `require2fa`  (boolean): Require two-factor authentication for all users?
 * `require_2fa_stop_time` / `require2faStopTime`  (date-time): If set, requirement for two-factor authentication has been scheduled to end on this date-time.
+* `revoke_bundle_access_on_disable_or_delete` / `revokeBundleAccessOnDisableOrDelete`  (boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `require_2fa_user_type` / `require2faUserType`  (string): What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
 * `require_logout_from_bundles_and_inboxes` / `requireLogoutFromBundlesAndInboxes`  (boolean): If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
 * `session` / `session`  (session): Current session
@@ -614,6 +616,7 @@ Site site = Site.update(
 * `sftp_host_key_type` (String): Sftp Host Key Type
 * `active_sftp_host_key_id` (Long): Id of the currently selected custom SFTP Host Key
 * `protocol_access_groups_only` (Boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
+* `revoke_bundle_access_on_disable_or_delete` (Boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `bundle_watermark_value` (Map<String, String>): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_set_user_password` (Boolean): Allow group admins set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (Boolean): Disallow free email domains for Bundle/Inbox recipients?

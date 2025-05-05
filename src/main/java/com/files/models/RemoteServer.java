@@ -226,14 +226,6 @@ public class RemoteServer implements ModelInterface {
   public String googleCloudStorageProjectId;
 
   /**
-  * Google Cloud Storage: Region
-  */
-  @Getter
-  @Setter
-  @JsonProperty("google_cloud_storage_region")
-  public String googleCloudStorageRegion;
-
-  /**
   * Google Cloud Storage: S3-compatible Access Key.
   */
   @Getter
@@ -761,7 +753,6 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_version - string - Files Agent version
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-  *   google_cloud_storage_region - string - Google Cloud Storage: Region
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
   *   linode_access_key - string - Linode: Access Key
@@ -1016,7 +1007,6 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_version - string - Files Agent version
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-  *   google_cloud_storage_region - string - Google Cloud Storage: Region
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
   *   linode_access_key - string - Linode: Access Key
@@ -1185,9 +1175,6 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("google_cloud_storage_project_id") && !(parameters.get("google_cloud_storage_project_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_project_id must be of type String parameters[\"google_cloud_storage_project_id\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_region") && !(parameters.get("google_cloud_storage_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_region must be of type String parameters[\"google_cloud_storage_region\"]");
     }
     if (parameters.containsKey("google_cloud_storage_s3_compatible_access_key") && !(parameters.get("google_cloud_storage_s3_compatible_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_access_key must be of type String parameters[\"google_cloud_storage_s3_compatible_access_key\"]");
@@ -1419,7 +1406,6 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_version - string - Files Agent version
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
-  *   google_cloud_storage_region - string - Google Cloud Storage: Region
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
   *   linode_access_key - string - Linode: Access Key
@@ -1601,9 +1587,6 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("google_cloud_storage_project_id") && !(parameters.get("google_cloud_storage_project_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_project_id must be of type String parameters[\"google_cloud_storage_project_id\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_region") && !(parameters.get("google_cloud_storage_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_region must be of type String parameters[\"google_cloud_storage_region\"]");
     }
     if (parameters.containsKey("google_cloud_storage_s3_compatible_access_key") && !(parameters.get("google_cloud_storage_s3_compatible_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_access_key must be of type String parameters[\"google_cloud_storage_s3_compatible_access_key\"]");

@@ -66,6 +66,13 @@ public class SettingsChange implements ModelInterface {
 
 
   /**
+  * The API key id responsible for this change.
+  */
+  @Getter
+  @JsonProperty("api_key_id")
+  public Long apiKeyId;
+
+  /**
   * Markdown-formatted change messages.
   */
   @Getter
@@ -73,25 +80,18 @@ public class SettingsChange implements ModelInterface {
   public String[] changes;
 
   /**
-  * The time this change was made
+  * The time this change was made.
   */
   @Getter
   @JsonProperty("created_at")
   public Date createdAt;
 
   /**
-  * The user id responsible for this change
+  * The user id responsible for this change.
   */
   @Getter
   @JsonProperty("user_id")
   public Long userId;
-
-  /**
-  * The API key id responsible for this change
-  */
-  @Getter
-  @JsonProperty("api_key_id")
-  public Long apiKeyId;
 
   /**
   * true if this change was performed by Files.com support.
@@ -108,7 +108,7 @@ public class SettingsChange implements ModelInterface {
   public Boolean userIsFromParentSite;
 
   /**
-  * The username of the user responsible for this change
+  * The username of the user responsible for this change.
   */
   @Getter
   @JsonProperty("username")

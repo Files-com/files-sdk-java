@@ -370,6 +370,22 @@ public class SiemHttpDestination implements ModelInterface {
   public Long exavaultApiRequestEntriesSent;
 
   /**
+  * Whether or not sending is enabled for settings_change logs.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("settings_change_send_enabled")
+  public Boolean settingsChangeSendEnabled;
+
+  /**
+  * Number of log entries sent for the lifetime of this destination.
+  */
+  @Getter
+  @Setter
+  @JsonProperty("settings_change_entries_sent")
+  public Long settingsChangeEntriesSent;
+
+  /**
   * Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
   */
   @Getter
@@ -516,6 +532,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
   *   destination_type - string - Destination Type
   *   destination_url - string - Destination Url
   */
@@ -665,6 +682,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
   *   destination_type (required) - string - Destination Type
   *   destination_url (required) - string - Destination Url
   */
@@ -764,6 +782,9 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
     }
+    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
+    }
     if (parameters.containsKey("destination_type") && !(parameters.get("destination_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination_type must be of type String parameters[\"destination_type\"]");
     }
@@ -809,6 +830,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
   */
   public static void sendTestEntry() throws RuntimeException {
     sendTestEntry(null, null);
@@ -909,6 +931,9 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
     }
+    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
+    }
 
 
     String url = String.format("%s%s/siem_http_destinations/send_test_entry", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -944,6 +969,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
   *   destination_type - string - Destination Type
   *   destination_url - string - Destination Url
   */
@@ -1049,6 +1075,9 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
+    }
+    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
     }
     if (parameters.containsKey("destination_type") && !(parameters.get("destination_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination_type must be of type String parameters[\"destination_type\"]");

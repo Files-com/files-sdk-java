@@ -2,7 +2,7 @@
 
 #set -e
 
-# We may have switched to other versions before this build step
+# Make sure we have the correct version of Java set
 if command -v jenv &> /dev/null; then
   if [ -d /usr/lib/jvm/java-8-openjdk-amd64 ]; then jenv add /usr/lib/jvm/java-8-openjdk-amd64; fi
   if [ -d /usr/lib/jvm/java-8-openjdk-arm64 ]; then jenv add /usr/lib/jvm/java-8-openjdk-arm64; fi

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Folder implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,289 +70,502 @@ public class Folder implements ModelInterface {
   /**
   * File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * User ID of the User who created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_id")
   public Long createdById;
+
+  public Long getCreatedById() {
+    return createdById;
+  }
+
+  public void setCreatedById(Long createdById) {
+    this.createdById = createdById;
+  }
 
   /**
   * ID of the API key that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_api_key_id")
   public Long createdByApiKeyId;
+
+  public Long getCreatedByApiKeyId() {
+    return createdByApiKeyId;
+  }
+
+  public void setCreatedByApiKeyId(Long createdByApiKeyId) {
+    this.createdByApiKeyId = createdByApiKeyId;
+  }
 
   /**
   * ID of the AS2 Incoming Message that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_as2_incoming_message_id")
   public Long createdByAs2IncomingMessageId;
+
+  public Long getCreatedByAs2IncomingMessageId() {
+    return createdByAs2IncomingMessageId;
+  }
+
+  public void setCreatedByAs2IncomingMessageId(Long createdByAs2IncomingMessageId) {
+    this.createdByAs2IncomingMessageId = createdByAs2IncomingMessageId;
+  }
 
   /**
   * ID of the Automation that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_automation_id")
   public Long createdByAutomationId;
+
+  public Long getCreatedByAutomationId() {
+    return createdByAutomationId;
+  }
+
+  public void setCreatedByAutomationId(Long createdByAutomationId) {
+    this.createdByAutomationId = createdByAutomationId;
+  }
 
   /**
   * ID of the Bundle Registration that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_bundle_registration_id")
   public Long createdByBundleRegistrationId;
+
+  public Long getCreatedByBundleRegistrationId() {
+    return createdByBundleRegistrationId;
+  }
+
+  public void setCreatedByBundleRegistrationId(Long createdByBundleRegistrationId) {
+    this.createdByBundleRegistrationId = createdByBundleRegistrationId;
+  }
 
   /**
   * ID of the Inbox that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_inbox_id")
   public Long createdByInboxId;
+
+  public Long getCreatedByInboxId() {
+    return createdByInboxId;
+  }
+
+  public void setCreatedByInboxId(Long createdByInboxId) {
+    this.createdByInboxId = createdByInboxId;
+  }
 
   /**
   * ID of the Remote Server that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_remote_server_id")
   public Long createdByRemoteServerId;
+
+  public Long getCreatedByRemoteServerId() {
+    return createdByRemoteServerId;
+  }
+
+  public void setCreatedByRemoteServerId(Long createdByRemoteServerId) {
+    this.createdByRemoteServerId = createdByRemoteServerId;
+  }
 
   /**
   * ID of the Remote Server Sync that created the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("created_by_remote_server_sync_id")
   public Long createdByRemoteServerSyncId;
+
+  public Long getCreatedByRemoteServerSyncId() {
+    return createdByRemoteServerSyncId;
+  }
+
+  public void setCreatedByRemoteServerSyncId(Long createdByRemoteServerSyncId) {
+    this.createdByRemoteServerSyncId = createdByRemoteServerSyncId;
+  }
 
   /**
   * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
   */
-  @Getter
-  @Setter
   @JsonProperty("custom_metadata")
   public Map<String, String> customMetadata;
+
+  public Map<String, String> getCustomMetadata() {
+    return customMetadata;
+  }
+
+  public void setCustomMetadata(Map<String, String> customMetadata) {
+    this.customMetadata = customMetadata;
+  }
 
   /**
   * File/Folder display name
   */
-  @Getter
-  @Setter
   @JsonProperty("display_name")
   public String displayName;
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
 
   /**
   * Type: `directory` or `file`.
   */
-  @Getter
-  @Setter
   @JsonProperty("type")
   public String type;
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 
   /**
   * File/Folder size
   */
-  @Getter
-  @Setter
   @JsonProperty("size")
   public Long size;
+
+  public Long getSize() {
+    return size;
+  }
+
+  public void setSize(Long size) {
+    this.size = size;
+  }
 
   /**
   * File created date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * User ID of the User who last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_id")
   public Long lastModifiedById;
+
+  public Long getLastModifiedById() {
+    return lastModifiedById;
+  }
+
+  public void setLastModifiedById(Long lastModifiedById) {
+    this.lastModifiedById = lastModifiedById;
+  }
 
   /**
   * ID of the API key that last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_api_key_id")
   public Long lastModifiedByApiKeyId;
+
+  public Long getLastModifiedByApiKeyId() {
+    return lastModifiedByApiKeyId;
+  }
+
+  public void setLastModifiedByApiKeyId(Long lastModifiedByApiKeyId) {
+    this.lastModifiedByApiKeyId = lastModifiedByApiKeyId;
+  }
 
   /**
   * ID of the Automation that last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_automation_id")
   public Long lastModifiedByAutomationId;
+
+  public Long getLastModifiedByAutomationId() {
+    return lastModifiedByAutomationId;
+  }
+
+  public void setLastModifiedByAutomationId(Long lastModifiedByAutomationId) {
+    this.lastModifiedByAutomationId = lastModifiedByAutomationId;
+  }
 
   /**
   * ID of the Bundle Registration that last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_bundle_registration_id")
   public Long lastModifiedByBundleRegistrationId;
+
+  public Long getLastModifiedByBundleRegistrationId() {
+    return lastModifiedByBundleRegistrationId;
+  }
+
+  public void setLastModifiedByBundleRegistrationId(Long lastModifiedByBundleRegistrationId) {
+    this.lastModifiedByBundleRegistrationId = lastModifiedByBundleRegistrationId;
+  }
 
   /**
   * ID of the Remote Server that last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_remote_server_id")
   public Long lastModifiedByRemoteServerId;
+
+  public Long getLastModifiedByRemoteServerId() {
+    return lastModifiedByRemoteServerId;
+  }
+
+  public void setLastModifiedByRemoteServerId(Long lastModifiedByRemoteServerId) {
+    this.lastModifiedByRemoteServerId = lastModifiedByRemoteServerId;
+  }
 
   /**
   * ID of the Remote Server Sync that last modified the file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_by_remote_server_sync_id")
   public Long lastModifiedByRemoteServerSyncId;
+
+  public Long getLastModifiedByRemoteServerSyncId() {
+    return lastModifiedByRemoteServerSyncId;
+  }
+
+  public void setLastModifiedByRemoteServerSyncId(Long lastModifiedByRemoteServerSyncId) {
+    this.lastModifiedByRemoteServerSyncId = lastModifiedByRemoteServerSyncId;
+  }
 
   /**
   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
   */
-  @Getter
-  @Setter
   @JsonProperty("mtime")
   public Date mtime;
+
+  public Date getMtime() {
+    return mtime;
+  }
+
+  public void setMtime(Date mtime) {
+    this.mtime = mtime;
+  }
 
   /**
   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop :Cloud syncing to preserve modified at times.
   */
-  @Getter
-  @Setter
   @JsonProperty("provided_mtime")
   public Date providedMtime;
+
+  public Date getProvidedMtime() {
+    return providedMtime;
+  }
+
+  public void setProvidedMtime(Date providedMtime) {
+    this.providedMtime = providedMtime;
+  }
 
   /**
   * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
   */
-  @Getter
-  @Setter
   @JsonProperty("crc32")
   public String crc32;
+
+  public String getCrc32() {
+    return crc32;
+  }
+
+  public void setCrc32(String crc32) {
+    this.crc32 = crc32;
+  }
 
   /**
   * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
   */
-  @Getter
-  @Setter
   @JsonProperty("md5")
   public String md5;
+
+  public String getMd5() {
+    return md5;
+  }
+
+  public void setMd5(String md5) {
+    this.md5 = md5;
+  }
 
   /**
   * File SHA1 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
   */
-  @Getter
-  @Setter
   @JsonProperty("sha1")
   public String sha1;
+
+  public String getSha1() {
+    return sha1;
+  }
+
+  public void setSha1(String sha1) {
+    this.sha1 = sha1;
+  }
 
   /**
   * File SHA256 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
   */
-  @Getter
-  @Setter
   @JsonProperty("sha256")
   public String sha256;
+
+  public String getSha256() {
+    return sha256;
+  }
+
+  public void setSha256(String sha256) {
+    this.sha256 = sha256;
+  }
 
   /**
   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
   */
-  @Getter
-  @Setter
   @JsonProperty("mime_type")
   public String mimeType;
+
+  public String getMimeType() {
+    return mimeType;
+  }
+
+  public void setMimeType(String mimeType) {
+    this.mimeType = mimeType;
+  }
 
   /**
   * Region location
   */
-  @Getter
-  @Setter
   @JsonProperty("region")
   public String region;
+
+  public String getRegion() {
+    return region;
+  }
+
+  public void setRegion(String region) {
+    this.region = region;
+  }
 
   /**
   * A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
   */
-  @Getter
-  @Setter
   @JsonProperty("permissions")
   public String permissions;
+
+  public String getPermissions() {
+    return permissions;
+  }
+
+  public void setPermissions(String permissions) {
+    this.permissions = permissions;
+  }
 
   /**
   * Are subfolders locked and unable to be modified?
   */
-  @Getter
-  @Setter
   @JsonProperty("subfolders_locked?")
   public Boolean subfoldersLocked;
+
+  public Boolean getSubfoldersLocked() {
+    return subfoldersLocked;
+  }
+
+  public void setSubfoldersLocked(Boolean subfoldersLocked) {
+    this.subfoldersLocked = subfoldersLocked;
+  }
 
   /**
   * Is this folder locked and unable to be modified?
   */
-  @Getter
-  @Setter
   @JsonProperty("is_locked")
   public Boolean isLocked;
+
+  public Boolean getIsLocked() {
+    return isLocked;
+  }
+
+  public void setIsLocked(Boolean isLocked) {
+    this.isLocked = isLocked;
+  }
 
   /**
   * Link to download file. Provided only in response to a download request.
   */
-  @Getter
-  @Setter
   @JsonProperty("download_uri")
   public String downloadUri;
+
+  public String getDownloadUri() {
+    return downloadUri;
+  }
+
+  public void setDownloadUri(String downloadUri) {
+    this.downloadUri = downloadUri;
+  }
 
   /**
   * Bookmark/priority color of file/folder
   */
-  @Getter
-  @Setter
   @JsonProperty("priority_color")
   public String priorityColor;
+
+  public String getPriorityColor() {
+    return priorityColor;
+  }
+
+  public void setPriorityColor(String priorityColor) {
+    this.priorityColor = priorityColor;
+  }
 
   /**
   * File preview ID
   */
-  @Getter
-  @Setter
   @JsonProperty("preview_id")
   public Long previewId;
+
+  public Long getPreviewId() {
+    return previewId;
+  }
+
+  public void setPreviewId(Long previewId) {
+    this.previewId = previewId;
+  }
 
   /**
   * File preview
   */
-  @Getter
-  @Setter
   @JsonProperty("preview")
   public Preview preview;
+
+  public Preview getPreview() {
+    return preview;
+  }
+
+  public void setPreview(Preview preview) {
+    this.preview = preview;
+  }
 
   /**
   * Create parent directories if they do not exist?
   */
-  @Getter
-  @Setter
   @JsonProperty("mkdir_parents")
   public Boolean mkdirParents;
+
+  public Boolean getMkdirParents() {
+    return mkdirParents;
+  }
+
+  public void setMkdirParents(Boolean mkdirParents) {
+    this.mkdirParents = mkdirParents;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

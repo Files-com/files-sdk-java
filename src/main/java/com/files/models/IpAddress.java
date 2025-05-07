@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IpAddress implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,30 +70,42 @@ public class IpAddress implements ModelInterface {
   /**
   * Unique label for list; used by Zapier and other integrations.
   */
-  @Getter
   @JsonProperty("id")
   public String id;
+
+  public String getId() {
+    return id;
+  }
 
   /**
   * The object that this public IP address list is associated with.
   */
-  @Getter
   @JsonProperty("associated_with")
   public String associatedWith;
+
+  public String getAssociatedWith() {
+    return associatedWith;
+  }
 
   /**
   * Group ID
   */
-  @Getter
   @JsonProperty("group_id")
   public Long groupId;
+
+  public Long getGroupId() {
+    return groupId;
+  }
 
   /**
   * A list of IP addresses.
   */
-  @Getter
   @JsonProperty("ip_addresses")
   public String[] ipAddresses;
+
+  public String[] getIpAddresses() {
+    return ipAddresses;
+  }
 
 
   /**

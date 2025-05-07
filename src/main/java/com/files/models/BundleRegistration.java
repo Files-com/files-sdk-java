@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BundleRegistration implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,93 +70,132 @@ public class BundleRegistration implements ModelInterface {
   /**
   * Registration cookie code
   */
-  @Getter
   @JsonProperty("code")
   public String code;
+
+  public String getCode() {
+    return code;
+  }
 
   /**
   * Registrant name
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Registrant company name
   */
-  @Getter
   @JsonProperty("company")
   public String company;
+
+  public String getCompany() {
+    return company;
+  }
 
   /**
   * Registrant email address
   */
-  @Getter
   @JsonProperty("email")
   public String email;
+
+  public String getEmail() {
+    return email;
+  }
 
   /**
   * Registrant IP Address
   */
-  @Getter
   @JsonProperty("ip")
   public String ip;
+
+  public String getIp() {
+    return ip;
+  }
 
   /**
   * InboxRegistration cookie code, if there is an associated InboxRegistration
   */
-  @Getter
   @JsonProperty("inbox_code")
   public String inboxCode;
+
+  public String getInboxCode() {
+    return inboxCode;
+  }
 
   /**
   * Clickwrap text that was shown to the registrant
   */
-  @Getter
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
+
+  public String getClickwrapBody() {
+    return clickwrapBody;
+  }
 
   /**
   * Id of associated form field set
   */
-  @Getter
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
+
+  public Long getFormFieldSetId() {
+    return formFieldSetId;
+  }
 
   /**
   * Data for form field set with form field ids as keys and user data as values
   */
-  @Getter
   @JsonProperty("form_field_data")
   public Map<String, String> formFieldData;
+
+  public Map<String, String> getFormFieldData() {
+    return formFieldData;
+  }
 
   /**
   * Bundle URL code
   */
-  @Getter
   @JsonProperty("bundle_code")
   public String bundleCode;
+
+  public String getBundleCode() {
+    return bundleCode;
+  }
 
   /**
   * Id of associated bundle
   */
-  @Getter
   @JsonProperty("bundle_id")
   public Long bundleId;
+
+  public Long getBundleId() {
+    return bundleId;
+  }
 
   /**
   * Id of associated bundle recipient
   */
-  @Getter
   @JsonProperty("bundle_recipient_id")
   public Long bundleRecipientId;
+
+  public Long getBundleRecipientId() {
+    return bundleRecipientId;
+  }
 
   /**
   * Registration creation date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
 
   /**

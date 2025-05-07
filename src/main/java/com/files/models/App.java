@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class App implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,149 +70,212 @@ public class App implements ModelInterface {
   /**
   * The type of the App
   */
-  @Getter
   @JsonProperty("app_type")
   public String appType;
+
+  public String getAppType() {
+    return appType;
+  }
 
   /**
   * Collection of named links to documentation
   */
-  @Getter
   @JsonProperty("documentation_links")
   public Map<String, String> documentationLinks;
+
+  public Map<String, String> getDocumentationLinks() {
+    return documentationLinks;
+  }
 
   /**
   * Long description for the in-App landing page
   */
-  @Getter
   @JsonProperty("extended_description")
   public String extendedDescription;
+
+  public String getExtendedDescription() {
+    return extendedDescription;
+  }
 
   /**
   * Long form description of the App
   */
-  @Getter
   @JsonProperty("extended_description_for_marketing_site")
   public String extendedDescriptionForMarketingSite;
+
+  public String getExtendedDescriptionForMarketingSite() {
+    return extendedDescriptionForMarketingSite;
+  }
 
   /**
   * Link to external homepage
   */
-  @Getter
   @JsonProperty("external_homepage_url")
   public String externalHomepageUrl;
+
+  public String getExternalHomepageUrl() {
+    return externalHomepageUrl;
+  }
 
   /**
   * Is featured on the App listing?
   */
-  @Getter
   @JsonProperty("featured")
   public Boolean featured;
+
+  public Boolean getFeatured() {
+    return featured;
+  }
 
   /**
   * Associated Folder Behavior type, if any
   */
-  @Getter
   @JsonProperty("folder_behavior_type")
   public String folderBehaviorType;
+
+  public String getFolderBehaviorType() {
+    return folderBehaviorType;
+  }
 
   /**
   * App icon
   */
-  @Getter
   @JsonProperty("icon_url")
   public String iconUrl;
+
+  public String getIconUrl() {
+    return iconUrl;
+  }
 
   /**
   * Logo thumbnail for the App
   */
-  @Getter
   @JsonProperty("logo_thumbnail_url")
   public String logoThumbnailUrl;
+
+  public String getLogoThumbnailUrl() {
+    return logoThumbnailUrl;
+  }
 
   /**
   * Full size logo for the App
   */
-  @Getter
   @JsonProperty("logo_url")
   public String logoUrl;
+
+  public String getLogoUrl() {
+    return logoUrl;
+  }
 
   /**
   * Marketing introdution of the App
   */
-  @Getter
   @JsonProperty("marketing_intro")
   public String marketingIntro;
+
+  public String getMarketingIntro() {
+    return marketingIntro;
+  }
 
   /**
   * Marketing video page
   */
-  @Getter
   @JsonProperty("marketing_youtube_url")
   public String marketingYoutubeUrl;
+
+  public String getMarketingYoutubeUrl() {
+    return marketingYoutubeUrl;
+  }
 
   /**
   * Name of the App
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Package manager install command
   */
-  @Getter
   @JsonProperty("package_manager_install_command")
   public String packageManagerInstallCommand;
+
+  public String getPackageManagerInstallCommand() {
+    return packageManagerInstallCommand;
+  }
 
   /**
   * Associated Remote Server type, if any
   */
-  @Getter
   @JsonProperty("remote_server_type")
   public String remoteServerType;
+
+  public String getRemoteServerType() {
+    return remoteServerType;
+  }
 
   /**
   * Screenshots of the App
   */
-  @Getter
   @JsonProperty("screenshot_list_urls")
   public String[] screenshotListUrls;
+
+  public String[] getScreenshotListUrls() {
+    return screenshotListUrls;
+  }
 
   /**
   * Link to SDK installation instructions
   */
-  @Getter
   @JsonProperty("sdk_installation_instructions_link")
   public String sdkInstallationInstructionsLink;
+
+  public String getSdkInstallationInstructionsLink() {
+    return sdkInstallationInstructionsLink;
+  }
 
   /**
   * Short description of the App
   */
-  @Getter
   @JsonProperty("short_description")
   public String shortDescription;
+
+  public String getShortDescription() {
+    return shortDescription;
+  }
 
   /**
   * Associated SSO Strategy type, if any
   */
-  @Getter
   @JsonProperty("sso_strategy_type")
   public String ssoStrategyType;
+
+  public String getSsoStrategyType() {
+    return ssoStrategyType;
+  }
 
   /**
   * Associated SIEM type, if any
   */
-  @Getter
   @JsonProperty("siem_type")
   public String siemType;
+
+  public String getSiemType() {
+    return siemType;
+  }
 
   /**
   * Tutorial video page
   */
-  @Getter
   @JsonProperty("tutorial_youtube_url")
   public String tutorialYoutubeUrl;
+
+  public String getTutorialYoutubeUrl() {
+    return tutorialYoutubeUrl;
+  }
 
 
   /**

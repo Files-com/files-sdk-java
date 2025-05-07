@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsageDailySnapshot implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,79 +70,112 @@ public class UsageDailySnapshot implements ModelInterface {
   /**
   * ID of the usage record
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * The date of this usage record
   */
-  @Getter
   @JsonProperty("date")
   public Date date;
+
+  public Date getDate() {
+    return date;
+  }
 
   /**
   * True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
   */
-  @Getter
   @JsonProperty("api_usage_available")
   public Boolean apiUsageAvailable;
+
+  public Boolean getApiUsageAvailable() {
+    return apiUsageAvailable;
+  }
 
   /**
   * Read API Calls used on this day. Note: only updated for days before the current day.
   */
-  @Getter
   @JsonProperty("read_api_usage")
   public Long readApiUsage;
+
+  public Long getReadApiUsage() {
+    return readApiUsage;
+  }
 
   /**
   * Write API Calls used on this day. Note: only updated for days before the current day.
   */
-  @Getter
   @JsonProperty("write_api_usage")
   public Long writeApiUsage;
+
+  public Long getWriteApiUsage() {
+    return writeApiUsage;
+  }
 
   /**
   * Number of billable users as of this day.
   */
-  @Getter
   @JsonProperty("user_count")
   public Long userCount;
+
+  public Long getUserCount() {
+    return userCount;
+  }
 
   /**
   * GB of Files Native Storage used on this day.
   */
-  @Getter
   @JsonProperty("current_storage")
   public Double currentStorage;
+
+  public Double getCurrentStorage() {
+    return currentStorage;
+  }
 
   /**
   * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
   */
-  @Getter
   @JsonProperty("deleted_files_storage")
   public Double deletedFilesStorage;
+
+  public Double getDeletedFilesStorage() {
+    return deletedFilesStorage;
+  }
 
   /**
   * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
   */
-  @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
   public Double deletedFilesCountedInMinimum;
+
+  public Double getDeletedFilesCountedInMinimum() {
+    return deletedFilesCountedInMinimum;
+  }
 
   /**
   * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
   */
-  @Getter
   @JsonProperty("root_storage")
   public Double rootStorage;
+
+  public Double getRootStorage() {
+    return rootStorage;
+  }
 
   /**
   * Usage broken down by each top-level folder
   */
-  @Getter
   @JsonProperty("usage_by_top_level_dir")
   public Object[] usageByTopLevelDir;
+
+  public Object[] getUsageByTopLevelDir() {
+    return usageByTopLevelDir;
+  }
 
 
   /**

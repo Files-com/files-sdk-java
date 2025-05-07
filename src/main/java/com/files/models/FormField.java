@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormField implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,82 @@ public class FormField implements ModelInterface {
   /**
   * Form field id
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Label to be displayed
   */
-  @Getter
   @JsonProperty("label")
   public String label;
+
+  public String getLabel() {
+    return label;
+  }
 
   /**
   * Is this a required field?
   */
-  @Getter
   @JsonProperty("required")
   public Boolean required;
+
+  public Boolean getRequired() {
+    return required;
+  }
 
   /**
   * Help text to be displayed
   */
-  @Getter
   @JsonProperty("help_text")
   public String helpText;
+
+  public String getHelpText() {
+    return helpText;
+  }
 
   /**
   * Type of Field
   */
-  @Getter
   @JsonProperty("field_type")
   public String fieldType;
+
+  public String getFieldType() {
+    return fieldType;
+  }
 
   /**
   * Options to display for radio and dropdown
   */
-  @Getter
   @JsonProperty("options_for_select")
   public String[] optionsForSelect;
+
+  public String[] getOptionsForSelect() {
+    return optionsForSelect;
+  }
 
   /**
   * Default option for radio and dropdown
   */
-  @Getter
   @JsonProperty("default_option")
   public String defaultOption;
+
+  public String getDefaultOption() {
+    return defaultOption;
+  }
 
   /**
   * Form field set id
   */
-  @Getter
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
+
+  public Long getFormFieldSetId() {
+    return formFieldSetId;
+  }
 
 
 }

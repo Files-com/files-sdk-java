@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageComment implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,34 +70,58 @@ public class MessageComment implements ModelInterface {
   /**
   * Message Comment ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Comment body.
   */
-  @Getter
-  @Setter
   @JsonProperty("body")
   public String body;
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 
   /**
   * Reactions to this comment.
   */
-  @Getter
-  @Setter
   @JsonProperty("reactions")
   public Object[] reactions;
+
+  public Object[] getReactions() {
+    return reactions;
+  }
+
+  public void setReactions(Object[] reactions) {
+    this.reactions = reactions;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Parameters:

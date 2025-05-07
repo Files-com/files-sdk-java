@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileAction implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,16 +70,22 @@ public class FileAction implements ModelInterface {
   /**
   * Status of file operation.
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * If status is pending, this is the id of the File Migration to check for status updates.
   */
-  @Getter
   @JsonProperty("file_migration_id")
   public Long fileMigrationId;
+
+  public Long getFileMigrationId() {
+    return fileMigrationId;
+  }
 
 
 }

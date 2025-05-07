@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShareGroup implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,42 +70,72 @@ public class ShareGroup implements ModelInterface {
   /**
   * Share Group ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Name of the share group
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Additional notes of the share group
   */
-  @Getter
-  @Setter
   @JsonProperty("notes")
   public String notes;
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
 
   /**
   * Owner User ID
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * A list of share group members
   */
-  @Getter
-  @Setter
   @JsonProperty("members")
   public Object[] members;
+
+  public Object[] getMembers() {
+    return members;
+  }
+
+  public void setMembers(Object[] members) {
+    this.members = members;
+  }
 
   /**
   * Parameters:

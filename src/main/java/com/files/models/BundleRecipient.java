@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BundleRecipient implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,100 @@ public class BundleRecipient implements ModelInterface {
   /**
   * The recipient's company.
   */
-  @Getter
-  @Setter
   @JsonProperty("company")
   public String company;
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
 
   /**
   * The recipient's name.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * A note sent to the recipient with the bundle.
   */
-  @Getter
-  @Setter
   @JsonProperty("note")
   public String note;
+
+  public String getNote() {
+    return note;
+  }
+
+  public void setNote(String note) {
+    this.note = note;
+  }
 
   /**
   * The recipient's email address.
   */
-  @Getter
-  @Setter
   @JsonProperty("recipient")
   public String recipient;
+
+  public String getRecipient() {
+    return recipient;
+  }
+
+  public void setRecipient(String recipient) {
+    this.recipient = recipient;
+  }
 
   /**
   * When the Bundle was shared with this recipient.
   */
-  @Getter
-  @Setter
   @JsonProperty("sent_at")
   public Date sentAt;
+
+  public Date getSentAt() {
+    return sentAt;
+  }
+
+  public void setSentAt(Date sentAt) {
+    this.sentAt = sentAt;
+  }
 
   /**
   * Bundle to share.
   */
-  @Getter
-  @Setter
   @JsonProperty("bundle_id")
   public Long bundleId;
+
+  public Long getBundleId() {
+    return bundleId;
+  }
+
+  public void setBundleId(Long bundleId) {
+    this.bundleId = bundleId;
+  }
 
   /**
   * Set to true to share the link with the recipient upon creation.
   */
-  @Getter
-  @Setter
   @JsonProperty("share_after_create")
   public Boolean shareAfterCreate;
+
+  public Boolean getShareAfterCreate() {
+    return shareAfterCreate;
+  }
+
+  public void setShareAfterCreate(Boolean shareAfterCreate) {
+    this.shareAfterCreate = shareAfterCreate;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

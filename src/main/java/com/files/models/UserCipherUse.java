@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserCipherUse implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,51 +70,72 @@ public class UserCipherUse implements ModelInterface {
   /**
   * UserCipherUse ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * The protocol and cipher employed
   */
-  @Getter
   @JsonProperty("protocol_cipher")
   public String protocolCipher;
+
+  public String getProtocolCipher() {
+    return protocolCipher;
+  }
 
   /**
   * The earliest recorded use of this combination of interface and protocol and cipher (for this user)
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Is this cipher considered insecure?
   */
-  @Getter
   @JsonProperty("insecure")
   public Boolean insecure;
+
+  public Boolean getInsecure() {
+    return insecure;
+  }
 
   /**
   * The interface accessed
   */
-  @Getter
   @JsonProperty("interface")
   public String interfaceName;
+
+  public String getInterfaceName() {
+    return interfaceName;
+  }
 
   /**
   * The most recent use of this combination of interface and protocol and cipher (for this user)
   */
-  @Getter
   @JsonProperty("updated_at")
   public Date updatedAt;
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
 
   /**
   * ID of the user who performed this access
   */
-  @Getter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
 
 
   /**

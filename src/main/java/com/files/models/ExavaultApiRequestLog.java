@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExavaultApiRequestLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,79 +70,112 @@ public class ExavaultApiRequestLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * Name of API Endpoint
   */
-  @Getter
   @JsonProperty("endpoint")
   public String endpoint;
+
+  public String getEndpoint() {
+    return endpoint;
+  }
 
   /**
   * Exavault API Version
   */
-  @Getter
   @JsonProperty("version")
   public String version;
+
+  public String getVersion() {
+    return version;
+  }
 
   /**
   * IP of requesting client
   */
-  @Getter
   @JsonProperty("request_ip")
   public String requestIp;
+
+  public String getRequestIp() {
+    return requestIp;
+  }
 
   /**
   * HTTP Method
   */
-  @Getter
   @JsonProperty("request_method")
   public String requestMethod;
+
+  public String getRequestMethod() {
+    return requestMethod;
+  }
 
   /**
   * Error type, if applicable
   */
-  @Getter
   @JsonProperty("error_type")
   public String errorType;
+
+  public String getErrorType() {
+    return errorType;
+  }
 
   /**
   * Error message, if applicable
   */
-  @Getter
   @JsonProperty("error_message")
   public String errorMessage;
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
   /**
   * User-Agent
   */
-  @Getter
   @JsonProperty("user_agent")
   public String userAgent;
+
+  public String getUserAgent() {
+    return userAgent;
+  }
 
   /**
   * HTTP Response Code
   */
-  @Getter
   @JsonProperty("response_code")
   public Long responseCode;
+
+  public Long getResponseCode() {
+    return responseCode;
+  }
 
   /**
   * `false` if HTTP Response Code is 4xx or 5xx
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

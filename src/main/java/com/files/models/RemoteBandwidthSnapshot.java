@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteBandwidthSnapshot implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,37 +70,52 @@ public class RemoteBandwidthSnapshot implements ModelInterface {
   /**
   * Site bandwidth ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Site sync bandwidth report bytes received
   */
-  @Getter
   @JsonProperty("sync_bytes_received")
   public Double syncBytesReceived;
+
+  public Double getSyncBytesReceived() {
+    return syncBytesReceived;
+  }
 
   /**
   * Site sync bandwidth report bytes sent
   */
-  @Getter
   @JsonProperty("sync_bytes_sent")
   public Double syncBytesSent;
+
+  public Double getSyncBytesSent() {
+    return syncBytesSent;
+  }
 
   /**
   * Time the site bandwidth report was logged
   */
-  @Getter
   @JsonProperty("logged_at")
   public Date loggedAt;
+
+  public Date getLoggedAt() {
+    return loggedAt;
+  }
 
   /**
   * ID of related Remote Server
   */
-  @Getter
   @JsonProperty("remote_server_id")
   public Long remoteServerId;
+
+  public Long getRemoteServerId() {
+    return remoteServerId;
+  }
 
 
   /**

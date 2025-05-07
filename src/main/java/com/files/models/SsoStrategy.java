@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SsoStrategy implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,337 +70,481 @@ public class SsoStrategy implements ModelInterface {
   /**
   * SSO Protocol
   */
-  @Getter
   @JsonProperty("protocol")
   public String protocol;
+
+  public String getProtocol() {
+    return protocol;
+  }
 
   /**
   * Provider name
   */
-  @Getter
   @JsonProperty("provider")
   public String provider;
+
+  public String getProvider() {
+    return provider;
+  }
 
   /**
   * Custom label for the SSO provider on the login page.
   */
-  @Getter
   @JsonProperty("label")
   public String label;
+
+  public String getLabel() {
+    return label;
+  }
 
   /**
   * URL holding a custom logo for the SSO provider on the login page.
   */
-  @Getter
   @JsonProperty("logo_url")
   public String logoUrl;
+
+  public String getLogoUrl() {
+    return logoUrl;
+  }
 
   /**
   * ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Count of users with this SSO Strategy
   */
-  @Getter
   @JsonProperty("user_count")
   public Long userCount;
+
+  public Long getUserCount() {
+    return userCount;
+  }
 
   /**
   * Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
   */
-  @Getter
   @JsonProperty("saml_provider_cert_fingerprint")
   public String samlProviderCertFingerprint;
+
+  public String getSamlProviderCertFingerprint() {
+    return samlProviderCertFingerprint;
+  }
 
   /**
   * Identity provider issuer url
   */
-  @Getter
   @JsonProperty("saml_provider_issuer_url")
   public String samlProviderIssuerUrl;
+
+  public String getSamlProviderIssuerUrl() {
+    return samlProviderIssuerUrl;
+  }
 
   /**
   * Custom identity provider metadata
   */
-  @Getter
   @JsonProperty("saml_provider_metadata_content")
   public String samlProviderMetadataContent;
+
+  public String getSamlProviderMetadataContent() {
+    return samlProviderMetadataContent;
+  }
 
   /**
   * Metadata URL for the SAML identity provider
   */
-  @Getter
   @JsonProperty("saml_provider_metadata_url")
   public String samlProviderMetadataUrl;
+
+  public String getSamlProviderMetadataUrl() {
+    return samlProviderMetadataUrl;
+  }
 
   /**
   * Identity provider SLO endpoint
   */
-  @Getter
   @JsonProperty("saml_provider_slo_target_url")
   public String samlProviderSloTargetUrl;
+
+  public String getSamlProviderSloTargetUrl() {
+    return samlProviderSloTargetUrl;
+  }
 
   /**
   * Identity provider SSO endpoint if saml_provider_metadata_url is not available.
   */
-  @Getter
   @JsonProperty("saml_provider_sso_target_url")
   public String samlProviderSsoTargetUrl;
+
+  public String getSamlProviderSsoTargetUrl() {
+    return samlProviderSsoTargetUrl;
+  }
 
   /**
   * SCIM authentication type.
   */
-  @Getter
   @JsonProperty("scim_authentication_method")
   public String scimAuthenticationMethod;
+
+  public String getScimAuthenticationMethod() {
+    return scimAuthenticationMethod;
+  }
 
   /**
   * SCIM username.
   */
-  @Getter
   @JsonProperty("scim_username")
   public String scimUsername;
+
+  public String getScimUsername() {
+    return scimUsername;
+  }
 
   /**
   * SCIM OAuth Access Token.
   */
-  @Getter
   @JsonProperty("scim_oauth_access_token")
   public String scimOauthAccessToken;
+
+  public String getScimOauthAccessToken() {
+    return scimOauthAccessToken;
+  }
 
   /**
   * SCIM OAuth Access Token Expiration Time.
   */
-  @Getter
   @JsonProperty("scim_oauth_access_token_expires_at")
   public String scimOauthAccessTokenExpiresAt;
+
+  public String getScimOauthAccessTokenExpiresAt() {
+    return scimOauthAccessTokenExpiresAt;
+  }
 
   /**
   * Subdomain
   */
-  @Getter
   @JsonProperty("subdomain")
   public String subdomain;
+
+  public String getSubdomain() {
+    return subdomain;
+  }
 
   /**
   * Auto-provision users?
   */
-  @Getter
   @JsonProperty("provision_users")
   public Boolean provisionUsers;
+
+  public Boolean getProvisionUsers() {
+    return provisionUsers;
+  }
 
   /**
   * Auto-provision group membership based on group memberships on the SSO side?
   */
-  @Getter
   @JsonProperty("provision_groups")
   public Boolean provisionGroups;
+
+  public Boolean getProvisionGroups() {
+    return provisionGroups;
+  }
 
   /**
   * Auto-deprovision users?
   */
-  @Getter
   @JsonProperty("deprovision_users")
   public Boolean deprovisionUsers;
+
+  public Boolean getDeprovisionUsers() {
+    return deprovisionUsers;
+  }
 
   /**
   * Auto-deprovision group membership based on group memberships on the SSO side?
   */
-  @Getter
   @JsonProperty("deprovision_groups")
   public Boolean deprovisionGroups;
+
+  public Boolean getDeprovisionGroups() {
+    return deprovisionGroups;
+  }
 
   /**
   * Method used for deprovisioning users.
   */
-  @Getter
   @JsonProperty("deprovision_behavior")
   public String deprovisionBehavior;
+
+  public String getDeprovisionBehavior() {
+    return deprovisionBehavior;
+  }
 
   /**
   * Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
   */
-  @Getter
   @JsonProperty("provision_group_default")
   public String provisionGroupDefault;
+
+  public String getProvisionGroupDefault() {
+    return provisionGroupDefault;
+  }
 
   /**
   * Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
   */
-  @Getter
   @JsonProperty("provision_group_exclusion")
   public String provisionGroupExclusion;
+
+  public String getProvisionGroupExclusion() {
+    return provisionGroupExclusion;
+  }
 
   /**
   * Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
   */
-  @Getter
   @JsonProperty("provision_group_inclusion")
   public String provisionGroupInclusion;
+
+  public String getProvisionGroupInclusion() {
+    return provisionGroupInclusion;
+  }
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
   */
-  @Getter
   @JsonProperty("provision_group_required")
   public String provisionGroupRequired;
+
+  public String getProvisionGroupRequired() {
+    return provisionGroupRequired;
+  }
 
   /**
   * Comma-separated list of group names whose members will be created with email_signup authentication.
   */
-  @Getter
   @JsonProperty("provision_email_signup_groups")
   public String provisionEmailSignupGroups;
+
+  public String getProvisionEmailSignupGroups() {
+    return provisionEmailSignupGroups;
+  }
 
   /**
   * Comma-separated list of group names whose members will be created as Read-Only Site Admins.
   */
-  @Getter
   @JsonProperty("provision_readonly_site_admin_groups")
   public String provisionReadonlySiteAdminGroups;
+
+  public String getProvisionReadonlySiteAdminGroups() {
+    return provisionReadonlySiteAdminGroups;
+  }
 
   /**
   * Comma-separated list of group names whose members will be created as Site Admins.
   */
-  @Getter
   @JsonProperty("provision_site_admin_groups")
   public String provisionSiteAdminGroups;
+
+  public String getProvisionSiteAdminGroups() {
+    return provisionSiteAdminGroups;
+  }
 
   /**
   * Comma-separated list of group names whose members will be provisioned as Group Admins.
   */
-  @Getter
   @JsonProperty("provision_group_admin_groups")
   public String provisionGroupAdminGroups;
 
+  public String getProvisionGroupAdminGroups() {
+    return provisionGroupAdminGroups;
+  }
+
   /**
   */
-  @Getter
   @JsonProperty("provision_attachments_permission")
   public Boolean provisionAttachmentsPermission;
+
+  public Boolean getProvisionAttachmentsPermission() {
+    return provisionAttachmentsPermission;
+  }
 
   /**
   * Auto-provisioned users get WebDAV permission?
   */
-  @Getter
   @JsonProperty("provision_dav_permission")
   public Boolean provisionDavPermission;
+
+  public Boolean getProvisionDavPermission() {
+    return provisionDavPermission;
+  }
 
   /**
   * Auto-provisioned users get FTP permission?
   */
-  @Getter
   @JsonProperty("provision_ftp_permission")
   public Boolean provisionFtpPermission;
+
+  public Boolean getProvisionFtpPermission() {
+    return provisionFtpPermission;
+  }
 
   /**
   * Auto-provisioned users get SFTP permission?
   */
-  @Getter
   @JsonProperty("provision_sftp_permission")
   public Boolean provisionSftpPermission;
+
+  public Boolean getProvisionSftpPermission() {
+    return provisionSftpPermission;
+  }
 
   /**
   * Default time zone for auto provisioned users.
   */
-  @Getter
   @JsonProperty("provision_time_zone")
   public String provisionTimeZone;
+
+  public String getProvisionTimeZone() {
+    return provisionTimeZone;
+  }
 
   /**
   * Default company for auto provisioned users.
   */
-  @Getter
   @JsonProperty("provision_company")
   public String provisionCompany;
+
+  public String getProvisionCompany() {
+    return provisionCompany;
+  }
 
   /**
   * 2FA required setting for auto provisioned users.
   */
-  @Getter
   @JsonProperty("provision_require_2fa")
   public String provisionRequire2fa;
+
+  public String getProvisionRequire2fa() {
+    return provisionRequire2fa;
+  }
 
   /**
   * URL-friendly, unique identifier for Azure SAML configuration
   */
-  @Getter
   @JsonProperty("provider_identifier")
   public String providerIdentifier;
+
+  public String getProviderIdentifier() {
+    return providerIdentifier;
+  }
 
   /**
   * Base DN for looking up users in LDAP server
   */
-  @Getter
   @JsonProperty("ldap_base_dn")
   public String ldapBaseDn;
+
+  public String getLdapBaseDn() {
+    return ldapBaseDn;
+  }
 
   /**
   * Domain name that will be appended to LDAP usernames
   */
-  @Getter
   @JsonProperty("ldap_domain")
   public String ldapDomain;
+
+  public String getLdapDomain() {
+    return ldapDomain;
+  }
 
   /**
   * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
   */
-  @Getter
   @JsonProperty("enabled")
   public Boolean enabled;
+
+  public Boolean getEnabled() {
+    return enabled;
+  }
 
   /**
   * LDAP host
   */
-  @Getter
   @JsonProperty("ldap_host")
   public String ldapHost;
 
-  /**
-  * LDAP backup host
-  */
-  @Getter
-  @JsonProperty("ldap_host_2")
-  public String ldapHost2;
+  public String getLdapHost() {
+    return ldapHost;
+  }
 
   /**
   * LDAP backup host
   */
-  @Getter
+  @JsonProperty("ldap_host_2")
+  public String ldapHost2;
+
+  public String getLdapHost2() {
+    return ldapHost2;
+  }
+
+  /**
+  * LDAP backup host
+  */
   @JsonProperty("ldap_host_3")
   public String ldapHost3;
+
+  public String getLdapHost3() {
+    return ldapHost3;
+  }
 
   /**
   * LDAP port
   */
-  @Getter
   @JsonProperty("ldap_port")
   public Long ldapPort;
+
+  public Long getLdapPort() {
+    return ldapPort;
+  }
 
   /**
   * Use secure LDAP?
   */
-  @Getter
   @JsonProperty("ldap_secure")
   public Boolean ldapSecure;
+
+  public Boolean getLdapSecure() {
+    return ldapSecure;
+  }
 
   /**
   * Username for signing in to LDAP server.
   */
-  @Getter
   @JsonProperty("ldap_username")
   public String ldapUsername;
+
+  public String getLdapUsername() {
+    return ldapUsername;
+  }
 
   /**
   * LDAP username field
   */
-  @Getter
   @JsonProperty("ldap_username_field")
   public String ldapUsernameField;
+
+  public String getLdapUsernameField() {
+    return ldapUsernameField;
+  }
 
   /**
   * Synchronize provisioning data with the SSO remote server

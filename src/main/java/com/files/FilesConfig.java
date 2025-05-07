@@ -3,12 +3,14 @@ package com.files;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class FilesConfig {
+  private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
+
   private static volatile FilesConfig instance;
-  private Properties properties;
+  private final Properties properties;
 
   protected FilesConfig() {
     properties = new Properties();

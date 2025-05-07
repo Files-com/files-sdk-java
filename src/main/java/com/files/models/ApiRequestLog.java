@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiRequestLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,135 +70,192 @@ public class ApiRequestLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * API Key ID, if applicable
   */
-  @Getter
   @JsonProperty("api_key_id")
   public Long apiKeyId;
+
+  public Long getApiKeyId() {
+    return apiKeyId;
+  }
 
   /**
   * API Key Prefix, if applicable
   */
-  @Getter
   @JsonProperty("api_key_prefix")
   public String apiKeyPrefix;
+
+  public String getApiKeyPrefix() {
+    return apiKeyPrefix;
+  }
 
   /**
   * User ID
   */
-  @Getter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
 
   /**
   * Username
   */
-  @Getter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
 
   /**
   * true if this change was performed by a user on a parent site.
   */
-  @Getter
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
+
+  public Boolean getUserIsFromParentSite() {
+    return userIsFromParentSite;
+  }
 
   /**
   * API Interface
   */
-  @Getter
   @JsonProperty("interface")
   public String interfaceName;
+
+  public String getInterfaceName() {
+    return interfaceName;
+  }
 
   /**
   * HTTP Method
   */
-  @Getter
   @JsonProperty("request_method")
   public String requestMethod;
+
+  public String getRequestMethod() {
+    return requestMethod;
+  }
 
   /**
   * Request path
   */
-  @Getter
   @JsonProperty("request_path")
   public String requestPath;
+
+  public String getRequestPath() {
+    return requestPath;
+  }
 
   /**
   * IP of requesting client
   */
-  @Getter
   @JsonProperty("request_ip")
   public String requestIp;
+
+  public String getRequestIp() {
+    return requestIp;
+  }
 
   /**
   * Hostname the request was sent to
   */
-  @Getter
   @JsonProperty("request_host")
   public String requestHost;
+
+  public String getRequestHost() {
+    return requestHost;
+  }
 
   /**
   * Unique Id of the Request
   */
-  @Getter
   @JsonProperty("request_id")
   public String requestId;
+
+  public String getRequestId() {
+    return requestId;
+  }
 
   /**
   * Name of API Endpoint
   */
-  @Getter
   @JsonProperty("api_name")
   public String apiName;
+
+  public String getApiName() {
+    return apiName;
+  }
 
   /**
   * User-Agent
   */
-  @Getter
   @JsonProperty("user_agent")
   public String userAgent;
+
+  public String getUserAgent() {
+    return userAgent;
+  }
 
   /**
   * Error type, if applicable
   */
-  @Getter
   @JsonProperty("error_type")
   public String errorType;
+
+  public String getErrorType() {
+    return errorType;
+  }
 
   /**
   * Error message, if applicable
   */
-  @Getter
   @JsonProperty("error_message")
   public String errorMessage;
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
   /**
   * HTTP Response Code
   */
-  @Getter
   @JsonProperty("response_code")
   public Long responseCode;
+
+  public Long getResponseCode() {
+    return responseCode;
+  }
 
   /**
   * `false` if HTTP Response Code is 4xx or 5xx
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

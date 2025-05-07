@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExternalEvent implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,113 +70,194 @@ public class ExternalEvent implements ModelInterface {
   /**
   * Event ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Type of event being recorded.
   */
-  @Getter
-  @Setter
   @JsonProperty("event_type")
   public String eventType;
+
+  public String getEventType() {
+    return eventType;
+  }
+
+  public void setEventType(String eventType) {
+    this.eventType = eventType;
+  }
 
   /**
   * Status of event.
   */
-  @Getter
-  @Setter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   /**
   * Event body
   */
-  @Getter
-  @Setter
   @JsonProperty("body")
   public String body;
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 
   /**
   * External event create date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Link to log file.
   */
-  @Getter
-  @Setter
   @JsonProperty("body_url")
   public String bodyUrl;
+
+  public String getBodyUrl() {
+    return bodyUrl;
+  }
+
+  public void setBodyUrl(String bodyUrl) {
+    this.bodyUrl = bodyUrl;
+  }
 
   /**
   * Folder Behavior ID
   */
-  @Getter
-  @Setter
   @JsonProperty("folder_behavior_id")
   public Long folderBehaviorId;
+
+  public Long getFolderBehaviorId() {
+    return folderBehaviorId;
+  }
+
+  public void setFolderBehaviorId(Long folderBehaviorId) {
+    this.folderBehaviorId = folderBehaviorId;
+  }
 
   /**
   * SIEM HTTP Destination ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("siem_http_destination_id")
   public Long siemHttpDestinationId;
+
+  public Long getSiemHttpDestinationId() {
+    return siemHttpDestinationId;
+  }
+
+  public void setSiemHttpDestinationId(Long siemHttpDestinationId) {
+    this.siemHttpDestinationId = siemHttpDestinationId;
+  }
 
   /**
   * For sync events, the number of files handled successfully.
   */
-  @Getter
-  @Setter
   @JsonProperty("successful_files")
   public Long successfulFiles;
+
+  public Long getSuccessfulFiles() {
+    return successfulFiles;
+  }
+
+  public void setSuccessfulFiles(Long successfulFiles) {
+    this.successfulFiles = successfulFiles;
+  }
 
   /**
   * For sync events, the number of files that encountered errors.
   */
-  @Getter
-  @Setter
   @JsonProperty("errored_files")
   public Long erroredFiles;
+
+  public Long getErroredFiles() {
+    return erroredFiles;
+  }
+
+  public void setErroredFiles(Long erroredFiles) {
+    this.erroredFiles = erroredFiles;
+  }
 
   /**
   * For sync events, the total number of bytes synced.
   */
-  @Getter
-  @Setter
   @JsonProperty("bytes_synced")
   public Long bytesSynced;
+
+  public Long getBytesSynced() {
+    return bytesSynced;
+  }
+
+  public void setBytesSynced(Long bytesSynced) {
+    this.bytesSynced = bytesSynced;
+  }
 
   /**
   * For sync events, the number of files considered for the sync.
   */
-  @Getter
-  @Setter
   @JsonProperty("compared_files")
   public Long comparedFiles;
+
+  public Long getComparedFiles() {
+    return comparedFiles;
+  }
+
+  public void setComparedFiles(Long comparedFiles) {
+    this.comparedFiles = comparedFiles;
+  }
 
   /**
   * For sync events, the number of folders listed and considered for the sync.
   */
-  @Getter
-  @Setter
   @JsonProperty("compared_folders")
   public Long comparedFolders;
+
+  public Long getComparedFolders() {
+    return comparedFolders;
+  }
+
+  public void setComparedFolders(Long comparedFolders) {
+    this.comparedFolders = comparedFolders;
+  }
 
   /**
   * Associated Remote Server type, if any
   */
-  @Getter
-  @Setter
   @JsonProperty("remote_server_type")
   public String remoteServerType;
+
+  public String getRemoteServerType() {
+    return remoteServerType;
+  }
+
+  public void setRemoteServerType(String remoteServerType) {
+    this.remoteServerType = remoteServerType;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

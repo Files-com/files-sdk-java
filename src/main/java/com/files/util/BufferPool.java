@@ -6,10 +6,12 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Semaphore;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class BufferPool {
+  private static final Logger log = LoggerFactory.getLogger(BufferPool.class);
+
   private static final boolean TRACK_BUFFER_CREATION_STACK = true;
   public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
   public static final int T_BUFFER_SIZE = FilesConfig.getInstance().getCachedBufferTinySize();

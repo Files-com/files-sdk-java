@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,98 +70,170 @@ public class Group implements ModelInterface {
   /**
   * Group ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Group name
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * A list of allowed IPs if applicable.  Newline delimited
   */
-  @Getter
-  @Setter
   @JsonProperty("allowed_ips")
   public String allowedIps;
+
+  public String getAllowedIps() {
+    return allowedIps;
+  }
+
+  public void setAllowedIps(String allowedIps) {
+    this.allowedIps = allowedIps;
+  }
 
   /**
   * Comma-delimited list of user IDs who are group administrators (separated by commas)
   */
-  @Getter
-  @Setter
   @JsonProperty("admin_ids")
   public String adminIds;
+
+  public String getAdminIds() {
+    return adminIds;
+  }
+
+  public void setAdminIds(String adminIds) {
+    this.adminIds = adminIds;
+  }
 
   /**
   * Notes about this group
   */
-  @Getter
-  @Setter
   @JsonProperty("notes")
   public String notes;
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
 
   /**
   * Comma-delimited list of user IDs who belong to this group (separated by commas)
   */
-  @Getter
-  @Setter
   @JsonProperty("user_ids")
   public String userIds;
+
+  public String getUserIds() {
+    return userIds;
+  }
+
+  public void setUserIds(String userIds) {
+    this.userIds = userIds;
+  }
 
   /**
   * Comma-delimited list of usernames who belong to this group (separated by commas)
   */
-  @Getter
-  @Setter
   @JsonProperty("usernames")
   public String usernames;
+
+  public String getUsernames() {
+    return usernames;
+  }
+
+  public void setUsernames(String usernames) {
+    this.usernames = usernames;
+  }
 
   /**
   * If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
   */
-  @Getter
-  @Setter
   @JsonProperty("ftp_permission")
   public Boolean ftpPermission;
+
+  public Boolean getFtpPermission() {
+    return ftpPermission;
+  }
+
+  public void setFtpPermission(Boolean ftpPermission) {
+    this.ftpPermission = ftpPermission;
+  }
 
   /**
   * If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   */
-  @Getter
-  @Setter
   @JsonProperty("sftp_permission")
   public Boolean sftpPermission;
+
+  public Boolean getSftpPermission() {
+    return sftpPermission;
+  }
+
+  public void setSftpPermission(Boolean sftpPermission) {
+    this.sftpPermission = sftpPermission;
+  }
 
   /**
   * If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   */
-  @Getter
-  @Setter
   @JsonProperty("dav_permission")
   public Boolean davPermission;
+
+  public Boolean getDavPermission() {
+    return davPermission;
+  }
+
+  public void setDavPermission(Boolean davPermission) {
+    this.davPermission = davPermission;
+  }
 
   /**
   * If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
   */
-  @Getter
-  @Setter
   @JsonProperty("restapi_permission")
   public Boolean restapiPermission;
+
+  public Boolean getRestapiPermission() {
+    return restapiPermission;
+  }
+
+  public void setRestapiPermission(Boolean restapiPermission) {
+    this.restapiPermission = restapiPermission;
+  }
 
   /**
   * Site ID
   */
-  @Getter
-  @Setter
   @JsonProperty("site_id")
   public Long siteId;
+
+  public Long getSiteId() {
+    return siteId;
+  }
+
+  public void setSiteId(Long siteId) {
+    this.siteId = siteId;
+  }
 
   /**
   * Parameters:

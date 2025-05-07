@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HistoryExport implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,210 +70,366 @@ public class HistoryExport implements ModelInterface {
   /**
   * History Export ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Version of the history for the export.
   */
-  @Getter
-  @Setter
   @JsonProperty("history_version")
   public String historyVersion;
+
+  public String getHistoryVersion() {
+    return historyVersion;
+  }
+
+  public void setHistoryVersion(String historyVersion) {
+    this.historyVersion = historyVersion;
+  }
 
   /**
   * Start date/time of export range.
   */
-  @Getter
-  @Setter
   @JsonProperty("start_at")
   public Date startAt;
+
+  public Date getStartAt() {
+    return startAt;
+  }
+
+  public void setStartAt(Date startAt) {
+    this.startAt = startAt;
+  }
 
   /**
   * End date/time of export range.
   */
-  @Getter
-  @Setter
   @JsonProperty("end_at")
   public Date endAt;
+
+  public Date getEndAt() {
+    return endAt;
+  }
+
+  public void setEndAt(Date endAt) {
+    this.endAt = endAt;
+  }
 
   /**
   * Status of export.  Will be: `building`, `ready`, or `failed`
   */
-  @Getter
-  @Setter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   /**
   * Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
   */
-  @Getter
-  @Setter
   @JsonProperty("query_action")
   public String queryAction;
+
+  public String getQueryAction() {
+    return queryAction;
+  }
+
+  public void setQueryAction(String queryAction) {
+    this.queryAction = queryAction;
+  }
 
   /**
   * Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
   */
-  @Getter
-  @Setter
   @JsonProperty("query_interface")
   public String queryInterface;
+
+  public String getQueryInterface() {
+    return queryInterface;
+  }
+
+  public void setQueryInterface(String queryInterface) {
+    this.queryInterface = queryInterface;
+  }
 
   /**
   * Return results that are actions performed by the user indicated by this User ID
   */
-  @Getter
-  @Setter
   @JsonProperty("query_user_id")
   public String queryUserId;
+
+  public String getQueryUserId() {
+    return queryUserId;
+  }
+
+  public void setQueryUserId(String queryUserId) {
+    this.queryUserId = queryUserId;
+  }
 
   /**
   * Return results that are file actions related to the file indicated by this File ID
   */
-  @Getter
-  @Setter
   @JsonProperty("query_file_id")
   public String queryFileId;
+
+  public String getQueryFileId() {
+    return queryFileId;
+  }
+
+  public void setQueryFileId(String queryFileId) {
+    this.queryFileId = queryFileId;
+  }
 
   /**
   * Return results that are file actions inside the parent folder specified by this folder ID
   */
-  @Getter
-  @Setter
   @JsonProperty("query_parent_id")
   public String queryParentId;
+
+  public String getQueryParentId() {
+    return queryParentId;
+  }
+
+  public void setQueryParentId(String queryParentId) {
+    this.queryParentId = queryParentId;
+  }
 
   /**
   * Return results that are file actions related to paths matching this pattern.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_path")
   public String queryPath;
+
+  public String getQueryPath() {
+    return queryPath;
+  }
+
+  public void setQueryPath(String queryPath) {
+    this.queryPath = queryPath;
+  }
 
   /**
   * Return results that are file actions related to files or folders inside folder paths matching this pattern.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_folder")
   public String queryFolder;
+
+  public String getQueryFolder() {
+    return queryFolder;
+  }
+
+  public void setQueryFolder(String queryFolder) {
+    this.queryFolder = queryFolder;
+  }
 
   /**
   * Return results that are file moves originating from paths matching this pattern.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_src")
   public String querySrc;
+
+  public String getQuerySrc() {
+    return querySrc;
+  }
+
+  public void setQuerySrc(String querySrc) {
+    this.querySrc = querySrc;
+  }
 
   /**
   * Return results that are file moves with paths matching this pattern as destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_destination")
   public String queryDestination;
+
+  public String getQueryDestination() {
+    return queryDestination;
+  }
+
+  public void setQueryDestination(String queryDestination) {
+    this.queryDestination = queryDestination;
+  }
 
   /**
   * Filter results by this IP address.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_ip")
   public String queryIp;
+
+  public String getQueryIp() {
+    return queryIp;
+  }
+
+  public void setQueryIp(String queryIp) {
+    this.queryIp = queryIp;
+  }
 
   /**
   * Filter results by this username.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_username")
   public String queryUsername;
+
+  public String getQueryUsername() {
+    return queryUsername;
+  }
+
+  public void setQueryUsername(String queryUsername) {
+    this.queryUsername = queryUsername;
+  }
 
   /**
   * If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`
   */
-  @Getter
-  @Setter
   @JsonProperty("query_failure_type")
   public String queryFailureType;
+
+  public String getQueryFailureType() {
+    return queryFailureType;
+  }
+
+  public void setQueryFailureType(String queryFailureType) {
+    this.queryFailureType = queryFailureType;
+  }
 
   /**
   * If searching for Histories about specific objects (such as Users, or API Keys), this parameter restricts results to objects that match this ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_id")
   public String queryTargetId;
+
+  public String getQueryTargetId() {
+    return queryTargetId;
+  }
+
+  public void setQueryTargetId(String queryTargetId) {
+    this.queryTargetId = queryTargetId;
+  }
 
   /**
   * If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_name")
   public String queryTargetName;
+
+  public String getQueryTargetName() {
+    return queryTargetName;
+  }
+
+  public void setQueryTargetName(String queryTargetName) {
+    this.queryTargetName = queryTargetName;
+  }
 
   /**
   * If searching for Histories about Permissions, this parameter restricts results to permissions of this level.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_permission")
   public String queryTargetPermission;
+
+  public String getQueryTargetPermission() {
+    return queryTargetPermission;
+  }
+
+  public void setQueryTargetPermission(String queryTargetPermission) {
+    this.queryTargetPermission = queryTargetPermission;
+  }
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_user_id")
   public String queryTargetUserId;
+
+  public String getQueryTargetUserId() {
+    return queryTargetUserId;
+  }
+
+  public void setQueryTargetUserId(String queryTargetUserId) {
+    this.queryTargetUserId = queryTargetUserId;
+  }
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_username")
   public String queryTargetUsername;
+
+  public String getQueryTargetUsername() {
+    return queryTargetUsername;
+  }
+
+  public void setQueryTargetUsername(String queryTargetUsername) {
+    this.queryTargetUsername = queryTargetUsername;
+  }
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_platform")
   public String queryTargetPlatform;
+
+  public String getQueryTargetPlatform() {
+    return queryTargetPlatform;
+  }
+
+  public void setQueryTargetPlatform(String queryTargetPlatform) {
+    this.queryTargetPlatform = queryTargetPlatform;
+  }
 
   /**
   * If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_target_permission_set")
   public String queryTargetPermissionSet;
+
+  public String getQueryTargetPermissionSet() {
+    return queryTargetPermissionSet;
+  }
+
+  public void setQueryTargetPermissionSet(String queryTargetPermissionSet) {
+    this.queryTargetPermissionSet = queryTargetPermissionSet;
+  }
 
   /**
   * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
   */
-  @Getter
-  @Setter
   @JsonProperty("results_url")
   public String resultsUrl;
+
+  public String getResultsUrl() {
+    return resultsUrl;
+  }
+
+  public void setResultsUrl(String resultsUrl) {
+    this.resultsUrl = resultsUrl;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

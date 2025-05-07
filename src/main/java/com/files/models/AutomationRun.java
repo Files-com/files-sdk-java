@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AutomationRun implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,93 +70,132 @@ public class AutomationRun implements ModelInterface {
   /**
   * ID.
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * ID of the associated Automation.
   */
-  @Getter
   @JsonProperty("automation_id")
   public Long automationId;
+
+  public Long getAutomationId() {
+    return automationId;
+  }
 
   /**
   * Automation run completion/failure date/time.
   */
-  @Getter
   @JsonProperty("completed_at")
   public Date completedAt;
+
+  public Date getCompletedAt() {
+    return completedAt;
+  }
 
   /**
   * Automation run start date/time.
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
   */
-  @Getter
   @JsonProperty("retry_at")
   public Date retryAt;
+
+  public Date getRetryAt() {
+    return retryAt;
+  }
 
   /**
   * If set, this Automation run was retried due to `failure` or `partial_failure`.
   */
-  @Getter
   @JsonProperty("retried_at")
   public Date retriedAt;
+
+  public Date getRetriedAt() {
+    return retriedAt;
+  }
 
   /**
   * ID of the run that is or will be retrying this run.
   */
-  @Getter
   @JsonProperty("retried_in_run_id")
   public Long retriedInRunId;
+
+  public Long getRetriedInRunId() {
+    return retriedInRunId;
+  }
 
   /**
   * ID of the original run that this run is retrying.
   */
-  @Getter
   @JsonProperty("retry_of_run_id")
   public Long retryOfRunId;
+
+  public Long getRetryOfRunId() {
+    return retryOfRunId;
+  }
 
   /**
   * Automation run runtime.
   */
-  @Getter
   @JsonProperty("runtime")
   public Double runtime;
+
+  public Double getRuntime() {
+    return runtime;
+  }
 
   /**
   * The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Count of successful operations.
   */
-  @Getter
   @JsonProperty("successful_operations")
   public Long successfulOperations;
+
+  public Long getSuccessfulOperations() {
+    return successfulOperations;
+  }
 
   /**
   * Count of failed operations.
   */
-  @Getter
   @JsonProperty("failed_operations")
   public Long failedOperations;
+
+  public Long getFailedOperations() {
+    return failedOperations;
+  }
 
   /**
   * Link to status messages log file.
   */
-  @Getter
   @JsonProperty("status_messages_url")
   public String statusMessagesUrl;
+
+  public String getStatusMessagesUrl() {
+    return statusMessagesUrl;
+  }
 
 
   /**

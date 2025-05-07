@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActionNotificationExportResult implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,72 +70,102 @@ public class ActionNotificationExportResult implements ModelInterface {
   /**
   * Notification ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * When the notification was sent.
   */
-  @Getter
   @JsonProperty("created_at")
   public Long createdAt;
+
+  public Long getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * HTTP status code returned in the webhook response.
   */
-  @Getter
   @JsonProperty("status")
   public Long status;
+
+  public Long getStatus() {
+    return status;
+  }
 
   /**
   * A message indicating the overall status of the webhook notification.
   */
-  @Getter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
 
   /**
   * `true` if the webhook succeeded by receiving a 200 or 204 response.
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * A JSON-encoded string with headers that were sent with the webhook.
   */
-  @Getter
   @JsonProperty("request_headers")
   public String requestHeaders;
+
+  public String getRequestHeaders() {
+    return requestHeaders;
+  }
 
   /**
   * The HTTP verb used to perform the webhook.
   */
-  @Getter
   @JsonProperty("request_method")
   public String requestMethod;
+
+  public String getRequestMethod() {
+    return requestMethod;
+  }
 
   /**
   * The webhook request URL.
   */
-  @Getter
   @JsonProperty("request_url")
   public String requestUrl;
+
+  public String getRequestUrl() {
+    return requestUrl;
+  }
 
   /**
   * The path to the actual file that triggered this notification. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * The folder associated with the triggering action for this notification.
   */
-  @Getter
   @JsonProperty("folder")
   public String folder;
+
+  public String getFolder() {
+    return folder;
+  }
 
 
   /**

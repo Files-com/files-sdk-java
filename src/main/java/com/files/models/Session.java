@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Session implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,66 +70,114 @@ public class Session implements ModelInterface {
   /**
   * Session ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public String id;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   /**
   * Session language
   */
-  @Getter
-  @Setter
   @JsonProperty("language")
   public String language;
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 
   /**
   * Is this session read only?
   */
-  @Getter
-  @Setter
   @JsonProperty("read_only")
   public Boolean readOnly;
+
+  public Boolean getReadOnly() {
+    return readOnly;
+  }
+
+  public void setReadOnly(Boolean readOnly) {
+    this.readOnly = readOnly;
+  }
 
   /**
   * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
   */
-  @Getter
-  @Setter
   @JsonProperty("sftp_insecure_ciphers")
   public Boolean sftpInsecureCiphers;
+
+  public Boolean getSftpInsecureCiphers() {
+    return sftpInsecureCiphers;
+  }
+
+  public void setSftpInsecureCiphers(Boolean sftpInsecureCiphers) {
+    this.sftpInsecureCiphers = sftpInsecureCiphers;
+  }
 
   /**
   * Username to sign in as
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * Password for sign in
   */
-  @Getter
-  @Setter
   @JsonProperty("password")
   public String password;
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   /**
   * If this user has a 2FA device, provide its OTP or code here.
   */
-  @Getter
-  @Setter
   @JsonProperty("otp")
   public String otp;
+
+  public String getOtp() {
+    return otp;
+  }
+
+  public void setOtp(String otp) {
+    this.otp = otp;
+  }
 
   /**
   * Identifier for a partially-completed login
   */
-  @Getter
-  @Setter
   @JsonProperty("partial_session_id")
   public String partialSessionId;
+
+  public String getPartialSessionId() {
+    return partialSessionId;
+  }
+
+  public void setPartialSessionId(String partialSessionId) {
+    this.partialSessionId = partialSessionId;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

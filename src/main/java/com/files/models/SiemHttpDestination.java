@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SiemHttpDestination implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,442 +70,772 @@ public class SiemHttpDestination implements ModelInterface {
   /**
   * SIEM HTTP Destination ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Name for this Destination
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Destination Type
   */
-  @Getter
-  @Setter
   @JsonProperty("destination_type")
   public String destinationType;
+
+  public String getDestinationType() {
+    return destinationType;
+  }
+
+  public void setDestinationType(String destinationType) {
+    this.destinationType = destinationType;
+  }
 
   /**
   * Destination Url
   */
-  @Getter
-  @Setter
   @JsonProperty("destination_url")
   public String destinationUrl;
+
+  public String getDestinationUrl() {
+    return destinationUrl;
+  }
+
+  public void setDestinationUrl(String destinationUrl) {
+    this.destinationUrl = destinationUrl;
+  }
 
   /**
   * Additional HTTP Headers included in calls to the destination URL
   */
-  @Getter
-  @Setter
   @JsonProperty("additional_headers")
   public Map<String, String> additionalHeaders;
+
+  public Map<String, String> getAdditionalHeaders() {
+    return additionalHeaders;
+  }
+
+  public void setAdditionalHeaders(Map<String, String> additionalHeaders) {
+    this.additionalHeaders = additionalHeaders;
+  }
 
   /**
   * Whether this SIEM HTTP Destination is currently being sent to or not
   */
-  @Getter
-  @Setter
   @JsonProperty("sending_active")
   public Boolean sendingActive;
+
+  public Boolean getSendingActive() {
+    return sendingActive;
+  }
+
+  public void setSendingActive(Boolean sendingActive) {
+    this.sendingActive = sendingActive;
+  }
 
   /**
   * Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
   */
-  @Getter
-  @Setter
   @JsonProperty("generic_payload_type")
   public String genericPayloadType;
+
+  public String getGenericPayloadType() {
+    return genericPayloadType;
+  }
+
+  public void setGenericPayloadType(String genericPayloadType) {
+    this.genericPayloadType = genericPayloadType;
+  }
 
   /**
   * Applicable only for destination type: splunk. Authentication token provided by Splunk.
   */
-  @Getter
-  @Setter
   @JsonProperty("splunk_token_masked")
   public String splunkTokenMasked;
+
+  public String getSplunkTokenMasked() {
+    return splunkTokenMasked;
+  }
+
+  public void setSplunkTokenMasked(String splunkTokenMasked) {
+    this.splunkTokenMasked = splunkTokenMasked;
+  }
 
   /**
   * Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_dcr_immutable_id")
   public String azureDcrImmutableId;
+
+  public String getAzureDcrImmutableId() {
+    return azureDcrImmutableId;
+  }
+
+  public void setAzureDcrImmutableId(String azureDcrImmutableId) {
+    this.azureDcrImmutableId = azureDcrImmutableId;
+  }
 
   /**
   * Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_stream_name")
   public String azureStreamName;
+
+  public String getAzureStreamName() {
+    return azureStreamName;
+  }
+
+  public void setAzureStreamName(String azureStreamName) {
+    this.azureStreamName = azureStreamName;
+  }
 
   /**
   * Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_oauth_client_credentials_tenant_id")
   public String azureOauthClientCredentialsTenantId;
+
+  public String getAzureOauthClientCredentialsTenantId() {
+    return azureOauthClientCredentialsTenantId;
+  }
+
+  public void setAzureOauthClientCredentialsTenantId(String azureOauthClientCredentialsTenantId) {
+    this.azureOauthClientCredentialsTenantId = azureOauthClientCredentialsTenantId;
+  }
 
   /**
   * Applicable only for destination type: azure. Client Credentials OAuth Client ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_oauth_client_credentials_client_id")
   public String azureOauthClientCredentialsClientId;
+
+  public String getAzureOauthClientCredentialsClientId() {
+    return azureOauthClientCredentialsClientId;
+  }
+
+  public void setAzureOauthClientCredentialsClientId(String azureOauthClientCredentialsClientId) {
+    this.azureOauthClientCredentialsClientId = azureOauthClientCredentialsClientId;
+  }
 
   /**
   * Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_oauth_client_credentials_client_secret_masked")
   public String azureOauthClientCredentialsClientSecretMasked;
+
+  public String getAzureOauthClientCredentialsClientSecretMasked() {
+    return azureOauthClientCredentialsClientSecretMasked;
+  }
+
+  public void setAzureOauthClientCredentialsClientSecretMasked(String azureOauthClientCredentialsClientSecretMasked) {
+    this.azureOauthClientCredentialsClientSecretMasked = azureOauthClientCredentialsClientSecretMasked;
+  }
 
   /**
   * Applicable only for destination type: qradar. Basic auth username provided by QRadar.
   */
-  @Getter
-  @Setter
   @JsonProperty("qradar_username")
   public String qradarUsername;
+
+  public String getQradarUsername() {
+    return qradarUsername;
+  }
+
+  public void setQradarUsername(String qradarUsername) {
+    this.qradarUsername = qradarUsername;
+  }
 
   /**
   * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
   */
-  @Getter
-  @Setter
   @JsonProperty("qradar_password_masked")
   public String qradarPasswordMasked;
+
+  public String getQradarPasswordMasked() {
+    return qradarPasswordMasked;
+  }
+
+  public void setQradarPasswordMasked(String qradarPasswordMasked) {
+    this.qradarPasswordMasked = qradarPasswordMasked;
+  }
 
   /**
   * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   */
-  @Getter
-  @Setter
   @JsonProperty("solar_winds_token_masked")
   public String solarWindsTokenMasked;
+
+  public String getSolarWindsTokenMasked() {
+    return solarWindsTokenMasked;
+  }
+
+  public void setSolarWindsTokenMasked(String solarWindsTokenMasked) {
+    this.solarWindsTokenMasked = solarWindsTokenMasked;
+  }
 
   /**
   * Applicable only for destination type: new_relic. API key provided by New Relic.
   */
-  @Getter
-  @Setter
   @JsonProperty("new_relic_api_key_masked")
   public String newRelicApiKeyMasked;
+
+  public String getNewRelicApiKeyMasked() {
+    return newRelicApiKeyMasked;
+  }
+
+  public void setNewRelicApiKeyMasked(String newRelicApiKeyMasked) {
+    this.newRelicApiKeyMasked = newRelicApiKeyMasked;
+  }
 
   /**
   * Applicable only for destination type: datadog. API key provided by Datadog.
   */
-  @Getter
-  @Setter
   @JsonProperty("datadog_api_key_masked")
   public String datadogApiKeyMasked;
+
+  public String getDatadogApiKeyMasked() {
+    return datadogApiKeyMasked;
+  }
+
+  public void setDatadogApiKeyMasked(String datadogApiKeyMasked) {
+    this.datadogApiKeyMasked = datadogApiKeyMasked;
+  }
 
   /**
   * Whether or not sending is enabled for sftp_action logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("sftp_action_send_enabled")
   public Boolean sftpActionSendEnabled;
+
+  public Boolean getSftpActionSendEnabled() {
+    return sftpActionSendEnabled;
+  }
+
+  public void setSftpActionSendEnabled(Boolean sftpActionSendEnabled) {
+    this.sftpActionSendEnabled = sftpActionSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("sftp_action_entries_sent")
   public Long sftpActionEntriesSent;
+
+  public Long getSftpActionEntriesSent() {
+    return sftpActionEntriesSent;
+  }
+
+  public void setSftpActionEntriesSent(Long sftpActionEntriesSent) {
+    this.sftpActionEntriesSent = sftpActionEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for ftp_action logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("ftp_action_send_enabled")
   public Boolean ftpActionSendEnabled;
+
+  public Boolean getFtpActionSendEnabled() {
+    return ftpActionSendEnabled;
+  }
+
+  public void setFtpActionSendEnabled(Boolean ftpActionSendEnabled) {
+    this.ftpActionSendEnabled = ftpActionSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("ftp_action_entries_sent")
   public Long ftpActionEntriesSent;
+
+  public Long getFtpActionEntriesSent() {
+    return ftpActionEntriesSent;
+  }
+
+  public void setFtpActionEntriesSent(Long ftpActionEntriesSent) {
+    this.ftpActionEntriesSent = ftpActionEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for web_dav_action logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("web_dav_action_send_enabled")
   public Boolean webDavActionSendEnabled;
+
+  public Boolean getWebDavActionSendEnabled() {
+    return webDavActionSendEnabled;
+  }
+
+  public void setWebDavActionSendEnabled(Boolean webDavActionSendEnabled) {
+    this.webDavActionSendEnabled = webDavActionSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("web_dav_action_entries_sent")
   public Long webDavActionEntriesSent;
+
+  public Long getWebDavActionEntriesSent() {
+    return webDavActionEntriesSent;
+  }
+
+  public void setWebDavActionEntriesSent(Long webDavActionEntriesSent) {
+    this.webDavActionEntriesSent = webDavActionEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for sync logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("sync_send_enabled")
   public Boolean syncSendEnabled;
+
+  public Boolean getSyncSendEnabled() {
+    return syncSendEnabled;
+  }
+
+  public void setSyncSendEnabled(Boolean syncSendEnabled) {
+    this.syncSendEnabled = syncSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("sync_entries_sent")
   public Long syncEntriesSent;
+
+  public Long getSyncEntriesSent() {
+    return syncEntriesSent;
+  }
+
+  public void setSyncEntriesSent(Long syncEntriesSent) {
+    this.syncEntriesSent = syncEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for outbound_connection logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("outbound_connection_send_enabled")
   public Boolean outboundConnectionSendEnabled;
+
+  public Boolean getOutboundConnectionSendEnabled() {
+    return outboundConnectionSendEnabled;
+  }
+
+  public void setOutboundConnectionSendEnabled(Boolean outboundConnectionSendEnabled) {
+    this.outboundConnectionSendEnabled = outboundConnectionSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("outbound_connection_entries_sent")
   public Long outboundConnectionEntriesSent;
+
+  public Long getOutboundConnectionEntriesSent() {
+    return outboundConnectionEntriesSent;
+  }
+
+  public void setOutboundConnectionEntriesSent(Long outboundConnectionEntriesSent) {
+    this.outboundConnectionEntriesSent = outboundConnectionEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for automation logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("automation_send_enabled")
   public Boolean automationSendEnabled;
+
+  public Boolean getAutomationSendEnabled() {
+    return automationSendEnabled;
+  }
+
+  public void setAutomationSendEnabled(Boolean automationSendEnabled) {
+    this.automationSendEnabled = automationSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("automation_entries_sent")
   public Long automationEntriesSent;
+
+  public Long getAutomationEntriesSent() {
+    return automationEntriesSent;
+  }
+
+  public void setAutomationEntriesSent(Long automationEntriesSent) {
+    this.automationEntriesSent = automationEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for api_request logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("api_request_send_enabled")
   public Boolean apiRequestSendEnabled;
+
+  public Boolean getApiRequestSendEnabled() {
+    return apiRequestSendEnabled;
+  }
+
+  public void setApiRequestSendEnabled(Boolean apiRequestSendEnabled) {
+    this.apiRequestSendEnabled = apiRequestSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("api_request_entries_sent")
   public Long apiRequestEntriesSent;
+
+  public Long getApiRequestEntriesSent() {
+    return apiRequestEntriesSent;
+  }
+
+  public void setApiRequestEntriesSent(Long apiRequestEntriesSent) {
+    this.apiRequestEntriesSent = apiRequestEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for public_hosting_request logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_hosting_request_send_enabled")
   public Boolean publicHostingRequestSendEnabled;
+
+  public Boolean getPublicHostingRequestSendEnabled() {
+    return publicHostingRequestSendEnabled;
+  }
+
+  public void setPublicHostingRequestSendEnabled(Boolean publicHostingRequestSendEnabled) {
+    this.publicHostingRequestSendEnabled = publicHostingRequestSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_hosting_request_entries_sent")
   public Long publicHostingRequestEntriesSent;
+
+  public Long getPublicHostingRequestEntriesSent() {
+    return publicHostingRequestEntriesSent;
+  }
+
+  public void setPublicHostingRequestEntriesSent(Long publicHostingRequestEntriesSent) {
+    this.publicHostingRequestEntriesSent = publicHostingRequestEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for email logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("email_send_enabled")
   public Boolean emailSendEnabled;
+
+  public Boolean getEmailSendEnabled() {
+    return emailSendEnabled;
+  }
+
+  public void setEmailSendEnabled(Boolean emailSendEnabled) {
+    this.emailSendEnabled = emailSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("email_entries_sent")
   public Long emailEntriesSent;
+
+  public Long getEmailEntriesSent() {
+    return emailEntriesSent;
+  }
+
+  public void setEmailEntriesSent(Long emailEntriesSent) {
+    this.emailEntriesSent = emailEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for exavault_api_request logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("exavault_api_request_send_enabled")
   public Boolean exavaultApiRequestSendEnabled;
+
+  public Boolean getExavaultApiRequestSendEnabled() {
+    return exavaultApiRequestSendEnabled;
+  }
+
+  public void setExavaultApiRequestSendEnabled(Boolean exavaultApiRequestSendEnabled) {
+    this.exavaultApiRequestSendEnabled = exavaultApiRequestSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("exavault_api_request_entries_sent")
   public Long exavaultApiRequestEntriesSent;
+
+  public Long getExavaultApiRequestEntriesSent() {
+    return exavaultApiRequestEntriesSent;
+  }
+
+  public void setExavaultApiRequestEntriesSent(Long exavaultApiRequestEntriesSent) {
+    this.exavaultApiRequestEntriesSent = exavaultApiRequestEntriesSent;
+  }
 
   /**
   * Whether or not sending is enabled for settings_change logs.
   */
-  @Getter
-  @Setter
   @JsonProperty("settings_change_send_enabled")
   public Boolean settingsChangeSendEnabled;
+
+  public Boolean getSettingsChangeSendEnabled() {
+    return settingsChangeSendEnabled;
+  }
+
+  public void setSettingsChangeSendEnabled(Boolean settingsChangeSendEnabled) {
+    this.settingsChangeSendEnabled = settingsChangeSendEnabled;
+  }
 
   /**
   * Number of log entries sent for the lifetime of this destination.
   */
-  @Getter
-  @Setter
   @JsonProperty("settings_change_entries_sent")
   public Long settingsChangeEntriesSent;
+
+  public Long getSettingsChangeEntriesSent() {
+    return settingsChangeEntriesSent;
+  }
+
+  public void setSettingsChangeEntriesSent(Long settingsChangeEntriesSent) {
+    this.settingsChangeEntriesSent = settingsChangeEntriesSent;
+  }
 
   /**
   * Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_target_type")
   public String lastHttpCallTargetType;
+
+  public String getLastHttpCallTargetType() {
+    return lastHttpCallTargetType;
+  }
+
+  public void setLastHttpCallTargetType(String lastHttpCallTargetType) {
+    this.lastHttpCallTargetType = lastHttpCallTargetType;
+  }
 
   /**
   * Was the last HTTP call made successful?
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_success")
   public Boolean lastHttpCallSuccess;
+
+  public Boolean getLastHttpCallSuccess() {
+    return lastHttpCallSuccess;
+  }
+
+  public void setLastHttpCallSuccess(Boolean lastHttpCallSuccess) {
+    this.lastHttpCallSuccess = lastHttpCallSuccess;
+  }
 
   /**
   * Last HTTP Call Response Code
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_response_code")
   public Long lastHttpCallResponseCode;
+
+  public Long getLastHttpCallResponseCode() {
+    return lastHttpCallResponseCode;
+  }
+
+  public void setLastHttpCallResponseCode(Long lastHttpCallResponseCode) {
+    this.lastHttpCallResponseCode = lastHttpCallResponseCode;
+  }
 
   /**
   * Last HTTP Call Response Body. Large responses are truncated.
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_response_body")
   public String lastHttpCallResponseBody;
+
+  public String getLastHttpCallResponseBody() {
+    return lastHttpCallResponseBody;
+  }
+
+  public void setLastHttpCallResponseBody(String lastHttpCallResponseBody) {
+    this.lastHttpCallResponseBody = lastHttpCallResponseBody;
+  }
 
   /**
   * Last HTTP Call Error Message if applicable
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_error_message")
   public String lastHttpCallErrorMessage;
+
+  public String getLastHttpCallErrorMessage() {
+    return lastHttpCallErrorMessage;
+  }
+
+  public void setLastHttpCallErrorMessage(String lastHttpCallErrorMessage) {
+    this.lastHttpCallErrorMessage = lastHttpCallErrorMessage;
+  }
 
   /**
   * Time of Last HTTP Call
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_time")
   public String lastHttpCallTime;
+
+  public String getLastHttpCallTime() {
+    return lastHttpCallTime;
+  }
+
+  public void setLastHttpCallTime(String lastHttpCallTime) {
+    this.lastHttpCallTime = lastHttpCallTime;
+  }
 
   /**
   * Duration of the last HTTP Call in milliseconds
   */
-  @Getter
-  @Setter
   @JsonProperty("last_http_call_duration_ms")
   public Long lastHttpCallDurationMs;
+
+  public Long getLastHttpCallDurationMs() {
+    return lastHttpCallDurationMs;
+  }
+
+  public void setLastHttpCallDurationMs(Long lastHttpCallDurationMs) {
+    this.lastHttpCallDurationMs = lastHttpCallDurationMs;
+  }
 
   /**
   * Time of Most Recent Successful HTTP Call
   */
-  @Getter
-  @Setter
   @JsonProperty("most_recent_http_call_success_time")
   public String mostRecentHttpCallSuccessTime;
+
+  public String getMostRecentHttpCallSuccessTime() {
+    return mostRecentHttpCallSuccessTime;
+  }
+
+  public void setMostRecentHttpCallSuccessTime(String mostRecentHttpCallSuccessTime) {
+    this.mostRecentHttpCallSuccessTime = mostRecentHttpCallSuccessTime;
+  }
 
   /**
   * Connection Test Entry
   */
-  @Getter
-  @Setter
   @JsonProperty("connection_test_entry")
   public String connectionTestEntry;
+
+  public String getConnectionTestEntry() {
+    return connectionTestEntry;
+  }
+
+  public void setConnectionTestEntry(String connectionTestEntry) {
+    this.connectionTestEntry = connectionTestEntry;
+  }
 
   /**
   * Applicable only for destination type: splunk. Authentication token provided by Splunk.
   */
-  @Getter
-  @Setter
   @JsonProperty("splunk_token")
   public String splunkToken;
+
+  public String getSplunkToken() {
+    return splunkToken;
+  }
+
+  public void setSplunkToken(String splunkToken) {
+    this.splunkToken = splunkToken;
+  }
 
   /**
   * Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_oauth_client_credentials_client_secret")
   public String azureOauthClientCredentialsClientSecret;
+
+  public String getAzureOauthClientCredentialsClientSecret() {
+    return azureOauthClientCredentialsClientSecret;
+  }
+
+  public void setAzureOauthClientCredentialsClientSecret(String azureOauthClientCredentialsClientSecret) {
+    this.azureOauthClientCredentialsClientSecret = azureOauthClientCredentialsClientSecret;
+  }
 
   /**
   * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
   */
-  @Getter
-  @Setter
   @JsonProperty("qradar_password")
   public String qradarPassword;
+
+  public String getQradarPassword() {
+    return qradarPassword;
+  }
+
+  public void setQradarPassword(String qradarPassword) {
+    this.qradarPassword = qradarPassword;
+  }
 
   /**
   * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   */
-  @Getter
-  @Setter
   @JsonProperty("solar_winds_token")
   public String solarWindsToken;
+
+  public String getSolarWindsToken() {
+    return solarWindsToken;
+  }
+
+  public void setSolarWindsToken(String solarWindsToken) {
+    this.solarWindsToken = solarWindsToken;
+  }
 
   /**
   * Applicable only for destination type: new_relic. API key provided by New Relic.
   */
-  @Getter
-  @Setter
   @JsonProperty("new_relic_api_key")
   public String newRelicApiKey;
+
+  public String getNewRelicApiKey() {
+    return newRelicApiKey;
+  }
+
+  public void setNewRelicApiKey(String newRelicApiKey) {
+    this.newRelicApiKey = newRelicApiKey;
+  }
 
   /**
   * Applicable only for destination type: datadog. API key provided by Datadog.
   */
-  @Getter
-  @Setter
   @JsonProperty("datadog_api_key")
   public String datadogApiKey;
+
+  public String getDatadogApiKey() {
+    return datadogApiKey;
+  }
+
+  public void setDatadogApiKey(String datadogApiKey) {
+    this.datadogApiKey = datadogApiKey;
+  }
 
   /**
   * Parameters:

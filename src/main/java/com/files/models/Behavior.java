@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Behavior implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,90 +70,156 @@ public class Behavior implements ModelInterface {
   /**
   * Folder behavior ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Folder path.  Note that Behavior paths cannot be updated once initially set.  You will need to remove and re-create the behavior on the new path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * URL for attached file
   */
-  @Getter
-  @Setter
   @JsonProperty("attachment_url")
   public String attachmentUrl;
+
+  public String getAttachmentUrl() {
+    return attachmentUrl;
+  }
+
+  public void setAttachmentUrl(String attachmentUrl) {
+    this.attachmentUrl = attachmentUrl;
+  }
 
   /**
   * Behavior type.
   */
-  @Getter
-  @Setter
   @JsonProperty("behavior")
   public String behavior;
+
+  public String getBehavior() {
+    return behavior;
+  }
+
+  public void setBehavior(String behavior) {
+    this.behavior = behavior;
+  }
 
   /**
   * Name for this behavior.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Description for this behavior.
   */
-  @Getter
-  @Setter
   @JsonProperty("description")
   public String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   /**
   * Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
   */
-  @Getter
-  @Setter
   @JsonProperty("value")
   public Map<String, String> value;
+
+  public Map<String, String> getValue() {
+    return value;
+  }
+
+  public void setValue(Map<String, String> value) {
+    this.value = value;
+  }
 
   /**
   * If true, the parent folder's behavior will be disabled for this folder and its children.
   */
-  @Getter
-  @Setter
   @JsonProperty("disable_parent_folder_behavior")
   public Boolean disableParentFolderBehavior;
+
+  public Boolean getDisableParentFolderBehavior() {
+    return disableParentFolderBehavior;
+  }
+
+  public void setDisableParentFolderBehavior(Boolean disableParentFolderBehavior) {
+    this.disableParentFolderBehavior = disableParentFolderBehavior;
+  }
 
   /**
   * Is behavior recursive?
   */
-  @Getter
-  @Setter
   @JsonProperty("recursive")
   public Boolean recursive;
+
+  public Boolean getRecursive() {
+    return recursive;
+  }
+
+  public void setRecursive(Boolean recursive) {
+    this.recursive = recursive;
+  }
 
   /**
   * Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   */
-  @Getter
-  @Setter
   @JsonProperty("attachment_file")
   public byte[] attachmentFile;
+
+  public byte[] getAttachmentFile() {
+    return attachmentFile;
+  }
+
+  public void setAttachmentFile(byte[] attachmentFile) {
+    this.attachmentFile = attachmentFile;
+  }
 
   /**
   * If `true`, delete the file stored in `attachment`.
   */
-  @Getter
-  @Setter
   @JsonProperty("attachment_delete")
   public Boolean attachmentDelete;
+
+  public Boolean getAttachmentDelete() {
+    return attachmentDelete;
+  }
+
+  public void setAttachmentDelete(Boolean attachmentDelete) {
+    this.attachmentDelete = attachmentDelete;
+  }
 
   /**
   * Parameters:

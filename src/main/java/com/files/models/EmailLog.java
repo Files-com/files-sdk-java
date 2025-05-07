@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmailLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,65 +70,92 @@ public class EmailLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * Log Message
   */
-  @Getter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
 
   /**
   * Status of E-Mail delivery
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Subject line of E-Mail
   */
-  @Getter
   @JsonProperty("subject")
   public String subject;
+
+  public String getSubject() {
+    return subject;
+  }
 
   /**
   * To field of E-Mail
   */
-  @Getter
   @JsonProperty("to")
   public String to;
+
+  public String getTo() {
+    return to;
+  }
 
   /**
   * CC field of E-Mail
   */
-  @Getter
   @JsonProperty("cc")
   public String cc;
+
+  public String getCc() {
+    return cc;
+  }
 
   /**
   * How was the email delivered?  `customer_smtp` or `files.com`
   */
-  @Getter
   @JsonProperty("delivery_method")
   public String deliveryMethod;
+
+  public String getDeliveryMethod() {
+    return deliveryMethod;
+  }
 
   /**
   * Customer SMTP Hostname used.
   */
-  @Getter
   @JsonProperty("smtp_hostname")
   public String smtpHostname;
+
+  public String getSmtpHostname() {
+    return smtpHostname;
+  }
 
   /**
   * Customer SMTP IP address as resolved for use (useful for troubleshooting DNS issues with customer SMTP).
   */
-  @Getter
   @JsonProperty("smtp_ip")
   public String smtpIp;
+
+  public String getSmtpIp() {
+    return smtpIp;
+  }
 
 
   /**

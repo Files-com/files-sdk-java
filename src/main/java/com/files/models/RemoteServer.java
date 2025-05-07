@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteServer implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,626 +70,1094 @@ public class RemoteServer implements ModelInterface {
   /**
   * Remote server ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
   */
-  @Getter
-  @Setter
   @JsonProperty("disabled")
   public Boolean disabled;
+
+  public Boolean getDisabled() {
+    return disabled;
+  }
+
+  public void setDisabled(Boolean disabled) {
+    this.disabled = disabled;
+  }
 
   /**
   * Type of authentication method
   */
-  @Getter
-  @Setter
   @JsonProperty("authentication_method")
   public String authenticationMethod;
+
+  public String getAuthenticationMethod() {
+    return authenticationMethod;
+  }
+
+  public void setAuthenticationMethod(String authenticationMethod) {
+    this.authenticationMethod = authenticationMethod;
+  }
 
   /**
   * Hostname or IP address
   */
-  @Getter
-  @Setter
   @JsonProperty("hostname")
   public String hostname;
+
+  public String getHostname() {
+    return hostname;
+  }
+
+  public void setHostname(String hostname) {
+    this.hostname = hostname;
+  }
 
   /**
   * Initial home folder on remote server
   */
-  @Getter
-  @Setter
   @JsonProperty("remote_home_path")
   public String remoteHomePath;
+
+  public String getRemoteHomePath() {
+    return remoteHomePath;
+  }
+
+  public void setRemoteHomePath(String remoteHomePath) {
+    this.remoteHomePath = remoteHomePath;
+  }
 
   /**
   * Internal name for your reference
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Port for remote server.  Not needed for S3.
   */
-  @Getter
-  @Setter
   @JsonProperty("port")
   public Long port;
+
+  public Long getPort() {
+    return port;
+  }
+
+  public void setPort(Long port) {
+    this.port = port;
+  }
 
   /**
   * Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
   */
-  @Getter
-  @Setter
   @JsonProperty("max_connections")
   public Long maxConnections;
+
+  public Long getMaxConnections() {
+    return maxConnections;
+  }
+
+  public void setMaxConnections(Long maxConnections) {
+    this.maxConnections = maxConnections;
+  }
 
   /**
   * If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
   */
-  @Getter
-  @Setter
   @JsonProperty("pin_to_site_region")
   public Boolean pinToSiteRegion;
+
+  public Boolean getPinToSiteRegion() {
+    return pinToSiteRegion;
+  }
+
+  public void setPinToSiteRegion(Boolean pinToSiteRegion) {
+    this.pinToSiteRegion = pinToSiteRegion;
+  }
 
   /**
   * If set, all communications with this remote server are made through the provided region.
   */
-  @Getter
-  @Setter
   @JsonProperty("pinned_region")
   public String pinnedRegion;
+
+  public String getPinnedRegion() {
+    return pinnedRegion;
+  }
+
+  public void setPinnedRegion(String pinnedRegion) {
+    this.pinnedRegion = pinnedRegion;
+  }
 
   /**
   * S3 bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_bucket")
   public String s3Bucket;
+
+  public String getS3Bucket() {
+    return s3Bucket;
+  }
+
+  public void setS3Bucket(String s3Bucket) {
+    this.s3Bucket = s3Bucket;
+  }
 
   /**
   * S3 region
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_region")
   public String s3Region;
+
+  public String getS3Region() {
+    return s3Region;
+  }
+
+  public void setS3Region(String s3Region) {
+    this.s3Region = s3Region;
+  }
 
   /**
   * AWS Access Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("aws_access_key")
   public String awsAccessKey;
+
+  public String getAwsAccessKey() {
+    return awsAccessKey;
+  }
+
+  public void setAwsAccessKey(String awsAccessKey) {
+    this.awsAccessKey = awsAccessKey;
+  }
 
   /**
   * Remote server certificate
   */
-  @Getter
-  @Setter
   @JsonProperty("server_certificate")
   public String serverCertificate;
+
+  public String getServerCertificate() {
+    return serverCertificate;
+  }
+
+  public void setServerCertificate(String serverCertificate) {
+    this.serverCertificate = serverCertificate;
+  }
 
   /**
   * Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   */
-  @Getter
-  @Setter
   @JsonProperty("server_host_key")
   public String serverHostKey;
+
+  public String getServerHostKey() {
+    return serverHostKey;
+  }
+
+  public void setServerHostKey(String serverHostKey) {
+    this.serverHostKey = serverHostKey;
+  }
 
   /**
   * Remote server type.
   */
-  @Getter
-  @Setter
   @JsonProperty("server_type")
   public String serverType;
+
+  public String getServerType() {
+    return serverType;
+  }
+
+  public void setServerType(String serverType) {
+    this.serverType = serverType;
+  }
 
   /**
   * Should we require SSL?
   */
-  @Getter
-  @Setter
   @JsonProperty("ssl")
   public String ssl;
+
+  public String getSsl() {
+    return ssl;
+  }
+
+  public void setSsl(String ssl) {
+    this.ssl = ssl;
+  }
 
   /**
   * Remote server username.  Not needed for S3 buckets.
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * Google Cloud Storage: Bucket Name
   */
-  @Getter
-  @Setter
   @JsonProperty("google_cloud_storage_bucket")
   public String googleCloudStorageBucket;
+
+  public String getGoogleCloudStorageBucket() {
+    return googleCloudStorageBucket;
+  }
+
+  public void setGoogleCloudStorageBucket(String googleCloudStorageBucket) {
+    this.googleCloudStorageBucket = googleCloudStorageBucket;
+  }
 
   /**
   * Google Cloud Storage: Project ID
   */
-  @Getter
-  @Setter
   @JsonProperty("google_cloud_storage_project_id")
   public String googleCloudStorageProjectId;
+
+  public String getGoogleCloudStorageProjectId() {
+    return googleCloudStorageProjectId;
+  }
+
+  public void setGoogleCloudStorageProjectId(String googleCloudStorageProjectId) {
+    this.googleCloudStorageProjectId = googleCloudStorageProjectId;
+  }
 
   /**
   * Google Cloud Storage: S3-compatible Access Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("google_cloud_storage_s3_compatible_access_key")
   public String googleCloudStorageS3CompatibleAccessKey;
+
+  public String getGoogleCloudStorageS3CompatibleAccessKey() {
+    return googleCloudStorageS3CompatibleAccessKey;
+  }
+
+  public void setGoogleCloudStorageS3CompatibleAccessKey(String googleCloudStorageS3CompatibleAccessKey) {
+    this.googleCloudStorageS3CompatibleAccessKey = googleCloudStorageS3CompatibleAccessKey;
+  }
 
   /**
   * Backblaze B2 Cloud Storage: S3 Endpoint
   */
-  @Getter
-  @Setter
   @JsonProperty("backblaze_b2_s3_endpoint")
   public String backblazeB2S3Endpoint;
+
+  public String getBackblazeB2S3Endpoint() {
+    return backblazeB2S3Endpoint;
+  }
+
+  public void setBackblazeB2S3Endpoint(String backblazeB2S3Endpoint) {
+    this.backblazeB2S3Endpoint = backblazeB2S3Endpoint;
+  }
 
   /**
   * Backblaze B2 Cloud Storage: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("backblaze_b2_bucket")
   public String backblazeB2Bucket;
+
+  public String getBackblazeB2Bucket() {
+    return backblazeB2Bucket;
+  }
+
+  public void setBackblazeB2Bucket(String backblazeB2Bucket) {
+    this.backblazeB2Bucket = backblazeB2Bucket;
+  }
 
   /**
   * Wasabi: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("wasabi_bucket")
   public String wasabiBucket;
+
+  public String getWasabiBucket() {
+    return wasabiBucket;
+  }
+
+  public void setWasabiBucket(String wasabiBucket) {
+    this.wasabiBucket = wasabiBucket;
+  }
 
   /**
   * Wasabi: Region
   */
-  @Getter
-  @Setter
   @JsonProperty("wasabi_region")
   public String wasabiRegion;
+
+  public String getWasabiRegion() {
+    return wasabiRegion;
+  }
+
+  public void setWasabiRegion(String wasabiRegion) {
+    this.wasabiRegion = wasabiRegion;
+  }
 
   /**
   * Wasabi: Access Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("wasabi_access_key")
   public String wasabiAccessKey;
+
+  public String getWasabiAccessKey() {
+    return wasabiAccessKey;
+  }
+
+  public void setWasabiAccessKey(String wasabiAccessKey) {
+    this.wasabiAccessKey = wasabiAccessKey;
+  }
 
   /**
   * Rackspace: username used to login to the Rackspace Cloud Control Panel.
   */
-  @Getter
-  @Setter
   @JsonProperty("rackspace_username")
   public String rackspaceUsername;
+
+  public String getRackspaceUsername() {
+    return rackspaceUsername;
+  }
+
+  public void setRackspaceUsername(String rackspaceUsername) {
+    this.rackspaceUsername = rackspaceUsername;
+  }
 
   /**
   * Rackspace: Three letter code for Rackspace region. See https://support.rackspace.com/how-to/about-regions/
   */
-  @Getter
-  @Setter
   @JsonProperty("rackspace_region")
   public String rackspaceRegion;
+
+  public String getRackspaceRegion() {
+    return rackspaceRegion;
+  }
+
+  public void setRackspaceRegion(String rackspaceRegion) {
+    this.rackspaceRegion = rackspaceRegion;
+  }
 
   /**
   * Rackspace: The name of the container (top level directory) where files will sync.
   */
-  @Getter
-  @Setter
   @JsonProperty("rackspace_container")
   public String rackspaceContainer;
+
+  public String getRackspaceContainer() {
+    return rackspaceContainer;
+  }
+
+  public void setRackspaceContainer(String rackspaceContainer) {
+    this.rackspaceContainer = rackspaceContainer;
+  }
 
   /**
   * Either `in_setup` or `complete`
   */
-  @Getter
-  @Setter
   @JsonProperty("auth_status")
   public String authStatus;
+
+  public String getAuthStatus() {
+    return authStatus;
+  }
+
+  public void setAuthStatus(String authStatus) {
+    this.authStatus = authStatus;
+  }
 
   /**
   * Describes the authorized account
   */
-  @Getter
-  @Setter
   @JsonProperty("auth_account_name")
   public String authAccountName;
+
+  public String getAuthAccountName() {
+    return authAccountName;
+  }
+
+  public void setAuthAccountName(String authAccountName) {
+    this.authAccountName = authAccountName;
+  }
 
   /**
   * OneDrive: Either personal or business_other account types
   */
-  @Getter
-  @Setter
   @JsonProperty("one_drive_account_type")
   public String oneDriveAccountType;
+
+  public String getOneDriveAccountType() {
+    return oneDriveAccountType;
+  }
+
+  public void setOneDriveAccountType(String oneDriveAccountType) {
+    this.oneDriveAccountType = oneDriveAccountType;
+  }
 
   /**
   * Azure Blob Storage: Account name
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_account")
   public String azureBlobStorageAccount;
+
+  public String getAzureBlobStorageAccount() {
+    return azureBlobStorageAccount;
+  }
+
+  public void setAzureBlobStorageAccount(String azureBlobStorageAccount) {
+    this.azureBlobStorageAccount = azureBlobStorageAccount;
+  }
 
   /**
   * Azure Blob Storage: Container name
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_container")
   public String azureBlobStorageContainer;
+
+  public String getAzureBlobStorageContainer() {
+    return azureBlobStorageContainer;
+  }
+
+  public void setAzureBlobStorageContainer(String azureBlobStorageContainer) {
+    this.azureBlobStorageContainer = azureBlobStorageContainer;
+  }
 
   /**
   * Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_hierarchical_namespace")
   public Boolean azureBlobStorageHierarchicalNamespace;
+
+  public Boolean getAzureBlobStorageHierarchicalNamespace() {
+    return azureBlobStorageHierarchicalNamespace;
+  }
+
+  public void setAzureBlobStorageHierarchicalNamespace(Boolean azureBlobStorageHierarchicalNamespace) {
+    this.azureBlobStorageHierarchicalNamespace = azureBlobStorageHierarchicalNamespace;
+  }
 
   /**
   * Azure Blob Storage: Custom DNS suffix
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_dns_suffix")
   public String azureBlobStorageDnsSuffix;
+
+  public String getAzureBlobStorageDnsSuffix() {
+    return azureBlobStorageDnsSuffix;
+  }
+
+  public void setAzureBlobStorageDnsSuffix(String azureBlobStorageDnsSuffix) {
+    this.azureBlobStorageDnsSuffix = azureBlobStorageDnsSuffix;
+  }
 
   /**
   * Azure Files: Storage Account name
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_files_storage_account")
   public String azureFilesStorageAccount;
+
+  public String getAzureFilesStorageAccount() {
+    return azureFilesStorageAccount;
+  }
+
+  public void setAzureFilesStorageAccount(String azureFilesStorageAccount) {
+    this.azureFilesStorageAccount = azureFilesStorageAccount;
+  }
 
   /**
   * Azure Files:  Storage Share name
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_files_storage_share_name")
   public String azureFilesStorageShareName;
+
+  public String getAzureFilesStorageShareName() {
+    return azureFilesStorageShareName;
+  }
+
+  public void setAzureFilesStorageShareName(String azureFilesStorageShareName) {
+    this.azureFilesStorageShareName = azureFilesStorageShareName;
+  }
 
   /**
   * Azure Files: Custom DNS suffix
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_files_storage_dns_suffix")
   public String azureFilesStorageDnsSuffix;
+
+  public String getAzureFilesStorageDnsSuffix() {
+    return azureFilesStorageDnsSuffix;
+  }
+
+  public void setAzureFilesStorageDnsSuffix(String azureFilesStorageDnsSuffix) {
+    this.azureFilesStorageDnsSuffix = azureFilesStorageDnsSuffix;
+  }
 
   /**
   * S3-compatible: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_compatible_bucket")
   public String s3CompatibleBucket;
+
+  public String getS3CompatibleBucket() {
+    return s3CompatibleBucket;
+  }
+
+  public void setS3CompatibleBucket(String s3CompatibleBucket) {
+    this.s3CompatibleBucket = s3CompatibleBucket;
+  }
 
   /**
   * S3-compatible: endpoint
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_compatible_endpoint")
   public String s3CompatibleEndpoint;
+
+  public String getS3CompatibleEndpoint() {
+    return s3CompatibleEndpoint;
+  }
+
+  public void setS3CompatibleEndpoint(String s3CompatibleEndpoint) {
+    this.s3CompatibleEndpoint = s3CompatibleEndpoint;
+  }
 
   /**
   * S3-compatible: region
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_compatible_region")
   public String s3CompatibleRegion;
+
+  public String getS3CompatibleRegion() {
+    return s3CompatibleRegion;
+  }
+
+  public void setS3CompatibleRegion(String s3CompatibleRegion) {
+    this.s3CompatibleRegion = s3CompatibleRegion;
+  }
 
   /**
   * S3-compatible: Access Key
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_compatible_access_key")
   public String s3CompatibleAccessKey;
+
+  public String getS3CompatibleAccessKey() {
+    return s3CompatibleAccessKey;
+  }
+
+  public void setS3CompatibleAccessKey(String s3CompatibleAccessKey) {
+    this.s3CompatibleAccessKey = s3CompatibleAccessKey;
+  }
 
   /**
   * `true` if remote server only accepts connections from dedicated IPs
   */
-  @Getter
-  @Setter
   @JsonProperty("enable_dedicated_ips")
   public Boolean enableDedicatedIps;
+
+  public Boolean getEnableDedicatedIps() {
+    return enableDedicatedIps;
+  }
+
+  public void setEnableDedicatedIps(Boolean enableDedicatedIps) {
+    this.enableDedicatedIps = enableDedicatedIps;
+  }
 
   /**
   * Local permissions for files agent. read_only, write_only, or read_write
   */
-  @Getter
-  @Setter
   @JsonProperty("files_agent_permission_set")
   public String filesAgentPermissionSet;
+
+  public String getFilesAgentPermissionSet() {
+    return filesAgentPermissionSet;
+  }
+
+  public void setFilesAgentPermissionSet(String filesAgentPermissionSet) {
+    this.filesAgentPermissionSet = filesAgentPermissionSet;
+  }
 
   /**
   * Agent local root path
   */
-  @Getter
-  @Setter
   @JsonProperty("files_agent_root")
   public String filesAgentRoot;
+
+  public String getFilesAgentRoot() {
+    return filesAgentRoot;
+  }
+
+  public void setFilesAgentRoot(String filesAgentRoot) {
+    this.filesAgentRoot = filesAgentRoot;
+  }
 
   /**
   * Files Agent API Token
   */
-  @Getter
-  @Setter
   @JsonProperty("files_agent_api_token")
   public String filesAgentApiToken;
+
+  public String getFilesAgentApiToken() {
+    return filesAgentApiToken;
+  }
+
+  public void setFilesAgentApiToken(String filesAgentApiToken) {
+    this.filesAgentApiToken = filesAgentApiToken;
+  }
 
   /**
   * Files Agent version
   */
-  @Getter
-  @Setter
   @JsonProperty("files_agent_version")
   public String filesAgentVersion;
+
+  public String getFilesAgentVersion() {
+    return filesAgentVersion;
+  }
+
+  public void setFilesAgentVersion(String filesAgentVersion) {
+    this.filesAgentVersion = filesAgentVersion;
+  }
 
   /**
   * Filebase: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("filebase_bucket")
   public String filebaseBucket;
+
+  public String getFilebaseBucket() {
+    return filebaseBucket;
+  }
+
+  public void setFilebaseBucket(String filebaseBucket) {
+    this.filebaseBucket = filebaseBucket;
+  }
 
   /**
   * Filebase: Access Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("filebase_access_key")
   public String filebaseAccessKey;
+
+  public String getFilebaseAccessKey() {
+    return filebaseAccessKey;
+  }
+
+  public void setFilebaseAccessKey(String filebaseAccessKey) {
+    this.filebaseAccessKey = filebaseAccessKey;
+  }
 
   /**
   * Cloudflare: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("cloudflare_bucket")
   public String cloudflareBucket;
+
+  public String getCloudflareBucket() {
+    return cloudflareBucket;
+  }
+
+  public void setCloudflareBucket(String cloudflareBucket) {
+    this.cloudflareBucket = cloudflareBucket;
+  }
 
   /**
   * Cloudflare: Access Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("cloudflare_access_key")
   public String cloudflareAccessKey;
+
+  public String getCloudflareAccessKey() {
+    return cloudflareAccessKey;
+  }
+
+  public void setCloudflareAccessKey(String cloudflareAccessKey) {
+    this.cloudflareAccessKey = cloudflareAccessKey;
+  }
 
   /**
   * Cloudflare: endpoint
   */
-  @Getter
-  @Setter
   @JsonProperty("cloudflare_endpoint")
   public String cloudflareEndpoint;
+
+  public String getCloudflareEndpoint() {
+    return cloudflareEndpoint;
+  }
+
+  public void setCloudflareEndpoint(String cloudflareEndpoint) {
+    this.cloudflareEndpoint = cloudflareEndpoint;
+  }
 
   /**
   * Dropbox: If true, list Team folders in root?
   */
-  @Getter
-  @Setter
   @JsonProperty("dropbox_teams")
   public Boolean dropboxTeams;
+
+  public Boolean getDropboxTeams() {
+    return dropboxTeams;
+  }
+
+  public void setDropboxTeams(Boolean dropboxTeams) {
+    this.dropboxTeams = dropboxTeams;
+  }
 
   /**
   * Linode: Bucket name
   */
-  @Getter
-  @Setter
   @JsonProperty("linode_bucket")
   public String linodeBucket;
+
+  public String getLinodeBucket() {
+    return linodeBucket;
+  }
+
+  public void setLinodeBucket(String linodeBucket) {
+    this.linodeBucket = linodeBucket;
+  }
 
   /**
   * Linode: Access Key
   */
-  @Getter
-  @Setter
   @JsonProperty("linode_access_key")
   public String linodeAccessKey;
+
+  public String getLinodeAccessKey() {
+    return linodeAccessKey;
+  }
+
+  public void setLinodeAccessKey(String linodeAccessKey) {
+    this.linodeAccessKey = linodeAccessKey;
+  }
 
   /**
   * Linode: region
   */
-  @Getter
-  @Setter
   @JsonProperty("linode_region")
   public String linodeRegion;
+
+  public String getLinodeRegion() {
+    return linodeRegion;
+  }
+
+  public void setLinodeRegion(String linodeRegion) {
+    this.linodeRegion = linodeRegion;
+  }
 
   /**
   * If true, this remote server supports file versioning. This value is determined automatically by Files.com.
   */
-  @Getter
-  @Setter
   @JsonProperty("supports_versioning")
   public Boolean supportsVersioning;
+
+  public Boolean getSupportsVersioning() {
+    return supportsVersioning;
+  }
+
+  public void setSupportsVersioning(Boolean supportsVersioning) {
+    this.supportsVersioning = supportsVersioning;
+  }
 
   /**
   * Password, if needed.
   */
-  @Getter
-  @Setter
   @JsonProperty("password")
   public String password;
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   /**
   * Private key, if needed.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key")
   public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
 
   /**
   * Passphrase for private key if needed.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key_passphrase")
   public String privateKeyPassphrase;
+
+  public String getPrivateKeyPassphrase() {
+    return privateKeyPassphrase;
+  }
+
+  public void setPrivateKeyPassphrase(String privateKeyPassphrase) {
+    this.privateKeyPassphrase = privateKeyPassphrase;
+  }
 
   /**
   * Reset authenticated account?
   */
-  @Getter
-  @Setter
   @JsonProperty("reset_authentication")
   public Boolean resetAuthentication;
+
+  public Boolean getResetAuthentication() {
+    return resetAuthentication;
+  }
+
+  public void setResetAuthentication(Boolean resetAuthentication) {
+    this.resetAuthentication = resetAuthentication;
+  }
 
   /**
   * SSL client certificate.
   */
-  @Getter
-  @Setter
   @JsonProperty("ssl_certificate")
   public String sslCertificate;
+
+  public String getSslCertificate() {
+    return sslCertificate;
+  }
+
+  public void setSslCertificate(String sslCertificate) {
+    this.sslCertificate = sslCertificate;
+  }
 
   /**
   * AWS: secret key.
   */
-  @Getter
-  @Setter
   @JsonProperty("aws_secret_key")
   public String awsSecretKey;
+
+  public String getAwsSecretKey() {
+    return awsSecretKey;
+  }
+
+  public void setAwsSecretKey(String awsSecretKey) {
+    this.awsSecretKey = awsSecretKey;
+  }
 
   /**
   * Azure Blob Storage: Access Key
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_access_key")
   public String azureBlobStorageAccessKey;
+
+  public String getAzureBlobStorageAccessKey() {
+    return azureBlobStorageAccessKey;
+  }
+
+  public void setAzureBlobStorageAccessKey(String azureBlobStorageAccessKey) {
+    this.azureBlobStorageAccessKey = azureBlobStorageAccessKey;
+  }
 
   /**
   * Azure Blob Storage: Shared Access Signature (SAS) token
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_blob_storage_sas_token")
   public String azureBlobStorageSasToken;
+
+  public String getAzureBlobStorageSasToken() {
+    return azureBlobStorageSasToken;
+  }
+
+  public void setAzureBlobStorageSasToken(String azureBlobStorageSasToken) {
+    this.azureBlobStorageSasToken = azureBlobStorageSasToken;
+  }
 
   /**
   * Azure File Storage: Access Key
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_files_storage_access_key")
   public String azureFilesStorageAccessKey;
+
+  public String getAzureFilesStorageAccessKey() {
+    return azureFilesStorageAccessKey;
+  }
+
+  public void setAzureFilesStorageAccessKey(String azureFilesStorageAccessKey) {
+    this.azureFilesStorageAccessKey = azureFilesStorageAccessKey;
+  }
 
   /**
   * Azure File Storage: Shared Access Signature (SAS) token
   */
-  @Getter
-  @Setter
   @JsonProperty("azure_files_storage_sas_token")
   public String azureFilesStorageSasToken;
+
+  public String getAzureFilesStorageSasToken() {
+    return azureFilesStorageSasToken;
+  }
+
+  public void setAzureFilesStorageSasToken(String azureFilesStorageSasToken) {
+    this.azureFilesStorageSasToken = azureFilesStorageSasToken;
+  }
 
   /**
   * Backblaze B2 Cloud Storage: applicationKey
   */
-  @Getter
-  @Setter
   @JsonProperty("backblaze_b2_application_key")
   public String backblazeB2ApplicationKey;
+
+  public String getBackblazeB2ApplicationKey() {
+    return backblazeB2ApplicationKey;
+  }
+
+  public void setBackblazeB2ApplicationKey(String backblazeB2ApplicationKey) {
+    this.backblazeB2ApplicationKey = backblazeB2ApplicationKey;
+  }
 
   /**
   * Backblaze B2 Cloud Storage: keyID
   */
-  @Getter
-  @Setter
   @JsonProperty("backblaze_b2_key_id")
   public String backblazeB2KeyId;
+
+  public String getBackblazeB2KeyId() {
+    return backblazeB2KeyId;
+  }
+
+  public void setBackblazeB2KeyId(String backblazeB2KeyId) {
+    this.backblazeB2KeyId = backblazeB2KeyId;
+  }
 
   /**
   * Cloudflare: Secret Key
   */
-  @Getter
-  @Setter
   @JsonProperty("cloudflare_secret_key")
   public String cloudflareSecretKey;
+
+  public String getCloudflareSecretKey() {
+    return cloudflareSecretKey;
+  }
+
+  public void setCloudflareSecretKey(String cloudflareSecretKey) {
+    this.cloudflareSecretKey = cloudflareSecretKey;
+  }
 
   /**
   * Filebase: Secret Key
   */
-  @Getter
-  @Setter
   @JsonProperty("filebase_secret_key")
   public String filebaseSecretKey;
+
+  public String getFilebaseSecretKey() {
+    return filebaseSecretKey;
+  }
+
+  public void setFilebaseSecretKey(String filebaseSecretKey) {
+    this.filebaseSecretKey = filebaseSecretKey;
+  }
 
   /**
   * Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
   */
-  @Getter
-  @Setter
   @JsonProperty("google_cloud_storage_credentials_json")
   public String googleCloudStorageCredentialsJson;
+
+  public String getGoogleCloudStorageCredentialsJson() {
+    return googleCloudStorageCredentialsJson;
+  }
+
+  public void setGoogleCloudStorageCredentialsJson(String googleCloudStorageCredentialsJson) {
+    this.googleCloudStorageCredentialsJson = googleCloudStorageCredentialsJson;
+  }
 
   /**
   * Google Cloud Storage: S3-compatible secret key
   */
-  @Getter
-  @Setter
   @JsonProperty("google_cloud_storage_s3_compatible_secret_key")
   public String googleCloudStorageS3CompatibleSecretKey;
+
+  public String getGoogleCloudStorageS3CompatibleSecretKey() {
+    return googleCloudStorageS3CompatibleSecretKey;
+  }
+
+  public void setGoogleCloudStorageS3CompatibleSecretKey(String googleCloudStorageS3CompatibleSecretKey) {
+    this.googleCloudStorageS3CompatibleSecretKey = googleCloudStorageS3CompatibleSecretKey;
+  }
 
   /**
   * Linode: Secret Key
   */
-  @Getter
-  @Setter
   @JsonProperty("linode_secret_key")
   public String linodeSecretKey;
+
+  public String getLinodeSecretKey() {
+    return linodeSecretKey;
+  }
+
+  public void setLinodeSecretKey(String linodeSecretKey) {
+    this.linodeSecretKey = linodeSecretKey;
+  }
 
   /**
   * Rackspace: API key from the Rackspace Cloud Control Panel
   */
-  @Getter
-  @Setter
   @JsonProperty("rackspace_api_key")
   public String rackspaceApiKey;
+
+  public String getRackspaceApiKey() {
+    return rackspaceApiKey;
+  }
+
+  public void setRackspaceApiKey(String rackspaceApiKey) {
+    this.rackspaceApiKey = rackspaceApiKey;
+  }
 
   /**
   * S3-compatible: Secret Key
   */
-  @Getter
-  @Setter
   @JsonProperty("s3_compatible_secret_key")
   public String s3CompatibleSecretKey;
+
+  public String getS3CompatibleSecretKey() {
+    return s3CompatibleSecretKey;
+  }
+
+  public void setS3CompatibleSecretKey(String s3CompatibleSecretKey) {
+    this.s3CompatibleSecretKey = s3CompatibleSecretKey;
+  }
 
   /**
   * Wasabi: Secret Key
   */
-  @Getter
-  @Setter
   @JsonProperty("wasabi_secret_key")
   public String wasabiSecretKey;
+
+  public String getWasabiSecretKey() {
+    return wasabiSecretKey;
+  }
+
+  public void setWasabiSecretKey(String wasabiSecretKey) {
+    this.wasabiSecretKey = wasabiSecretKey;
+  }
 
   /**
   * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)

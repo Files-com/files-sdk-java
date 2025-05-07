@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Payment implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,93 +70,132 @@ public class Payment implements ModelInterface {
   /**
   * Line item Id
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Line item amount
   */
-  @Getter
   @JsonProperty("amount")
   public Double amount;
+
+  public Double getAmount() {
+    return amount;
+  }
 
   /**
   * Line item balance
   */
-  @Getter
   @JsonProperty("balance")
   public Double balance;
+
+  public Double getBalance() {
+    return balance;
+  }
 
   /**
   * Line item created at
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Line item currency
   */
-  @Getter
   @JsonProperty("currency")
   public String currency;
+
+  public String getCurrency() {
+    return currency;
+  }
 
   /**
   * Line item download uri
   */
-  @Getter
   @JsonProperty("download_uri")
   public String downloadUri;
+
+  public String getDownloadUri() {
+    return downloadUri;
+  }
 
   /**
   * Associated invoice line items
   */
-  @Getter
   @JsonProperty("invoice_line_items")
   public Object[] invoiceLineItems;
+
+  public Object[] getInvoiceLineItems() {
+    return invoiceLineItems;
+  }
 
   /**
   * Line item payment method
   */
-  @Getter
   @JsonProperty("method")
   public String method;
+
+  public String getMethod() {
+    return method;
+  }
 
   /**
   * Associated payment line items
   */
-  @Getter
   @JsonProperty("payment_line_items")
   public Object[] paymentLineItems;
+
+  public Object[] getPaymentLineItems() {
+    return paymentLineItems;
+  }
 
   /**
   * Date/time payment was reversed if applicable
   */
-  @Getter
   @JsonProperty("payment_reversed_at")
   public Date paymentReversedAt;
+
+  public Date getPaymentReversedAt() {
+    return paymentReversedAt;
+  }
 
   /**
   * Type of payment if applicable
   */
-  @Getter
   @JsonProperty("payment_type")
   public String paymentType;
+
+  public String getPaymentType() {
+    return paymentType;
+  }
 
   /**
   * Site name this line item is for
   */
-  @Getter
   @JsonProperty("site_name")
   public String siteName;
+
+  public String getSiteName() {
+    return siteName;
+  }
 
   /**
   * Type of line item, either payment or invoice
   */
-  @Getter
   @JsonProperty("type")
   public String type;
+
+  public String getType() {
+    return type;
+  }
 
 
   /**

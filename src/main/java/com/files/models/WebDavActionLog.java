@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebDavActionLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,121 +70,172 @@ public class WebDavActionLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * IP Address of WebDAV Client
   */
-  @Getter
   @JsonProperty("remote_ip")
   public String remoteIp;
+
+  public String getRemoteIp() {
+    return remoteIp;
+  }
 
   /**
   * IP Address of WebDAV Server
   */
-  @Getter
   @JsonProperty("server_ip")
   public String serverIp;
+
+  public String getServerIp() {
+    return serverIp;
+  }
 
   /**
   * Username
   */
-  @Getter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
 
   /**
   * Authentication Ciphers
   */
-  @Getter
   @JsonProperty("auth_ciphers")
   public String authCiphers;
+
+  public String getAuthCiphers() {
+    return authCiphers;
+  }
 
   /**
   * Action Type
   */
-  @Getter
   @JsonProperty("action_type")
   public String actionType;
+
+  public String getActionType() {
+    return actionType;
+  }
 
   /**
   * Path as sent by the Client (may not match Files.com path due to user root folders for WebDAV). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * Path on Files.com
   */
-  @Getter
   @JsonProperty("true_path")
   public String truePath;
+
+  public String getTruePath() {
+    return truePath;
+  }
 
   /**
   * Name of File
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Method of the HTTP call.
   */
-  @Getter
   @JsonProperty("http_method")
   public String httpMethod;
+
+  public String getHttpMethod() {
+    return httpMethod;
+  }
 
   /**
   * Path of the HTTP call.
   */
-  @Getter
   @JsonProperty("http_path")
   public String httpPath;
+
+  public String getHttpPath() {
+    return httpPath;
+  }
 
   /**
   * HTTP Response Code returned to the WebDAV Client.
   */
-  @Getter
   @JsonProperty("http_response_code")
   public Long httpResponseCode;
+
+  public Long getHttpResponseCode() {
+    return httpResponseCode;
+  }
 
   /**
   * Size of File That was Uploaded or Downloaded.
   */
-  @Getter
   @JsonProperty("size")
   public Long size;
+
+  public Long getSize() {
+    return size;
+  }
 
   /**
   * Number of entries returned when listing files and folders
   */
-  @Getter
   @JsonProperty("entries_returned")
   public Long entriesReturned;
+
+  public Long getEntriesReturned() {
+    return entriesReturned;
+  }
 
   /**
   * Whether WebDAV Action was successful.
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * WebDAV Action status.
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

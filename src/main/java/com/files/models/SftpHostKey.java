@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SftpHostKey implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,42 +70,72 @@ public class SftpHostKey implements ModelInterface {
   /**
   * SFTP Host Key ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * The friendly name of this SFTP Host Key.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * MD5 Fingerprint of the public key
   */
-  @Getter
-  @Setter
   @JsonProperty("fingerprint_md5")
   public String fingerprintMd5;
+
+  public String getFingerprintMd5() {
+    return fingerprintMd5;
+  }
+
+  public void setFingerprintMd5(String fingerprintMd5) {
+    this.fingerprintMd5 = fingerprintMd5;
+  }
 
   /**
   * SHA256 Fingerprint of the public key
   */
-  @Getter
-  @Setter
   @JsonProperty("fingerprint_sha256")
   public String fingerprintSha256;
+
+  public String getFingerprintSha256() {
+    return fingerprintSha256;
+  }
+
+  public void setFingerprintSha256(String fingerprintSha256) {
+    this.fingerprintSha256 = fingerprintSha256;
+  }
 
   /**
   * The private key data.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key")
   public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
 
   /**
   * Parameters:

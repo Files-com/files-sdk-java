@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileMigration implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,64 +70,91 @@ public class FileMigration implements ModelInterface {
   /**
   * File migration ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Source path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * Destination path
   */
-  @Getter
   @JsonProperty("dest_path")
   public String destPath;
+
+  public String getDestPath() {
+    return destPath;
+  }
 
   /**
   * Number of files processed
   */
-  @Getter
   @JsonProperty("files_moved")
   public Long filesMoved;
 
+  public Long getFilesMoved() {
+    return filesMoved;
+  }
+
   /**
   */
-  @Getter
   @JsonProperty("files_total")
   public Long filesTotal;
+
+  public Long getFilesTotal() {
+    return filesTotal;
+  }
 
   /**
   * The type of operation
   */
-  @Getter
   @JsonProperty("operation")
   public String operation;
+
+  public String getOperation() {
+    return operation;
+  }
 
   /**
   * Region
   */
-  @Getter
   @JsonProperty("region")
   public String region;
+
+  public String getRegion() {
+    return region;
+  }
 
   /**
   * Status
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Link to download the log file for this migration.
   */
-  @Getter
   @JsonProperty("log_url")
   public String logUrl;
+
+  public String getLogUrl() {
+    return logUrl;
+  }
 
 
   /**

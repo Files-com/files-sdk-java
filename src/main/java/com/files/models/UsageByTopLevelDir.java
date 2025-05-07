@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsageByTopLevelDir implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,23 +70,32 @@ public class UsageByTopLevelDir implements ModelInterface {
   /**
   * Directory name
   */
-  @Getter
   @JsonProperty("dir")
   public String dir;
+
+  public String getDir() {
+    return dir;
+  }
 
   /**
   * Usage
   */
-  @Getter
   @JsonProperty("size")
   public Long size;
+
+  public Long getSize() {
+    return size;
+  }
 
   /**
   * File count
   */
-  @Getter
   @JsonProperty("count")
   public Long count;
+
+  public Long getCount() {
+    return count;
+  }
 
 
 }

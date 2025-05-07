@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GpgKey implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,100 @@ public class GpgKey implements ModelInterface {
   /**
   * Your GPG key ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Your GPG key expiration date.
   */
-  @Getter
-  @Setter
   @JsonProperty("expires_at")
   public Date expiresAt;
+
+  public Date getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(Date expiresAt) {
+    this.expiresAt = expiresAt;
+  }
 
   /**
   * Your GPG key name.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * GPG owner's user id
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Your GPG public key
   */
-  @Getter
-  @Setter
   @JsonProperty("public_key")
   public String publicKey;
+
+  public String getPublicKey() {
+    return publicKey;
+  }
+
+  public void setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
+  }
 
   /**
   * Your GPG private key.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key")
   public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
 
   /**
   * Your GPG private key password. Only required for password protected keys.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key_password")
   public String privateKeyPassword;
+
+  public String getPrivateKeyPassword() {
+    return privateKeyPassword;
+  }
+
+  public void setPrivateKeyPassword(String privateKeyPassword) {
+    this.privateKeyPassword = privateKeyPassword;
+  }
 
   /**
   * Parameters:

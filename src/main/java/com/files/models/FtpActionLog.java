@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FtpActionLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,135 +70,192 @@ public class FtpActionLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * IP Address of FTP Client
   */
-  @Getter
   @JsonProperty("remote_ip")
   public String remoteIp;
+
+  public String getRemoteIp() {
+    return remoteIp;
+  }
 
   /**
   * IP Address of FTP Server
   */
-  @Getter
   @JsonProperty("server_ip")
   public String serverIp;
+
+  public String getServerIp() {
+    return serverIp;
+  }
 
   /**
   * Username
   */
-  @Getter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
 
   /**
   * Unique ID of the Session
   */
-  @Getter
   @JsonProperty("session_uuid")
   public String sessionUuid;
+
+  public String getSessionUuid() {
+    return sessionUuid;
+  }
 
   /**
   * FTP Sequence ID
   */
-  @Getter
   @JsonProperty("seq_id")
   public Long seqId;
+
+  public Long getSeqId() {
+    return seqId;
+  }
 
   /**
   * Authentication Ciphers
   */
-  @Getter
   @JsonProperty("auth_ciphers")
   public String authCiphers;
+
+  public String getAuthCiphers() {
+    return authCiphers;
+  }
 
   /**
   * Action Type
   */
-  @Getter
   @JsonProperty("action_type")
   public String actionType;
+
+  public String getActionType() {
+    return actionType;
+  }
 
   /**
   * Path as sent by the Client (may not match Files.com path due to user root folders for FTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * Path on Files.com
   */
-  @Getter
   @JsonProperty("true_path")
   public String truePath;
+
+  public String getTruePath() {
+    return truePath;
+  }
 
   /**
   * Name of File
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * FTP Command Name
   */
-  @Getter
   @JsonProperty("cmd")
   public String cmd;
+
+  public String getCmd() {
+    return cmd;
+  }
 
   /**
   * FTP Command Param
   */
-  @Getter
   @JsonProperty("param")
   public String param;
+
+  public String getParam() {
+    return param;
+  }
 
   /**
   * FTP Response Code
   */
-  @Getter
   @JsonProperty("responseCode")
   public Long responseCode;
+
+  public Long getResponseCode() {
+    return responseCode;
+  }
 
   /**
   * FTP Response Message
   */
-  @Getter
   @JsonProperty("responseMessage")
   public String responseMessage;
+
+  public String getResponseMessage() {
+    return responseMessage;
+  }
 
   /**
   * Number of entries returned when listing files and folders
   */
-  @Getter
   @JsonProperty("entries_returned")
   public Long entriesReturned;
+
+  public Long getEntriesReturned() {
+    return entriesReturned;
+  }
 
   /**
   * Whether FTP Action was successful.
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * FTP Action status.
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

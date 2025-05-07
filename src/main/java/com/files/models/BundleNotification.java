@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BundleNotification implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,42 +70,72 @@ public class BundleNotification implements ModelInterface {
   /**
   * Bundle ID to notify on
   */
-  @Getter
-  @Setter
   @JsonProperty("bundle_id")
   public Long bundleId;
+
+  public Long getBundleId() {
+    return bundleId;
+  }
+
+  public void setBundleId(Long bundleId) {
+    this.bundleId = bundleId;
+  }
 
   /**
   * Bundle Notification ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Triggers bundle notification when a registration action occurs for it.
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_registration")
   public Boolean notifyOnRegistration;
+
+  public Boolean getNotifyOnRegistration() {
+    return notifyOnRegistration;
+  }
+
+  public void setNotifyOnRegistration(Boolean notifyOnRegistration) {
+    this.notifyOnRegistration = notifyOnRegistration;
+  }
 
   /**
   * Triggers bundle notification when a upload action occurs for it.
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_upload")
   public Boolean notifyOnUpload;
+
+  public Boolean getNotifyOnUpload() {
+    return notifyOnUpload;
+  }
+
+  public void setNotifyOnUpload(Boolean notifyOnUpload) {
+    this.notifyOnUpload = notifyOnUpload;
+  }
 
   /**
   * The id of the user to notify.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Parameters:

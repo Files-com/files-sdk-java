@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Errors implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,16 +70,22 @@ public class Errors implements ModelInterface {
   /**
   * A list of fields where errors occur
   */
-  @Getter
   @JsonProperty("fields")
   public String[] fields;
+
+  public String[] getFields() {
+    return fields;
+  }
 
   /**
   * A list of error messages
   */
-  @Getter
   @JsonProperty("messages")
   public String[] messages;
+
+  public String[] getMessages() {
+    return messages;
+  }
 
 
 }

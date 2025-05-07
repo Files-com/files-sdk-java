@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicHostingRequestLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,82 @@ public class PublicHostingRequestLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * IP Address of Public Hosting Client
   */
-  @Getter
   @JsonProperty("remote_ip")
   public String remoteIp;
+
+  public String getRemoteIp() {
+    return remoteIp;
+  }
 
   /**
   * IP Address of Public Hosting Server
   */
-  @Getter
   @JsonProperty("server_ip")
   public String serverIp;
+
+  public String getServerIp() {
+    return serverIp;
+  }
 
   /**
   * HTTP Request Hostname
   */
-  @Getter
   @JsonProperty("hostname")
   public String hostname;
+
+  public String getHostname() {
+    return hostname;
+  }
 
   /**
   * HTTP Request Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * HTTP Response Code
   */
-  @Getter
   @JsonProperty("responseCode")
   public Long responseCode;
+
+  public Long getResponseCode() {
+    return responseCode;
+  }
 
   /**
   * Whether SFTP Action was successful.
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

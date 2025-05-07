@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Status implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,51 +70,72 @@ public class Status implements ModelInterface {
   /**
   * Status HTTP code
   */
-  @Getter
   @JsonProperty("code")
   public Long code;
+
+  public Long getCode() {
+    return code;
+  }
 
   /**
   * Error message
   */
-  @Getter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
 
   /**
   * Status message
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Additional data
   */
-  @Getter
   @JsonProperty("data")
   public Auto data;
+
+  public Auto getData() {
+    return data;
+  }
 
   /**
   * A list of api errors
   */
-  @Getter
   @JsonProperty("errors")
   public Object[] errors;
+
+  public Object[] getErrors() {
+    return errors;
+  }
 
   /**
   * Required Clickwrap id
   */
-  @Getter
   @JsonProperty("clickwrap_id")
   public Long clickwrapId;
+
+  public Long getClickwrapId() {
+    return clickwrapId;
+  }
 
   /**
   * Required Clickwrap body
   */
-  @Getter
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
+
+  public String getClickwrapBody() {
+    return clickwrapBody;
+  }
 
 
 }

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmailIncomingMessage implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,65 +70,92 @@ public class EmailIncomingMessage implements ModelInterface {
   /**
   * Id of the Email Incoming Message
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Id of the Inbox associated with this message
   */
-  @Getter
   @JsonProperty("inbox_id")
   public Long inboxId;
+
+  public Long getInboxId() {
+    return inboxId;
+  }
 
   /**
   * Sender of the email
   */
-  @Getter
   @JsonProperty("sender")
   public String sender;
+
+  public String getSender() {
+    return sender;
+  }
 
   /**
   * Sender name
   */
-  @Getter
   @JsonProperty("sender_name")
   public String senderName;
+
+  public String getSenderName() {
+    return senderName;
+  }
 
   /**
   * Status of the message
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Body of the email
   */
-  @Getter
   @JsonProperty("body")
   public String body;
+
+  public String getBody() {
+    return body;
+  }
 
   /**
   * Message describing the failure
   */
-  @Getter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
 
   /**
   * Message creation date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Title of the Inbox associated with this message
   */
-  @Getter
   @JsonProperty("inbox_title")
   public String inboxTitle;
+
+  public String getInboxTitle() {
+    return inboxTitle;
+  }
 
 
   /**

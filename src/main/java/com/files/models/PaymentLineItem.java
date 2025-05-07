@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentLineItem implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,30 +70,42 @@ public class PaymentLineItem implements ModelInterface {
   /**
   * Payment line item amount
   */
-  @Getter
   @JsonProperty("amount")
   public Double amount;
+
+  public Double getAmount() {
+    return amount;
+  }
 
   /**
   * Payment line item created at date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Invoice ID
   */
-  @Getter
   @JsonProperty("invoice_id")
   public Long invoiceId;
+
+  public Long getInvoiceId() {
+    return invoiceId;
+  }
 
   /**
   * Payment ID
   */
-  @Getter
   @JsonProperty("payment_id")
   public Long paymentId;
+
+  public Long getPaymentId() {
+    return paymentId;
+  }
 
 
 }

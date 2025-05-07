@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BandwidthSnapshot implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,65 +70,92 @@ public class BandwidthSnapshot implements ModelInterface {
   /**
   * Site bandwidth ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Site bandwidth report bytes received
   */
-  @Getter
   @JsonProperty("bytes_received")
   public Double bytesReceived;
+
+  public Double getBytesReceived() {
+    return bytesReceived;
+  }
 
   /**
   * Site bandwidth report bytes sent
   */
-  @Getter
   @JsonProperty("bytes_sent")
   public Double bytesSent;
+
+  public Double getBytesSent() {
+    return bytesSent;
+  }
 
   /**
   * Site sync bandwidth report bytes received
   */
-  @Getter
   @JsonProperty("sync_bytes_received")
   public Double syncBytesReceived;
+
+  public Double getSyncBytesReceived() {
+    return syncBytesReceived;
+  }
 
   /**
   * Site sync bandwidth report bytes sent
   */
-  @Getter
   @JsonProperty("sync_bytes_sent")
   public Double syncBytesSent;
+
+  public Double getSyncBytesSent() {
+    return syncBytesSent;
+  }
 
   /**
   * Site bandwidth report get requests
   */
-  @Getter
   @JsonProperty("requests_get")
   public Double requestsGet;
+
+  public Double getRequestsGet() {
+    return requestsGet;
+  }
 
   /**
   * Site bandwidth report put requests
   */
-  @Getter
   @JsonProperty("requests_put")
   public Double requestsPut;
+
+  public Double getRequestsPut() {
+    return requestsPut;
+  }
 
   /**
   * Site bandwidth report other requests
   */
-  @Getter
   @JsonProperty("requests_other")
   public Double requestsOther;
+
+  public Double getRequestsOther() {
+    return requestsOther;
+  }
 
   /**
   * Time the site bandwidth report was logged
   */
-  @Getter
   @JsonProperty("logged_at")
   public Date loggedAt;
+
+  public Date getLoggedAt() {
+    return loggedAt;
+  }
 
 
   /**

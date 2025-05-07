@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiKey implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,105 +70,180 @@ public class ApiKey implements ModelInterface {
   /**
   * API Key ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Unique label that describes this API key.  Useful for external systems where you may have API keys from multiple accounts and want a human-readable label for each key.
   */
-  @Getter
-  @Setter
   @JsonProperty("descriptive_label")
   public String descriptiveLabel;
+
+  public String getDescriptiveLabel() {
+    return descriptiveLabel;
+  }
+
+  public void setDescriptiveLabel(String descriptiveLabel) {
+    this.descriptiveLabel = descriptiveLabel;
+  }
 
   /**
   * User-supplied description of API key.
   */
-  @Getter
-  @Setter
   @JsonProperty("description")
   public String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   /**
   * Time which API Key was created
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * API Key expiration date
   */
-  @Getter
-  @Setter
   @JsonProperty("expires_at")
   public Date expiresAt;
+
+  public Date getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(Date expiresAt) {
+    this.expiresAt = expiresAt;
+  }
 
   /**
   * API Key actual key string
   */
-  @Getter
-  @Setter
   @JsonProperty("key")
   public String key;
+
+  public String getKey() {
+    return key;
+  }
+
+  public void setKey(String key) {
+    this.key = key;
+  }
 
   /**
   * API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
   */
-  @Getter
-  @Setter
   @JsonProperty("last_use_at")
   public Date lastUseAt;
+
+  public Date getLastUseAt() {
+    return lastUseAt;
+  }
+
+  public void setLastUseAt(Date lastUseAt) {
+    this.lastUseAt = lastUseAt;
+  }
 
   /**
   * Internal name for the API Key.  For your use.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
-  @Getter
-  @Setter
   @JsonProperty("permission_set")
   public String permissionSet;
+
+  public String getPermissionSet() {
+    return permissionSet;
+  }
+
+  public void setPermissionSet(String permissionSet) {
+    this.permissionSet = permissionSet;
+  }
 
   /**
   * If this API key represents a Desktop app, what platform was it created on?
   */
-  @Getter
-  @Setter
   @JsonProperty("platform")
   public String platform;
+
+  public String getPlatform() {
+    return platform;
+  }
+
+  public void setPlatform(String platform) {
+    this.platform = platform;
+  }
 
   /**
   * URL for API host.
   */
-  @Getter
-  @Setter
   @JsonProperty("url")
   public String url;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
   /**
   * User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Folder path restriction for `office_integration` permission set API keys.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * Parameters:

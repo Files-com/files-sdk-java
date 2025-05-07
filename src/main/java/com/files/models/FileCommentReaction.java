@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileCommentReaction implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,34 +70,58 @@ public class FileCommentReaction implements ModelInterface {
   /**
   * Reaction ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Emoji used in the reaction.
   */
-  @Getter
-  @Setter
   @JsonProperty("emoji")
   public String emoji;
+
+  public String getEmoji() {
+    return emoji;
+  }
+
+  public void setEmoji(String emoji) {
+    this.emoji = emoji;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * ID of file comment to attach reaction to.
   */
-  @Getter
-  @Setter
   @JsonProperty("file_comment_id")
   public Long fileCommentId;
+
+  public Long getFileCommentId() {
+    return fileCommentId;
+  }
+
+  public void setFileCommentId(Long fileCommentId) {
+    this.fileCommentId = fileCommentId;
+  }
 
   /**
   */

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Lock implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,95 +70,167 @@ public class Lock implements ModelInterface {
   /**
   * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * Lock timeout in seconds
   */
-  @Getter
-  @Setter
   @JsonProperty("timeout")
   public Long timeout;
 
+  public Long getTimeout() {
+    return timeout;
+  }
+
+  public void setTimeout(Long timeout) {
+    this.timeout = timeout;
+  }
+
   /**
   */
-  @Getter
-  @Setter
   @JsonProperty("depth")
   public String depth;
+
+  public String getDepth() {
+    return depth;
+  }
+
+  public void setDepth(String depth) {
+    this.depth = depth;
+  }
 
   /**
   * Does lock apply to subfolders?
   */
-  @Getter
-  @Setter
   @JsonProperty("recursive")
   public Boolean recursive;
+
+  public Boolean getRecursive() {
+    return recursive;
+  }
+
+  public void setRecursive(Boolean recursive) {
+    this.recursive = recursive;
+  }
 
   /**
   * Owner of the lock.  This can be any arbitrary string.
   */
-  @Getter
-  @Setter
   @JsonProperty("owner")
   public String owner;
 
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
   /**
   */
-  @Getter
-  @Setter
   @JsonProperty("scope")
   public String scope;
+
+  public String getScope() {
+    return scope;
+  }
+
+  public void setScope(String scope) {
+    this.scope = scope;
+  }
 
   /**
   * Is lock exclusive?
   */
-  @Getter
-  @Setter
   @JsonProperty("exclusive")
   public Boolean exclusive;
+
+  public Boolean getExclusive() {
+    return exclusive;
+  }
+
+  public void setExclusive(Boolean exclusive) {
+    this.exclusive = exclusive;
+  }
 
   /**
   * Lock token.  Use to release lock.
   */
-  @Getter
-  @Setter
   @JsonProperty("token")
   public String token;
 
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
+
   /**
   */
-  @Getter
-  @Setter
   @JsonProperty("type")
   public String type;
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 
   /**
   * Can lock be modified by users other than its creator?
   */
-  @Getter
-  @Setter
   @JsonProperty("allow_access_by_any_user")
   public Boolean allowAccessByAnyUser;
+
+  public Boolean getAllowAccessByAnyUser() {
+    return allowAccessByAnyUser;
+  }
+
+  public void setAllowAccessByAnyUser(Boolean allowAccessByAnyUser) {
+    this.allowAccessByAnyUser = allowAccessByAnyUser;
+  }
 
   /**
   * Lock creator user ID
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Lock creator username
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * Parameters:

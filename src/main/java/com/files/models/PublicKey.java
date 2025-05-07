@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicKey implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,65 +70,110 @@ public class PublicKey implements ModelInterface {
   /**
   * Public key ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Public key title
   */
-  @Getter
-  @Setter
   @JsonProperty("title")
   public String title;
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
   /**
   * Public key created at date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Public key fingerprint (MD5)
   */
-  @Getter
-  @Setter
   @JsonProperty("fingerprint")
   public String fingerprint;
+
+  public String getFingerprint() {
+    return fingerprint;
+  }
+
+  public void setFingerprint(String fingerprint) {
+    this.fingerprint = fingerprint;
+  }
 
   /**
   * Public key fingerprint (SHA256)
   */
-  @Getter
-  @Setter
   @JsonProperty("fingerprint_sha256")
   public String fingerprintSha256;
+
+  public String getFingerprintSha256() {
+    return fingerprintSha256;
+  }
+
+  public void setFingerprintSha256(String fingerprintSha256) {
+    this.fingerprintSha256 = fingerprintSha256;
+  }
 
   /**
   * Username of the user this public key is associated with
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * User ID this public key is associated with
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Actual contents of SSH key.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_key")
   public String publicKey;
+
+  public String getPublicKey() {
+    return publicKey;
+  }
+
+  public void setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
+  }
 
   /**
   * Parameters:

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Automation implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,298 +70,520 @@ public class Automation implements ModelInterface {
   /**
   * Automation ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
   */
-  @Getter
-  @Setter
   @JsonProperty("always_overwrite_size_matching_files")
   public Boolean alwaysOverwriteSizeMatchingFiles;
+
+  public Boolean getAlwaysOverwriteSizeMatchingFiles() {
+    return alwaysOverwriteSizeMatchingFiles;
+  }
+
+  public void setAlwaysOverwriteSizeMatchingFiles(Boolean alwaysOverwriteSizeMatchingFiles) {
+    this.alwaysOverwriteSizeMatchingFiles = alwaysOverwriteSizeMatchingFiles;
+  }
 
   /**
   * Automation type
   */
-  @Getter
-  @Setter
   @JsonProperty("automation")
   public String automation;
+
+  public String getAutomation() {
+    return automation;
+  }
+
+  public void setAutomation(String automation) {
+    this.automation = automation;
+  }
 
   /**
   * Indicates if the automation has been deleted.
   */
-  @Getter
-  @Setter
   @JsonProperty("deleted")
   public Boolean deleted;
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Boolean deleted) {
+    this.deleted = deleted;
+  }
 
   /**
   * Description for the this Automation.
   */
-  @Getter
-  @Setter
   @JsonProperty("description")
   public String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   /**
   * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   */
-  @Getter
-  @Setter
   @JsonProperty("destination_replace_from")
   public String destinationReplaceFrom;
+
+  public String getDestinationReplaceFrom() {
+    return destinationReplaceFrom;
+  }
+
+  public void setDestinationReplaceFrom(String destinationReplaceFrom) {
+    this.destinationReplaceFrom = destinationReplaceFrom;
+  }
 
   /**
   * If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
   */
-  @Getter
-  @Setter
   @JsonProperty("destination_replace_to")
   public String destinationReplaceTo;
+
+  public String getDestinationReplaceTo() {
+    return destinationReplaceTo;
+  }
+
+  public void setDestinationReplaceTo(String destinationReplaceTo) {
+    this.destinationReplaceTo = destinationReplaceTo;
+  }
 
   /**
   * Destination Paths
   */
-  @Getter
-  @Setter
   @JsonProperty("destinations")
   public String[] destinations;
+
+  public String[] getDestinations() {
+    return destinations;
+  }
+
+  public void setDestinations(String[] destinations) {
+    this.destinations = destinations;
+  }
 
   /**
   * If true, this automation will not run.
   */
-  @Getter
-  @Setter
   @JsonProperty("disabled")
   public Boolean disabled;
+
+  public Boolean getDisabled() {
+    return disabled;
+  }
+
+  public void setDisabled(Boolean disabled) {
+    this.disabled = disabled;
+  }
 
   /**
   * If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
   */
-  @Getter
-  @Setter
   @JsonProperty("exclude_pattern")
   public String excludePattern;
+
+  public String getExcludePattern() {
+    return excludePattern;
+  }
+
+  public void setExcludePattern(String excludePattern) {
+    this.excludePattern = excludePattern;
+  }
 
   /**
   * List of URLs to be imported and names to be used.
   */
-  @Getter
-  @Setter
   @JsonProperty("import_urls")
   public Object[] importUrls;
+
+  public Object[] getImportUrls() {
+    return importUrls;
+  }
+
+  public void setImportUrls(Object[] importUrls) {
+    this.importUrls = importUrls;
+  }
 
   /**
   * Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   */
-  @Getter
-  @Setter
   @JsonProperty("flatten_destination_structure")
   public Boolean flattenDestinationStructure;
+
+  public Boolean getFlattenDestinationStructure() {
+    return flattenDestinationStructure;
+  }
+
+  public void setFlattenDestinationStructure(Boolean flattenDestinationStructure) {
+    this.flattenDestinationStructure = flattenDestinationStructure;
+  }
 
   /**
   * IDs of Groups for the Automation (i.e. who to Request File from)
   */
-  @Getter
-  @Setter
   @JsonProperty("group_ids")
   public Long[] groupIds;
+
+  public Long[] getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(Long[] groupIds) {
+    this.groupIds = groupIds;
+  }
 
   /**
   * If true, the Lock Folders behavior will be disregarded for automated actions.
   */
-  @Getter
-  @Setter
   @JsonProperty("ignore_locked_folders")
   public Boolean ignoreLockedFolders;
+
+  public Boolean getIgnoreLockedFolders() {
+    return ignoreLockedFolders;
+  }
+
+  public void setIgnoreLockedFolders(Boolean ignoreLockedFolders) {
+    this.ignoreLockedFolders = ignoreLockedFolders;
+  }
 
   /**
   * If trigger is `daily`, this specifies how often to run this automation.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
   */
-  @Getter
-  @Setter
   @JsonProperty("interval")
   public String interval;
+
+  public String getInterval() {
+    return interval;
+  }
+
+  public void setInterval(String interval) {
+    this.interval = interval;
+  }
 
   /**
   * Time when automation was last modified. Does not change for name or description updates.
   */
-  @Getter
-  @Setter
   @JsonProperty("last_modified_at")
   public Date lastModifiedAt;
+
+  public Date getLastModifiedAt() {
+    return lastModifiedAt;
+  }
+
+  public void setLastModifiedAt(Date lastModifiedAt) {
+    this.lastModifiedAt = lastModifiedAt;
+  }
 
   /**
   * If `true`, use the legacy behavior for this automation, where it can operate on folders in addition to just files.  This behavior no longer works and should not be used.
   */
-  @Getter
-  @Setter
   @JsonProperty("legacy_folder_matching")
   public Boolean legacyFolderMatching;
+
+  public Boolean getLegacyFolderMatching() {
+    return legacyFolderMatching;
+  }
+
+  public void setLegacyFolderMatching(Boolean legacyFolderMatching) {
+    this.legacyFolderMatching = legacyFolderMatching;
+  }
 
   /**
   * Name for this automation.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * If true, existing files will be overwritten with new files on Move/Copy automations.  Note: by default files will not be overwritten on Copy automations if they appear to be the same file size as the newly incoming file.  Use the `always_overwrite_size_matching_files` option in conjunction with `overwrite_files` to override this behavior and overwrite files no matter what.
   */
-  @Getter
-  @Setter
   @JsonProperty("overwrite_files")
   public Boolean overwriteFiles;
+
+  public Boolean getOverwriteFiles() {
+    return overwriteFiles;
+  }
+
+  public void setOverwriteFiles(Boolean overwriteFiles) {
+    this.overwriteFiles = overwriteFiles;
+  }
 
   /**
   * Path on which this Automation runs.  Supports globs, except on remote mounts. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * Timezone to use when rendering timestamps in paths.
   */
-  @Getter
-  @Setter
   @JsonProperty("path_time_zone")
   public String pathTimeZone;
+
+  public String getPathTimeZone() {
+    return pathTimeZone;
+  }
+
+  public void setPathTimeZone(String pathTimeZone) {
+    this.pathTimeZone = pathTimeZone;
+  }
 
   /**
   * If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   */
-  @Getter
-  @Setter
   @JsonProperty("recurring_day")
   public Long recurringDay;
+
+  public Long getRecurringDay() {
+    return recurringDay;
+  }
+
+  public void setRecurringDay(Long recurringDay) {
+    this.recurringDay = recurringDay;
+  }
 
   /**
   * If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
   */
-  @Getter
-  @Setter
   @JsonProperty("retry_on_failure_interval_in_minutes")
   public Long retryOnFailureIntervalInMinutes;
+
+  public Long getRetryOnFailureIntervalInMinutes() {
+    return retryOnFailureIntervalInMinutes;
+  }
+
+  public void setRetryOnFailureIntervalInMinutes(Long retryOnFailureIntervalInMinutes) {
+    this.retryOnFailureIntervalInMinutes = retryOnFailureIntervalInMinutes;
+  }
 
   /**
   * If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
   */
-  @Getter
-  @Setter
   @JsonProperty("retry_on_failure_number_of_attempts")
   public Long retryOnFailureNumberOfAttempts;
+
+  public Long getRetryOnFailureNumberOfAttempts() {
+    return retryOnFailureNumberOfAttempts;
+  }
+
+  public void setRetryOnFailureNumberOfAttempts(Long retryOnFailureNumberOfAttempts) {
+    this.retryOnFailureNumberOfAttempts = retryOnFailureNumberOfAttempts;
+  }
 
   /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
   */
-  @Getter
-  @Setter
   @JsonProperty("schedule")
   public Map<String, String> schedule;
+
+  public Map<String, String> getSchedule() {
+    return schedule;
+  }
+
+  public void setSchedule(Map<String, String> schedule) {
+    this.schedule = schedule;
+  }
 
   /**
   * If trigger is `custom_schedule`, Human readable Custom schedule description for when the automation should be run.
   */
-  @Getter
-  @Setter
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
+
+  public String getHumanReadableSchedule() {
+    return humanReadableSchedule;
+  }
+
+  public void setHumanReadableSchedule(String humanReadableSchedule) {
+    this.humanReadableSchedule = humanReadableSchedule;
+  }
 
   /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
   */
-  @Getter
-  @Setter
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
+
+  public Long[] getScheduleDaysOfWeek() {
+    return scheduleDaysOfWeek;
+  }
+
+  public void setScheduleDaysOfWeek(Long[] scheduleDaysOfWeek) {
+    this.scheduleDaysOfWeek = scheduleDaysOfWeek;
+  }
 
   /**
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run. Times of day in HH:MM format.
   */
-  @Getter
-  @Setter
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
+
+  public String[] getScheduleTimesOfDay() {
+    return scheduleTimesOfDay;
+  }
+
+  public void setScheduleTimesOfDay(String[] scheduleTimesOfDay) {
+    this.scheduleTimesOfDay = scheduleTimesOfDay;
+  }
 
   /**
   * If trigger is `custom_schedule`, Custom schedule Time Zone for when the automation should be run.
   */
-  @Getter
-  @Setter
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
+
+  public String getScheduleTimeZone() {
+    return scheduleTimeZone;
+  }
+
+  public void setScheduleTimeZone(String scheduleTimeZone) {
+    this.scheduleTimeZone = scheduleTimeZone;
+  }
 
   /**
   * Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   */
-  @Getter
-  @Setter
   @JsonProperty("source")
   public String source;
+
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
 
   /**
   * IDs of remote sync folder behaviors to run by this Automation
   */
-  @Getter
-  @Setter
   @JsonProperty("sync_ids")
   public Long[] syncIds;
+
+  public Long[] getSyncIds() {
+    return syncIds;
+  }
+
+  public void setSyncIds(Long[] syncIds) {
+    this.syncIds = syncIds;
+  }
 
   /**
   * If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, copy
   */
-  @Getter
-  @Setter
   @JsonProperty("trigger_actions")
   public String[] triggerActions;
+
+  public String[] getTriggerActions() {
+    return triggerActions;
+  }
+
+  public void setTriggerActions(String[] triggerActions) {
+    this.triggerActions = triggerActions;
+  }
 
   /**
   * How this automation is triggered to run.
   */
-  @Getter
-  @Setter
   @JsonProperty("trigger")
   public String trigger;
+
+  public String getTrigger() {
+    return trigger;
+  }
+
+  public void setTrigger(String trigger) {
+    this.trigger = trigger;
+  }
 
   /**
   * User ID of the Automation's creator.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * IDs of Users for the Automation (i.e. who to Request File from)
   */
-  @Getter
-  @Setter
   @JsonProperty("user_ids")
   public Long[] userIds;
+
+  public Long[] getUserIds() {
+    return userIds;
+  }
+
+  public void setUserIds(Long[] userIds) {
+    this.userIds = userIds;
+  }
 
   /**
   * A Hash of attributes specific to the automation type.
   */
-  @Getter
-  @Setter
   @JsonProperty("value")
   public Map<String, String> value;
+
+  public Map<String, String> getValue() {
+    return value;
+  }
+
+  public void setValue(Map<String, String> value) {
+    this.value = value;
+  }
 
   /**
   * If trigger is `webhook`, this is the URL of the webhook to trigger the Automation.
   */
-  @Getter
-  @Setter
   @JsonProperty("webhook_url")
   public String webhookUrl;
+
+  public String getWebhookUrl() {
+    return webhookUrl;
+  }
+
+  public void setWebhookUrl(String webhookUrl) {
+    this.webhookUrl = webhookUrl;
+  }
 
   /**
   * Manually Run Automation

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class As2Station implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,127 +70,223 @@ public class As2Station implements ModelInterface {
   /**
   * Id of the AS2 Station.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * The station's formal AS2 name.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Public URI for sending AS2 message to.
   */
-  @Getter
-  @Setter
   @JsonProperty("uri")
   public String uri;
+
+  public String getUri() {
+    return uri;
+  }
+
+  public void setUri(String uri) {
+    this.uri = uri;
+  }
 
   /**
   * The station's AS2 domain name.
   */
-  @Getter
-  @Setter
   @JsonProperty("domain")
   public String domain;
+
+  public String getDomain() {
+    return domain;
+  }
+
+  public void setDomain(String domain) {
+    this.domain = domain;
+  }
 
   /**
   * Serial of public certificate used for message security in hex format.
   */
-  @Getter
-  @Setter
   @JsonProperty("hex_public_certificate_serial")
   public String hexPublicCertificateSerial;
+
+  public String getHexPublicCertificateSerial() {
+    return hexPublicCertificateSerial;
+  }
+
+  public void setHexPublicCertificateSerial(String hexPublicCertificateSerial) {
+    this.hexPublicCertificateSerial = hexPublicCertificateSerial;
+  }
 
   /**
   * MD5 hash of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_md5")
   public String publicCertificateMd5;
+
+  public String getPublicCertificateMd5() {
+    return publicCertificateMd5;
+  }
+
+  public void setPublicCertificateMd5(String publicCertificateMd5) {
+    this.publicCertificateMd5 = publicCertificateMd5;
+  }
 
   /**
   * MD5 hash of private key used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key_md5")
   public String privateKeyMd5;
+
+  public String getPrivateKeyMd5() {
+    return privateKeyMd5;
+  }
+
+  public void setPrivateKeyMd5(String privateKeyMd5) {
+    this.privateKeyMd5 = privateKeyMd5;
+  }
 
   /**
   * Subject of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_subject")
   public String publicCertificateSubject;
+
+  public String getPublicCertificateSubject() {
+    return publicCertificateSubject;
+  }
+
+  public void setPublicCertificateSubject(String publicCertificateSubject) {
+    this.publicCertificateSubject = publicCertificateSubject;
+  }
 
   /**
   * Issuer of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_issuer")
   public String publicCertificateIssuer;
+
+  public String getPublicCertificateIssuer() {
+    return publicCertificateIssuer;
+  }
+
+  public void setPublicCertificateIssuer(String publicCertificateIssuer) {
+    this.publicCertificateIssuer = publicCertificateIssuer;
+  }
 
   /**
   * Serial of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_serial")
   public String publicCertificateSerial;
+
+  public String getPublicCertificateSerial() {
+    return publicCertificateSerial;
+  }
+
+  public void setPublicCertificateSerial(String publicCertificateSerial) {
+    this.publicCertificateSerial = publicCertificateSerial;
+  }
 
   /**
   * Not before value of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_not_before")
   public String publicCertificateNotBefore;
+
+  public String getPublicCertificateNotBefore() {
+    return publicCertificateNotBefore;
+  }
+
+  public void setPublicCertificateNotBefore(String publicCertificateNotBefore) {
+    this.publicCertificateNotBefore = publicCertificateNotBefore;
+  }
 
   /**
   * Not after value of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_not_after")
   public String publicCertificateNotAfter;
+
+  public String getPublicCertificateNotAfter() {
+    return publicCertificateNotAfter;
+  }
+
+  public void setPublicCertificateNotAfter(String publicCertificateNotAfter) {
+    this.publicCertificateNotAfter = publicCertificateNotAfter;
+  }
 
   /**
   * MD5 hash of private key password used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("private_key_password_md5")
   public String privateKeyPasswordMd5;
 
+  public String getPrivateKeyPasswordMd5() {
+    return privateKeyPasswordMd5;
+  }
+
+  public void setPrivateKeyPasswordMd5(String privateKeyPasswordMd5) {
+    this.privateKeyPasswordMd5 = privateKeyPasswordMd5;
+  }
+
   /**
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate")
   public String publicCertificate;
 
-  /**
-  */
-  @Getter
-  @Setter
-  @JsonProperty("private_key")
-  public String privateKey;
+  public String getPublicCertificate() {
+    return publicCertificate;
+  }
+
+  public void setPublicCertificate(String publicCertificate) {
+    this.publicCertificate = publicCertificate;
+  }
 
   /**
   */
-  @Getter
-  @Setter
+  @JsonProperty("private_key")
+  public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
+
+  /**
+  */
   @JsonProperty("private_key_password")
   public String privateKeyPassword;
+
+  public String getPrivateKeyPassword() {
+    return privateKeyPassword;
+  }
+
+  public void setPrivateKeyPassword(String privateKeyPassword) {
+    this.privateKeyPassword = privateKeyPassword;
+  }
 
   /**
   * Parameters:

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileUploadPart implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -158,114 +160,162 @@ public class FileUploadPart implements ModelInterface {
   /**
   * Content-Type and File to send
   */
-  @Getter
   @JsonProperty("send")
   public Map<String, String> send;
+
+  public Map<String, String> getSend() {
+    return send;
+  }
 
   /**
   * Type of upload
   */
-  @Getter
   @JsonProperty("action")
   public String action;
+
+  public String getAction() {
+    return action;
+  }
 
   /**
   * If `true`, this file exists and you may wish to ask the user for overwrite confirmation
   */
-  @Getter
   @JsonProperty("ask_about_overwrites")
   public Boolean askAboutOverwrites;
+
+  public Boolean getAskAboutOverwrites() {
+    return askAboutOverwrites;
+  }
 
   /**
   * Number of parts in the upload
   */
-  @Getter
   @JsonProperty("available_parts")
   public Long availableParts;
+
+  public Long getAvailableParts() {
+    return availableParts;
+  }
 
   /**
   * Date/time of when this Upload part expires and the URL cannot be used any more
   */
-  @Getter
   @JsonProperty("expires")
   public String expires;
+
+  public String getExpires() {
+    return expires;
+  }
 
   /**
   * Additional upload headers to provide as part of the upload
   */
-  @Getter
   @JsonProperty("headers")
   public Map<String, String> headers;
+
+  public Map<String, String> getHeaders() {
+    return headers;
+  }
 
   /**
   * HTTP Method to use for uploading the part, usually `PUT`
   */
-  @Getter
   @JsonProperty("http_method")
   public String httpMethod;
+
+  public String getHttpMethod() {
+    return httpMethod;
+  }
 
   /**
   * Size in bytes for this part
   */
-  @Getter
   @JsonProperty("next_partsize")
   public Long nextPartsize;
+
+  public Long getNextPartsize() {
+    return nextPartsize;
+  }
 
   /**
   * If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
   */
-  @Getter
   @JsonProperty("parallel_parts")
   public Boolean parallelParts;
+
+  public Boolean getParallelParts() {
+    return parallelParts;
+  }
 
   /**
   * If `true`, parts may be retried. If `false`, a part cannot be retried and the upload should be restarted.
   */
-  @Getter
   @JsonProperty("retry_parts")
   public Boolean retryParts;
+
+  public Boolean getRetryParts() {
+    return retryParts;
+  }
 
   /**
   * Additional HTTP parameters to send with the upload
   */
-  @Getter
   @JsonProperty("parameters")
   public Map<String, String> parameters;
+
+  public Map<String, String> getParameters() {
+    return parameters;
+  }
 
   /**
   * Number of this upload part
   */
-  @Getter
   @JsonProperty("part_number")
   public Long partNumber;
+
+  public Long getPartNumber() {
+    return partNumber;
+  }
 
   /**
   * Size in bytes for the next upload part
   */
-  @Getter
   @JsonProperty("partsize")
   public Long partsize;
+
+  public Long getPartsize() {
+    return partsize;
+  }
 
   /**
   * New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * Reference name for this upload part
   */
-  @Getter
   @JsonProperty("ref")
   public String ref;
+
+  public String getRef() {
+    return ref;
+  }
 
   /**
   * URI to upload this part to
   */
-  @Getter
   @JsonProperty("upload_uri")
   public String uploadUri;
+
+  public String getUploadUri() {
+    return uploadUri;
+  }
 
 
 }

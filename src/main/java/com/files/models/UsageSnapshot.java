@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsageSnapshot implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,107 +70,152 @@ public class UsageSnapshot implements ModelInterface {
   /**
   * Usage snapshot ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Usage snapshot start date/time
   */
-  @Getter
   @JsonProperty("start_at")
   public Date startAt;
+
+  public Date getStartAt() {
+    return startAt;
+  }
 
   /**
   * Usage snapshot end date/time
   */
-  @Getter
   @JsonProperty("end_at")
   public Date endAt;
+
+  public Date getEndAt() {
+    return endAt;
+  }
 
   /**
   * Highest user count number in time period
   */
-  @Getter
   @JsonProperty("high_water_user_count")
   public Long highWaterUserCount;
+
+  public Long getHighWaterUserCount() {
+    return highWaterUserCount;
+  }
 
   /**
   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
   */
-  @Getter
   @JsonProperty("current_storage")
   public Double currentStorage;
+
+  public Double getCurrentStorage() {
+    return currentStorage;
+  }
 
   /**
   * Highest Storage Usage GB recorded in time period (used for billing)
   */
-  @Getter
   @JsonProperty("high_water_storage")
   public Double highWaterStorage;
+
+  public Double getHighWaterStorage() {
+    return highWaterStorage;
+  }
 
   /**
   * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
   */
-  @Getter
   @JsonProperty("root_storage")
   public Double rootStorage;
+
+  public Double getRootStorage() {
+    return rootStorage;
+  }
 
   /**
   * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
   */
-  @Getter
   @JsonProperty("deleted_files_counted_in_minimum")
   public Double deletedFilesCountedInMinimum;
+
+  public Double getDeletedFilesCountedInMinimum() {
+    return deletedFilesCountedInMinimum;
+  }
 
   /**
   * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
   */
-  @Getter
   @JsonProperty("deleted_files_storage")
   public Double deletedFilesStorage;
+
+  public Double getDeletedFilesStorage() {
+    return deletedFilesStorage;
+  }
 
   /**
   * Storage + Transfer Usage - Total Billable amount
   */
-  @Getter
   @JsonProperty("total_billable_usage")
   public Double totalBillableUsage;
+
+  public Double getTotalBillableUsage() {
+    return totalBillableUsage;
+  }
 
   /**
   * Transfer usage for period - Total Billable amount
   */
-  @Getter
   @JsonProperty("total_billable_transfer_usage")
   public Double totalBillableTransferUsage;
+
+  public Double getTotalBillableTransferUsage() {
+    return totalBillableTransferUsage;
+  }
 
   /**
   * Transfer Usage for period - Outbound GB from Files Native Storage
   */
-  @Getter
   @JsonProperty("bytes_sent")
   public Double bytesSent;
+
+  public Double getBytesSent() {
+    return bytesSent;
+  }
 
   /**
   * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
   */
-  @Getter
   @JsonProperty("sync_bytes_received")
   public Double syncBytesReceived;
+
+  public Double getSyncBytesReceived() {
+    return syncBytesReceived;
+  }
 
   /**
   * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
   */
-  @Getter
   @JsonProperty("sync_bytes_sent")
   public Double syncBytesSent;
+
+  public Double getSyncBytesSent() {
+    return syncBytesSent;
+  }
 
   /**
   * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
   */
-  @Getter
   @JsonProperty("usage_by_top_level_dir")
   public Object[] usageByTopLevelDir;
+
+  public Object[] getUsageByTopLevelDir() {
+    return usageByTopLevelDir;
+  }
 
 
   /**

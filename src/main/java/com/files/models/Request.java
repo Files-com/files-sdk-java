@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Request implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,66 +70,114 @@ public class Request implements ModelInterface {
   /**
   * Request ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * Source filename, if applicable
   */
-  @Getter
-  @Setter
   @JsonProperty("source")
   public String source;
+
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
+  }
 
   /**
   * Destination filename
   */
-  @Getter
-  @Setter
   @JsonProperty("destination")
   public String destination;
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
 
   /**
   * ID of automation that created request
   */
-  @Getter
-  @Setter
   @JsonProperty("automation_id")
   public Long automationId;
+
+  public Long getAutomationId() {
+    return automationId;
+  }
+
+  public void setAutomationId(Long automationId) {
+    this.automationId = automationId;
+  }
 
   /**
   * User making the request (if applicable)
   */
-  @Getter
-  @Setter
   @JsonProperty("user_display_name")
   public String userDisplayName;
+
+  public String getUserDisplayName() {
+    return userDisplayName;
+  }
+
+  public void setUserDisplayName(String userDisplayName) {
+    this.userDisplayName = userDisplayName;
+  }
 
   /**
   * A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_ids")
   public String userIds;
+
+  public String getUserIds() {
+    return userIds;
+  }
+
+  public void setUserIds(String userIds) {
+    this.userIds = userIds;
+  }
 
   /**
   * A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
   */
-  @Getter
-  @Setter
   @JsonProperty("group_ids")
   public String groupIds;
+
+  public String getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(String groupIds) {
+    this.groupIds = groupIds;
+  }
 
   /**
   */

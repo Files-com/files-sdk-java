@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormFieldSet implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,66 +70,114 @@ public class FormFieldSet implements ModelInterface {
   /**
   * Form field set id
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Title to be displayed
   */
-  @Getter
-  @Setter
   @JsonProperty("title")
   public String title;
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
   /**
   * Layout of the form
   */
-  @Getter
-  @Setter
   @JsonProperty("form_layout")
   public Long[] formLayout;
+
+  public Long[] getFormLayout() {
+    return formLayout;
+  }
+
+  public void setFormLayout(Long[] formLayout) {
+    this.formLayout = formLayout;
+  }
 
   /**
   * Associated form fields
   */
-  @Getter
-  @Setter
   @JsonProperty("form_fields")
   public Object[] formFields;
+
+  public Object[] getFormFields() {
+    return formFields;
+  }
+
+  public void setFormFields(Object[] formFields) {
+    this.formFields = formFields;
+  }
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_name")
   public Boolean skipName;
+
+  public Boolean getSkipName() {
+    return skipName;
+  }
+
+  public void setSkipName(Boolean skipName) {
+    this.skipName = skipName;
+  }
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_email")
   public Boolean skipEmail;
+
+  public Boolean getSkipEmail() {
+    return skipEmail;
+  }
+
+  public void setSkipEmail(Boolean skipEmail) {
+    this.skipEmail = skipEmail;
+  }
 
   /**
   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_company")
   public Boolean skipCompany;
+
+  public Boolean getSkipCompany() {
+    return skipCompany;
+  }
+
+  public void setSkipCompany(Boolean skipCompany) {
+    this.skipCompany = skipCompany;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Parameters:

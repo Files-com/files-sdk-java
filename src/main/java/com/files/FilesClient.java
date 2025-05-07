@@ -1,6 +1,7 @@
 package com.files;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.files.ListIterator;
 import com.files.models.ModelInterface;
 import com.files.models.Session;
 import com.files.net.FilesApiInterface;
@@ -14,11 +15,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public abstract class FilesClient {
+  private static final Logger log = LoggerFactory.getLogger(FilesClient.class);
 
   private static final FilesApiInterface filesApi = new FilesOkHttpApi();
   public static String apiKey;

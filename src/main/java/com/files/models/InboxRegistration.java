@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InboxRegistration implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,86 +70,122 @@ public class InboxRegistration implements ModelInterface {
   /**
   * Registration cookie code
   */
-  @Getter
   @JsonProperty("code")
   public String code;
+
+  public String getCode() {
+    return code;
+  }
 
   /**
   * Registrant name
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Registrant company name
   */
-  @Getter
   @JsonProperty("company")
   public String company;
+
+  public String getCompany() {
+    return company;
+  }
 
   /**
   * Registrant email address
   */
-  @Getter
   @JsonProperty("email")
   public String email;
+
+  public String getEmail() {
+    return email;
+  }
 
   /**
   * Registrant IP Address
   */
-  @Getter
   @JsonProperty("ip")
   public String ip;
+
+  public String getIp() {
+    return ip;
+  }
 
   /**
   * Clickwrap text that was shown to the registrant
   */
-  @Getter
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
+
+  public String getClickwrapBody() {
+    return clickwrapBody;
+  }
 
   /**
   * Id of associated form field set
   */
-  @Getter
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
+
+  public Long getFormFieldSetId() {
+    return formFieldSetId;
+  }
 
   /**
   * Data for form field set with form field ids as keys and user data as values
   */
-  @Getter
   @JsonProperty("form_field_data")
   public Map<String, String> formFieldData;
+
+  public Map<String, String> getFormFieldData() {
+    return formFieldData;
+  }
 
   /**
   * Id of associated inbox
   */
-  @Getter
   @JsonProperty("inbox_id")
   public Long inboxId;
+
+  public Long getInboxId() {
+    return inboxId;
+  }
 
   /**
   * Id of associated inbox recipient
   */
-  @Getter
   @JsonProperty("inbox_recipient_id")
   public Long inboxRecipientId;
+
+  public Long getInboxRecipientId() {
+    return inboxRecipientId;
+  }
 
   /**
   * Title of associated inbox
   */
-  @Getter
   @JsonProperty("inbox_title")
   public String inboxTitle;
+
+  public String getInboxTitle() {
+    return inboxTitle;
+  }
 
   /**
   * Registration creation date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
 
   /**

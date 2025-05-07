@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Restore implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,114 +70,198 @@ public class Restore implements ModelInterface {
   /**
   * Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
   */
-  @Getter
-  @Setter
   @JsonProperty("earliest_date")
   public Date earliestDate;
+
+  public Date getEarliestDate() {
+    return earliestDate;
+  }
+
+  public void setEarliestDate(Date earliestDate) {
+    this.earliestDate = earliestDate;
+  }
 
   /**
   * Restore Record ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Number of directories that were successfully restored.
   */
-  @Getter
-  @Setter
   @JsonProperty("dirs_restored")
   public Long dirsRestored;
+
+  public Long getDirsRestored() {
+    return dirsRestored;
+  }
+
+  public void setDirsRestored(Long dirsRestored) {
+    this.dirsRestored = dirsRestored;
+  }
 
   /**
   * Number of directories that were not able to be restored.
   */
-  @Getter
-  @Setter
   @JsonProperty("dirs_errored")
   public Long dirsErrored;
+
+  public Long getDirsErrored() {
+    return dirsErrored;
+  }
+
+  public void setDirsErrored(Long dirsErrored) {
+    this.dirsErrored = dirsErrored;
+  }
 
   /**
   * Total number of directories processed.
   */
-  @Getter
-  @Setter
   @JsonProperty("dirs_total")
   public Long dirsTotal;
+
+  public Long getDirsTotal() {
+    return dirsTotal;
+  }
+
+  public void setDirsTotal(Long dirsTotal) {
+    this.dirsTotal = dirsTotal;
+  }
 
   /**
   * Number of files successfully restored.
   */
-  @Getter
-  @Setter
   @JsonProperty("files_restored")
   public Long filesRestored;
+
+  public Long getFilesRestored() {
+    return filesRestored;
+  }
+
+  public void setFilesRestored(Long filesRestored) {
+    this.filesRestored = filesRestored;
+  }
 
   /**
   * Number of files that were not able to be restored.
   */
-  @Getter
-  @Setter
   @JsonProperty("files_errored")
   public Long filesErrored;
+
+  public Long getFilesErrored() {
+    return filesErrored;
+  }
+
+  public void setFilesErrored(Long filesErrored) {
+    this.filesErrored = filesErrored;
+  }
 
   /**
   * Total number of files processed.
   */
-  @Getter
-  @Setter
   @JsonProperty("files_total")
   public Long filesTotal;
+
+  public Long getFilesTotal() {
+    return filesTotal;
+  }
+
+  public void setFilesTotal(Long filesTotal) {
+    this.filesTotal = filesTotal;
+  }
 
   /**
   * Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
   */
-  @Getter
-  @Setter
   @JsonProperty("prefix")
   public String prefix;
+
+  public String getPrefix() {
+    return prefix;
+  }
+
+  public void setPrefix(String prefix) {
+    this.prefix = prefix;
+  }
 
   /**
   * If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
   */
-  @Getter
-  @Setter
   @JsonProperty("restore_in_place")
   public Boolean restoreInPlace;
+
+  public Boolean getRestoreInPlace() {
+    return restoreInPlace;
+  }
+
+  public void setRestoreInPlace(Boolean restoreInPlace) {
+    this.restoreInPlace = restoreInPlace;
+  }
 
   /**
   * If true, we will also restore any Permissions that match the same path prefix from the same dates.
   */
-  @Getter
-  @Setter
   @JsonProperty("restore_deleted_permissions")
   public Boolean restoreDeletedPermissions;
+
+  public Boolean getRestoreDeletedPermissions() {
+    return restoreDeletedPermissions;
+  }
+
+  public void setRestoreDeletedPermissions(Boolean restoreDeletedPermissions) {
+    this.restoreDeletedPermissions = restoreDeletedPermissions;
+  }
 
   /**
   * Status of the restoration process.
   */
-  @Getter
-  @Setter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   /**
   * If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
   */
-  @Getter
-  @Setter
   @JsonProperty("update_timestamps")
   public Boolean updateTimestamps;
+
+  public Boolean getUpdateTimestamps() {
+    return updateTimestamps;
+  }
+
+  public void setUpdateTimestamps(Boolean updateTimestamps) {
+    this.updateTimestamps = updateTimestamps;
+  }
 
   /**
   * Error messages received while restoring files and/or directories. Only present if there were errors.
   */
-  @Getter
-  @Setter
   @JsonProperty("error_messages")
   public String[] errorMessages;
+
+  public String[] getErrorMessages() {
+    return errorMessages;
+  }
+
+  public void setErrorMessages(String[] errorMessages) {
+    this.errorMessages = errorMessages;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Snapshot implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,100 @@ public class Snapshot implements ModelInterface {
   /**
   * The snapshot's unique ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * When the snapshot expires.
   */
-  @Getter
-  @Setter
   @JsonProperty("expires_at")
   public Date expiresAt;
+
+  public Date getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(Date expiresAt) {
+    this.expiresAt = expiresAt;
+  }
 
   /**
   * When the snapshot was finalized.
   */
-  @Getter
-  @Setter
   @JsonProperty("finalized_at")
   public Date finalizedAt;
+
+  public Date getFinalizedAt() {
+    return finalizedAt;
+  }
+
+  public void setFinalizedAt(Date finalizedAt) {
+    this.finalizedAt = finalizedAt;
+  }
 
   /**
   * A name for the snapshot.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * The user that created this snapshot, if applicable.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * The bundle using this snapshot, if applicable.
   */
-  @Getter
-  @Setter
   @JsonProperty("bundle_id")
   public Long bundleId;
+
+  public Long getBundleId() {
+    return bundleId;
+  }
+
+  public void setBundleId(Long bundleId) {
+    this.bundleId = bundleId;
+  }
 
   /**
   * An array of paths to add to the snapshot.
   */
-  @Getter
-  @Setter
   @JsonProperty("paths")
   public String[] paths;
+
+  public String[] getPaths() {
+    return paths;
+  }
+
+  public void setPaths(String[] paths) {
+    this.paths = paths;
+  }
 
   /**
   * Finalize Snapshot

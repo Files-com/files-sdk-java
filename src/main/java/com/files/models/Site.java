@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Site implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,1199 +70,1712 @@ public class Site implements ModelInterface {
   /**
   * Site Id
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Site name
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Additional extensions that are considered text files
   */
-  @Getter
   @JsonProperty("additional_text_file_types")
   public String[] additionalTextFileTypes;
+
+  public String[] getAdditionalTextFileTypes() {
+    return additionalTextFileTypes;
+  }
 
   /**
   * Is SMS two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_sms")
   public Boolean allowed2faMethodSms;
+
+  public Boolean getAllowed2faMethodSms() {
+    return allowed2faMethodSms;
+  }
 
   /**
   * Is TOTP two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_totp")
   public Boolean allowed2faMethodTotp;
+
+  public Boolean getAllowed2faMethodTotp() {
+    return allowed2faMethodTotp;
+  }
 
   /**
   * Is WebAuthn two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_webauthn")
   public Boolean allowed2faMethodWebauthn;
+
+  public Boolean getAllowed2faMethodWebauthn() {
+    return allowed2faMethodWebauthn;
+  }
 
   /**
   * Is yubikey two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_yubi")
   public Boolean allowed2faMethodYubi;
+
+  public Boolean getAllowed2faMethodYubi() {
+    return allowed2faMethodYubi;
+  }
 
   /**
   * Is OTP via email two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_email")
   public Boolean allowed2faMethodEmail;
+
+  public Boolean getAllowed2faMethodEmail() {
+    return allowed2faMethodEmail;
+  }
 
   /**
   * Is OTP via static codes for two factor authentication allowed?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_static")
   public Boolean allowed2faMethodStatic;
+
+  public Boolean getAllowed2faMethodStatic() {
+    return allowed2faMethodStatic;
+  }
 
   /**
   * Are users allowed to configure their two factor authentication to be bypassed for FTP/SFTP/WebDAV?
   */
-  @Getter
   @JsonProperty("allowed_2fa_method_bypass_for_ftp_sftp_dav")
   public Boolean allowed2faMethodBypassForFtpSftpDav;
+
+  public Boolean getAllowed2faMethodBypassForFtpSftpDav() {
+    return allowed2faMethodBypassForFtpSftpDav;
+  }
 
   /**
   * User ID for the main site administrator
   */
-  @Getter
   @JsonProperty("admin_user_id")
   public Long adminUserId;
+
+  public Long getAdminUserId() {
+    return adminUserId;
+  }
 
   /**
   * Allow admins to bypass the locked subfolders setting.
   */
-  @Getter
   @JsonProperty("admins_bypass_locked_subfolders")
   public Boolean adminsBypassLockedSubfolders;
+
+  public Boolean getAdminsBypassLockedSubfolders() {
+    return adminsBypassLockedSubfolders;
+  }
 
   /**
   * Are manual Bundle names allowed?
   */
-  @Getter
   @JsonProperty("allow_bundle_names")
   public Boolean allowBundleNames;
+
+  public Boolean getAllowBundleNames() {
+    return allowBundleNames;
+  }
 
   /**
   * Comma separated list of allowed Country codes
   */
-  @Getter
   @JsonProperty("allowed_countries")
   public String allowedCountries;
+
+  public String getAllowedCountries() {
+    return allowedCountries;
+  }
 
   /**
   * List of allowed IP addresses
   */
-  @Getter
   @JsonProperty("allowed_ips")
   public String allowedIps;
+
+  public String getAllowedIps() {
+    return allowedIps;
+  }
 
   /**
   * Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
   */
-  @Getter
   @JsonProperty("always_mkdir_parents")
   public Boolean alwaysMkdirParents;
+
+  public Boolean getAlwaysMkdirParents() {
+    return alwaysMkdirParents;
+  }
 
   /**
   * If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
   */
-  @Getter
   @JsonProperty("ask_about_overwrites")
   public Boolean askAboutOverwrites;
+
+  public Boolean getAskAboutOverwrites() {
+    return askAboutOverwrites;
+  }
 
   /**
   * Do Bundle owners receive activity notifications?
   */
-  @Getter
   @JsonProperty("bundle_activity_notifications")
   public String bundleActivityNotifications;
+
+  public String getBundleActivityNotifications() {
+    return bundleActivityNotifications;
+  }
 
   /**
   * Site-wide Bundle expiration in days
   */
-  @Getter
   @JsonProperty("bundle_expiration")
   public Long bundleExpiration;
+
+  public Long getBundleExpiration() {
+    return bundleExpiration;
+  }
 
   /**
   * Custom error message to show when bundle is not found.
   */
-  @Getter
   @JsonProperty("bundle_not_found_message")
   public String bundleNotFoundMessage;
+
+  public String getBundleNotFoundMessage() {
+    return bundleNotFoundMessage;
+  }
 
   /**
   * Do Bundles require password protection?
   */
-  @Getter
   @JsonProperty("bundle_password_required")
   public Boolean bundlePasswordRequired;
+
+  public Boolean getBundlePasswordRequired() {
+    return bundlePasswordRequired;
+  }
 
   /**
   * List of email domains to disallow when entering a Bundle/Inbox recipients
   */
-  @Getter
   @JsonProperty("bundle_recipient_blacklist_domains")
   public String[] bundleRecipientBlacklistDomains;
+
+  public String[] getBundleRecipientBlacklistDomains() {
+    return bundleRecipientBlacklistDomains;
+  }
 
   /**
   * Disallow free email domains for Bundle/Inbox recipients?
   */
-  @Getter
   @JsonProperty("bundle_recipient_blacklist_free_email_domains")
   public Boolean bundleRecipientBlacklistFreeEmailDomains;
+
+  public Boolean getBundleRecipientBlacklistFreeEmailDomains() {
+    return bundleRecipientBlacklistFreeEmailDomains;
+  }
 
   /**
   * Do Bundle owners receive registration notification?
   */
-  @Getter
   @JsonProperty("bundle_registration_notifications")
   public String bundleRegistrationNotifications;
+
+  public String getBundleRegistrationNotifications() {
+    return bundleRegistrationNotifications;
+  }
 
   /**
   * Do Bundles require registration?
   */
-  @Getter
   @JsonProperty("bundle_require_registration")
   public Boolean bundleRequireRegistration;
+
+  public Boolean getBundleRequireRegistration() {
+    return bundleRequireRegistration;
+  }
 
   /**
   * Do Bundles require recipients for sharing?
   */
-  @Getter
   @JsonProperty("bundle_require_share_recipient")
   public Boolean bundleRequireShareRecipient;
+
+  public Boolean getBundleRequireShareRecipient() {
+    return bundleRequireShareRecipient;
+  }
 
   /**
   * Do Bundles require internal notes?
   */
-  @Getter
   @JsonProperty("bundle_require_note")
   public Boolean bundleRequireNote;
+
+  public Boolean getBundleRequireNote() {
+    return bundleRequireNote;
+  }
 
   /**
   * Do Bundle creators receive receipts of invitations?
   */
-  @Getter
   @JsonProperty("bundle_send_shared_receipts")
   public Boolean bundleSendSharedReceipts;
+
+  public Boolean getBundleSendSharedReceipts() {
+    return bundleSendSharedReceipts;
+  }
 
   /**
   * Do Bundle uploaders receive upload confirmation notifications?
   */
-  @Getter
   @JsonProperty("bundle_upload_receipt_notifications")
   public String bundleUploadReceiptNotifications;
+
+  public String getBundleUploadReceiptNotifications() {
+    return bundleUploadReceiptNotifications;
+  }
 
   /**
   * Preview watermark image applied to all bundle items.
   */
-  @Getter
   @JsonProperty("bundle_watermark_attachment")
   public Image bundleWatermarkAttachment;
+
+  public Image getBundleWatermarkAttachment() {
+    return bundleWatermarkAttachment;
+  }
 
   /**
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   */
-  @Getter
   @JsonProperty("bundle_watermark_value")
   public Map<String, String> bundleWatermarkValue;
+
+  public Map<String, String> getBundleWatermarkValue() {
+    return bundleWatermarkValue;
+  }
 
   /**
   * Calculate CRC32 checksums for files?
   */
-  @Getter
   @JsonProperty("calculate_file_checksums_crc32")
   public Boolean calculateFileChecksumsCrc32;
+
+  public Boolean getCalculateFileChecksumsCrc32() {
+    return calculateFileChecksumsCrc32;
+  }
 
   /**
   * Calculate MD5 checksums for files?
   */
-  @Getter
   @JsonProperty("calculate_file_checksums_md5")
   public Boolean calculateFileChecksumsMd5;
+
+  public Boolean getCalculateFileChecksumsMd5() {
+    return calculateFileChecksumsMd5;
+  }
 
   /**
   * Calculate SHA1 checksums for files?
   */
-  @Getter
   @JsonProperty("calculate_file_checksums_sha1")
   public Boolean calculateFileChecksumsSha1;
+
+  public Boolean getCalculateFileChecksumsSha1() {
+    return calculateFileChecksumsSha1;
+  }
 
   /**
   * Calculate SHA256 checksums for files?
   */
-  @Getter
   @JsonProperty("calculate_file_checksums_sha256")
   public Boolean calculateFileChecksumsSha256;
+
+  public Boolean getCalculateFileChecksumsSha256() {
+    return calculateFileChecksumsSha256;
+  }
 
   /**
   * Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
   */
-  @Getter
   @JsonProperty("uploads_via_email_authentication")
   public Boolean uploadsViaEmailAuthentication;
+
+  public Boolean getUploadsViaEmailAuthentication() {
+    return uploadsViaEmailAuthentication;
+  }
 
   /**
   * Page link and button color
   */
-  @Getter
   @JsonProperty("color2_left")
   public String color2Left;
+
+  public String getColor2Left() {
+    return color2Left;
+  }
 
   /**
   * Top bar link color
   */
-  @Getter
   @JsonProperty("color2_link")
   public String color2Link;
+
+  public String getColor2Link() {
+    return color2Link;
+  }
 
   /**
   * Page link and button color
   */
-  @Getter
   @JsonProperty("color2_text")
   public String color2Text;
+
+  public String getColor2Text() {
+    return color2Text;
+  }
 
   /**
   * Top bar background color
   */
-  @Getter
   @JsonProperty("color2_top")
   public String color2Top;
+
+  public String getColor2Top() {
+    return color2Top;
+  }
 
   /**
   * Top bar text color
   */
-  @Getter
   @JsonProperty("color2_top_text")
   public String color2TopText;
+
+  public String getColor2TopText() {
+    return color2TopText;
+  }
 
   /**
   * Site main contact name
   */
-  @Getter
   @JsonProperty("contact_name")
   public String contactName;
+
+  public String getContactName() {
+    return contactName;
+  }
 
   /**
   * Time this site was created
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Preferred currency
   */
-  @Getter
   @JsonProperty("currency")
   public String currency;
+
+  public String getCurrency() {
+    return currency;
+  }
 
   /**
   * Is this site using a custom namespace for users?
   */
-  @Getter
   @JsonProperty("custom_namespace")
   public Boolean customNamespace;
+
+  public Boolean getCustomNamespace() {
+    return customNamespace;
+  }
 
   /**
   * Is WebDAV enabled?
   */
-  @Getter
   @JsonProperty("dav_enabled")
   public Boolean davEnabled;
+
+  public Boolean getDavEnabled() {
+    return davEnabled;
+  }
 
   /**
   * Use user FTP roots also for WebDAV?
   */
-  @Getter
   @JsonProperty("dav_user_root_enabled")
   public Boolean davUserRootEnabled;
+
+  public Boolean getDavUserRootEnabled() {
+    return davUserRootEnabled;
+  }
 
   /**
   * Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
   */
-  @Getter
   @JsonProperty("days_before_deleting_disabled_users")
   public Long daysBeforeDeletingDisabledUsers;
+
+  public Long getDaysBeforeDeletingDisabledUsers() {
+    return daysBeforeDeletingDisabledUsers;
+  }
 
   /**
   * Number of days to keep deleted files
   */
-  @Getter
   @JsonProperty("days_to_retain_backups")
   public Long daysToRetainBackups;
+
+  public Long getDaysToRetainBackups() {
+    return daysToRetainBackups;
+  }
 
   /**
   * If true, allow public viewers of Bundles with full permissions to use document editing integrations.
   */
-  @Getter
   @JsonProperty("document_edits_in_bundle_allowed")
   public Boolean documentEditsInBundleAllowed;
+
+  public Boolean getDocumentEditsInBundleAllowed() {
+    return documentEditsInBundleAllowed;
+  }
 
   /**
   * Site default time zone
   */
-  @Getter
   @JsonProperty("default_time_zone")
   public String defaultTimeZone;
+
+  public String getDefaultTimeZone() {
+    return defaultTimeZone;
+  }
 
   /**
   * Is the desktop app enabled?
   */
-  @Getter
   @JsonProperty("desktop_app")
   public Boolean desktopApp;
+
+  public Boolean getDesktopApp() {
+    return desktopApp;
+  }
 
   /**
   * Is desktop app session IP pinning enabled?
   */
-  @Getter
   @JsonProperty("desktop_app_session_ip_pinning")
   public Boolean desktopAppSessionIpPinning;
+
+  public Boolean getDesktopAppSessionIpPinning() {
+    return desktopAppSessionIpPinning;
+  }
 
   /**
   * Desktop app session lifetime (in hours)
   */
-  @Getter
   @JsonProperty("desktop_app_session_lifetime")
   public Long desktopAppSessionLifetime;
+
+  public Long getDesktopAppSessionLifetime() {
+    return desktopAppSessionLifetime;
+  }
 
   /**
   * Use legacy checksums mode?
   */
-  @Getter
   @JsonProperty("legacy_checksums_mode")
   public Boolean legacyChecksumsMode;
+
+  public Boolean getLegacyChecksumsMode() {
+    return legacyChecksumsMode;
+  }
 
   /**
   * Is the mobile app enabled?
   */
-  @Getter
   @JsonProperty("mobile_app")
   public Boolean mobileApp;
+
+  public Boolean getMobileApp() {
+    return mobileApp;
+  }
 
   /**
   * Is mobile app session IP pinning enabled?
   */
-  @Getter
   @JsonProperty("mobile_app_session_ip_pinning")
   public Boolean mobileAppSessionIpPinning;
+
+  public Boolean getMobileAppSessionIpPinning() {
+    return mobileAppSessionIpPinning;
+  }
 
   /**
   * Mobile app session lifetime (in hours)
   */
-  @Getter
   @JsonProperty("mobile_app_session_lifetime")
   public Long mobileAppSessionLifetime;
+
+  public Long getMobileAppSessionLifetime() {
+    return mobileAppSessionLifetime;
+  }
 
   /**
   * Comma separated list of disallowed Country codes
   */
-  @Getter
   @JsonProperty("disallowed_countries")
   public String disallowedCountries;
+
+  public String getDisallowedCountries() {
+    return disallowedCountries;
+  }
 
   /**
   * If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
   */
-  @Getter
   @JsonProperty("disable_files_certificate_generation")
   public Boolean disableFilesCertificateGeneration;
+
+  public Boolean getDisableFilesCertificateGeneration() {
+    return disableFilesCertificateGeneration;
+  }
 
   /**
   * Are notifications disabled?
   */
-  @Getter
   @JsonProperty("disable_notifications")
   public Boolean disableNotifications;
+
+  public Boolean getDisableNotifications() {
+    return disableNotifications;
+  }
 
   /**
   * Is password reset disabled?
   */
-  @Getter
   @JsonProperty("disable_password_reset")
   public Boolean disablePasswordReset;
+
+  public Boolean getDisablePasswordReset() {
+    return disablePasswordReset;
+  }
 
   /**
   * Custom domain
   */
-  @Getter
   @JsonProperty("domain")
   public String domain;
+
+  public String getDomain() {
+    return domain;
+  }
 
   /**
   * Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
   */
-  @Getter
   @JsonProperty("domain_hsts_header")
   public Boolean domainHstsHeader;
+
+  public Boolean getDomainHstsHeader() {
+    return domainHstsHeader;
+  }
 
   /**
   * Letsencrypt chain to use when registering SSL Certificate for domain.
   */
-  @Getter
   @JsonProperty("domain_letsencrypt_chain")
   public String domainLetsencryptChain;
+
+  public String getDomainLetsencryptChain() {
+    return domainLetsencryptChain;
+  }
 
   /**
   * Main email for this site
   */
-  @Getter
   @JsonProperty("email")
   public String email;
+
+  public String getEmail() {
+    return email;
+  }
 
   /**
   * Is FTP enabled?
   */
-  @Getter
   @JsonProperty("ftp_enabled")
   public Boolean ftpEnabled;
+
+  public Boolean getFtpEnabled() {
+    return ftpEnabled;
+  }
 
   /**
   * Reply-to email for this site
   */
-  @Getter
   @JsonProperty("reply_to_email")
   public String replyToEmail;
+
+  public String getReplyToEmail() {
+    return replyToEmail;
+  }
 
   /**
   * If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
   */
-  @Getter
   @JsonProperty("non_sso_groups_allowed")
   public Boolean nonSsoGroupsAllowed;
+
+  public Boolean getNonSsoGroupsAllowed() {
+    return nonSsoGroupsAllowed;
+  }
 
   /**
   * If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
   */
-  @Getter
   @JsonProperty("non_sso_users_allowed")
   public Boolean nonSsoUsersAllowed;
+
+  public Boolean getNonSsoUsersAllowed() {
+    return nonSsoUsersAllowed;
+  }
 
   /**
   * If true, permissions for this site must be bound to a group (not a user).
   */
-  @Getter
   @JsonProperty("folder_permissions_groups_only")
   public Boolean folderPermissionsGroupsOnly;
+
+  public Boolean getFolderPermissionsGroupsOnly() {
+    return folderPermissionsGroupsOnly;
+  }
 
   /**
   * Is there a signed HIPAA BAA between Files.com and this site?
   */
-  @Getter
   @JsonProperty("hipaa")
   public Boolean hipaa;
+
+  public Boolean getHipaa() {
+    return hipaa;
+  }
 
   /**
   * Branded icon 128x128
   */
-  @Getter
   @JsonProperty("icon128")
   public Image icon128;
+
+  public Image getIcon128() {
+    return icon128;
+  }
 
   /**
   * Branded icon 16x16
   */
-  @Getter
   @JsonProperty("icon16")
   public Image icon16;
+
+  public Image getIcon16() {
+    return icon16;
+  }
 
   /**
   * Branded icon 32x32
   */
-  @Getter
   @JsonProperty("icon32")
   public Image icon32;
+
+  public Image getIcon32() {
+    return icon32;
+  }
 
   /**
   * Branded icon 48x48
   */
-  @Getter
   @JsonProperty("icon48")
   public Image icon48;
+
+  public Image getIcon48() {
+    return icon48;
+  }
 
   /**
   * Can files be modified?
   */
-  @Getter
   @JsonProperty("immutable_files_set_at")
   public Date immutableFilesSetAt;
+
+  public Date getImmutableFilesSetAt() {
+    return immutableFilesSetAt;
+  }
 
   /**
   * Include password in emails to new users?
   */
-  @Getter
   @JsonProperty("include_password_in_welcome_email")
   public Boolean includePasswordInWelcomeEmail;
+
+  public Boolean getIncludePasswordInWelcomeEmail() {
+    return includePasswordInWelcomeEmail;
+  }
 
   /**
   * Site default language
   */
-  @Getter
   @JsonProperty("language")
   public String language;
+
+  public String getLanguage() {
+    return language;
+  }
 
   /**
   * Base DN for looking up users in LDAP server
   */
-  @Getter
   @JsonProperty("ldap_base_dn")
   public String ldapBaseDn;
+
+  public String getLdapBaseDn() {
+    return ldapBaseDn;
+  }
 
   /**
   * Domain name that will be appended to usernames
   */
-  @Getter
   @JsonProperty("ldap_domain")
   public String ldapDomain;
+
+  public String getLdapDomain() {
+    return ldapDomain;
+  }
 
   /**
   * Main LDAP setting: is LDAP enabled?
   */
-  @Getter
   @JsonProperty("ldap_enabled")
   public Boolean ldapEnabled;
+
+  public Boolean getLdapEnabled() {
+    return ldapEnabled;
+  }
 
   /**
   * Should we sync groups from LDAP server?
   */
-  @Getter
   @JsonProperty("ldap_group_action")
   public String ldapGroupAction;
+
+  public String getLdapGroupAction() {
+    return ldapGroupAction;
+  }
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
   */
-  @Getter
   @JsonProperty("ldap_group_exclusion")
   public String ldapGroupExclusion;
+
+  public String getLdapGroupExclusion() {
+    return ldapGroupExclusion;
+  }
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) to include when syncing.
   */
-  @Getter
   @JsonProperty("ldap_group_inclusion")
   public String ldapGroupInclusion;
+
+  public String getLdapGroupInclusion() {
+    return ldapGroupInclusion;
+  }
 
   /**
   * LDAP host
   */
-  @Getter
   @JsonProperty("ldap_host")
   public String ldapHost;
 
-  /**
-  * LDAP backup host
-  */
-  @Getter
-  @JsonProperty("ldap_host_2")
-  public String ldapHost2;
+  public String getLdapHost() {
+    return ldapHost;
+  }
 
   /**
   * LDAP backup host
   */
-  @Getter
+  @JsonProperty("ldap_host_2")
+  public String ldapHost2;
+
+  public String getLdapHost2() {
+    return ldapHost2;
+  }
+
+  /**
+  * LDAP backup host
+  */
   @JsonProperty("ldap_host_3")
   public String ldapHost3;
+
+  public String getLdapHost3() {
+    return ldapHost3;
+  }
 
   /**
   * LDAP port
   */
-  @Getter
   @JsonProperty("ldap_port")
   public Long ldapPort;
+
+  public Long getLdapPort() {
+    return ldapPort;
+  }
 
   /**
   * Use secure LDAP?
   */
-  @Getter
   @JsonProperty("ldap_secure")
   public Boolean ldapSecure;
+
+  public Boolean getLdapSecure() {
+    return ldapSecure;
+  }
 
   /**
   * LDAP type
   */
-  @Getter
   @JsonProperty("ldap_type")
   public String ldapType;
+
+  public String getLdapType() {
+    return ldapType;
+  }
 
   /**
   * Should we sync users from LDAP server?
   */
-  @Getter
   @JsonProperty("ldap_user_action")
   public String ldapUserAction;
+
+  public String getLdapUserAction() {
+    return ldapUserAction;
+  }
 
   /**
   * Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
   */
-  @Getter
   @JsonProperty("ldap_user_include_groups")
   public String ldapUserIncludeGroups;
+
+  public String getLdapUserIncludeGroups() {
+    return ldapUserIncludeGroups;
+  }
 
   /**
   * Username for signing in to LDAP server.
   */
-  @Getter
   @JsonProperty("ldap_username")
   public String ldapUsername;
+
+  public String getLdapUsername() {
+    return ldapUsername;
+  }
 
   /**
   * LDAP username field
   */
-  @Getter
   @JsonProperty("ldap_username_field")
   public String ldapUsernameField;
+
+  public String getLdapUsernameField() {
+    return ldapUsernameField;
+  }
 
   /**
   * Login help text
   */
-  @Getter
   @JsonProperty("login_help_text")
   public String loginHelpText;
+
+  public String getLoginHelpText() {
+    return loginHelpText;
+  }
 
   /**
   * Branded logo
   */
-  @Getter
   @JsonProperty("logo")
   public Image logo;
+
+  public Image getLogo() {
+    return logo;
+  }
 
   /**
   * Branded login page background
   */
-  @Getter
   @JsonProperty("login_page_background_image")
   public Image loginPageBackgroundImage;
+
+  public Image getLoginPageBackgroundImage() {
+    return loginPageBackgroundImage;
+  }
 
   /**
   * Number of prior passwords to disallow
   */
-  @Getter
   @JsonProperty("max_prior_passwords")
   public Long maxPriorPasswords;
+
+  public Long getMaxPriorPasswords() {
+    return maxPriorPasswords;
+  }
 
   /**
   * A message to show users when they connect via FTP or SFTP.
   */
-  @Getter
   @JsonProperty("motd_text")
   public String motdText;
+
+  public String getMotdText() {
+    return motdText;
+  }
 
   /**
   * Show message to users connecting via FTP
   */
-  @Getter
   @JsonProperty("motd_use_for_ftp")
   public Boolean motdUseForFtp;
+
+  public Boolean getMotdUseForFtp() {
+    return motdUseForFtp;
+  }
 
   /**
   * Show message to users connecting via SFTP
   */
-  @Getter
   @JsonProperty("motd_use_for_sftp")
   public Boolean motdUseForSftp;
+
+  public Boolean getMotdUseForSftp() {
+    return motdUseForSftp;
+  }
 
   /**
   * Next billing amount
   */
-  @Getter
   @JsonProperty("next_billing_amount")
   public Double nextBillingAmount;
+
+  public Double getNextBillingAmount() {
+    return nextBillingAmount;
+  }
 
   /**
   * Next billing date
   */
-  @Getter
   @JsonProperty("next_billing_date")
   public String nextBillingDate;
+
+  public String getNextBillingDate() {
+    return nextBillingDate;
+  }
 
   /**
   * If true, allows users to use a document editing integration.
   */
-  @Getter
   @JsonProperty("office_integration_available")
   public Boolean officeIntegrationAvailable;
+
+  public Boolean getOfficeIntegrationAvailable() {
+    return officeIntegrationAvailable;
+  }
 
   /**
   * Which document editing integration to support. Files.com Editor or Microsoft Office for the Web.
   */
-  @Getter
   @JsonProperty("office_integration_type")
   public String officeIntegrationType;
+
+  public String getOfficeIntegrationType() {
+    return officeIntegrationType;
+  }
 
   /**
   * Link to scheduling a meeting with our Sales team
   */
-  @Getter
   @JsonProperty("oncehub_link")
   public String oncehubLink;
+
+  public String getOncehubLink() {
+    return oncehubLink;
+  }
 
   /**
   * Use servers in the USA only?
   */
-  @Getter
   @JsonProperty("opt_out_global")
   public Boolean optOutGlobal;
+
+  public Boolean getOptOutGlobal() {
+    return optOutGlobal;
+  }
 
   /**
   * Is this site's billing overdue?
   */
-  @Getter
   @JsonProperty("overdue")
   public Boolean overdue;
+
+  public Boolean getOverdue() {
+    return overdue;
+  }
 
   /**
   * Shortest password length for users
   */
-  @Getter
   @JsonProperty("password_min_length")
   public Long passwordMinLength;
+
+  public Long getPasswordMinLength() {
+    return passwordMinLength;
+  }
 
   /**
   * Require a letter in passwords?
   */
-  @Getter
   @JsonProperty("password_require_letter")
   public Boolean passwordRequireLetter;
+
+  public Boolean getPasswordRequireLetter() {
+    return passwordRequireLetter;
+  }
 
   /**
   * Require lower and upper case letters in passwords?
   */
-  @Getter
   @JsonProperty("password_require_mixed")
   public Boolean passwordRequireMixed;
+
+  public Boolean getPasswordRequireMixed() {
+    return passwordRequireMixed;
+  }
 
   /**
   * Require a number in passwords?
   */
-  @Getter
   @JsonProperty("password_require_number")
   public Boolean passwordRequireNumber;
+
+  public Boolean getPasswordRequireNumber() {
+    return passwordRequireNumber;
+  }
 
   /**
   * Require special characters in password?
   */
-  @Getter
   @JsonProperty("password_require_special")
   public Boolean passwordRequireSpecial;
+
+  public Boolean getPasswordRequireSpecial() {
+    return passwordRequireSpecial;
+  }
 
   /**
   * Require passwords that have not been previously breached? (see https://haveibeenpwned.com/)
   */
-  @Getter
   @JsonProperty("password_require_unbreached")
   public Boolean passwordRequireUnbreached;
+
+  public Boolean getPasswordRequireUnbreached() {
+    return passwordRequireUnbreached;
+  }
 
   /**
   * Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
   */
-  @Getter
   @JsonProperty("password_requirements_apply_to_bundles")
   public Boolean passwordRequirementsApplyToBundles;
+
+  public Boolean getPasswordRequirementsApplyToBundles() {
+    return passwordRequirementsApplyToBundles;
+  }
 
   /**
   * Number of days password is valid
   */
-  @Getter
   @JsonProperty("password_validity_days")
   public Long passwordValidityDays;
+
+  public Long getPasswordValidityDays() {
+    return passwordValidityDays;
+  }
 
   /**
   * Site phone number
   */
-  @Getter
   @JsonProperty("phone")
   public String phone;
+
+  public String getPhone() {
+    return phone;
+  }
 
   /**
   * If true, we will ensure that all internal communications with any remote server are made through the primary region of the site. This setting overrides individual remote server settings.
   */
-  @Getter
   @JsonProperty("pin_all_remote_servers_to_site_region")
   public Boolean pinAllRemoteServersToSiteRegion;
+
+  public Boolean getPinAllRemoteServersToSiteRegion() {
+    return pinAllRemoteServersToSiteRegion;
+  }
 
   /**
   * If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
   */
-  @Getter
   @JsonProperty("prevent_root_permissions_for_non_site_admins")
   public Boolean preventRootPermissionsForNonSiteAdmins;
+
+  public Boolean getPreventRootPermissionsForNonSiteAdmins() {
+    return preventRootPermissionsForNonSiteAdmins;
+  }
 
   /**
   * If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
   */
-  @Getter
   @JsonProperty("protocol_access_groups_only")
   public Boolean protocolAccessGroupsOnly;
+
+  public Boolean getProtocolAccessGroupsOnly() {
+    return protocolAccessGroupsOnly;
+  }
 
   /**
   * Require two-factor authentication for all users?
   */
-  @Getter
   @JsonProperty("require_2fa")
   public Boolean require2fa;
+
+  public Boolean getRequire2fa() {
+    return require2fa;
+  }
 
   /**
   * If set, requirement for two-factor authentication has been scheduled to end on this date-time.
   */
-  @Getter
   @JsonProperty("require_2fa_stop_time")
   public Date require2faStopTime;
+
+  public Date getRequire2faStopTime() {
+    return require2faStopTime;
+  }
 
   /**
   * Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
   */
-  @Getter
   @JsonProperty("revoke_bundle_access_on_disable_or_delete")
   public Boolean revokeBundleAccessOnDisableOrDelete;
+
+  public Boolean getRevokeBundleAccessOnDisableOrDelete() {
+    return revokeBundleAccessOnDisableOrDelete;
+  }
 
   /**
   * What type of user is required to use two-factor authentication (when require_2fa is set to `true` for this site)?
   */
-  @Getter
   @JsonProperty("require_2fa_user_type")
   public String require2faUserType;
+
+  public String getRequire2faUserType() {
+    return require2faUserType;
+  }
 
   /**
   * If true, we will hide the 'Remember Me' box on Inbox and Bundle registration pages, requiring that the user logout and log back in every time they visit the page.
   */
-  @Getter
   @JsonProperty("require_logout_from_bundles_and_inboxes")
   public Boolean requireLogoutFromBundlesAndInboxes;
+
+  public Boolean getRequireLogoutFromBundlesAndInboxes() {
+    return requireLogoutFromBundlesAndInboxes;
+  }
 
   /**
   * Current session
   */
-  @Getter
   @JsonProperty("session")
   public Session session;
+
+  public Session getSession() {
+    return session;
+  }
 
   /**
   * Is SFTP enabled?
   */
-  @Getter
   @JsonProperty("sftp_enabled")
   public Boolean sftpEnabled;
+
+  public Boolean getSftpEnabled() {
+    return sftpEnabled;
+  }
 
   /**
   * Sftp Host Key Type
   */
-  @Getter
   @JsonProperty("sftp_host_key_type")
   public String sftpHostKeyType;
+
+  public String getSftpHostKeyType() {
+    return sftpHostKeyType;
+  }
 
   /**
   * Id of the currently selected custom SFTP Host Key
   */
-  @Getter
   @JsonProperty("active_sftp_host_key_id")
   public Long activeSftpHostKeyId;
+
+  public Long getActiveSftpHostKeyId() {
+    return activeSftpHostKeyId;
+  }
 
   /**
   * If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
   */
-  @Getter
   @JsonProperty("sftp_insecure_ciphers")
   public Boolean sftpInsecureCiphers;
+
+  public Boolean getSftpInsecureCiphers() {
+    return sftpInsecureCiphers;
+  }
 
   /**
   * If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
   */
-  @Getter
   @JsonProperty("sftp_insecure_diffie_hellman")
   public Boolean sftpInsecureDiffieHellman;
+
+  public Boolean getSftpInsecureDiffieHellman() {
+    return sftpInsecureDiffieHellman;
+  }
 
   /**
   * Use user FTP roots also for SFTP?
   */
-  @Getter
   @JsonProperty("sftp_user_root_enabled")
   public Boolean sftpUserRootEnabled;
+
+  public Boolean getSftpUserRootEnabled() {
+    return sftpUserRootEnabled;
+  }
 
   /**
   * Allow bundle creation
   */
-  @Getter
   @JsonProperty("sharing_enabled")
   public Boolean sharingEnabled;
+
+  public Boolean getSharingEnabled() {
+    return sharingEnabled;
+  }
 
   /**
   * Show log in link in user notifications?
   */
-  @Getter
   @JsonProperty("show_user_notifications_log_in_link")
   public Boolean showUserNotificationsLogInLink;
+
+  public Boolean getShowUserNotificationsLogInLink() {
+    return showUserNotificationsLogInLink;
+  }
 
   /**
   * Show request access link for users without access?  Currently unused.
   */
-  @Getter
   @JsonProperty("show_request_access_link")
   public Boolean showRequestAccessLink;
+
+  public Boolean getShowRequestAccessLink() {
+    return showRequestAccessLink;
+  }
 
   /**
   * Custom site footer text
   */
-  @Getter
   @JsonProperty("site_footer")
   public String siteFooter;
+
+  public String getSiteFooter() {
+    return siteFooter;
+  }
 
   /**
   * Custom site header text
   */
-  @Getter
   @JsonProperty("site_header")
   public String siteHeader;
+
+  public String getSiteHeader() {
+    return siteHeader;
+  }
 
   /**
   * SMTP server hostname or IP
   */
-  @Getter
   @JsonProperty("smtp_address")
   public String smtpAddress;
+
+  public String getSmtpAddress() {
+    return smtpAddress;
+  }
 
   /**
   * SMTP server authentication type
   */
-  @Getter
   @JsonProperty("smtp_authentication")
   public String smtpAuthentication;
+
+  public String getSmtpAuthentication() {
+    return smtpAuthentication;
+  }
 
   /**
   * From address to use when mailing through custom SMTP
   */
-  @Getter
   @JsonProperty("smtp_from")
   public String smtpFrom;
+
+  public String getSmtpFrom() {
+    return smtpFrom;
+  }
 
   /**
   * SMTP server port
   */
-  @Getter
   @JsonProperty("smtp_port")
   public Long smtpPort;
+
+  public Long getSmtpPort() {
+    return smtpPort;
+  }
 
   /**
   * SMTP server username
   */
-  @Getter
   @JsonProperty("smtp_username")
   public String smtpUsername;
+
+  public String getSmtpUsername() {
+    return smtpUsername;
+  }
 
   /**
   * Session expiry in hours
   */
-  @Getter
   @JsonProperty("session_expiry")
   public Double sessionExpiry;
+
+  public Double getSessionExpiry() {
+    return sessionExpiry;
+  }
 
   /**
   * Session expiry in minutes
   */
-  @Getter
   @JsonProperty("session_expiry_minutes")
   public Long sessionExpiryMinutes;
+
+  public Long getSessionExpiryMinutes() {
+    return sessionExpiryMinutes;
+  }
 
   /**
   * Allow snapshot share links creation
   */
-  @Getter
   @JsonProperty("snapshot_sharing_enabled")
   public Boolean snapshotSharingEnabled;
+
+  public Boolean getSnapshotSharingEnabled() {
+    return snapshotSharingEnabled;
+  }
 
   /**
   * Is SSL required?  Disabling this is insecure.
   */
-  @Getter
   @JsonProperty("ssl_required")
   public Boolean sslRequired;
+
+  public Boolean getSslRequired() {
+    return sslRequired;
+  }
 
   /**
   * Site subdomain
   */
-  @Getter
   @JsonProperty("subdomain")
   public String subdomain;
+
+  public String getSubdomain() {
+    return subdomain;
+  }
 
   /**
   * If switching plans, when does the new plan take effect?
   */
-  @Getter
   @JsonProperty("switch_to_plan_date")
   public Date switchToPlanDate;
+
+  public Date getSwitchToPlanDate() {
+    return switchToPlanDate;
+  }
 
   /**
   * DO NOT ENABLE. This setting allows TLSv1.0 and TLSv1.1 to be used on your site.  We intend to remove this capability entirely in early 2024.  If set, the `sftp_insecure_ciphers` flag will be automatically set to true.
   */
-  @Getter
   @JsonProperty("tls_disabled")
   public Boolean tlsDisabled;
+
+  public Boolean getTlsDisabled() {
+    return tlsDisabled;
+  }
 
   /**
   * Number of days left in trial
   */
-  @Getter
   @JsonProperty("trial_days_left")
   public Long trialDaysLeft;
+
+  public Long getTrialDaysLeft() {
+    return trialDaysLeft;
+  }
 
   /**
   * When does this Site trial expire?
   */
-  @Getter
   @JsonProperty("trial_until")
   public Date trialUntil;
+
+  public Date getTrialUntil() {
+    return trialUntil;
+  }
 
   /**
   * If using custom SMTP, should we use dedicated IPs to deliver emails?
   */
-  @Getter
   @JsonProperty("use_dedicated_ips_for_smtp")
   public Boolean useDedicatedIpsForSmtp;
+
+  public Boolean getUseDedicatedIpsForSmtp() {
+    return useDedicatedIpsForSmtp;
+  }
 
   /**
   * Allow uploaders to set `provided_modified_at` for uploaded files?
   */
-  @Getter
   @JsonProperty("use_provided_modified_at")
   public Boolean useProvidedModifiedAt;
+
+  public Boolean getUseProvidedModifiedAt() {
+    return useProvidedModifiedAt;
+  }
 
   /**
   * User of current session
   */
-  @Getter
   @JsonProperty("user")
   public User user;
+
+  public User getUser() {
+    return user;
+  }
 
   /**
   * Will users be locked out after incorrect login attempts?
   */
-  @Getter
   @JsonProperty("user_lockout")
   public Boolean userLockout;
+
+  public Boolean getUserLockout() {
+    return userLockout;
+  }
 
   /**
   * How many hours to lock user out for failed password?
   */
-  @Getter
   @JsonProperty("user_lockout_lock_period")
   public Long userLockoutLockPeriod;
+
+  public Long getUserLockoutLockPeriod() {
+    return userLockoutLockPeriod;
+  }
 
   /**
   * Number of login tries within `user_lockout_within` hours before users are locked out
   */
-  @Getter
   @JsonProperty("user_lockout_tries")
   public Long userLockoutTries;
+
+  public Long getUserLockoutTries() {
+    return userLockoutTries;
+  }
 
   /**
   * Number of hours for user lockout window
   */
-  @Getter
   @JsonProperty("user_lockout_within")
   public Long userLockoutWithin;
+
+  public Long getUserLockoutWithin() {
+    return userLockoutWithin;
+  }
 
   /**
   * Enable User Requests feature
   */
-  @Getter
   @JsonProperty("user_requests_enabled")
   public Boolean userRequestsEnabled;
+
+  public Boolean getUserRequestsEnabled() {
+    return userRequestsEnabled;
+  }
 
   /**
   * Send email to site admins when a user request is received?
   */
-  @Getter
   @JsonProperty("user_requests_notify_admins")
   public Boolean userRequestsNotifyAdmins;
+
+  public Boolean getUserRequestsNotifyAdmins() {
+    return userRequestsNotifyAdmins;
+  }
 
   /**
   * Allow users to create their own API keys?
   */
-  @Getter
   @JsonProperty("users_can_create_api_keys")
   public Boolean usersCanCreateApiKeys;
+
+  public Boolean getUsersCanCreateApiKeys() {
+    return usersCanCreateApiKeys;
+  }
 
   /**
   * Allow users to create their own SSH keys?
   */
-  @Getter
   @JsonProperty("users_can_create_ssh_keys")
   public Boolean usersCanCreateSshKeys;
+
+  public Boolean getUsersCanCreateSshKeys() {
+    return usersCanCreateSshKeys;
+  }
 
   /**
   * Custom text send in user welcome email
   */
-  @Getter
   @JsonProperty("welcome_custom_text")
   public String welcomeCustomText;
+
+  public String getWelcomeCustomText() {
+    return welcomeCustomText;
+  }
 
   /**
   * Include this email in welcome emails if enabled
   */
-  @Getter
   @JsonProperty("welcome_email_cc")
   public String welcomeEmailCc;
+
+  public String getWelcomeEmailCc() {
+    return welcomeEmailCc;
+  }
 
   /**
   * Include this email subject in welcome emails if enabled
   */
-  @Getter
   @JsonProperty("welcome_email_subject")
   public String welcomeEmailSubject;
+
+  public String getWelcomeEmailSubject() {
+    return welcomeEmailSubject;
+  }
 
   /**
   * Will the welcome email be sent to new users?
   */
-  @Getter
   @JsonProperty("welcome_email_enabled")
   public Boolean welcomeEmailEnabled;
+
+  public Boolean getWelcomeEmailEnabled() {
+    return welcomeEmailEnabled;
+  }
 
   /**
   * Does the welcome screen appear?
   */
-  @Getter
   @JsonProperty("welcome_screen")
   public String welcomeScreen;
+
+  public String getWelcomeScreen() {
+    return welcomeScreen;
+  }
 
   /**
   * Does FTP user Windows emulation mode?
   */
-  @Getter
   @JsonProperty("windows_mode_ftp")
   public Boolean windowsModeFtp;
+
+  public Boolean getWindowsModeFtp() {
+    return windowsModeFtp;
+  }
 
   /**
   * If greater than zero, users will unable to login if they do not show activity within this number of days.
   */
-  @Getter
   @JsonProperty("disable_users_from_inactivity_period_days")
   public Long disableUsersFromInactivityPeriodDays;
+
+  public Long getDisableUsersFromInactivityPeriodDays() {
+    return disableUsersFromInactivityPeriodDays;
+  }
 
   /**
   * Allow group admins set password authentication method
   */
-  @Getter
   @JsonProperty("group_admins_can_set_user_password")
   public Boolean groupAdminsCanSetUserPassword;
+
+  public Boolean getGroupAdminsCanSetUserPassword() {
+    return groupAdminsCanSetUserPassword;
+  }
 
 
   /**

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicIpAddress implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,28 +70,40 @@ public class PublicIpAddress implements ModelInterface {
   /**
   * The public IP address.
   */
-  @Getter
   @JsonProperty("ip_address")
   public String ipAddress;
+
+  public String getIpAddress() {
+    return ipAddress;
+  }
 
   /**
   * The name of the frontend server.
   */
-  @Getter
   @JsonProperty("server_name")
   public String serverName;
 
-  /**
-  */
-  @Getter
-  @JsonProperty("ftp_enabled")
-  public Boolean ftpEnabled;
+  public String getServerName() {
+    return serverName;
+  }
 
   /**
   */
-  @Getter
+  @JsonProperty("ftp_enabled")
+  public Boolean ftpEnabled;
+
+  public Boolean getFtpEnabled() {
+    return ftpEnabled;
+  }
+
+  /**
+  */
   @JsonProperty("sftp_enabled")
   public Boolean sftpEnabled;
+
+  public Boolean getSftpEnabled() {
+    return sftpEnabled;
+  }
 
 
 }

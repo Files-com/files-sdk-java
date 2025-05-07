@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,609 +70,1062 @@ public class User implements ModelInterface {
   /**
   * User ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * User's username
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * List of group IDs of which this user is an administrator
   */
-  @Getter
-  @Setter
   @JsonProperty("admin_group_ids")
   public Long[] adminGroupIds;
+
+  public Long[] getAdminGroupIds() {
+    return adminGroupIds;
+  }
+
+  public void setAdminGroupIds(Long[] adminGroupIds) {
+    this.adminGroupIds = adminGroupIds;
+  }
 
   /**
   * A list of allowed IPs if applicable.  Newline delimited
   */
-  @Getter
-  @Setter
   @JsonProperty("allowed_ips")
   public String allowedIps;
+
+  public String getAllowedIps() {
+    return allowedIps;
+  }
+
+  public void setAllowedIps(String allowedIps) {
+    this.allowedIps = allowedIps;
+  }
 
   /**
   * If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
   */
-  @Getter
-  @Setter
   @JsonProperty("attachments_permission")
   public Boolean attachmentsPermission;
+
+  public Boolean getAttachmentsPermission() {
+    return attachmentsPermission;
+  }
+
+  public void setAttachmentsPermission(Boolean attachmentsPermission) {
+    this.attachmentsPermission = attachmentsPermission;
+  }
 
   /**
   * Number of API keys associated with this user
   */
-  @Getter
-  @Setter
   @JsonProperty("api_keys_count")
   public Long apiKeysCount;
+
+  public Long getApiKeysCount() {
+    return apiKeysCount;
+  }
+
+  public void setApiKeysCount(Long apiKeysCount) {
+    this.apiKeysCount = apiKeysCount;
+  }
 
   /**
   * Scheduled Date/Time at which user will be deactivated
   */
-  @Getter
-  @Setter
   @JsonProperty("authenticate_until")
   public Date authenticateUntil;
+
+  public Date getAuthenticateUntil() {
+    return authenticateUntil;
+  }
+
+  public void setAuthenticateUntil(Date authenticateUntil) {
+    this.authenticateUntil = authenticateUntil;
+  }
 
   /**
   * How is this user authenticated?
   */
-  @Getter
-  @Setter
   @JsonProperty("authentication_method")
   public String authenticationMethod;
+
+  public String getAuthenticationMethod() {
+    return authenticationMethod;
+  }
+
+  public void setAuthenticationMethod(String authenticationMethod) {
+    this.authenticationMethod = authenticationMethod;
+  }
 
   /**
   * URL holding the user's avatar
   */
-  @Getter
-  @Setter
   @JsonProperty("avatar_url")
   public String avatarUrl;
+
+  public String getAvatarUrl() {
+    return avatarUrl;
+  }
+
+  public void setAvatarUrl(String avatarUrl) {
+    this.avatarUrl = avatarUrl;
+  }
 
   /**
   * Is this a billable user record?
   */
-  @Getter
-  @Setter
   @JsonProperty("billable")
   public Boolean billable;
+
+  public Boolean getBillable() {
+    return billable;
+  }
+
+  public void setBillable(Boolean billable) {
+    this.billable = billable;
+  }
 
   /**
   * Allow this user to perform operations on the account, payments, and invoices?
   */
-  @Getter
-  @Setter
   @JsonProperty("billing_permission")
   public Boolean billingPermission;
+
+  public Boolean getBillingPermission() {
+    return billingPermission;
+  }
+
+  public void setBillingPermission(Boolean billingPermission) {
+    this.billingPermission = billingPermission;
+  }
 
   /**
   * Allow this user to skip site-wide IP blacklists?
   */
-  @Getter
-  @Setter
   @JsonProperty("bypass_site_allowed_ips")
   public Boolean bypassSiteAllowedIps;
+
+  public Boolean getBypassSiteAllowedIps() {
+    return bypassSiteAllowedIps;
+  }
+
+  public void setBypassSiteAllowedIps(Boolean bypassSiteAllowedIps) {
+    this.bypassSiteAllowedIps = bypassSiteAllowedIps;
+  }
 
   /**
   * Exempt this user from being disabled based on inactivity?
   */
-  @Getter
-  @Setter
   @JsonProperty("bypass_inactive_disable")
   public Boolean bypassInactiveDisable;
+
+  public Boolean getBypassInactiveDisable() {
+    return bypassInactiveDisable;
+  }
+
+  public void setBypassInactiveDisable(Boolean bypassInactiveDisable) {
+    this.bypassInactiveDisable = bypassInactiveDisable;
+  }
 
   /**
   * When this user was created
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Can the user connect with WebDAV?
   */
-  @Getter
-  @Setter
   @JsonProperty("dav_permission")
   public Boolean davPermission;
+
+  public Boolean getDavPermission() {
+    return davPermission;
+  }
+
+  public void setDavPermission(Boolean davPermission) {
+    this.davPermission = davPermission;
+  }
 
   /**
   * Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   */
-  @Getter
-  @Setter
   @JsonProperty("disabled")
   public Boolean disabled;
+
+  public Boolean getDisabled() {
+    return disabled;
+  }
+
+  public void setDisabled(Boolean disabled) {
+    this.disabled = disabled;
+  }
 
   /**
   * Computed property that returns true if user disabled or expired or inactive.
   */
-  @Getter
-  @Setter
   @JsonProperty("disabled_expired_or_inactive")
   public Boolean disabledExpiredOrInactive;
+
+  public Boolean getDisabledExpiredOrInactive() {
+    return disabledExpiredOrInactive;
+  }
+
+  public void setDisabledExpiredOrInactive(Boolean disabledExpiredOrInactive) {
+    this.disabledExpiredOrInactive = disabledExpiredOrInactive;
+  }
 
   /**
   * User email address
   */
-  @Getter
-  @Setter
   @JsonProperty("email")
   public String email;
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
   /**
   * User's first login time
   */
-  @Getter
-  @Setter
   @JsonProperty("first_login_at")
   public Date firstLoginAt;
+
+  public Date getFirstLoginAt() {
+    return firstLoginAt;
+  }
+
+  public void setFirstLoginAt(Date firstLoginAt) {
+    this.firstLoginAt = firstLoginAt;
+  }
 
   /**
   * Can the user access with FTP/FTPS?
   */
-  @Getter
-  @Setter
   @JsonProperty("ftp_permission")
   public Boolean ftpPermission;
+
+  public Boolean getFtpPermission() {
+    return ftpPermission;
+  }
+
+  public void setFtpPermission(Boolean ftpPermission) {
+    this.ftpPermission = ftpPermission;
+  }
 
   /**
   * Comma-separated list of group IDs of which this user is a member
   */
-  @Getter
-  @Setter
   @JsonProperty("group_ids")
   public String groupIds;
+
+  public String getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(String groupIds) {
+    this.groupIds = groupIds;
+  }
 
   /**
   * Text to display to the user in the header of the UI
   */
-  @Getter
-  @Setter
   @JsonProperty("header_text")
   public String headerText;
+
+  public String getHeaderText() {
+    return headerText;
+  }
+
+  public void setHeaderText(String headerText) {
+    this.headerText = headerText;
+  }
 
   /**
   * Preferred language
   */
-  @Getter
-  @Setter
   @JsonProperty("language")
   public String language;
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
 
   /**
   * User's most recent login time via any protocol
   */
-  @Getter
-  @Setter
   @JsonProperty("last_login_at")
   public Date lastLoginAt;
+
+  public Date getLastLoginAt() {
+    return lastLoginAt;
+  }
+
+  public void setLastLoginAt(Date lastLoginAt) {
+    this.lastLoginAt = lastLoginAt;
+  }
 
   /**
   * User's most recent login time via web
   */
-  @Getter
-  @Setter
   @JsonProperty("last_web_login_at")
   public Date lastWebLoginAt;
+
+  public Date getLastWebLoginAt() {
+    return lastWebLoginAt;
+  }
+
+  public void setLastWebLoginAt(Date lastWebLoginAt) {
+    this.lastWebLoginAt = lastWebLoginAt;
+  }
 
   /**
   * User's most recent login time via FTP
   */
-  @Getter
-  @Setter
   @JsonProperty("last_ftp_login_at")
   public Date lastFtpLoginAt;
+
+  public Date getLastFtpLoginAt() {
+    return lastFtpLoginAt;
+  }
+
+  public void setLastFtpLoginAt(Date lastFtpLoginAt) {
+    this.lastFtpLoginAt = lastFtpLoginAt;
+  }
 
   /**
   * User's most recent login time via SFTP
   */
-  @Getter
-  @Setter
   @JsonProperty("last_sftp_login_at")
   public Date lastSftpLoginAt;
+
+  public Date getLastSftpLoginAt() {
+    return lastSftpLoginAt;
+  }
+
+  public void setLastSftpLoginAt(Date lastSftpLoginAt) {
+    this.lastSftpLoginAt = lastSftpLoginAt;
+  }
 
   /**
   * User's most recent login time via WebDAV
   */
-  @Getter
-  @Setter
   @JsonProperty("last_dav_login_at")
   public Date lastDavLoginAt;
+
+  public Date getLastDavLoginAt() {
+    return lastDavLoginAt;
+  }
+
+  public void setLastDavLoginAt(Date lastDavLoginAt) {
+    this.lastDavLoginAt = lastDavLoginAt;
+  }
 
   /**
   * User's most recent login time via Desktop app
   */
-  @Getter
-  @Setter
   @JsonProperty("last_desktop_login_at")
   public Date lastDesktopLoginAt;
+
+  public Date getLastDesktopLoginAt() {
+    return lastDesktopLoginAt;
+  }
+
+  public void setLastDesktopLoginAt(Date lastDesktopLoginAt) {
+    this.lastDesktopLoginAt = lastDesktopLoginAt;
+  }
 
   /**
   * User's most recent login time via Rest API
   */
-  @Getter
-  @Setter
   @JsonProperty("last_restapi_login_at")
   public Date lastRestapiLoginAt;
+
+  public Date getLastRestapiLoginAt() {
+    return lastRestapiLoginAt;
+  }
+
+  public void setLastRestapiLoginAt(Date lastRestapiLoginAt) {
+    this.lastRestapiLoginAt = lastRestapiLoginAt;
+  }
 
   /**
   * User's most recent API use time
   */
-  @Getter
-  @Setter
   @JsonProperty("last_api_use_at")
   public Date lastApiUseAt;
+
+  public Date getLastApiUseAt() {
+    return lastApiUseAt;
+  }
+
+  public void setLastApiUseAt(Date lastApiUseAt) {
+    this.lastApiUseAt = lastApiUseAt;
+  }
 
   /**
   * User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
   */
-  @Getter
-  @Setter
   @JsonProperty("last_active_at")
   public Date lastActiveAt;
+
+  public Date getLastActiveAt() {
+    return lastActiveAt;
+  }
+
+  public void setLastActiveAt(Date lastActiveAt) {
+    this.lastActiveAt = lastActiveAt;
+  }
 
   /**
   * The most recent protocol and cipher used
   */
-  @Getter
-  @Setter
   @JsonProperty("last_protocol_cipher")
   public String lastProtocolCipher;
+
+  public String getLastProtocolCipher() {
+    return lastProtocolCipher;
+  }
+
+  public void setLastProtocolCipher(String lastProtocolCipher) {
+    this.lastProtocolCipher = lastProtocolCipher;
+  }
 
   /**
   * Time in the future that the user will no longer be locked out if applicable
   */
-  @Getter
-  @Setter
   @JsonProperty("lockout_expires")
   public Date lockoutExpires;
+
+  public Date getLockoutExpires() {
+    return lockoutExpires;
+  }
+
+  public void setLockoutExpires(Date lockoutExpires) {
+    this.lockoutExpires = lockoutExpires;
+  }
 
   /**
   * User's full name
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * User's company
   */
-  @Getter
-  @Setter
   @JsonProperty("company")
   public String company;
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
 
   /**
   * Any internal notes on the user
   */
-  @Getter
-  @Setter
   @JsonProperty("notes")
   public String notes;
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
 
   /**
   * Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
   */
-  @Getter
-  @Setter
   @JsonProperty("notification_daily_send_time")
   public Long notificationDailySendTime;
+
+  public Long getNotificationDailySendTime() {
+    return notificationDailySendTime;
+  }
+
+  public void setNotificationDailySendTime(Long notificationDailySendTime) {
+    this.notificationDailySendTime = notificationDailySendTime;
+  }
 
   /**
   * Enable integration with Office for the web?
   */
-  @Getter
-  @Setter
   @JsonProperty("office_integration_enabled")
   public Boolean officeIntegrationEnabled;
+
+  public Boolean getOfficeIntegrationEnabled() {
+    return officeIntegrationEnabled;
+  }
+
+  public void setOfficeIntegrationEnabled(Boolean officeIntegrationEnabled) {
+    this.officeIntegrationEnabled = officeIntegrationEnabled;
+  }
 
   /**
   * Last time the user's password was set
   */
-  @Getter
-  @Setter
   @JsonProperty("password_set_at")
   public Date passwordSetAt;
+
+  public Date getPasswordSetAt() {
+    return passwordSetAt;
+  }
+
+  public void setPasswordSetAt(Date passwordSetAt) {
+    this.passwordSetAt = passwordSetAt;
+  }
 
   /**
   * Number of days to allow user to use the same password
   */
-  @Getter
-  @Setter
   @JsonProperty("password_validity_days")
   public Long passwordValidityDays;
+
+  public Long getPasswordValidityDays() {
+    return passwordValidityDays;
+  }
+
+  public void setPasswordValidityDays(Long passwordValidityDays) {
+    this.passwordValidityDays = passwordValidityDays;
+  }
 
   /**
   * Number of public keys associated with this user
   */
-  @Getter
-  @Setter
   @JsonProperty("public_keys_count")
   public Long publicKeysCount;
+
+  public Long getPublicKeysCount() {
+    return publicKeysCount;
+  }
+
+  public void setPublicKeysCount(Long publicKeysCount) {
+    this.publicKeysCount = publicKeysCount;
+  }
 
   /**
   * Should the user receive admin alerts such a certificate expiration notifications and overages?
   */
-  @Getter
-  @Setter
   @JsonProperty("receive_admin_alerts")
   public Boolean receiveAdminAlerts;
+
+  public Boolean getReceiveAdminAlerts() {
+    return receiveAdminAlerts;
+  }
+
+  public void setReceiveAdminAlerts(Boolean receiveAdminAlerts) {
+    this.receiveAdminAlerts = receiveAdminAlerts;
+  }
 
   /**
   * 2FA required setting
   */
-  @Getter
-  @Setter
   @JsonProperty("require_2fa")
   public String require2fa;
+
+  public String getRequire2fa() {
+    return require2fa;
+  }
+
+  public void setRequire2fa(String require2fa) {
+    this.require2fa = require2fa;
+  }
 
   /**
   * Require user to login by specified date otherwise it will be disabled.
   */
-  @Getter
-  @Setter
   @JsonProperty("require_login_by")
   public Date requireLoginBy;
+
+  public Date getRequireLoginBy() {
+    return requireLoginBy;
+  }
+
+  public void setRequireLoginBy(Date requireLoginBy) {
+    this.requireLoginBy = requireLoginBy;
+  }
 
   /**
   * Is 2fa active for the user?
   */
-  @Getter
-  @Setter
   @JsonProperty("active_2fa")
   public Boolean active2fa;
+
+  public Boolean getActive2fa() {
+    return active2fa;
+  }
+
+  public void setActive2fa(Boolean active2fa) {
+    this.active2fa = active2fa;
+  }
 
   /**
   * Is a password change required upon next user login?
   */
-  @Getter
-  @Setter
   @JsonProperty("require_password_change")
   public Boolean requirePasswordChange;
+
+  public Boolean getRequirePasswordChange() {
+    return requirePasswordChange;
+  }
+
+  public void setRequirePasswordChange(Boolean requirePasswordChange) {
+    this.requirePasswordChange = requirePasswordChange;
+  }
 
   /**
   * Is user's password expired?
   */
-  @Getter
-  @Setter
   @JsonProperty("password_expired")
   public Boolean passwordExpired;
+
+  public Boolean getPasswordExpired() {
+    return passwordExpired;
+  }
+
+  public void setPasswordExpired(Boolean passwordExpired) {
+    this.passwordExpired = passwordExpired;
+  }
 
   /**
   * Is the user an allowed to view all (non-billing) site configuration for this site?
   */
-  @Getter
-  @Setter
   @JsonProperty("readonly_site_admin")
   public Boolean readonlySiteAdmin;
+
+  public Boolean getReadonlySiteAdmin() {
+    return readonlySiteAdmin;
+  }
+
+  public void setReadonlySiteAdmin(Boolean readonlySiteAdmin) {
+    this.readonlySiteAdmin = readonlySiteAdmin;
+  }
 
   /**
   * Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
   */
-  @Getter
-  @Setter
   @JsonProperty("restapi_permission")
   public Boolean restapiPermission;
+
+  public Boolean getRestapiPermission() {
+    return restapiPermission;
+  }
+
+  public void setRestapiPermission(Boolean restapiPermission) {
+    this.restapiPermission = restapiPermission;
+  }
 
   /**
   * Does this user manage it's own credentials or is it a shared/bot user?
   */
-  @Getter
-  @Setter
   @JsonProperty("self_managed")
   public Boolean selfManaged;
+
+  public Boolean getSelfManaged() {
+    return selfManaged;
+  }
+
+  public void setSelfManaged(Boolean selfManaged) {
+    this.selfManaged = selfManaged;
+  }
 
   /**
   * Can the user access with SFTP?
   */
-  @Getter
-  @Setter
   @JsonProperty("sftp_permission")
   public Boolean sftpPermission;
+
+  public Boolean getSftpPermission() {
+    return sftpPermission;
+  }
+
+  public void setSftpPermission(Boolean sftpPermission) {
+    this.sftpPermission = sftpPermission;
+  }
 
   /**
   * Is the user an administrator for this site?
   */
-  @Getter
-  @Setter
   @JsonProperty("site_admin")
   public Boolean siteAdmin;
+
+  public Boolean getSiteAdmin() {
+    return siteAdmin;
+  }
+
+  public void setSiteAdmin(Boolean siteAdmin) {
+    this.siteAdmin = siteAdmin;
+  }
 
   /**
   * Site ID
   */
-  @Getter
-  @Setter
   @JsonProperty("site_id")
   public Long siteId;
+
+  public Long getSiteId() {
+    return siteId;
+  }
+
+  public void setSiteId(Long siteId) {
+    this.siteId = siteId;
+  }
 
   /**
   * Skip Welcome page in the UI?
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_welcome_screen")
   public Boolean skipWelcomeScreen;
+
+  public Boolean getSkipWelcomeScreen() {
+    return skipWelcomeScreen;
+  }
+
+  public void setSkipWelcomeScreen(Boolean skipWelcomeScreen) {
+    this.skipWelcomeScreen = skipWelcomeScreen;
+  }
 
   /**
   * SSL required setting
   */
-  @Getter
-  @Setter
   @JsonProperty("ssl_required")
   public String sslRequired;
+
+  public String getSslRequired() {
+    return sslRequired;
+  }
+
+  public void setSslRequired(String sslRequired) {
+    this.sslRequired = sslRequired;
+  }
 
   /**
   * SSO (Single Sign On) strategy ID for the user, if applicable.
   */
-  @Getter
-  @Setter
   @JsonProperty("sso_strategy_id")
   public Long ssoStrategyId;
+
+  public Long getSsoStrategyId() {
+    return ssoStrategyId;
+  }
+
+  public void setSsoStrategyId(Long ssoStrategyId) {
+    this.ssoStrategyId = ssoStrategyId;
+  }
 
   /**
   * Is the user subscribed to the newsletter?
   */
-  @Getter
-  @Setter
   @JsonProperty("subscribe_to_newsletter")
   public Boolean subscribeToNewsletter;
+
+  public Boolean getSubscribeToNewsletter() {
+    return subscribeToNewsletter;
+  }
+
+  public void setSubscribeToNewsletter(Boolean subscribeToNewsletter) {
+    this.subscribeToNewsletter = subscribeToNewsletter;
+  }
 
   /**
   * Is this user managed by a SsoStrategy?
   */
-  @Getter
-  @Setter
   @JsonProperty("externally_managed")
   public Boolean externallyManaged;
+
+  public Boolean getExternallyManaged() {
+    return externallyManaged;
+  }
+
+  public void setExternallyManaged(Boolean externallyManaged) {
+    this.externallyManaged = externallyManaged;
+  }
 
   /**
   * User time zone
   */
-  @Getter
-  @Setter
   @JsonProperty("time_zone")
   public String timeZone;
+
+  public String getTimeZone() {
+    return timeZone;
+  }
+
+  public void setTimeZone(String timeZone) {
+    this.timeZone = timeZone;
+  }
 
   /**
   * Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
   */
-  @Getter
-  @Setter
   @JsonProperty("type_of_2fa")
   public String typeOf2fa;
+
+  public String getTypeOf2fa() {
+    return typeOf2fa;
+  }
+
+  public void setTypeOf2fa(String typeOf2fa) {
+    this.typeOf2fa = typeOf2fa;
+  }
 
   /**
   * Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
   */
-  @Getter
-  @Setter
   @JsonProperty("type_of_2fa_for_display")
   public String typeOf2faForDisplay;
+
+  public String getTypeOf2faForDisplay() {
+    return typeOf2faForDisplay;
+  }
+
+  public void setTypeOf2faForDisplay(String typeOf2faForDisplay) {
+    this.typeOf2faForDisplay = typeOf2faForDisplay;
+  }
 
   /**
   * Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_root")
   public String userRoot;
+
+  public String getUserRoot() {
+    return userRoot;
+  }
+
+  public void setUserRoot(String userRoot) {
+    this.userRoot = userRoot;
+  }
 
   /**
   * Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_home")
   public String userHome;
+
+  public String getUserHome() {
+    return userHome;
+  }
+
+  public void setUserHome(String userHome) {
+    this.userHome = userHome;
+  }
 
   /**
   * Number of days remaining until password expires
   */
-  @Getter
-  @Setter
   @JsonProperty("days_remaining_until_password_expire")
   public Long daysRemainingUntilPasswordExpire;
+
+  public Long getDaysRemainingUntilPasswordExpire() {
+    return daysRemainingUntilPasswordExpire;
+  }
+
+  public void setDaysRemainingUntilPasswordExpire(Long daysRemainingUntilPasswordExpire) {
+    this.daysRemainingUntilPasswordExpire = daysRemainingUntilPasswordExpire;
+  }
 
   /**
   * Password expiration datetime
   */
-  @Getter
-  @Setter
   @JsonProperty("password_expire_at")
   public Date passwordExpireAt;
+
+  public Date getPasswordExpireAt() {
+    return passwordExpireAt;
+  }
+
+  public void setPasswordExpireAt(Date passwordExpireAt) {
+    this.passwordExpireAt = passwordExpireAt;
+  }
 
   /**
   * An image file for your user avatar.
   */
-  @Getter
-  @Setter
   @JsonProperty("avatar_file")
   public byte[] avatarFile;
+
+  public byte[] getAvatarFile() {
+    return avatarFile;
+  }
+
+  public void setAvatarFile(byte[] avatarFile) {
+    this.avatarFile = avatarFile;
+  }
 
   /**
   * If true, the avatar will be deleted.
   */
-  @Getter
-  @Setter
   @JsonProperty("avatar_delete")
   public Boolean avatarDelete;
+
+  public Boolean getAvatarDelete() {
+    return avatarDelete;
+  }
+
+  public void setAvatarDelete(Boolean avatarDelete) {
+    this.avatarDelete = avatarDelete;
+  }
 
   /**
   * Used for changing a password on an existing user.
   */
-  @Getter
-  @Setter
   @JsonProperty("change_password")
   public String changePassword;
+
+  public String getChangePassword() {
+    return changePassword;
+  }
+
+  public void setChangePassword(String changePassword) {
+    this.changePassword = changePassword;
+  }
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
   */
-  @Getter
-  @Setter
   @JsonProperty("change_password_confirmation")
   public String changePasswordConfirmation;
+
+  public String getChangePasswordConfirmation() {
+    return changePasswordConfirmation;
+  }
+
+  public void setChangePasswordConfirmation(String changePasswordConfirmation) {
+    this.changePasswordConfirmation = changePasswordConfirmation;
+  }
 
   /**
   * Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
   */
-  @Getter
-  @Setter
   @JsonProperty("grant_permission")
   public String grantPermission;
+
+  public String getGrantPermission() {
+    return grantPermission;
+  }
+
+  public void setGrantPermission(String grantPermission) {
+    this.grantPermission = grantPermission;
+  }
 
   /**
   * Group ID to associate this user with.
   */
-  @Getter
-  @Setter
   @JsonProperty("group_id")
   public Long groupId;
+
+  public Long getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Long groupId) {
+    this.groupId = groupId;
+  }
 
   /**
   * Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
   */
-  @Getter
-  @Setter
   @JsonProperty("imported_password_hash")
   public String importedPasswordHash;
+
+  public String getImportedPasswordHash() {
+    return importedPasswordHash;
+  }
+
+  public void setImportedPasswordHash(String importedPasswordHash) {
+    this.importedPasswordHash = importedPasswordHash;
+  }
 
   /**
   * User password.
   */
-  @Getter
-  @Setter
   @JsonProperty("password")
   public String password;
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   /**
   * Optional, but if provided, we will ensure that it matches the value sent in `password`.
   */
-  @Getter
-  @Setter
   @JsonProperty("password_confirmation")
   public String passwordConfirmation;
+
+  public String getPasswordConfirmation() {
+    return passwordConfirmation;
+  }
+
+  public void setPasswordConfirmation(String passwordConfirmation) {
+    this.passwordConfirmation = passwordConfirmation;
+  }
 
   /**
   * Signifies that the user has read all the announcements in the UI.
   */
-  @Getter
-  @Setter
   @JsonProperty("announcements_read")
   public Boolean announcementsRead;
+
+  public Boolean getAnnouncementsRead() {
+    return announcementsRead;
+  }
+
+  public void setAnnouncementsRead(Boolean announcementsRead) {
+    this.announcementsRead = announcementsRead;
+  }
 
   /**
   * Unlock user who has been locked out due to failed logins

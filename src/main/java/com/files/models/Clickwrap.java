@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Clickwrap implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,50 +70,86 @@ public class Clickwrap implements ModelInterface {
   /**
   * Clickwrap ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Body text of Clickwrap (supports Markdown formatting).
   */
-  @Getter
-  @Setter
   @JsonProperty("body")
   public String body;
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 
   /**
   * Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
   */
-  @Getter
-  @Setter
   @JsonProperty("use_with_users")
   public String useWithUsers;
+
+  public String getUseWithUsers() {
+    return useWithUsers;
+  }
+
+  public void setUseWithUsers(String useWithUsers) {
+    this.useWithUsers = useWithUsers;
+  }
 
   /**
   * Use this Clickwrap for Bundles?
   */
-  @Getter
-  @Setter
   @JsonProperty("use_with_bundles")
   public String useWithBundles;
+
+  public String getUseWithBundles() {
+    return useWithBundles;
+  }
+
+  public void setUseWithBundles(String useWithBundles) {
+    this.useWithBundles = useWithBundles;
+  }
 
   /**
   * Use this Clickwrap for Inboxes?
   */
-  @Getter
-  @Setter
   @JsonProperty("use_with_inboxes")
   public String useWithInboxes;
+
+  public String getUseWithInboxes() {
+    return useWithInboxes;
+  }
+
+  public void setUseWithInboxes(String useWithInboxes) {
+    this.useWithInboxes = useWithInboxes;
+  }
 
   /**
   * Parameters:

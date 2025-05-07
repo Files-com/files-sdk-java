@@ -9,13 +9,15 @@ import com.files.FilesConfig;
 import com.files.ResponseError;
 import com.files.exceptions.ApiErrorException;
 import java.io.IOException;
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class FilesHttpInterceptor implements Interceptor {
+  private static final Logger log = LoggerFactory.getLogger(FilesHttpInterceptor.class);
+
   private final ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Bundle implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,368 +70,641 @@ public class Bundle implements ModelInterface {
   /**
   * Bundle code.  This code forms the end part of the Public URL.
   */
-  @Getter
-  @Setter
   @JsonProperty("code")
   public String code;
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
 
   /**
   * Page link and button color
   */
-  @Getter
-  @Setter
   @JsonProperty("color_left")
   public String colorLeft;
+
+  public String getColorLeft() {
+    return colorLeft;
+  }
+
+  public void setColorLeft(String colorLeft) {
+    this.colorLeft = colorLeft;
+  }
 
   /**
   * Top bar link color
   */
-  @Getter
-  @Setter
   @JsonProperty("color_link")
   public String colorLink;
+
+  public String getColorLink() {
+    return colorLink;
+  }
+
+  public void setColorLink(String colorLink) {
+    this.colorLink = colorLink;
+  }
 
   /**
   * Page link and button color
   */
-  @Getter
-  @Setter
   @JsonProperty("color_text")
   public String colorText;
+
+  public String getColorText() {
+    return colorText;
+  }
+
+  public void setColorText(String colorText) {
+    this.colorText = colorText;
+  }
 
   /**
   * Top bar background color
   */
-  @Getter
-  @Setter
   @JsonProperty("color_top")
   public String colorTop;
+
+  public String getColorTop() {
+    return colorTop;
+  }
+
+  public void setColorTop(String colorTop) {
+    this.colorTop = colorTop;
+  }
 
   /**
   * Top bar text color
   */
-  @Getter
-  @Setter
   @JsonProperty("color_top_text")
   public String colorTopText;
+
+  public String getColorTopText() {
+    return colorTopText;
+  }
+
+  public void setColorTopText(String colorTopText) {
+    this.colorTopText = colorTopText;
+  }
 
   /**
   * Public URL of Share Link
   */
-  @Getter
-  @Setter
   @JsonProperty("url")
   public String url;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
   /**
   * Public description
   */
-  @Getter
-  @Setter
   @JsonProperty("description")
   public String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   /**
   * Bundle expiration date/time
   */
-  @Getter
-  @Setter
   @JsonProperty("expires_at")
   public Date expiresAt;
+
+  public Date getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(Date expiresAt) {
+    this.expiresAt = expiresAt;
+  }
 
   /**
   * Is this bundle password protected?
   */
-  @Getter
-  @Setter
   @JsonProperty("password_protected")
   public Boolean passwordProtected;
+
+  public Boolean getPasswordProtected() {
+    return passwordProtected;
+  }
+
+  public void setPasswordProtected(Boolean passwordProtected) {
+    this.passwordProtected = passwordProtected;
+  }
 
   /**
   * Permissions that apply to Folders in this Share Link.
   */
-  @Getter
-  @Setter
   @JsonProperty("permissions")
   public String permissions;
 
+  public String getPermissions() {
+    return permissions;
+  }
+
+  public void setPermissions(String permissions) {
+    this.permissions = permissions;
+  }
+
   /**
   */
-  @Getter
-  @Setter
   @JsonProperty("preview_only")
   public Boolean previewOnly;
+
+  public Boolean getPreviewOnly() {
+    return previewOnly;
+  }
+
+  public void setPreviewOnly(Boolean previewOnly) {
+    this.previewOnly = previewOnly;
+  }
 
   /**
   * Show a registration page that captures the downloader's name and email address?
   */
-  @Getter
-  @Setter
   @JsonProperty("require_registration")
   public Boolean requireRegistration;
+
+  public Boolean getRequireRegistration() {
+    return requireRegistration;
+  }
+
+  public void setRequireRegistration(Boolean requireRegistration) {
+    this.requireRegistration = requireRegistration;
+  }
 
   /**
   * Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
   */
-  @Getter
-  @Setter
   @JsonProperty("require_share_recipient")
   public Boolean requireShareRecipient;
+
+  public Boolean getRequireShareRecipient() {
+    return requireShareRecipient;
+  }
+
+  public void setRequireShareRecipient(Boolean requireShareRecipient) {
+    this.requireShareRecipient = requireShareRecipient;
+  }
 
   /**
   * If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
   */
-  @Getter
-  @Setter
   @JsonProperty("require_logout")
   public Boolean requireLogout;
+
+  public Boolean getRequireLogout() {
+    return requireLogout;
+  }
+
+  public void setRequireLogout(Boolean requireLogout) {
+    this.requireLogout = requireLogout;
+  }
 
   /**
   * Legal text that must be agreed to prior to accessing Bundle.
   */
-  @Getter
-  @Setter
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
+
+  public String getClickwrapBody() {
+    return clickwrapBody;
+  }
+
+  public void setClickwrapBody(String clickwrapBody) {
+    this.clickwrapBody = clickwrapBody;
+  }
 
   /**
   * Custom Form to use
   */
-  @Getter
-  @Setter
   @JsonProperty("form_field_set")
   public FormFieldSet formFieldSet;
+
+  public FormFieldSet getFormFieldSet() {
+    return formFieldSet;
+  }
+
+  public void setFormFieldSet(FormFieldSet formFieldSet) {
+    this.formFieldSet = formFieldSet;
+  }
 
   /**
   * BundleRegistrations can be saved without providing name?
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_name")
   public Boolean skipName;
+
+  public Boolean getSkipName() {
+    return skipName;
+  }
+
+  public void setSkipName(Boolean skipName) {
+    this.skipName = skipName;
+  }
 
   /**
   * BundleRegistrations can be saved without providing email?
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_email")
   public Boolean skipEmail;
+
+  public Boolean getSkipEmail() {
+    return skipEmail;
+  }
+
+  public void setSkipEmail(Boolean skipEmail) {
+    this.skipEmail = skipEmail;
+  }
 
   /**
   * Date when share will start to be accessible. If `nil` access granted right after create.
   */
-  @Getter
-  @Setter
   @JsonProperty("start_access_on_date")
   public Date startAccessOnDate;
+
+  public Date getStartAccessOnDate() {
+    return startAccessOnDate;
+  }
+
+  public void setStartAccessOnDate(Date startAccessOnDate) {
+    this.startAccessOnDate = startAccessOnDate;
+  }
 
   /**
   * BundleRegistrations can be saved without providing company?
   */
-  @Getter
-  @Setter
   @JsonProperty("skip_company")
   public Boolean skipCompany;
+
+  public Boolean getSkipCompany() {
+    return skipCompany;
+  }
+
+  public void setSkipCompany(Boolean skipCompany) {
+    this.skipCompany = skipCompany;
+  }
 
   /**
   * Bundle ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Bundle created at date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   */
-  @Getter
-  @Setter
   @JsonProperty("dont_separate_submissions_by_folder")
   public Boolean dontSeparateSubmissionsByFolder;
+
+  public Boolean getDontSeparateSubmissionsByFolder() {
+    return dontSeparateSubmissionsByFolder;
+  }
+
+  public void setDontSeparateSubmissionsByFolder(Boolean dontSeparateSubmissionsByFolder) {
+    this.dontSeparateSubmissionsByFolder = dontSeparateSubmissionsByFolder;
+  }
 
   /**
   * Maximum number of times bundle can be accessed
   */
-  @Getter
-  @Setter
   @JsonProperty("max_uses")
   public Long maxUses;
+
+  public Long getMaxUses() {
+    return maxUses;
+  }
+
+  public void setMaxUses(Long maxUses) {
+    this.maxUses = maxUses;
+  }
 
   /**
   * Bundle internal note
   */
-  @Getter
-  @Setter
   @JsonProperty("note")
   public String note;
+
+  public String getNote() {
+    return note;
+  }
+
+  public void setNote(String note) {
+    this.note = note;
+  }
 
   /**
   * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   */
-  @Getter
-  @Setter
   @JsonProperty("path_template")
   public String pathTemplate;
+
+  public String getPathTemplate() {
+    return pathTemplate;
+  }
+
+  public void setPathTemplate(String pathTemplate) {
+    this.pathTemplate = pathTemplate;
+  }
 
   /**
   * Timezone to use when rendering timestamps in path templates.
   */
-  @Getter
-  @Setter
   @JsonProperty("path_template_time_zone")
   public String pathTemplateTimeZone;
+
+  public String getPathTemplateTimeZone() {
+    return pathTemplateTimeZone;
+  }
+
+  public void setPathTemplateTimeZone(String pathTemplateTimeZone) {
+    this.pathTemplateTimeZone = pathTemplateTimeZone;
+  }
 
   /**
   * Send delivery receipt to the uploader. Note: For writable share only
   */
-  @Getter
-  @Setter
   @JsonProperty("send_email_receipt_to_uploader")
   public Boolean sendEmailReceiptToUploader;
+
+  public Boolean getSendEmailReceiptToUploader() {
+    return sendEmailReceiptToUploader;
+  }
+
+  public void setSendEmailReceiptToUploader(Boolean sendEmailReceiptToUploader) {
+    this.sendEmailReceiptToUploader = sendEmailReceiptToUploader;
+  }
 
   /**
   * ID of the snapshot containing this bundle's contents.
   */
-  @Getter
-  @Setter
   @JsonProperty("snapshot_id")
   public Long snapshotId;
+
+  public Long getSnapshotId() {
+    return snapshotId;
+  }
+
+  public void setSnapshotId(Long snapshotId) {
+    this.snapshotId = snapshotId;
+  }
 
   /**
   * Bundle creator user ID
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Bundle creator username
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * ID of the clickwrap to use with this bundle.
   */
-  @Getter
-  @Setter
   @JsonProperty("clickwrap_id")
   public Long clickwrapId;
+
+  public Long getClickwrapId() {
+    return clickwrapId;
+  }
+
+  public void setClickwrapId(Long clickwrapId) {
+    this.clickwrapId = clickwrapId;
+  }
 
   /**
   * ID of the associated inbox, if available.
   */
-  @Getter
-  @Setter
   @JsonProperty("inbox_id")
   public Long inboxId;
+
+  public Long getInboxId() {
+    return inboxId;
+  }
+
+  public void setInboxId(Long inboxId) {
+    this.inboxId = inboxId;
+  }
 
   /**
   * Preview watermark image applied to all bundle items.
   */
-  @Getter
-  @Setter
   @JsonProperty("watermark_attachment")
   public Image watermarkAttachment;
+
+  public Image getWatermarkAttachment() {
+    return watermarkAttachment;
+  }
+
+  public void setWatermarkAttachment(Image watermarkAttachment) {
+    this.watermarkAttachment = watermarkAttachment;
+  }
 
   /**
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   */
-  @Getter
-  @Setter
   @JsonProperty("watermark_value")
   public Map<String, String> watermarkValue;
+
+  public Map<String, String> getWatermarkValue() {
+    return watermarkValue;
+  }
+
+  public void setWatermarkValue(Map<String, String> watermarkValue) {
+    this.watermarkValue = watermarkValue;
+  }
 
   /**
   * Does this bundle have an associated inbox?
   */
-  @Getter
-  @Setter
   @JsonProperty("has_inbox")
   public Boolean hasInbox;
+
+  public Boolean getHasInbox() {
+    return hasInbox;
+  }
+
+  public void setHasInbox(Boolean hasInbox) {
+    this.hasInbox = hasInbox;
+  }
 
   /**
   * Should folder uploads be prevented?
   */
-  @Getter
-  @Setter
   @JsonProperty("dont_allow_folders_in_uploads")
   public Boolean dontAllowFoldersInUploads;
+
+  public Boolean getDontAllowFoldersInUploads() {
+    return dontAllowFoldersInUploads;
+  }
+
+  public void setDontAllowFoldersInUploads(Boolean dontAllowFoldersInUploads) {
+    this.dontAllowFoldersInUploads = dontAllowFoldersInUploads;
+  }
 
   /**
   * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
-  @Getter
-  @Setter
   @JsonProperty("paths")
   public String[] paths;
+
+  public String[] getPaths() {
+    return paths;
+  }
+
+  public void setPaths(String[] paths) {
+    this.paths = paths;
+  }
 
   /**
   * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
-  @Getter
-  @Setter
   @JsonProperty("bundlepaths")
   public Object[] bundlepaths;
+
+  public Object[] getBundlepaths() {
+    return bundlepaths;
+  }
+
+  public void setBundlepaths(Object[] bundlepaths) {
+    this.bundlepaths = bundlepaths;
+  }
 
   /**
   * Password for this bundle.
   */
-  @Getter
-  @Setter
   @JsonProperty("password")
   public String password;
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   /**
   * Id of Form Field Set to use with this bundle
   */
-  @Getter
-  @Setter
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
+
+  public Long getFormFieldSetId() {
+    return formFieldSetId;
+  }
+
+  public void setFormFieldSetId(Long formFieldSetId) {
+    this.formFieldSetId = formFieldSetId;
+  }
 
   /**
   * If true, create a snapshot of this bundle's contents.
   */
-  @Getter
-  @Setter
   @JsonProperty("create_snapshot")
   public Boolean createSnapshot;
+
+  public Boolean getCreateSnapshot() {
+    return createSnapshot;
+  }
+
+  public void setCreateSnapshot(Boolean createSnapshot) {
+    this.createSnapshot = createSnapshot;
+  }
 
   /**
   * If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   */
-  @Getter
-  @Setter
   @JsonProperty("finalize_snapshot")
   public Boolean finalizeSnapshot;
+
+  public Boolean getFinalizeSnapshot() {
+    return finalizeSnapshot;
+  }
+
+  public void setFinalizeSnapshot(Boolean finalizeSnapshot) {
+    this.finalizeSnapshot = finalizeSnapshot;
+  }
 
   /**
   * Preview watermark image applied to all bundle items.
   */
-  @Getter
-  @Setter
   @JsonProperty("watermark_attachment_file")
   public byte[] watermarkAttachmentFile;
+
+  public byte[] getWatermarkAttachmentFile() {
+    return watermarkAttachmentFile;
+  }
+
+  public void setWatermarkAttachmentFile(byte[] watermarkAttachmentFile) {
+    this.watermarkAttachmentFile = watermarkAttachmentFile;
+  }
 
   /**
   * If true, will delete the file stored in watermark_attachment
   */
-  @Getter
-  @Setter
   @JsonProperty("watermark_attachment_delete")
   public Boolean watermarkAttachmentDelete;
+
+  public Boolean getWatermarkAttachmentDelete() {
+    return watermarkAttachmentDelete;
+  }
+
+  public void setWatermarkAttachmentDelete(Boolean watermarkAttachmentDelete) {
+    this.watermarkAttachmentDelete = watermarkAttachmentDelete;
+  }
 
   /**
   * Send email(s) with a link to bundle

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupUser implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,50 +70,86 @@ public class GroupUser implements ModelInterface {
   /**
   * Group name
   */
-  @Getter
-  @Setter
   @JsonProperty("group_name")
   public String groupName;
+
+  public String getGroupName() {
+    return groupName;
+  }
+
+  public void setGroupName(String groupName) {
+    this.groupName = groupName;
+  }
 
   /**
   * Group ID
   */
-  @Getter
-  @Setter
   @JsonProperty("group_id")
   public Long groupId;
+
+  public Long getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Long groupId) {
+    this.groupId = groupId;
+  }
 
   /**
   * User ID
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Is this user an administrator of this group?
   */
-  @Getter
-  @Setter
   @JsonProperty("admin")
   public Boolean admin;
+
+  public Boolean getAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(Boolean admin) {
+    this.admin = admin;
+  }
 
   /**
   * Comma-delimited list of usernames who belong to this group (separated by commas).
   */
-  @Getter
-  @Setter
   @JsonProperty("usernames")
   public String usernames;
+
+  public String getUsernames() {
+    return usernames;
+  }
+
+  public void setUsernames(String usernames) {
+    this.usernames = usernames;
+  }
 
   /**
   * Group User ID.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Parameters:

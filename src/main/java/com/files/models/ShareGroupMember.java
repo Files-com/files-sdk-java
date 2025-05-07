@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShareGroupMember implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,23 +70,32 @@ public class ShareGroupMember implements ModelInterface {
   /**
   * Name of the share group member
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * Company of the share group member
   */
-  @Getter
   @JsonProperty("company")
   public String company;
+
+  public String getCompany() {
+    return company;
+  }
 
   /**
   * Email of the share group member
   */
-  @Getter
   @JsonProperty("email")
   public String email;
+
+  public String getEmail() {
+    return email;
+  }
 
 
 }

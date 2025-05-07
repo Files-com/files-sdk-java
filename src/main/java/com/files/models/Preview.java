@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Preview implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,37 +70,52 @@ public class Preview implements ModelInterface {
   /**
   * Preview ID
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Link to download preview
   */
-  @Getter
   @JsonProperty("download_uri")
   public String downloadUri;
+
+  public String getDownloadUri() {
+    return downloadUri;
+  }
 
   /**
   * Preview type. Can be image, pdf, pdf_native, video, or audio
   */
-  @Getter
   @JsonProperty("type")
   public String type;
+
+  public String getType() {
+    return type;
+  }
 
   /**
   * Preview size
   */
-  @Getter
   @JsonProperty("size")
   public String size;
+
+  public String getSize() {
+    return size;
+  }
 
 
 }

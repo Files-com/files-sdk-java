@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebhookTest implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,122 +70,212 @@ public class WebhookTest implements ModelInterface {
   /**
   * Status HTTP code
   */
-  @Getter
-  @Setter
   @JsonProperty("code")
   public Long code;
+
+  public Long getCode() {
+    return code;
+  }
+
+  public void setCode(Long code) {
+    this.code = code;
+  }
 
   /**
   * Error message
   */
-  @Getter
-  @Setter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
   /**
   * Status message
   */
-  @Getter
-  @Setter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   /**
   * Additional data
   */
-  @Getter
-  @Setter
   @JsonProperty("data")
   public Auto data;
+
+  public Auto getData() {
+    return data;
+  }
+
+  public void setData(Auto data) {
+    this.data = data;
+  }
 
   /**
   * The success status of the webhook test
   */
-  @Getter
-  @Setter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
+
+  public void setSuccess(Boolean success) {
+    this.success = success;
+  }
 
   /**
   * URL for testing the webhook.
   */
-  @Getter
-  @Setter
   @JsonProperty("url")
   public String url;
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
   /**
   * HTTP method(GET or POST).
   */
-  @Getter
-  @Setter
   @JsonProperty("method")
   public String method;
+
+  public String getMethod() {
+    return method;
+  }
+
+  public void setMethod(String method) {
+    this.method = method;
+  }
 
   /**
   * HTTP encoding method.  Can be JSON, XML, or RAW (form data).
   */
-  @Getter
-  @Setter
   @JsonProperty("encoding")
   public String encoding;
+
+  public String getEncoding() {
+    return encoding;
+  }
+
+  public void setEncoding(String encoding) {
+    this.encoding = encoding;
+  }
 
   /**
   * Additional request headers.
   */
-  @Getter
-  @Setter
   @JsonProperty("headers")
   public Map<String, String> headers;
+
+  public Map<String, String> getHeaders() {
+    return headers;
+  }
+
+  public void setHeaders(Map<String, String> headers) {
+    this.headers = headers;
+  }
 
   /**
   * Additional body parameters.
   */
-  @Getter
-  @Setter
   @JsonProperty("body")
   public Map<String, String> body;
+
+  public Map<String, String> getBody() {
+    return body;
+  }
+
+  public void setBody(Map<String, String> body) {
+    this.body = body;
+  }
 
   /**
   * raw body text
   */
-  @Getter
-  @Setter
   @JsonProperty("raw_body")
   public String rawBody;
+
+  public String getRawBody() {
+    return rawBody;
+  }
+
+  public void setRawBody(String rawBody) {
+    this.rawBody = rawBody;
+  }
 
   /**
   * Send the file data as the request body?
   */
-  @Getter
-  @Setter
   @JsonProperty("file_as_body")
   public Boolean fileAsBody;
+
+  public Boolean getFileAsBody() {
+    return fileAsBody;
+  }
+
+  public void setFileAsBody(Boolean fileAsBody) {
+    this.fileAsBody = fileAsBody;
+  }
 
   /**
   * Send the file data as a named parameter in the request POST body
   */
-  @Getter
-  @Setter
   @JsonProperty("file_form_field")
   public String fileFormField;
+
+  public String getFileFormField() {
+    return fileFormField;
+  }
+
+  public void setFileFormField(String fileFormField) {
+    this.fileFormField = fileFormField;
+  }
 
   /**
   * action for test body
   */
-  @Getter
-  @Setter
   @JsonProperty("action")
   public String action;
+
+  public String getAction() {
+    return action;
+  }
+
+  public void setAction(String action) {
+    this.action = action;
+  }
 
   /**
   * Use dedicated IPs for sending the webhook?
   */
-  @Getter
-  @Setter
   @JsonProperty("use_dedicated_ips")
   public Boolean useDedicatedIps;
+
+  public Boolean getUseDedicatedIps() {
+    return useDedicatedIps;
+  }
+
+  public void setUseDedicatedIps(Boolean useDedicatedIps) {
+    this.useDedicatedIps = useDedicatedIps;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteServerConfigurationFile implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,114 +70,162 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   /**
   * The remote server ID of the agent
   */
-  @Getter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
 
   /**
   * The permission set for the agent ['read_write', 'read_only', 'write_only']
   */
-  @Getter
   @JsonProperty("permission_set")
   public String permissionSet;
+
+  public String getPermissionSet() {
+    return permissionSet;
+  }
 
   /**
   * The private key for the agent
   */
-  @Getter
   @JsonProperty("private_key")
   public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
 
   /**
   * Files.com subdomain site name
   */
-  @Getter
   @JsonProperty("subdomain")
   public String subdomain;
+
+  public String getSubdomain() {
+    return subdomain;
+  }
 
   /**
   * The root directory for the agent
   */
-  @Getter
   @JsonProperty("root")
   public String root;
+
+  public String getRoot() {
+    return root;
+  }
 
   /**
   * Follow symlinks when traversing directories
   */
-  @Getter
   @JsonProperty("follow_links")
   public Boolean followLinks;
+
+  public Boolean getFollowLinks() {
+    return followLinks;
+  }
 
   /**
   * Preferred network protocol ['udp', 'tcp'] (default udp)
   */
-  @Getter
   @JsonProperty("prefer_protocol")
   public String preferProtocol;
+
+  public String getPreferProtocol() {
+    return preferProtocol;
+  }
 
   /**
   * DNS lookup method ['auto','doh','system'] (default auto)
   */
-  @Getter
   @JsonProperty("dns")
   public String dns;
+
+  public String getDns() {
+    return dns;
+  }
 
   /**
   * Proxy all outbound traffic through files.com proxy server
   */
-  @Getter
   @JsonProperty("proxy_all_outbound")
   public Boolean proxyAllOutbound;
+
+  public Boolean getProxyAllOutbound() {
+    return proxyAllOutbound;
+  }
 
   /**
   * Custom site endpoint URL
   */
-  @Getter
   @JsonProperty("endpoint_override")
   public String endpointOverride;
+
+  public String getEndpointOverride() {
+    return endpointOverride;
+  }
 
   /**
   * Log file name and location
   */
-  @Getter
   @JsonProperty("log_file")
   public String logFile;
+
+  public String getLogFile() {
+    return logFile;
+  }
 
   /**
   * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
   */
-  @Getter
   @JsonProperty("log_level")
   public String logLevel;
+
+  public String getLogLevel() {
+    return logLevel;
+  }
 
   /**
   * Log route for agent logs. (default 5)
   */
-  @Getter
   @JsonProperty("log_rotate_num")
   public Long logRotateNum;
+
+  public Long getLogRotateNum() {
+    return logRotateNum;
+  }
 
   /**
   * Log route size in MB for agent logs. (default 20)
   */
-  @Getter
   @JsonProperty("log_rotate_size")
   public Long logRotateSize;
+
+  public Long getLogRotateSize() {
+    return logRotateSize;
+  }
 
   /**
   * Maximum number of concurrent jobs (default 500)
   */
-  @Getter
   @JsonProperty("override_max_concurrent_jobs")
   public Long overrideMaxConcurrentJobs;
+
+  public Long getOverrideMaxConcurrentJobs() {
+    return overrideMaxConcurrentJobs;
+  }
 
   /**
   * Graceful shutdown timeout in seconds (default 15)
   */
-  @Getter
   @JsonProperty("graceful_shutdown_timeout")
   public Long gracefulShutdownTimeout;
+
+  public Long getGracefulShutdownTimeout() {
+    return gracefulShutdownTimeout;
+  }
 
   /**
   * File transfer (upload/download) rate limit
@@ -190,56 +240,80 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   * * 1000 requests/hour: '1000-H'
   * * 2000 requests/day: '2000-D'
   */
-  @Getter
   @JsonProperty("transfer_rate_limit")
   public String transferRateLimit;
+
+  public String getTransferRateLimit() {
+    return transferRateLimit;
+  }
 
   /**
   * Files Agent API Token
   */
-  @Getter
   @JsonProperty("api_token")
   public String apiToken;
+
+  public String getApiToken() {
+    return apiToken;
+  }
 
   /**
   * Incoming port for files agent connections
   */
-  @Getter
   @JsonProperty("port")
   public Long port;
 
+  public Long getPort() {
+    return port;
+  }
+
   /**
   */
-  @Getter
   @JsonProperty("hostname")
   public String hostname;
+
+  public String getHostname() {
+    return hostname;
+  }
 
   /**
   * public key
   */
-  @Getter
   @JsonProperty("public_key")
   public String publicKey;
+
+  public String getPublicKey() {
+    return publicKey;
+  }
 
   /**
   * either running or shutdown
   */
-  @Getter
   @JsonProperty("status")
   public String status;
 
+  public String getStatus() {
+    return status;
+  }
+
   /**
   */
-  @Getter
   @JsonProperty("server_host_key")
   public String serverHostKey;
+
+  public String getServerHostKey() {
+    return serverHostKey;
+  }
 
   /**
   * agent config version
   */
-  @Getter
   @JsonProperty("config_version")
   public String configVersion;
+
+  public String getConfigVersion() {
+    return configVersion;
+  }
 
 
 }

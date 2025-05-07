@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,50 +70,86 @@ public class Message implements ModelInterface {
   /**
   * Message ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Message subject.
   */
-  @Getter
-  @Setter
   @JsonProperty("subject")
   public String subject;
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 
   /**
   * Message body.
   */
-  @Getter
-  @Setter
   @JsonProperty("body")
   public String body;
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
 
   /**
   * Comments.
   */
-  @Getter
-  @Setter
   @JsonProperty("comments")
   public Object[] comments;
+
+  public Object[] getComments() {
+    return comments;
+  }
+
+  public void setComments(Object[] comments) {
+    this.comments = comments;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Project to which the message should be attached.
   */
-  @Getter
-  @Setter
   @JsonProperty("project_id")
   public Long projectId;
+
+  public Long getProjectId() {
+    return projectId;
+  }
+
+  public void setProjectId(Long projectId) {
+    this.projectId = projectId;
+  }
 
   /**
   * Parameters:

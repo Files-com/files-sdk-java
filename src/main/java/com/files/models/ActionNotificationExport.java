@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActionNotificationExport implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,114 +70,198 @@ public class ActionNotificationExport implements ModelInterface {
   /**
   * History Export ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Version of the underlying records for the export.
   */
-  @Getter
-  @Setter
   @JsonProperty("export_version")
   public String exportVersion;
+
+  public String getExportVersion() {
+    return exportVersion;
+  }
+
+  public void setExportVersion(String exportVersion) {
+    this.exportVersion = exportVersion;
+  }
 
   /**
   * Start date/time of export range.
   */
-  @Getter
-  @Setter
   @JsonProperty("start_at")
   public Date startAt;
+
+  public Date getStartAt() {
+    return startAt;
+  }
+
+  public void setStartAt(Date startAt) {
+    this.startAt = startAt;
+  }
 
   /**
   * End date/time of export range.
   */
-  @Getter
-  @Setter
   @JsonProperty("end_at")
   public Date endAt;
+
+  public Date getEndAt() {
+    return endAt;
+  }
+
+  public void setEndAt(Date endAt) {
+    this.endAt = endAt;
+  }
 
   /**
   * Status of export.  Valid values: `building`, `ready`, or `failed`
   */
-  @Getter
-  @Setter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
   /**
   * Return notifications that were triggered by actions on this specific path.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_path")
   public String queryPath;
+
+  public String getQueryPath() {
+    return queryPath;
+  }
+
+  public void setQueryPath(String queryPath) {
+    this.queryPath = queryPath;
+  }
 
   /**
   * Return notifications that were triggered by actions in this folder.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_folder")
   public String queryFolder;
+
+  public String getQueryFolder() {
+    return queryFolder;
+  }
+
+  public void setQueryFolder(String queryFolder) {
+    this.queryFolder = queryFolder;
+  }
 
   /**
   * Error message associated with the request, if any.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_message")
   public String queryMessage;
+
+  public String getQueryMessage() {
+    return queryMessage;
+  }
+
+  public void setQueryMessage(String queryMessage) {
+    this.queryMessage = queryMessage;
+  }
 
   /**
   * The HTTP request method used by the webhook.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_request_method")
   public String queryRequestMethod;
+
+  public String getQueryRequestMethod() {
+    return queryRequestMethod;
+  }
+
+  public void setQueryRequestMethod(String queryRequestMethod) {
+    this.queryRequestMethod = queryRequestMethod;
+  }
 
   /**
   * The target webhook URL.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_request_url")
   public String queryRequestUrl;
+
+  public String getQueryRequestUrl() {
+    return queryRequestUrl;
+  }
+
+  public void setQueryRequestUrl(String queryRequestUrl) {
+    this.queryRequestUrl = queryRequestUrl;
+  }
 
   /**
   * The HTTP status returned from the server in response to the webhook request.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_status")
   public String queryStatus;
+
+  public String getQueryStatus() {
+    return queryStatus;
+  }
+
+  public void setQueryStatus(String queryStatus) {
+    this.queryStatus = queryStatus;
+  }
 
   /**
   * true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
   */
-  @Getter
-  @Setter
   @JsonProperty("query_success")
   public Boolean querySuccess;
+
+  public Boolean getQuerySuccess() {
+    return querySuccess;
+  }
+
+  public void setQuerySuccess(Boolean querySuccess) {
+    this.querySuccess = querySuccess;
+  }
 
   /**
   * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
   */
-  @Getter
-  @Setter
   @JsonProperty("results_url")
   public String resultsUrl;
+
+  public String getResultsUrl() {
+    return resultsUrl;
+  }
+
+  public void setResultsUrl(String resultsUrl) {
+    this.resultsUrl = resultsUrl;
+  }
 
   /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));

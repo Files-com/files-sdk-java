@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceLineItem implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,58 +70,82 @@ public class InvoiceLineItem implements ModelInterface {
   /**
   * Invoice line item amount
   */
-  @Getter
   @JsonProperty("amount")
   public Double amount;
+
+  public Double getAmount() {
+    return amount;
+  }
 
   /**
   * Invoice line item created at date/time
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * Invoice line item description
   */
-  @Getter
   @JsonProperty("description")
   public String description;
+
+  public String getDescription() {
+    return description;
+  }
 
   /**
   * Invoice line item type
   */
-  @Getter
   @JsonProperty("type")
   public String type;
+
+  public String getType() {
+    return type;
+  }
 
   /**
   * Invoice line item service end date/time
   */
-  @Getter
   @JsonProperty("service_end_at")
   public Date serviceEndAt;
+
+  public Date getServiceEndAt() {
+    return serviceEndAt;
+  }
 
   /**
   * Invoice line item service start date/time
   */
-  @Getter
   @JsonProperty("service_start_at")
   public Date serviceStartAt;
+
+  public Date getServiceStartAt() {
+    return serviceStartAt;
+  }
 
   /**
   * Plan name
   */
-  @Getter
   @JsonProperty("plan")
   public String plan;
+
+  public String getPlan() {
+    return plan;
+  }
 
   /**
   * Site name
   */
-  @Getter
   @JsonProperty("site")
   public String site;
+
+  public String getSite() {
+    return site;
+  }
 
 
 }

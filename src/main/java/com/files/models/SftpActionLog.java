@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SftpActionLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,163 +70,232 @@ public class SftpActionLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * IP Address of SFTP Client
   */
-  @Getter
   @JsonProperty("remote_ip")
   public String remoteIp;
+
+  public String getRemoteIp() {
+    return remoteIp;
+  }
 
   /**
   * IP Address of SFTP Server
   */
-  @Getter
   @JsonProperty("server_ip")
   public String serverIp;
+
+  public String getServerIp() {
+    return serverIp;
+  }
 
   /**
   * Username
   */
-  @Getter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
 
   /**
   * Name of the SFTP Client provided at initial connection
   */
-  @Getter
   @JsonProperty("ssh_client_identification")
   public String sshClientIdentification;
+
+  public String getSshClientIdentification() {
+    return sshClientIdentification;
+  }
 
   /**
   * Unique ID of the Session
   */
-  @Getter
   @JsonProperty("session_uuid")
   public String sessionUuid;
+
+  public String getSessionUuid() {
+    return sessionUuid;
+  }
 
   /**
   * SFTP Sequence ID
   */
-  @Getter
   @JsonProperty("seq_id")
   public Long seqId;
+
+  public Long getSeqId() {
+    return seqId;
+  }
 
   /**
   * Authentication Method
   */
-  @Getter
   @JsonProperty("auth_method")
   public String authMethod;
+
+  public String getAuthMethod() {
+    return authMethod;
+  }
 
   /**
   * Authentication Ciphers
   */
-  @Getter
   @JsonProperty("auth_ciphers")
   public String authCiphers;
+
+  public String getAuthCiphers() {
+    return authCiphers;
+  }
 
   /**
   * Action Type
   */
-  @Getter
   @JsonProperty("action_type")
   public String actionType;
+
+  public String getActionType() {
+    return actionType;
+  }
 
   /**
   * Path as sent by the Client (may not match Files.com path due to user root folders for SFTP). This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * Path on Files.com
   */
-  @Getter
   @JsonProperty("true_path")
   public String truePath;
+
+  public String getTruePath() {
+    return truePath;
+  }
 
   /**
   * Name of File
   */
-  @Getter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
 
   /**
   * SFTP Response Code Returned to the Client.
   */
-  @Getter
   @JsonProperty("sftp_response_code")
   public String sftpResponseCode;
+
+  public String getSftpResponseCode() {
+    return sftpResponseCode;
+  }
 
   /**
   * SFTP Response Message Returned to the Client.
   */
-  @Getter
   @JsonProperty("sftp_response_message")
   public String sftpResponseMessage;
+
+  public String getSftpResponseMessage() {
+    return sftpResponseMessage;
+  }
 
   /**
   * MD5 Hash of the file. Not always available.
   */
-  @Getter
   @JsonProperty("md5")
   public String md5;
+
+  public String getMd5() {
+    return md5;
+  }
 
   /**
   * Size of File That was Uploaded or Downloaded.
   */
-  @Getter
   @JsonProperty("size")
   public Long size;
+
+  public Long getSize() {
+    return size;
+  }
 
   /**
   * Data Length in Bytes. Present for actions that transfer data.
   */
-  @Getter
   @JsonProperty("data_length")
   public Long dataLength;
+
+  public Long getDataLength() {
+    return dataLength;
+  }
 
   /**
   * The number of bytes transferred for uploads and downloads.
   */
-  @Getter
   @JsonProperty("bytes_transferred")
   public Long bytesTransferred;
+
+  public Long getBytesTransferred() {
+    return bytesTransferred;
+  }
 
   /**
   * Number of entries returned when listing files and folders
   */
-  @Getter
   @JsonProperty("entries_returned")
   public Long entriesReturned;
+
+  public Long getEntriesReturned() {
+    return entriesReturned;
+  }
 
   /**
   * Whether SFTP Action was successful.
   */
-  @Getter
   @JsonProperty("success")
   public Boolean success;
+
+  public Boolean getSuccess() {
+    return success;
+  }
 
   /**
   * SFTP Action status.
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
 
   /**

@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OutboundConnectionLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,100 +70,142 @@ public class OutboundConnectionLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * Remote Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * End User IP
   */
-  @Getter
   @JsonProperty("client_ip")
   public String clientIp;
+
+  public String getClientIp() {
+    return clientIp;
+  }
 
   /**
   * Source Remote Server ID
   */
-  @Getter
   @JsonProperty("src_remote_server_id")
   public Long srcRemoteServerId;
+
+  public Long getSrcRemoteServerId() {
+    return srcRemoteServerId;
+  }
 
   /**
   * Destination Remote Server ID
   */
-  @Getter
   @JsonProperty("dest_remote_server_id")
   public Long destRemoteServerId;
+
+  public Long getDestRemoteServerId() {
+    return destRemoteServerId;
+  }
 
   /**
   * Operation Type
   */
-  @Getter
   @JsonProperty("operation")
   public String operation;
+
+  public String getOperation() {
+    return operation;
+  }
 
   /**
   * Error message, if applicable
   */
-  @Getter
   @JsonProperty("error_message")
   public String errorMessage;
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
   /**
   * Error operation, if applicable
   */
-  @Getter
   @JsonProperty("error_operation")
   public String errorOperation;
+
+  public String getErrorOperation() {
+    return errorOperation;
+  }
 
   /**
   * Error type, if applicable
   */
-  @Getter
   @JsonProperty("error_type")
   public String errorType;
+
+  public String getErrorType() {
+    return errorType;
+  }
 
   /**
   * Status
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
   /**
   * Duration (in milliseconds)
   */
-  @Getter
   @JsonProperty("duration_ms")
   public Long durationMs;
+
+  public Long getDurationMs() {
+    return durationMs;
+  }
 
   /**
   * Data Length in Bytes. Present for upload actions that transfer data.
   */
-  @Getter
   @JsonProperty("bytes_uploaded")
   public Long bytesUploaded;
+
+  public Long getBytesUploaded() {
+    return bytesUploaded;
+  }
 
   /**
   * Data Length in Bytes. Present for download actions that transfer data.
   */
-  @Getter
   @JsonProperty("bytes_downloaded")
   public Long bytesDownloaded;
+
+  public Long getBytesDownloaded() {
+    return bytesDownloaded;
+  }
 
   /**
   * Number of entries returned for a folder list action.
   */
-  @Getter
   @JsonProperty("list_count")
   public Long listCount;
+
+  public Long getListCount() {
+    return listCount;
+  }
 
 
   /**

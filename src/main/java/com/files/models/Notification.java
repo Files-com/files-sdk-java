@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Notification implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,178 +70,310 @@ public class Notification implements ModelInterface {
   /**
   * Notification ID
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
-  @Setter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   /**
   * ID of Group to receive notifications
   */
-  @Getter
-  @Setter
   @JsonProperty("group_id")
   public Long groupId;
+
+  public Long getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Long groupId) {
+    this.groupId = groupId;
+  }
 
   /**
   * Group name, if a Group ID is set
   */
-  @Getter
-  @Setter
   @JsonProperty("group_name")
   public String groupName;
+
+  public String getGroupName() {
+    return groupName;
+  }
+
+  public void setGroupName(String groupName) {
+    this.groupName = groupName;
+  }
 
   /**
   * If set, will only notify on actions made by a member of one of the specified groups
   */
-  @Getter
-  @Setter
   @JsonProperty("triggering_group_ids")
   public Long[] triggeringGroupIds;
+
+  public Long[] getTriggeringGroupIds() {
+    return triggeringGroupIds;
+  }
+
+  public void setTriggeringGroupIds(Long[] triggeringGroupIds) {
+    this.triggeringGroupIds = triggeringGroupIds;
+  }
 
   /**
   * If set, will only notify on actions made one of the specified users
   */
-  @Getter
-  @Setter
   @JsonProperty("triggering_user_ids")
   public Long[] triggeringUserIds;
+
+  public Long[] getTriggeringUserIds() {
+    return triggeringUserIds;
+  }
+
+  public void setTriggeringUserIds(Long[] triggeringUserIds) {
+    this.triggeringUserIds = triggeringUserIds;
+  }
 
   /**
   * Notify when actions are performed by a share recipient?
   */
-  @Getter
-  @Setter
   @JsonProperty("trigger_by_share_recipients")
   public Boolean triggerByShareRecipients;
+
+  public Boolean getTriggerByShareRecipients() {
+    return triggerByShareRecipients;
+  }
+
+  public void setTriggerByShareRecipients(Boolean triggerByShareRecipients) {
+    this.triggerByShareRecipients = triggerByShareRecipients;
+  }
 
   /**
   * If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_user_actions")
   public Boolean notifyUserActions;
+
+  public Boolean getNotifyUserActions() {
+    return notifyUserActions;
+  }
+
+  public void setNotifyUserActions(Boolean notifyUserActions) {
+    this.notifyUserActions = notifyUserActions;
+  }
 
   /**
   * Trigger on files copied to this path?
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_copy")
   public Boolean notifyOnCopy;
+
+  public Boolean getNotifyOnCopy() {
+    return notifyOnCopy;
+  }
+
+  public void setNotifyOnCopy(Boolean notifyOnCopy) {
+    this.notifyOnCopy = notifyOnCopy;
+  }
 
   /**
   * Trigger on files deleted in this path?
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_delete")
   public Boolean notifyOnDelete;
+
+  public Boolean getNotifyOnDelete() {
+    return notifyOnDelete;
+  }
+
+  public void setNotifyOnDelete(Boolean notifyOnDelete) {
+    this.notifyOnDelete = notifyOnDelete;
+  }
 
   /**
   * Trigger on files downloaded in this path?
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_download")
   public Boolean notifyOnDownload;
+
+  public Boolean getNotifyOnDownload() {
+    return notifyOnDownload;
+  }
+
+  public void setNotifyOnDownload(Boolean notifyOnDownload) {
+    this.notifyOnDownload = notifyOnDownload;
+  }
 
   /**
   * Trigger on files moved to this path?
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_move")
   public Boolean notifyOnMove;
+
+  public Boolean getNotifyOnMove() {
+    return notifyOnMove;
+  }
+
+  public void setNotifyOnMove(Boolean notifyOnMove) {
+    this.notifyOnMove = notifyOnMove;
+  }
 
   /**
   * Trigger on files created/uploaded/updated/changed in this path?
   */
-  @Getter
-  @Setter
   @JsonProperty("notify_on_upload")
   public Boolean notifyOnUpload;
+
+  public Boolean getNotifyOnUpload() {
+    return notifyOnUpload;
+  }
+
+  public void setNotifyOnUpload(Boolean notifyOnUpload) {
+    this.notifyOnUpload = notifyOnUpload;
+  }
 
   /**
   * Apply notification recursively?  This will enable notifications for each subfolder.
   */
-  @Getter
-  @Setter
   @JsonProperty("recursive")
   public Boolean recursive;
+
+  public Boolean getRecursive() {
+    return recursive;
+  }
+
+  public void setRecursive(Boolean recursive) {
+    this.recursive = recursive;
+  }
 
   /**
   * The time interval that notifications are aggregated to
   */
-  @Getter
-  @Setter
   @JsonProperty("send_interval")
   public String sendInterval;
+
+  public String getSendInterval() {
+    return sendInterval;
+  }
+
+  public void setSendInterval(String sendInterval) {
+    this.sendInterval = sendInterval;
+  }
 
   /**
   * Custom message to include in notification emails
   */
-  @Getter
-  @Setter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
   /**
   * Array of filenames (possibly with wildcards) to scope trigger
   */
-  @Getter
-  @Setter
   @JsonProperty("triggering_filenames")
   public String[] triggeringFilenames;
+
+  public String[] getTriggeringFilenames() {
+    return triggeringFilenames;
+  }
+
+  public void setTriggeringFilenames(String[] triggeringFilenames) {
+    this.triggeringFilenames = triggeringFilenames;
+  }
 
   /**
   * Is the user unsubscribed from this notification?
   */
-  @Getter
-  @Setter
   @JsonProperty("unsubscribed")
   public Boolean unsubscribed;
+
+  public Boolean getUnsubscribed() {
+    return unsubscribed;
+  }
+
+  public void setUnsubscribed(Boolean unsubscribed) {
+    this.unsubscribed = unsubscribed;
+  }
 
   /**
   * The reason that the user unsubscribed
   */
-  @Getter
-  @Setter
   @JsonProperty("unsubscribed_reason")
   public String unsubscribedReason;
+
+  public String getUnsubscribedReason() {
+    return unsubscribedReason;
+  }
+
+  public void setUnsubscribedReason(String unsubscribedReason) {
+    this.unsubscribedReason = unsubscribedReason;
+  }
 
   /**
   * Notification user ID
   */
-  @Getter
-  @Setter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
   /**
   * Notification username
   */
-  @Getter
-  @Setter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
   /**
   * If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
   */
-  @Getter
-  @Setter
   @JsonProperty("suppressed_email")
   public Boolean suppressedEmail;
+
+  public Boolean getSuppressedEmail() {
+    return suppressedEmail;
+  }
+
+  public void setSuppressedEmail(Boolean suppressedEmail) {
+    this.suppressedEmail = suppressedEmail;
+  }
 
   /**
   * Parameters:

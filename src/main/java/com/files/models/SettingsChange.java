@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SettingsChange implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,51 +70,72 @@ public class SettingsChange implements ModelInterface {
   /**
   * The API key id responsible for this change.
   */
-  @Getter
   @JsonProperty("api_key_id")
   public Long apiKeyId;
+
+  public Long getApiKeyId() {
+    return apiKeyId;
+  }
 
   /**
   * Markdown-formatted change messages.
   */
-  @Getter
   @JsonProperty("changes")
   public String[] changes;
+
+  public String[] getChanges() {
+    return changes;
+  }
 
   /**
   * The time this change was made.
   */
-  @Getter
   @JsonProperty("created_at")
   public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
 
   /**
   * The user id responsible for this change.
   */
-  @Getter
   @JsonProperty("user_id")
   public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
 
   /**
   * true if this change was performed by Files.com support.
   */
-  @Getter
   @JsonProperty("user_is_files_support")
   public Boolean userIsFilesSupport;
+
+  public Boolean getUserIsFilesSupport() {
+    return userIsFilesSupport;
+  }
 
   /**
   * true if this change was performed by a user on a parent site.
   */
-  @Getter
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
+
+  public Boolean getUserIsFromParentSite() {
+    return userIsFromParentSite;
+  }
 
   /**
   * The username of the user responsible for this change.
   */
-  @Getter
   @JsonProperty("username")
   public String username;
+
+  public String getUsername() {
+    return username;
+  }
 
 
   /**

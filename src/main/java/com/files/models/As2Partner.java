@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class As2Partner implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,154 +70,268 @@ public class As2Partner implements ModelInterface {
   /**
   * ID of the AS2 Partner.
   */
-  @Getter
-  @Setter
   @JsonProperty("id")
   public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   /**
   * ID of the AS2 Station associated with this partner.
   */
-  @Getter
-  @Setter
   @JsonProperty("as2_station_id")
   public Long as2StationId;
+
+  public Long getAs2StationId() {
+    return as2StationId;
+  }
+
+  public void setAs2StationId(Long as2StationId) {
+    this.as2StationId = as2StationId;
+  }
 
   /**
   * The partner's formal AS2 name.
   */
-  @Getter
-  @Setter
   @JsonProperty("name")
   public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   /**
   * Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   */
-  @Getter
-  @Setter
   @JsonProperty("uri")
   public String uri;
+
+  public String getUri() {
+    return uri;
+  }
+
+  public void setUri(String uri) {
+    this.uri = uri;
+  }
 
   /**
   * Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
   */
-  @Getter
-  @Setter
   @JsonProperty("server_certificate")
   public String serverCertificate;
+
+  public String getServerCertificate() {
+    return serverCertificate;
+  }
+
+  public void setServerCertificate(String serverCertificate) {
+    this.serverCertificate = serverCertificate;
+  }
 
   /**
   * Username to send to server for HTTP Authentication.
   */
-  @Getter
-  @Setter
   @JsonProperty("http_auth_username")
   public String httpAuthUsername;
+
+  public String getHttpAuthUsername() {
+    return httpAuthUsername;
+  }
+
+  public void setHttpAuthUsername(String httpAuthUsername) {
+    this.httpAuthUsername = httpAuthUsername;
+  }
 
   /**
   * Additional HTTP Headers for outgoing message sent to this partner.
   */
-  @Getter
-  @Setter
   @JsonProperty("additional_http_headers")
   public Map<String, String> additionalHttpHeaders;
+
+  public Map<String, String> getAdditionalHttpHeaders() {
+    return additionalHttpHeaders;
+  }
+
+  public void setAdditionalHttpHeaders(Map<String, String> additionalHttpHeaders) {
+    this.additionalHttpHeaders = additionalHttpHeaders;
+  }
 
   /**
   * Default mime type of the file attached to the encrypted message
   */
-  @Getter
-  @Setter
   @JsonProperty("default_mime_type")
   public String defaultMimeType;
+
+  public String getDefaultMimeType() {
+    return defaultMimeType;
+  }
+
+  public void setDefaultMimeType(String defaultMimeType) {
+    this.defaultMimeType = defaultMimeType;
+  }
 
   /**
   * How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
   */
-  @Getter
-  @Setter
   @JsonProperty("mdn_validation_level")
   public String mdnValidationLevel;
+
+  public String getMdnValidationLevel() {
+    return mdnValidationLevel;
+  }
+
+  public void setMdnValidationLevel(String mdnValidationLevel) {
+    this.mdnValidationLevel = mdnValidationLevel;
+  }
 
   /**
   * If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   */
-  @Getter
-  @Setter
   @JsonProperty("enable_dedicated_ips")
   public Boolean enableDedicatedIps;
+
+  public Boolean getEnableDedicatedIps() {
+    return enableDedicatedIps;
+  }
+
+  public void setEnableDedicatedIps(Boolean enableDedicatedIps) {
+    this.enableDedicatedIps = enableDedicatedIps;
+  }
 
   /**
   * Serial of public certificate used for message security in hex format.
   */
-  @Getter
-  @Setter
   @JsonProperty("hex_public_certificate_serial")
   public String hexPublicCertificateSerial;
+
+  public String getHexPublicCertificateSerial() {
+    return hexPublicCertificateSerial;
+  }
+
+  public void setHexPublicCertificateSerial(String hexPublicCertificateSerial) {
+    this.hexPublicCertificateSerial = hexPublicCertificateSerial;
+  }
 
   /**
   * MD5 hash of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_md5")
   public String publicCertificateMd5;
+
+  public String getPublicCertificateMd5() {
+    return publicCertificateMd5;
+  }
+
+  public void setPublicCertificateMd5(String publicCertificateMd5) {
+    this.publicCertificateMd5 = publicCertificateMd5;
+  }
 
   /**
   * Subject of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_subject")
   public String publicCertificateSubject;
+
+  public String getPublicCertificateSubject() {
+    return publicCertificateSubject;
+  }
+
+  public void setPublicCertificateSubject(String publicCertificateSubject) {
+    this.publicCertificateSubject = publicCertificateSubject;
+  }
 
   /**
   * Issuer of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_issuer")
   public String publicCertificateIssuer;
+
+  public String getPublicCertificateIssuer() {
+    return publicCertificateIssuer;
+  }
+
+  public void setPublicCertificateIssuer(String publicCertificateIssuer) {
+    this.publicCertificateIssuer = publicCertificateIssuer;
+  }
 
   /**
   * Serial of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_serial")
   public String publicCertificateSerial;
+
+  public String getPublicCertificateSerial() {
+    return publicCertificateSerial;
+  }
+
+  public void setPublicCertificateSerial(String publicCertificateSerial) {
+    this.publicCertificateSerial = publicCertificateSerial;
+  }
 
   /**
   * Not before value of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_not_before")
   public String publicCertificateNotBefore;
+
+  public String getPublicCertificateNotBefore() {
+    return publicCertificateNotBefore;
+  }
+
+  public void setPublicCertificateNotBefore(String publicCertificateNotBefore) {
+    this.publicCertificateNotBefore = publicCertificateNotBefore;
+  }
 
   /**
   * Not after value of public certificate used for message security.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate_not_after")
   public String publicCertificateNotAfter;
+
+  public String getPublicCertificateNotAfter() {
+    return publicCertificateNotAfter;
+  }
+
+  public void setPublicCertificateNotAfter(String publicCertificateNotAfter) {
+    this.publicCertificateNotAfter = publicCertificateNotAfter;
+  }
 
   /**
   * Password to send to server for HTTP Authentication.
   */
-  @Getter
-  @Setter
   @JsonProperty("http_auth_password")
   public String httpAuthPassword;
+
+  public String getHttpAuthPassword() {
+    return httpAuthPassword;
+  }
+
+  public void setHttpAuthPassword(String httpAuthPassword) {
+    this.httpAuthPassword = httpAuthPassword;
+  }
 
   /**
   * Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
   */
-  @Getter
-  @Setter
   @JsonProperty("public_certificate")
   public String publicCertificate;
+
+  public String getPublicCertificate() {
+    return publicCertificate;
+  }
+
+  public void setPublicCertificate(String publicCertificate) {
+    this.publicCertificate = publicCertificate;
+  }
 
   /**
   * Parameters:

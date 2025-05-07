@@ -30,14 +30,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SyncLog implements ModelInterface {
-  @Setter
   private HashMap<String, Object> options;
+
+  public void setOptions(HashMap<String, Object> options) {
+    this.options = options;
+  }
+
   private ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -68,72 +70,102 @@ public class SyncLog implements ModelInterface {
   /**
   * Start Time of Action
   */
-  @Getter
   @JsonProperty("timestamp")
   public Date timestamp;
+
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   /**
   * Sync ID
   */
-  @Getter
   @JsonProperty("sync_id")
   public Long syncId;
+
+  public Long getSyncId() {
+    return syncId;
+  }
 
   /**
   * External Event ID
   */
-  @Getter
   @JsonProperty("external_event_id")
   public Long externalEventId;
+
+  public Long getExternalEventId() {
+    return externalEventId;
+  }
 
   /**
   * Error type, if applicable
   */
-  @Getter
   @JsonProperty("error_type")
   public String errorType;
+
+  public String getErrorType() {
+    return errorType;
+  }
 
   /**
   * Message
   */
-  @Getter
   @JsonProperty("message")
   public String message;
+
+  public String getMessage() {
+    return message;
+  }
 
   /**
   * Operation type
   */
-  @Getter
   @JsonProperty("operation")
   public String operation;
+
+  public String getOperation() {
+    return operation;
+  }
 
   /**
   * File path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
-  @Getter
   @JsonProperty("path")
   public String path;
+
+  public String getPath() {
+    return path;
+  }
 
   /**
   * File size
   */
-  @Getter
   @JsonProperty("size")
   public Long size;
+
+  public Long getSize() {
+    return size;
+  }
 
   /**
   * File type
   */
-  @Getter
   @JsonProperty("file_type")
   public String fileType;
+
+  public String getFileType() {
+    return fileType;
+  }
 
   /**
   * Status
   */
-  @Getter
   @JsonProperty("status")
   public String status;
+
+  public String getStatus() {
+    return status;
+  }
 
 
   /**

@@ -24,6 +24,7 @@ public abstract class FilesClient {
 
   private static final FilesApiInterface filesApi = new FilesOkHttpApi();
   public static String apiKey;
+  public static String language;
   public static Session session;
   public static ConnectionPool httpPool = new ConnectionPool(FilesConfig.getInstance().getUpstreamMaxConnections(), FilesConfig.getInstance().getUpstreamTimeout(), TimeUnit.MILLISECONDS);
 

@@ -132,6 +132,9 @@ public class FilesOkHttpApi implements FilesApiInterface {
             String.format("Authentication required for API request: %s %s", url, requestType), null);
       }
     }
+    if (FilesClient.language != null && !FilesClient.language.isEmpty()) {
+      request.header("Accept-Language", FilesClient.language);
+    }
     updateRequestWithHttpMethod(request, RequestBody.create(MediaType.parse("application/json"), body), requestType);
     try {
       Response response = FilesHttpClient.getHttpClient().newCall(request.build()).execute();

@@ -126,15 +126,15 @@ public class BundleNotification implements ModelInterface {
   /**
   * The id of the user to notify.
   */
-  @JsonProperty("user_id")
-  public Long userId;
+  @JsonProperty("notify_user_id")
+  public Long notifyUserId;
 
-  public Long getUserId() {
-    return userId;
+  public Long getNotifyUserId() {
+    return notifyUserId;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setNotifyUserId(Long notifyUserId) {
+    this.notifyUserId = notifyUserId;
   }
 
   /**
@@ -272,7 +272,7 @@ public class BundleNotification implements ModelInterface {
   /**
   * Parameters:
   *   bundle_id (required) - int64 - Bundle ID to notify on
-  *   user_id - int64 - The id of the user to notify.
+  *   notify_user_id - int64 - The id of the user to notify.
   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
   */
@@ -297,8 +297,8 @@ public class BundleNotification implements ModelInterface {
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
     }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
+    if (parameters.containsKey("notify_user_id") && !(parameters.get("notify_user_id") instanceof Long || parameters.get("notify_user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: notify_user_id must be of type Long or Integer parameters[\"notify_user_id\"]");
     }
     if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");

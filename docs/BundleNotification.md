@@ -8,7 +8,7 @@
   "id": 1,
   "notify_on_registration": true,
   "notify_on_upload": true,
-  "user_id": 1
+  "notify_user_id": 1
 }
 ```
 
@@ -16,7 +16,7 @@
 * `id` / `id`  (int64): Bundle Notification ID
 * `notify_on_registration` / `notifyOnRegistration`  (boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` / `notifyOnUpload`  (boolean): Triggers bundle notification when a upload action occurs for it.
-* `user_id` / `userId`  (int64): The id of the user to notify.
+* `notify_user_id` / `notifyUserId`  (int64): The id of the user to notify.
 
 
 ---
@@ -71,7 +71,7 @@ BundleNotification bundleNotification = BundleNotification.create(
 ### Parameters
 
 * `bundle_id` (Long): Required - Bundle ID to notify on
-* `user_id` (Long): The id of the user to notify.
+* `notify_user_id` (Long): The id of the user to notify.
 * `notify_on_registration` (Boolean): Triggers bundle notification when a registration action occurs for it.
 * `notify_on_upload` (Boolean): Triggers bundle notification when a upload action occurs for it.
 

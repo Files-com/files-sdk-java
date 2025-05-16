@@ -81,6 +81,28 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 
 ---
 
+## Update User Lifecycle Rule
+
+```
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - User Lifecycle Rule ID.
+* `action` (String): Required - Action to take on inactive users (disable or delete)
+* `authentication_method` (String): Required - User authentication method for the rule
+* `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
+* `include_site_admins` (Boolean): Include site admins in the rule
+* `include_folder_admins` (Boolean): Include folder admins in the rule
+
+
+---
+
 ## Delete User Lifecycle Rule
 
 ```
@@ -94,6 +116,32 @@ void userLifecycleRule = UserLifecycleRule.delete(
 ### Parameters
 
 * `id` (Long): Required - User Lifecycle Rule ID.
+
+
+---
+
+## Update User Lifecycle Rule
+
+```
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("authentication_method", "password");
+parameters.put("inactivity_days", 12);
+parameters.put("include_site_admins", true);
+parameters.put("include_folder_admins", true);
+
+userLifecycleRule.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User Lifecycle Rule ID.
+* `action` (String): Required - Action to take on inactive users (disable or delete)
+* `authentication_method` (String): Required - User authentication method for the rule
+* `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
+* `include_site_admins` (Boolean): Include site admins in the rule
+* `include_folder_admins` (Boolean): Include folder admins in the rule
 
 
 ---

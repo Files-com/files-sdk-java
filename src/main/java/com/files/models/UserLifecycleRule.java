@@ -166,6 +166,18 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * Parameters:
+  *   action (required) - string - Action to take on inactive users (disable or delete)
+  *   authentication_method (required) - string - User authentication method for the rule
+  *   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+  *   include_site_admins - boolean - Include site admins in the rule
+  *   include_folder_admins - boolean - Include folder admins in the rule
+  */
+  public UserLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
+    return UserLifecycleRule.update(this.id, parameters, this.options);
+  }
+
+  /**
   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     UserLifecycleRule.delete(this.id, parameters, this.options);
@@ -333,6 +345,85 @@ public class UserLifecycleRule implements ModelInterface {
 
     TypeReference<UserLifecycleRule> typeReference = new TypeReference<UserLifecycleRule>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   action (required) - string - Action to take on inactive users (disable or delete)
+  *   authentication_method (required) - string - User authentication method for the rule
+  *   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+  *   include_site_admins - boolean - Include site admins in the rule
+  *   include_folder_admins - boolean - Include folder admins in the rule
+  */
+  public static UserLifecycleRule update() throws RuntimeException {
+    return update(null, null, null);
+  }
+
+  public static UserLifecycleRule update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return update(id, parameters, null);
+  }
+
+  public static UserLifecycleRule update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return update(null, parameters, options);
+  }
+
+  public static UserLifecycleRule update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+    if (!parameters.containsKey("action") || parameters.get("action") == null) {
+      throw new NullPointerException("Parameter missing: action parameters[\"action\"]");
+    }
+    if (!parameters.containsKey("authentication_method") || parameters.get("authentication_method") == null) {
+      throw new NullPointerException("Parameter missing: authentication_method parameters[\"authentication_method\"]");
+    }
+    if (!parameters.containsKey("inactivity_days") || parameters.get("inactivity_days") == null) {
+      throw new NullPointerException("Parameter missing: inactivity_days parameters[\"inactivity_days\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("authentication_method") && !(parameters.get("authentication_method") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: authentication_method must be of type String parameters[\"authentication_method\"]");
+    }
+    if (parameters.containsKey("inactivity_days") && !(parameters.get("inactivity_days") instanceof Long || parameters.get("inactivity_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: inactivity_days must be of type Long or Integer parameters[\"inactivity_days\"]");
+    }
+    if (parameters.containsKey("include_site_admins") && !(parameters.get("include_site_admins") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_site_admins must be of type Boolean parameters[\"include_site_admins\"]");
+    }
+    if (parameters.containsKey("include_folder_admins") && !(parameters.get("include_folder_admins") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_folder_admins must be of type Boolean parameters[\"include_folder_admins\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/user_lifecycle_rules/%s", urlParts);
+
+    TypeReference<UserLifecycleRule> typeReference = new TypeReference<UserLifecycleRule>() {};
+    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
 

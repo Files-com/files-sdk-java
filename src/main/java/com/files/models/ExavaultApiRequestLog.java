@@ -91,9 +91,9 @@ public class ExavaultApiRequestLog implements ModelInterface {
   * Exavault API Version
   */
   @JsonProperty("version")
-  public String version;
+  public Long version;
 
-  public String getVersion() {
+  public Long getVersion() {
     return version;
   }
 

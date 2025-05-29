@@ -30,7 +30,8 @@
   ],
   "skip_name": true,
   "skip_email": true,
-  "skip_company": true
+  "skip_company": true,
+  "in_use": true
 }
 ```
 
@@ -41,6 +42,7 @@
 * `skip_name` / `skipName`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
 * `skip_email` / `skipEmail`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
 * `skip_company` / `skipCompany`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
+* `in_use` / `inUse`  (boolean): Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
 
 

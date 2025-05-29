@@ -166,6 +166,20 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
+  * Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
+  */
+  @JsonProperty("in_use")
+  public Boolean inUse;
+
+  public Boolean getInUse() {
+    return inUse;
+  }
+
+  public void setInUse(Boolean inUse) {
+    this.inUse = inUse;
+  }
+
+  /**
   * User ID.  Provide a value of `0` to operate the current session's user.
   */
   @JsonProperty("user_id")

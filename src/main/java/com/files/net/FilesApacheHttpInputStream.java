@@ -6,15 +6,14 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import okhttp3.Response;
+import org.apache.http.HttpResponse;
 
-
-public class FilesOkHttpInputStream extends FilesInputStream implements Closeable {
+public class FilesApacheHttpInputStream extends FilesInputStream implements Closeable {
   private static final int DEFAULT_BUFFER_SIZE = 8192;
-  Response response;
-  InputStream upstreamInputStream;
+  private final HttpResponse response;
+  private InputStream upstreamInputStream;
 
-  public FilesOkHttpInputStream(Response response) {
+  public FilesApacheHttpInputStream(HttpResponse response) {
     this.response = response;
   }
 
@@ -27,7 +26,7 @@ public class FilesOkHttpInputStream extends FilesInputStream implements Closeabl
   }
 
   @Override
-  public int read(byte b[]) throws IOException {
+  public int read(byte[] b) throws IOException {
     if (upstreamInputStream == null) {
       loadInputStream();
     }
@@ -35,7 +34,7 @@ public class FilesOkHttpInputStream extends FilesInputStream implements Closeabl
   }
 
   @Override
-  public int read(byte b[], int off, int len) throws IOException {
+  public int read(byte[] b, int off, int len) throws IOException {
     if (upstreamInputStream == null) {
       loadInputStream();
     }
@@ -63,13 +62,19 @@ public class FilesOkHttpInputStream extends FilesInputStream implements Closeabl
     if (upstreamInputStream != null) {
       upstreamInputStream.close();
     }
-    response.body().close();
+    if (response.getEntity() != null) {
+      response.getEntity().getContent().close();
+    }
   }
 
   @Override
   public synchronized void mark(int readLimit) {
     if (upstreamInputStream == null) {
-      loadInputStream();
+      try {
+        loadInputStream();
+      } catch (IOException e) {
+        throw new RuntimeException("Failed to load input stream", e);
+      }
     }
     upstreamInputStream.mark(readLimit);
   }
@@ -85,7 +90,11 @@ public class FilesOkHttpInputStream extends FilesInputStream implements Closeabl
   @Override
   public boolean markSupported() {
     if (upstreamInputStream == null) {
-      loadInputStream();
+      try {
+        loadInputStream();
+      } catch (IOException e) {
+        throw new RuntimeException("Failed to load input stream", e);
+      }
     }
     return upstreamInputStream.markSupported();
   }
@@ -95,13 +104,12 @@ public class FilesOkHttpInputStream extends FilesInputStream implements Closeabl
     if (upstreamInputStream == null) {
       loadInputStream();
     }
-    long transferred = StreamTransfer.smartCopy(response.body().contentLength(), this, out);
+    long transferred = StreamTransfer.smartCopy(response.getEntity().getContentLength(), this, out);
     this.close();
     return transferred;
   }
 
-  private void loadInputStream() {
-    upstreamInputStream = response.body().byteStream();
+  private void loadInputStream() throws IOException {
+    upstreamInputStream = response.getEntity().getContent();
   }
-
 }

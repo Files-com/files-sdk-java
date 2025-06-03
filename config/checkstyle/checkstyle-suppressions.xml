@@ -5,8 +5,6 @@
         "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress checks="ArrayTypeStyle"
-            files="src/main/java/com/files/net/FilesOkHttpInputStream.java"/>
     <suppress checks="NoFinalizer"
             files="src/main/java/com/files/util/BufferPool.java"/>
     <suppress checks="ParameterName"

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.5.22-SNAPSHOT</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -154,19 +154,19 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <!-- This is at 3.x and not 4.x so our boomi connector can pass through Boomi's dependency scanner
-              as it currently doesn't support Kotlin and okhttp3 (v4) was rebuilt in Kotlin.
-              OkHttp4 should be backwards compatible with 3, more can be read about it here:
-                https://square.github.io/okhttp/changelogs/upgrading_to_okhttp_4/
-            -->
-            <version>3.14.9</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version> <!-- Use the latest version compatible with Java 8 -->
         </dependency>
         <dependency>
-            <groupId>com.github.devcsrj</groupId>
-            <artifactId>slf4j-okhttp3-logging-interceptor</artifactId>
-            <version>1.0.1</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.15</version> <!-- Is not synced to httpclient version -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.14</version> <!-- Ensure the version matches httpclient -->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -191,9 +191,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>3.14.9</version>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.35.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

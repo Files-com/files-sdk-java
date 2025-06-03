@@ -5,10 +5,8 @@ import com.files.models.Bundle;
 import com.files.models.File;
 import com.files.models.Folder;
 import com.files.models.User;
-import okhttp3.HttpUrl;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -16,24 +14,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.fail;
 
 public class FilesApiTest {
-  public static MockWebServer mockWebServer;
-  public static HttpUrl baseUrl;
+  private WireMockServer wireMockServer;
 
   @Before
   public void setUp() throws IOException {
-    mockWebServer = new MockWebServer();
-    mockWebServer.start();
-    baseUrl = mockWebServer.url("/");
-    FilesClient.setProperty("apiRoot", baseUrl.toString());
+    wireMockServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
+    wireMockServer.start();
+
+    String baseUrl = "http://localhost:" + wireMockServer.port();
+    FilesClient.setProperty("apiRoot", baseUrl);
     FilesClient.apiKey = "test-key";
   }
 
   @After
   public void tearDown() throws IOException {
-    mockWebServer.shutdown();
+    wireMockServer.stop();
   }
 
   @Test
@@ -62,17 +61,23 @@ public class FilesApiTest {
     +    "\"title\": \"Model Save Error\","
     +    "\"type\": \"processing-failure/model-save-error\""
     +  "}";
-    mockWebServer.enqueue(new MockResponse().setResponseCode(400).addHeader("Content-Type", "application/json; charset=utf-8").setBody(body));
-    HashMap<String, Object> parameters = new HashMap<String, Object>();
+
+    wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/users"))
+        .willReturn(aResponse()
+            .withStatus(400)
+            .withHeader("Content-Type", "application/json; charset=utf-8")
+            .withBody(body)));
+
+    HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("username", "testuser");
 
     try {
       User user = new User(parameters);
       user.save();
     } catch (ApiErrorException e) {
-      assert(e instanceof ApiErrorException.ModelSaveErrorException);
+      assert (e instanceof ApiErrorException.ModelSaveErrorException) : "Expected ModelSaveErrorException, but got: " + e.getClass().getName();
       ApiErrorException.ModelSaveErrorException exception = (ApiErrorException.ModelSaveErrorException)e;
-      assert("processing-failure/model-save-error".equals(exception.getType()));
+      assert ("processing-failure/model-save-error".equals(exception.getType()));
     }
   }
 
@@ -84,24 +89,34 @@ public class FilesApiTest {
       +   "\"http-code\": 404,"
       +   "\"error\": \"Folder missing not found.\""
       + "}";
-    mockWebServer.enqueue(new MockResponse().setResponseCode(404).addHeader("Content-Type", "application/json; charset=utf-8").setBody(body));
+
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/missing"))
+        .willReturn(aResponse()
+            .withStatus(404)
+            .withHeader("Content-Type", "application/json; charset=utf-8")
+            .withBody(body)));
 
     try {
       Folder.listFor("/missing", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert(e instanceof ApiErrorException.FolderNotFoundException);
+      assert (e instanceof ApiErrorException.FolderNotFoundException) : "Expected FolderNotFoundException, but got: " + e.getClass().getName();
       ApiErrorException.FolderNotFoundException exception = (ApiErrorException.FolderNotFoundException)e;
-      assert("not-found/folder-not-found".equals(exception.getType()));
-      assert(exception.getHttpCode() == 404);
-      assert("Folder missing not found.".equals(exception.getError()));
-      assert("application/json; charset=utf-8".equals(exception.getHeaders().get("Content-Type").get(0)));
+      assert ("not-found/folder-not-found".equals(exception.getType()));
+      assert (exception.getHttpCode() == 404);
+      assert ("Folder missing not found.".equals(exception.getError()));
+      assert exception.getHeaders().stream()
+          .anyMatch(h -> "Content-Type".equalsIgnoreCase(h.getName())
+                         && "application/json; charset=utf-8".equalsIgnoreCase(h.getValue()));
     }
   }
 
   @Test
   public void handleNoResponseData() throws Exception {
-    mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody(""));
+    wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/bundles/1/share"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("")));
 
     // Should not throw an exception
     Bundle.share((long)1, null);
@@ -109,27 +124,33 @@ public class FilesApiTest {
 
   @Test
   public void handleEmptyResponse() throws Exception {
-    mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("[]"));
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/missing"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("[]")));
 
     int count = 0;
     for (File file : Folder.listFor("/missing", null).listAutoPaging()) {
       count++;
     }
-    assert(count == 0);
+    assert (count == 0);
   }
 
   @Test
   public void handleBadGateway() throws Exception {
     final String body = "<html><head><title>502 Bad Gateway</title></head><body><center><h1>502 Bad Gateway</h1></center><hr><center>files.com</center></body></html>";
-    mockWebServer.enqueue(new MockResponse().setResponseCode(502).setBody(body));
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+        .willReturn(aResponse()
+            .withStatus(502)
+            .withBody(body)));
 
     try {
       Folder.listFor("/", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert(e instanceof ApiErrorException.ServerErrorException);
+      assert (e instanceof ApiErrorException.ServerErrorException) : "Expected ServerErrorException, but got: " + e.getClass().getName();
       ApiErrorException.ServerErrorException exception = (ApiErrorException.ServerErrorException)e;
-      assert(e.getMessage().equals(body));
+      assert (e.getMessage().equals(body));
     }
   }
 
@@ -140,7 +161,10 @@ public class FilesApiTest {
     + "<text>"
     +   "<para>test</para>"
     + "</text>";
-    mockWebServer.enqueue(new MockResponse().setResponseCode(400).setBody(body));
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+        .willReturn(aResponse()
+            .withStatus(400)
+            .withBody(body)));
 
     try {
       Folder.listFor("/", null).all();
@@ -151,7 +175,7 @@ public class FilesApiTest {
       assert(exception.getMessage().startsWith("Unexpected character"));
     }
   }
-
+  
   @Test
   public void handleHostnameMismatch() throws Exception {
     final String body =
@@ -164,13 +188,18 @@ public class FilesApiTest {
       +      "\"host\": \"test.host\""
       +   "}"
       + "}";
-    mockWebServer.enqueue(new MockResponse().addHeader("x-files-host", "test.host").setResponseCode(403).setBody(body));
+
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+      .willReturn(aResponse()
+        .withStatus(403)
+        .withHeader("x-files-host", "test.host")
+        .withBody(body)));
 
     try {
       Folder.listFor("/", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert(e instanceof ApiErrorException.LockoutRegionMismatchException);
+      assert (e instanceof ApiErrorException.LockoutRegionMismatchException) : "Expected LockoutRegionMismatchException, but got: " + e.getClass().getName();
       ApiErrorException.LockoutRegionMismatchException exception = (ApiErrorException.LockoutRegionMismatchException)e;
       assert(exception.getHttpCode() == 403);
       assert("Lockout Region Mismatch".equals(exception.getTitle()));
@@ -179,6 +208,7 @@ public class FilesApiTest {
       assert(exception.getData().get("host").equals("test.host"));
     }
   }
+
 
   @Test
   public void handleRegionMismatch() throws Exception {
@@ -192,13 +222,17 @@ public class FilesApiTest {
       +      "\"host\": \"test.host\""
       +   "}"
       + "}";
-    mockWebServer.enqueue(new MockResponse().setResponseCode(401).addHeader("Content-Type", "application/json; charset=utf-8").setBody(body));
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+      .willReturn(aResponse()
+        .withStatus(401)
+        .withHeader("Content-Type", "application/json; charset=utf-8")
+        .withBody(body)));
 
     try {
       Folder.listFor("/", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert(e instanceof ApiErrorException.LockoutRegionMismatchException);
+      assert (e instanceof ApiErrorException.LockoutRegionMismatchException) : "Expected LockoutRegionMismatchException, but got: " + e.getClass().getName();
       ApiErrorException.LockoutRegionMismatchException exception = (ApiErrorException.LockoutRegionMismatchException)e;
       assert(exception.getHttpCode() == 401);
       assert("Lockout Region Mismatch".equals(exception.getTitle()));

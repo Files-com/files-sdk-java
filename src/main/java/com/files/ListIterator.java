@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import org.apache.http.Header;
 
 public class ListIterator<T> implements Iterable<T> {
   private final String url;
@@ -60,11 +62,12 @@ public class ListIterator<T> implements Iterable<T> {
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-    if (response.getHeaders().containsKey("X-Files-Cursor")) {
-      this.cursor = response.getHeaders().get("X-Files-Cursor").get(0);
-    } else {
-      this.cursor = null;
-    }
+
+    Optional<Header> cursorHeader = response.getHeaders().stream()
+        .filter(header -> "X-Files-Cursor".equalsIgnoreCase(header.getName()))
+        .findFirst();
+
+    this.cursor = cursorHeader.map(Header::getValue).orElse(null);
 
     return this;
   }

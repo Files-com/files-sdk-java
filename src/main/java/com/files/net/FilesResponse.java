@@ -3,13 +3,14 @@ package com.files.net;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.http.Header;
 
 public class FilesResponse {
   private final int statusCode;
-  private final Map<String, List<String>> headers;
+  private final List<Header> headers;
   private final String body;
 
-  public FilesResponse(int statusCode, Map<String, List<String>> headers, String body) {
+  public FilesResponse(int statusCode, List<Header> headers, String body) {
     this.statusCode = statusCode;
     this.headers = headers;
     this.body = body;
@@ -19,7 +20,7 @@ public class FilesResponse {
     return this.statusCode;
   }
 
-  public Map<String, List<String>> getHeaders() {
+  public List<Header> getHeaders() {
     return this.headers;
   }
 

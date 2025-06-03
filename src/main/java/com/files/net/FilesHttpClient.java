@@ -1,18 +1,32 @@
 package com.files.net;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.files.FilesClient;
 import com.files.FilesConfig;
-import devcsrj.okhttp3.logging.HttpLoggingInterceptor;
-import java.security.cert.CertificateException;
-import java.util.Arrays;
+import com.files.ListIterator;
+import com.files.exceptions.ApiErrorException;
+import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import okhttp3.ConnectionPool;
-import okhttp3.OkHttpClient;
-import okhttp3.Protocol;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,65 +34,31 @@ public class FilesHttpClient {
   private static final Logger log = LoggerFactory.getLogger(FilesHttpClient.class);
 
   private static FilesHttpClient instance;
-  protected OkHttpClient okHttpClient;
+  protected CloseableHttpClient httpClient;
+  protected FilesHttpExecutor httpExecutor;
 
   protected FilesHttpClient() {
     FilesConfig filesConfig = FilesConfig.getInstance();
-    ConnectionPool pool = FilesClient.httpPool;
+    PoolingHttpClientConnectionManager connectionManager = FilesClient.connectionManager;
+
+    RequestConfig requestConfig = RequestConfig.custom()
+        .setConnectTimeout((int) TimeUnit.SECONDS.toMillis(10))// Connection timeout
+        .setSocketTimeout((int) TimeUnit.SECONDS.toMillis(30))// Socket timeout
+        .setConnectionRequestTimeout((int) TimeUnit.SECONDS.toMillis(10))// Request timeout
+        .build();
+
     try {
-      OkHttpClient.Builder builder = new OkHttpClient.Builder();
-      builder.cache(null);
-      builder.connectionPool(pool);
-      builder.hostnameVerifier((hostname, session) -> true);
-      builder.retryOnConnectionFailure(false);
-      builder.addInterceptor(new FilesHttpInterceptor());
-      builder.connectTimeout(30, TimeUnit.SECONDS);
-      builder.readTimeout(60, TimeUnit.SECONDS);
-
-      if (FilesConfig.getInstance().getHttpLoggingEnabled() && log.isDebugEnabled()) {
-        builder.addInterceptor(new HttpLoggingInterceptor());
-      }
-
-      if (filesConfig.getUpstreamInsecureAllowed()) {
-        // Create a trust manager that does not validate certificate chains
-        final TrustManager[] trustAllCerts = new TrustManager[]{
-          new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-            }
-
-            @Override
-            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-            }
-
-            @Override
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-              return new java.security.cert.X509Certificate[]{};
-            }
-          }
-        };
-
-        // Install the all-trusting trust manager
-        final SSLContext sslContext = SSLContext.getInstance("SSL");
-        sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-        // Create an ssl socket factory with our all-trusting manager
-        final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-        builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-      }
-
-      if (FilesConfig.getInstance().getUpstreamHttp2Enabled()) {
-        builder.protocols(Arrays.asList(Protocol.HTTP_1_1, Protocol.HTTP_2));
-      } else {
-        builder.protocols(Arrays.asList(Protocol.HTTP_1_1));
-      }
-
-      okHttpClient = builder.build();
+      httpClient = HttpClients.custom()
+          .setConnectionManager(connectionManager)
+          .setDefaultRequestConfig(requestConfig)
+          .build();
+      httpExecutor = new FilesHttpExecutor(httpClient);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      log.error("Error initializing Apache HTTP Client", e);
     }
   }
 
-  public static OkHttpClient getHttpClient() {
+  public static FilesHttpClient getInstance() {
     if (instance == null) {
       synchronized (FilesHttpClient.class) {
         if (instance == null) {
@@ -86,6 +66,10 @@ public class FilesHttpClient {
         }
       }
     }
-    return instance.okHttpClient;
+    return instance;
+  }
+
+  public FilesHttpExecutor getHttpExecutor() {
+    return httpExecutor;
   }
 }

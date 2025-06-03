@@ -1203,6 +1203,8 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Parameters:
+  *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     User.delete(this.id, parameters, this.options);
@@ -1961,6 +1963,8 @@ public class User implements ModelInterface {
 
 
   /**
+  * Parameters:
+  *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
@@ -1989,6 +1993,9 @@ public class User implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("new_owner_id") && !(parameters.get("new_owner_id") instanceof Long || parameters.get("new_owner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: new_owner_id must be of type Long or Integer parameters[\"new_owner_id\"]");
     }
 
 

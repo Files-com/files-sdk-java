@@ -391,6 +391,7 @@ void user = User.delete(
 ### Parameters
 
 * `id` (Long): Required - User ID.
+* `new_owner_id` (Long): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
 
 
 ---
@@ -556,6 +557,7 @@ user.update(parameters);
 User user = User.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("new_owner_id", 1);
 
 user.delete(parameters);
 ```
@@ -563,3 +565,4 @@ user.delete(parameters);
 ### Parameters
 
 * `id` (Long): Required - User ID.
+* `new_owner_id` (Long): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.

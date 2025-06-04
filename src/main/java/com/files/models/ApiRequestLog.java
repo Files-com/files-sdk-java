@@ -257,6 +257,16 @@ public class ApiRequestLog implements ModelInterface {
     return durationMs;
   }
 
+  /**
+  * User ID of Site Admin user impersonating this user via a Read-Only session.
+  */
+  @JsonProperty("impersonator_user_id")
+  public Long impersonatorUserId;
+
+  public Long getImpersonatorUserId() {
+    return impersonatorUserId;
+  }
+
 
   /**
   * Parameters:

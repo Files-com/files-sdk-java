@@ -22,7 +22,8 @@
   "error_message": "example",
   "response_code": 1,
   "success": true,
-  "duration_ms": 1
+  "duration_ms": 1,
+  "impersonator_user_id": 1
 }
 ```
 
@@ -45,6 +46,7 @@
 * `response_code` / `responseCode`  (int64): HTTP Response Code
 * `success` / `success`  (boolean): `false` if HTTP Response Code is 4xx or 5xx
 * `duration_ms` / `durationMs`  (int64): Duration (in milliseconds)
+* `impersonator_user_id` / `impersonatorUserId`  (int64): User ID of Site Admin user impersonating this user via a Read-Only session.
 
 
 ---

@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "always_serialize_jobs": true,
   "always_overwrite_size_matching_files": true,
   "automation": "create_folder",
   "deleted": true,
@@ -90,6 +91,7 @@
 ```
 
 * `id` / `id`  (int64): Automation ID
+* `always_serialize_jobs` / `alwaysSerializeJobs`  (boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `always_overwrite_size_matching_files` / `alwaysOverwriteSizeMatchingFiles`  (boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `automation` / `automation`  (string): Automation type
 * `deleted` / `deleted`  (boolean): Indicates if the automation has been deleted.
@@ -196,6 +198,7 @@ Automation automation = Automation.create(
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+* `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -260,6 +263,7 @@ Automation automation = Automation.update(
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+* `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -334,6 +338,7 @@ parameters.put("schedule_days_of_week", [0,1,3]);
 parameters.put("schedule_times_of_day", ["7:30","11:30"]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("always_overwrite_size_matching_files", true);
+parameters.put("always_serialize_jobs", true);
 parameters.put("description", "example");
 parameters.put("disabled", true);
 parameters.put("exclude_pattern", "path/to/exclude/*");
@@ -371,6 +376,7 @@ automation.update(parameters);
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+* `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.
 * `disabled` (Boolean): If true, this automation will not run.
 * `exclude_pattern` (String): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.

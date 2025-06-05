@@ -82,6 +82,20 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
+  */
+  @JsonProperty("always_serialize_jobs")
+  public Boolean alwaysSerializeJobs;
+
+  public Boolean getAlwaysSerializeJobs() {
+    return alwaysSerializeJobs;
+  }
+
+  public void setAlwaysSerializeJobs(Boolean alwaysSerializeJobs) {
+    this.alwaysSerializeJobs = alwaysSerializeJobs;
+  }
+
+  /**
   * Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
   */
   @JsonProperty("always_overwrite_size_matching_files")
@@ -607,6 +621,7 @@ public class Automation implements ModelInterface {
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+  *   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -783,6 +798,7 @@ public class Automation implements ModelInterface {
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+  *   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -857,6 +873,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");
+    }
+    if (parameters.containsKey("always_serialize_jobs") && !(parameters.get("always_serialize_jobs") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_serialize_jobs must be of type Boolean parameters[\"always_serialize_jobs\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -982,6 +1001,7 @@ public class Automation implements ModelInterface {
   *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
   *   schedule_time_zone - string - If trigger is `custom_schedule`. Time zone for the schedule.
   *   always_overwrite_size_matching_files - boolean - Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
+  *   always_serialize_jobs - boolean - Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
   *   description - string - Description for the this Automation.
   *   disabled - boolean - If true, this automation will not run.
   *   exclude_pattern - string - If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
@@ -1066,6 +1086,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("always_overwrite_size_matching_files") && !(parameters.get("always_overwrite_size_matching_files") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: always_overwrite_size_matching_files must be of type Boolean parameters[\"always_overwrite_size_matching_files\"]");
+    }
+    if (parameters.containsKey("always_serialize_jobs") && !(parameters.get("always_serialize_jobs") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_serialize_jobs must be of type Boolean parameters[\"always_serialize_jobs\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");

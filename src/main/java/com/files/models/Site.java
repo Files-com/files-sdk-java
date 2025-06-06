@@ -1758,16 +1758,6 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * If greater than zero, users will unable to login if they do not show activity within this number of days.
-  */
-  @JsonProperty("disable_users_from_inactivity_period_days")
-  public Long disableUsersFromInactivityPeriodDays;
-
-  public Long getDisableUsersFromInactivityPeriodDays() {
-    return disableUsersFromInactivityPeriodDays;
-  }
-
-  /**
   * Allow group admins set password authentication method
   */
   @JsonProperty("group_admins_can_set_user_password")
@@ -1916,7 +1906,6 @@ public class Site implements ModelInterface {
   *   opt_out_global - boolean - Use servers in the USA only?
   *   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
   *   custom_namespace - boolean - Is this site using a custom namespace for users?
-  *   disable_users_from_inactivity_period_days - int64 - If greater than zero, users will unable to login if they do not show activity within this number of days.
   *   non_sso_groups_allowed - boolean - If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
   *   non_sso_users_allowed - boolean - If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
   *   sharing_enabled - boolean - Allow bundle creation
@@ -2264,9 +2253,6 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("custom_namespace") && !(parameters.get("custom_namespace") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: custom_namespace must be of type Boolean parameters[\"custom_namespace\"]");
-    }
-    if (parameters.containsKey("disable_users_from_inactivity_period_days") && !(parameters.get("disable_users_from_inactivity_period_days") instanceof Long || parameters.get("disable_users_from_inactivity_period_days") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: disable_users_from_inactivity_period_days must be of type Long or Integer parameters[\"disable_users_from_inactivity_period_days\"]");
     }
     if (parameters.containsKey("non_sso_groups_allowed") && !(parameters.get("non_sso_groups_allowed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: non_sso_groups_allowed must be of type Boolean parameters[\"non_sso_groups_allowed\"]");

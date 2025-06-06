@@ -18,7 +18,7 @@
   "billable": true,
   "billing_permission": true,
   "bypass_site_allowed_ips": true,
-  "bypass_inactive_disable": true,
+  "bypass_user_lifecycle_rules": true,
   "created_at": "2000-01-01T01:00:00Z",
   "dav_permission": true,
   "disabled": true,
@@ -87,7 +87,7 @@
 * `billable` / `billable`  (boolean): Is this a billable user record?
 * `billing_permission` / `billingPermission`  (boolean): Allow this user to perform operations on the account, payments, and invoices?
 * `bypass_site_allowed_ips` / `bypassSiteAllowedIps`  (boolean): Allow this user to skip site-wide IP blacklists?
-* `bypass_inactive_disable` / `bypassInactiveDisable`  (boolean): Exempt this user from being disabled based on inactivity?
+* `bypass_user_lifecycle_rules` / `bypassUserLifecycleRules`  (boolean): Exempt this user from user lifecycle rules?
 * `created_at` / `createdAt`  (date-time): When this user was created
 * `dav_permission` / `davPermission`  (boolean): Can the user connect with WebDAV?
 * `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -229,7 +229,7 @@ User user = User.create(
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
-* `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
+* `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -344,7 +344,7 @@ User user = User.update(
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
-* `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
+* `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -463,7 +463,7 @@ parameters.put("attachments_permission", true);
 parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
 parameters.put("authentication_method", "password");
 parameters.put("billing_permission", false);
-parameters.put("bypass_inactive_disable", false);
+parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("disabled", true);
@@ -517,7 +517,7 @@ user.update(parameters);
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
 * `authentication_method` (String): How is this user authenticated?
 * `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
-* `bypass_inactive_disable` (Boolean): Exempt this user from being disabled based on inactivity?
+* `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.

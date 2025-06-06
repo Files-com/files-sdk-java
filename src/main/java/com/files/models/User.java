@@ -236,17 +236,17 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Exempt this user from being disabled based on inactivity?
+  * Exempt this user from user lifecycle rules?
   */
-  @JsonProperty("bypass_inactive_disable")
-  public Boolean bypassInactiveDisable;
+  @JsonProperty("bypass_user_lifecycle_rules")
+  public Boolean bypassUserLifecycleRules;
 
-  public Boolean getBypassInactiveDisable() {
-    return bypassInactiveDisable;
+  public Boolean getBypassUserLifecycleRules() {
+    return bypassUserLifecycleRules;
   }
 
-  public void setBypassInactiveDisable(Boolean bypassInactiveDisable) {
-    this.bypassInactiveDisable = bypassInactiveDisable;
+  public void setBypassUserLifecycleRules(Boolean bypassUserLifecycleRules) {
+    this.bypassUserLifecycleRules = bypassUserLifecycleRules;
   }
 
   /**
@@ -1167,7 +1167,7 @@ public class User implements ModelInterface {
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
   *   authentication_method - string - How is this user authenticated?
   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -1378,7 +1378,7 @@ public class User implements ModelInterface {
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
   *   authentication_method - string - How is this user authenticated?
   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -1478,8 +1478,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("billing_permission") && !(parameters.get("billing_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: billing_permission must be of type Boolean parameters[\"billing_permission\"]");
     }
-    if (parameters.containsKey("bypass_inactive_disable") && !(parameters.get("bypass_inactive_disable") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_inactive_disable must be of type Boolean parameters[\"bypass_inactive_disable\"]");
+    if (parameters.containsKey("bypass_user_lifecycle_rules") && !(parameters.get("bypass_user_lifecycle_rules") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bypass_user_lifecycle_rules must be of type Boolean parameters[\"bypass_user_lifecycle_rules\"]");
     }
     if (parameters.containsKey("bypass_site_allowed_ips") && !(parameters.get("bypass_site_allowed_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bypass_site_allowed_ips must be of type Boolean parameters[\"bypass_site_allowed_ips\"]");
@@ -1743,7 +1743,7 @@ public class User implements ModelInterface {
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
   *   authentication_method - string - How is this user authenticated?
   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_inactive_disable - boolean - Exempt this user from being disabled based on inactivity?
+  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
@@ -1853,8 +1853,8 @@ public class User implements ModelInterface {
     if (parameters.containsKey("billing_permission") && !(parameters.get("billing_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: billing_permission must be of type Boolean parameters[\"billing_permission\"]");
     }
-    if (parameters.containsKey("bypass_inactive_disable") && !(parameters.get("bypass_inactive_disable") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_inactive_disable must be of type Boolean parameters[\"bypass_inactive_disable\"]");
+    if (parameters.containsKey("bypass_user_lifecycle_rules") && !(parameters.get("bypass_user_lifecycle_rules") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bypass_user_lifecycle_rules must be of type Boolean parameters[\"bypass_user_lifecycle_rules\"]");
     }
     if (parameters.containsKey("bypass_site_allowed_ips") && !(parameters.get("bypass_site_allowed_ips") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bypass_site_allowed_ips must be of type Boolean parameters[\"bypass_site_allowed_ips\"]");

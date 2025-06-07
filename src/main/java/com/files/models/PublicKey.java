@@ -134,6 +134,20 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
+  * Key's most recent login time via SFTP
+  */
+  @JsonProperty("last_login_at")
+  public Date lastLoginAt;
+
+  public Date getLastLoginAt() {
+    return lastLoginAt;
+  }
+
+  public void setLastLoginAt(Date lastLoginAt) {
+    this.lastLoginAt = lastLoginAt;
+  }
+
+  /**
   * Username of the user this public key is associated with
   */
   @JsonProperty("username")

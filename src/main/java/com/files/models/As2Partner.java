@@ -124,7 +124,7 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  * Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
   */
   @JsonProperty("server_certificate")
   public String serverCertificate;
@@ -339,7 +339,7 @@ public class As2Partner implements ModelInterface {
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   name - string - The partner's formal AS2 name.
@@ -471,7 +471,7 @@ public class As2Partner implements ModelInterface {
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
@@ -554,7 +554,7 @@ public class As2Partner implements ModelInterface {
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
   *   http_auth_password - string - Password to send to server for HTTP Authentication.
   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS?
+  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
   *   name - string - The partner's formal AS2 name.

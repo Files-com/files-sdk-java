@@ -68,7 +68,7 @@ public class EmailLog implements ModelInterface {
 
 
   /**
-  * Start Time of Action
+  * Start Time of Action. Deprecrated: Use created_at.
   */
   @JsonProperty("timestamp")
   public Date timestamp;
@@ -157,13 +157,27 @@ public class EmailLog implements ModelInterface {
     return smtpIp;
   }
 
+  /**
+  * Start Time of Action
+  */
+  @JsonProperty("created_at")
+  public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
 
   /**
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `start_date`, `end_date` or `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ start_date, end_date ]`, `[ start_date, status ]` or `[ end_date, status ]`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `start_date`, `end_date`, `status` or `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
+  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ start_date ]`, `[ end_date ]`, `[ status ]`, `[ created_at ]`, `[ start_date, end_date ]`, `[ start_date, status ]`, `[ start_date, created_at ]`, `[ end_date, status ]`, `[ end_date, created_at ]`, `[ status, created_at ]`, `[ start_date, end_date, status ]`, `[ start_date, end_date, created_at ]`, `[ start_date, status, created_at ]` or `[ end_date, status, created_at ]`.
   */
   public static ListIterator<EmailLog> list() throws RuntimeException {
     return list(null, null);
@@ -189,8 +203,20 @@ public class EmailLog implements ModelInterface {
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
+    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
+    }
+    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
+    }
     if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Map<String, String> parameters[\"filter_prefix\"]");
+    }
+    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
+    }
+    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
     }
 
 

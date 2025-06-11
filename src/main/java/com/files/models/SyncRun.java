@@ -131,9 +131,9 @@ public class SyncRun implements ModelInterface {
   * Array of errors encountered during the run
   */
   @JsonProperty("event_errors")
-  public Object[][] eventErrors;
+  public String[] eventErrors;
 
-  public Object[][] getEventErrors() {
+  public String[] getEventErrors() {
     return eventErrors;
   }
 

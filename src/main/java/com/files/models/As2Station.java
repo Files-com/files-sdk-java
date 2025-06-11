@@ -152,6 +152,20 @@ public class As2Station implements ModelInterface {
   }
 
   /**
+  * Public certificate used for message security.
+  */
+  @JsonProperty("public_certificate")
+  public String publicCertificate;
+
+  public String getPublicCertificate() {
+    return publicCertificate;
+  }
+
+  public void setPublicCertificate(String publicCertificate) {
+    this.publicCertificate = publicCertificate;
+  }
+
+  /**
   * MD5 hash of private key used for message security.
   */
   @JsonProperty("private_key_md5")
@@ -247,19 +261,6 @@ public class As2Station implements ModelInterface {
 
   public void setPrivateKeyPasswordMd5(String privateKeyPasswordMd5) {
     this.privateKeyPasswordMd5 = privateKeyPasswordMd5;
-  }
-
-  /**
-  */
-  @JsonProperty("public_certificate")
-  public String publicCertificate;
-
-  public String getPublicCertificate() {
-    return publicCertificate;
-  }
-
-  public void setPublicCertificate(String publicCertificate) {
-    this.publicCertificate = publicCertificate;
   }
 
   /**

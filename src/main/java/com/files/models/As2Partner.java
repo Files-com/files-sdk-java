@@ -222,6 +222,20 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
+  * Public certificate used for message security.
+  */
+  @JsonProperty("public_certificate")
+  public String publicCertificate;
+
+  public String getPublicCertificate() {
+    return publicCertificate;
+  }
+
+  public void setPublicCertificate(String publicCertificate) {
+    this.publicCertificate = publicCertificate;
+  }
+
+  /**
   * MD5 hash of public certificate used for message security.
   */
   @JsonProperty("public_certificate_md5")
@@ -317,20 +331,6 @@ public class As2Partner implements ModelInterface {
 
   public void setHttpAuthPassword(String httpAuthPassword) {
     this.httpAuthPassword = httpAuthPassword;
-  }
-
-  /**
-  * Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-  */
-  @JsonProperty("public_certificate")
-  public String publicCertificate;
-
-  public String getPublicCertificate() {
-    return publicCertificate;
-  }
-
-  public void setPublicCertificate(String publicCertificate) {
-    this.publicCertificate = publicCertificate;
   }
 
   /**

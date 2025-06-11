@@ -295,13 +295,13 @@ public class Sync implements ModelInterface {
   * Array of glob patterns to include
   */
   @JsonProperty("include_patterns")
-  public Object[][] includePatterns;
+  public String[] includePatterns;
 
-  public Object[][] getIncludePatterns() {
+  public String[] getIncludePatterns() {
     return includePatterns;
   }
 
-  public void setIncludePatterns(Object[][] includePatterns) {
+  public void setIncludePatterns(String[] includePatterns) {
     this.includePatterns = includePatterns;
   }
 
@@ -309,13 +309,13 @@ public class Sync implements ModelInterface {
   * Array of glob patterns to exclude
   */
   @JsonProperty("exclude_patterns")
-  public Object[][] excludePatterns;
+  public String[] excludePatterns;
 
-  public Object[][] getExcludePatterns() {
+  public String[] getExcludePatterns() {
     return excludePatterns;
   }
 
-  public void setExcludePatterns(Object[][] excludePatterns) {
+  public void setExcludePatterns(String[] excludePatterns) {
     this.excludePatterns = excludePatterns;
   }
 

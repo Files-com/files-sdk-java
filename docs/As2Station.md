@@ -10,6 +10,7 @@
   "domain": "domain.test",
   "hex_public_certificate_serial": "A5:EB:C1:95:DC:D8:2B:E7",
   "public_certificate_md5": "example",
+  "public_certificate": "example",
   "private_key_md5": "example",
   "public_certificate_subject": "example",
   "public_certificate_issuer": "example",
@@ -26,6 +27,7 @@
 * `domain` / `domain`  (string): The station's AS2 domain name.
 * `hex_public_certificate_serial` / `hexPublicCertificateSerial`  (string): Serial of public certificate used for message security in hex format.
 * `public_certificate_md5` / `publicCertificateMd5`  (string): MD5 hash of public certificate used for message security.
+* `public_certificate` / `publicCertificate`  (string): Public certificate used for message security.
 * `private_key_md5` / `privateKeyMd5`  (string): MD5 hash of private key used for message security.
 * `public_certificate_subject` / `publicCertificateSubject`  (string): Subject of public certificate used for message security.
 * `public_certificate_issuer` / `publicCertificateIssuer`  (string): Issuer of public certificate used for message security.
@@ -33,7 +35,6 @@
 * `public_certificate_not_before` / `publicCertificateNotBefore`  (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` / `publicCertificateNotAfter`  (string): Not after value of public certificate used for message security.
 * `private_key_password_md5` / `privateKeyPasswordMd5`  (string): MD5 hash of private key password used for message security.
-* `public_certificate` / `publicCertificate`  (string): 
 * `private_key` / `privateKey`  (string): 
 * `private_key_password` / `privateKeyPassword`  (string): 
 
@@ -141,6 +142,7 @@ As2Station as2Station = As2Station.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "AS2 Station Name");
+parameters.put("public_certificate", "example");
 
 as2Station.update(parameters);
 ```

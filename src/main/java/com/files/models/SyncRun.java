@@ -191,9 +191,9 @@ public class SyncRun implements ModelInterface {
   * Total runtime in seconds
   */
   @JsonProperty("runtime")
-  public float runtime;
+  public Double runtime;
 
-  public float getRuntime() {
+  public Double getRuntime() {
     return runtime;
   }
 

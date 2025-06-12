@@ -250,20 +250,6 @@ public class Sync implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-  */
-  @JsonProperty("interval")
-  public String interval;
-
-  public String getInterval() {
-    return interval;
-  }
-
-  public void setInterval(String interval) {
-    this.interval = interval;
-  }
-
-  /**
   * Trigger type: daily, custom_schedule, or manual
   */
   @JsonProperty("trigger")
@@ -354,6 +340,20 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+  */
+  @JsonProperty("interval")
+  public String interval;
+
+  public String getInterval() {
+    return interval;
+  }
+
+  public void setInterval(String interval) {
+    this.interval = interval;
+  }
+
+  /**
   * If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   */
   @JsonProperty("recurring_day")
@@ -421,7 +421,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
-  *   interval - int64 - Interval in minutes for sync (if scheduled)
+  *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -560,7 +560,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
-  *   interval - int64 - Interval in minutes for sync (if scheduled)
+  *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -613,8 +613,8 @@ public class Sync implements ModelInterface {
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof Long || parameters.get("interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type Long or Integer parameters[\"interval\"]");
+    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
@@ -680,7 +680,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
-  *   interval - int64 - Interval in minutes for sync (if scheduled)
+  *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
@@ -746,8 +746,8 @@ public class Sync implements ModelInterface {
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof Long || parameters.get("interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type Long or Integer parameters[\"interval\"]");
+    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");

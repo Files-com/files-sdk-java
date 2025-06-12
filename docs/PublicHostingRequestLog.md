@@ -12,19 +12,23 @@
   "responseCode": 1,
   "success": true,
   "duration_ms": 1,
-  "created_at": "2000-01-01T01:00:00Z"
+  "created_at": "2000-01-01T01:00:00Z",
+  "bytes_transferred": 1,
+  "http_method": "GET"
 }
 ```
 
 * `timestamp` / `timestamp`  (date-time): Start Time of Action. Deprecrated: Use created_at.
-* `remote_ip` / `remoteIp`  (string): IP Address of Public Hosting Client
-* `server_ip` / `serverIp`  (string): IP Address of Public Hosting Server
-* `hostname` / `hostname`  (string): HTTP Request Hostname
+* `remote_ip` / `remoteIp`  (string): IP Address of Public Hosting Client.
+* `server_ip` / `serverIp`  (string): IP Address of Public Hosting Server.
+* `hostname` / `hostname`  (string): HTTP Request Hostname.
 * `path` / `path`  (string): HTTP Request Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-* `responseCode` / `responseCode`  (int64): HTTP Response Code
+* `responseCode` / `responseCode`  (int64): HTTP Response Code.
 * `success` / `success`  (boolean): Whether SFTP Action was successful.
-* `duration_ms` / `durationMs`  (int64): Duration (in milliseconds)
-* `created_at` / `createdAt`  (date-time): Start Time of Action
+* `duration_ms` / `durationMs`  (int64): Duration (in milliseconds).
+* `created_at` / `createdAt`  (date-time): Start Time of Action.
+* `bytes_transferred` / `bytesTransferred`  (int64): The number of bytes transferred for file downloads.
+* `http_method` / `httpMethod`  (string): Method of the HTTP call.
 
 
 ---

@@ -78,7 +78,7 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * IP Address of Public Hosting Client
+  * IP Address of Public Hosting Client.
   */
   @JsonProperty("remote_ip")
   public String remoteIp;
@@ -88,7 +88,7 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * IP Address of Public Hosting Server
+  * IP Address of Public Hosting Server.
   */
   @JsonProperty("server_ip")
   public String serverIp;
@@ -98,7 +98,7 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * HTTP Request Hostname
+  * HTTP Request Hostname.
   */
   @JsonProperty("hostname")
   public String hostname;
@@ -118,7 +118,7 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * HTTP Response Code
+  * HTTP Response Code.
   */
   @JsonProperty("responseCode")
   public Long responseCode;
@@ -138,7 +138,7 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * Duration (in milliseconds)
+  * Duration (in milliseconds).
   */
   @JsonProperty("duration_ms")
   public Long durationMs;
@@ -148,13 +148,33 @@ public class PublicHostingRequestLog implements ModelInterface {
   }
 
   /**
-  * Start Time of Action
+  * Start Time of Action.
   */
   @JsonProperty("created_at")
   public Date createdAt;
 
   public Date getCreatedAt() {
     return createdAt;
+  }
+
+  /**
+  * The number of bytes transferred for file downloads.
+  */
+  @JsonProperty("bytes_transferred")
+  public Long bytesTransferred;
+
+  public Long getBytesTransferred() {
+    return bytesTransferred;
+  }
+
+  /**
+  * Method of the HTTP call.
+  */
+  @JsonProperty("http_method")
+  public String httpMethod;
+
+  public String getHttpMethod() {
+    return httpMethod;
   }
 
 

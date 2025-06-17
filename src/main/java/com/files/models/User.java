@@ -988,6 +988,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Does this user have any associations that can be reassigned on delete?
+  */
+  @JsonProperty("has_reassignable_associations")
+  public Boolean hasReassignableAssociations;
+
+  public Boolean getHasReassignableAssociations() {
+    return hasReassignableAssociations;
+  }
+
+  public void setHasReassignableAssociations(Boolean hasReassignableAssociations) {
+    this.hasReassignableAssociations = hasReassignableAssociations;
+  }
+
+  /**
   * An image file for your user avatar.
   */
   @JsonProperty("avatar_file")

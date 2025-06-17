@@ -410,6 +410,13 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * Manually Run Sync
+  */
+  public void manualRun(HashMap<String, Object> parameters) throws IOException {
+    Sync.manualRun(this.id, parameters, this.options);
+  }
+
+  /**
   * Parameters:
   *   name - string - Name for this sync job
   *   description - string - Description for this sync job
@@ -663,6 +670,55 @@ public class Sync implements ModelInterface {
 
 
     String url = String.format("%s%s/syncs/migrate_to_syncs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+  }
+
+
+  /**
+  * Manually Run Sync
+  */
+  public static void manualRun() throws RuntimeException {
+    manualRun(null, null, null);
+  }
+
+  public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    manualRun(id, parameters, null);
+  }
+
+  public static void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    manualRun(null, parameters, options);
+  }
+
+  public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
+
+    for (int i = 2; i < urlParts.length; i++) {
+      try {
+        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
+      } catch (URISyntaxException ex) {
+        // NOOP
+      }
+    }
+
+    String url = String.format("%s%s/syncs/%s/manual_run", urlParts);
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }

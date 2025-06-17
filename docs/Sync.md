@@ -153,6 +153,23 @@ void sync = Sync.createMigrateTo(
 
 ---
 
+## Manually Run Sync
+
+```
+void sync = Sync.manualRun(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Sync ID.
+
+
+---
+
 ## Update Sync
 
 ```
@@ -195,6 +212,23 @@ void sync = Sync.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Sync ID.
+
+
+---
+
+## Manually Run Sync
+
+```
+Sync sync = Sync.find(id);
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+sync.manualRun(parameters);
 ```
 
 ### Parameters

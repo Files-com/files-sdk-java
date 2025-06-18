@@ -198,23 +198,13 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * S3 path to the main log file
+  * Link to external log file.
   */
-  @JsonProperty("s3_body_path")
-  public String s3BodyPath;
+  @JsonProperty("log_url")
+  public String logUrl;
 
-  public String getS3BodyPath() {
-    return s3BodyPath;
-  }
-
-  /**
-  * S3 path to the internal log file
-  */
-  @JsonProperty("s3_internal_body_path")
-  public String s3InternalBodyPath;
-
-  public String getS3InternalBodyPath() {
-    return s3InternalBodyPath;
+  public String getLogUrl() {
+    return logUrl;
   }
 
   /**

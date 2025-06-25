@@ -138,6 +138,20 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
+  * Unique identifier for this backend.
+  */
+  @JsonProperty("id")
+  public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  /**
   * Interval in seconds between health checks.
   */
   @JsonProperty("interval")
@@ -278,20 +292,6 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Remote Mount Backend ID.
-  */
-  @JsonProperty("id")
-  public Long id;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
   * Reset backend status to healthy
   */
   public void resetStatus(HashMap<String, Object> parameters) throws IOException {
@@ -337,6 +337,7 @@ public class RemoteMountBackend implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
   */
   public static ListIterator<RemoteMountBackend> list() throws RuntimeException {
     return list(null, null);
@@ -358,6 +359,9 @@ public class RemoteMountBackend implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
     }
 
 

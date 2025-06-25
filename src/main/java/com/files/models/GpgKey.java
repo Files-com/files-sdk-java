@@ -166,6 +166,62 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
+  * Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_expires_at")
+  public String generateExpiresAt;
+
+  public String getGenerateExpiresAt() {
+    return generateExpiresAt;
+  }
+
+  public void setGenerateExpiresAt(String generateExpiresAt) {
+    this.generateExpiresAt = generateExpiresAt;
+  }
+
+  /**
+  * If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+  */
+  @JsonProperty("generate_keypair")
+  public Boolean generateKeypair;
+
+  public Boolean getGenerateKeypair() {
+    return generateKeypair;
+  }
+
+  public void setGenerateKeypair(Boolean generateKeypair) {
+    this.generateKeypair = generateKeypair;
+  }
+
+  /**
+  * Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_full_name")
+  public String generateFullName;
+
+  public String getGenerateFullName() {
+    return generateFullName;
+  }
+
+  public void setGenerateFullName(String generateFullName) {
+    this.generateFullName = generateFullName;
+  }
+
+  /**
+  * Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_email")
+  public String generateEmail;
+
+  public String getGenerateEmail() {
+    return generateEmail;
+  }
+
+  public void setGenerateEmail(String generateEmail) {
+    this.generateEmail = generateEmail;
+  }
+
+  /**
   * Parameters:
   *   public_key - string - Your GPG public key
   *   private_key - string - Your GPG private key.
@@ -306,6 +362,10 @@ public class GpgKey implements ModelInterface {
   *   private_key - string - Your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name (required) - string - Your GPG key name.
+  *   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  *   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+  *   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  *   generate_email - string - Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
   */
   public static GpgKey create() throws RuntimeException {
     return create(null, null);
@@ -339,6 +399,18 @@ public class GpgKey implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("generate_expires_at") && !(parameters.get("generate_expires_at") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: generate_expires_at must be of type String parameters[\"generate_expires_at\"]");
+    }
+    if (parameters.containsKey("generate_keypair") && !(parameters.get("generate_keypair") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: generate_keypair must be of type Boolean parameters[\"generate_keypair\"]");
+    }
+    if (parameters.containsKey("generate_full_name") && !(parameters.get("generate_full_name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: generate_full_name must be of type String parameters[\"generate_full_name\"]");
+    }
+    if (parameters.containsKey("generate_email") && !(parameters.get("generate_email") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: generate_email must be of type String parameters[\"generate_email\"]");
     }
 
 

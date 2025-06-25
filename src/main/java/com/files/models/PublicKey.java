@@ -134,6 +134,20 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
+  * Can be invalid, not_generated, generating, complete
+  */
+  @JsonProperty("status")
+  public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  /**
   * Key's most recent login time via SFTP
   */
   @JsonProperty("last_login_at")
@@ -145,6 +159,34 @@ public class PublicKey implements ModelInterface {
 
   public void setLastLoginAt(Date lastLoginAt) {
     this.lastLoginAt = lastLoginAt;
+  }
+
+  /**
+  * Private key generated for the user.
+  */
+  @JsonProperty("private_key")
+  public String privateKey;
+
+  public String getPrivateKey() {
+    return privateKey;
+  }
+
+  public void setPrivateKey(String privateKey) {
+    this.privateKey = privateKey;
+  }
+
+  /**
+  * Public key generated for the user.
+  */
+  @JsonProperty("public_key")
+  public String publicKey;
+
+  public String getPublicKey() {
+    return publicKey;
+  }
+
+  public void setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
   }
 
   /**
@@ -176,17 +218,59 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Actual contents of SSH key.
+  * If true, generate a new SSH key pair. Can not be used with `public_key`
   */
-  @JsonProperty("public_key")
-  public String publicKey;
+  @JsonProperty("generate_keypair")
+  public Boolean generateKeypair;
 
-  public String getPublicKey() {
-    return publicKey;
+  public Boolean getGenerateKeypair() {
+    return generateKeypair;
   }
 
-  public void setPublicKey(String publicKey) {
-    this.publicKey = publicKey;
+  public void setGenerateKeypair(Boolean generateKeypair) {
+    this.generateKeypair = generateKeypair;
+  }
+
+  /**
+  * Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_private_key_password")
+  public String generatePrivateKeyPassword;
+
+  public String getGeneratePrivateKeyPassword() {
+    return generatePrivateKeyPassword;
+  }
+
+  public void setGeneratePrivateKeyPassword(String generatePrivateKeyPassword) {
+    this.generatePrivateKeyPassword = generatePrivateKeyPassword;
+  }
+
+  /**
+  * Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_algorithm")
+  public String generateAlgorithm;
+
+  public String getGenerateAlgorithm() {
+    return generateAlgorithm;
+  }
+
+  public void setGenerateAlgorithm(String generateAlgorithm) {
+    this.generateAlgorithm = generateAlgorithm;
+  }
+
+  /**
+  * Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  */
+  @JsonProperty("generate_length")
+  public Long generateLength;
+
+  public Long getGenerateLength() {
+    return generateLength;
+  }
+
+  public void setGenerateLength(Long generateLength) {
+    this.generateLength = generateLength;
   }
 
   /**
@@ -340,7 +424,11 @@ public class PublicKey implements ModelInterface {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   title (required) - string - Internal reference for key.
-  *   public_key (required) - string - Actual contents of SSH key.
+  *   public_key - string - Actual contents of SSH key.
+  *   generate_keypair - boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
+  *   generate_private_key_password - string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  *   generate_algorithm - string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+  *   generate_length - int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
   */
   public static PublicKey create() throws RuntimeException {
     return create(null, null);
@@ -359,9 +447,6 @@ public class PublicKey implements ModelInterface {
     if (!parameters.containsKey("title") || parameters.get("title") == null) {
       throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
     }
-    if (!parameters.containsKey("public_key") || parameters.get("public_key") == null) {
-      throw new NullPointerException("Parameter missing: public_key parameters[\"public_key\"]");
-    }
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
@@ -371,6 +456,18 @@ public class PublicKey implements ModelInterface {
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
+    }
+    if (parameters.containsKey("generate_keypair") && !(parameters.get("generate_keypair") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: generate_keypair must be of type Boolean parameters[\"generate_keypair\"]");
+    }
+    if (parameters.containsKey("generate_private_key_password") && !(parameters.get("generate_private_key_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: generate_private_key_password must be of type String parameters[\"generate_private_key_password\"]");
+    }
+    if (parameters.containsKey("generate_algorithm") && !(parameters.get("generate_algorithm") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: generate_algorithm must be of type String parameters[\"generate_algorithm\"]");
+    }
+    if (parameters.containsKey("generate_length") && !(parameters.get("generate_length") instanceof Long || parameters.get("generate_length") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: generate_length must be of type Long or Integer parameters[\"generate_length\"]");
     }
 
 

@@ -21,6 +21,10 @@
 * `public_key` / `publicKey`  (string): Your GPG public key
 * `private_key` / `privateKey`  (string): Your GPG private key.
 * `private_key_password` / `privateKeyPassword`  (string): Your GPG private key password. Only required for password protected keys.
+* `generate_expires_at` / `generateExpiresAt`  (string): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_keypair` / `generateKeypair`  (boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+* `generate_full_name` / `generateFullName`  (string): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_email` / `generateEmail`  (string): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
 
 ---
@@ -79,6 +83,10 @@ GpgKey gpgKey = GpgKey.create(
 * `private_key` (String): Your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
 * `name` (String): Required - Your GPG key name.
+* `generate_expires_at` (String): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_keypair` (Boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
+* `generate_full_name` (String): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+* `generate_email` (String): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 
 
 ---

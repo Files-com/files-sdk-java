@@ -10,6 +10,7 @@
   "include_folder_admins": true,
   "include_site_admins": true,
   "action": "disable",
+  "user_state": "inactive",
   "site_id": 1
 }
 ```
@@ -20,6 +21,7 @@
 * `include_folder_admins` / `includeFolderAdmins`  (boolean): Include folder admins in the rule
 * `include_site_admins` / `includeSiteAdmins`  (boolean): Include site admins in the rule
 * `action` / `action`  (string): Action to take on inactive users (disable or delete)
+* `user_state` / `userState`  (string): State of the users to apply the rule to (inactive or disabled)
 * `site_id` / `siteId`  (int64): Site ID
 
 
@@ -77,6 +79,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 * `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
+* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 
 
 ---
@@ -99,6 +102,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
+* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 
 
 ---
@@ -130,6 +134,7 @@ parameters.put("authentication_method", "password");
 parameters.put("inactivity_days", 12);
 parameters.put("include_site_admins", true);
 parameters.put("include_folder_admins", true);
+parameters.put("user_state", "inactive");
 
 userLifecycleRule.update(parameters);
 ```
@@ -142,6 +147,7 @@ userLifecycleRule.update(parameters);
 * `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
+* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 
 
 ---

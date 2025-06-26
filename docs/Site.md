@@ -60,7 +60,6 @@
   "custom_namespace": true,
   "dav_enabled": true,
   "dav_user_root_enabled": true,
-  "days_before_deleting_disabled_users": 30,
   "days_to_retain_backups": 30,
   "document_edits_in_bundle_allowed": true,
   "default_time_zone": "Pacific Time (US & Canada)",
@@ -352,7 +351,6 @@
 * `custom_namespace` / `customNamespace`  (boolean): Is this site using a custom namespace for users?
 * `dav_enabled` / `davEnabled`  (boolean): Is WebDAV enabled?
 * `dav_user_root_enabled` / `davUserRootEnabled`  (boolean): Use user FTP roots also for WebDAV?
-* `days_before_deleting_disabled_users` / `daysBeforeDeletingDisabledUsers`  (int64): Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
 * `days_to_retain_backups` / `daysToRetainBackups`  (int64): Number of days to keep deleted files
 * `document_edits_in_bundle_allowed` / `documentEditsInBundleAllowed`  (boolean): If true, allow public viewers of Bundles with full permissions to use document editing integrations.
 * `default_time_zone` / `defaultTimeZone`  (string): Site default time zone
@@ -575,7 +573,6 @@ Site site = Site.update(
 * `allowed_countries` (String): Comma separated list of allowed Country codes
 * `allowed_ips` (String): List of allowed IP addresses
 * `disallowed_countries` (String): Comma separated list of disallowed Country codes
-* `days_before_deleting_disabled_users` (Long): Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
 * `days_to_retain_backups` (Long): Number of days to keep deleted files
 * `max_prior_passwords` (Long): Number of prior passwords to disallow
 * `password_validity_days` (Long): Number of days password is valid

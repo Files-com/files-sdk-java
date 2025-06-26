@@ -538,16 +538,6 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
-  */
-  @JsonProperty("days_before_deleting_disabled_users")
-  public Long daysBeforeDeletingDisabledUsers;
-
-  public Long getDaysBeforeDeletingDisabledUsers() {
-    return daysBeforeDeletingDisabledUsers;
-  }
-
-  /**
   * Number of days to keep deleted files
   */
   @JsonProperty("days_to_retain_backups")
@@ -1889,7 +1879,6 @@ public class Site implements ModelInterface {
   *   allowed_countries - string - Comma separated list of allowed Country codes
   *   allowed_ips - string - List of allowed IP addresses
   *   disallowed_countries - string - Comma separated list of disallowed Country codes
-  *   days_before_deleting_disabled_users - int64 - Number of days to keep disabled users before deleting them. If set to 0, disabled users will not be deleted.
   *   days_to_retain_backups - int64 - Number of days to keep deleted files
   *   max_prior_passwords - int64 - Number of prior passwords to disallow
   *   password_validity_days - int64 - Number of days password is valid
@@ -2183,9 +2172,6 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: disallowed_countries must be of type String parameters[\"disallowed_countries\"]");
-    }
-    if (parameters.containsKey("days_before_deleting_disabled_users") && !(parameters.get("days_before_deleting_disabled_users") instanceof Long || parameters.get("days_before_deleting_disabled_users") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: days_before_deleting_disabled_users must be of type Long or Integer parameters[\"days_before_deleting_disabled_users\"]");
     }
     if (parameters.containsKey("days_to_retain_backups") && !(parameters.get("days_to_retain_backups") instanceof Long || parameters.get("days_to_retain_backups") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: days_to_retain_backups must be of type Long or Integer parameters[\"days_to_retain_backups\"]");

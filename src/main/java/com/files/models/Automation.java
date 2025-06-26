@@ -600,6 +600,20 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+  */
+  @JsonProperty("holiday_region")
+  public String holidayRegion;
+
+  public String getHolidayRegion() {
+    return holidayRegion;
+  }
+
+  public void setHolidayRegion(String holidayRegion) {
+    this.holidayRegion = holidayRegion;
+  }
+
+  /**
   * Manually Run Automation
   */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {

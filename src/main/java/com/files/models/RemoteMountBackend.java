@@ -300,9 +300,6 @@ public class RemoteMountBackend implements ModelInterface {
 
   /**
   * Parameters:
-  *   canary_file_path (required) - string - Path to the canary file used for health checks.
-  *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-  *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
   *   enabled - boolean - True if this backend is enabled.
   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -313,6 +310,8 @@ public class RemoteMountBackend implements ModelInterface {
   *   priority - int64 - Priority of this backend.
   *   remote_path - string - Path on the remote server to treat as the root of this mount.
   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+  *   canary_file_path - string - Path to the canary file used for health checks.
+  *   remote_server_id - int64 - The remote server that this backend is associated with.
   */
   public RemoteMountBackend update(HashMap<String, Object> parameters) throws IOException {
     return RemoteMountBackend.update(this.id, parameters, this.options);
@@ -439,9 +438,6 @@ public class RemoteMountBackend implements ModelInterface {
 
   /**
   * Parameters:
-  *   canary_file_path (required) - string - Path to the canary file used for health checks.
-  *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-  *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
   *   enabled - boolean - True if this backend is enabled.
   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -452,6 +448,9 @@ public class RemoteMountBackend implements ModelInterface {
   *   priority - int64 - Priority of this backend.
   *   remote_path - string - Path on the remote server to treat as the root of this mount.
   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+  *   canary_file_path (required) - string - Path to the canary file used for health checks.
+  *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
+  *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
   */
   public static RemoteMountBackend create() throws RuntimeException {
     return create(null, null);
@@ -477,15 +476,6 @@ public class RemoteMountBackend implements ModelInterface {
       throw new NullPointerException("Parameter missing: remote_server_id parameters[\"remote_server_id\"]");
     }
 
-    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
-    }
-    if (parameters.containsKey("remote_server_mount_id") && !(parameters.get("remote_server_mount_id") instanceof Long || parameters.get("remote_server_mount_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_mount_id must be of type Long or Integer parameters[\"remote_server_mount_id\"]");
-    }
-    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
-    }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
     }
@@ -515,6 +505,15 @@ public class RemoteMountBackend implements ModelInterface {
     }
     if (parameters.containsKey("rise") && !(parameters.get("rise") instanceof Long || parameters.get("rise") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: rise must be of type Long or Integer parameters[\"rise\"]");
+    }
+    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
+    }
+    if (parameters.containsKey("remote_server_mount_id") && !(parameters.get("remote_server_mount_id") instanceof Long || parameters.get("remote_server_mount_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_mount_id must be of type Long or Integer parameters[\"remote_server_mount_id\"]");
+    }
+    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
     }
 
 
@@ -576,9 +575,6 @@ public class RemoteMountBackend implements ModelInterface {
 
   /**
   * Parameters:
-  *   canary_file_path (required) - string - Path to the canary file used for health checks.
-  *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-  *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
   *   enabled - boolean - True if this backend is enabled.
   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
@@ -589,6 +585,8 @@ public class RemoteMountBackend implements ModelInterface {
   *   priority - int64 - Priority of this backend.
   *   remote_path - string - Path on the remote server to treat as the root of this mount.
   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+  *   canary_file_path - string - Path to the canary file used for health checks.
+  *   remote_server_id - int64 - The remote server that this backend is associated with.
   */
   public static RemoteMountBackend update() throws RuntimeException {
     return update(null, null, null);
@@ -614,27 +612,9 @@ public class RemoteMountBackend implements ModelInterface {
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    if (!parameters.containsKey("canary_file_path") || parameters.get("canary_file_path") == null) {
-      throw new NullPointerException("Parameter missing: canary_file_path parameters[\"canary_file_path\"]");
-    }
-    if (!parameters.containsKey("remote_server_mount_id") || parameters.get("remote_server_mount_id") == null) {
-      throw new NullPointerException("Parameter missing: remote_server_mount_id parameters[\"remote_server_mount_id\"]");
-    }
-    if (!parameters.containsKey("remote_server_id") || parameters.get("remote_server_id") == null) {
-      throw new NullPointerException("Parameter missing: remote_server_id parameters[\"remote_server_id\"]");
-    }
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
-    }
-    if (parameters.containsKey("remote_server_mount_id") && !(parameters.get("remote_server_mount_id") instanceof Long || parameters.get("remote_server_mount_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_mount_id must be of type Long or Integer parameters[\"remote_server_mount_id\"]");
-    }
-    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
     }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
@@ -665,6 +645,12 @@ public class RemoteMountBackend implements ModelInterface {
     }
     if (parameters.containsKey("rise") && !(parameters.get("rise") instanceof Long || parameters.get("rise") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: rise must be of type Long or Integer parameters[\"rise\"]");
+    }
+    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
+    }
+    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
     }
 
 

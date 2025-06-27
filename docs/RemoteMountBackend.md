@@ -91,9 +91,6 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(
 
 ### Parameters
 
-* `canary_file_path` (String): Required - Path to the canary file used for health checks.
-* `remote_server_mount_id` (Long): Required - The mount ID of the Remote Server Mount that this backend is associated with.
-* `remote_server_id` (Long): Required - The remote server that this backend is associated with.
 * `enabled` (Boolean): True if this backend is enabled.
 * `fall` (Long): Number of consecutive failures before considering the backend unhealthy.
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
@@ -104,6 +101,9 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.
+* `canary_file_path` (String): Required - Path to the canary file used for health checks.
+* `remote_server_mount_id` (Long): Required - The mount ID of the Remote Server Mount that this backend is associated with.
+* `remote_server_id` (Long): Required - The remote server that this backend is associated with.
 
 
 ---
@@ -138,9 +138,6 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(
 ### Parameters
 
 * `id` (Long): Required - Remote Mount Backend ID.
-* `canary_file_path` (String): Required - Path to the canary file used for health checks.
-* `remote_server_mount_id` (Long): Required - The mount ID of the Remote Server Mount that this backend is associated with.
-* `remote_server_id` (Long): Required - The remote server that this backend is associated with.
 * `enabled` (Boolean): True if this backend is enabled.
 * `fall` (Long): Number of consecutive failures before considering the backend unhealthy.
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
@@ -151,6 +148,8 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.
+* `canary_file_path` (String): Path to the canary file used for health checks.
+* `remote_server_id` (Long): The remote server that this backend is associated with.
 
 
 ---
@@ -195,9 +194,6 @@ remoteMountBackend.resetStatus(parameters);
 RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("canary_file_path", "backend1.txt");
-parameters.put("remote_server_mount_id", 1);
-parameters.put("remote_server_id", 1);
 parameters.put("enabled", true);
 parameters.put("fall", 1);
 parameters.put("health_check_enabled", true);
@@ -208,6 +204,8 @@ parameters.put("min_free_mem", 1.0);
 parameters.put("priority", 1);
 parameters.put("remote_path", "/path/on/remote");
 parameters.put("rise", 1);
+parameters.put("canary_file_path", "backend1.txt");
+parameters.put("remote_server_id", 1);
 
 remoteMountBackend.update(parameters);
 ```
@@ -215,9 +213,6 @@ remoteMountBackend.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Remote Mount Backend ID.
-* `canary_file_path` (String): Required - Path to the canary file used for health checks.
-* `remote_server_mount_id` (Long): Required - The mount ID of the Remote Server Mount that this backend is associated with.
-* `remote_server_id` (Long): Required - The remote server that this backend is associated with.
 * `enabled` (Boolean): True if this backend is enabled.
 * `fall` (Long): Number of consecutive failures before considering the backend unhealthy.
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
@@ -228,6 +223,8 @@ remoteMountBackend.update(parameters);
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.
+* `canary_file_path` (String): Path to the canary file used for health checks.
+* `remote_server_id` (Long): The remote server that this backend is associated with.
 
 
 ---

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-#set -e
-
 # Make sure we have the correct version of Java set
 if command -v jenv &> /dev/null; then
   if [ -d /usr/lib/jvm/java-8-openjdk-amd64 ]; then jenv add /usr/lib/jvm/java-8-openjdk-amd64; fi

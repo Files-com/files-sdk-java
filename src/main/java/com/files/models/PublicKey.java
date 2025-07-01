@@ -134,7 +134,7 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Can be invalid, not_generated, generating, complete
+  * Only returned when generating keys. Can be invalid, not_generated, generating, complete
   */
   @JsonProperty("status")
   public String status;
@@ -162,7 +162,7 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Private key generated for the user.
+  * Only returned when generating keys. Private key generated for the user.
   */
   @JsonProperty("private_key")
   public String privateKey;
@@ -176,7 +176,7 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key generated for the user.
+  * Only returned when generating keys. Public key generated for the user.
   */
   @JsonProperty("public_key")
   public String publicKey;

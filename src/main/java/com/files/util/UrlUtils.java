@@ -1,6 +1,7 @@
 package com.files.util;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.http.client.utils.URIBuilder;
 
 public class UrlUtils {
   private static class Expire {
@@ -104,5 +106,22 @@ public class UrlUtils {
     } catch (Exception e) {
       return false;
     }
+  }
+
+  // Accepts unencoded URL with spaces
+  public static String sanitizeUrl(String rawUrl) throws Exception {
+    URL url = new URL(rawUrl);
+
+    URIBuilder builder = new URIBuilder()
+        .setScheme(url.getProtocol())
+        .setHost(url.getHost())
+        .setPath(url.getPath()); // this will be encoded properly, i.e. %20 for spaces
+
+    if (url.getPort() != -1) {
+      builder.setPort(url.getPort());
+    }
+
+    URI encodedUri = builder.build();
+    return encodedUri.toASCIIString();
   }
 }

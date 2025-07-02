@@ -1,5 +1,6 @@
 package com.files;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -8,10 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +58,32 @@ public class UrlUtilsTest {
   public void errorLink() throws MalformedURLException {
     for (String url : testData.get("error_urls")) {
       assertFalse(UrlUtils.isExpired(new URL(url)));
+    }
+  }
+
+  @Test
+  public void sanitizeUrl() throws MalformedURLException {
+    // Some test URLs in a list, like a literal list of three urls with spaces in paths
+    List<String> urls = Arrays.asList(
+        "https://example.com/path",
+        "https://example.com/path with space",
+        "https://example.com/path/with space/subdir"
+    );
+    List<String> sanitizedUrls = Arrays.asList(
+        "https://example.com/path",
+        "https://example.com/path%20with%20space",
+        "https://example.com/path/with%20space/subdir"
+    );
+    // zip the urls and iterate through them
+    for (int i = 0; i < urls.size(); i++) {
+      String sanitizedUrl = null;
+      try {
+        sanitizedUrl = UrlUtils.sanitizeUrl(urls.get(i));
+      } catch (Exception e) {
+        e.printStackTrace();
+        fail("Sanitization failed for URL: " + urls.get(i) + " with error: " + e.getClass().getName() + " : " + e.getMessage());
+      }
+      assertEquals(sanitizedUrls.get(i), sanitizedUrl);
     }
   }
 }

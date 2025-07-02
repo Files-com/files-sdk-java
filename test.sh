@@ -16,3 +16,4 @@ fi
 mvn rewrite:run || exit 1
 mvn checkstyle:checkstyle || exit 1
 mvn test || exit 1
+

@@ -18,6 +18,8 @@ public class FilesConfig {
       properties.load(file);
     } catch (IOException e) {
       log.warn("could not load configurator properties");
+    } catch (NullPointerException ne) {
+      log.warn("could not load configurator properties /files-sdk.properties could not be located");
     }
   }
 

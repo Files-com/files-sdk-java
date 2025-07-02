@@ -199,6 +199,7 @@ Automation automation = Automation.create(
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
+* `holiday_region` (String): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.
@@ -264,6 +265,7 @@ Automation automation = Automation.update(
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
+* `holiday_region` (String): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.
@@ -339,6 +341,7 @@ parameters.put("group_ids", [1,2]);
 parameters.put("schedule_days_of_week", [0,1,3]);
 parameters.put("schedule_times_of_day", ["7:30","11:30"]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us_dc");
 parameters.put("always_overwrite_size_matching_files", true);
 parameters.put("always_serialize_jobs", true);
 parameters.put("description", "example");
@@ -377,6 +380,7 @@ automation.update(parameters);
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`. A list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`. A list of times of day to run this automation. 24-hour time format.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`. Time zone for the schedule.
+* `holiday_region` (String): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
 * `always_overwrite_size_matching_files` (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.
 * `always_serialize_jobs` (Boolean): Ordinarily, we will allow automation runs to run in parallel for non-scheduled automations. If this flag is `true` we will force automation runs to be serialized (run one at a time, one after another). This can resolve some issues with race conditions on remote systems at the cost of some performance.
 * `description` (String): Description for the this Automation.

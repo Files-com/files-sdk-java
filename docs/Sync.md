@@ -69,7 +69,7 @@
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-* `holiday_region` / `holidayRegion`  (string): If trigger is `custom_schedule`, the Automation will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `holiday_region` / `holidayRegion`  (string): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
 
 
 ---
@@ -134,6 +134,8 @@ Sync sync = Sync.create(
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -198,6 +200,8 @@ Sync sync = Sync.update(
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
@@ -259,6 +263,8 @@ parameters.put("disabled", false);
 parameters.put("interval", "week");
 parameters.put("trigger", "example");
 parameters.put("trigger_file", "example");
+parameters.put("holiday_region", "us_dc");
+parameters.put("sync_interval_minutes", 1);
 parameters.put("recurring_day", 25);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_days_of_week", [0,2,4]);
@@ -283,6 +289,8 @@ sync.update(parameters);
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+* `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_time_zone` (String): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.

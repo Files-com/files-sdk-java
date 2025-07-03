@@ -91,7 +91,7 @@ public class File implements ModelInterface {
     if (!parameters.containsKey("action")) {
       parameters.put("action", "put");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path);
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -839,18 +839,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/files/%s", urlParts);
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -943,17 +932,7 @@ public class File implements ModelInterface {
       parameters.put("action", "put");
     }
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/files/%s", urlParts);
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1004,18 +983,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: priority_color must be of type String parameters[\"priority_color\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/files/%s", urlParts);
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -1058,18 +1026,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/files/%s", urlParts);
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
@@ -1127,18 +1084,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/file_actions/metadata/%s", urlParts);
+    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1201,18 +1147,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/file_actions/copy/%s", urlParts);
+    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1264,18 +1199,7 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/file_actions/move/%s", urlParts);
+    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1344,22 +1268,19 @@ public class File implements ModelInterface {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
     }
 
-
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
-
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/file_actions/begin_upload/%s", urlParts);
+    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), encodeUrlPath(path));
 
     TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
+  private static String encodeUrlPath(String urlPath) {
+    try {
+      return new URI(null, null, urlPath, null).getRawPath();
+    } catch (URISyntaxException ex) {
+      // NOOP
+    }
+    return urlPath;
+  }
 
 }

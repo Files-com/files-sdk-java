@@ -74,9 +74,9 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 
 ### Parameters
 
-* `action` (String): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (String): Required - User authentication method for the rule
-* `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
+* `action` (String): Action to take on inactive users (disable or delete)
+* `authentication_method` (String): User authentication method for the rule
+* `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
@@ -97,9 +97,9 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 ### Parameters
 
 * `id` (Long): Required - User Lifecycle Rule ID.
-* `action` (String): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (String): Required - User authentication method for the rule
-* `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
+* `action` (String): Action to take on inactive users (disable or delete)
+* `authentication_method` (String): User authentication method for the rule
+* `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
@@ -142,9 +142,9 @@ userLifecycleRule.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - User Lifecycle Rule ID.
-* `action` (String): Required - Action to take on inactive users (disable or delete)
-* `authentication_method` (String): Required - User authentication method for the rule
-* `inactivity_days` (Long): Required - Number of days of inactivity before the rule applies
+* `action` (String): Action to take on inactive users (disable or delete)
+* `authentication_method` (String): User authentication method for the rule
+* `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)

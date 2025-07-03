@@ -181,9 +181,9 @@ public class UserLifecycleRule implements ModelInterface {
 
   /**
   * Parameters:
-  *   action (required) - string - Action to take on inactive users (disable or delete)
-  *   authentication_method (required) - string - User authentication method for the rule
-  *   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+  *   action - string - Action to take on inactive users (disable or delete)
+  *   authentication_method - string - User authentication method for the rule
+  *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -309,9 +309,9 @@ public class UserLifecycleRule implements ModelInterface {
 
   /**
   * Parameters:
-  *   action (required) - string - Action to take on inactive users (disable or delete)
-  *   authentication_method (required) - string - User authentication method for the rule
-  *   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+  *   action - string - Action to take on inactive users (disable or delete)
+  *   authentication_method - string - User authentication method for the rule
+  *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -330,15 +330,6 @@ public class UserLifecycleRule implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (!parameters.containsKey("action") || parameters.get("action") == null) {
-      throw new NullPointerException("Parameter missing: action parameters[\"action\"]");
-    }
-    if (!parameters.containsKey("authentication_method") || parameters.get("authentication_method") == null) {
-      throw new NullPointerException("Parameter missing: authentication_method parameters[\"authentication_method\"]");
-    }
-    if (!parameters.containsKey("inactivity_days") || parameters.get("inactivity_days") == null) {
-      throw new NullPointerException("Parameter missing: inactivity_days parameters[\"inactivity_days\"]");
-    }
 
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
@@ -369,9 +360,9 @@ public class UserLifecycleRule implements ModelInterface {
 
   /**
   * Parameters:
-  *   action (required) - string - Action to take on inactive users (disable or delete)
-  *   authentication_method (required) - string - User authentication method for the rule
-  *   inactivity_days (required) - int64 - Number of days of inactivity before the rule applies
+  *   action - string - Action to take on inactive users (disable or delete)
+  *   authentication_method - string - User authentication method for the rule
+  *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
@@ -399,15 +390,6 @@ public class UserLifecycleRule implements ModelInterface {
 
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("action") || parameters.get("action") == null) {
-      throw new NullPointerException("Parameter missing: action parameters[\"action\"]");
-    }
-    if (!parameters.containsKey("authentication_method") || parameters.get("authentication_method") == null) {
-      throw new NullPointerException("Parameter missing: authentication_method parameters[\"authentication_method\"]");
-    }
-    if (!parameters.containsKey("inactivity_days") || parameters.get("inactivity_days") == null) {
-      throw new NullPointerException("Parameter missing: inactivity_days parameters[\"inactivity_days\"]");
     }
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {

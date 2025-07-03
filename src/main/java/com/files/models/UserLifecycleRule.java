@@ -166,6 +166,20 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * User Lifecycle Rule name
+  */
+  @JsonProperty("name")
+  public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
   * Site ID
   */
   @JsonProperty("site_id")
@@ -187,6 +201,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   name - string - User Lifecycle Rule name
   */
   public UserLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
     return UserLifecycleRule.update(this.id, parameters, this.options);
@@ -315,6 +330,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   name - string - User Lifecycle Rule name
   */
   public static UserLifecycleRule create() throws RuntimeException {
     return create(null, null);
@@ -349,6 +365,9 @@ public class UserLifecycleRule implements ModelInterface {
     if (parameters.containsKey("user_state") && !(parameters.get("user_state") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_state must be of type String parameters[\"user_state\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
 
 
     String url = String.format("%s%s/user_lifecycle_rules", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -366,6 +385,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   name - string - User Lifecycle Rule name
   */
   public static UserLifecycleRule update() throws RuntimeException {
     return update(null, null, null);
@@ -412,6 +432,9 @@ public class UserLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("user_state") && !(parameters.get("user_state") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_state must be of type String parameters[\"user_state\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 

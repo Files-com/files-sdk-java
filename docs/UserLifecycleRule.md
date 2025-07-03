@@ -11,6 +11,7 @@
   "include_site_admins": true,
   "action": "disable",
   "user_state": "inactive",
+  "name": "password specific rules",
   "site_id": 1
 }
 ```
@@ -22,6 +23,7 @@
 * `include_site_admins` / `includeSiteAdmins`  (boolean): Include site admins in the rule
 * `action` / `action`  (string): Action to take on inactive users (disable or delete)
 * `user_state` / `userState`  (string): State of the users to apply the rule to (inactive or disabled)
+* `name` / `name`  (string): User Lifecycle Rule name
 * `site_id` / `siteId`  (int64): Site ID
 
 
@@ -80,6 +82,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
+* `name` (String): User Lifecycle Rule name
 
 
 ---
@@ -103,6 +106,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
+* `name` (String): User Lifecycle Rule name
 
 
 ---
@@ -135,6 +139,7 @@ parameters.put("inactivity_days", 12);
 parameters.put("include_site_admins", true);
 parameters.put("include_folder_admins", true);
 parameters.put("user_state", "inactive");
+parameters.put("name", "password specific rules");
 
 userLifecycleRule.update(parameters);
 ```
@@ -148,6 +153,7 @@ userLifecycleRule.update(parameters);
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
+* `name` (String): User Lifecycle Rule name
 
 
 ---

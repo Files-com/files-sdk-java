@@ -17,6 +17,7 @@ import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
+import com.files.util.UrlUtils;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -295,17 +296,8 @@ public class Lock implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/locks/%s", urlParts);
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -362,17 +354,8 @@ public class Lock implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/locks/%s", urlParts);
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<Lock> typeReference = new TypeReference<Lock>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -419,17 +402,8 @@ public class Lock implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), path};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/locks/%s", urlParts);
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

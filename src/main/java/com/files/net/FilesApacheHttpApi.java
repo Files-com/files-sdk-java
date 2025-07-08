@@ -11,7 +11,6 @@ import com.files.ListIterator;
 import com.files.exceptions.ApiErrorException;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
-import com.files.util.UrlUtils;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -81,19 +80,11 @@ public class FilesApacheHttpApi implements FilesApiInterface {
     }
   }
 
-  public FilesResponse apiRequest(String rawUrl, HttpMethods.RequestMethods requestType,
+  public FilesResponse apiRequest(String url, HttpMethods.RequestMethods requestType,
       HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     if (log.isDebugEnabled()) {
-      log.debug(String.format("Sending a %s request to %s with parameters: %s and options %s", requestType, rawUrl,
+      log.debug(String.format("Sending a %s request to %s with parameters: %s and options %s", requestType, url,
           parameters, options));
-    }
-
-    String url;
-    try {
-      url = UrlUtils.sanitizeUrl(rawUrl);
-    } catch (Exception e) {
-      // We should never get here
-      throw new RuntimeException("Invalid URL: " + rawUrl, e);
     }
 
     HttpRequestBase request;

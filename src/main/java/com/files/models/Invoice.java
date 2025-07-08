@@ -17,6 +17,7 @@ import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
+import com.files.util.UrlUtils;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -274,17 +275,8 @@ public class Invoice implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/invoices/%s", urlParts);
+    String url = String.format("%s%s/invoices/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AccountLineItem> typeReference = new TypeReference<AccountLineItem>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

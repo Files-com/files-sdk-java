@@ -17,6 +17,7 @@ import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
+import com.files.util.UrlUtils;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -300,17 +301,8 @@ public class FormFieldSet implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/form_field_sets/%s", urlParts);
+    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -428,17 +420,8 @@ public class FormFieldSet implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/form_field_sets/%s", urlParts);
+    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -477,17 +460,8 @@ public class FormFieldSet implements ModelInterface {
     }
 
 
-    String urlParts[] = {FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), String.valueOf(id)};
 
-    for (int i = 2; i < urlParts.length; i++) {
-      try {
-        urlParts[i] = new URI(null, null, urlParts[i], null).getRawPath();
-      } catch (URISyntaxException ex) {
-        // NOOP
-      }
-    }
-
-    String url = String.format("%s%s/form_field_sets/%s", urlParts);
+    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

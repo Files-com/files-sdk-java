@@ -62,23 +62,23 @@ public class UrlUtilsTest {
   }
 
   @Test
-  public void sanitizeUrl() throws MalformedURLException {
+  public void encodeUrlPath() throws MalformedURLException {
     // Some test URLs in a list, like a literal list of three urls with spaces in paths
     List<String> urls = Arrays.asList(
-        "https://example.com/path",
-        "https://example.com/path with space",
-        "https://example.com/path/with space/subdir"
+        "path",
+        "path with space",
+        "path/with space/subdir"
     );
     List<String> sanitizedUrls = Arrays.asList(
-        "https://example.com/path",
-        "https://example.com/path%20with%20space",
-        "https://example.com/path/with%20space/subdir"
+        "path",
+        "path%20with%20space",
+        "path/with%20space/subdir"
     );
     // zip the urls and iterate through them
     for (int i = 0; i < urls.size(); i++) {
       String sanitizedUrl = null;
       try {
-        sanitizedUrl = UrlUtils.sanitizeUrl(urls.get(i));
+        sanitizedUrl = UrlUtils.encodeUrlPath(urls.get(i));
       } catch (Exception e) {
         e.printStackTrace();
         fail("Sanitization failed for URL: " + urls.get(i) + " with error: " + e.getClass().getName() + " : " + e.getMessage());

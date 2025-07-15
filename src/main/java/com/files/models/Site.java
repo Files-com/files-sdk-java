@@ -1429,7 +1429,7 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * Custom site footer text
+  * Custom site footer text for authenticated pages
   */
   @JsonProperty("site_footer")
   public String siteFooter;
@@ -1439,13 +1439,33 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * Custom site header text
+  * Custom site header text for authenticated pages
   */
   @JsonProperty("site_header")
   public String siteHeader;
 
   public String getSiteHeader() {
     return siteHeader;
+  }
+
+  /**
+  * Custom site footer text for public pages
+  */
+  @JsonProperty("site_public_footer")
+  public String sitePublicFooter;
+
+  public String getSitePublicFooter() {
+    return sitePublicFooter;
+  }
+
+  /**
+  * Custom site header text for public pages
+  */
+  @JsonProperty("site_public_header")
+  public String sitePublicHeader;
+
+  public String getSitePublicHeader() {
+    return sitePublicHeader;
   }
 
   /**
@@ -1942,8 +1962,10 @@ public class Site implements ModelInterface {
   *   color2_link - string - Top bar link color
   *   color2_text - string - Page link and button color
   *   color2_top_text - string - Top bar text color
-  *   site_header - string - Custom site header text
-  *   site_footer - string - Custom site footer text
+  *   site_header - string - Custom site header text for authenticated pages
+  *   site_footer - string - Custom site footer text for authenticated pages
+  *   site_public_header - string - Custom site header text for public pages
+  *   site_public_footer - string - Custom site footer text for public pages
   *   login_help_text - string - Login help text
   *   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
   *   smtp_address - string - SMTP server hostname or IP
@@ -2365,6 +2387,12 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("site_footer") && !(parameters.get("site_footer") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: site_footer must be of type String parameters[\"site_footer\"]");
+    }
+    if (parameters.containsKey("site_public_header") && !(parameters.get("site_public_header") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: site_public_header must be of type String parameters[\"site_public_header\"]");
+    }
+    if (parameters.containsKey("site_public_footer") && !(parameters.get("site_public_footer") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: site_public_footer must be of type String parameters[\"site_public_footer\"]");
     }
     if (parameters.containsKey("login_help_text") && !(parameters.get("login_help_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: login_help_text must be of type String parameters[\"login_help_text\"]");

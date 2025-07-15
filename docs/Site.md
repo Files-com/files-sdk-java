@@ -198,6 +198,8 @@
   "show_request_access_link": true,
   "site_footer": "example",
   "site_header": "example",
+  "site_public_footer": "example",
+  "site_public_header": "example",
   "smtp_address": "smtp.my-mail-server.com",
   "smtp_authentication": "plain",
   "smtp_from": "me@my-mail-server.com",
@@ -440,8 +442,10 @@
 * `sharing_enabled` / `sharingEnabled`  (boolean): Allow bundle creation
 * `show_user_notifications_log_in_link` / `showUserNotificationsLogInLink`  (boolean): Show log in link in user notifications?
 * `show_request_access_link` / `showRequestAccessLink`  (boolean): Show request access link for users without access?  Currently unused.
-* `site_footer` / `siteFooter`  (string): Custom site footer text
-* `site_header` / `siteHeader`  (string): Custom site header text
+* `site_footer` / `siteFooter`  (string): Custom site footer text for authenticated pages
+* `site_header` / `siteHeader`  (string): Custom site header text for authenticated pages
+* `site_public_footer` / `sitePublicFooter`  (string): Custom site footer text for public pages
+* `site_public_header` / `sitePublicHeader`  (string): Custom site header text for public pages
 * `smtp_address` / `smtpAddress`  (string): SMTP server hostname or IP
 * `smtp_authentication` / `smtpAuthentication`  (string): SMTP server authentication type
 * `smtp_from` / `smtpFrom`  (string): From address to use when mailing through custom SMTP
@@ -635,8 +639,10 @@ Site site = Site.update(
 * `color2_link` (String): Top bar link color
 * `color2_text` (String): Page link and button color
 * `color2_top_text` (String): Top bar text color
-* `site_header` (String): Custom site header text
-* `site_footer` (String): Custom site footer text
+* `site_header` (String): Custom site header text for authenticated pages
+* `site_footer` (String): Custom site footer text for authenticated pages
+* `site_public_header` (String): Custom site header text for public pages
+* `site_public_footer` (String): Custom site footer text for public pages
 * `login_help_text` (String): Login help text
 * `use_dedicated_ips_for_smtp` (Boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
 * `smtp_address` (String): SMTP server hostname or IP

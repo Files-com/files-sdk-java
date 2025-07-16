@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.6.36-SNAPSHOT</version>
+    <version>1.6.20-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -35,6 +35,19 @@
     </developers>
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -67,14 +80,14 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.8.0</version>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <autoPublish>true</autoPublish>
-                    <waitUntil>published</waitUntil>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
             <plugin>
@@ -88,6 +101,15 @@
                     </activeRecipes>
                     <checkstyleConfigFile>config/checkstyle/checkstyle.xml</checkstyleConfigFile>
                 </configuration>
+                <executions>
+                    <execution>
+                    <id>validate</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -119,17 +141,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.16.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.16.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.16.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -149,17 +171,17 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.19.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.19.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.19.0</version>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>
@@ -171,7 +193,7 @@
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock-jre8</artifactId>
-            <version>2.35.1</version>
+            <version>3.0.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -216,6 +238,16 @@
             </build>
         </profile>
     </profiles>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <scm>
         <connection>scm:git:git://github.com/Files-com/files-sdk-java.git</connection>
         <developerConnection>scm:git:git@github.com:Files-com/files-sdk-java.git</developerConnection>

@@ -249,6 +249,16 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
+  * Auto update policy ['manual_trigger', 'critical_only', 'always'] (default critical_only)
+  */
+  @JsonProperty("auto_update_policy")
+  public String autoUpdatePolicy;
+
+  public String getAutoUpdatePolicy() {
+    return autoUpdatePolicy;
+  }
+
+  /**
   * Files Agent API Token
   */
   @JsonProperty("api_token")

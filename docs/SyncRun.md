@@ -8,7 +8,8 @@
   "sync_id": 1,
   "site_id": 1,
   "status": "example",
-  "remote_server_type": "example",
+  "src_remote_server_type": "example",
+  "dest_remote_server_type": "example",
   "body": "example",
   "event_errors": [
     "example"
@@ -31,7 +32,8 @@
 * `sync_id` / `syncId`  (int64): ID of the Sync this run belongs to
 * `site_id` / `siteId`  (int64): Site ID
 * `status` / `status`  (string): Status of the sync run (success, failure, partial_failure, in_progress, skipped)
-* `remote_server_type` / `remoteServerType`  (string): Type of remote server used, if any
+* `src_remote_server_type` / `srcRemoteServerType`  (string): Source remote server type, if any
+* `dest_remote_server_type` / `destRemoteServerType`  (string): Destination remote server type, if any
 * `body` / `body`  (string): Log or summary body for this run
 * `event_errors` / `eventErrors`  (array(string)): Array of errors encountered during the run
 * `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run

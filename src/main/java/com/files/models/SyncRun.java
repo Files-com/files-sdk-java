@@ -109,13 +109,23 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Type of remote server used, if any
+  * Source remote server type, if any
   */
-  @JsonProperty("remote_server_type")
-  public String remoteServerType;
+  @JsonProperty("src_remote_server_type")
+  public String srcRemoteServerType;
 
-  public String getRemoteServerType() {
-    return remoteServerType;
+  public String getSrcRemoteServerType() {
+    return srcRemoteServerType;
+  }
+
+  /**
+  * Destination remote server type, if any
+  */
+  @JsonProperty("dest_remote_server_type")
+  public String destRemoteServerType;
+
+  public String getDestRemoteServerType() {
+    return destRemoteServerType;
   }
 
   /**

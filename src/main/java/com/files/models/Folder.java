@@ -585,6 +585,8 @@ public class Folder implements ModelInterface {
   *   search_all - boolean - Search entire site?  If set, we will ignore the folder path provided and search the entire site.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
   *   with_previews - boolean - Include file previews?
   *   with_priority_color - boolean - Include file priority color information?
+  *   type - string - Type of objects to return.  Can be `folder` or `file`.
+  *   modified_at_datetime - string - If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.
   */
   public static ListIterator<File> listFor() throws RuntimeException {
     return listFor(null, null, null);
@@ -640,6 +642,12 @@ public class Folder implements ModelInterface {
     }
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
+    }
+    if (parameters.containsKey("type") && !(parameters.get("type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: type must be of type String parameters[\"type\"]");
+    }
+    if (parameters.containsKey("modified_at_datetime") && !(parameters.get("modified_at_datetime") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: modified_at_datetime must be of type String parameters[\"modified_at_datetime\"]");
     }
 
 

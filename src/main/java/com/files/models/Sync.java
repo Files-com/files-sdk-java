@@ -667,31 +667,6 @@ public class Sync implements ModelInterface {
 
 
   /**
-  */
-  public static void createMigrateTo() throws RuntimeException {
-    createMigrateTo(null, null);
-  }
-
-  public static void createMigrateTo(HashMap<String, Object> parameters) throws RuntimeException {
-    createMigrateTo(parameters, null);
-  }
-
-
-  public static void createMigrateTo(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-
-
-    String url = String.format("%s%s/syncs/migrate_to_syncs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
-  }
-
-
-  /**
   * Manually Run Sync
   */
   public static void manualRun() throws RuntimeException {

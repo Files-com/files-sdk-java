@@ -144,19 +144,6 @@ Sync sync = Sync.create(
 
 ---
 
-## Migrate Legacy Syncs to Syncs
-
-```
-void sync = Sync.createMigrateTo(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-
----
-
 ## Manually Run Sync
 
 ```

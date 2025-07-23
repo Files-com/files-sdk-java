@@ -85,9 +85,9 @@ public class FilesApiTest {
   public void handleNotFound() throws Exception {
     final String body =
         "{"
-      +   "\"type\": \"not-found/folder-not-found\","
+      +   "\"type\": \"not-found\","
       +   "\"http-code\": 404,"
-      +   "\"error\": \"Folder missing not found.\""
+      +   "\"error\": \"Not Found.  This may be related to your permissions.\""
       + "}";
 
     wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/missing"))
@@ -100,11 +100,11 @@ public class FilesApiTest {
       Folder.listFor("/missing", null).all();
       fail("Expected exception did not occur");
     } catch (RuntimeException e) {
-      assert (e instanceof ApiErrorException.FolderNotFoundException) : "Expected FolderNotFoundException, but got: " + e.getClass().getName();
-      ApiErrorException.FolderNotFoundException exception = (ApiErrorException.FolderNotFoundException)e;
-      assert ("not-found/folder-not-found".equals(exception.getType()));
+      assert (e instanceof ApiErrorException.NotFoundException) : "Expected NotFoundException, but got: " + e.getClass().getName();
+      ApiErrorException.NotFoundException exception = (ApiErrorException.NotFoundException)e;
+      assert ("not-found".equals(exception.getType()));
       assert (exception.getHttpCode() == 404);
-      assert ("Folder missing not found.".equals(exception.getError()));
+      assert ("Not Found.  This may be related to your permissions.".equals(exception.getError()));
       assert exception.getHeaders().stream()
           .anyMatch(h -> "Content-Type".equalsIgnoreCase(h.getName())
                          && "application/json; charset=utf-8".equalsIgnoreCase(h.getValue()));
@@ -175,7 +175,7 @@ public class FilesApiTest {
       assert(exception.getMessage().startsWith("Unexpected character"));
     }
   }
-  
+
   @Test
   public void handleHostnameMismatch() throws Exception {
     final String body =

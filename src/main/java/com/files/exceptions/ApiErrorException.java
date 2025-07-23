@@ -775,12 +775,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class FolderNotFoundException extends NotFoundException {
-    public FolderNotFoundException(String message, ResponseError responseError, List<Header> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class GroupNotFoundException extends NotFoundException {
     public GroupNotFoundException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

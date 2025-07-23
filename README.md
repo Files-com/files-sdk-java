@@ -608,7 +608,6 @@ RuntimeException
 |`CodeNotFoundException`|  `NotFoundException` |
 |`FileNotFoundException`|  `NotFoundException` |
 |`FileUploadNotFoundException`|  `NotFoundException` |
-|`FolderNotFoundException`|  `NotFoundException` |
 |`GroupNotFoundException`|  `NotFoundException` |
 |`InboxNotFoundException`|  `NotFoundException` |
 |`NestedNotFoundException`|  `NotFoundException` |

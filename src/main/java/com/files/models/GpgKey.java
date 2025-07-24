@@ -125,6 +125,34 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
+  * MD5 hash of your GPG public key
+  */
+  @JsonProperty("public_key_md5")
+  public String publicKeyMd5;
+
+  public String getPublicKeyMd5() {
+    return publicKeyMd5;
+  }
+
+  public void setPublicKeyMd5(String publicKeyMd5) {
+    this.publicKeyMd5 = publicKeyMd5;
+  }
+
+  /**
+  * MD5 hash of your GPG private key.
+  */
+  @JsonProperty("private_key_md5")
+  public String privateKeyMd5;
+
+  public String getPrivateKeyMd5() {
+    return privateKeyMd5;
+  }
+
+  public void setPrivateKeyMd5(String privateKeyMd5) {
+    this.privateKeyMd5 = privateKeyMd5;
+  }
+
+  /**
   * Your GPG public key
   */
   @JsonProperty("public_key")
@@ -224,8 +252,8 @@ public class GpgKey implements ModelInterface {
 
   /**
   * Parameters:
-  *   public_key - string - Your GPG public key
-  *   private_key - string - Your GPG private key.
+  *   public_key - string - MD5 hash of your GPG public key
+  *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name - string - Your GPG key name.
   */
@@ -350,8 +378,8 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   public_key - string - Your GPG public key
-  *   private_key - string - Your GPG private key.
+  *   public_key - string - MD5 hash of your GPG public key
+  *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name (required) - string - Your GPG key name.
   *   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -415,8 +443,8 @@ public class GpgKey implements ModelInterface {
 
   /**
   * Parameters:
-  *   public_key - string - Your GPG public key
-  *   private_key - string - Your GPG private key.
+  *   public_key - string - MD5 hash of your GPG public key
+  *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
   *   name - string - Your GPG key name.
   */

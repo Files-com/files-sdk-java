@@ -79,6 +79,26 @@ public class UserCipherUse implements ModelInterface {
   }
 
   /**
+  * ID of the user who performed this access
+  */
+  @JsonProperty("user_id")
+  public Long userId;
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  /**
+  * Username of the user who performed this access
+  */
+  @JsonProperty("username")
+  public String username;
+
+  public String getUsername() {
+    return username;
+  }
+
+  /**
   * The protocol and cipher employed
   */
   @JsonProperty("protocol_cipher")
@@ -126,16 +146,6 @@ public class UserCipherUse implements ModelInterface {
 
   public Date getUpdatedAt() {
     return updatedAt;
-  }
-
-  /**
-  * ID of the user who performed this access
-  */
-  @JsonProperty("user_id")
-  public Long userId;
-
-  public Long getUserId() {
-    return userId;
   }
 
 

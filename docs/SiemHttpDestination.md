@@ -66,11 +66,11 @@
 * `sending_active` / `sendingActive`  (boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` / `genericPayloadType`  (string): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `splunk_token_masked` / `splunkTokenMasked`  (string): Applicable only for destination type: splunk. Authentication token provided by Splunk.
-* `azure_dcr_immutable_id` / `azureDcrImmutableId`  (string): Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+* `azure_dcr_immutable_id` / `azureDcrImmutableId`  (string): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` / `azureStreamName`  (string): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` / `azureOauthClientCredentialsTenantId`  (string): Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` / `azureOauthClientCredentialsClientId`  (string): Applicable only for destination type: azure. Client Credentials OAuth Client ID.
-* `azure_oauth_client_credentials_client_secret_masked` / `azureOauthClientCredentialsClientSecretMasked`  (string): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+* `azure_oauth_client_credentials_tenant_id` / `azureOauthClientCredentialsTenantId`  (string): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` / `azureOauthClientCredentialsClientId`  (string): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_client_secret_masked` / `azureOauthClientCredentialsClientSecretMasked`  (string): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client Secret.
 * `qradar_username` / `qradarUsername`  (string): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
 * `qradar_password_masked` / `qradarPasswordMasked`  (string): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
 * `solar_winds_token_masked` / `solarWindsTokenMasked`  (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
@@ -169,10 +169,10 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
-* `azure_dcr_immutable_id` (String): Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
 * `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
 * `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
 * `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -216,10 +216,10 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
-* `azure_dcr_immutable_id` (String): Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
 * `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
 * `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
 * `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -259,10 +259,10 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
-* `azure_dcr_immutable_id` (String): Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
 * `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
 * `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
 * `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -343,10 +343,10 @@ siemHttpDestination.update(parameters);
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
-* `azure_dcr_immutable_id` (String): Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
 * `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
 * `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
 * `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.

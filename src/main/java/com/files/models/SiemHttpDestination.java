@@ -181,7 +181,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+  * Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   */
   @JsonProperty("azure_dcr_immutable_id")
   public String azureDcrImmutableId;
@@ -209,7 +209,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
+  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
   */
   @JsonProperty("azure_oauth_client_credentials_tenant_id")
   public String azureOauthClientCredentialsTenantId;
@@ -223,7 +223,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
   */
   @JsonProperty("azure_oauth_client_credentials_client_id")
   public String azureOauthClientCredentialsClientId;
@@ -237,7 +237,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client Secret.
   */
   @JsonProperty("azure_oauth_client_credentials_client_secret_masked")
   public String azureOauthClientCredentialsClientSecretMasked;
@@ -845,10 +845,10 @@ public class SiemHttpDestination implements ModelInterface {
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
-  *   azure_dcr_immutable_id - string - Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -986,10 +986,10 @@ public class SiemHttpDestination implements ModelInterface {
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
-  *   azure_dcr_immutable_id - string - Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -1134,10 +1134,10 @@ public class SiemHttpDestination implements ModelInterface {
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
-  *   azure_dcr_immutable_id - string - Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
@@ -1273,10 +1273,10 @@ public class SiemHttpDestination implements ModelInterface {
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
-  *   azure_dcr_immutable_id - string - Applicable only for destination type: azure. Immutable ID of the Data Collection Rule.
+  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination type: azure. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination type: azure. Client Credentials OAuth Client ID.
+  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.

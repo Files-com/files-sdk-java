@@ -413,6 +413,74 @@ try {
 }
 ```
 
+## Paths
+
+Working with paths in Files.com involves several important considerations. Understanding how path comparisons are applied helps developers ensure consistency and accuracy across all interactions with the platform.
+<div></div>
+
+### Capitalization
+
+Files.com compares paths in a **case-insensitive** manner. This means path segments are treated as equivalent regardless of letter casing.
+
+For example, all of the following resolve to the same internal path:
+
+| Path Variant                          | Interpreted As              |
+|---------------------------------------|------------------------------|
+| `Documents/Reports/Q1.pdf`            | `documents/reports/q1.pdf`  |
+| `documents/reports/q1.PDF`            | `documents/reports/q1.pdf`  |
+| `DOCUMENTS/REPORTS/Q1.PDF`            | `documents/reports/q1.pdf`  |
+
+This behavior applies across:
+- API requests
+- Folder and file lookup operations
+- Automations and workflows
+
+See also: [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/case-sensitivity/)
+
+The `PathUtils.isSame` function in the Files.com SDK is designed to help you determine if two paths on
+your native file system would be considered the same on Files.com. This is particularly important
+when handling errors related to duplicate file names and when developing tools for folder
+synchronization.
+
+```java title="Compare Case-Insensitive Files and Paths"
+import com.files.util.PathUtils;
+
+if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
+    System.out.println("Paths are the same");
+}
+```
+
+### Slashes
+
+All path parameters in Files.com (API, SDKs, CLI, automations, integrations) must **omit leading and trailing slashes**. Paths are always treated as **absolute and slash-delimited**, so only internal `/` separators are used and never at the start or end of the string.
+
+####  Path Slash Examples
+| Path                              | Valid? | Notes                         |
+|-----------------------------------|--------|-------------------------------|
+| `folder/subfolder/file.txt`       |   ✅   | Correct, internal separators only |
+| `/folder/subfolder/file.txt`      |   ❌   | Leading slash not allowed     |
+| `folder/subfolder/file.txt/`      |   ❌   | Trailing slash not allowed    |
+| `//folder//file.txt`              |   ❌   | Duplicate separators not allowed |
+
+<div></div>
+
+### Unicode Normalization
+
+Files.com normalizes all paths using [Unicode NFC (Normalization Form C)](https://www.unicode.org/reports/tr15/#Norm_Forms) before comparison. This ensures consistency across different representations of the same characters.
+
+For example, the following two paths are treated as equivalent after NFC normalization:
+
+| Input                                  | Normalized Form       |
+|----------------------------------------|------------------------|
+| `uploads/\u0065\u0301.txt`             | `uploads/é.txt`        |
+| `docs/Café/Report.txt`                 | `docs/Café/Report.txt` |
+
+- All input must be UTF‑8 encoded.
+- Precomposed and decomposed characters are unified.
+- This affects search, deduplication, and comparisons across SDKs.
+
+<div></div>
+
 ## Foreign Language Support
 
 The Files.com Java SDK supports localized responses by using the `FilesClient.language` configuration attribute.
@@ -754,23 +822,6 @@ try {
   System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 } catch (SdkException e) {
   System.out.println("Unknown Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
-}
-```
-
-## Case Sensitivity
-
-The Files.com API compares files and paths in a case-insensitive manner. For related documentation see [Case Sensitivity Documentation](https://www.files.com/docs/files-and-folders/file-system-semantics/case-sensitivity).
-
-The `PathUtils.isSame` function in the Files.com SDK is designed to help you determine if two paths on
-your native file system would be considered the same on Files.com. This is particularly important
-when handling errors related to duplicate file names and when developing tools for folder
-synchronization.
-
-```java title="Compare Case-Insensitive Files and Paths"
-import com.files.util.PathUtils;
-
-if (PathUtils.isSame("Fïłèńämê.Txt", "filename.txt")) {
-    System.out.println("Paths are the same");
 }
 ```
 

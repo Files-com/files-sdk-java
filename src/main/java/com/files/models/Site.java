@@ -1778,6 +1778,16 @@ public class Site implements ModelInterface {
     return groupAdminsCanSetUserPassword;
   }
 
+  /**
+  * List of site settings managed by the parent site
+  */
+  @JsonProperty("managed_site_settings")
+  public String[] managedSiteSettings;
+
+  public String[] getManagedSiteSettings() {
+    return managedSiteSettings;
+  }
+
 
   /**
   */

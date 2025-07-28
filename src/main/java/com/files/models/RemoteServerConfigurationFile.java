@@ -249,7 +249,7 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Auto update policy ['manual_trigger', 'critical_only', 'always'] (default critical_only)
+  * Auto update policy ['manual_trigger', 'critical_only', 'always', 'never'] (default critical_only)
   */
   @JsonProperty("auto_update_policy")
   public String autoUpdatePolicy;

@@ -149,16 +149,6 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Total bytes synced in this run
-  */
-  @JsonProperty("bytes_synced")
-  public Long bytesSynced;
-
-  public Long getBytesSynced() {
-    return bytesSynced;
-  }
-
-  /**
   * Number of files compared
   */
   @JsonProperty("compared_files")
@@ -239,6 +229,36 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
+  * Whether this run was a dry run (no actual changes made)
+  */
+  @JsonProperty("dry_run")
+  public Boolean dryRun;
+
+  public Boolean getDryRun() {
+    return dryRun;
+  }
+
+  /**
+  * Total bytes synced in this run
+  */
+  @JsonProperty("bytes_synced")
+  public Long bytesSynced;
+
+  public Long getBytesSynced() {
+    return bytesSynced;
+  }
+
+  /**
+  * Estimated bytes count for this run
+  */
+  @JsonProperty("estimated_bytes_count")
+  public Long estimatedBytesCount;
+
+  public Long getEstimatedBytesCount() {
+    return estimatedBytesCount;
+  }
+
+  /**
   * When this run was created
   */
   @JsonProperty("created_at")
@@ -264,9 +284,8 @@ public class SyncRun implements ModelInterface {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `sync_id`, `created_at` or `status`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `sync_id`. Valid field combinations are `[ sync_id, status ]`.
-  *   sync_id (required) - int64 - ID of the Sync this run belongs to
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `sync_id` or `created_at`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `dry_run` or `sync_id`. Valid field combinations are `[ sync_id, status ]`.
   */
   public static ListIterator<SyncRun> list() throws RuntimeException {
     return list(null, null);
@@ -282,9 +301,6 @@ public class SyncRun implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (!parameters.containsKey("sync_id") || parameters.get("sync_id") == null) {
-      throw new NullPointerException("Parameter missing: sync_id parameters[\"sync_id\"]");
-    }
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
@@ -300,9 +316,6 @@ public class SyncRun implements ModelInterface {
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("sync_id") && !(parameters.get("sync_id") instanceof Long || parameters.get("sync_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: sync_id must be of type Long or Integer parameters[\"sync_id\"]");
     }
 
 

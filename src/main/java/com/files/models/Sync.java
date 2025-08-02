@@ -425,6 +425,27 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * The latest run of this sync
+  */
+  @JsonProperty("latest_sync_run")
+  public SyncRun latestSyncRun;
+
+  public SyncRun getLatestSyncRun() {
+    return latestSyncRun;
+  }
+
+  public void setLatestSyncRun(SyncRun latestSyncRun) {
+    this.latestSyncRun = latestSyncRun;
+  }
+
+  /**
+  * Dry Run Sync
+  */
+  public void dryRun(HashMap<String, Object> parameters) throws IOException {
+    Sync.dryRun(this.id, parameters, this.options);
+  }
+
+  /**
   * Manually Run Sync
   */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
@@ -663,6 +684,46 @@ public class Sync implements ModelInterface {
 
     TypeReference<Sync> typeReference = new TypeReference<Sync>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Dry Run Sync
+  */
+  public static void dryRun() throws RuntimeException {
+    dryRun(null, null, null);
+  }
+
+  public static void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    dryRun(id, parameters, null);
+  }
+
+  public static void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    dryRun(null, parameters, options);
+  }
+
+  public static void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/syncs/%s/dry_run", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 

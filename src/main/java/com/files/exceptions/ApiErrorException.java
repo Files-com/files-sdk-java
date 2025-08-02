@@ -619,6 +619,18 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class MoverAccessDeniedException extends NotAuthorizedException {
+    public MoverAccessDeniedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class MoverPackageRequiredException extends NotAuthorizedException {
+    public MoverPackageRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class MustAuthenticateWithApiKeyException extends NotAuthorizedException {
     public MustAuthenticateWithApiKeyException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -643,6 +655,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class NotEnqueuableSyncException extends NotAuthorizedException {
+    public NotEnqueuableSyncException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class PasswordChangeNotRequiredException extends NotAuthorizedException {
     public PasswordChangeNotRequiredException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -651,6 +669,12 @@ public class ApiErrorException extends SdkException {
 
   public static class PasswordChangeRequiredException extends NotAuthorizedException {
     public PasswordChangeRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class PaymentMethodErrorException extends NotAuthorizedException {
+    public PaymentMethodErrorException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }
@@ -1059,6 +1083,12 @@ public class ApiErrorException extends SdkException {
 
   public static class SubfolderLockedException extends ProcessingFailureException {
     public SubfolderLockedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SyncInProgressException extends ProcessingFailureException {
+    public SyncInProgressException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

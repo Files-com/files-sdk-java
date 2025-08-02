@@ -14,7 +14,6 @@
   "event_errors": [
     "example"
   ],
-  "bytes_synced": 1,
   "compared_files": 1,
   "compared_folders": 1,
   "errored_files": 1,
@@ -23,6 +22,9 @@
   "log_url": "https://www.example.com/log_file.txt",
   "completed_at": "2000-01-01T01:00:00Z",
   "notified": true,
+  "dry_run": true,
+  "bytes_synced": 1,
+  "estimated_bytes_count": 1,
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -36,7 +38,6 @@
 * `dest_remote_server_type` / `destRemoteServerType`  (string): Destination remote server type, if any
 * `body` / `body`  (string): Log or summary body for this run
 * `event_errors` / `eventErrors`  (array(string)): Array of errors encountered during the run
-* `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run
 * `compared_files` / `comparedFiles`  (int64): Number of files compared
 * `compared_folders` / `comparedFolders`  (int64): Number of folders compared
 * `errored_files` / `erroredFiles`  (int64): Number of files that errored
@@ -45,6 +46,9 @@
 * `log_url` / `logUrl`  (string): Link to external log file.
 * `completed_at` / `completedAt`  (date-time): When this run was completed
 * `notified` / `notified`  (boolean): Whether notifications were sent for this run
+* `dry_run` / `dryRun`  (boolean): Whether this run was a dry run (no actual changes made)
+* `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run
+* `estimated_bytes_count` / `estimatedBytesCount`  (int64): Estimated bytes count for this run
 * `created_at` / `createdAt`  (date-time): When this run was created
 * `updated_at` / `updatedAt`  (date-time): When this run was last updated
 
@@ -66,9 +70,8 @@ ListIterator<SyncRun> syncRun = SyncRun.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `sync_id`, `created_at` or `status`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `sync_id`. Valid field combinations are `[ sync_id, status ]`.
-* `sync_id` (Long): Required - ID of the Sync this run belongs to
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `sync_id` or `created_at`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `dry_run` or `sync_id`. Valid field combinations are `[ sync_id, status ]`.
 
 
 ---

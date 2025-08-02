@@ -69,6 +69,16 @@ public class InvoiceLineItem implements ModelInterface {
 
 
   /**
+  * Invoice Line item Id
+  */
+  @JsonProperty("id")
+  public Long id;
+
+  public Long getId() {
+    return id;
+  }
+
+  /**
   * Invoice line item amount
   */
   @JsonProperty("amount")

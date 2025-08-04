@@ -841,6 +841,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class AgentUnavailableException extends ProcessingFailureException {
+    public AgentUnavailableException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class AlreadyCompletedException extends ProcessingFailureException {
     public AlreadyCompletedException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -1179,12 +1185,6 @@ public class ApiErrorException extends SdkException {
 
   public static class ServiceUnavailableException extends ApiErrorException {
     public ServiceUnavailableException(String message, ResponseError responseError, List<Header> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
-  public static class AgentUnavailableException extends ServiceUnavailableException {
-    public AgentUnavailableException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

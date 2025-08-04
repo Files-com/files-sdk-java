@@ -686,6 +686,7 @@ RuntimeException
 |`PlanNotFoundException`|  `NotFoundException` |
 |`SiteNotFoundException`|  `NotFoundException` |
 |`UserNotFoundException`|  `NotFoundException` |
+|`AgentUnavailableException`|  `ProcessingFailureException` |
 |`AlreadyCompletedException`|  `ProcessingFailureException` |
 |`AutomationCannotBeRunManuallyException`|  `ProcessingFailureException` |
 |`BehaviorNotAllowedOnRemoteServerException`|  `ProcessingFailureException` |
@@ -741,7 +742,6 @@ RuntimeException
 |`TooManyLoginAttemptsException`|  `RateLimitedException` |
 |`TooManyRequestsException`|  `RateLimitedException` |
 |`TooManySharesException`|  `RateLimitedException` |
-|`AgentUnavailableException`|  `ServiceUnavailableException` |
 |`AutomationsUnavailableException`|  `ServiceUnavailableException` |
 |`MigrationInProgressException`|  `ServiceUnavailableException` |
 |`SiteDisabledException`|  `ServiceUnavailableException` |

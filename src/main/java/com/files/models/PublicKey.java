@@ -165,29 +165,29 @@ public class PublicKey implements ModelInterface {
   /**
   * Only returned when generating keys. Private key generated for the user.
   */
-  @JsonProperty("private_key")
-  public String privateKey;
+  @JsonProperty("generated_private_key")
+  public String generatedPrivateKey;
 
-  public String getPrivateKey() {
-    return privateKey;
+  public String getGeneratedPrivateKey() {
+    return generatedPrivateKey;
   }
 
-  public void setPrivateKey(String privateKey) {
-    this.privateKey = privateKey;
+  public void setGeneratedPrivateKey(String generatedPrivateKey) {
+    this.generatedPrivateKey = generatedPrivateKey;
   }
 
   /**
   * Only returned when generating keys. Public key generated for the user.
   */
-  @JsonProperty("public_key")
-  public String publicKey;
+  @JsonProperty("generated_public_key")
+  public String generatedPublicKey;
 
-  public String getPublicKey() {
-    return publicKey;
+  public String getGeneratedPublicKey() {
+    return generatedPublicKey;
   }
 
-  public void setPublicKey(String publicKey) {
-    this.publicKey = publicKey;
+  public void setGeneratedPublicKey(String generatedPublicKey) {
+    this.generatedPublicKey = generatedPublicKey;
   }
 
   /**
@@ -216,6 +216,20 @@ public class PublicKey implements ModelInterface {
 
   public void setUserId(Long userId) {
     this.userId = userId;
+  }
+
+  /**
+  * Actual contents of SSH key.
+  */
+  @JsonProperty("public_key")
+  public String publicKey;
+
+  public String getPublicKey() {
+    return publicKey;
+  }
+
+  public void setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
   }
 
   /**

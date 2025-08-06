@@ -155,6 +155,48 @@ public class GpgKey implements ModelInterface {
   /**
   * Your GPG public key
   */
+  @JsonProperty("generated_public_key")
+  public String generatedPublicKey;
+
+  public String getGeneratedPublicKey() {
+    return generatedPublicKey;
+  }
+
+  public void setGeneratedPublicKey(String generatedPublicKey) {
+    this.generatedPublicKey = generatedPublicKey;
+  }
+
+  /**
+  * Your GPG private key.
+  */
+  @JsonProperty("generated_private_key")
+  public String generatedPrivateKey;
+
+  public String getGeneratedPrivateKey() {
+    return generatedPrivateKey;
+  }
+
+  public void setGeneratedPrivateKey(String generatedPrivateKey) {
+    this.generatedPrivateKey = generatedPrivateKey;
+  }
+
+  /**
+  * Your GPG private key password. Only required for password protected keys.
+  */
+  @JsonProperty("private_key_password_md5")
+  public String privateKeyPasswordMd5;
+
+  public String getPrivateKeyPasswordMd5() {
+    return privateKeyPasswordMd5;
+  }
+
+  public void setPrivateKeyPasswordMd5(String privateKeyPasswordMd5) {
+    this.privateKeyPasswordMd5 = privateKeyPasswordMd5;
+  }
+
+  /**
+  * MD5 hash of your GPG public key
+  */
   @JsonProperty("public_key")
   public String publicKey;
 
@@ -167,7 +209,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG private key.
+  * MD5 hash of your GPG private key.
   */
   @JsonProperty("private_key")
   public String privateKey;

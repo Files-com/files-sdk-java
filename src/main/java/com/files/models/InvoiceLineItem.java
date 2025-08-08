@@ -158,5 +158,45 @@ public class InvoiceLineItem implements ModelInterface {
     return site;
   }
 
+  /**
+  * Prepaid bytes purchased for this invoice line item
+  */
+  @JsonProperty("prepaid_bytes")
+  public Long prepaidBytes;
+
+  public Long getPrepaidBytes() {
+    return prepaidBytes;
+  }
+
+  /**
+  * When the prepaid bytes expire
+  */
+  @JsonProperty("prepaid_bytes_expire_at")
+  public Date prepaidBytesExpireAt;
+
+  public Date getPrepaidBytesExpireAt() {
+    return prepaidBytesExpireAt;
+  }
+
+  /**
+  * Total prepaid bytes used for this invoice line item
+  */
+  @JsonProperty("prepaid_bytes_used")
+  public Long prepaidBytesUsed;
+
+  public Long getPrepaidBytesUsed() {
+    return prepaidBytesUsed;
+  }
+
+  /**
+  * Available prepaid bytes for this invoice line item
+  */
+  @JsonProperty("prepaid_bytes_avaliable")
+  public Long prepaidBytesAvaliable;
+
+  public Long getPrepaidBytesAvaliable() {
+    return prepaidBytesAvaliable;
+  }
+
 
 }

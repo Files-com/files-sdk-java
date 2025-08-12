@@ -191,11 +191,11 @@ public class InvoiceLineItem implements ModelInterface {
   /**
   * Available prepaid bytes for this invoice line item
   */
-  @JsonProperty("prepaid_bytes_avaliable")
-  public Long prepaidBytesAvaliable;
+  @JsonProperty("prepaid_bytes_available")
+  public Long prepaidBytesAvailable;
 
-  public Long getPrepaidBytesAvaliable() {
-    return prepaidBytesAvaliable;
+  public Long getPrepaidBytesAvailable() {
+    return prepaidBytesAvailable;
   }
 
 

@@ -1129,6 +1129,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+  */
+  @JsonProperty("clear_2fa")
+  public Boolean clear2fa;
+
+  public Boolean getClear2fa() {
+    return clear2fa;
+  }
+
+  public void setClear2fa(Boolean clear2fa) {
+    this.clear2fa = clear2fa;
+  }
+
+  /**
   * Unlock user who has been locked out due to failed logins
   */
   public void unlock(HashMap<String, Object> parameters) throws IOException {
@@ -1198,6 +1212,7 @@ public class User implements ModelInterface {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
+  *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   */
   public User update(HashMap<String, Object> parameters) throws IOException {
     return User.update(this.id, parameters, this.options);
@@ -1738,6 +1753,7 @@ public class User implements ModelInterface {
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
+  *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   */
   public static User update() throws RuntimeException {
     return update(null, null, null);
@@ -1907,6 +1923,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
+    }
+    if (parameters.containsKey("clear_2fa") && !(parameters.get("clear_2fa") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: clear_2fa must be of type Boolean parameters[\"clear_2fa\"]");
     }
 
 

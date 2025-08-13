@@ -151,6 +151,7 @@
 * `password` / `password`  (string): User password.
 * `password_confirmation` / `passwordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` / `announcementsRead`  (boolean): Signifies that the user has read all the announcements in the UI.
+* `clear_2fa` / `clear2fa`  (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---
@@ -374,6 +375,7 @@ User user = User.update(
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
+* `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---
@@ -493,6 +495,7 @@ parameters.put("time_zone", "Pacific Time (US & Canada)");
 parameters.put("user_root", "example");
 parameters.put("user_home", "example");
 parameters.put("username", "user");
+parameters.put("clear_2fa", false);
 
 user.update(parameters);
 ```
@@ -547,6 +550,7 @@ user.update(parameters);
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
+* `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 
 
 ---

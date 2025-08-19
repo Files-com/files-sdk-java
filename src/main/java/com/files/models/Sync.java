@@ -460,7 +460,6 @@ public class Sync implements ModelInterface {
   *   dest_path - string - Absolute destination path
   *   src_remote_server_id - int64 - Remote server ID for the source
   *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   two_way - boolean - Is this a two-way sync?
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
@@ -592,7 +591,6 @@ public class Sync implements ModelInterface {
   *   dest_path - string - Absolute destination path
   *   src_remote_server_id - int64 - Remote server ID for the source
   *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   two_way - boolean - Is this a two-way sync?
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
@@ -638,9 +636,6 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("dest_remote_server_id") && !(parameters.get("dest_remote_server_id") instanceof Long || parameters.get("dest_remote_server_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: dest_remote_server_id must be of type Long or Integer parameters[\"dest_remote_server_id\"]");
-    }
-    if (parameters.containsKey("two_way") && !(parameters.get("two_way") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: two_way must be of type Boolean parameters[\"two_way\"]");
     }
     if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");
@@ -775,7 +770,6 @@ public class Sync implements ModelInterface {
   *   dest_path - string - Absolute destination path
   *   src_remote_server_id - int64 - Remote server ID for the source
   *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   two_way - boolean - Is this a two-way sync?
   *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
   *   disabled - boolean - Is this sync disabled?
@@ -834,9 +828,6 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("dest_remote_server_id") && !(parameters.get("dest_remote_server_id") instanceof Long || parameters.get("dest_remote_server_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: dest_remote_server_id must be of type Long or Integer parameters[\"dest_remote_server_id\"]");
-    }
-    if (parameters.containsKey("two_way") && !(parameters.get("two_way") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: two_way must be of type Boolean parameters[\"two_way\"]");
     }
     if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");

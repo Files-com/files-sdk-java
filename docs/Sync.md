@@ -153,7 +153,6 @@ Sync sync = Sync.create(
 * `dest_path` (String): Absolute destination path
 * `src_remote_server_id` (Long): Remote server ID for the source
 * `dest_remote_server_id` (Long): Remote server ID for the destination
-* `two_way` (Boolean): Is this a two-way sync?
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `delete_empty_folders` (Boolean): Delete empty folders after sync?
 * `disabled` (Boolean): Is this sync disabled?
@@ -223,7 +222,6 @@ Sync sync = Sync.update(
 * `dest_path` (String): Absolute destination path
 * `src_remote_server_id` (Long): Remote server ID for the source
 * `dest_remote_server_id` (Long): Remote server ID for the destination
-* `two_way` (Boolean): Is this a two-way sync?
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `delete_empty_folders` (Boolean): Delete empty folders after sync?
 * `disabled` (Boolean): Is this sync disabled?
@@ -303,7 +301,6 @@ parameters.put("src_path", "example");
 parameters.put("dest_path", "example");
 parameters.put("src_remote_server_id", 1);
 parameters.put("dest_remote_server_id", 1);
-parameters.put("two_way", false);
 parameters.put("keep_after_copy", false);
 parameters.put("delete_empty_folders", false);
 parameters.put("disabled", false);
@@ -329,7 +326,6 @@ sync.update(parameters);
 * `dest_path` (String): Absolute destination path
 * `src_remote_server_id` (Long): Remote server ID for the source
 * `dest_remote_server_id` (Long): Remote server ID for the destination
-* `two_way` (Boolean): Is this a two-way sync?
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `delete_empty_folders` (Boolean): Delete empty folders after sync?
 * `disabled` (Boolean): Is this sync disabled?

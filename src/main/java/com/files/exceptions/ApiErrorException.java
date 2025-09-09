@@ -1045,8 +1045,8 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class MetadataNotSupportedOnRemotesErrorException extends ProcessingFailureException {
-    public MetadataNotSupportedOnRemotesErrorException(String message, ResponseError responseError, List<Header> headers) {
+  public static class MetadataNotSupportedOnRemotesException extends ProcessingFailureException {
+    public MetadataNotSupportedOnRemotesException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

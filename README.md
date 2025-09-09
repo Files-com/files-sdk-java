@@ -720,6 +720,7 @@ RuntimeException
 |`InvalidPriorityColorException`|  `ProcessingFailureException` |
 |`InvalidRangeException`|  `ProcessingFailureException` |
 |`InvalidSiteException`|  `ProcessingFailureException` |
+|`MetadataNotSupportedOnRemotesErrorException`|  `ProcessingFailureException` |
 |`ModelSaveErrorException`|  `ProcessingFailureException` |
 |`MultipleProcessingErrorsException`|  `ProcessingFailureException` |
 |`PathTooLongException`|  `ProcessingFailureException` |

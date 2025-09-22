@@ -125,6 +125,20 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
+  * Array of recent health check results.
+  */
+  @JsonProperty("health_check_results")
+  public Object[] healthCheckResults;
+
+  public Object[] getHealthCheckResults() {
+    return healthCheckResults;
+  }
+
+  public void setHealthCheckResults(Object[] healthCheckResults) {
+    this.healthCheckResults = healthCheckResults;
+  }
+
+  /**
   * Type of health check to perform.
   */
   @JsonProperty("health_check_type")

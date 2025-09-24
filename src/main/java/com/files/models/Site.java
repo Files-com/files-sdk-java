@@ -1059,6 +1059,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * List of site settings managed by the parent site
+  */
+  @JsonProperty("managed_site_settings")
+  public Map<String, String> managedSiteSettings;
+
+  public Map<String, String> getManagedSiteSettings() {
+    return managedSiteSettings;
+  }
+
+  /**
   * A message to show users when they connect via FTP or SFTP.
   */
   @JsonProperty("motd_text")
@@ -1776,16 +1786,6 @@ public class Site implements ModelInterface {
 
   public Boolean getGroupAdminsCanSetUserPassword() {
     return groupAdminsCanSetUserPassword;
-  }
-
-  /**
-  * List of site settings managed by the parent site
-  */
-  @JsonProperty("managed_site_settings")
-  public String[] managedSiteSettings;
-
-  public String[] getManagedSiteSettings() {
-    return managedSiteSettings;
   }
 
 

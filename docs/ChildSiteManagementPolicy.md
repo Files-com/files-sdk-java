@@ -5,21 +5,32 @@
 ```
 {
   "id": 1,
-  "site_id": 1,
-  "site_setting_name": "color2_left",
-  "managed_value": "#FF0000",
+  "policy_type": "settings",
+  "name": "example",
+  "description": "example",
+  "value": "{ \"color2_left\": \"#000000\" }",
+  "applied_child_site_ids": [
+    1,
+    2
+  ],
   "skip_child_site_ids": [
     1,
-    5
-  ]
+    2
+  ],
+  "created_at": "2000-01-01T01:00:00Z",
+  "updated_at": "2000-01-01T01:00:00Z"
 }
 ```
 
-* `id` / `id`  (int64): ChildSiteManagementPolicy ID
-* `site_id` / `siteId`  (int64): ID of the Site managing the policy
-* `site_setting_name` / `siteSettingName`  (string): The name of the setting that is managed by the policy
-* `managed_value` / `managedValue`  (string): The value for the setting that will be enforced for all child sites that are not exempt
-* `skip_child_site_ids` / `skipChildSiteIds`  (array(int64)): The list of child site IDs that are exempt from this policy
+* `id` / `id`  (int64): Policy ID.
+* `policy_type` / `policyType`  (string): Type of policy.  Valid values: `settings`.
+* `name` / `name`  (string): Name for this policy.
+* `description` / `description`  (string): Description for this policy.
+* `value` / `value`  (object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+* `applied_child_site_ids` / `appliedChildSiteIds`  (array(int64)): IDs of child sites that this policy has been applied to. This field is read-only.
+* `skip_child_site_ids` / `skipChildSiteIds`  (array(int64)): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `created_at` / `createdAt`  (date-time): When this policy was created.
+* `updated_at` / `updatedAt`  (date-time): When this policy was last updated.
 
 
 ---
@@ -71,9 +82,11 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 
 ### Parameters
 
-* `site_setting_name` (String): Required - The name of the setting that is managed by the policy
-* `managed_value` (String): Required - The value for the setting that will be enforced for all child sites that are not exempt
-* `skip_child_site_ids` (Long[]): The list of child site IDs that are exempt from this policy
+* `value` (String): 
+* `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `policy_type` (String): Required - Type of policy.  Valid values: `settings`.
+* `name` (String): Name for this policy.
+* `description` (String): Description for this policy.
 
 
 ---
@@ -91,9 +104,11 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 ### Parameters
 
 * `id` (Long): Required - Child Site Management Policy ID.
-* `site_setting_name` (String): Required - The name of the setting that is managed by the policy
-* `managed_value` (String): Required - The value for the setting that will be enforced for all child sites that are not exempt
-* `skip_child_site_ids` (Long[]): The list of child site IDs that are exempt from this policy
+* `value` (String): 
+* `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `policy_type` (String): Type of policy.  Valid values: `settings`.
+* `name` (String): Name for this policy.
+* `description` (String): Description for this policy.
 
 
 ---
@@ -121,9 +136,11 @@ void childSiteManagementPolicy = ChildSiteManagementPolicy.delete(
 ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("site_setting_name", "color2_left");
-parameters.put("managed_value", "#FF0000");
-parameters.put("skip_child_site_ids", [1,5]);
+parameters.put("value", "{ \"color2_left\": \"#000000\" }");
+parameters.put("skip_child_site_ids", [1,2]);
+parameters.put("policy_type", "settings");
+parameters.put("name", "example");
+parameters.put("description", "example");
 
 childSiteManagementPolicy.update(parameters);
 ```
@@ -131,9 +148,11 @@ childSiteManagementPolicy.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Child Site Management Policy ID.
-* `site_setting_name` (String): Required - The name of the setting that is managed by the policy
-* `managed_value` (String): Required - The value for the setting that will be enforced for all child sites that are not exempt
-* `skip_child_site_ids` (Long[]): The list of child site IDs that are exempt from this policy
+* `value` (String): 
+* `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+* `policy_type` (String): Type of policy.  Valid values: `settings`.
+* `name` (String): Name for this policy.
+* `description` (String): Description for this policy.
 
 
 ---

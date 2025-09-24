@@ -130,6 +130,7 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "max_prior_passwords": 1,
+  "managed_site_settings": "example",
   "motd_text": "example",
   "motd_use_for_ftp": true,
   "motd_use_for_sftp": true,
@@ -300,10 +301,7 @@
   "welcome_email_enabled": true,
   "welcome_screen": "user_controlled",
   "windows_mode_ftp": true,
-  "group_admins_can_set_user_password": true,
-  "managed_site_settings": [
-    "example"
-  ]
+  "group_admins_can_set_user_password": true
 }
 ```
 
@@ -406,6 +404,7 @@
 * `logo` / `logo`  (image): Branded logo
 * `login_page_background_image` / `loginPageBackgroundImage`  (image): Branded login page background
 * `max_prior_passwords` / `maxPriorPasswords`  (int64): Number of prior passwords to disallow
+* `managed_site_settings` / `managedSiteSettings`  (object): List of site settings managed by the parent site
 * `motd_text` / `motdText`  (string): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` / `motdUseForFtp`  (boolean): Show message to users connecting via FTP
 * `motd_use_for_sftp` / `motdUseForSftp`  (boolean): Show message to users connecting via SFTP
@@ -478,7 +477,6 @@
 * `welcome_screen` / `welcomeScreen`  (string): Does the welcome screen appear?
 * `windows_mode_ftp` / `windowsModeFtp`  (boolean): Does FTP user Windows emulation mode?
 * `group_admins_can_set_user_password` / `groupAdminsCanSetUserPassword`  (boolean): Allow group admins set password authentication method
-* `managed_site_settings` / `managedSiteSettings`  (array(string)): List of site settings managed by the parent site
 
 
 ---

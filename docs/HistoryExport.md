@@ -37,7 +37,7 @@
 * `start_at` / `startAt`  (date-time): Start date/time of export range.
 * `end_at` / `endAt`  (date-time): End date/time of export range.
 * `status` / `status`  (string): Status of export.  Will be: `building`, `ready`, or `failed`
-* `query_action` / `queryAction`  (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
+* `query_action` / `queryAction`  (string): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
 * `query_interface` / `queryInterface`  (string): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
 * `query_user_id` / `queryUserId`  (string): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` / `queryFileId`  (string): Return results that are file actions related to the file indicated by this File ID
@@ -94,7 +94,7 @@ HistoryExport historyExport = HistoryExport.create(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `start_at` (String): Start date/time of export range.
 * `end_at` (String): End date/time of export range.
-* `query_action` (String): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`
+* `query_action` (String): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
 * `query_interface` (String): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`
 * `query_user_id` (String): Return results that are actions performed by the user indicated by this User ID
 * `query_file_id` (String): Return results that are file actions related to the file indicated by this File ID

@@ -69,7 +69,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
   /**
-  * ChildSiteManagementPolicy ID
+  * Policy ID.
   */
   @JsonProperty("id")
   public Long id;
@@ -83,49 +83,77 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * ID of the Site managing the policy
+  * Type of policy.  Valid values: `settings`.
   */
-  @JsonProperty("site_id")
-  public Long siteId;
+  @JsonProperty("policy_type")
+  public String policyType;
 
-  public Long getSiteId() {
-    return siteId;
+  public String getPolicyType() {
+    return policyType;
   }
 
-  public void setSiteId(Long siteId) {
-    this.siteId = siteId;
+  public void setPolicyType(String policyType) {
+    this.policyType = policyType;
   }
 
   /**
-  * The name of the setting that is managed by the policy
+  * Name for this policy.
   */
-  @JsonProperty("site_setting_name")
-  public String siteSettingName;
+  @JsonProperty("name")
+  public String name;
 
-  public String getSiteSettingName() {
-    return siteSettingName;
+  public String getName() {
+    return name;
   }
 
-  public void setSiteSettingName(String siteSettingName) {
-    this.siteSettingName = siteSettingName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
-  * The value for the setting that will be enforced for all child sites that are not exempt
+  * Description for this policy.
   */
-  @JsonProperty("managed_value")
-  public String managedValue;
+  @JsonProperty("description")
+  public String description;
 
-  public String getManagedValue() {
-    return managedValue;
+  public String getDescription() {
+    return description;
   }
 
-  public void setManagedValue(String managedValue) {
-    this.managedValue = managedValue;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   /**
-  * The list of child site IDs that are exempt from this policy
+  * Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+  */
+  @JsonProperty("value")
+  public Map<String, String> value;
+
+  public Map<String, String> getValue() {
+    return value;
+  }
+
+  public void setValue(Map<String, String> value) {
+    this.value = value;
+  }
+
+  /**
+  * IDs of child sites that this policy has been applied to. This field is read-only.
+  */
+  @JsonProperty("applied_child_site_ids")
+  public Long[] appliedChildSiteIds;
+
+  public Long[] getAppliedChildSiteIds() {
+    return appliedChildSiteIds;
+  }
+
+  public void setAppliedChildSiteIds(Long[] appliedChildSiteIds) {
+    this.appliedChildSiteIds = appliedChildSiteIds;
+  }
+
+  /**
+  * IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
   */
   @JsonProperty("skip_child_site_ids")
   public Long[] skipChildSiteIds;
@@ -139,10 +167,32 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
+  * When this policy was created.
+  */
+  @JsonProperty("created_at")
+  public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  /**
+  * When this policy was last updated.
+  */
+  @JsonProperty("updated_at")
+  public Date updatedAt;
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  /**
   * Parameters:
-  *   site_setting_name (required) - string - The name of the setting that is managed by the policy
-  *   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-  *   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+  *   value - string
+  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   policy_type - string - Type of policy.  Valid values: `settings`.
+  *   name - string - Name for this policy.
+  *   description - string - Description for this policy.
   */
   public ChildSiteManagementPolicy update(HashMap<String, Object> parameters) throws IOException {
     return ChildSiteManagementPolicy.update(this.id, parameters, this.options);
@@ -256,9 +306,11 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   /**
   * Parameters:
-  *   site_setting_name (required) - string - The name of the setting that is managed by the policy
-  *   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-  *   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+  *   value - string
+  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
+  *   name - string - Name for this policy.
+  *   description - string - Description for this policy.
   */
   public static ChildSiteManagementPolicy create() throws RuntimeException {
     return create(null, null);
@@ -274,21 +326,24 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (!parameters.containsKey("site_setting_name") || parameters.get("site_setting_name") == null) {
-      throw new NullPointerException("Parameter missing: site_setting_name parameters[\"site_setting_name\"]");
-    }
-    if (!parameters.containsKey("managed_value") || parameters.get("managed_value") == null) {
-      throw new NullPointerException("Parameter missing: managed_value parameters[\"managed_value\"]");
+    if (!parameters.containsKey("policy_type") || parameters.get("policy_type") == null) {
+      throw new NullPointerException("Parameter missing: policy_type parameters[\"policy_type\"]");
     }
 
-    if (parameters.containsKey("site_setting_name") && !(parameters.get("site_setting_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: site_setting_name must be of type String parameters[\"site_setting_name\"]");
-    }
-    if (parameters.containsKey("managed_value") && !(parameters.get("managed_value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: managed_value must be of type String parameters[\"managed_value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
+    }
+    if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
 
@@ -301,9 +356,11 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   /**
   * Parameters:
-  *   site_setting_name (required) - string - The name of the setting that is managed by the policy
-  *   managed_value (required) - string - The value for the setting that will be enforced for all child sites that are not exempt
-  *   skip_child_site_ids - array(int64) - The list of child site IDs that are exempt from this policy
+  *   value - string
+  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   policy_type - string - Type of policy.  Valid values: `settings`.
+  *   name - string - Name for this policy.
+  *   description - string - Description for this policy.
   */
   public static ChildSiteManagementPolicy update() throws RuntimeException {
     return update(null, null, null);
@@ -329,24 +386,24 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     if (id == null) {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
-    if (!parameters.containsKey("site_setting_name") || parameters.get("site_setting_name") == null) {
-      throw new NullPointerException("Parameter missing: site_setting_name parameters[\"site_setting_name\"]");
-    }
-    if (!parameters.containsKey("managed_value") || parameters.get("managed_value") == null) {
-      throw new NullPointerException("Parameter missing: managed_value parameters[\"managed_value\"]");
-    }
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("site_setting_name") && !(parameters.get("site_setting_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: site_setting_name must be of type String parameters[\"site_setting_name\"]");
-    }
-    if (parameters.containsKey("managed_value") && !(parameters.get("managed_value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: managed_value must be of type String parameters[\"managed_value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
+    }
+    if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
 
 

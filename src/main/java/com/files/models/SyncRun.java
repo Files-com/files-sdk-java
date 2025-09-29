@@ -219,16 +219,6 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Whether notifications were sent for this run
-  */
-  @JsonProperty("notified")
-  public Boolean notified;
-
-  public Boolean getNotified() {
-    return notified;
-  }
-
-  /**
   * Whether this run was a dry run (no actual changes made)
   */
   @JsonProperty("dry_run")

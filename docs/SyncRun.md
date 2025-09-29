@@ -21,7 +21,6 @@
   "runtime": 1.0,
   "log_url": "https://www.example.com/log_file.txt",
   "completed_at": "2000-01-01T01:00:00Z",
-  "notified": true,
   "dry_run": true,
   "bytes_synced": 1,
   "estimated_bytes_count": 1,
@@ -45,7 +44,6 @@
 * `runtime` / `runtime`  (double): Total runtime in seconds
 * `log_url` / `logUrl`  (string): Link to external log file.
 * `completed_at` / `completedAt`  (date-time): When this run was completed
-* `notified` / `notified`  (boolean): Whether notifications were sent for this run
 * `dry_run` / `dryRun`  (boolean): Whether this run was a dry run (no actual changes made)
 * `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run
 * `estimated_bytes_count` / `estimatedBytesCount`  (int64): Estimated bytes count for this run

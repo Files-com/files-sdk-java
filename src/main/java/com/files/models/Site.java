@@ -229,6 +229,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Number of days to retain AS2 messages (incoming and outgoing).
+  */
+  @JsonProperty("as2_message_retention_days")
+  public Long as2MessageRetentionDays;
+
+  public Long getAs2MessageRetentionDays() {
+    return as2MessageRetentionDays;
+  }
+
+  /**
   * If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
   */
   @JsonProperty("ask_about_overwrites")
@@ -1886,6 +1896,7 @@ public class Site implements ModelInterface {
   *   calculate_file_checksums_sha256 - boolean - Calculate SHA256 checksums for files?
   *   legacy_checksums_mode - boolean - Use legacy checksums mode?
   *   migrate_remote_server_sync_to_sync - boolean - If true, we will migrate all remote server syncs to the new Sync model.
+  *   as2_message_retention_days - int64 - Number of days to retain AS2 messages (incoming and outgoing).
   *   session_expiry - double - Session expiry in hours
   *   ssl_required - boolean - Is SSL required?  Disabling this is insecure.
   *   sftp_insecure_ciphers - boolean - If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
@@ -2152,6 +2163,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("migrate_remote_server_sync_to_sync") && !(parameters.get("migrate_remote_server_sync_to_sync") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: migrate_remote_server_sync_to_sync must be of type Boolean parameters[\"migrate_remote_server_sync_to_sync\"]");
+    }
+    if (parameters.containsKey("as2_message_retention_days") && !(parameters.get("as2_message_retention_days") instanceof Long || parameters.get("as2_message_retention_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: as2_message_retention_days must be of type Long or Integer parameters[\"as2_message_retention_days\"]");
     }
     if (parameters.containsKey("session_expiry") && !(parameters.get("session_expiry") instanceof Double)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry must be of type Double parameters[\"session_expiry\"]");

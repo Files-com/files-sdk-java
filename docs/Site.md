@@ -22,6 +22,7 @@
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
   "always_mkdir_parents": true,
+  "as2_message_retention_days": 1,
   "ask_about_overwrites": true,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
@@ -321,6 +322,7 @@
 * `allowed_countries` / `allowedCountries`  (string): Comma separated list of allowed Country codes
 * `allowed_ips` / `allowedIps`  (string): List of allowed IP addresses
 * `always_mkdir_parents` / `alwaysMkdirParents`  (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
+* `as2_message_retention_days` / `as2MessageRetentionDays`  (int64): Number of days to retain AS2 messages (incoming and outgoing).
 * `ask_about_overwrites` / `askAboutOverwrites`  (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` / `bundleActivityNotifications`  (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
@@ -562,6 +564,7 @@ Site site = Site.update(
 * `calculate_file_checksums_sha256` (Boolean): Calculate SHA256 checksums for files?
 * `legacy_checksums_mode` (Boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` (Boolean): If true, we will migrate all remote server syncs to the new Sync model.
+* `as2_message_retention_days` (Long): Number of days to retain AS2 messages (incoming and outgoing).
 * `session_expiry` (Double): Session expiry in hours
 * `ssl_required` (Boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.

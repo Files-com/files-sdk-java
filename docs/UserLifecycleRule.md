@@ -6,6 +6,11 @@
 {
   "id": 1,
   "authentication_method": "password",
+  "group_ids": [
+    1,
+    2,
+    3
+  ],
   "inactivity_days": 12,
   "include_folder_admins": true,
   "include_site_admins": true,
@@ -18,6 +23,7 @@
 
 * `id` / `id`  (int64): User Lifecycle Rule ID
 * `authentication_method` / `authenticationMethod`  (string): User authentication method for the rule
+* `group_ids` / `groupIds`  (array(int64)): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies
 * `include_folder_admins` / `includeFolderAdmins`  (boolean): Include folder admins in the rule
 * `include_site_admins` / `includeSiteAdmins`  (boolean): Include site admins in the rule
@@ -78,6 +84,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 
 * `action` (String): Action to take on inactive users (disable or delete)
 * `authentication_method` (String): User authentication method for the rule
+* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
@@ -102,6 +109,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
 * `authentication_method` (String): User authentication method for the rule
+* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule
@@ -135,6 +143,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("authentication_method", "password");
+parameters.put("group_ids", [1,2,3]);
 parameters.put("inactivity_days", 12);
 parameters.put("include_site_admins", true);
 parameters.put("include_folder_admins", true);
@@ -149,6 +158,7 @@ userLifecycleRule.update(parameters);
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
 * `authentication_method` (String): User authentication method for the rule
+* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): Include site admins in the rule
 * `include_folder_admins` (Boolean): Include folder admins in the rule

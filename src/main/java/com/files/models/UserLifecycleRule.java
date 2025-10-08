@@ -97,6 +97,20 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
+  */
+  @JsonProperty("group_ids")
+  public Long[] groupIds;
+
+  public Long[] getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(Long[] groupIds) {
+    this.groupIds = groupIds;
+  }
+
+  /**
   * Number of days of inactivity before the rule applies
   */
   @JsonProperty("inactivity_days")
@@ -198,6 +212,7 @@ public class UserLifecycleRule implements ModelInterface {
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
   *   authentication_method - string - User authentication method for the rule
+  *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
@@ -318,6 +333,7 @@ public class UserLifecycleRule implements ModelInterface {
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
   *   authentication_method - string - User authentication method for the rule
+  *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
@@ -344,6 +360,9 @@ public class UserLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("authentication_method") && !(parameters.get("authentication_method") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: authentication_method must be of type String parameters[\"authentication_method\"]");
+    }
+    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: group_ids must be of type Long[] parameters[\"group_ids\"]");
     }
     if (parameters.containsKey("inactivity_days") && !(parameters.get("inactivity_days") instanceof Long || parameters.get("inactivity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: inactivity_days must be of type Long or Integer parameters[\"inactivity_days\"]");
@@ -373,6 +392,7 @@ public class UserLifecycleRule implements ModelInterface {
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
   *   authentication_method - string - User authentication method for the rule
+  *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
   *   include_site_admins - boolean - Include site admins in the rule
   *   include_folder_admins - boolean - Include folder admins in the rule
@@ -412,6 +432,9 @@ public class UserLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("authentication_method") && !(parameters.get("authentication_method") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: authentication_method must be of type String parameters[\"authentication_method\"]");
+    }
+    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: group_ids must be of type Long[] parameters[\"group_ids\"]");
     }
     if (parameters.containsKey("inactivity_days") && !(parameters.get("inactivity_days") instanceof Long || parameters.get("inactivity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: inactivity_days must be of type Long or Integer parameters[\"inactivity_days\"]");

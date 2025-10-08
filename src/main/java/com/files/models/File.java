@@ -712,6 +712,20 @@ public class File implements ModelInterface {
   }
 
   /**
+  * If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+  */
+  @JsonProperty("buffered_upload")
+  public Boolean bufferedUpload;
+
+  public Boolean getBufferedUpload() {
+    return bufferedUpload;
+  }
+
+  public void setBufferedUpload(Boolean bufferedUpload) {
+    this.bufferedUpload = bufferedUpload;
+  }
+
+  /**
   * Download File
   *
   * Parameters:
@@ -865,6 +879,7 @@ public class File implements ModelInterface {
   *   size - int64 - Size of file.
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
+  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
   */
   public static FileUploadPart create() throws RuntimeException {
     return create(null, null, null);
@@ -929,6 +944,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
+    }
+    if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
     }
 
     if (!parameters.containsKey("action")) {

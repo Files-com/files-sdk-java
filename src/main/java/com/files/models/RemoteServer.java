@@ -167,6 +167,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
+  */
+  @JsonProperty("buffer_uploads_always")
+  public Boolean bufferUploadsAlways;
+
+  public Boolean getBufferUploadsAlways() {
+    return bufferUploadsAlways;
+  }
+
+  public void setBufferUploadsAlways(Boolean bufferUploadsAlways) {
+    this.bufferUploadsAlways = bufferUploadsAlways;
+  }
+
+  /**
   * Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
   */
   @JsonProperty("max_connections")
@@ -1155,6 +1169,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1387,6 +1402,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1525,6 +1541,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("backblaze_b2_s3_endpoint") && !(parameters.get("backblaze_b2_s3_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: backblaze_b2_s3_endpoint must be of type String parameters[\"backblaze_b2_s3_endpoint\"]");
+    }
+    if (parameters.containsKey("buffer_uploads_always") && !(parameters.get("buffer_uploads_always") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: buffer_uploads_always must be of type Boolean parameters[\"buffer_uploads_always\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
@@ -1761,6 +1780,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
+  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1912,6 +1932,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("backblaze_b2_s3_endpoint") && !(parameters.get("backblaze_b2_s3_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: backblaze_b2_s3_endpoint must be of type String parameters[\"backblaze_b2_s3_endpoint\"]");
+    }
+    if (parameters.containsKey("buffer_uploads_always") && !(parameters.get("buffer_uploads_always") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: buffer_uploads_always must be of type Boolean parameters[\"buffer_uploads_always\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");

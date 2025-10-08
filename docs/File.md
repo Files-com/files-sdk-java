@@ -94,6 +94,7 @@
 * `restart` / `restart`  (int64): File byte offset to restart from.
 * `structure` / `structure`  (string): If copying folder, copy just the structure?
 * `with_rename` / `withRename`  (boolean): Allow file rename instead of overwrite?
+* `buffered_upload` / `bufferedUpload`  (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---
@@ -145,6 +146,7 @@ FileUploadPart file = File.create(
 * `size` (Long): Size of file.
 * `structure` (String): If copying folder, copy just the structure?
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---

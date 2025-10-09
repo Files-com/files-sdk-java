@@ -10,6 +10,9 @@
   "created_at": "2000-01-01T01:00:00Z",
   "expires_at": "2000-01-01T01:00:00Z",
   "key": "[key]",
+  "aws_style_credentials": true,
+  "aws_access_key_id": "[aws_access_key_id]",
+  "aws_secret_key": "[aws_secret_key]",
   "last_use_at": "2000-01-01T01:00:00Z",
   "name": "My Main API Key",
   "permission_set": "full",
@@ -25,6 +28,9 @@
 * `created_at` / `createdAt`  (date-time): Time which API Key was created
 * `expires_at` / `expiresAt`  (date-time): API Key expiration date
 * `key` / `key`  (string): API Key actual key string
+* `aws_style_credentials` / `awsStyleCredentials`  (boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+* `aws_access_key_id` / `awsAccessKeyId`  (string): AWS Access Key ID to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+* `aws_secret_key` / `awsSecretKey`  (string): AWS Secret Key to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `last_use_at` / `lastUseAt`  (date-time): API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
 * `name` / `name`  (string): Internal name for the API Key.  For your use.
 * `permission_set` / `permissionSet`  (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
@@ -108,6 +114,7 @@ ApiKey apiKey = ApiKey.create(
 * `expires_at` (String): API Key expiration date
 * `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Required - Internal name for the API Key.  For your use.
+* `aws_style_credentials` (Boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `path` (String): Folder path restriction for `office_integration` permission set API keys.
 
 

@@ -149,6 +149,48 @@ public class ApiKey implements ModelInterface {
   }
 
   /**
+  * If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+  */
+  @JsonProperty("aws_style_credentials")
+  public Boolean awsStyleCredentials;
+
+  public Boolean getAwsStyleCredentials() {
+    return awsStyleCredentials;
+  }
+
+  public void setAwsStyleCredentials(Boolean awsStyleCredentials) {
+    this.awsStyleCredentials = awsStyleCredentials;
+  }
+
+  /**
+  * AWS Access Key ID to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+  */
+  @JsonProperty("aws_access_key_id")
+  public String awsAccessKeyId;
+
+  public String getAwsAccessKeyId() {
+    return awsAccessKeyId;
+  }
+
+  public void setAwsAccessKeyId(String awsAccessKeyId) {
+    this.awsAccessKeyId = awsAccessKeyId;
+  }
+
+  /**
+  * AWS Secret Key to use with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
+  */
+  @JsonProperty("aws_secret_key")
+  public String awsSecretKey;
+
+  public String getAwsSecretKey() {
+    return awsSecretKey;
+  }
+
+  public void setAwsSecretKey(String awsSecretKey) {
+    this.awsSecretKey = awsSecretKey;
+  }
+
+  /**
   * API Key last used - note this value is only updated once per 3 hour period, so the 'actual' time of last use may be up to 3 hours later than this timestamp.
   */
   @JsonProperty("last_use_at")
@@ -424,6 +466,7 @@ public class ApiKey implements ModelInterface {
   *   expires_at - string - API Key expiration date
   *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name (required) - string - Internal name for the API Key.  For your use.
+  *   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
   *   path - string - Folder path restriction for `office_integration` permission set API keys.
   */
   public static ApiKey create() throws RuntimeException {
@@ -458,6 +501,9 @@ public class ApiKey implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("aws_style_credentials") && !(parameters.get("aws_style_credentials") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: aws_style_credentials must be of type Boolean parameters[\"aws_style_credentials\"]");
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");

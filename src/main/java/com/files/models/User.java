@@ -625,6 +625,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Is this user a Partner administrator?
+  */
+  @JsonProperty("partner_admin")
+  public Boolean partnerAdmin;
+
+  public Boolean getPartnerAdmin() {
+    return partnerAdmin;
+  }
+
+  public void setPartnerAdmin(Boolean partnerAdmin) {
+    this.partnerAdmin = partnerAdmin;
+  }
+
+  /**
   * Partner ID if this user belongs to a Partner
   */
   @JsonProperty("partner_id")

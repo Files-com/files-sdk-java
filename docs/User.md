@@ -249,6 +249,7 @@ User user = User.create(
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -366,6 +367,7 @@ User user = User.update(
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -488,6 +490,7 @@ parameters.put("name", "John Doe");
 parameters.put("company", "ACME Corp.");
 parameters.put("notes", "Internal notes on this user.");
 parameters.put("office_integration_enabled", true);
+parameters.put("partner_admin", true);
 parameters.put("partner_id", 1);
 parameters.put("password_validity_days", 1);
 parameters.put("readonly_site_admin", true);
@@ -545,6 +548,7 @@ user.update(parameters);
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?

@@ -1237,6 +1237,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -1442,6 +1443,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -1569,6 +1571,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
+    }
+    if (parameters.containsKey("partner_admin") && !(parameters.get("partner_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: partner_admin must be of type Boolean parameters[\"partner_admin\"]");
     }
     if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
@@ -1788,6 +1793,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
@@ -1926,6 +1932,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
+    }
+    if (parameters.containsKey("partner_admin") && !(parameters.get("partner_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: partner_admin must be of type Boolean parameters[\"partner_admin\"]");
     }
     if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");

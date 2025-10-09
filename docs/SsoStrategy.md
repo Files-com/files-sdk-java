@@ -20,7 +20,7 @@
   "scim_username": "example",
   "scim_oauth_access_token": "example",
   "scim_oauth_access_token_expires_at": "example",
-  "subdomain": "my-site",
+  "subdomain": "",
   "provision_users": true,
   "provision_groups": true,
   "deprovision_users": true,
@@ -41,6 +41,7 @@
   "provision_time_zone": "Eastern Time (US & Canada)",
   "provision_company": "ACME Corp.",
   "provision_require_2fa": "always_require",
+  "provision_filesystem_layout": "integration_centric",
   "provider_identifier": "",
   "ldap_base_dn": "example",
   "ldap_domain": "mysite.com",
@@ -71,7 +72,7 @@
 * `scim_username` / `scimUsername`  (string): SCIM username.
 * `scim_oauth_access_token` / `scimOauthAccessToken`  (string): SCIM OAuth Access Token.
 * `scim_oauth_access_token_expires_at` / `scimOauthAccessTokenExpiresAt`  (string): SCIM OAuth Access Token Expiration Time.
-* `subdomain` / `subdomain`  (string): Subdomain
+* `subdomain` / `subdomain`  (string): Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
 * `provision_users` / `provisionUsers`  (boolean): Auto-provision users?
 * `provision_groups` / `provisionGroups`  (boolean): Auto-provision group membership based on group memberships on the SSO side?
 * `deprovision_users` / `deprovisionUsers`  (boolean): Auto-deprovision users?
@@ -92,6 +93,7 @@
 * `provision_time_zone` / `provisionTimeZone`  (string): Default time zone for auto provisioned users.
 * `provision_company` / `provisionCompany`  (string): Default company for auto provisioned users.
 * `provision_require_2fa` / `provisionRequire2fa`  (string): 2FA required setting for auto provisioned users.
+* `provision_filesystem_layout` / `provisionFilesystemLayout`  (string): File System layout to use for auto provisioned users.
 * `provider_identifier` / `providerIdentifier`  (string): URL-friendly, unique identifier for Azure SAML configuration
 * `ldap_base_dn` / `ldapBaseDn`  (string): Base DN for looking up users in LDAP server
 * `ldap_domain` / `ldapDomain`  (string): Domain name that will be appended to LDAP usernames

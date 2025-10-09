@@ -317,6 +317,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * File system layout
+  */
+  @JsonProperty("filesystem_layout")
+  public String filesystemLayout;
+
+  public String getFilesystemLayout() {
+    return filesystemLayout;
+  }
+
+  public void setFilesystemLayout(String filesystemLayout) {
+    this.filesystemLayout = filesystemLayout;
+  }
+
+  /**
   * User's first login time
   */
   @JsonProperty("first_login_at")
@@ -1186,6 +1200,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+  *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
   *   language - string - Preferred language
@@ -1389,6 +1404,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+  *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
   *   language - string - Preferred language
@@ -1496,6 +1512,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
+    }
+    if (parameters.containsKey("filesystem_layout") && !(parameters.get("filesystem_layout") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: filesystem_layout must be of type String parameters[\"filesystem_layout\"]");
     }
     if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
@@ -1727,6 +1746,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+  *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
   *   language - string - Preferred language
@@ -1845,6 +1865,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
+    }
+    if (parameters.containsKey("filesystem_layout") && !(parameters.get("filesystem_layout") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: filesystem_layout must be of type String parameters[\"filesystem_layout\"]");
     }
     if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");

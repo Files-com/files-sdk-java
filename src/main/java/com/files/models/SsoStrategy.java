@@ -229,7 +229,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Subdomain
+  * Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
   */
   @JsonProperty("subdomain")
   public String subdomain;
@@ -435,6 +435,16 @@ public class SsoStrategy implements ModelInterface {
 
   public String getProvisionRequire2fa() {
     return provisionRequire2fa;
+  }
+
+  /**
+  * File System layout to use for auto provisioned users.
+  */
+  @JsonProperty("provision_filesystem_layout")
+  public String provisionFilesystemLayout;
+
+  public String getProvisionFilesystemLayout() {
+    return provisionFilesystemLayout;
   }
 
   /**

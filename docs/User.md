@@ -24,6 +24,7 @@
   "disabled": true,
   "disabled_expired_or_inactive": true,
   "email": "john.doe@files.com",
+  "filesystem_layout": "site_root",
   "first_login_at": "2000-01-01T01:00:00Z",
   "ftp_permission": true,
   "group_ids": "example",
@@ -93,6 +94,7 @@
 * `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `disabled_expired_or_inactive` / `disabledExpiredOrInactive`  (boolean): Computed property that returns true if user disabled or expired or inactive.
 * `email` / `email`  (email): User email address
+* `filesystem_layout` / `filesystemLayout`  (string): File system layout
 * `first_login_at` / `firstLoginAt`  (date-time): User's first login time
 * `ftp_permission` / `ftpPermission`  (boolean): Can the user access with FTP/FTPS?
 * `group_ids` / `groupIds`  (string): Comma-separated list of group IDs of which this user is a member
@@ -234,6 +236,7 @@ User user = User.create(
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language
@@ -349,6 +352,7 @@ User user = User.update(
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language
@@ -469,6 +473,7 @@ parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("disabled", true);
+parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
 parameters.put("header_text", "User-specific message.");
 parameters.put("language", "en");
@@ -524,6 +529,7 @@ user.update(parameters);
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
 * `language` (String): Preferred language

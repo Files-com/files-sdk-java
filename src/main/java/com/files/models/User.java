@@ -625,6 +625,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Partner ID if this user belongs to a Partner
+  */
+  @JsonProperty("partner_id")
+  public Long partnerId;
+
+  public Long getPartnerId() {
+    return partnerId;
+  }
+
+  public void setPartnerId(Long partnerId) {
+    this.partnerId = partnerId;
+  }
+
+  /**
   * Last time the user's password was set
   */
   @JsonProperty("password_set_at")
@@ -1209,6 +1223,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -1413,6 +1428,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -1539,6 +1555,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
@@ -1755,6 +1774,7 @@ public class User implements ModelInterface {
   *   company - string - User's company
   *   notes - string - Any internal notes on the user
   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+  *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -1892,6 +1912,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");

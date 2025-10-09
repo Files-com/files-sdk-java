@@ -46,6 +46,7 @@
   "notes": "Internal notes on this user.",
   "notification_daily_send_time": 18,
   "office_integration_enabled": true,
+  "partner_id": 1,
   "password_set_at": "2000-01-01T01:00:00Z",
   "password_validity_days": 1,
   "public_keys_count": 1,
@@ -116,6 +117,7 @@
 * `notes` / `notes`  (string): Any internal notes on the user
 * `notification_daily_send_time` / `notificationDailySendTime`  (int64): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `office_integration_enabled` / `officeIntegrationEnabled`  (boolean): Enable integration with Office for the web?
+* `partner_id` / `partnerId`  (int64): Partner ID if this user belongs to a Partner
 * `password_set_at` / `passwordSetAt`  (date-time): Last time the user's password was set
 * `password_validity_days` / `passwordValidityDays`  (int64): Number of days to allow user to use the same password
 * `public_keys_count` / `publicKeysCount`  (int64): Number of public keys associated with this user
@@ -245,6 +247,7 @@ User user = User.create(
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -361,6 +364,7 @@ User user = User.update(
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
@@ -482,6 +486,7 @@ parameters.put("name", "John Doe");
 parameters.put("company", "ACME Corp.");
 parameters.put("notes", "Internal notes on this user.");
 parameters.put("office_integration_enabled", true);
+parameters.put("partner_id", 1);
 parameters.put("password_validity_days", 1);
 parameters.put("readonly_site_admin", true);
 parameters.put("receive_admin_alerts", true);
@@ -538,6 +543,7 @@ user.update(parameters);
 * `company` (String): User's company
 * `notes` (String): Any internal notes on the user
 * `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?

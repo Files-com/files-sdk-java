@@ -153,6 +153,20 @@ public class Permission implements ModelInterface {
   }
 
   /**
+  * Partner ID (if applicable)
+  */
+  @JsonProperty("partner_id")
+  public Long partnerId;
+
+  public Long getPartnerId() {
+    return partnerId;
+  }
+
+  public void setPartnerId(Long partnerId) {
+    this.partnerId = partnerId;
+  }
+
+  /**
   * Permission type.  See the table referenced in the documentation for an explanation of each permission.
   */
   @JsonProperty("permission")
@@ -213,12 +227,13 @@ public class Permission implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path`, `user_id` or `id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ user_id, path ]`, `[ user_id, group_id ]` or `[ user_id, group_id, path ]`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path`, `user_id`, `partner_id` or `id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id`, `partner_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ partner_id, path ]`, `[ user_id, path ]`, `[ user_id, group_id ]`, `[ user_id, group_id, path ]`, `[ user_id, group_id, partner_id ]` or `[ user_id, group_id, partner_id, path ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   *   path - string - Permission path.  If provided, will scope all permissions(including upward) to this path.
   *   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
   *   group_id - string
+  *   partner_id - string
   *   user_id - string
   */
   public static ListIterator<Permission> list() throws RuntimeException {
@@ -260,6 +275,9 @@ public class Permission implements ModelInterface {
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type String parameters[\"group_id\"]");
     }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type String parameters[\"partner_id\"]");
+    }
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type String parameters[\"user_id\"]");
     }
@@ -285,6 +303,7 @@ public class Permission implements ModelInterface {
   *   group_id - int64 - Group ID. Provide `group_name` or `group_id`
   *   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
   *   recursive - boolean - Apply to subfolders recursively?
+  *   partner_id - int64 - Partner ID if this Permission belongs to a partner.
   *   user_id - int64 - User ID.  Provide `username` or `user_id`
   *   username - string - User username.  Provide `username` or `user_id`
   *   group_name - string - Group name.  Provide `group_name` or `group_id`
@@ -319,6 +338,9 @@ public class Permission implements ModelInterface {
     }
     if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");

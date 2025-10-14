@@ -79,56 +79,6 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * ID of the Sync this run belongs to
-  */
-  @JsonProperty("sync_id")
-  public Long syncId;
-
-  public Long getSyncId() {
-    return syncId;
-  }
-
-  /**
-  * Site ID
-  */
-  @JsonProperty("site_id")
-  public Long siteId;
-
-  public Long getSiteId() {
-    return siteId;
-  }
-
-  /**
-  * Status of the sync run (success, failure, partial_failure, in_progress, skipped)
-  */
-  @JsonProperty("status")
-  public String status;
-
-  public String getStatus() {
-    return status;
-  }
-
-  /**
-  * Source remote server type, if any
-  */
-  @JsonProperty("src_remote_server_type")
-  public String srcRemoteServerType;
-
-  public String getSrcRemoteServerType() {
-    return srcRemoteServerType;
-  }
-
-  /**
-  * Destination remote server type, if any
-  */
-  @JsonProperty("dest_remote_server_type")
-  public String destRemoteServerType;
-
-  public String getDestRemoteServerType() {
-    return destRemoteServerType;
-  }
-
-  /**
   * Log or summary body for this run
   */
   @JsonProperty("body")
@@ -139,13 +89,13 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Array of errors encountered during the run
+  * Total bytes synced in this run
   */
-  @JsonProperty("event_errors")
-  public String[] eventErrors;
+  @JsonProperty("bytes_synced")
+  public Long bytesSynced;
 
-  public String[] getEventErrors() {
-    return eventErrors;
+  public Long getBytesSynced() {
+    return bytesSynced;
   }
 
   /**
@@ -169,46 +119,6 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Number of files that errored
-  */
-  @JsonProperty("errored_files")
-  public Long erroredFiles;
-
-  public Long getErroredFiles() {
-    return erroredFiles;
-  }
-
-  /**
-  * Number of files successfully synced
-  */
-  @JsonProperty("successful_files")
-  public Long successfulFiles;
-
-  public Long getSuccessfulFiles() {
-    return successfulFiles;
-  }
-
-  /**
-  * Total runtime in seconds
-  */
-  @JsonProperty("runtime")
-  public Double runtime;
-
-  public Double getRuntime() {
-    return runtime;
-  }
-
-  /**
-  * Link to external log file.
-  */
-  @JsonProperty("log_url")
-  public String logUrl;
-
-  public String getLogUrl() {
-    return logUrl;
-  }
-
-  /**
   * When this run was completed
   */
   @JsonProperty("completed_at")
@@ -216,6 +126,26 @@ public class SyncRun implements ModelInterface {
 
   public Date getCompletedAt() {
     return completedAt;
+  }
+
+  /**
+  * When this run was created
+  */
+  @JsonProperty("created_at")
+  public Date createdAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  /**
+  * Destination remote server type, if any
+  */
+  @JsonProperty("dest_remote_server_type")
+  public String destRemoteServerType;
+
+  public String getDestRemoteServerType() {
+    return destRemoteServerType;
   }
 
   /**
@@ -229,13 +159,13 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * Total bytes synced in this run
+  * Number of files that errored
   */
-  @JsonProperty("bytes_synced")
-  public Long bytesSynced;
+  @JsonProperty("errored_files")
+  public Long erroredFiles;
 
-  public Long getBytesSynced() {
-    return bytesSynced;
+  public Long getErroredFiles() {
+    return erroredFiles;
   }
 
   /**
@@ -249,13 +179,93 @@ public class SyncRun implements ModelInterface {
   }
 
   /**
-  * When this run was created
+  * Array of errors encountered during the run
   */
-  @JsonProperty("created_at")
-  public Date createdAt;
+  @JsonProperty("event_errors")
+  public String[] eventErrors;
 
-  public Date getCreatedAt() {
-    return createdAt;
+  public String[] getEventErrors() {
+    return eventErrors;
+  }
+
+  /**
+  * Link to external log file.
+  */
+  @JsonProperty("log_url")
+  public String logUrl;
+
+  public String getLogUrl() {
+    return logUrl;
+  }
+
+  /**
+  * Total runtime in seconds
+  */
+  @JsonProperty("runtime")
+  public Double runtime;
+
+  public Double getRuntime() {
+    return runtime;
+  }
+
+  /**
+  * Site ID
+  */
+  @JsonProperty("site_id")
+  public Long siteId;
+
+  public Long getSiteId() {
+    return siteId;
+  }
+
+  /**
+  * Source remote server type, if any
+  */
+  @JsonProperty("src_remote_server_type")
+  public String srcRemoteServerType;
+
+  public String getSrcRemoteServerType() {
+    return srcRemoteServerType;
+  }
+
+  /**
+  * Status of the sync run (success, failure, partial_failure, in_progress, skipped)
+  */
+  @JsonProperty("status")
+  public String status;
+
+  public String getStatus() {
+    return status;
+  }
+
+  /**
+  * Number of files successfully synced
+  */
+  @JsonProperty("successful_files")
+  public Long successfulFiles;
+
+  public Long getSuccessfulFiles() {
+    return successfulFiles;
+  }
+
+  /**
+  * ID of the Sync this run belongs to
+  */
+  @JsonProperty("sync_id")
+  public Long syncId;
+
+  public Long getSyncId() {
+    return syncId;
+  }
+
+  /**
+  * Name of the Sync this run belongs to
+  */
+  @JsonProperty("sync_name")
+  public String syncName;
+
+  public String getSyncName() {
+    return syncName;
   }
 
   /**

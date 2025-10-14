@@ -5,49 +5,51 @@
 ```
 {
   "id": 1,
-  "sync_id": 1,
-  "site_id": 1,
-  "status": "example",
-  "src_remote_server_type": "example",
-  "dest_remote_server_type": "example",
   "body": "example",
+  "bytes_synced": 1,
+  "compared_files": 1,
+  "compared_folders": 1,
+  "completed_at": "2000-01-01T01:00:00Z",
+  "created_at": "2000-01-01T01:00:00Z",
+  "dest_remote_server_type": "example",
+  "dry_run": true,
+  "errored_files": 1,
+  "estimated_bytes_count": 1,
   "event_errors": [
     "example"
   ],
-  "compared_files": 1,
-  "compared_folders": 1,
-  "errored_files": 1,
-  "successful_files": 1,
-  "runtime": 1.0,
   "log_url": "https://www.example.com/log_file.txt",
-  "completed_at": "2000-01-01T01:00:00Z",
-  "dry_run": true,
-  "bytes_synced": 1,
-  "estimated_bytes_count": 1,
-  "created_at": "2000-01-01T01:00:00Z",
+  "runtime": 1.0,
+  "site_id": 1,
+  "src_remote_server_type": "example",
+  "status": "example",
+  "successful_files": 1,
+  "sync_id": 1,
+  "sync_name": "Azure to SharePoint Sync",
   "updated_at": "2000-01-01T01:00:00Z"
 }
 ```
 
 * `id` / `id`  (int64): SyncRun ID
-* `sync_id` / `syncId`  (int64): ID of the Sync this run belongs to
-* `site_id` / `siteId`  (int64): Site ID
-* `status` / `status`  (string): Status of the sync run (success, failure, partial_failure, in_progress, skipped)
-* `src_remote_server_type` / `srcRemoteServerType`  (string): Source remote server type, if any
-* `dest_remote_server_type` / `destRemoteServerType`  (string): Destination remote server type, if any
 * `body` / `body`  (string): Log or summary body for this run
-* `event_errors` / `eventErrors`  (array(string)): Array of errors encountered during the run
+* `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run
 * `compared_files` / `comparedFiles`  (int64): Number of files compared
 * `compared_folders` / `comparedFolders`  (int64): Number of folders compared
-* `errored_files` / `erroredFiles`  (int64): Number of files that errored
-* `successful_files` / `successfulFiles`  (int64): Number of files successfully synced
-* `runtime` / `runtime`  (double): Total runtime in seconds
-* `log_url` / `logUrl`  (string): Link to external log file.
 * `completed_at` / `completedAt`  (date-time): When this run was completed
-* `dry_run` / `dryRun`  (boolean): Whether this run was a dry run (no actual changes made)
-* `bytes_synced` / `bytesSynced`  (int64): Total bytes synced in this run
-* `estimated_bytes_count` / `estimatedBytesCount`  (int64): Estimated bytes count for this run
 * `created_at` / `createdAt`  (date-time): When this run was created
+* `dest_remote_server_type` / `destRemoteServerType`  (string): Destination remote server type, if any
+* `dry_run` / `dryRun`  (boolean): Whether this run was a dry run (no actual changes made)
+* `errored_files` / `erroredFiles`  (int64): Number of files that errored
+* `estimated_bytes_count` / `estimatedBytesCount`  (int64): Estimated bytes count for this run
+* `event_errors` / `eventErrors`  (array(string)): Array of errors encountered during the run
+* `log_url` / `logUrl`  (string): Link to external log file.
+* `runtime` / `runtime`  (double): Total runtime in seconds
+* `site_id` / `siteId`  (int64): Site ID
+* `src_remote_server_type` / `srcRemoteServerType`  (string): Source remote server type, if any
+* `status` / `status`  (string): Status of the sync run (success, failure, partial_failure, in_progress, skipped)
+* `successful_files` / `successfulFiles`  (int64): Number of files successfully synced
+* `sync_id` / `syncId`  (int64): ID of the Sync this run belongs to
+* `sync_name` / `syncName`  (string): Name of the Sync this run belongs to
 * `updated_at` / `updatedAt`  (date-time): When this run was last updated
 
 

@@ -7,6 +7,7 @@
   "id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "key name",
+  "partner_id": 1,
   "user_id": 1,
   "public_key_md5": "7f8bc1210b09b9ddf469e6b6b8920e76",
   "private_key_md5": "ab236cfe4a195f0226bc2e674afdd6b0",
@@ -19,7 +20,8 @@
 * `id` / `id`  (int64): Your GPG key ID.
 * `expires_at` / `expiresAt`  (date-time): Your GPG key expiration date.
 * `name` / `name`  (string): Your GPG key name.
-* `user_id` / `userId`  (int64): GPG owner's user id
+* `partner_id` / `partnerId`  (int64): Partner ID who owns this GPG Key, if applicable.
+* `user_id` / `userId`  (int64): User ID who owns this GPG Key, if applicable.
 * `public_key_md5` / `publicKeyMd5`  (string): MD5 hash of your GPG public key
 * `private_key_md5` / `privateKeyMd5`  (string): MD5 hash of your GPG private key.
 * `generated_public_key` / `generatedPublicKey`  (string): Your GPG public key
@@ -86,6 +88,7 @@ GpgKey gpgKey = GpgKey.create(
 ### Parameters
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (String): MD5 hash of your GPG public key
 * `private_key` (String): MD5 hash of your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
@@ -111,6 +114,7 @@ GpgKey gpgKey = GpgKey.update(
 ### Parameters
 
 * `id` (Long): Required - Gpg Key ID.
+* `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (String): MD5 hash of your GPG public key
 * `private_key` (String): MD5 hash of your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.
@@ -142,6 +146,7 @@ void gpgKey = GpgKey.delete(
 GpgKey gpgKey = GpgKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("partner_id", 1);
 parameters.put("public_key", "7f8bc1210b09b9ddf469e6b6b8920e76");
 parameters.put("private_key", "ab236cfe4a195f0226bc2e674afdd6b0");
 parameters.put("private_key_password", "[your GPG private key password]");
@@ -153,6 +158,7 @@ gpgKey.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Gpg Key ID.
+* `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
 * `public_key` (String): MD5 hash of your GPG public key
 * `private_key` (String): MD5 hash of your GPG private key.
 * `private_key_password` (String): Your GPG private key password. Only required for password protected keys.

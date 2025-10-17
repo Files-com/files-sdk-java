@@ -83,7 +83,7 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
-  * User authentication method for the rule
+  * User authentication method for which the rule will apply.
   */
   @JsonProperty("authentication_method")
   public String authenticationMethod;
@@ -111,48 +111,6 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
-  * Number of days of inactivity before the rule applies
-  */
-  @JsonProperty("inactivity_days")
-  public Long inactivityDays;
-
-  public Long getInactivityDays() {
-    return inactivityDays;
-  }
-
-  public void setInactivityDays(Long inactivityDays) {
-    this.inactivityDays = inactivityDays;
-  }
-
-  /**
-  * Include folder admins in the rule
-  */
-  @JsonProperty("include_folder_admins")
-  public Boolean includeFolderAdmins;
-
-  public Boolean getIncludeFolderAdmins() {
-    return includeFolderAdmins;
-  }
-
-  public void setIncludeFolderAdmins(Boolean includeFolderAdmins) {
-    this.includeFolderAdmins = includeFolderAdmins;
-  }
-
-  /**
-  * Include site admins in the rule
-  */
-  @JsonProperty("include_site_admins")
-  public Boolean includeSiteAdmins;
-
-  public Boolean getIncludeSiteAdmins() {
-    return includeSiteAdmins;
-  }
-
-  public void setIncludeSiteAdmins(Boolean includeSiteAdmins) {
-    this.includeSiteAdmins = includeSiteAdmins;
-  }
-
-  /**
   * Action to take on inactive users (disable or delete)
   */
   @JsonProperty("action")
@@ -167,17 +125,45 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
-  * State of the users to apply the rule to (inactive or disabled)
+  * Number of days of inactivity before the rule applies
   */
-  @JsonProperty("user_state")
-  public String userState;
+  @JsonProperty("inactivity_days")
+  public Long inactivityDays;
 
-  public String getUserState() {
-    return userState;
+  public Long getInactivityDays() {
+    return inactivityDays;
   }
 
-  public void setUserState(String userState) {
-    this.userState = userState;
+  public void setInactivityDays(Long inactivityDays) {
+    this.inactivityDays = inactivityDays;
+  }
+
+  /**
+  * If true, the rule will apply to folder admins.
+  */
+  @JsonProperty("include_folder_admins")
+  public Boolean includeFolderAdmins;
+
+  public Boolean getIncludeFolderAdmins() {
+    return includeFolderAdmins;
+  }
+
+  public void setIncludeFolderAdmins(Boolean includeFolderAdmins) {
+    this.includeFolderAdmins = includeFolderAdmins;
+  }
+
+  /**
+  * If true, the rule will apply to site admins.
+  */
+  @JsonProperty("include_site_admins")
+  public Boolean includeSiteAdmins;
+
+  public Boolean getIncludeSiteAdmins() {
+    return includeSiteAdmins;
+  }
+
+  public void setIncludeSiteAdmins(Boolean includeSiteAdmins) {
+    this.includeSiteAdmins = includeSiteAdmins;
   }
 
   /**
@@ -195,6 +181,20 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+  */
+  @JsonProperty("partner_tag")
+  public String partnerTag;
+
+  public String getPartnerTag() {
+    return partnerTag;
+  }
+
+  public void setPartnerTag(String partnerTag) {
+    this.partnerTag = partnerTag;
+  }
+
+  /**
   * Site ID
   */
   @JsonProperty("site_id")
@@ -209,15 +209,45 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * State of the users to apply the rule to (inactive or disabled)
+  */
+  @JsonProperty("user_state")
+  public String userState;
+
+  public String getUserState() {
+    return userState;
+  }
+
+  public void setUserState(String userState) {
+    this.userState = userState;
+  }
+
+  /**
+  * If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+  */
+  @JsonProperty("user_tag")
+  public String userTag;
+
+  public String getUserTag() {
+    return userTag;
+  }
+
+  public void setUserTag(String userTag) {
+    this.userTag = userTag;
+  }
+
+  /**
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
-  *   authentication_method - string - User authentication method for the rule
+  *   authentication_method - string - User authentication method for which the rule will apply.
   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-  *   include_site_admins - boolean - Include site admins in the rule
-  *   include_folder_admins - boolean - Include folder admins in the rule
-  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   include_site_admins - boolean - If true, the rule will apply to site admins.
+  *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public UserLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
     return UserLifecycleRule.update(this.id, parameters, this.options);
@@ -242,6 +272,7 @@ public class UserLifecycleRule implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`.
   */
   public static ListIterator<UserLifecycleRule> list() throws RuntimeException {
     return list(null, null);
@@ -263,6 +294,9 @@ public class UserLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
     }
 
 
@@ -332,13 +366,15 @@ public class UserLifecycleRule implements ModelInterface {
   /**
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
-  *   authentication_method - string - User authentication method for the rule
+  *   authentication_method - string - User authentication method for which the rule will apply.
   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-  *   include_site_admins - boolean - Include site admins in the rule
-  *   include_folder_admins - boolean - Include folder admins in the rule
-  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   include_site_admins - boolean - If true, the rule will apply to site admins.
+  *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public static UserLifecycleRule create() throws RuntimeException {
     return create(null, null);
@@ -373,11 +409,17 @@ public class UserLifecycleRule implements ModelInterface {
     if (parameters.containsKey("include_folder_admins") && !(parameters.get("include_folder_admins") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_folder_admins must be of type Boolean parameters[\"include_folder_admins\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("partner_tag") && !(parameters.get("partner_tag") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: partner_tag must be of type String parameters[\"partner_tag\"]");
+    }
     if (parameters.containsKey("user_state") && !(parameters.get("user_state") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_state must be of type String parameters[\"user_state\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (parameters.containsKey("user_tag") && !(parameters.get("user_tag") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: user_tag must be of type String parameters[\"user_tag\"]");
     }
 
 
@@ -391,13 +433,15 @@ public class UserLifecycleRule implements ModelInterface {
   /**
   * Parameters:
   *   action - string - Action to take on inactive users (disable or delete)
-  *   authentication_method - string - User authentication method for the rule
+  *   authentication_method - string - User authentication method for which the rule will apply.
   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-  *   include_site_admins - boolean - Include site admins in the rule
-  *   include_folder_admins - boolean - Include folder admins in the rule
-  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   include_site_admins - boolean - If true, the rule will apply to site admins.
+  *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+  *   user_state - string - State of the users to apply the rule to (inactive or disabled)
+  *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public static UserLifecycleRule update() throws RuntimeException {
     return update(null, null, null);
@@ -445,11 +489,17 @@ public class UserLifecycleRule implements ModelInterface {
     if (parameters.containsKey("include_folder_admins") && !(parameters.get("include_folder_admins") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_folder_admins must be of type Boolean parameters[\"include_folder_admins\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("partner_tag") && !(parameters.get("partner_tag") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: partner_tag must be of type String parameters[\"partner_tag\"]");
+    }
     if (parameters.containsKey("user_state") && !(parameters.get("user_state") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_state must be of type String parameters[\"user_state\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (parameters.containsKey("user_tag") && !(parameters.get("user_tag") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: user_tag must be of type String parameters[\"user_tag\"]");
     }
 
 

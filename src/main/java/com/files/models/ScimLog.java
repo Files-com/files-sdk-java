@@ -195,4 +195,53 @@ public class ScimLog implements ModelInterface {
     return list(parameters, options);
   }
 
+  /**
+  * Parameters:
+  *   id (required) - int64 - Scim Log ID.
+  */
+  public static ScimLog find() throws RuntimeException {
+    return find(null, null, null);
+  }
+
+  public static ScimLog find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return find(id, parameters, null);
+  }
+
+  public static ScimLog find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return find(null, parameters, options);
+  }
+
+  public static ScimLog find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/scim_logs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<ScimLog> typeReference = new TypeReference<ScimLog>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+  public static ScimLog get() throws RuntimeException {
+    return get(null, null, null);
+  }
+
+  public static ScimLog get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return find(id, parameters, options);
+  }
+
 }

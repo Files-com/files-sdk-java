@@ -167,13 +167,28 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+  */
+  @JsonProperty("tags")
+  public String tags;
+
+  public String getTags() {
+    return tags;
+  }
+
+  public void setTags(String tags) {
+    this.tags = tags;
+  }
+
+  /**
   * Parameters:
+  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   name - string - The name of the Partner.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
+  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public Partner update(HashMap<String, Object> parameters) throws IOException {
     return Partner.update(this.id, parameters, this.options);
@@ -291,12 +306,13 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   name - string - The name of the Partner.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
+  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public static Partner create() throws RuntimeException {
     return create(null, null);
@@ -313,6 +329,9 @@ public class Partner implements ModelInterface {
 
 
 
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
     }
@@ -322,14 +341,14 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
     }
     if (parameters.containsKey("root_folder") && !(parameters.get("root_folder") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: root_folder must be of type String parameters[\"root_folder\"]");
+    }
+    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
     }
 
 
@@ -342,12 +361,13 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   name - string - The name of the Partner.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
+  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   */
   public static Partner update() throws RuntimeException {
     return update(null, null, null);
@@ -377,6 +397,9 @@ public class Partner implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
     }
@@ -386,14 +409,14 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
     }
     if (parameters.containsKey("root_folder") && !(parameters.get("root_folder") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: root_folder must be of type String parameters[\"root_folder\"]");
+    }
+    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
     }
 
 

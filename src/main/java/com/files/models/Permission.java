@@ -167,6 +167,20 @@ public class Permission implements ModelInterface {
   }
 
   /**
+  * Partner name (if applicable)
+  */
+  @JsonProperty("partner_name")
+  public String partnerName;
+
+  public String getPartnerName() {
+    return partnerName;
+  }
+
+  public void setPartnerName(String partnerName) {
+    this.partnerName = partnerName;
+  }
+
+  /**
   * Permission type.  See the table referenced in the documentation for an explanation of each permission.
   */
   @JsonProperty("permission")

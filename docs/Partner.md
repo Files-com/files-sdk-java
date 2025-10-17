@@ -10,7 +10,8 @@
   "id": 1,
   "name": "Acme Corp",
   "notes": "This is a note about the partner.",
-  "root_folder": "/AcmeCorp"
+  "root_folder": "/AcmeCorp",
+  "tags": "example"
 }
 ```
 
@@ -21,6 +22,7 @@
 * `name` / `name`  (string): The name of the Partner.
 * `notes` / `notes`  (string): Notes about this Partner.
 * `root_folder` / `rootFolder`  (string): The root folder path for this Partner.
+* `tags` / `tags`  (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 
 
 ---
@@ -73,12 +75,13 @@ Partner partner = Partner.create(
 
 ### Parameters
 
+* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `name` (String): The name of the Partner.
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
+* `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 
 
 ---
@@ -96,12 +99,13 @@ Partner partner = Partner.update(
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
+* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `name` (String): The name of the Partner.
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
+* `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 
 
 ---
@@ -129,12 +133,13 @@ void partner = Partner.delete(
 Partner partner = Partner.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Acme Corp");
 parameters.put("allow_bypassing_2fa_policies", false);
 parameters.put("allow_credential_changes", false);
 parameters.put("allow_user_creation", false);
-parameters.put("name", "Acme Corp");
 parameters.put("notes", "This is a note about the partner.");
 parameters.put("root_folder", "/AcmeCorp");
+parameters.put("tags", "example");
 
 partner.update(parameters);
 ```
@@ -142,12 +147,13 @@ partner.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
+* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `name` (String): The name of the Partner.
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
+* `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 
 
 ---

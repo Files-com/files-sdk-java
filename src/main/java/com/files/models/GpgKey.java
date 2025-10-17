@@ -111,7 +111,21 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * GPG owner's user id
+  * Partner ID who owns this GPG Key, if applicable.
+  */
+  @JsonProperty("partner_id")
+  public Long partnerId;
+
+  public Long getPartnerId() {
+    return partnerId;
+  }
+
+  public void setPartnerId(Long partnerId) {
+    this.partnerId = partnerId;
+  }
+
+  /**
+  * User ID who owns this GPG Key, if applicable.
   */
   @JsonProperty("user_id")
   public Long userId;
@@ -294,6 +308,7 @@ public class GpgKey implements ModelInterface {
 
   /**
   * Parameters:
+  *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
   *   public_key - string - MD5 hash of your GPG public key
   *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -420,6 +435,7 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+  *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
   *   public_key - string - MD5 hash of your GPG public key
   *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -449,6 +465,9 @@ public class GpgKey implements ModelInterface {
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
@@ -485,6 +504,7 @@ public class GpgKey implements ModelInterface {
 
   /**
   * Parameters:
+  *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
   *   public_key - string - MD5 hash of your GPG public key
   *   private_key - string - MD5 hash of your GPG private key.
   *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
@@ -517,6 +537,9 @@ public class GpgKey implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");

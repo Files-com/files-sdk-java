@@ -39,7 +39,7 @@
 
 ---
 
-## List Bundle Registrations
+## List Share Link Registrations
 
 ```
 ListIterator<BundleRegistration> bundleRegistration = BundleRegistration.list(

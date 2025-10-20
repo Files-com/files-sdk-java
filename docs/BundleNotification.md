@@ -22,7 +22,7 @@
 
 ---
 
-## List Bundle Notifications
+## List Share Link Notifications
 
 ```
 ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
@@ -43,7 +43,7 @@ ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
 
 ---
 
-## Show Bundle Notification
+## Show Share Link Notification
 
 ```
 BundleNotification bundleNotification = BundleNotification.find(
@@ -60,7 +60,7 @@ BundleNotification bundleNotification = BundleNotification.find(
 
 ---
 
-## Create Bundle Notification
+## Create Share Link Notification
 
 ```
 BundleNotification bundleNotification = BundleNotification.create(
@@ -81,7 +81,7 @@ BundleNotification bundleNotification = BundleNotification.create(
 
 ---
 
-## Update Bundle Notification
+## Update Share Link Notification
 
 ```
 BundleNotification bundleNotification = BundleNotification.update(
@@ -100,7 +100,7 @@ BundleNotification bundleNotification = BundleNotification.update(
 
 ---
 
-## Delete Bundle Notification
+## Delete Share Link Notification
 
 ```
 void bundleNotification = BundleNotification.delete(
@@ -117,7 +117,7 @@ void bundleNotification = BundleNotification.delete(
 
 ---
 
-## Update Bundle Notification
+## Update Share Link Notification
 
 ```
 BundleNotification bundleNotification = BundleNotification.find(id);
@@ -138,7 +138,7 @@ bundleNotification.update(parameters);
 
 ---
 
-## Delete Bundle Notification
+## Delete Share Link Notification
 
 ```
 BundleNotification bundleNotification = BundleNotification.find(id);

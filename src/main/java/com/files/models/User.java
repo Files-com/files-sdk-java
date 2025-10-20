@@ -1199,6 +1199,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * If true, convert this user to a partner user by assigning the partner_id provided.
+  */
+  @JsonProperty("convert_to_partner_user")
+  public Boolean convertToPartnerUser;
+
+  public Boolean getConvertToPartnerUser() {
+    return convertToPartnerUser;
+  }
+
+  public void setConvertToPartnerUser(Boolean convertToPartnerUser) {
+    this.convertToPartnerUser = convertToPartnerUser;
+  }
+
+  /**
   * Unlock user who has been locked out due to failed logins
   */
   public void unlock(HashMap<String, Object> parameters) throws IOException {
@@ -1273,6 +1287,7 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+  *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
   */
   public User update(HashMap<String, Object> parameters) throws IOException {
     return User.update(this.id, parameters, this.options);
@@ -1834,6 +1849,7 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   username - string - User's username
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+  *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
   */
   public static User update() throws RuntimeException {
     return update(null, null, null);
@@ -2018,6 +2034,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("clear_2fa") && !(parameters.get("clear_2fa") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: clear_2fa must be of type Boolean parameters[\"clear_2fa\"]");
+    }
+    if (parameters.containsKey("convert_to_partner_user") && !(parameters.get("convert_to_partner_user") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: convert_to_partner_user must be of type Boolean parameters[\"convert_to_partner_user\"]");
     }
 
 

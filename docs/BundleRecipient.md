@@ -24,7 +24,7 @@
 
 ---
 
-## List Bundle Recipients
+## List Share Link Recipients
 
 ```
 ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
@@ -46,7 +46,7 @@ ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
 
 ---
 
-## Create Bundle Recipient
+## Create Share Link Recipient
 
 ```
 BundleRecipient bundleRecipient = BundleRecipient.create(

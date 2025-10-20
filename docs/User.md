@@ -160,6 +160,7 @@
 * `password_confirmation` / `passwordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` / `announcementsRead`  (boolean): Signifies that the user has read all the announcements in the UI.
 * `clear_2fa` / `clear2fa`  (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+* `convert_to_partner_user` / `convertToPartnerUser`  (boolean): If true, convert this user to a partner user by assigning the partner_id provided.
 
 
 ---
@@ -392,6 +393,7 @@ User user = User.update(
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+* `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
 
 
 ---
@@ -516,6 +518,7 @@ parameters.put("user_root", "example");
 parameters.put("user_home", "example");
 parameters.put("username", "user");
 parameters.put("clear_2fa", false);
+parameters.put("convert_to_partner_user", false);
 
 user.update(parameters);
 ```
@@ -575,6 +578,7 @@ user.update(parameters);
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `username` (String): User's username
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+* `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
 
 
 ---

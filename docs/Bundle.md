@@ -138,7 +138,7 @@
 
 ---
 
-## List Bundles
+## List Share Links
 
 ```
 ListIterator<Bundle> bundle = Bundle.list(
@@ -164,7 +164,7 @@ ListIterator<Bundle> bundle = Bundle.list(
 
 ---
 
-## Show Bundle
+## Show Share Link
 
 ```
 Bundle bundle = Bundle.find(
@@ -181,7 +181,7 @@ Bundle bundle = Bundle.find(
 
 ---
 
-## Create Bundle
+## Create Share Link
 
 ```
 Bundle bundle = Bundle.create(
@@ -243,7 +243,7 @@ void bundle = Bundle.share(
 
 ---
 
-## Update Bundle
+## Update Share Link
 
 ```
 Bundle bundle = Bundle.update(
@@ -285,7 +285,7 @@ Bundle bundle = Bundle.update(
 
 ---
 
-## Delete Bundle
+## Delete Share Link
 
 ```
 void bundle = Bundle.delete(
@@ -325,7 +325,7 @@ bundle.share(parameters);
 
 ---
 
-## Update Bundle
+## Update Share Link
 
 ```
 Bundle bundle = Bundle.find(id);
@@ -391,7 +391,7 @@ bundle.update(parameters);
 
 ---
 
-## Delete Bundle
+## Delete Share Link
 
 ```
 Bundle bundle = Bundle.find(id);

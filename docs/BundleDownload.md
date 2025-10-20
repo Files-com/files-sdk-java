@@ -35,7 +35,7 @@
 
 ---
 
-## List Bundle Downloads
+## List Share Link Downloads
 
 ```
 ListIterator<BundleDownload> bundleDownload = BundleDownload.list(

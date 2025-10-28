@@ -97,6 +97,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Allow Partner Admins to provide GPG keys.
+  */
+  @JsonProperty("allow_providing_gpg_keys")
+  public Boolean allowProvidingGpgKeys;
+
+  public Boolean getAllowProvidingGpgKeys() {
+    return allowProvidingGpgKeys;
+  }
+
+  public void setAllowProvidingGpgKeys(Boolean allowProvidingGpgKeys) {
+    this.allowProvidingGpgKeys = allowProvidingGpgKeys;
+  }
+
+  /**
   * Allow Partner Admins to create users.
   */
   @JsonProperty("allow_user_creation")
@@ -185,6 +199,7 @@ public class Partner implements ModelInterface {
   *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -309,6 +324,7 @@ public class Partner implements ModelInterface {
   *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -338,6 +354,9 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("allow_credential_changes") && !(parameters.get("allow_credential_changes") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_credential_changes must be of type Boolean parameters[\"allow_credential_changes\"]");
     }
+    if (parameters.containsKey("allow_providing_gpg_keys") && !(parameters.get("allow_providing_gpg_keys") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_providing_gpg_keys must be of type Boolean parameters[\"allow_providing_gpg_keys\"]");
+    }
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
     }
@@ -364,6 +383,7 @@ public class Partner implements ModelInterface {
   *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -405,6 +425,9 @@ public class Partner implements ModelInterface {
     }
     if (parameters.containsKey("allow_credential_changes") && !(parameters.get("allow_credential_changes") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_credential_changes must be of type Boolean parameters[\"allow_credential_changes\"]");
+    }
+    if (parameters.containsKey("allow_providing_gpg_keys") && !(parameters.get("allow_providing_gpg_keys") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_providing_gpg_keys must be of type Boolean parameters[\"allow_providing_gpg_keys\"]");
     }
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");

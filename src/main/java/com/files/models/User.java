@@ -653,6 +653,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Name of the Partner if this user belongs to a Partner
+  */
+  @JsonProperty("partner_name")
+  public String partnerName;
+
+  public String getPartnerName() {
+    return partnerName;
+  }
+
+  public void setPartnerName(String partnerName) {
+    this.partnerName = partnerName;
+  }
+
+  /**
   * Last time the user's password was set
   */
   @JsonProperty("password_set_at")

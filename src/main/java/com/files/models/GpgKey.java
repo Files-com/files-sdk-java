@@ -125,6 +125,20 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
+  * Name of the Partner who owns this GPG Key, if applicable.
+  */
+  @JsonProperty("partner_name")
+  public String partnerName;
+
+  public String getPartnerName() {
+    return partnerName;
+  }
+
+  public void setPartnerName(String partnerName) {
+    this.partnerName = partnerName;
+  }
+
+  /**
   * User ID who owns this GPG Key, if applicable.
   */
   @JsonProperty("user_id")

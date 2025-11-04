@@ -195,6 +195,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Array of User IDs that belong to this Partner.
+  */
+  @JsonProperty("user_ids")
+  public Long[] userIds;
+
+  public Long[] getUserIds() {
+    return userIds;
+  }
+
+  public void setUserIds(Long[] userIds) {
+    this.userIds = userIds;
+  }
+
+  /**
   * Parameters:
   *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.

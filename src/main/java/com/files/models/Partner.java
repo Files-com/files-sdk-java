@@ -167,6 +167,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Array of User IDs that are Partner Admins for this Partner.
+  */
+  @JsonProperty("partner_admin_ids")
+  public Long[] partnerAdminIds;
+
+  public Long[] getPartnerAdminIds() {
+    return partnerAdminIds;
+  }
+
+  public void setPartnerAdminIds(Long[] partnerAdminIds) {
+    this.partnerAdminIds = partnerAdminIds;
+  }
+
+  /**
   * The root folder path for this Partner.
   */
   @JsonProperty("root_folder")

@@ -224,7 +224,6 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -232,6 +231,7 @@ public class Partner implements ModelInterface {
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+  *   name - string - The name of the Partner.
   */
   public Partner update(HashMap<String, Object> parameters) throws IOException {
     return Partner.update(this.id, parameters, this.options);
@@ -349,7 +349,6 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -357,6 +356,7 @@ public class Partner implements ModelInterface {
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+  *   name (required) - string - The name of the Partner.
   */
   public static Partner create() throws RuntimeException {
     return create(null, null);
@@ -372,10 +372,10 @@ public class Partner implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
+
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
     }
@@ -397,6 +397,9 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
 
 
     String url = String.format("%s%s/partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -408,7 +411,6 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - The name of the Partner.
   *   allow_bypassing_2fa_policies - boolean - Allow users created under this Partner to bypass Two-Factor Authentication policies.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -416,6 +418,7 @@ public class Partner implements ModelInterface {
   *   notes - string - Notes about this Partner.
   *   root_folder - string - The root folder path for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+  *   name - string - The name of the Partner.
   */
   public static Partner update() throws RuntimeException {
     return update(null, null, null);
@@ -445,9 +448,6 @@ public class Partner implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
     }
@@ -468,6 +468,9 @@ public class Partner implements ModelInterface {
     }
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
 
 

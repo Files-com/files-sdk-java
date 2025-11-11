@@ -89,7 +89,6 @@ Partner partner = Partner.create(
 
 ### Parameters
 
-* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
@@ -97,6 +96,7 @@ Partner partner = Partner.create(
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (String): Required - The name of the Partner.
 
 
 ---
@@ -114,7 +114,6 @@ Partner partner = Partner.update(
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
-* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
@@ -122,6 +121,7 @@ Partner partner = Partner.update(
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (String): The name of the Partner.
 
 
 ---
@@ -149,7 +149,6 @@ void partner = Partner.delete(
 Partner partner = Partner.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("name", "Acme Corp");
 parameters.put("allow_bypassing_2fa_policies", false);
 parameters.put("allow_credential_changes", false);
 parameters.put("allow_providing_gpg_keys", false);
@@ -157,6 +156,7 @@ parameters.put("allow_user_creation", false);
 parameters.put("notes", "This is a note about the partner.");
 parameters.put("root_folder", "/AcmeCorp");
 parameters.put("tags", "example");
+parameters.put("name", "Acme Corp");
 
 partner.update(parameters);
 ```
@@ -164,7 +164,6 @@ partner.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
-* `name` (String): The name of the Partner.
 * `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
@@ -172,6 +171,7 @@ partner.update(parameters);
 * `notes` (String): Notes about this Partner.
 * `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `name` (String): The name of the Partner.
 
 
 ---

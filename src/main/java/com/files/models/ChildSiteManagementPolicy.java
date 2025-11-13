@@ -188,7 +188,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   /**
   * Parameters:
-  *   value - string
+  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
   *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
   *   policy_type - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
@@ -306,7 +306,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   /**
   * Parameters:
-  *   value - string
+  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
   *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
   *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
@@ -330,8 +330,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
       throw new NullPointerException("Parameter missing: policy_type parameters[\"policy_type\"]");
     }
 
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
@@ -356,7 +356,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   /**
   * Parameters:
-  *   value - string
+  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
   *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
   *   policy_type - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
@@ -390,8 +390,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");

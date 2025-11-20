@@ -26,7 +26,7 @@
 }
 ```
 
-* `allow_bypassing_2fa_policies` / `allowBypassing2faPolicies`  (boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
+* `allow_bypassing_2fa_policies` / `allowBypassing2faPolicies`  (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` / `allowCredentialChanges`  (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` / `allowProvidingGpgKeys`  (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` / `allowUserCreation`  (boolean): Allow Partner Admins to create users.
@@ -89,7 +89,7 @@ Partner partner = Partner.create(
 
 ### Parameters
 
-* `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
+* `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
@@ -114,7 +114,7 @@ Partner partner = Partner.update(
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
-* `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
+* `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
@@ -164,7 +164,7 @@ partner.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
-* `allow_bypassing_2fa_policies` (Boolean): Allow users created under this Partner to bypass Two-Factor Authentication policies.
+* `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.

@@ -125,6 +125,48 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
+  * Applicable only for destination type: file. Destination folder path on Files.com.
+  */
+  @JsonProperty("file_destination_path")
+  public String fileDestinationPath;
+
+  public String getFileDestinationPath() {
+    return fileDestinationPath;
+  }
+
+  public void setFileDestinationPath(String fileDestinationPath) {
+    this.fileDestinationPath = fileDestinationPath;
+  }
+
+  /**
+  * Applicable only for destination type: file. Generated file format.
+  */
+  @JsonProperty("file_format")
+  public String fileFormat;
+
+  public String getFileFormat() {
+    return fileFormat;
+  }
+
+  public void setFileFormat(String fileFormat) {
+    this.fileFormat = fileFormat;
+  }
+
+  /**
+  * Applicable only for destination type: file. Interval, in minutes, between file deliveries.
+  */
+  @JsonProperty("file_interval_minutes")
+  public Long fileIntervalMinutes;
+
+  public Long getFileIntervalMinutes() {
+    return fileIntervalMinutes;
+  }
+
+  public void setFileIntervalMinutes(Long fileIntervalMinutes) {
+    this.fileIntervalMinutes = fileIntervalMinutes;
+  }
+
+  /**
   * Additional HTTP Headers included in calls to the destination URL
   */
   @JsonProperty("additional_headers")
@@ -844,6 +886,9 @@ public class SiemHttpDestination implements ModelInterface {
   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+  *   file_format - string - Applicable only for destination type: file. Generated file format.
+  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -985,6 +1030,9 @@ public class SiemHttpDestination implements ModelInterface {
   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+  *   file_format - string - Applicable only for destination type: file. Generated file format.
+  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -1008,7 +1056,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
   *   destination_type (required) - string - Destination Type
-  *   destination_url (required) - string - Destination Url
+  *   destination_url - string - Destination Url
   */
   public static SiemHttpDestination create() throws RuntimeException {
     return create(null, null);
@@ -1027,9 +1075,6 @@ public class SiemHttpDestination implements ModelInterface {
     if (!parameters.containsKey("destination_type") || parameters.get("destination_type") == null) {
       throw new NullPointerException("Parameter missing: destination_type parameters[\"destination_type\"]");
     }
-    if (!parameters.containsKey("destination_url") || parameters.get("destination_url") == null) {
-      throw new NullPointerException("Parameter missing: destination_url parameters[\"destination_url\"]");
-    }
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -1042,6 +1087,15 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
+    }
+    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
+    }
+    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
+    }
+    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
@@ -1133,6 +1187,9 @@ public class SiemHttpDestination implements ModelInterface {
   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+  *   file_format - string - Applicable only for destination type: file. Generated file format.
+  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -1191,6 +1248,15 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
+    }
+    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
+    }
+    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
+    }
+    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
@@ -1272,6 +1338,9 @@ public class SiemHttpDestination implements ModelInterface {
   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+  *   file_format - string - Applicable only for destination type: file. Generated file format.
+  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
   *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -1336,6 +1405,15 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
+    }
+    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
+    }
+    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
+    }
+    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");

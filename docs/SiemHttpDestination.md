@@ -8,6 +8,9 @@
   "name": "example",
   "destination_type": "example",
   "destination_url": "example",
+  "file_destination_path": "example",
+  "file_format": "example",
+  "file_interval_minutes": 1,
   "additional_headers": {
     "key": "example value"
   },
@@ -62,6 +65,9 @@
 * `name` / `name`  (string): Name for this Destination
 * `destination_type` / `destinationType`  (string): Destination Type
 * `destination_url` / `destinationUrl`  (string): Destination Url
+* `file_destination_path` / `fileDestinationPath`  (string): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` / `fileFormat`  (string): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` / `fileIntervalMinutes`  (int64): Applicable only for destination type: file. Interval, in minutes, between file deliveries.
 * `additional_headers` / `additionalHeaders`  (object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` / `sendingActive`  (boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` / `genericPayloadType`  (string): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
@@ -168,6 +174,9 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 * `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` (String): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -191,7 +200,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 * `exavault_api_request_send_enabled` (Boolean): Whether or not sending is enabled for exavault_api_request logs.
 * `settings_change_send_enabled` (Boolean): Whether or not sending is enabled for settings_change logs.
 * `destination_type` (String): Required - Destination Type
-* `destination_url` (String): Required - Destination Url
+* `destination_url` (String): Destination Url
 
 
 ---
@@ -215,6 +224,9 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 * `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` (String): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -258,6 +270,9 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 * `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` (String): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
@@ -313,6 +328,9 @@ parameters.put("name", "example");
 parameters.put("additional_headers", {"key":"example value"});
 parameters.put("sending_active", true);
 parameters.put("generic_payload_type", "example");
+parameters.put("file_destination_path", "example");
+parameters.put("file_format", "example");
+parameters.put("file_interval_minutes", 1);
 parameters.put("azure_dcr_immutable_id", "example");
 parameters.put("azure_stream_name", "example");
 parameters.put("azure_oauth_client_credentials_tenant_id", "example");
@@ -342,6 +360,9 @@ siemHttpDestination.update(parameters);
 * `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` (String): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
 * `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.

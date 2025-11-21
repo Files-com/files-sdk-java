@@ -6,7 +6,7 @@
 {
   "timestamp": "2000-01-01T01:00:00Z",
   "message": "example",
-  "status": "example",
+  "status": "success",
   "subject": "example",
   "to": "example",
   "cc": "example",
@@ -48,6 +48,5 @@ ListIterator<EmailLog> emailLog = EmailLog.list(
 * `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
 * `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
 * `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
-* `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `status`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
 * `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
 * `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.

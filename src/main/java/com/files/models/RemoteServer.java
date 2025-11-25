@@ -167,17 +167,17 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
+  * If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
   */
-  @JsonProperty("buffer_uploads_always")
-  public Boolean bufferUploadsAlways;
+  @JsonProperty("buffer_uploads")
+  public String bufferUploads;
 
-  public Boolean getBufferUploadsAlways() {
-    return bufferUploadsAlways;
+  public String getBufferUploads() {
+    return bufferUploads;
   }
 
-  public void setBufferUploadsAlways(Boolean bufferUploadsAlways) {
-    this.bufferUploadsAlways = bufferUploadsAlways;
+  public void setBufferUploads(String bufferUploads) {
+    this.bufferUploads = bufferUploads;
   }
 
   /**
@@ -1169,7 +1169,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
+  *   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1402,7 +1402,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
+  *   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1542,8 +1542,8 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("backblaze_b2_s3_endpoint") && !(parameters.get("backblaze_b2_s3_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: backblaze_b2_s3_endpoint must be of type String parameters[\"backblaze_b2_s3_endpoint\"]");
     }
-    if (parameters.containsKey("buffer_uploads_always") && !(parameters.get("buffer_uploads_always") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: buffer_uploads_always must be of type Boolean parameters[\"buffer_uploads_always\"]");
+    if (parameters.containsKey("buffer_uploads") && !(parameters.get("buffer_uploads") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: buffer_uploads must be of type String parameters[\"buffer_uploads\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
@@ -1780,7 +1780,7 @@ public class RemoteServer implements ModelInterface {
   *   azure_files_storage_share_name - string - Azure Files:  Storage Share name
   *   backblaze_b2_bucket - string - Backblaze B2 Cloud Storage: Bucket name
   *   backblaze_b2_s3_endpoint - string - Backblaze B2 Cloud Storage: S3 Endpoint
-  *   buffer_uploads_always - boolean - If true, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com.
+  *   buffer_uploads - string - If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
@@ -1933,8 +1933,8 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("backblaze_b2_s3_endpoint") && !(parameters.get("backblaze_b2_s3_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: backblaze_b2_s3_endpoint must be of type String parameters[\"backblaze_b2_s3_endpoint\"]");
     }
-    if (parameters.containsKey("buffer_uploads_always") && !(parameters.get("buffer_uploads_always") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: buffer_uploads_always must be of type Boolean parameters[\"buffer_uploads_always\"]");
+    if (parameters.containsKey("buffer_uploads") && !(parameters.get("buffer_uploads") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: buffer_uploads must be of type String parameters[\"buffer_uploads\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");

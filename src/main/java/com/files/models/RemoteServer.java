@@ -153,6 +153,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Internal description for your reference
+  */
+  @JsonProperty("description")
+  public String description;
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
   * Port for remote server.  Not needed for S3.
   */
   @JsonProperty("port")
@@ -1173,6 +1187,7 @@ public class RemoteServer implements ModelInterface {
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
+  *   description - string - Internal description for your reference
   *   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
@@ -1406,6 +1421,7 @@ public class RemoteServer implements ModelInterface {
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
+  *   description - string - Internal description for your reference
   *   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
@@ -1553,6 +1569,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("cloudflare_endpoint") && !(parameters.get("cloudflare_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_endpoint must be of type String parameters[\"cloudflare_endpoint\"]");
+    }
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");
@@ -1784,6 +1803,7 @@ public class RemoteServer implements ModelInterface {
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   cloudflare_bucket - string - Cloudflare: Bucket name
   *   cloudflare_endpoint - string - Cloudflare: endpoint
+  *   description - string - Internal description for your reference
   *   dropbox_teams - boolean - Dropbox: If true, list Team folders in root?
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
@@ -1944,6 +1964,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("cloudflare_endpoint") && !(parameters.get("cloudflare_endpoint") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_endpoint must be of type String parameters[\"cloudflare_endpoint\"]");
+    }
+    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
     if (parameters.containsKey("dropbox_teams") && !(parameters.get("dropbox_teams") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dropbox_teams must be of type Boolean parameters[\"dropbox_teams\"]");

@@ -10,6 +10,7 @@
   "hostname": "remote-server.com",
   "remote_home_path": "/home/user1",
   "name": "My Remote server",
+  "description": "More information or notes about my server",
   "port": 1,
   "buffer_uploads": "example",
   "max_connections": 1,
@@ -69,6 +70,7 @@
 * `hostname` / `hostname`  (string): Hostname or IP address
 * `remote_home_path` / `remoteHomePath`  (string): Initial home folder on remote server
 * `name` / `name`  (string): Internal name for your reference
+* `description` / `description`  (string): Internal description for your reference
 * `port` / `port`  (int64): Port for remote server.  Not needed for S3.
 * `buffer_uploads` / `bufferUploads`  (string): If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
 * `max_connections` / `maxConnections`  (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
@@ -242,6 +244,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `cloudflare_bucket` (String): Cloudflare: Bucket name
 * `cloudflare_endpoint` (String): Cloudflare: endpoint
+* `description` (String): Internal description for your reference
 * `dropbox_teams` (Boolean): Dropbox: If true, list Team folders in root?
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.
@@ -353,6 +356,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `cloudflare_bucket` (String): Cloudflare: Bucket name
 * `cloudflare_endpoint` (String): Cloudflare: endpoint
+* `description` (String): Internal description for your reference
 * `dropbox_teams` (Boolean): Dropbox: If true, list Team folders in root?
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.
@@ -467,6 +471,7 @@ parameters.put("buffer_uploads", "example");
 parameters.put("cloudflare_access_key", "example");
 parameters.put("cloudflare_bucket", "my-bucket");
 parameters.put("cloudflare_endpoint", "https://<ACCOUNT_ID>.r2.cloudflarestorage.com");
+parameters.put("description", "More information or notes about my server");
 parameters.put("dropbox_teams", true);
 parameters.put("enable_dedicated_ips", true);
 parameters.put("filebase_access_key", "example");
@@ -540,6 +545,7 @@ remoteServer.update(parameters);
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `cloudflare_bucket` (String): Cloudflare: Bucket name
 * `cloudflare_endpoint` (String): Cloudflare: endpoint
+* `description` (String): Internal description for your reference
 * `dropbox_teams` (Boolean): Dropbox: If true, list Team folders in root?
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.

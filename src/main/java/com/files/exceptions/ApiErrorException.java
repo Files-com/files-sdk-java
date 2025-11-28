@@ -865,6 +865,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class BufferedUploadDisabledForThisDestinationException extends ProcessingFailureException {
+    public BufferedUploadDisabledForThisDestinationException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class BundleOnlyAllowsPreviewsException extends ProcessingFailureException {
     public BundleOnlyAllowsPreviewsException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

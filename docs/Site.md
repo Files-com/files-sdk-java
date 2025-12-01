@@ -303,6 +303,7 @@
   "users_can_create_api_keys": true,
   "users_can_create_ssh_keys": true,
   "welcome_custom_text": "Welcome to my site!",
+  "email_footer_custom_text": "Copyright © %Y MyCompany Inc.",
   "welcome_email_cc": "example",
   "welcome_email_subject": "example",
   "welcome_email_enabled": true,
@@ -479,6 +480,7 @@
 * `users_can_create_api_keys` / `usersCanCreateApiKeys`  (boolean): Allow users to create their own API keys?
 * `users_can_create_ssh_keys` / `usersCanCreateSshKeys`  (boolean): Allow users to create their own SSH keys?
 * `welcome_custom_text` / `welcomeCustomText`  (string): Custom text send in user welcome email
+* `email_footer_custom_text` / `emailFooterCustomText`  (string): Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 * `welcome_email_cc` / `welcomeEmailCc`  (email): Include this email in welcome emails if enabled
 * `welcome_email_subject` / `welcomeEmailSubject`  (string): Include this email subject in welcome emails if enabled
 * `welcome_email_enabled` / `welcomeEmailEnabled`  (boolean): Will the welcome email be sent to new users?
@@ -652,6 +654,7 @@ Site site = Site.update(
 * `site_public_footer` (String): Custom site footer text for public pages
 * `login_help_text` (String): Login help text
 * `use_dedicated_ips_for_smtp` (Boolean): If using custom SMTP, should we use dedicated IPs to deliver emails?
+* `email_footer_custom_text` (String): Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
 * `smtp_address` (String): SMTP server hostname or IP
 * `smtp_authentication` (String): SMTP server authentication type
 * `smtp_from` (String): From address to use when mailing through custom SMTP

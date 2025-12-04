@@ -727,6 +727,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Route traffic to outbound on a files-agent
+  */
+  @JsonProperty("outbound_agent_id")
+  public Long outboundAgentId;
+
+  public Long getOutboundAgentId() {
+    return outboundAgentId;
+  }
+
+  public void setOutboundAgentId(Long outboundAgentId) {
+    this.outboundAgentId = outboundAgentId;
+  }
+
+  /**
   * Filebase: Bucket name
   */
   @JsonProperty("filebase_bucket")
@@ -1195,6 +1209,7 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
+  *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -1429,6 +1444,7 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
+  *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -1593,6 +1609,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("files_agent_version") && !(parameters.get("files_agent_version") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: files_agent_version must be of type String parameters[\"files_agent_version\"]");
+    }
+    if (parameters.containsKey("outbound_agent_id") && !(parameters.get("outbound_agent_id") instanceof Long || parameters.get("outbound_agent_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: outbound_agent_id must be of type Long or Integer parameters[\"outbound_agent_id\"]");
     }
     if (parameters.containsKey("google_cloud_storage_bucket") && !(parameters.get("google_cloud_storage_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_bucket must be of type String parameters[\"google_cloud_storage_bucket\"]");
@@ -1811,6 +1830,7 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
+  *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -1988,6 +2008,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("files_agent_version") && !(parameters.get("files_agent_version") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: files_agent_version must be of type String parameters[\"files_agent_version\"]");
+    }
+    if (parameters.containsKey("outbound_agent_id") && !(parameters.get("outbound_agent_id") instanceof Long || parameters.get("outbound_agent_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: outbound_agent_id must be of type Long or Integer parameters[\"outbound_agent_id\"]");
     }
     if (parameters.containsKey("google_cloud_storage_bucket") && !(parameters.get("google_cloud_storage_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_bucket must be of type String parameters[\"google_cloud_storage_bucket\"]");

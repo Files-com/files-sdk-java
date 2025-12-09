@@ -213,17 +213,17 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Remote Server Sync that created the file/folder
+  * ID of the Sync that created the file/folder
   */
-  @JsonProperty("created_by_remote_server_sync_id")
-  public Long createdByRemoteServerSyncId;
+  @JsonProperty("created_by_sync_id")
+  public Long createdBySyncId;
 
-  public Long getCreatedByRemoteServerSyncId() {
-    return createdByRemoteServerSyncId;
+  public Long getCreatedBySyncId() {
+    return createdBySyncId;
   }
 
-  public void setCreatedByRemoteServerSyncId(Long createdByRemoteServerSyncId) {
-    this.createdByRemoteServerSyncId = createdByRemoteServerSyncId;
+  public void setCreatedBySyncId(Long createdBySyncId) {
+    this.createdBySyncId = createdBySyncId;
   }
 
   /**
@@ -363,17 +363,17 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Remote Server Sync that last modified the file/folder
+  * ID of the Sync that last modified the file/folder
   */
-  @JsonProperty("last_modified_by_remote_server_sync_id")
-  public Long lastModifiedByRemoteServerSyncId;
+  @JsonProperty("last_modified_by_sync_id")
+  public Long lastModifiedBySyncId;
 
-  public Long getLastModifiedByRemoteServerSyncId() {
-    return lastModifiedByRemoteServerSyncId;
+  public Long getLastModifiedBySyncId() {
+    return lastModifiedBySyncId;
   }
 
-  public void setLastModifiedByRemoteServerSyncId(Long lastModifiedByRemoteServerSyncId) {
-    this.lastModifiedByRemoteServerSyncId = lastModifiedByRemoteServerSyncId;
+  public void setLastModifiedBySyncId(Long lastModifiedBySyncId) {
+    this.lastModifiedBySyncId = lastModifiedBySyncId;
   }
 
   /**

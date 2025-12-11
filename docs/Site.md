@@ -207,7 +207,6 @@
   "smtp_from": "me@my-mail-server.com",
   "smtp_port": 25,
   "smtp_username": "mail",
-  "session_expiry": 6.0,
   "session_expiry_minutes": 360,
   "snapshot_sharing_enabled": true,
   "ssl_required": true,
@@ -460,7 +459,6 @@
 * `smtp_from` / `smtpFrom`  (string): From address to use when mailing through custom SMTP
 * `smtp_port` / `smtpPort`  (int64): SMTP server port
 * `smtp_username` / `smtpUsername`  (string): SMTP server username
-* `session_expiry` / `sessionExpiry`  (double): Session expiry in hours
 * `session_expiry_minutes` / `sessionExpiryMinutes`  (int64): Session expiry in minutes
 * `snapshot_sharing_enabled` / `snapshotSharingEnabled`  (boolean): Allow snapshot share links creation
 * `ssl_required` / `sslRequired`  (boolean): Is SSL required?  Disabling this is insecure.
@@ -573,7 +571,7 @@ Site site = Site.update(
 * `legacy_checksums_mode` (Boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` (Boolean): If true, we will migrate all remote server syncs to the new Sync model.
 * `as2_message_retention_days` (Long): Number of days to retain AS2 messages (incoming and outgoing).
-* `session_expiry` (Double): Session expiry in hours
+* `session_expiry_minutes` (Long): Session expiry in minutes
 * `ssl_required` (Boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 * `sftp_insecure_diffie_hellman` (Boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
@@ -695,4 +693,3 @@ Site site = Site.update(
 * `ldap_password_change` (String): New LDAP password.
 * `ldap_password_change_confirmation` (String): Confirm new LDAP password.
 * `smtp_password` (String): Password for SMTP server.
-* `session_expiry_minutes` (Long): Session expiry in minutes

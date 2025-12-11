@@ -156,13 +156,13 @@ public class Behavior implements ModelInterface {
   * Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
   */
   @JsonProperty("value")
-  public Map<String, String> value;
+  public Object value;
 
-  public Map<String, String> getValue() {
+  public Object getValue() {
     return value;
   }
 
-  public void setValue(Map<String, String> value) {
+  public void setValue(Object value) {
     this.value = value;
   }
 
@@ -444,8 +444,8 @@ public class Behavior implements ModelInterface {
       throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
     }
 
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
+    if (parameters.containsKey("value")) {
+      parameters.put("value", String.valueOf(parameters.get("value")));
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
@@ -568,8 +568,8 @@ public class Behavior implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type String parameters[\"value\"]");
+    if (parameters.containsKey("value")) {
+      parameters.put("value", String.valueOf(parameters.get("value")));
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");

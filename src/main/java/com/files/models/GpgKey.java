@@ -69,7 +69,7 @@ public class GpgKey implements ModelInterface {
 
 
   /**
-  * Your GPG key ID.
+  * GPG key ID.
   */
   @JsonProperty("id")
   public Long id;
@@ -83,7 +83,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG key expiration date.
+  * GPG key expiration date.
   */
   @JsonProperty("expires_at")
   public Date expiresAt;
@@ -97,7 +97,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG key name.
+  * GPG key name.
   */
   @JsonProperty("name")
   public String name;
@@ -153,7 +153,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * MD5 hash of your GPG public key
+  * MD5 hash of the GPG public key
   */
   @JsonProperty("public_key_md5")
   public String publicKeyMd5;
@@ -167,7 +167,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * MD5 hash of your GPG private key.
+  * MD5 hash of the GPG private key.
   */
   @JsonProperty("private_key_md5")
   public String privateKeyMd5;
@@ -181,7 +181,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG public key
+  * GPG public key
   */
   @JsonProperty("generated_public_key")
   public String generatedPublicKey;
@@ -195,7 +195,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG private key.
+  * GPG private key.
   */
   @JsonProperty("generated_private_key")
   public String generatedPrivateKey;
@@ -209,7 +209,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG private key password. Only required for password protected keys.
+  * GPG private key password. Only required for password protected keys.
   */
   @JsonProperty("private_key_password_md5")
   public String privateKeyPasswordMd5;
@@ -223,7 +223,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * MD5 hash of your GPG public key
+  * The GPG public key
   */
   @JsonProperty("public_key")
   public String publicKey;
@@ -237,7 +237,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * MD5 hash of your GPG private key.
+  * The GPG private key
   */
   @JsonProperty("private_key")
   public String privateKey;
@@ -251,7 +251,7 @@ public class GpgKey implements ModelInterface {
   }
 
   /**
-  * Your GPG private key password. Only required for password protected keys.
+  * The GPG private key password
   */
   @JsonProperty("private_key_password")
   public String privateKeyPassword;
@@ -323,10 +323,10 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   public_key - string - MD5 hash of your GPG public key
-  *   private_key - string - MD5 hash of your GPG private key.
-  *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-  *   name - string - Your GPG key name.
+  *   public_key - string - The GPG public key
+  *   private_key - string - The GPG private key
+  *   private_key_password - string - The GPG private key password
+  *   name - string - GPG key name.
   */
   public GpgKey update(HashMap<String, Object> parameters) throws IOException {
     return GpgKey.update(this.id, parameters, this.options);
@@ -450,10 +450,10 @@ public class GpgKey implements ModelInterface {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   public_key - string - MD5 hash of your GPG public key
-  *   private_key - string - MD5 hash of your GPG private key.
-  *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-  *   name (required) - string - Your GPG key name.
+  *   public_key - string - The GPG public key
+  *   private_key - string - The GPG private key
+  *   private_key_password - string - The GPG private key password
+  *   name (required) - string - GPG key name.
   *   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
   *   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
   *   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -519,10 +519,10 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   public_key - string - MD5 hash of your GPG public key
-  *   private_key - string - MD5 hash of your GPG private key.
-  *   private_key_password - string - Your GPG private key password. Only required for password protected keys.
-  *   name - string - Your GPG key name.
+  *   public_key - string - The GPG public key
+  *   private_key - string - The GPG private key
+  *   private_key_password - string - The GPG private key password
+  *   name - string - GPG key name.
   */
   public static GpgKey update() throws RuntimeException {
     return update(null, null, null);

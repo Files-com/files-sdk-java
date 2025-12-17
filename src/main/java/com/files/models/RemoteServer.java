@@ -167,7 +167,7 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * Port for remote server.  Not needed for S3.
+  * Port for remote server.
   */
   @JsonProperty("port")
   public Long port;
@@ -234,6 +234,20 @@ public class RemoteServer implements ModelInterface {
 
   public void setPinnedRegion(String pinnedRegion) {
     this.pinnedRegion = pinnedRegion;
+  }
+
+  /**
+  * ID of Remote Server Credential, if applicable.
+  */
+  @JsonProperty("remote_server_credential_id")
+  public Long remoteServerCredentialId;
+
+  public Long getRemoteServerCredentialId() {
+    return remoteServerCredentialId;
+  }
+
+  public void setRemoteServerCredentialId(Long remoteServerCredentialId) {
+    this.remoteServerCredentialId = remoteServerCredentialId;
   }
 
   /**
@@ -335,7 +349,7 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * Remote server username.  Not needed for S3 buckets.
+  * Remote server username.
   */
   @JsonProperty("username")
   public String username;
@@ -1221,7 +1235,8 @@ public class RemoteServer implements ModelInterface {
   *   name - string - Internal name for your reference
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-  *   port - int64 - Port for remote server.  Not needed for S3.
+  *   port - int64 - Port for remote server.
+  *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1232,7 +1247,7 @@ public class RemoteServer implements ModelInterface {
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
   *   ssl - string - Should we require SSL?
-  *   username - string - Remote server username.  Not needed for S3 buckets.
+  *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   wasabi_bucket - string - Wasabi: Bucket name
   *   wasabi_region - string - Wasabi: Region
@@ -1456,7 +1471,8 @@ public class RemoteServer implements ModelInterface {
   *   name - string - Internal name for your reference
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-  *   port - int64 - Port for remote server.  Not needed for S3.
+  *   port - int64 - Port for remote server.
+  *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1467,7 +1483,7 @@ public class RemoteServer implements ModelInterface {
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
   *   ssl - string - Should we require SSL?
-  *   username - string - Remote server username.  Not needed for S3 buckets.
+  *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   wasabi_bucket - string - Wasabi: Bucket name
   *   wasabi_region - string - Wasabi: Region
@@ -1648,6 +1664,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
+    }
+    if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");
@@ -1842,7 +1861,8 @@ public class RemoteServer implements ModelInterface {
   *   name - string - Internal name for your reference
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-  *   port - int64 - Port for remote server.  Not needed for S3.
+  *   port - int64 - Port for remote server.
+  *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1853,7 +1873,7 @@ public class RemoteServer implements ModelInterface {
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
   *   ssl - string - Should we require SSL?
-  *   username - string - Remote server username.  Not needed for S3 buckets.
+  *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   wasabi_bucket - string - Wasabi: Bucket name
   *   wasabi_region - string - Wasabi: Region
@@ -2047,6 +2067,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
+    }
+    if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");

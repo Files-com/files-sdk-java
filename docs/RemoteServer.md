@@ -16,6 +16,7 @@
   "max_connections": 1,
   "pin_to_site_region": true,
   "pinned_region": "us-east-1",
+  "remote_server_credential_id": 1,
   "s3_bucket": "my-bucket",
   "s3_region": "us-east-1",
   "aws_access_key": "example",
@@ -72,11 +73,12 @@
 * `remote_home_path` / `remoteHomePath`  (string): Initial home folder on remote server
 * `name` / `name`  (string): Internal name for your reference
 * `description` / `description`  (string): Internal description for your reference
-* `port` / `port`  (int64): Port for remote server.  Not needed for S3.
+* `port` / `port`  (int64): Port for remote server.
 * `buffer_uploads` / `bufferUploads`  (string): If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
 * `max_connections` / `maxConnections`  (int64): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
 * `pin_to_site_region` / `pinToSiteRegion`  (boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `pinned_region` / `pinnedRegion`  (string): If set, all communications with this remote server are made through the provided region.
+* `remote_server_credential_id` / `remoteServerCredentialId`  (int64): ID of Remote Server Credential, if applicable.
 * `s3_bucket` / `s3Bucket`  (string): S3 bucket name
 * `s3_region` / `s3Region`  (string): S3 region
 * `aws_access_key` / `awsAccessKey`  (string): AWS Access Key.
@@ -84,7 +86,7 @@
 * `server_host_key` / `serverHostKey`  (string): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` / `serverType`  (string): Remote server type.
 * `ssl` / `ssl`  (string): Should we require SSL?
-* `username` / `username`  (string): Remote server username.  Not needed for S3 buckets.
+* `username` / `username`  (string): Remote server username.
 * `google_cloud_storage_bucket` / `googleCloudStorageBucket`  (string): Google Cloud Storage: Bucket Name
 * `google_cloud_storage_project_id` / `googleCloudStorageProjectId`  (string): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` / `googleCloudStorageS3CompatibleAccessKey`  (string): Google Cloud Storage: S3-compatible Access Key.
@@ -266,7 +268,8 @@ RemoteServer remoteServer = RemoteServer.create(
 * `name` (String): Internal name for your reference
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-* `port` (Long): Port for remote server.  Not needed for S3.
+* `port` (Long): Port for remote server.
+* `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
@@ -277,7 +280,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
 * `ssl` (String): Should we require SSL?
-* `username` (String): Remote server username.  Not needed for S3 buckets.
+* `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `wasabi_bucket` (String): Wasabi: Bucket name
 * `wasabi_region` (String): Wasabi: Region
@@ -379,7 +382,8 @@ RemoteServer remoteServer = RemoteServer.update(
 * `name` (String): Internal name for your reference
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-* `port` (Long): Port for remote server.  Not needed for S3.
+* `port` (Long): Port for remote server.
+* `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
@@ -390,7 +394,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
 * `ssl` (String): Should we require SSL?
-* `username` (String): Remote server username.  Not needed for S3 buckets.
+* `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `wasabi_bucket` (String): Wasabi: Bucket name
 * `wasabi_region` (String): Wasabi: Region
@@ -496,6 +500,7 @@ parameters.put("name", "My Remote server");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("pin_to_site_region", true);
 parameters.put("port", 1);
+parameters.put("remote_server_credential_id", 1);
 parameters.put("s3_bucket", "my-bucket");
 parameters.put("s3_compatible_access_key", "example");
 parameters.put("s3_compatible_bucket", "my-bucket");
@@ -570,7 +575,8 @@ remoteServer.update(parameters);
 * `name` (String): Internal name for your reference
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-* `port` (Long): Port for remote server.  Not needed for S3.
+* `port` (Long): Port for remote server.
+* `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
@@ -581,7 +587,7 @@ remoteServer.update(parameters);
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
 * `ssl` (String): Should we require SSL?
-* `username` (String): Remote server username.  Not needed for S3 buckets.
+* `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `wasabi_bucket` (String): Wasabi: Bucket name
 * `wasabi_region` (String): Wasabi: Region

@@ -279,6 +279,7 @@ Bundle bundle = Bundle.update(
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
@@ -354,6 +355,7 @@ parameters.put("skip_company", true);
 parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
+parameters.put("user_id", 1);
 parameters.put("watermark_attachment_delete", false);
 
 bundle.update(parameters);
@@ -385,6 +387,7 @@ bundle.update(parameters);
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 

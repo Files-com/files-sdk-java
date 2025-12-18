@@ -744,6 +744,7 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+  *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
@@ -1102,6 +1103,7 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+  *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
@@ -1201,6 +1203,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
+    }
+    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
     if (parameters.containsKey("watermark_attachment_delete") && !(parameters.get("watermark_attachment_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_delete must be of type Boolean parameters[\"watermark_attachment_delete\"]");

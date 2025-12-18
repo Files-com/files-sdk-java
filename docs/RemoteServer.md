@@ -52,6 +52,8 @@
   "files_agent_root": "example",
   "files_agent_api_token": "example",
   "files_agent_version": "example",
+  "files_agent_up_to_date": true,
+  "files_agent_latest_version": "example",
   "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
@@ -114,6 +116,8 @@
 * `files_agent_root` / `filesAgentRoot`  (string): Agent local root path
 * `files_agent_api_token` / `filesAgentApiToken`  (string): Files Agent API Token
 * `files_agent_version` / `filesAgentVersion`  (string): Files Agent version
+* `files_agent_up_to_date` / `filesAgentUpToDate`  (boolean): If true, the Files Agent is up to date.
+* `files_agent_latest_version` / `filesAgentLatestVersion`  (string): Latest available Files Agent version
 * `outbound_agent_id` / `outboundAgentId`  (int64): Route traffic to outbound on a files-agent
 * `filebase_bucket` / `filebaseBucket`  (string): Filebase: Bucket name
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase: Access Key.
@@ -288,6 +292,23 @@ RemoteServer remoteServer = RemoteServer.create(
 
 ---
 
+## Push update to Files Agent
+
+```
+AgentPushUpdate remoteServer = RemoteServer.agentPushUpdate(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
 ## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
 
 ```
@@ -410,6 +431,23 @@ void remoteServer = RemoteServer.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## Push update to Files Agent
+
+```
+RemoteServer remoteServer = RemoteServer.find(id);
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+remoteServer.agentPushUpdate(parameters);
 ```
 
 ### Parameters

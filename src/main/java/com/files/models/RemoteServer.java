@@ -741,6 +741,34 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * If true, the Files Agent is up to date.
+  */
+  @JsonProperty("files_agent_up_to_date")
+  public Boolean filesAgentUpToDate;
+
+  public Boolean getFilesAgentUpToDate() {
+    return filesAgentUpToDate;
+  }
+
+  public void setFilesAgentUpToDate(Boolean filesAgentUpToDate) {
+    this.filesAgentUpToDate = filesAgentUpToDate;
+  }
+
+  /**
+  * Latest available Files Agent version
+  */
+  @JsonProperty("files_agent_latest_version")
+  public String filesAgentLatestVersion;
+
+  public String getFilesAgentLatestVersion() {
+    return filesAgentLatestVersion;
+  }
+
+  public void setFilesAgentLatestVersion(String filesAgentLatestVersion) {
+    this.filesAgentLatestVersion = filesAgentLatestVersion;
+  }
+
+  /**
   * Route traffic to outbound on a files-agent
   */
   @JsonProperty("outbound_agent_id")
@@ -1158,6 +1186,13 @@ public class RemoteServer implements ModelInterface {
 
   public void setWasabiSecretKey(String wasabiSecretKey) {
     this.wasabiSecretKey = wasabiSecretKey;
+  }
+
+  /**
+  * Push update to Files Agent
+  */
+  public AgentPushUpdate agentPushUpdate(HashMap<String, Object> parameters) throws IOException {
+    return RemoteServer.agentPushUpdate(this.id, parameters, this.options);
   }
 
   /**
@@ -1715,6 +1750,47 @@ public class RemoteServer implements ModelInterface {
     String url = String.format("%s%s/remote_servers", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
     TypeReference<RemoteServer> typeReference = new TypeReference<RemoteServer>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Push update to Files Agent
+  */
+  public static AgentPushUpdate agentPushUpdate() throws RuntimeException {
+    return agentPushUpdate(null, null, null);
+  }
+
+  public static AgentPushUpdate agentPushUpdate(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return agentPushUpdate(id, parameters, null);
+  }
+
+  public static AgentPushUpdate agentPushUpdate(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return agentPushUpdate(null, parameters, options);
+  }
+
+  public static AgentPushUpdate agentPushUpdate(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/remote_servers/%s/agent_push_update", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<AgentPushUpdate> typeReference = new TypeReference<AgentPushUpdate>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

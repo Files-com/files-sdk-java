@@ -195,6 +195,20 @@ public class Restore implements ModelInterface {
   }
 
   /**
+  * Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records.
+  */
+  @JsonProperty("restoration_type")
+  public String restorationType;
+
+  public String getRestorationType() {
+    return restorationType;
+  }
+
+  public void setRestorationType(String restorationType) {
+    this.restorationType = restorationType;
+  }
+
+  /**
   * If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
   */
   @JsonProperty("restore_in_place")
@@ -220,6 +234,90 @@ public class Restore implements ModelInterface {
 
   public void setRestoreDeletedPermissions(Boolean restoreDeletedPermissions) {
     this.restoreDeletedPermissions = restoreDeletedPermissions;
+  }
+
+  /**
+  * Number of users successfully restored (only present for `restoration_type=users`).
+  */
+  @JsonProperty("users_restored")
+  public Long usersRestored;
+
+  public Long getUsersRestored() {
+    return usersRestored;
+  }
+
+  public void setUsersRestored(Long usersRestored) {
+    this.usersRestored = usersRestored;
+  }
+
+  /**
+  * Number of users that failed to restore (only present for `restoration_type=users`).
+  */
+  @JsonProperty("users_errored")
+  public Long usersErrored;
+
+  public Long getUsersErrored() {
+    return usersErrored;
+  }
+
+  public void setUsersErrored(Long usersErrored) {
+    this.usersErrored = usersErrored;
+  }
+
+  /**
+  * Total number of users processed (only present for `restoration_type=users`).
+  */
+  @JsonProperty("users_total")
+  public Long usersTotal;
+
+  public Long getUsersTotal() {
+    return usersTotal;
+  }
+
+  public void setUsersTotal(Long usersTotal) {
+    this.usersTotal = usersTotal;
+  }
+
+  /**
+  * Number of API keys restored (only present for `restoration_type=users`).
+  */
+  @JsonProperty("api_keys_restored")
+  public Long apiKeysRestored;
+
+  public Long getApiKeysRestored() {
+    return apiKeysRestored;
+  }
+
+  public void setApiKeysRestored(Long apiKeysRestored) {
+    this.apiKeysRestored = apiKeysRestored;
+  }
+
+  /**
+  * Number of public keys restored (only present for `restoration_type=users`).
+  */
+  @JsonProperty("public_keys_restored")
+  public Long publicKeysRestored;
+
+  public Long getPublicKeysRestored() {
+    return publicKeysRestored;
+  }
+
+  public void setPublicKeysRestored(Long publicKeysRestored) {
+    this.publicKeysRestored = publicKeysRestored;
+  }
+
+  /**
+  * Number of two factor authentication methods restored (only present for `restoration_type=users`).
+  */
+  @JsonProperty("two_factor_authentication_methods_restored")
+  public Long twoFactorAuthenticationMethodsRestored;
+
+  public Long getTwoFactorAuthenticationMethodsRestored() {
+    return twoFactorAuthenticationMethodsRestored;
+  }
+
+  public void setTwoFactorAuthenticationMethodsRestored(Long twoFactorAuthenticationMethodsRestored) {
+    this.twoFactorAuthenticationMethodsRestored = twoFactorAuthenticationMethodsRestored;
   }
 
   /**
@@ -315,6 +413,7 @@ public class Restore implements ModelInterface {
   * Parameters:
   *   earliest_date (required) - string - Restore all files deleted after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
   *   prefix - string - Prefix of the files/folders to restore. To restore a folder, add a trailing slash to the folder name. Do not use a leading slash. To restore all deleted items, specify an empty string (`''`) in the prefix field or omit the field from the request.
+  *   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated access/authentication records.
   *   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
   *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
   *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
@@ -342,6 +441,9 @@ public class Restore implements ModelInterface {
     }
     if (parameters.containsKey("prefix") && !(parameters.get("prefix") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: prefix must be of type String parameters[\"prefix\"]");
+    }
+    if (parameters.containsKey("restoration_type") && !(parameters.get("restoration_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: restoration_type must be of type String parameters[\"restoration_type\"]");
     }
     if (parameters.containsKey("restore_deleted_permissions") && !(parameters.get("restore_deleted_permissions") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restore_deleted_permissions must be of type Boolean parameters[\"restore_deleted_permissions\"]");

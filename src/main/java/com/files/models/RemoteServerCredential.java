@@ -518,7 +518,6 @@ public class RemoteServerCredential implements ModelInterface {
 
   /**
   * Parameters:
-  *   workspace_id - int64 - Workspace ID (0 for default workspace)
   *   name - string - Internal name for your reference
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -674,7 +673,6 @@ public class RemoteServerCredential implements ModelInterface {
 
   /**
   * Parameters:
-  *   workspace_id - int64 - Workspace ID (0 for default workspace)
   *   name - string - Internal name for your reference
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -705,6 +703,7 @@ public class RemoteServerCredential implements ModelInterface {
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
   *   wasabi_secret_key - string - Wasabi: Secret Key
+  *   workspace_id - int64 - Workspace ID (0 for default workspace)
   */
   public static RemoteServerCredential create() throws RuntimeException {
     return create(null, null);
@@ -721,9 +720,6 @@ public class RemoteServerCredential implements ModelInterface {
 
 
 
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -814,6 +810,9 @@ public class RemoteServerCredential implements ModelInterface {
     if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
 
 
     String url = String.format("%s%s/remote_server_credentials", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -825,7 +824,6 @@ public class RemoteServerCredential implements ModelInterface {
 
   /**
   * Parameters:
-  *   workspace_id - int64 - Workspace ID (0 for default workspace)
   *   name - string - Internal name for your reference
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -884,9 +882,6 @@ public class RemoteServerCredential implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

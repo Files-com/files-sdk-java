@@ -108,7 +108,6 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 
 ### Parameters
 
-* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -139,6 +138,7 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 * `linode_secret_key` (String): Linode: Secret Key
 * `s3_compatible_secret_key` (String): S3-compatible: Secret Key
 * `wasabi_secret_key` (String): Wasabi: Secret Key
+* `workspace_id` (Long): Workspace ID (0 for default workspace)
 
 
 ---
@@ -156,7 +156,6 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 ### Parameters
 
 * `id` (Long): Required - Remote Server Credential ID.
-* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -214,7 +213,6 @@ void remoteServerCredential = RemoteServerCredential.delete(
 RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("workspace_id", 0);
 parameters.put("name", "My Credential");
 parameters.put("description", "More information or notes about this credential.");
 parameters.put("server_type", "s3");
@@ -235,7 +233,6 @@ remoteServerCredential.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Remote Server Credential ID.
-* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.

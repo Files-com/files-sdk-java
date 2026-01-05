@@ -337,7 +337,6 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   workspace_id - int64 - Workspace ID (0 for default workspace).
   *   public_key - string - The GPG public key
   *   private_key - string - The GPG private key
   *   private_key_password - string - The GPG private key password
@@ -485,11 +484,11 @@ public class GpgKey implements ModelInterface {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   workspace_id - int64 - Workspace ID (0 for default workspace).
   *   public_key - string - The GPG public key
   *   private_key - string - The GPG private key
   *   private_key_password - string - The GPG private key password
   *   name (required) - string - GPG key name.
+  *   workspace_id - int64 - Workspace ID (0 for default workspace).
   *   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
   *   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
   *   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -519,9 +518,6 @@ public class GpgKey implements ModelInterface {
     if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
     }
@@ -533,6 +529,9 @@ public class GpgKey implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("generate_expires_at") && !(parameters.get("generate_expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: generate_expires_at must be of type String parameters[\"generate_expires_at\"]");
@@ -558,7 +557,6 @@ public class GpgKey implements ModelInterface {
   /**
   * Parameters:
   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-  *   workspace_id - int64 - Workspace ID (0 for default workspace).
   *   public_key - string - The GPG public key
   *   private_key - string - The GPG private key
   *   private_key_password - string - The GPG private key password
@@ -594,9 +592,6 @@ public class GpgKey implements ModelInterface {
     }
     if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");

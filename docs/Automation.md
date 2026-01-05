@@ -226,8 +226,8 @@ Automation automation = Automation.create(
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `workspace_id` (Long): Workspace ID
 * `automation` (String): Required - Automation type
+* `workspace_id` (Long): Workspace ID
 
 
 ---
@@ -294,7 +294,6 @@ Automation automation = Automation.update(
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `workspace_id` (Long): Workspace ID
 * `automation` (String): Automation type
 
 
@@ -372,7 +371,6 @@ parameters.put("trigger", "daily");
 parameters.put("trigger_actions", ["create"]);
 parameters.put("value", {"limit":"1"});
 parameters.put("recurring_day", 25);
-parameters.put("workspace_id", 0);
 parameters.put("automation", "create_folder");
 
 automation.update(parameters);
@@ -413,7 +411,6 @@ automation.update(parameters);
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-* `workspace_id` (Long): Workspace ID
 * `automation` (String): Automation type
 
 

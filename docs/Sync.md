@@ -240,7 +240,6 @@ Sync sync = Sync.update(
 * `schedule_time_zone` (String): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
-* `workspace_id` (Long): Workspace ID this sync belongs to
 
 
 ---
@@ -320,7 +319,6 @@ parameters.put("recurring_day", 25);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_days_of_week", [0,2,4]);
 parameters.put("schedule_times_of_day", ["06:30","14:30"]);
-parameters.put("workspace_id", 1);
 
 sync.update(parameters);
 ```
@@ -346,7 +344,6 @@ sync.update(parameters);
 * `schedule_time_zone` (String): If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
-* `workspace_id` (Long): Workspace ID this sync belongs to
 
 
 ---

@@ -98,11 +98,11 @@ GpgKey gpgKey = GpgKey.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
-* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password
 * `name` (String): Required - GPG key name.
+* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `generate_expires_at` (String): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
 * `generate_keypair` (Boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
 * `generate_full_name` (String): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
@@ -125,7 +125,6 @@ GpgKey gpgKey = GpgKey.update(
 
 * `id` (Long): Required - Gpg Key ID.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
-* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password
@@ -158,7 +157,6 @@ GpgKey gpgKey = GpgKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("partner_id", 1);
-parameters.put("workspace_id", 0);
 parameters.put("name", "key name");
 
 gpgKey.update(parameters);
@@ -168,7 +166,6 @@ gpgKey.update(parameters);
 
 * `id` (Long): Required - Gpg Key ID.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
-* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password

@@ -83,6 +83,20 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
+  * ID of the Workspace associated with this AS2 Partner.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * ID of the AS2 Station associated with this partner.
   */
   @JsonProperty("as2_station_id")
@@ -385,8 +399,8 @@ public class As2Partner implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `as2_station_id` and `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
   */
   public static ListIterator<As2Partner> list() throws RuntimeException {
     return list(null, null);

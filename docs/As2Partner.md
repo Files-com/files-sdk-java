@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "as2_station_id": 1,
   "name": "AS2 Partner Name",
   "uri": "example",
@@ -29,6 +30,7 @@
 ```
 
 * `id` / `id`  (int64): ID of the AS2 Partner.
+* `workspace_id` / `workspaceId`  (int64): ID of the Workspace associated with this AS2 Partner.
 * `as2_station_id` / `as2StationId`  (int64): ID of the AS2 Station associated with this partner.
 * `name` / `name`  (string): The partner's formal AS2 name.
 * `uri` / `uri`  (string): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
@@ -66,8 +68,8 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `as2_station_id` and `name`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
 
 
 ---

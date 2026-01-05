@@ -83,6 +83,20 @@ public class As2Station implements ModelInterface {
   }
 
   /**
+  * ID of the Workspace associated with this AS2 Station.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * The station's formal AS2 name.
   */
   @JsonProperty("name")
@@ -292,7 +306,7 @@ public class As2Station implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - AS2 Name
+  *   name - string - The station's formal AS2 name.
   *   public_certificate - string
   *   private_key - string
   *   private_key_password - string
@@ -320,7 +334,8 @@ public class As2Station implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
   */
   public static ListIterator<As2Station> list() throws RuntimeException {
     return list(null, null);
@@ -345,6 +360,9 @@ public class As2Station implements ModelInterface {
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
 
 
@@ -413,7 +431,8 @@ public class As2Station implements ModelInterface {
 
   /**
   * Parameters:
-  *   name (required) - string - AS2 Name
+  *   name (required) - string - The station's formal AS2 name.
+  *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
   *   public_certificate (required) - string
   *   private_key (required) - string
   *   private_key_password - string
@@ -445,6 +464,9 @@ public class As2Station implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
@@ -465,7 +487,7 @@ public class As2Station implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - AS2 Name
+  *   name - string - The station's formal AS2 name.
   *   public_certificate - string
   *   private_key - string
   *   private_key_password - string

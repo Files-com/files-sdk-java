@@ -335,6 +335,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Workspace ID (0 for default workspace)
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Should we require SSL?
   */
   @JsonProperty("ssl")
@@ -766,6 +780,20 @@ public class RemoteServer implements ModelInterface {
 
   public void setFilesAgentLatestVersion(String filesAgentLatestVersion) {
     this.filesAgentLatestVersion = filesAgentLatestVersion;
+  }
+
+  /**
+  * Files Agent supports receiving push updates
+  */
+  @JsonProperty("files_agent_supports_push_updates")
+  public Boolean filesAgentSupportsPushUpdates;
+
+  public Boolean getFilesAgentSupportsPushUpdates() {
+    return filesAgentSupportsPushUpdates;
+  }
+
+  public void setFilesAgentSupportsPushUpdates(Boolean filesAgentSupportsPushUpdates) {
+    this.filesAgentSupportsPushUpdates = filesAgentSupportsPushUpdates;
   }
 
   /**
@@ -1310,7 +1338,7 @@ public class RemoteServer implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
   */
@@ -1522,6 +1550,7 @@ public class RemoteServer implements ModelInterface {
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   wasabi_bucket - string - Wasabi: Bucket name
   *   wasabi_region - string - Wasabi: Region
+  *   workspace_id - int64 - Workspace ID (0 for default workspace)
   */
   public static RemoteServer create() throws RuntimeException {
     return create(null, null);
@@ -1744,6 +1773,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("wasabi_region") && !(parameters.get("wasabi_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_region must be of type String parameters[\"wasabi_region\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

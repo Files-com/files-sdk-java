@@ -23,6 +23,7 @@
   "server_certificate": "require_match",
   "server_host_key": "[public key]",
   "server_type": "s3",
+  "workspace_id": 1,
   "ssl": "if_available",
   "username": "user",
   "google_cloud_storage_bucket": "my-bucket",
@@ -54,6 +55,7 @@
   "files_agent_version": "example",
   "files_agent_up_to_date": true,
   "files_agent_latest_version": "example",
+  "files_agent_supports_push_updates": true,
   "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
@@ -87,6 +89,7 @@
 * `server_certificate` / `serverCertificate`  (string): Remote server certificate
 * `server_host_key` / `serverHostKey`  (string): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` / `serverType`  (string): Remote server type.
+* `workspace_id` / `workspaceId`  (int64): Workspace ID (0 for default workspace)
 * `ssl` / `ssl`  (string): Should we require SSL?
 * `username` / `username`  (string): Remote server username.
 * `google_cloud_storage_bucket` / `googleCloudStorageBucket`  (string): Google Cloud Storage: Bucket Name
@@ -118,6 +121,7 @@
 * `files_agent_version` / `filesAgentVersion`  (string): Files Agent version
 * `files_agent_up_to_date` / `filesAgentUpToDate`  (boolean): If true, the Files Agent is up to date.
 * `files_agent_latest_version` / `filesAgentLatestVersion`  (string): Latest available Files Agent version
+* `files_agent_supports_push_updates` / `filesAgentSupportsPushUpdates`  (boolean): Files Agent supports receiving push updates
 * `outbound_agent_id` / `outboundAgentId`  (int64): Route traffic to outbound on a files-agent
 * `filebase_bucket` / `filebaseBucket`  (string): Filebase: Bucket name
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase: Access Key.
@@ -166,7 +170,7 @@ ListIterator<RemoteServer> remoteServer = RemoteServer.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `server_type`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`.
 * `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`, `server_type`, `workspace_id`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ server_type, name ]`, `[ workspace_id, name ]`, `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]`, `[ linode_bucket, name ]`, `[ workspace_id, server_type ]` or `[ workspace_id, server_type, name ]`.
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`, `backblaze_b2_bucket`, `google_cloud_storage_bucket`, `wasabi_bucket`, `s3_bucket`, `azure_blob_storage_container`, `azure_files_storage_share_name`, `s3_compatible_bucket`, `filebase_bucket`, `cloudflare_bucket` or `linode_bucket`. Valid field combinations are `[ backblaze_b2_bucket, name ]`, `[ google_cloud_storage_bucket, name ]`, `[ wasabi_bucket, name ]`, `[ s3_bucket, name ]`, `[ azure_blob_storage_container, name ]`, `[ azure_files_storage_share_name, name ]`, `[ s3_compatible_bucket, name ]`, `[ filebase_bucket, name ]`, `[ cloudflare_bucket, name ]` or `[ linode_bucket, name ]`.
 
@@ -288,6 +292,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `wasabi_bucket` (String): Wasabi: Bucket name
 * `wasabi_region` (String): Wasabi: Region
+* `workspace_id` (Long): Workspace ID (0 for default workspace)
 
 
 ---

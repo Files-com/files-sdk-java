@@ -255,7 +255,6 @@ public class Group implements ModelInterface {
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   workspace_id - int64 - Workspace ID
   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -398,13 +397,13 @@ public class Group implements ModelInterface {
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   workspace_id - int64 - Workspace ID
   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name (required) - string - Group name.
+  *   workspace_id - int64 - Workspace ID
   */
   public static Group create() throws RuntimeException {
     return create(null, null);
@@ -433,9 +432,6 @@ public class Group implements ModelInterface {
     if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
     }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
     if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
     }
@@ -454,6 +450,9 @@ public class Group implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
 
 
     String url = String.format("%s%s/groups", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -468,7 +467,6 @@ public class Group implements ModelInterface {
   *   notes - string - Group notes.
   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   workspace_id - int64 - Workspace ID
   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -512,9 +510,6 @@ public class Group implements ModelInterface {
     }
     if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");

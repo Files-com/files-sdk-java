@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "name": "AS2 Station Name",
   "uri": "example",
   "domain": "domain.test",
@@ -22,6 +23,7 @@
 ```
 
 * `id` / `id`  (int64): Id of the AS2 Station.
+* `workspace_id` / `workspaceId`  (int64): ID of the Workspace associated with this AS2 Station.
 * `name` / `name`  (string): The station's formal AS2 name.
 * `uri` / `uri`  (string): Public URI for sending AS2 message to.
 * `domain` / `domain`  (string): The station's AS2 domain name.
@@ -55,7 +57,8 @@ ListIterator<As2Station> as2Station = As2Station.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 
 
 ---
@@ -89,7 +92,8 @@ As2Station as2Station = As2Station.create(
 
 ### Parameters
 
-* `name` (String): Required - AS2 Name
+* `name` (String): Required - The station's formal AS2 name.
+* `workspace_id` (Long): ID of the Workspace associated with this AS2 Station.
 * `public_certificate` (String): Required - 
 * `private_key` (String): Required - 
 * `private_key_password` (String): 
@@ -110,7 +114,7 @@ As2Station as2Station = As2Station.update(
 ### Parameters
 
 * `id` (Long): Required - As2 Station ID.
-* `name` (String): AS2 Name
+* `name` (String): The station's formal AS2 name.
 * `public_certificate` (String): 
 * `private_key` (String): 
 * `private_key_password` (String): 
@@ -150,7 +154,7 @@ as2Station.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - As2 Station ID.
-* `name` (String): AS2 Name
+* `name` (String): The station's formal AS2 name.
 * `public_certificate` (String): 
 * `private_key` (String): 
 * `private_key_password` (String): 

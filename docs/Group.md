@@ -92,13 +92,13 @@ Group group = Group.create(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
-* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Required - Group name.
+* `workspace_id` (Long): Workspace ID
 
 
 ---
@@ -119,7 +119,6 @@ Group group = Group.update(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
-* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -156,7 +155,6 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
-parameters.put("workspace_id", 0);
 parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
@@ -173,7 +171,6 @@ group.update(parameters);
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
-* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.

@@ -683,7 +683,6 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   workspace_id - int64 - Workspace ID
   *   automation - string - Automation type
   */
   public Automation update(HashMap<String, Object> parameters) throws IOException {
@@ -854,8 +853,8 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   workspace_id - int64 - Workspace ID
   *   automation (required) - string - Automation type
+  *   workspace_id - int64 - Workspace ID
   */
   public static Automation create() throws RuntimeException {
     return create(null, null);
@@ -971,11 +970,11 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
     }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 
@@ -1060,7 +1059,6 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   workspace_id - int64 - Workspace ID
   *   automation - string - Automation type
   */
   public static Automation update() throws RuntimeException {
@@ -1186,9 +1184,6 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");

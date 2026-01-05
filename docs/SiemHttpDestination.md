@@ -171,7 +171,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 ### Parameters
 
 * `name` (String): Name for this Destination
-* `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
+* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
@@ -221,7 +221,7 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 * `destination_type` (String): Destination Type
 * `destination_url` (String): Destination Url
 * `name` (String): Name for this Destination
-* `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
+* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
@@ -267,7 +267,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 
 * `id` (Long): Required - Siem Http Destination ID.
 * `name` (String): Name for this Destination
-* `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
+* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
@@ -357,7 +357,7 @@ siemHttpDestination.update(parameters);
 
 * `id` (Long): Required - Siem Http Destination ID.
 * `name` (String): Name for this Destination
-* `additional_headers` (Map<String, String>): Additional HTTP Headers included in calls to the destination URL
+* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.

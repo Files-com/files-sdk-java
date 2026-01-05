@@ -87,7 +87,7 @@ public class FileUploadPart implements ModelInterface {
           FilesClient.putBuffer(part.uploadUri, requestMethod, part.path, buffer, bytesRead);
         }
 
-        final HashMap<String, Object> parameters = new HashMap<>(part.parameters);
+        final HashMap<String, Object> parameters = new HashMap<>((Map<String, Object>) part.parameters);
         parameters.put("ref", part.ref);
         parameters.put("part", part.partNumber + 1);
         part = File.create(part.path, parameters, part.options);
@@ -162,9 +162,9 @@ public class FileUploadPart implements ModelInterface {
   * Content-Type and File to send
   */
   @JsonProperty("send")
-  public Map<String, String> send;
+  public Object send;
 
-  public Map<String, String> getSend() {
+  public Object getSend() {
     return send;
   }
 
@@ -212,9 +212,9 @@ public class FileUploadPart implements ModelInterface {
   * Additional upload headers to provide as part of the upload
   */
   @JsonProperty("headers")
-  public Map<String, String> headers;
+  public Object headers;
 
-  public Map<String, String> getHeaders() {
+  public Object getHeaders() {
     return headers;
   }
 
@@ -262,9 +262,9 @@ public class FileUploadPart implements ModelInterface {
   * Additional HTTP parameters to send with the upload
   */
   @JsonProperty("parameters")
-  public Map<String, String> parameters;
+  public Object parameters;
 
-  public Map<String, String> getParameters() {
+  public Object getParameters() {
     return parameters;
   }
 

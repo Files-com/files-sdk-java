@@ -128,13 +128,13 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   * Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
   */
   @JsonProperty("value")
-  public Map<String, String> value;
+  public Object value;
 
-  public Map<String, String> getValue() {
+  public Object getValue() {
     return value;
   }
 
-  public void setValue(Map<String, String> value) {
+  public void setValue(Object value) {
     this.value = value;
   }
 
@@ -330,8 +330,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
       throw new NullPointerException("Parameter missing: policy_type parameters[\"policy_type\"]");
     }
 
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
@@ -390,8 +390,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");

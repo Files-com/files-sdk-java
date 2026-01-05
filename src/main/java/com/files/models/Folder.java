@@ -198,13 +198,13 @@ public class Folder implements ModelInterface {
   * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
   */
   @JsonProperty("custom_metadata")
-  public Map<String, String> customMetadata;
+  public Object customMetadata;
 
-  public Map<String, String> getCustomMetadata() {
+  public Object getCustomMetadata() {
     return customMetadata;
   }
 
-  public void setCustomMetadata(Map<String, String> customMetadata) {
+  public void setCustomMetadata(Object customMetadata) {
     this.customMetadata = customMetadata;
   }
 
@@ -625,8 +625,8 @@ public class Folder implements ModelInterface {
     if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");

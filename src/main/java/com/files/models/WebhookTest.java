@@ -184,13 +184,13 @@ public class WebhookTest implements ModelInterface {
   * Additional request headers.
   */
   @JsonProperty("headers")
-  public Map<String, String> headers;
+  public Object headers;
 
-  public Map<String, String> getHeaders() {
+  public Object getHeaders() {
     return headers;
   }
 
-  public void setHeaders(Map<String, String> headers) {
+  public void setHeaders(Object headers) {
     this.headers = headers;
   }
 
@@ -198,13 +198,13 @@ public class WebhookTest implements ModelInterface {
   * Additional body parameters.
   */
   @JsonProperty("body")
-  public Map<String, String> body;
+  public Object body;
 
-  public Map<String, String> getBody() {
+  public Object getBody() {
     return body;
   }
 
-  public void setBody(Map<String, String> body) {
+  public void setBody(Object body) {
     this.body = body;
   }
 
@@ -323,11 +323,11 @@ public class WebhookTest implements ModelInterface {
     if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
     }
-    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: headers must be of type Map<String, String> parameters[\"headers\"]");
+    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: headers must be of type Object parameters[\"headers\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type Object parameters[\"body\"]");
     }
     if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");

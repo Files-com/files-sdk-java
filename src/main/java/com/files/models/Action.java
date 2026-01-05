@@ -142,9 +142,9 @@ public class Action implements ModelInterface {
   * Targets
   */
   @JsonProperty("targets")
-  public Map<String, String> targets;
+  public Object targets;
 
-  public Map<String, String> getTargets() {
+  public Object getTargets() {
     return targets;
   }
 

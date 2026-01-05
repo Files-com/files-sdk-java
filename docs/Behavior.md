@@ -47,8 +47,8 @@ ListIterator<Behavior> behavior = Behavior.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
 
 
 ---
@@ -84,8 +84,8 @@ ListIterator<Behavior> behavior = Behavior.listFor(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
 * `path` (String): Required - Path to operate on.
 * `ancestor_behaviors` (Boolean): If `true`, behaviors above this path are shown.
 
@@ -104,7 +104,7 @@ Behavior behavior = Behavior.create(
 
 ### Parameters
 
-* `value` (Map<String, String>): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -131,8 +131,8 @@ void behavior = Behavior.webhookTest(
 * `url` (String): Required - URL for testing the webhook.
 * `method` (String): HTTP request method (GET or POST).
 * `encoding` (String): Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
-* `headers` (Map<String, String>): Additional request headers to send via HTTP.
-* `body` (Map<String, String>): Additional body parameters to include in the webhook payload.
+* `headers` (Object): Additional request headers to send via HTTP.
+* `body` (Object): Additional body parameters to include in the webhook payload.
 * `action` (String): Action for test body.
 
 
@@ -151,7 +151,7 @@ Behavior behavior = Behavior.update(
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (Map<String, String>): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
@@ -198,7 +198,7 @@ behavior.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (Map<String, String>): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.

@@ -182,8 +182,8 @@ public class MessageComment implements ModelInterface {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("message_id") && !(parameters.get("message_id") instanceof Long || parameters.get("message_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: message_id must be of type Long or Integer parameters[\"message_id\"]");

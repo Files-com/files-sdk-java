@@ -71,9 +71,9 @@ public class Auto implements ModelInterface {
   /**
   */
   @JsonProperty("dynamic")
-  public Map<String, String> dynamic;
+  public Object dynamic;
 
-  public Map<String, String> getDynamic() {
+  public Object getDynamic() {
     return dynamic;
   }
 

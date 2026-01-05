@@ -82,7 +82,7 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 
 ### Parameters
 
-* `value` (Map<String, String>): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+* `value` (Object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 * `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
 * `policy_type` (String): Required - Type of policy.  Valid values: `settings`.
 * `name` (String): Name for this policy.
@@ -104,7 +104,7 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 ### Parameters
 
 * `id` (Long): Required - Child Site Management Policy ID.
-* `value` (Map<String, String>): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+* `value` (Object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 * `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
 * `policy_type` (String): Type of policy.  Valid values: `settings`.
 * `name` (String): Name for this policy.
@@ -148,7 +148,7 @@ childSiteManagementPolicy.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Child Site Management Policy ID.
-* `value` (Map<String, String>): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+* `value` (Object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
 * `skip_child_site_ids` (Long[]): IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
 * `policy_type` (String): Type of policy.  Valid values: `settings`.
 * `name` (String): Name for this policy.

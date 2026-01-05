@@ -152,9 +152,9 @@ public class BundleRegistration implements ModelInterface {
   * Data for form field set with form field ids as keys and user data as values
   */
   @JsonProperty("form_field_data")
-  public Map<String, String> formFieldData;
+  public Object formFieldData;
 
-  public Map<String, String> getFormFieldData() {
+  public Object getFormFieldData() {
     return formFieldData;
   }
 
@@ -231,8 +231,8 @@ public class BundleRegistration implements ModelInterface {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");

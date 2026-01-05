@@ -46,8 +46,8 @@ WebhookTest webhookTest = WebhookTest.create(
 * `url` (String): Required - URL for testing the webhook.
 * `method` (String): HTTP method(GET or POST).
 * `encoding` (String): HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-* `headers` (Map<String, String>): Additional request headers.
-* `body` (Map<String, String>): Additional body parameters.
+* `headers` (Object): Additional request headers.
+* `body` (Object): Additional body parameters.
 * `raw_body` (String): raw body text
 * `file_as_body` (Boolean): Send the file data as the request body?
 * `file_form_field` (String): Send the file data as a named parameter in the request POST body

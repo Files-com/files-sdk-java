@@ -66,8 +66,8 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `as2_station_id` and `name`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `as2_station_id` and `name`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id`.
 
 
 ---
@@ -108,7 +108,7 @@ As2Partner as2Partner = As2Partner.create(
 * `signature_validation_level` (String): Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: Automatically set the correct value for this setting based on next message received.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
 * `default_mime_type` (String): Default mime type of the file attached to the encrypted message
-* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
+* `additional_http_headers` (Object): Additional HTTP Headers for outgoing message sent to this partner.
 * `as2_station_id` (Long): Required - ID of the AS2 Station associated with this partner.
 * `name` (String): Required - The partner's formal AS2 name.
 * `uri` (String): Required - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
@@ -137,7 +137,7 @@ As2Partner as2Partner = As2Partner.update(
 * `signature_validation_level` (String): Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: Automatically set the correct value for this setting based on next message received.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
 * `default_mime_type` (String): Default mime type of the file attached to the encrypted message
-* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
+* `additional_http_headers` (Object): Additional HTTP Headers for outgoing message sent to this partner.
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
@@ -192,7 +192,7 @@ as2Partner.update(parameters);
 * `signature_validation_level` (String): Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: Automatically set the correct value for this setting based on next message received.
 * `server_certificate` (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
 * `default_mime_type` (String): Default mime type of the file attached to the encrypted message
-* `additional_http_headers` (Map<String, String>): Additional HTTP Headers for outgoing message sent to this partner.
+* `additional_http_headers` (Object): Additional HTTP Headers for outgoing message sent to this partner.
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.

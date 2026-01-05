@@ -279,11 +279,11 @@ public class Behavior implements ModelInterface {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
 
 
@@ -390,11 +390,11 @@ public class Behavior implements ModelInterface {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
@@ -444,8 +444,8 @@ public class Behavior implements ModelInterface {
       throw new NullPointerException("Parameter missing: behavior parameters[\"behavior\"]");
     }
 
-    if (parameters.containsKey("value")) {
-      parameters.put("value", String.valueOf(parameters.get("value")));
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");
@@ -513,11 +513,11 @@ public class Behavior implements ModelInterface {
     if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
     }
-    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: headers must be of type Map<String, String> parameters[\"headers\"]");
+    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: headers must be of type Object parameters[\"headers\"]");
     }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type Map<String, String> parameters[\"body\"]");
+    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: body must be of type Object parameters[\"body\"]");
     }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
@@ -568,8 +568,8 @@ public class Behavior implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("value")) {
-      parameters.put("value", String.valueOf(parameters.get("value")));
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("attachment_file") && !(parameters.get("attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: attachment_file must be of type byte[] parameters[\"attachment_file\"]");

@@ -164,7 +164,7 @@ File file = File.update(
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `custom_metadata` (Map<String, String>): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+* `custom_metadata` (Object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
 * `provided_mtime` (String): Modified time of file.
 * `priority_color` (String): Priority/Bookmark color of file.
 
@@ -311,7 +311,7 @@ file.update(parameters);
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `custom_metadata` (Map<String, String>): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+* `custom_metadata` (Object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
 * `provided_mtime` (String): Modified time of file.
 * `priority_color` (String): Priority/Bookmark color of file.
 

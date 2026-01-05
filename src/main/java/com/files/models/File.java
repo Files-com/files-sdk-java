@@ -230,13 +230,13 @@ public class File implements ModelInterface {
   * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
   */
   @JsonProperty("custom_metadata")
-  public Map<String, String> customMetadata;
+  public Object customMetadata;
 
-  public Map<String, String> getCustomMetadata() {
+  public Object getCustomMetadata() {
     return customMetadata;
   }
 
-  public void setCustomMetadata(Map<String, String> customMetadata) {
+  public void setCustomMetadata(Object customMetadata) {
     this.customMetadata = customMetadata;
   }
 
@@ -995,8 +995,8 @@ public class File implements ModelInterface {
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
-    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Map<String, String> parameters[\"custom_metadata\"]");
+    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Object parameters[\"custom_metadata\"]");
     }
     if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");

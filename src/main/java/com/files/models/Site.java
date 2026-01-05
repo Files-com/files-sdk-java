@@ -382,9 +382,9 @@ public class Site implements ModelInterface {
   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   */
   @JsonProperty("bundle_watermark_value")
-  public Map<String, String> bundleWatermarkValue;
+  public Object bundleWatermarkValue;
 
-  public Map<String, String> getBundleWatermarkValue() {
+  public Object getBundleWatermarkValue() {
     return bundleWatermarkValue;
   }
 
@@ -1072,9 +1072,9 @@ public class Site implements ModelInterface {
   * List of site settings managed by the parent site
   */
   @JsonProperty("managed_site_settings")
-  public Map<String, String> managedSiteSettings;
+  public Object managedSiteSettings;
 
-  public Map<String, String> getManagedSiteSettings() {
+  public Object getManagedSiteSettings() {
     return managedSiteSettings;
   }
 
@@ -2134,8 +2134,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("motd_use_for_sftp") && !(parameters.get("motd_use_for_sftp") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: motd_use_for_sftp must be of type Boolean parameters[\"motd_use_for_sftp\"]");
     }
-    if (parameters.containsKey("left_navigation_visibility") && !(parameters.get("left_navigation_visibility") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: left_navigation_visibility must be of type Map<String, String> parameters[\"left_navigation_visibility\"]");
+    if (parameters.containsKey("left_navigation_visibility") && !(parameters.get("left_navigation_visibility") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: left_navigation_visibility must be of type Object parameters[\"left_navigation_visibility\"]");
     }
     if (parameters.containsKey("additional_text_file_types") && !(parameters.get("additional_text_file_types") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: additional_text_file_types must be of type String[] parameters[\"additional_text_file_types\"]");
@@ -2335,8 +2335,8 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("revoke_bundle_access_on_disable_or_delete") && !(parameters.get("revoke_bundle_access_on_disable_or_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: revoke_bundle_access_on_disable_or_delete must be of type Boolean parameters[\"revoke_bundle_access_on_disable_or_delete\"]");
     }
-    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Map<String, String> parameters[\"bundle_watermark_value\"]");
+    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Object parameters[\"bundle_watermark_value\"]");
     }
     if (parameters.containsKey("group_admins_can_set_user_password") && !(parameters.get("group_admins_can_set_user_password") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_set_user_password must be of type Boolean parameters[\"group_admins_can_set_user_password\"]");

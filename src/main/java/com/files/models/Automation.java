@@ -436,13 +436,13 @@ public class Automation implements ModelInterface {
   * If trigger is `custom_schedule`, Custom schedule description for when the automation should be run in json format.
   */
   @JsonProperty("schedule")
-  public Map<String, String> schedule;
+  public Object schedule;
 
-  public Map<String, String> getSchedule() {
+  public Object getSchedule() {
     return schedule;
   }
 
-  public void setSchedule(Map<String, String> schedule) {
+  public void setSchedule(Object schedule) {
     this.schedule = schedule;
   }
 
@@ -604,13 +604,13 @@ public class Automation implements ModelInterface {
   * A Hash of attributes specific to the automation type.
   */
   @JsonProperty("value")
-  public Map<String, String> value;
+  public Object value;
 
-  public Map<String, String> getValue() {
+  public Object getValue() {
     return value;
   }
 
-  public void setValue(Map<String, String> value) {
+  public void setValue(Object value) {
     this.value = value;
   }
 
@@ -737,23 +737,23 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Map<String, String> parameters[\"sort_by\"]");
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Map<String, String> parameters[\"filter\"]");
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Map<String, String> parameters[\"filter_gt\"]");
+    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
     }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Map<String, String> parameters[\"filter_gteq\"]");
+    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
     }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Map<String, String> parameters[\"filter_lt\"]");
+    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
     }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Map<String, String> parameters[\"filter_lteq\"]");
+    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
     }
 
 
@@ -965,8 +965,8 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
     }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
@@ -1181,8 +1181,8 @@ public class Automation implements ModelInterface {
     if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
     }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Map<String, String> parameters[\"value\"]");
+    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");

@@ -142,9 +142,9 @@ public class InboxRegistration implements ModelInterface {
   * Data for form field set with form field ids as keys and user data as values
   */
   @JsonProperty("form_field_data")
-  public Map<String, String> formFieldData;
+  public Object formFieldData;
 
-  public Map<String, String> getFormFieldData() {
+  public Object getFormFieldData() {
     return formFieldData;
   }
 

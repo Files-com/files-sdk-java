@@ -170,13 +170,13 @@ public class SiemHttpDestination implements ModelInterface {
   * Additional HTTP Headers included in calls to the destination URL
   */
   @JsonProperty("additional_headers")
-  public Map<String, String> additionalHeaders;
+  public Object additionalHeaders;
 
-  public Map<String, String> getAdditionalHeaders() {
+  public Object getAdditionalHeaders() {
     return additionalHeaders;
   }
 
-  public void setAdditionalHeaders(Map<String, String> additionalHeaders) {
+  public void setAdditionalHeaders(Object additionalHeaders) {
     this.additionalHeaders = additionalHeaders;
   }
 
@@ -1079,8 +1079,8 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Map<String, String> parameters[\"additional_headers\"]");
+    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
     }
     if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");
@@ -1240,8 +1240,8 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Map<String, String> parameters[\"additional_headers\"]");
+    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
     }
     if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");
@@ -1397,8 +1397,8 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Map)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Map<String, String> parameters[\"additional_headers\"]");
+    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
     }
     if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");

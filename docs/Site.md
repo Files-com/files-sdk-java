@@ -560,7 +560,7 @@ Site site = Site.update(
 * `motd_text` (String): A message to show users when they connect via FTP or SFTP.
 * `motd_use_for_ftp` (Boolean): Show message to users connecting via FTP
 * `motd_use_for_sftp` (Boolean): Show message to users connecting via SFTP
-* `left_navigation_visibility` (Map<String, String>): Visibility settings for account navigation
+* `left_navigation_visibility` (Object): Visibility settings for account navigation
 * `additional_text_file_types` (String[]): Additional extensions that are considered text files
 * `bundle_require_note` (Boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (Boolean): Do Bundle creators receive receipts of invitations?
@@ -627,7 +627,7 @@ Site site = Site.update(
 * `active_sftp_host_key_id` (Long): Id of the currently selected custom SFTP Host Key
 * `protocol_access_groups_only` (Boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `revoke_bundle_access_on_disable_or_delete` (Boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-* `bundle_watermark_value` (Map<String, String>): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_set_user_password` (Boolean): Allow group admins set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (Boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_recipient_blacklist_domains` (String[]): List of email domains to disallow when entering a Bundle/Inbox recipients

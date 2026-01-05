@@ -155,12 +155,12 @@ ListIterator<Automation> automation = Automation.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `automation`, `last_modified_at` or `disabled`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at`, `workspace_id` or `automation`. Valid field combinations are `[ disabled, last_modified_at ]`, `[ workspace_id, disabled ]`, `[ disabled, automation ]`, `[ workspace_id, last_modified_at ]`, `[ automation, last_modified_at ]`, `[ workspace_id, automation ]`, `[ workspace_id, disabled, last_modified_at ]`, `[ disabled, automation, last_modified_at ]`, `[ workspace_id, disabled, automation ]`, `[ workspace_id, automation, last_modified_at ]` or `[ workspace_id, disabled, automation, last_modified_at ]`.
-* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
-* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
-* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
-* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `automation`, `last_modified_at` or `disabled`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `last_modified_at`, `workspace_id` or `automation`. Valid field combinations are `[ disabled, last_modified_at ]`, `[ workspace_id, disabled ]`, `[ disabled, automation ]`, `[ workspace_id, last_modified_at ]`, `[ automation, last_modified_at ]`, `[ workspace_id, automation ]`, `[ workspace_id, disabled, last_modified_at ]`, `[ disabled, automation, last_modified_at ]`, `[ workspace_id, disabled, automation ]`, `[ workspace_id, automation, last_modified_at ]` or `[ workspace_id, disabled, automation, last_modified_at ]`.
+* `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `last_modified_at`.
+* `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `last_modified_at`.
+* `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `last_modified_at`.
+* `filter_lteq` (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `last_modified_at`.
 
 
 ---
@@ -224,7 +224,7 @@ Automation automation = Automation.create(
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
-* `value` (Map<String, String>): A Hash of attributes specific to the automation type.
+* `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `workspace_id` (Long): Workspace ID
 * `automation` (String): Required - Automation type
@@ -292,7 +292,7 @@ Automation automation = Automation.update(
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
-* `value` (Map<String, String>): A Hash of attributes specific to the automation type.
+* `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `workspace_id` (Long): Workspace ID
 * `automation` (String): Automation type
@@ -411,7 +411,7 @@ automation.update(parameters);
 * `retry_on_failure_number_of_attempts` (Long): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
 * `trigger` (String): How this automation is triggered to run.
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, read, update, destroy, move, archived_delete, copy
-* `value` (Map<String, String>): A Hash of attributes specific to the automation type.
+* `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `workspace_id` (Long): Workspace ID
 * `automation` (String): Automation type

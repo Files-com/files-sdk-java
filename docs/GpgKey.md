@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "expires_at": "2000-01-01T01:00:00Z",
   "name": "key name",
   "partner_id": 1,
@@ -19,6 +20,7 @@
 ```
 
 * `id` / `id`  (int64): GPG key ID.
+* `workspace_id` / `workspaceId`  (int64): Workspace ID (0 for default workspace).
 * `expires_at` / `expiresAt`  (date-time): GPG key expiration date.
 * `name` / `name`  (string): GPG key name.
 * `partner_id` / `partnerId`  (int64): Partner ID who owns this GPG Key, if applicable.
@@ -55,7 +57,12 @@ ListIterator<GpgKey> gpgKey = GpgKey.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `expires_at`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.
+* `filter_gt` (Map<String, String>): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
+* `filter_gteq` (Map<String, String>): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
+* `filter_lt` (Map<String, String>): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
+* `filter_lteq` (Map<String, String>): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
 
 
 ---
@@ -91,6 +98,7 @@ GpgKey gpgKey = GpgKey.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password
@@ -117,6 +125,7 @@ GpgKey gpgKey = GpgKey.update(
 
 * `id` (Long): Required - Gpg Key ID.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password
@@ -149,6 +158,7 @@ GpgKey gpgKey = GpgKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("partner_id", 1);
+parameters.put("workspace_id", 0);
 parameters.put("name", "key name");
 
 gpgKey.update(parameters);
@@ -158,6 +168,7 @@ gpgKey.update(parameters);
 
 * `id` (Long): Required - Gpg Key ID.
 * `partner_id` (Long): Partner ID who owns this GPG Key, if applicable.
+* `workspace_id` (Long): Workspace ID (0 for default workspace).
 * `public_key` (String): The GPG public key
 * `private_key` (String): The GPG private key
 * `private_key_password` (String): The GPG private key password

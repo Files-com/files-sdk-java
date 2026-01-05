@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "name": "My Credential",
   "description": "More information or notes about this credential.",
   "server_type": "s3",
@@ -22,6 +23,7 @@
 ```
 
 * `id` / `id`  (int64): Remote Server Credential ID
+* `workspace_id` / `workspaceId`  (int64): Workspace ID (0 for default workspace)
 * `name` / `name`  (string): Internal name for your reference
 * `description` / `description`  (string): Internal description for your reference
 * `server_type` / `serverType`  (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -70,7 +72,8 @@ ListIterator<RemoteServerCredential> remoteServerCredential = RemoteServerCreden
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.
 * `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 
 
@@ -105,6 +108,7 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 
 ### Parameters
 
+* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -152,6 +156,7 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 ### Parameters
 
 * `id` (Long): Required - Remote Server Credential ID.
+* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
@@ -209,6 +214,7 @@ void remoteServerCredential = RemoteServerCredential.delete(
 RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("workspace_id", 0);
 parameters.put("name", "My Credential");
 parameters.put("description", "More information or notes about this credential.");
 parameters.put("server_type", "s3");
@@ -229,6 +235,7 @@ remoteServerCredential.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Remote Server Credential ID.
+* `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `name` (String): Internal name for your reference
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.

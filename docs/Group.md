@@ -15,7 +15,8 @@
   "sftp_permission": true,
   "dav_permission": true,
   "restapi_permission": true,
-  "site_id": 1
+  "site_id": 1,
+  "workspace_id": 1
 }
 ```
 
@@ -31,6 +32,7 @@
 * `dav_permission` / `davPermission`  (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` / `restapiPermission`  (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `site_id` / `siteId`  (int64): Site ID
+* `workspace_id` / `workspaceId`  (int64): Workspace ID
 
 
 ---
@@ -49,8 +51,8 @@ ListIterator<Group> group = Group.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `name`.
-* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
+* `sort_by` (Map<String, String>): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
+* `filter` (Map<String, String>): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
 * `filter_prefix` (Map<String, String>): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 * `ids` (String): Comma-separated list of group ids to include in results.
 * `include_parent_site_groups` (Boolean): Include groups from the parent site.
@@ -90,6 +92,7 @@ Group group = Group.create(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -116,6 +119,7 @@ Group group = Group.update(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -152,6 +156,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
+parameters.put("workspace_id", 0);
 parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
@@ -168,6 +173,7 @@ group.update(parameters);
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `workspace_id` (Long): Workspace ID
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.

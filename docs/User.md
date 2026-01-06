@@ -63,6 +63,7 @@
   "self_managed": true,
   "sftp_permission": true,
   "site_admin": true,
+  "workspace_admin": true,
   "site_id": 1,
   "workspace_id": 1,
   "skip_welcome_screen": true,
@@ -138,6 +139,7 @@
 * `self_managed` / `selfManaged`  (boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` / `sftpPermission`  (boolean): Can the user access with SFTP?
 * `site_admin` / `siteAdmin`  (boolean): Is the user an administrator for this site?
+* `workspace_admin` / `workspaceAdmin`  (boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `site_id` / `siteId`  (int64): Site ID
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 * `skip_welcome_screen` / `skipWelcomeScreen`  (boolean): Skip Welcome page in the UI?
@@ -276,6 +278,7 @@ User user = User.create(
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): Required - User's username
 * `workspace_id` (Long): Workspace ID
 
@@ -396,6 +399,7 @@ User user = User.update(
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
@@ -521,6 +525,7 @@ parameters.put("tags", "example");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
 parameters.put("user_root", "example");
 parameters.put("user_home", "example");
+parameters.put("workspace_admin", true);
 parameters.put("username", "user");
 parameters.put("clear_2fa", false);
 parameters.put("convert_to_partner_user", false);
@@ -581,6 +586,7 @@ user.update(parameters);
 * `time_zone` (String): User time zone
 * `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.

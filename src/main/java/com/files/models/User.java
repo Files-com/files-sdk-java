@@ -863,6 +863,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
+  */
+  @JsonProperty("workspace_admin")
+  public Boolean workspaceAdmin;
+
+  public Boolean getWorkspaceAdmin() {
+    return workspaceAdmin;
+  }
+
+  public void setWorkspaceAdmin(Boolean workspaceAdmin) {
+    this.workspaceAdmin = workspaceAdmin;
+  }
+
+  /**
   * Site ID
   */
   @JsonProperty("site_id")
@@ -1313,6 +1327,7 @@ public class User implements ModelInterface {
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+  *   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
   *   username - string - User's username
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
@@ -1521,6 +1536,7 @@ public class User implements ModelInterface {
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+  *   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
   *   username (required) - string - User's username
   *   workspace_id - int64 - Workspace ID
   */
@@ -1691,6 +1707,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
+    }
+    if (parameters.containsKey("workspace_admin") && !(parameters.get("workspace_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_admin must be of type Boolean parameters[\"workspace_admin\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
@@ -1879,6 +1898,7 @@ public class User implements ModelInterface {
   *   time_zone - string - User time zone
   *   user_root - string - Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+  *   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
   *   username - string - User's username
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
@@ -2060,6 +2080,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
+    }
+    if (parameters.containsKey("workspace_admin") && !(parameters.get("workspace_admin") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_admin must be of type Boolean parameters[\"workspace_admin\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");

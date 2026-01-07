@@ -112,10 +112,10 @@ ApiKey apiKey = ApiKey.create(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `description` (String): User-supplied description of API key.
 * `expires_at` (String): API Key expiration date
-* `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Required - Internal name for the API Key.  For your use.
 * `aws_style_credentials` (Boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
 * `path` (String): Folder path restriction for `office_integration` permission set API keys.
+* `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 
 
 ---
@@ -154,7 +154,6 @@ ApiKey apiKey = ApiKey.update(
 * `id` (Long): Required - Api Key ID.
 * `description` (String): User-supplied description of API key.
 * `expires_at` (String): API Key expiration date
-* `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Internal name for the API Key.  For your use.
 
 
@@ -198,7 +197,6 @@ ApiKey apiKey = ApiKey.find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("description", "example");
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
-parameters.put("permission_set", "full");
 parameters.put("name", "My Main API Key");
 
 apiKey.update(parameters);
@@ -209,7 +207,6 @@ apiKey.update(parameters);
 * `id` (Long): Required - Api Key ID.
 * `description` (String): User-supplied description of API key.
 * `expires_at` (String): API Key expiration date
-* `permission_set` (String): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `name` (String): Internal name for the API Key.  For your use.
 
 

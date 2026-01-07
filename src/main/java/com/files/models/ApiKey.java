@@ -292,7 +292,6 @@ public class ApiKey implements ModelInterface {
   * Parameters:
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name - string - Internal name for the API Key.  For your use.
   */
   public ApiKey update(HashMap<String, Object> parameters) throws IOException {
@@ -464,10 +463,10 @@ public class ApiKey implements ModelInterface {
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name (required) - string - Internal name for the API Key.  For your use.
   *   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
   *   path - string - Folder path restriction for `office_integration` permission set API keys.
+  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   */
   public static ApiKey create() throws RuntimeException {
     return create(null, null);
@@ -496,9 +495,6 @@ public class ApiKey implements ModelInterface {
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
     }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -507,6 +503,9 @@ public class ApiKey implements ModelInterface {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
 
 
@@ -560,7 +559,6 @@ public class ApiKey implements ModelInterface {
   * Parameters:
   *   description - string - User-supplied description of API key.
   *   expires_at - string - API Key expiration date
-  *   permission_set - string - Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
   *   name - string - Internal name for the API Key.  For your use.
   */
   public static ApiKey update() throws RuntimeException {
@@ -596,9 +594,6 @@ public class ApiKey implements ModelInterface {
     }
     if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

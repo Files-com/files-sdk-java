@@ -74,6 +74,7 @@
   "watermark_value": {
     "key": "example value"
   },
+  "send_one_time_password_to_recipient_at_registration": true,
   "has_inbox": true,
   "dont_allow_folders_in_uploads": true,
   "paths": [
@@ -124,6 +125,7 @@
 * `inbox_id` / `inboxId`  (int64): ID of the associated inbox, if available.
 * `watermark_attachment` / `watermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `watermark_value` / `watermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+* `send_one_time_password_to_recipient_at_registration` / `sendOneTimePasswordToRecipientAtRegistration`  (boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 * `has_inbox` / `hasInbox`  (boolean): Does this bundle have an associated inbox?
 * `dont_allow_folders_in_uploads` / `dontAllowFoldersInUploads`  (boolean): Should folder uploads be prevented?
 * `paths` / `paths`  (array(string)): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
@@ -212,6 +214,7 @@ Bundle bundle = Bundle.create(
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_one_time_password_to_recipient_at_registration` (Boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
@@ -274,6 +277,7 @@ Bundle bundle = Bundle.update(
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_one_time_password_to_recipient_at_registration` (Boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
@@ -350,6 +354,7 @@ parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
 parameters.put("permissions", "read");
 parameters.put("require_registration", false);
 parameters.put("require_share_recipient", false);
+parameters.put("send_one_time_password_to_recipient_at_registration", true);
 parameters.put("send_email_receipt_to_uploader", true);
 parameters.put("skip_company", true);
 parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
@@ -382,6 +387,7 @@ bundle.update(parameters);
 * `permissions` (String): Permissions that apply to Folders in this Share Link.
 * `require_registration` (Boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+* `send_one_time_password_to_recipient_at_registration` (Boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
 * `send_email_receipt_to_uploader` (Boolean): Send delivery receipt to the uploader. Note: For writable share only
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.

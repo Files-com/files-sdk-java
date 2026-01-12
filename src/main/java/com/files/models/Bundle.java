@@ -568,6 +568,20 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+  */
+  @JsonProperty("send_one_time_password_to_recipient_at_registration")
+  public Boolean sendOneTimePasswordToRecipientAtRegistration;
+
+  public Boolean getSendOneTimePasswordToRecipientAtRegistration() {
+    return sendOneTimePasswordToRecipientAtRegistration;
+  }
+
+  public void setSendOneTimePasswordToRecipientAtRegistration(Boolean sendOneTimePasswordToRecipientAtRegistration) {
+    this.sendOneTimePasswordToRecipientAtRegistration = sendOneTimePasswordToRecipientAtRegistration;
+  }
+
+  /**
   * Does this bundle have an associated inbox?
   */
   @JsonProperty("has_inbox")
@@ -739,6 +753,7 @@ public class Bundle implements ModelInterface {
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
@@ -911,6 +926,7 @@ public class Bundle implements ModelInterface {
   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
@@ -993,6 +1009,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
+    }
+    if (parameters.containsKey("send_one_time_password_to_recipient_at_registration") && !(parameters.get("send_one_time_password_to_recipient_at_registration") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: send_one_time_password_to_recipient_at_registration must be of type Boolean parameters[\"send_one_time_password_to_recipient_at_registration\"]");
     }
     if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");
@@ -1098,6 +1117,7 @@ public class Bundle implements ModelInterface {
   *   permissions - string - Permissions that apply to Folders in this Share Link.
   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
@@ -1188,6 +1208,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
+    }
+    if (parameters.containsKey("send_one_time_password_to_recipient_at_registration") && !(parameters.get("send_one_time_password_to_recipient_at_registration") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: send_one_time_password_to_recipient_at_registration must be of type Boolean parameters[\"send_one_time_password_to_recipient_at_registration\"]");
     }
     if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");

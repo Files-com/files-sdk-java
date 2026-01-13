@@ -181,34 +181,6 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Azure Blob Storage: Account name
-  */
-  @JsonProperty("azure_blob_storage_account")
-  public String azureBlobStorageAccount;
-
-  public String getAzureBlobStorageAccount() {
-    return azureBlobStorageAccount;
-  }
-
-  public void setAzureBlobStorageAccount(String azureBlobStorageAccount) {
-    this.azureBlobStorageAccount = azureBlobStorageAccount;
-  }
-
-  /**
-  * Azure Files: Storage Account name
-  */
-  @JsonProperty("azure_files_storage_account")
-  public String azureFilesStorageAccount;
-
-  public String getAzureFilesStorageAccount() {
-    return azureFilesStorageAccount;
-  }
-
-  public void setAzureFilesStorageAccount(String azureFilesStorageAccount) {
-    this.azureFilesStorageAccount = azureFilesStorageAccount;
-  }
-
-  /**
   * S3-compatible: Access Key
   */
   @JsonProperty("s3_compatible_access_key")
@@ -522,8 +494,6 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
-  *   azure_blob_storage_account - string - Azure Blob Storage: Account name
-  *   azure_files_storage_account - string - Azure Files: Storage Account name
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -677,8 +647,6 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
-  *   azure_blob_storage_account - string - Azure Blob Storage: Account name
-  *   azure_files_storage_account - string - Azure Files: Storage Account name
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -731,12 +699,6 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_account") && !(parameters.get("azure_blob_storage_account") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_account must be of type String parameters[\"azure_blob_storage_account\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_account") && !(parameters.get("azure_files_storage_account") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
@@ -828,8 +790,6 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
-  *   azure_blob_storage_account - string - Azure Blob Storage: Account name
-  *   azure_files_storage_account - string - Azure Files: Storage Account name
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -894,12 +854,6 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_account") && !(parameters.get("azure_blob_storage_account") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_account must be of type String parameters[\"azure_blob_storage_account\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_account") && !(parameters.get("azure_files_storage_account") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_account must be of type String parameters[\"azure_files_storage_account\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");

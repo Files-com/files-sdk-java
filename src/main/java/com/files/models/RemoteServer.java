@@ -69,7 +69,7 @@ public class RemoteServer implements ModelInterface {
 
 
   /**
-  * Remote server ID
+  * Remote Server ID
   */
   @JsonProperty("id")
   public Long id;
@@ -83,7 +83,7 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+  * If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
   */
   @JsonProperty("disabled")
   public Boolean disabled;
@@ -97,7 +97,7 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * Type of authentication method
+  * Type of authentication method to use
   */
   @JsonProperty("authentication_method")
   public String authenticationMethod;
@@ -136,6 +136,20 @@ public class RemoteServer implements ModelInterface {
 
   public void setRemoteHomePath(String remoteHomePath) {
     this.remoteHomePath = remoteHomePath;
+  }
+
+  /**
+  * Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+  */
+  @JsonProperty("upload_staging_path")
+  public String uploadStagingPath;
+
+  public String getUploadStagingPath() {
+    return uploadStagingPath;
+  }
+
+  public void setUploadStagingPath(String uploadStagingPath) {
+    this.uploadStagingPath = uploadStagingPath;
   }
 
   /**
@@ -1299,6 +1313,7 @@ public class RemoteServer implements ModelInterface {
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
   *   port - int64 - Port for remote server.
+  *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -1535,6 +1550,7 @@ public class RemoteServer implements ModelInterface {
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
   *   port - int64 - Port for remote server.
+  *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -1728,6 +1744,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
+    }
+    if (parameters.containsKey("upload_staging_path") && !(parameters.get("upload_staging_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: upload_staging_path must be of type String parameters[\"upload_staging_path\"]");
     }
     if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");
@@ -1970,6 +1989,7 @@ public class RemoteServer implements ModelInterface {
   *   one_drive_account_type - string - OneDrive: Either personal or business_other account types
   *   pin_to_site_region - boolean - If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
   *   port - int64 - Port for remote server.
+  *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
@@ -2175,6 +2195,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
+    }
+    if (parameters.containsKey("upload_staging_path") && !(parameters.get("upload_staging_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: upload_staging_path must be of type String parameters[\"upload_staging_path\"]");
     }
     if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");

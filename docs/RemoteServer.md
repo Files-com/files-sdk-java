@@ -9,6 +9,7 @@
   "authentication_method": "password",
   "hostname": "remote-server.com",
   "remote_home_path": "/home/user1",
+  "upload_staging_path": "/tmp/uploads",
   "name": "My Remote server",
   "description": "More information or notes about my server",
   "port": 1,
@@ -70,11 +71,12 @@
 }
 ```
 
-* `id` / `id`  (int64): Remote server ID
-* `disabled` / `disabled`  (boolean): If true, this server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
-* `authentication_method` / `authenticationMethod`  (string): Type of authentication method
+* `id` / `id`  (int64): Remote Server ID
+* `disabled` / `disabled`  (boolean): If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+* `authentication_method` / `authenticationMethod`  (string): Type of authentication method to use
 * `hostname` / `hostname`  (string): Hostname or IP address
 * `remote_home_path` / `remoteHomePath`  (string): Initial home folder on remote server
+* `upload_staging_path` / `uploadStagingPath`  (string): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `name` / `name`  (string): Internal name for your reference
 * `description` / `description`  (string): Internal description for your reference
 * `port` / `port`  (int64): Port for remote server.
@@ -277,6 +279,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.
+* `upload_staging_path` (String): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
@@ -409,6 +412,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.
+* `upload_staging_path` (String): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
@@ -543,6 +547,7 @@ parameters.put("name", "My Remote server");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("pin_to_site_region", true);
 parameters.put("port", 1);
+parameters.put("upload_staging_path", "/tmp/uploads");
 parameters.put("remote_server_credential_id", 1);
 parameters.put("s3_bucket", "my-bucket");
 parameters.put("s3_compatible_access_key", "example");
@@ -619,6 +624,7 @@ remoteServer.update(parameters);
 * `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
 * `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
 * `port` (Long): Port for remote server.
+* `upload_staging_path` (String): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
 * `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
 * `s3_bucket` (String): S3 bucket name
 * `s3_compatible_access_key` (String): S3-compatible: Access Key

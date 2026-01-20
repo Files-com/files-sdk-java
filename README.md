@@ -699,6 +699,7 @@ RuntimeException
 |`BufferedUploadDisabledForThisDestinationException`|  `ProcessingFailureException` |
 |`BundleOnlyAllowsPreviewsException`|  `ProcessingFailureException` |
 |`BundleOperationRequiresSubfolderException`|  `ProcessingFailureException` |
+|`ConfigurationLockedPathException`|  `ProcessingFailureException` |
 |`CouldNotCreateParentException`|  `ProcessingFailureException` |
 |`DestinationExistsException`|  `ProcessingFailureException` |
 |`DestinationFolderLimitedException`|  `ProcessingFailureException` |

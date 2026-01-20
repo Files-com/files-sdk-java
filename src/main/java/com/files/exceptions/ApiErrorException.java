@@ -883,6 +883,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class ConfigurationLockedPathException extends ProcessingFailureException {
+    public ConfigurationLockedPathException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class CouldNotCreateParentException extends ProcessingFailureException {
     public CouldNotCreateParentException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

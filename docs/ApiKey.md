@@ -17,6 +17,8 @@
   "name": "My Main API Key",
   "permission_set": "full",
   "platform": "win32",
+  "site_id": 1,
+  "site_name": "example",
   "url": "example",
   "user_id": 1
 }
@@ -35,6 +37,8 @@
 * `name` / `name`  (string): Internal name for the API Key.  For your use.
 * `permission_set` / `permissionSet`  (string): Permissions for this API Key. It must be full for site-wide API Keys.  Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Additional permission sets may become available in the future, such as for a Site Admin to give a key with no administrator privileges.  If you have ideas for permission sets, please let us know.
 * `platform` / `platform`  (string): If this API key represents a Desktop app, what platform was it created on?
+* `site_id` / `siteId`  (int64): Site ID
+* `site_name` / `siteName`  (string): Site Name
 * `url` / `url`  (string): URL for API host.
 * `user_id` / `userId`  (int64): User ID for the owner of this API Key.  May be blank for Site-wide API Keys.
 * `path` / `path`  (string): Folder path restriction for `office_integration` permission set API keys.
@@ -57,7 +61,7 @@ ListIterator<ApiKey> apiKey = ApiKey.list(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `expires_at`.
 * `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.

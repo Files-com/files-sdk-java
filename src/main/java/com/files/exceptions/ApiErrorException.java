@@ -163,6 +163,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class DestinationSiteMismatchException extends BadRequestException {
+    public DestinationSiteMismatchException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class DoesNotSupportSortingException extends BadRequestException {
     public DoesNotSupportSortingException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

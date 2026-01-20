@@ -583,6 +583,7 @@ RuntimeException
 |`CantMoveWithMultipleLocationsException`|  `BadRequestException` |
 |`DatetimeParseException`|  `BadRequestException` |
 |`DestinationSameException`|  `BadRequestException` |
+|`DestinationSiteMismatchException`|  `BadRequestException` |
 |`DoesNotSupportSortingException`|  `BadRequestException` |
 |`FolderMustNotBeAFileException`|  `BadRequestException` |
 |`FoldersNotAllowedException`|  `BadRequestException` |

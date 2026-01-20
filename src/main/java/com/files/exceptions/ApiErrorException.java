@@ -295,6 +295,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidWorkspaceIdHeaderException extends BadRequestException {
+    public InvalidWorkspaceIdHeaderException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class MethodNotAllowedException extends BadRequestException {
     public MethodNotAllowedException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

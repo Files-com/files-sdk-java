@@ -27,6 +27,8 @@
   "solar_winds_token_masked": "example",
   "new_relic_api_key_masked": "example",
   "datadog_api_key_masked": "example",
+  "action_send_enabled": true,
+  "action_entries_sent": 1,
   "sftp_action_send_enabled": true,
   "sftp_action_entries_sent": 1,
   "ftp_action_send_enabled": true,
@@ -82,6 +84,8 @@
 * `solar_winds_token_masked` / `solarWindsTokenMasked`  (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key_masked` / `newRelicApiKeyMasked`  (string): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key_masked` / `datadogApiKeyMasked`  (string): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` / `actionSendEnabled`  (boolean): Whether or not sending is enabled for action logs.
+* `action_entries_sent` / `actionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `sftp_action_send_enabled` / `sftpActionSendEnabled`  (boolean): Whether or not sending is enabled for sftp_action logs.
 * `sftp_action_entries_sent` / `sftpActionEntriesSent`  (int64): Number of log entries sent for the lifetime of this destination.
 * `ftp_action_send_enabled` / `ftpActionSendEnabled`  (boolean): Whether or not sending is enabled for ftp_action logs.
@@ -188,6 +192,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 * `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -238,6 +243,7 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 * `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -284,6 +290,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 * `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.
@@ -336,6 +343,7 @@ parameters.put("azure_stream_name", "example");
 parameters.put("azure_oauth_client_credentials_tenant_id", "example");
 parameters.put("azure_oauth_client_credentials_client_id", "example");
 parameters.put("qradar_username", "example");
+parameters.put("action_send_enabled", true);
 parameters.put("sftp_action_send_enabled", true);
 parameters.put("ftp_action_send_enabled", true);
 parameters.put("web_dav_action_send_enabled", true);
@@ -374,6 +382,7 @@ siemHttpDestination.update(parameters);
 * `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
 * `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
 * `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
 * `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
 * `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
 * `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.

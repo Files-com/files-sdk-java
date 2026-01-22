@@ -363,6 +363,34 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
+  * Whether or not sending is enabled for action logs.
+  */
+  @JsonProperty("action_send_enabled")
+  public Boolean actionSendEnabled;
+
+  public Boolean getActionSendEnabled() {
+    return actionSendEnabled;
+  }
+
+  public void setActionSendEnabled(Boolean actionSendEnabled) {
+    this.actionSendEnabled = actionSendEnabled;
+  }
+
+  /**
+  * Number of log entries sent for the lifetime of this destination.
+  */
+  @JsonProperty("action_entries_sent")
+  public Long actionEntriesSent;
+
+  public Long getActionEntriesSent() {
+    return actionEntriesSent;
+  }
+
+  public void setActionEntriesSent(Long actionEntriesSent) {
+    this.actionEntriesSent = actionEntriesSent;
+  }
+
+  /**
   * Whether or not sending is enabled for sftp_action logs.
   */
   @JsonProperty("sftp_action_send_enabled")
@@ -900,6 +928,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -1044,6 +1073,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -1130,6 +1160,9 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
     }
+    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
+    }
     if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");
     }
@@ -1201,6 +1234,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -1291,6 +1325,9 @@ public class SiemHttpDestination implements ModelInterface {
     if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
     }
+    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
+    }
     if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");
     }
@@ -1352,6 +1389,7 @@ public class SiemHttpDestination implements ModelInterface {
   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
@@ -1447,6 +1485,9 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
+    }
+    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
     }
     if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");

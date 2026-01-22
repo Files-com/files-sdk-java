@@ -587,6 +587,7 @@ RuntimeException
 |`DoesNotSupportSortingException`|  `BadRequestException` |
 |`FolderMustNotBeAFileException`|  `BadRequestException` |
 |`FoldersNotAllowedException`|  `BadRequestException` |
+|`InternalGeneralErrorException`|  `BadRequestException` |
 |`InvalidBodyException`|  `BadRequestException` |
 |`InvalidCursorException`|  `BadRequestException` |
 |`InvalidCursorTypeForSortException`|  `BadRequestException` |

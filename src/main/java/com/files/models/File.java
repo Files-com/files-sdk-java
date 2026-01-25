@@ -761,6 +761,13 @@ public class File implements ModelInterface {
   }
 
   /**
+  * List the contents of a ZIP file
+  */
+  public ListIterator<ZipListEntry> zipListContents(HashMap<String, Object> parameters) throws IOException {
+    return File.zipListContents(this.path, parameters, this.options);
+  }
+
+  /**
   * Copy File/Folder
   *
   * Parameters:
@@ -781,6 +788,18 @@ public class File implements ModelInterface {
   */
   public FileAction move(HashMap<String, Object> parameters) throws IOException {
     return File.move(this.path, parameters, this.options);
+  }
+
+  /**
+  * Extract a ZIP file to a destination folder
+  *
+  * Parameters:
+  *   destination (required) - string - Destination folder path for extracted files.
+  *   filename - string - Optional single entry filename to extract.
+  *   overwrite - boolean - Overwrite existing files in the destination?
+  */
+  public FileAction unzip(HashMap<String, Object> parameters) throws IOException {
+    return File.unzip(this.path, parameters, this.options);
   }
 
   /**
@@ -1127,6 +1146,47 @@ public class File implements ModelInterface {
   }
 
   /**
+  * List the contents of a ZIP file
+  */
+  public static ListIterator<ZipListEntry> zipListContents() throws RuntimeException {
+    return zipListContents(null, null, null);
+  }
+
+  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return zipListContents(path, parameters, null);
+  }
+
+  public static ListIterator<ZipListEntry> zipListContents(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return zipListContents(null, parameters, options);
+  }
+
+  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+
+
+    String url = String.format("%s%s/file_actions/zip_list/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<List<ZipListEntry>> typeReference = new TypeReference<List<ZipListEntry>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
   * Copy File/Folder
   *
   * Parameters:
@@ -1232,6 +1292,108 @@ public class File implements ModelInterface {
 
 
     String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Extract a ZIP file to a destination folder
+  *
+  * Parameters:
+  *   destination (required) - string - Destination folder path for extracted files.
+  *   filename - string - Optional single entry filename to extract.
+  *   overwrite - boolean - Overwrite existing files in the destination?
+  */
+  public static FileAction unzip() throws RuntimeException {
+    return unzip(null, null, null);
+  }
+
+  public static FileAction unzip(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return unzip(path, parameters, null);
+  }
+
+  public static FileAction unzip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return unzip(null, parameters, options);
+  }
+
+  public static FileAction unzip(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (!parameters.containsKey("path") || parameters.get("path") == null) {
+      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
+    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("filename") && !(parameters.get("filename") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: filename must be of type String parameters[\"filename\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
+
+
+    String url = String.format("%s%s/file_actions/unzip", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
+  *   paths (required) - array(string) - Paths to include in the ZIP.
+  *   destination (required) - string - Destination file path for the ZIP.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public static FileAction zip() throws RuntimeException {
+    return zip(null, null);
+  }
+
+  public static FileAction zip(HashMap<String, Object> parameters) throws RuntimeException {
+    return zip(parameters, null);
+  }
+
+
+  public static FileAction zip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+    if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
+      throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
+    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
+
+
+    String url = String.format("%s%s/file_actions/zip", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

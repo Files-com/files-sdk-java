@@ -209,6 +209,23 @@ File file = File.find(
 
 ---
 
+## List the contents of a ZIP file
+
+```
+ListIterator<ZipListEntry> file = File.zipListContents(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+
+
+---
+
 ## Copy File/Folder
 
 ```
@@ -244,6 +261,45 @@ FileAction file = File.move(
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+
+
+---
+
+## Extract a ZIP file to a destination folder
+
+```
+FileAction file = File.unzip(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - ZIP file path to extract.
+* `destination` (String): Required - Destination folder path for extracted files.
+* `filename` (String): Optional single entry filename to extract.
+* `overwrite` (Boolean): Overwrite existing files in the destination?
+
+
+---
+
+## Create a ZIP from one or more paths and save it to a destination path
+
+```
+FileAction file = File.zip(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `paths` (String[]): Required - Paths to include in the ZIP.
+* `destination` (String): Required - Destination file path for the ZIP.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---
@@ -337,6 +393,23 @@ file.delete(parameters);
 
 ---
 
+## List the contents of a ZIP file
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+file.zipListContents(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+
+
+---
+
 ## Copy File/Folder
 
 ```
@@ -377,6 +450,28 @@ file.move(parameters);
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+
+
+---
+
+## Extract a ZIP file to a destination folder
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("overwrite", false);
+
+file.unzip(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - ZIP file path to extract.
+* `destination` (String): Required - Destination folder path for extracted files.
+* `filename` (String): Optional single entry filename to extract.
+* `overwrite` (Boolean): Overwrite existing files in the destination?
 
 
 ---

@@ -153,6 +153,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+  */
+  @JsonProperty("allow_relative_paths")
+  public Boolean allowRelativePaths;
+
+  public Boolean getAllowRelativePaths() {
+    return allowRelativePaths;
+  }
+
+  public void setAllowRelativePaths(Boolean allowRelativePaths) {
+    this.allowRelativePaths = allowRelativePaths;
+  }
+
+  /**
   * Internal name for your reference
   */
   @JsonProperty("name")
@@ -1278,6 +1292,7 @@ public class RemoteServer implements ModelInterface {
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
   *   wasabi_secret_key - string - Wasabi: Secret Key
+  *   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
   *   aws_access_key - string - AWS Access Key.
   *   azure_blob_storage_account - string - Azure Blob Storage: Account name
   *   azure_blob_storage_container - string - Azure Blob Storage: Container name
@@ -1515,6 +1530,7 @@ public class RemoteServer implements ModelInterface {
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
   *   wasabi_secret_key - string - Wasabi: Secret Key
+  *   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
   *   aws_access_key - string - AWS Access Key.
   *   azure_blob_storage_account - string - Azure Blob Storage: Account name
   *   azure_blob_storage_container - string - Azure Blob Storage: Container name
@@ -1639,6 +1655,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
+    }
+    if (parameters.containsKey("allow_relative_paths") && !(parameters.get("allow_relative_paths") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_relative_paths must be of type Boolean parameters[\"allow_relative_paths\"]");
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
@@ -1954,6 +1973,7 @@ public class RemoteServer implements ModelInterface {
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
   *   wasabi_secret_key - string - Wasabi: Secret Key
+  *   allow_relative_paths - boolean - Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
   *   aws_access_key - string - AWS Access Key.
   *   azure_blob_storage_account - string - Azure Blob Storage: Account name
   *   azure_blob_storage_container - string - Azure Blob Storage: Container name
@@ -2090,6 +2110,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
+    }
+    if (parameters.containsKey("allow_relative_paths") && !(parameters.get("allow_relative_paths") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_relative_paths must be of type Boolean parameters[\"allow_relative_paths\"]");
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");

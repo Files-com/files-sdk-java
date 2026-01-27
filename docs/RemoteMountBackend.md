@@ -23,8 +23,8 @@
   "health_check_type": "active",
   "id": 1,
   "interval": 60,
-  "min_free_cpu": 1.0,
-  "min_free_mem": 1.0,
+  "min_free_cpu": "1.0",
+  "min_free_mem": "1.0",
   "priority": 1,
   "remote_path": "/path/on/remote",
   "remote_server_id": 1,
@@ -212,8 +212,8 @@ parameters.put("fall", 1);
 parameters.put("health_check_enabled", true);
 parameters.put("health_check_type", "active");
 parameters.put("interval", 60);
-parameters.put("min_free_cpu", 1.0);
-parameters.put("min_free_mem", 1.0);
+parameters.put("min_free_cpu", "1.0");
+parameters.put("min_free_mem", "1.0");
 parameters.put("priority", 1);
 parameters.put("remote_path", "/path/on/remote");
 parameters.put("rise", 1);

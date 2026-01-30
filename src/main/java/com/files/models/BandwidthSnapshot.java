@@ -82,9 +82,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site bandwidth report bytes received
   */
   @JsonProperty("bytes_received")
-  public Double bytesReceived;
+  public Long bytesReceived;
 
-  public Double getBytesReceived() {
+  public Long getBytesReceived() {
     return bytesReceived;
   }
 
@@ -92,9 +92,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site bandwidth report bytes sent
   */
   @JsonProperty("bytes_sent")
-  public Double bytesSent;
+  public Long bytesSent;
 
-  public Double getBytesSent() {
+  public Long getBytesSent() {
     return bytesSent;
   }
 
@@ -102,9 +102,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site sync bandwidth report bytes received
   */
   @JsonProperty("sync_bytes_received")
-  public Double syncBytesReceived;
+  public Long syncBytesReceived;
 
-  public Double getSyncBytesReceived() {
+  public Long getSyncBytesReceived() {
     return syncBytesReceived;
   }
 
@@ -112,9 +112,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site sync bandwidth report bytes sent
   */
   @JsonProperty("sync_bytes_sent")
-  public Double syncBytesSent;
+  public Long syncBytesSent;
 
-  public Double getSyncBytesSent() {
+  public Long getSyncBytesSent() {
     return syncBytesSent;
   }
 
@@ -122,9 +122,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site bandwidth report get requests
   */
   @JsonProperty("requests_get")
-  public Double requestsGet;
+  public Long requestsGet;
 
-  public Double getRequestsGet() {
+  public Long getRequestsGet() {
     return requestsGet;
   }
 
@@ -132,9 +132,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site bandwidth report put requests
   */
   @JsonProperty("requests_put")
-  public Double requestsPut;
+  public Long requestsPut;
 
-  public Double getRequestsPut() {
+  public Long getRequestsPut() {
     return requestsPut;
   }
 
@@ -142,9 +142,9 @@ public class BandwidthSnapshot implements ModelInterface {
   * Site bandwidth report other requests
   */
   @JsonProperty("requests_other")
-  public Double requestsOther;
+  public Long requestsOther;
 
-  public Double getRequestsOther() {
+  public Long getRequestsOther() {
     return requestsOther;
   }
 

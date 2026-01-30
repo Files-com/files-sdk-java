@@ -112,9 +112,9 @@ public class UsageSnapshot implements ModelInterface {
   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("current_storage")
-  public Double currentStorage;
+  public Long currentStorage;
 
-  public Double getCurrentStorage() {
+  public Long getCurrentStorage() {
     return currentStorage;
   }
 
@@ -122,9 +122,9 @@ public class UsageSnapshot implements ModelInterface {
   * Highest Storage Usage GB recorded in time period (used for billing)
   */
   @JsonProperty("high_water_storage")
-  public Double highWaterStorage;
+  public Long highWaterStorage;
 
-  public Double getHighWaterStorage() {
+  public Long getHighWaterStorage() {
     return highWaterStorage;
   }
 
@@ -132,9 +132,9 @@ public class UsageSnapshot implements ModelInterface {
   * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("root_storage")
-  public Double rootStorage;
+  public Long rootStorage;
 
-  public Double getRootStorage() {
+  public Long getRootStorage() {
     return rootStorage;
   }
 
@@ -142,9 +142,9 @@ public class UsageSnapshot implements ModelInterface {
   * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("deleted_files_counted_in_minimum")
-  public Double deletedFilesCountedInMinimum;
+  public Long deletedFilesCountedInMinimum;
 
-  public Double getDeletedFilesCountedInMinimum() {
+  public Long getDeletedFilesCountedInMinimum() {
     return deletedFilesCountedInMinimum;
   }
 
@@ -152,9 +152,9 @@ public class UsageSnapshot implements ModelInterface {
   * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("deleted_files_storage")
-  public Double deletedFilesStorage;
+  public Long deletedFilesStorage;
 
-  public Double getDeletedFilesStorage() {
+  public Long getDeletedFilesStorage() {
     return deletedFilesStorage;
   }
 
@@ -162,9 +162,9 @@ public class UsageSnapshot implements ModelInterface {
   * Storage + Transfer Usage - Total Billable amount
   */
   @JsonProperty("total_billable_usage")
-  public Double totalBillableUsage;
+  public Long totalBillableUsage;
 
-  public Double getTotalBillableUsage() {
+  public Long getTotalBillableUsage() {
     return totalBillableUsage;
   }
 
@@ -172,9 +172,9 @@ public class UsageSnapshot implements ModelInterface {
   * Transfer usage for period - Total Billable amount
   */
   @JsonProperty("total_billable_transfer_usage")
-  public Double totalBillableTransferUsage;
+  public Long totalBillableTransferUsage;
 
-  public Double getTotalBillableTransferUsage() {
+  public Long getTotalBillableTransferUsage() {
     return totalBillableTransferUsage;
   }
 
@@ -182,9 +182,9 @@ public class UsageSnapshot implements ModelInterface {
   * Transfer Usage for period - Outbound GB from Files Native Storage
   */
   @JsonProperty("bytes_sent")
-  public Double bytesSent;
+  public Long bytesSent;
 
-  public Double getBytesSent() {
+  public Long getBytesSent() {
     return bytesSent;
   }
 
@@ -192,9 +192,9 @@ public class UsageSnapshot implements ModelInterface {
   * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
   */
   @JsonProperty("sync_bytes_received")
-  public Double syncBytesReceived;
+  public Long syncBytesReceived;
 
-  public Double getSyncBytesReceived() {
+  public Long getSyncBytesReceived() {
     return syncBytesReceived;
   }
 
@@ -202,9 +202,9 @@ public class UsageSnapshot implements ModelInterface {
   * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
   */
   @JsonProperty("sync_bytes_sent")
-  public Double syncBytesSent;
+  public Long syncBytesSent;
 
-  public Double getSyncBytesSent() {
+  public Long getSyncBytesSent() {
     return syncBytesSent;
   }
 

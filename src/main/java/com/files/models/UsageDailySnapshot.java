@@ -132,9 +132,9 @@ public class UsageDailySnapshot implements ModelInterface {
   * GB of Files Native Storage used on this day.
   */
   @JsonProperty("current_storage")
-  public Double currentStorage;
+  public Long currentStorage;
 
-  public Double getCurrentStorage() {
+  public Long getCurrentStorage() {
     return currentStorage;
   }
 
@@ -142,9 +142,9 @@ public class UsageDailySnapshot implements ModelInterface {
   * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
   */
   @JsonProperty("deleted_files_storage")
-  public Double deletedFilesStorage;
+  public Long deletedFilesStorage;
 
-  public Double getDeletedFilesStorage() {
+  public Long getDeletedFilesStorage() {
     return deletedFilesStorage;
   }
 
@@ -152,9 +152,9 @@ public class UsageDailySnapshot implements ModelInterface {
   * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
   */
   @JsonProperty("deleted_files_counted_in_minimum")
-  public Double deletedFilesCountedInMinimum;
+  public Long deletedFilesCountedInMinimum;
 
-  public Double getDeletedFilesCountedInMinimum() {
+  public Long getDeletedFilesCountedInMinimum() {
     return deletedFilesCountedInMinimum;
   }
 
@@ -162,9 +162,9 @@ public class UsageDailySnapshot implements ModelInterface {
   * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
   */
   @JsonProperty("root_storage")
-  public Double rootStorage;
+  public Long rootStorage;
 
-  public Double getRootStorage() {
+  public Long getRootStorage() {
     return rootStorage;
   }
 

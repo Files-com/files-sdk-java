@@ -82,9 +82,9 @@ public class RemoteBandwidthSnapshot implements ModelInterface {
   * Site sync bandwidth report bytes received
   */
   @JsonProperty("sync_bytes_received")
-  public Double syncBytesReceived;
+  public Long syncBytesReceived;
 
-  public Double getSyncBytesReceived() {
+  public Long getSyncBytesReceived() {
     return syncBytesReceived;
   }
 
@@ -92,9 +92,9 @@ public class RemoteBandwidthSnapshot implements ModelInterface {
   * Site sync bandwidth report bytes sent
   */
   @JsonProperty("sync_bytes_sent")
-  public Double syncBytesSent;
+  public Long syncBytesSent;
 
-  public Double getSyncBytesSent() {
+  public Long getSyncBytesSent() {
     return syncBytesSent;
   }
 

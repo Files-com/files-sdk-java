@@ -5,16 +5,16 @@
 ```
 {
   "id": 1,
-  "sync_bytes_received": "1.0",
-  "sync_bytes_sent": "1.0",
+  "sync_bytes_received": 1,
+  "sync_bytes_sent": 1,
   "logged_at": "2000-01-01T01:00:00Z",
   "remote_server_id": 1
 }
 ```
 
 * `id` / `id`  (int64): Site bandwidth ID
-* `sync_bytes_received` / `syncBytesReceived`  (double): Site sync bandwidth report bytes received
-* `sync_bytes_sent` / `syncBytesSent`  (double): Site sync bandwidth report bytes sent
+* `sync_bytes_received` / `syncBytesReceived`  (int64): Site sync bandwidth report bytes received
+* `sync_bytes_sent` / `syncBytesSent`  (int64): Site sync bandwidth report bytes sent
 * `logged_at` / `loggedAt`  (date-time): Time the site bandwidth report was logged
 * `remote_server_id` / `remoteServerId`  (int64): ID of related Remote Server
 

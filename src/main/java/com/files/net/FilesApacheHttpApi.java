@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
@@ -13,6 +15,7 @@ import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -43,6 +46,7 @@ public class FilesApacheHttpApi implements FilesApiInterface {
   private final ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
 
   public <T> ListIterator<T> apiRequestList(String url, HttpMethods.RequestMethods requestType,

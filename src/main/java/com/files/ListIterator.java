@@ -5,9 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.models.ModelInterface;
 import com.files.net.FilesResponse;
 import com.files.net.HttpMethods.RequestMethods;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +28,7 @@ public class ListIterator<T> implements Iterable<T> {
   private final ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+      .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
   public List<T> data = new ArrayList<T>();
 

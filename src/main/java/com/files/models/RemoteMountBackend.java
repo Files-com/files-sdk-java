@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
@@ -24,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -46,6 +49,7 @@ public class RemoteMountBackend implements ModelInterface {
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
       .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX"))
+      .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
 
 
@@ -183,28 +187,30 @@ public class RemoteMountBackend implements ModelInterface {
   /**
   * Minimum free CPU percentage required for this backend to be considered healthy.
   */
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("min_free_cpu")
-  public Double minFreeCpu;
+  public BigDecimal minFreeCpu;
 
-  public Double getMinFreeCpu() {
+  public BigDecimal getMinFreeCpu() {
     return minFreeCpu;
   }
 
-  public void setMinFreeCpu(Double minFreeCpu) {
+  public void setMinFreeCpu(BigDecimal minFreeCpu) {
     this.minFreeCpu = minFreeCpu;
   }
 
   /**
   * Minimum free memory percentage required for this backend to be considered healthy.
   */
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("min_free_mem")
-  public Double minFreeMem;
+  public BigDecimal minFreeMem;
 
-  public Double getMinFreeMem() {
+  public BigDecimal getMinFreeMem() {
     return minFreeMem;
   }
 
-  public void setMinFreeMem(Double minFreeMem) {
+  public void setMinFreeMem(BigDecimal minFreeMem) {
     this.minFreeMem = minFreeMem;
   }
 

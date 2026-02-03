@@ -21,7 +21,7 @@
 ```
 
 * `id` / `id`  (int64): Invoice Line item Id
-* `amount` / `amount`  (double): Invoice line item amount
+* `amount` / `amount`  (decimal): Invoice line item amount
 * `created_at` / `createdAt`  (date-time): Invoice line item created at date/time
 * `description` / `description`  (string): Invoice line item description
 * `type` / `type`  (string): Invoice line item type

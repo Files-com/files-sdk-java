@@ -6,13 +6,32 @@
 {
   "partner_id": 1,
   "partner_name": "Acme Corp",
-  "linked_site_id": 1
+  "linked_site_id": 1,
+  "linked_site_name": "Acme's Partner Site",
+  "main_site_id": 2,
+  "main_site_name": "Acme Site"
 }
 ```
 
 * `partner_id` / `partnerId`  (int64): Partner ID
 * `partner_name` / `partnerName`  (string): Partner Name
 * `linked_site_id` / `linkedSiteId`  (int64): Linked Site ID
+* `linked_site_name` / `linkedSiteName`  (string): Linked Site Name
+* `main_site_id` / `mainSiteId`  (int64): Main Site ID
+* `main_site_name` / `mainSiteName`  (string): Main Site Name
+
+
+---
+
+## Get Partner Sites linked to the current Site
+
+```
+PartnerSite partnerSite = PartnerSite.linkeds(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
 
 
 ---

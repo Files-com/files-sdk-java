@@ -129,6 +129,20 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
+  * Main Site Name
+  */
+  @JsonProperty("main_site_name")
+  public String mainSiteName;
+
+  public String getMainSiteName() {
+    return mainSiteName;
+  }
+
+  public void setMainSiteName(String mainSiteName) {
+    this.mainSiteName = mainSiteName;
+  }
+
+  /**
   * Pairing key used to approve this request on the target site
   */
   @JsonProperty("pairing_key")

@@ -102,6 +102,62 @@ public class PartnerSite implements ModelInterface {
     return linkedSiteId;
   }
 
+  /**
+  * Linked Site Name
+  */
+  @JsonProperty("linked_site_name")
+  public String linkedSiteName;
+
+  public String getLinkedSiteName() {
+    return linkedSiteName;
+  }
+
+  /**
+  * Main Site ID
+  */
+  @JsonProperty("main_site_id")
+  public Long mainSiteId;
+
+  public Long getMainSiteId() {
+    return mainSiteId;
+  }
+
+  /**
+  * Main Site Name
+  */
+  @JsonProperty("main_site_name")
+  public String mainSiteName;
+
+  public String getMainSiteName() {
+    return mainSiteName;
+  }
+
+
+  /**
+  */
+  public static PartnerSite linkeds() throws RuntimeException {
+    return linkeds(null, null);
+  }
+
+  public static PartnerSite linkeds(HashMap<String, Object> parameters) throws RuntimeException {
+    return linkeds(parameters, null);
+  }
+
+
+  public static PartnerSite linkeds(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/partner_sites/linked_partner_sites", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<PartnerSite> typeReference = new TypeReference<PartnerSite>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
 
   /**
   * Parameters:

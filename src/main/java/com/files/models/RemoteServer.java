@@ -325,6 +325,48 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * AWS IAM Role ARN for AssumeRole authentication.
+  */
+  @JsonProperty("s3_assume_role_arn")
+  public String s3AssumeRoleArn;
+
+  public String getS3AssumeRoleArn() {
+    return s3AssumeRoleArn;
+  }
+
+  public void setS3AssumeRoleArn(String s3AssumeRoleArn) {
+    this.s3AssumeRoleArn = s3AssumeRoleArn;
+  }
+
+  /**
+  * Session duration in seconds for AssumeRole authentication (900-43200).
+  */
+  @JsonProperty("s3_assume_role_duration_seconds")
+  public Long s3AssumeRoleDurationSeconds;
+
+  public Long getS3AssumeRoleDurationSeconds() {
+    return s3AssumeRoleDurationSeconds;
+  }
+
+  public void setS3AssumeRoleDurationSeconds(Long s3AssumeRoleDurationSeconds) {
+    this.s3AssumeRoleDurationSeconds = s3AssumeRoleDurationSeconds;
+  }
+
+  /**
+  * External ID for AssumeRole authentication.
+  */
+  @JsonProperty("s3_assume_role_external_id")
+  public String s3AssumeRoleExternalId;
+
+  public String getS3AssumeRoleExternalId() {
+    return s3AssumeRoleExternalId;
+  }
+
+  public void setS3AssumeRoleExternalId(String s3AssumeRoleExternalId) {
+    this.s3AssumeRoleExternalId = s3AssumeRoleExternalId;
+  }
+
+  /**
   * Remote server certificate
   */
   @JsonProperty("server_certificate")
@@ -1334,6 +1376,8 @@ public class RemoteServer implements ModelInterface {
   *   port - int64 - Port for remote server.
   *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1572,6 +1616,8 @@ public class RemoteServer implements ModelInterface {
   *   port - int64 - Port for remote server.
   *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -1773,6 +1819,12 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");
@@ -2015,6 +2067,8 @@ public class RemoteServer implements ModelInterface {
   *   port - int64 - Port for remote server.
   *   upload_staging_path - string - Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
   *   remote_server_credential_id - int64 - ID of Remote Server Credential, if applicable.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   s3_bucket - string - S3 bucket name
   *   s3_compatible_access_key - string - S3-compatible: Access Key
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
@@ -2228,6 +2282,12 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("remote_server_credential_id") && !(parameters.get("remote_server_credential_id") instanceof Long || parameters.get("remote_server_credential_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: remote_server_credential_id must be of type Long or Integer parameters[\"remote_server_credential_id\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
     }
     if (parameters.containsKey("s3_bucket") && !(parameters.get("s3_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_bucket must be of type String parameters[\"s3_bucket\"]");

@@ -157,6 +157,48 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
+  * AWS IAM Role ARN for AssumeRole authentication.
+  */
+  @JsonProperty("s3_assume_role_arn")
+  public String s3AssumeRoleArn;
+
+  public String getS3AssumeRoleArn() {
+    return s3AssumeRoleArn;
+  }
+
+  public void setS3AssumeRoleArn(String s3AssumeRoleArn) {
+    this.s3AssumeRoleArn = s3AssumeRoleArn;
+  }
+
+  /**
+  * Session duration in seconds for AssumeRole authentication (900-43200).
+  */
+  @JsonProperty("s3_assume_role_duration_seconds")
+  public Long s3AssumeRoleDurationSeconds;
+
+  public Long getS3AssumeRoleDurationSeconds() {
+    return s3AssumeRoleDurationSeconds;
+  }
+
+  public void setS3AssumeRoleDurationSeconds(Long s3AssumeRoleDurationSeconds) {
+    this.s3AssumeRoleDurationSeconds = s3AssumeRoleDurationSeconds;
+  }
+
+  /**
+  * External ID for AssumeRole authentication.
+  */
+  @JsonProperty("s3_assume_role_external_id")
+  public String s3AssumeRoleExternalId;
+
+  public String getS3AssumeRoleExternalId() {
+    return s3AssumeRoleExternalId;
+  }
+
+  public void setS3AssumeRoleExternalId(String s3AssumeRoleExternalId) {
+    this.s3AssumeRoleExternalId = s3AssumeRoleExternalId;
+  }
+
+  /**
   * Google Cloud Storage: S3-compatible Access Key.
   */
   @JsonProperty("google_cloud_storage_s3_compatible_access_key")
@@ -498,6 +540,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -651,6 +695,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -703,6 +749,12 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
@@ -794,6 +846,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   description - string - Internal description for your reference
   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
   *   aws_access_key - string - AWS Access Key.
+  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
   *   cloudflare_access_key - string - Cloudflare: Access Key.
   *   filebase_access_key - string - Filebase: Access Key.
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
@@ -858,6 +912,12 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
+    }
+    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
     }
     if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");

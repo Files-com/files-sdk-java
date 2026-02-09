@@ -10,6 +10,9 @@
   "description": "More information or notes about this credential.",
   "server_type": "s3",
   "aws_access_key": "example",
+  "s3_assume_role_arn": "example",
+  "s3_assume_role_duration_seconds": 1,
+  "s3_assume_role_external_id": "example",
   "google_cloud_storage_s3_compatible_access_key": "example",
   "wasabi_access_key": "example",
   "s3_compatible_access_key": "example",
@@ -26,6 +29,9 @@
 * `description` / `description`  (string): Internal description for your reference
 * `server_type` / `serverType`  (string): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` / `awsAccessKey`  (string): AWS Access Key.
+* `s3_assume_role_arn` / `s3AssumeRoleArn`  (string): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` / `s3AssumeRoleDurationSeconds`  (int64): Session duration in seconds for AssumeRole authentication (900-43200).
+* `s3_assume_role_external_id` / `s3AssumeRoleExternalId`  (string): External ID for AssumeRole authentication.
 * `google_cloud_storage_s3_compatible_access_key` / `googleCloudStorageS3CompatibleAccessKey`  (string): Google Cloud Storage: S3-compatible Access Key.
 * `wasabi_access_key` / `wasabiAccessKey`  (string): Wasabi: Access Key.
 * `s3_compatible_access_key` / `s3CompatibleAccessKey`  (string): S3-compatible: Access Key
@@ -108,6 +114,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (String): AWS Access Key.
+* `s3_assume_role_arn` (String): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (Long): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `filebase_access_key` (String): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
@@ -154,6 +162,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (String): AWS Access Key.
+* `s3_assume_role_arn` (String): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (Long): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `filebase_access_key` (String): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
@@ -209,6 +219,8 @@ parameters.put("name", "My Credential");
 parameters.put("description", "More information or notes about this credential.");
 parameters.put("server_type", "s3");
 parameters.put("aws_access_key", "example");
+parameters.put("s3_assume_role_arn", "example");
+parameters.put("s3_assume_role_duration_seconds", 1);
 parameters.put("cloudflare_access_key", "example");
 parameters.put("filebase_access_key", "example");
 parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
@@ -227,6 +239,8 @@ remoteServerCredential.update(parameters);
 * `description` (String): Internal description for your reference
 * `server_type` (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
 * `aws_access_key` (String): AWS Access Key.
+* `s3_assume_role_arn` (String): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (Long): Session duration in seconds for AssumeRole authentication (900-43200).
 * `cloudflare_access_key` (String): Cloudflare: Access Key.
 * `filebase_access_key` (String): Filebase: Access Key.
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.

@@ -97,9 +97,9 @@ Partner partner = Partner.create(
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `notes` (String): Notes about this Partner.
-* `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): Required - The name of the Partner.
+* `root_folder` (String): Required - The root folder path for this Partner.
 * `workspace_id` (Long): ID of the Workspace associated with this Partner.
 
 
@@ -123,9 +123,9 @@ Partner partner = Partner.update(
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `notes` (String): Notes about this Partner.
-* `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
+* `root_folder` (String): The root folder path for this Partner.
 
 
 ---
@@ -158,9 +158,9 @@ parameters.put("allow_credential_changes", false);
 parameters.put("allow_providing_gpg_keys", false);
 parameters.put("allow_user_creation", false);
 parameters.put("notes", "This is a note about the partner.");
-parameters.put("root_folder", "/AcmeCorp");
 parameters.put("tags", "example");
 parameters.put("name", "Acme Corp");
+parameters.put("root_folder", "/AcmeCorp");
 
 partner.update(parameters);
 ```
@@ -173,9 +173,9 @@ partner.update(parameters);
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `notes` (String): Notes about this Partner.
-* `root_folder` (String): The root folder path for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
+* `root_folder` (String): The root folder path for this Partner.
 
 
 ---

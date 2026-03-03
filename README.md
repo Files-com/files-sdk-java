@@ -731,6 +731,7 @@ RuntimeException
 |`InvalidPriorityColorException`|  `ProcessingFailureException` |
 |`InvalidRangeException`|  `ProcessingFailureException` |
 |`InvalidSiteException`|  `ProcessingFailureException` |
+|`InvalidZipFileException`|  `ProcessingFailureException` |
 |`MetadataNotSupportedOnRemotesException`|  `ProcessingFailureException` |
 |`ModelSaveErrorException`|  `ProcessingFailureException` |
 |`MultipleProcessingErrorsException`|  `ProcessingFailureException` |

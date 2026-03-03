@@ -1075,6 +1075,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidZipFileException extends ProcessingFailureException {
+    public InvalidZipFileException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class MetadataNotSupportedOnRemotesException extends ProcessingFailureException {
     public MetadataNotSupportedOnRemotesException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

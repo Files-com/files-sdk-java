@@ -203,6 +203,36 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+  */
+  @JsonProperty("allow_user_level_2fa_override")
+  public Boolean allowUserLevel2faOverride;
+
+  public Boolean getAllowUserLevel2faOverride() {
+    return allowUserLevel2faOverride;
+  }
+
+  /**
+  * Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+  */
+  @JsonProperty("allow_user_level_allowed_ip_override")
+  public Boolean allowUserLevelAllowedIpOverride;
+
+  public Boolean getAllowUserLevelAllowedIpOverride() {
+    return allowUserLevelAllowedIpOverride;
+  }
+
+  /**
+  * Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
+  */
+  @JsonProperty("allow_user_level_ssl_override")
+  public Boolean allowUserLevelSslOverride;
+
+  public Boolean getAllowUserLevelSslOverride() {
+    return allowUserLevelSslOverride;
+  }
+
+  /**
   * Comma separated list of allowed Country codes
   */
   @JsonProperty("allowed_countries")
@@ -1914,6 +1944,9 @@ public class Site implements ModelInterface {
   *   include_password_in_welcome_email - boolean - Include password in emails to new users?
   *   allowed_countries - string - Comma separated list of allowed Country codes
   *   allowed_ips - string - List of allowed IP addresses
+  *   allow_user_level_2fa_override - boolean - Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+  *   allow_user_level_allowed_ip_override - boolean - Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+  *   allow_user_level_ssl_override - boolean - Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
   *   disallowed_countries - string - Comma separated list of disallowed Country codes
   *   days_to_retain_backups - int64 - Number of days to keep deleted files
   *   max_prior_passwords - int64 - Number of prior passwords to disallow
@@ -2207,6 +2240,15 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
+    }
+    if (parameters.containsKey("allow_user_level_2fa_override") && !(parameters.get("allow_user_level_2fa_override") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_user_level_2fa_override must be of type Boolean parameters[\"allow_user_level_2fa_override\"]");
+    }
+    if (parameters.containsKey("allow_user_level_allowed_ip_override") && !(parameters.get("allow_user_level_allowed_ip_override") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_user_level_allowed_ip_override must be of type Boolean parameters[\"allow_user_level_allowed_ip_override\"]");
+    }
+    if (parameters.containsKey("allow_user_level_ssl_override") && !(parameters.get("allow_user_level_ssl_override") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: allow_user_level_ssl_override must be of type Boolean parameters[\"allow_user_level_ssl_override\"]");
     }
     if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: disallowed_countries must be of type String parameters[\"disallowed_countries\"]");

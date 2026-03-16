@@ -19,6 +19,9 @@
   "admin_user_id": 1,
   "admins_bypass_locked_subfolders": true,
   "allow_bundle_names": true,
+  "allow_user_level_2fa_override": true,
+  "allow_user_level_allowed_ip_override": true,
+  "allow_user_level_ssl_override": true,
   "allowed_countries": "US,DE",
   "allowed_ips": "example",
   "always_mkdir_parents": true,
@@ -327,6 +330,9 @@
 * `admin_user_id` / `adminUserId`  (int64): User ID for the main site administrator
 * `admins_bypass_locked_subfolders` / `adminsBypassLockedSubfolders`  (boolean): Allow admins to bypass the locked subfolders setting.
 * `allow_bundle_names` / `allowBundleNames`  (boolean): Are manual Bundle names allowed?
+* `allow_user_level_2fa_override` / `allowUserLevel2faOverride`  (boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+* `allow_user_level_allowed_ip_override` / `allowUserLevelAllowedIpOverride`  (boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+* `allow_user_level_ssl_override` / `allowUserLevelSslOverride`  (boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
 * `allowed_countries` / `allowedCountries`  (string): Comma separated list of allowed Country codes
 * `allowed_ips` / `allowedIps`  (string): List of allowed IP addresses
 * `always_mkdir_parents` / `alwaysMkdirParents`  (boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
@@ -585,6 +591,9 @@ Site site = Site.update(
 * `include_password_in_welcome_email` (Boolean): Include password in emails to new users?
 * `allowed_countries` (String): Comma separated list of allowed Country codes
 * `allowed_ips` (String): List of allowed IP addresses
+* `allow_user_level_2fa_override` (Boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?
+* `allow_user_level_allowed_ip_override` (Boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?
+* `allow_user_level_ssl_override` (Boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
 * `disallowed_countries` (String): Comma separated list of disallowed Country codes
 * `days_to_retain_backups` (Long): Number of days to keep deleted files
 * `max_prior_passwords` (Long): Number of prior passwords to disallow

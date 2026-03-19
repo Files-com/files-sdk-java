@@ -1404,6 +1404,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Finalize partial SFTP uploads from interrupted connections? Default: true.
+  */
+  @JsonProperty("sftp_finalize_partial_uploads")
+  public Boolean sftpFinalizePartialUploads;
+
+  public Boolean getSftpFinalizePartialUploads() {
+    return sftpFinalizePartialUploads;
+  }
+
+  /**
   * Sftp Host Key Type
   */
   @JsonProperty("sftp_host_key_type")
@@ -1984,6 +1994,7 @@ public class Site implements ModelInterface {
   *   dav_enabled - boolean - Is WebDAV enabled?
   *   ftp_enabled - boolean - Is FTP enabled?
   *   sftp_enabled - boolean - Is SFTP enabled?
+  *   sftp_finalize_partial_uploads - boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
   *   users_can_create_api_keys - boolean - Allow users to create their own API keys?
   *   users_can_create_ssh_keys - boolean - Allow users to create their own SSH keys?
   *   show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
@@ -2360,6 +2371,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");
+    }
+    if (parameters.containsKey("sftp_finalize_partial_uploads") && !(parameters.get("sftp_finalize_partial_uploads") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: sftp_finalize_partial_uploads must be of type Boolean parameters[\"sftp_finalize_partial_uploads\"]");
     }
     if (parameters.containsKey("users_can_create_api_keys") && !(parameters.get("users_can_create_api_keys") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: users_can_create_api_keys must be of type Boolean parameters[\"users_can_create_api_keys\"]");

@@ -307,6 +307,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Desktop Configuration Profile ID assigned directly to this user, if any.
+  */
+  @JsonProperty("desktop_configuration_profile_id")
+  public Long desktopConfigurationProfileId;
+
+  public Long getDesktopConfigurationProfileId() {
+    return desktopConfigurationProfileId;
+  }
+
+  public void setDesktopConfigurationProfileId(Long desktopConfigurationProfileId) {
+    this.desktopConfigurationProfileId = desktopConfigurationProfileId;
+  }
+
+  /**
   * User email address
   */
   @JsonProperty("email")
@@ -1301,6 +1315,7 @@ public class User implements ModelInterface {
   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1510,6 +1525,7 @@ public class User implements ModelInterface {
   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1621,6 +1637,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
+    }
+    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
@@ -1872,6 +1891,7 @@ public class User implements ModelInterface {
   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1994,6 +2014,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
+    }
+    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");

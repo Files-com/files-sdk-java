@@ -23,6 +23,7 @@
   "dav_permission": true,
   "disabled": true,
   "disabled_expired_or_inactive": true,
+  "desktop_configuration_profile_id": 1,
   "email": "john.doe@files.com",
   "filesystem_layout": "site_root",
   "first_login_at": "2000-01-01T01:00:00Z",
@@ -99,6 +100,7 @@
 * `dav_permission` / `davPermission`  (boolean): Can the user connect with WebDAV?
 * `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `disabled_expired_or_inactive` / `disabledExpiredOrInactive`  (boolean): Computed property that returns true if user disabled or expired or inactive.
+* `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `email` / `email`  (email): User email address
 * `filesystem_layout` / `filesystemLayout`  (string): File system layout
 * `first_login_at` / `firstLoginAt`  (date-time): User's first login time
@@ -248,6 +250,7 @@ User user = User.create(
 * `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
+* `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
@@ -369,6 +372,7 @@ User user = User.update(
 * `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
+* `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
@@ -495,6 +499,7 @@ parameters.put("billing_permission", false);
 parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
+parameters.put("desktop_configuration_profile_id", 1);
 parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
@@ -556,6 +561,7 @@ user.update(parameters);
 * `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
+* `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?

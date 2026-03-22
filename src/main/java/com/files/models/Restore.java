@@ -353,6 +353,20 @@ public class Restore implements ModelInterface {
   }
 
   /**
+  * Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Error messages received while restoring files and/or directories. Only present if there were errors.
   */
   @JsonProperty("error_messages")
@@ -375,7 +389,7 @@ public class Restore implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
   */
   public static ListIterator<Restore> list() throws RuntimeException {
@@ -429,6 +443,7 @@ public class Restore implements ModelInterface {
   *   restore_deleted_permissions - boolean - If true, we will also restore any Permissions that match the same path prefix from the same dates.
   *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
   *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+  *   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
   */
   public static Restore create() throws RuntimeException {
     return create(null, null);
@@ -465,6 +480,9 @@ public class Restore implements ModelInterface {
     }
     if (parameters.containsKey("update_timestamps") && !(parameters.get("update_timestamps") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: update_timestamps must be of type Boolean parameters[\"update_timestamps\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

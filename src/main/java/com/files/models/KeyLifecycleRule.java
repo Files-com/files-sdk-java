@@ -115,6 +115,20 @@ public class KeyLifecycleRule implements ModelInterface {
   }
 
   /**
+  * If true, a default-workspace rule also applies to keys in all workspaces.
+  */
+  @JsonProperty("apply_to_all_workspaces")
+  public Boolean applyToAllWorkspaces;
+
+  public Boolean getApplyToAllWorkspaces() {
+    return applyToAllWorkspaces;
+  }
+
+  public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
+    this.applyToAllWorkspaces = applyToAllWorkspaces;
+  }
+
+  /**
   * Key Lifecycle Rule name
   */
   @JsonProperty("name")
@@ -129,10 +143,26 @@ public class KeyLifecycleRule implements ModelInterface {
   }
 
   /**
+  * Workspace ID. `0` means the default workspace.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Parameters:
+  *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public KeyLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
     return KeyLifecycleRule.update(this.id, parameters, this.options);
@@ -157,8 +187,8 @@ public class KeyLifecycleRule implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `key_type`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `key_type`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `key_type`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
   */
   public static ListIterator<KeyLifecycleRule> list() throws RuntimeException {
     return list(null, null);
@@ -254,9 +284,11 @@ public class KeyLifecycleRule implements ModelInterface {
 
   /**
   * Parameters:
+  *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static KeyLifecycleRule create() throws RuntimeException {
     return create(null, null);
@@ -273,6 +305,9 @@ public class KeyLifecycleRule implements ModelInterface {
 
 
 
+    if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
     if (parameters.containsKey("key_type") && !(parameters.get("key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: key_type must be of type String parameters[\"key_type\"]");
     }
@@ -281,6 +316,9 @@ public class KeyLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 
@@ -293,9 +331,11 @@ public class KeyLifecycleRule implements ModelInterface {
 
   /**
   * Parameters:
+  *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static KeyLifecycleRule update() throws RuntimeException {
     return update(null, null, null);
@@ -325,6 +365,9 @@ public class KeyLifecycleRule implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
+    if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
     if (parameters.containsKey("key_type") && !(parameters.get("key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: key_type must be of type String parameters[\"key_type\"]");
     }
@@ -333,6 +376,9 @@ public class KeyLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

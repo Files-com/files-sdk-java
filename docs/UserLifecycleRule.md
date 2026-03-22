@@ -15,9 +15,11 @@
   "inactivity_days": 12,
   "include_folder_admins": true,
   "include_site_admins": true,
+  "apply_to_all_workspaces": true,
   "name": "password specific rules",
   "partner_tag": "guest",
   "site_id": 1,
+  "workspace_id": 12,
   "user_state": "inactive",
   "user_tag": "guest"
 }
@@ -30,9 +32,11 @@
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies
 * `include_folder_admins` / `includeFolderAdmins`  (boolean): If true, the rule will apply to folder admins.
 * `include_site_admins` / `includeSiteAdmins`  (boolean): If true, the rule will apply to site admins.
+* `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a default-workspace rule also applies to users in all workspaces.
 * `name` / `name`  (string): User Lifecycle Rule name
 * `partner_tag` / `partnerTag`  (string): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `site_id` / `siteId`  (int64): Site ID
+* `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
 * `user_state` / `userState`  (string): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` / `userTag`  (string): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 
@@ -53,7 +57,8 @@ ListIterator<UserLifecycleRule> userLifecycleRule = UserLifecycleRule.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
 
 
 ---
@@ -88,6 +93,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 ### Parameters
 
 * `action` (String): Action to take on inactive users (disable or delete)
+* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
 * `authentication_method` (String): User authentication method for which the rule will apply.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
@@ -97,6 +103,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---
@@ -115,6 +122,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
+* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
 * `authentication_method` (String): User authentication method for which the rule will apply.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
@@ -124,6 +132,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---
@@ -151,6 +160,7 @@ void userLifecycleRule = UserLifecycleRule.delete(
 UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("apply_to_all_workspaces", true);
 parameters.put("authentication_method", "password");
 parameters.put("group_ids", [1,2,3]);
 parameters.put("inactivity_days", 12);
@@ -160,6 +170,7 @@ parameters.put("name", "password specific rules");
 parameters.put("partner_tag", "guest");
 parameters.put("user_state", "inactive");
 parameters.put("user_tag", "guest");
+parameters.put("workspace_id", 12);
 
 userLifecycleRule.update(parameters);
 ```
@@ -168,6 +179,7 @@ userLifecycleRule.update(parameters);
 
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
+* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
 * `authentication_method` (String): User authentication method for which the rule will apply.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
@@ -177,6 +189,7 @@ userLifecycleRule.update(parameters);
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---

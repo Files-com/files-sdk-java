@@ -44,6 +44,7 @@
 * `skip_company` / `skipCompany`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
 * `in_use` / `inUse`  (boolean): Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
+* `workspace_id` / `workspaceId`  (int64): Workspace ID
 
 
 ---
@@ -98,6 +99,7 @@ FormFieldSet formFieldSet = FormFieldSet.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `title` (String): Title to be displayed
+* `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name
 * `skip_company` (Boolean): Skip validating company
@@ -120,6 +122,7 @@ FormFieldSet formFieldSet = FormFieldSet.update(
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name
 * `skip_company` (Boolean): Skip validating company
@@ -152,6 +155,7 @@ FormFieldSet formFieldSet = FormFieldSet.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("title", "Sample Form Title");
+parameters.put("workspace_id", 1);
 parameters.put("skip_email", false);
 parameters.put("skip_name", false);
 parameters.put("skip_company", false);
@@ -164,6 +168,7 @@ formFieldSet.update(parameters);
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name
 * `skip_company` (Boolean): Skip validating company

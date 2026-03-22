@@ -199,8 +199,23 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
+  * Workspace ID
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
   *   skip_company - boolean - Skip validating company
@@ -324,6 +339,7 @@ public class FormFieldSet implements ModelInterface {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   title - string - Title to be displayed
+  *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
   *   skip_company - boolean - Skip validating company
@@ -350,6 +366,9 @@ public class FormFieldSet implements ModelInterface {
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
     }
@@ -374,6 +393,7 @@ public class FormFieldSet implements ModelInterface {
   /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
   *   skip_company - boolean - Skip validating company
@@ -409,6 +429,9 @@ public class FormFieldSet implements ModelInterface {
     }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");

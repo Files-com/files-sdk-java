@@ -586,6 +586,20 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * Workspace ID. `0` means the default workspace.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Does this bundle have an associated inbox?
   */
   @JsonProperty("has_inbox")
@@ -763,6 +777,7 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
@@ -937,6 +952,7 @@ public class Bundle implements ModelInterface {
   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
   */
   public static Bundle create() throws RuntimeException {
@@ -1035,6 +1051,9 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long || parameters.get("snapshot_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long or Integer parameters[\"snapshot_id\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
@@ -1127,6 +1146,7 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
@@ -1230,6 +1250,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");

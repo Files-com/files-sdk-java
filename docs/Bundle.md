@@ -75,6 +75,7 @@
     "key": "example value"
   },
   "send_one_time_password_to_recipient_at_registration": true,
+  "workspace_id": 1,
   "has_inbox": true,
   "dont_allow_folders_in_uploads": true,
   "paths": [
@@ -126,6 +127,7 @@
 * `watermark_attachment` / `watermarkAttachment`  (image): Preview watermark image applied to all bundle items.
 * `watermark_value` / `watermarkValue`  (object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `send_one_time_password_to_recipient_at_registration` / `sendOneTimePasswordToRecipientAtRegistration`  (boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+* `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
 * `has_inbox` / `hasInbox`  (boolean): Does this bundle have an associated inbox?
 * `dont_allow_folders_in_uploads` / `dontAllowFoldersInUploads`  (boolean): Should folder uploads be prevented?
 * `paths` / `paths`  (array(string)): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
@@ -221,6 +223,7 @@ Bundle bundle = Bundle.create(
 * `skip_company` (Boolean): BundleRegistrations can be saved without providing company?
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `snapshot_id` (Long): ID of the snapshot containing this bundle's contents.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
 
 
@@ -283,6 +286,7 @@ Bundle bundle = Bundle.update(
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
@@ -360,6 +364,7 @@ parameters.put("skip_company", true);
 parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
+parameters.put("workspace_id", 1);
 parameters.put("user_id", 1);
 parameters.put("watermark_attachment_delete", false);
 
@@ -393,6 +398,7 @@ bundle.update(parameters);
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.

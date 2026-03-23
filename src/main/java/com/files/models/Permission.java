@@ -157,6 +157,34 @@ public class Permission implements ModelInterface {
   }
 
   /**
+  * Group IDs when this permission requires multiple groups
+  */
+  @JsonProperty("group_ids")
+  public Long[] groupIds;
+
+  public Long[] getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(Long[] groupIds) {
+    this.groupIds = groupIds;
+  }
+
+  /**
+  * Group names when this permission requires multiple groups
+  */
+  @JsonProperty("group_names")
+  public String[] groupNames;
+
+  public String[] getGroupNames() {
+    return groupNames;
+  }
+
+  public void setGroupNames(String[] groupNames) {
+    this.groupNames = groupNames;
+  }
+
+  /**
   * Partner ID (if applicable)
   */
   @JsonProperty("partner_id")
@@ -319,6 +347,7 @@ public class Permission implements ModelInterface {
   * Parameters:
   *   path (required) - string - Folder path
   *   group_id - int64 - Group ID. Provide `group_name` or `group_id`
+  *   group_ids - string - Group IDs when the permission requires multiple groups. If sent as a string, it should be comma-delimited.
   *   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
   *   recursive - boolean - Apply to subfolders recursively?
   *   partner_id - int64 - Partner ID if this Permission belongs to a partner.
@@ -350,6 +379,9 @@ public class Permission implements ModelInterface {
     }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
+    }
+    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
     if (parameters.containsKey("permission") && !(parameters.get("permission") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: permission must be of type String parameters[\"permission\"]");

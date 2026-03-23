@@ -10,6 +10,12 @@
   "username": "user",
   "group_id": 1,
   "group_name": "example",
+  "group_ids": [
+    1
+  ],
+  "group_names": [
+    "example"
+  ],
   "partner_id": 1,
   "partner_name": "Acme Corp.",
   "permission": "full",
@@ -24,6 +30,8 @@
 * `username` / `username`  (string): Username (if applicable)
 * `group_id` / `groupId`  (int64): Group ID
 * `group_name` / `groupName`  (string): Group name (if applicable)
+* `group_ids` / `groupIds`  (array(int64)): Group IDs when this permission requires multiple groups
+* `group_names` / `groupNames`  (array(string)): Group names when this permission requires multiple groups
 * `partner_id` / `partnerId`  (int64): Partner ID (if applicable)
 * `partner_name` / `partnerName`  (string): Partner name (if applicable)
 * `permission` / `permission`  (string): Permission type.  See the table referenced in the documentation for an explanation of each permission.
@@ -73,6 +81,7 @@ Permission permission = Permission.create(
 
 * `path` (String): Required - Folder path
 * `group_id` (Long): Group ID. Provide `group_name` or `group_id`
+* `group_ids` (String): Group IDs when the permission requires multiple groups. If sent as a string, it should be comma-delimited.
 * `permission` (String): Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
 * `recursive` (Boolean): Apply to subfolders recursively?
 * `partner_id` (Long): Partner ID if this Permission belongs to a partner.

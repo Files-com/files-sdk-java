@@ -153,7 +153,7 @@ Expectation expectation = Expectation.create(
 ## Manually open an Expectation window
 
 ```
-ExpectationEvaluation expectation = Expectation.trigger(
+ExpectationEvaluation expectation = Expectation.triggerEvaluation(
     Long id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
@@ -227,7 +227,7 @@ Expectation expectation = Expectation.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 
-expectation.trigger(parameters);
+expectation.triggerEvaluation(parameters);
 ```
 
 ### Parameters

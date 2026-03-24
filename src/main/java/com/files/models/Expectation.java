@@ -445,8 +445,8 @@ public class Expectation implements ModelInterface {
   /**
   * Manually open an Expectation window
   */
-  public ExpectationEvaluation trigger(HashMap<String, Object> parameters) throws IOException {
-    return Expectation.trigger(this.id, parameters, this.options);
+  public ExpectationEvaluation triggerEvaluation(HashMap<String, Object> parameters) throws IOException {
+    return Expectation.triggerEvaluation(this.id, parameters, this.options);
   }
 
   /**
@@ -695,19 +695,19 @@ public class Expectation implements ModelInterface {
   /**
   * Manually open an Expectation window
   */
-  public static ExpectationEvaluation trigger() throws RuntimeException {
-    return trigger(null, null, null);
+  public static ExpectationEvaluation triggerEvaluation() throws RuntimeException {
+    return triggerEvaluation(null, null, null);
   }
 
-  public static ExpectationEvaluation trigger(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return trigger(id, parameters, null);
+  public static ExpectationEvaluation triggerEvaluation(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return triggerEvaluation(id, parameters, null);
   }
 
-  public static ExpectationEvaluation trigger(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return trigger(null, parameters, options);
+  public static ExpectationEvaluation triggerEvaluation(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return triggerEvaluation(null, parameters, options);
   }
 
-  public static ExpectationEvaluation trigger(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ExpectationEvaluation triggerEvaluation(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -726,7 +726,7 @@ public class Expectation implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectations/%s/trigger", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectations/%s/trigger_evaluation", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationEvaluation> typeReference = new TypeReference<ExpectationEvaluation>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

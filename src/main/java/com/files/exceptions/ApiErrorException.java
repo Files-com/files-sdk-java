@@ -949,6 +949,18 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class ExpectationAlreadyHasOpenWindowException extends ProcessingFailureException {
+    public ExpectationAlreadyHasOpenWindowException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class ExpectationNotManualTriggerException extends ProcessingFailureException {
+    public ExpectationNotManualTriggerException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class ExpiredPrivateKeyException extends ProcessingFailureException {
     public ExpiredPrivateKeyException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

@@ -92,6 +92,7 @@
 * `parts` / `parts`  (int64): How many parts to fetch?
 * `ref` / `ref`  (string): 
 * `restart` / `restart`  (int64): File byte offset to restart from.
+* `copy_behaviors` / `copyBehaviors`  (boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
 * `structure` / `structure`  (string): If copying folder, copy just the structure?
 * `with_rename` / `withRename`  (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` / `bufferedUpload`  (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -144,6 +145,7 @@ FileUploadPart file = File.create(
 * `ref` (String): 
 * `restart` (Long): File byte offset to restart from.
 * `size` (Long): Size of file.
+* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
 * `structure` (String): If copying folder, copy just the structure?
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
@@ -240,6 +242,7 @@ FileAction file = File.copy(
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Copy destination path.
+* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
 * `structure` (Boolean): Copy structure only?
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
@@ -417,6 +420,7 @@ File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
+parameters.put("copy_behaviors", false);
 parameters.put("structure", false);
 parameters.put("overwrite", false);
 
@@ -427,6 +431,7 @@ file.copy(parameters);
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Copy destination path.
+* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors to the destination folder tree?
 * `structure` (Boolean): Copy structure only?
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 

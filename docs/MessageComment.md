@@ -120,7 +120,7 @@ void messageComment = MessageComment.delete(
 MessageComment messageComment = MessageComment.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("body", "body");
+parameters.put("body", "What a great idea, thank you!");
 
 messageComment.update(parameters);
 ```

@@ -213,6 +213,34 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * Source site ID if syncing from a child or partner site
+  */
+  @JsonProperty("src_site_id")
+  public Long srcSiteId;
+
+  public Long getSrcSiteId() {
+    return srcSiteId;
+  }
+
+  public void setSrcSiteId(Long srcSiteId) {
+    this.srcSiteId = srcSiteId;
+  }
+
+  /**
+  * Destination site ID if syncing to a child or partner site
+  */
+  @JsonProperty("dest_site_id")
+  public Long destSiteId;
+
+  public Long getDestSiteId() {
+    return destSiteId;
+  }
+
+  public void setDestSiteId(Long destSiteId) {
+    this.destSiteId = destSiteId;
+  }
+
+  /**
   * Is this a two-way sync?
   */
   @JsonProperty("two_way")
@@ -472,24 +500,28 @@ public class Sync implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - Name for this sync job
-  *   description - string - Description for this sync job
-  *   src_path - string - Absolute source path
-  *   dest_path - string - Absolute destination path
-  *   src_remote_server_id - int64 - Remote server ID for the source
-  *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
+  *   description - string - Description for this sync job
+  *   dest_path - string - Absolute destination path for the sync
+  *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
+  *   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
   *   disabled - boolean - Is this sync disabled?
+  *   exclude_patterns - array(string) - Array of glob patterns to exclude
+  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+  *   include_patterns - array(string) - Array of glob patterns to include
   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+  *   keep_after_copy - boolean - Keep files after copying?
+  *   name - string - Name for this sync job
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+  *   src_path - string - Absolute source path for the sync
+  *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
+  *   src_site_id - int64 - Source site ID if syncing from a child or partner site
+  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
-  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
   */
   public Sync update(HashMap<String, Object> parameters) throws IOException {
     return Sync.update(this.id, parameters, this.options);
@@ -611,24 +643,28 @@ public class Sync implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - Name for this sync job
-  *   description - string - Description for this sync job
-  *   src_path - string - Absolute source path
-  *   dest_path - string - Absolute destination path
-  *   src_remote_server_id - int64 - Remote server ID for the source
-  *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
+  *   description - string - Description for this sync job
+  *   dest_path - string - Absolute destination path for the sync
+  *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
+  *   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
   *   disabled - boolean - Is this sync disabled?
+  *   exclude_patterns - array(string) - Array of glob patterns to exclude
+  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+  *   include_patterns - array(string) - Array of glob patterns to include
   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+  *   keep_after_copy - boolean - Keep files after copying?
+  *   name - string - Name for this sync job
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+  *   src_path - string - Absolute source path for the sync
+  *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
+  *   src_site_id - int64 - Source site ID if syncing from a child or partner site
+  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
-  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
   *   workspace_id - int64 - Workspace ID this sync belongs to
   */
   public static Sync create() throws RuntimeException {
@@ -646,59 +682,71 @@ public class Sync implements ModelInterface {
 
 
 
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (parameters.containsKey("delete_empty_folders") && !(parameters.get("delete_empty_folders") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: delete_empty_folders must be of type Boolean parameters[\"delete_empty_folders\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-    if (parameters.containsKey("src_path") && !(parameters.get("src_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: src_path must be of type String parameters[\"src_path\"]");
-    }
     if (parameters.containsKey("dest_path") && !(parameters.get("dest_path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: dest_path must be of type String parameters[\"dest_path\"]");
-    }
-    if (parameters.containsKey("src_remote_server_id") && !(parameters.get("src_remote_server_id") instanceof Long || parameters.get("src_remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: src_remote_server_id must be of type Long or Integer parameters[\"src_remote_server_id\"]");
     }
     if (parameters.containsKey("dest_remote_server_id") && !(parameters.get("dest_remote_server_id") instanceof Long || parameters.get("dest_remote_server_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: dest_remote_server_id must be of type Long or Integer parameters[\"dest_remote_server_id\"]");
     }
-    if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");
-    }
-    if (parameters.containsKey("delete_empty_folders") && !(parameters.get("delete_empty_folders") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: delete_empty_folders must be of type Boolean parameters[\"delete_empty_folders\"]");
+    if (parameters.containsKey("dest_site_id") && !(parameters.get("dest_site_id") instanceof Long || parameters.get("dest_site_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: dest_site_id must be of type Long or Integer parameters[\"dest_site_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
+    if (parameters.containsKey("exclude_patterns") && !(parameters.get("exclude_patterns") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: exclude_patterns must be of type String[] parameters[\"exclude_patterns\"]");
+    }
+    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
+    }
+    if (parameters.containsKey("include_patterns") && !(parameters.get("include_patterns") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: include_patterns must be of type String[] parameters[\"include_patterns\"]");
+    }
     if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
+    }
+    if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
+    }
+    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
+    }
+    if (parameters.containsKey("src_path") && !(parameters.get("src_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: src_path must be of type String parameters[\"src_path\"]");
+    }
+    if (parameters.containsKey("src_remote_server_id") && !(parameters.get("src_remote_server_id") instanceof Long || parameters.get("src_remote_server_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: src_remote_server_id must be of type Long or Integer parameters[\"src_remote_server_id\"]");
+    }
+    if (parameters.containsKey("src_site_id") && !(parameters.get("src_site_id") instanceof Long || parameters.get("src_site_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: src_site_id must be of type Long or Integer parameters[\"src_site_id\"]");
+    }
+    if (parameters.containsKey("sync_interval_minutes") && !(parameters.get("sync_interval_minutes") instanceof Long || parameters.get("sync_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: sync_interval_minutes must be of type Long or Integer parameters[\"sync_interval_minutes\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
     if (parameters.containsKey("trigger_file") && !(parameters.get("trigger_file") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger_file must be of type String parameters[\"trigger_file\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("sync_interval_minutes") && !(parameters.get("sync_interval_minutes") instanceof Long || parameters.get("sync_interval_minutes") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: sync_interval_minutes must be of type Long or Integer parameters[\"sync_interval_minutes\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
@@ -794,24 +842,28 @@ public class Sync implements ModelInterface {
 
   /**
   * Parameters:
-  *   name - string - Name for this sync job
-  *   description - string - Description for this sync job
-  *   src_path - string - Absolute source path
-  *   dest_path - string - Absolute destination path
-  *   src_remote_server_id - int64 - Remote server ID for the source
-  *   dest_remote_server_id - int64 - Remote server ID for the destination
-  *   keep_after_copy - boolean - Keep files after copying?
   *   delete_empty_folders - boolean - Delete empty folders after sync?
+  *   description - string - Description for this sync job
+  *   dest_path - string - Absolute destination path for the sync
+  *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
+  *   dest_site_id - int64 - Destination site ID if syncing to a child or partner site
   *   disabled - boolean - Is this sync disabled?
+  *   exclude_patterns - array(string) - Array of glob patterns to exclude
+  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
+  *   include_patterns - array(string) - Array of glob patterns to include
   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
+  *   keep_after_copy - boolean - Keep files after copying?
+  *   name - string - Name for this sync job
+  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
+  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
+  *   src_path - string - Absolute source path for the sync
+  *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
+  *   src_site_id - int64 - Source site ID if syncing from a child or partner site
+  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-  *   holiday_region - string - If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
-  *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-  *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-  *   schedule_time_zone - string - If trigger is `custom_schedule`, Custom schedule Time Zone for when the sync should be run.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-  *   schedule_times_of_day - array(string) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
   */
   public static Sync update() throws RuntimeException {
     return update(null, null, null);
@@ -841,59 +893,71 @@ public class Sync implements ModelInterface {
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
     }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    if (parameters.containsKey("delete_empty_folders") && !(parameters.get("delete_empty_folders") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: delete_empty_folders must be of type Boolean parameters[\"delete_empty_folders\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
-    if (parameters.containsKey("src_path") && !(parameters.get("src_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: src_path must be of type String parameters[\"src_path\"]");
-    }
     if (parameters.containsKey("dest_path") && !(parameters.get("dest_path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: dest_path must be of type String parameters[\"dest_path\"]");
-    }
-    if (parameters.containsKey("src_remote_server_id") && !(parameters.get("src_remote_server_id") instanceof Long || parameters.get("src_remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: src_remote_server_id must be of type Long or Integer parameters[\"src_remote_server_id\"]");
     }
     if (parameters.containsKey("dest_remote_server_id") && !(parameters.get("dest_remote_server_id") instanceof Long || parameters.get("dest_remote_server_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: dest_remote_server_id must be of type Long or Integer parameters[\"dest_remote_server_id\"]");
     }
-    if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");
-    }
-    if (parameters.containsKey("delete_empty_folders") && !(parameters.get("delete_empty_folders") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: delete_empty_folders must be of type Boolean parameters[\"delete_empty_folders\"]");
+    if (parameters.containsKey("dest_site_id") && !(parameters.get("dest_site_id") instanceof Long || parameters.get("dest_site_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: dest_site_id must be of type Long or Integer parameters[\"dest_site_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
     }
+    if (parameters.containsKey("exclude_patterns") && !(parameters.get("exclude_patterns") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: exclude_patterns must be of type String[] parameters[\"exclude_patterns\"]");
+    }
+    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
+    }
+    if (parameters.containsKey("include_patterns") && !(parameters.get("include_patterns") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: include_patterns must be of type String[] parameters[\"include_patterns\"]");
+    }
     if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
+    }
+    if (parameters.containsKey("keep_after_copy") && !(parameters.get("keep_after_copy") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: keep_after_copy must be of type Boolean parameters[\"keep_after_copy\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
+    }
+    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
+    }
+    if (parameters.containsKey("src_path") && !(parameters.get("src_path") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: src_path must be of type String parameters[\"src_path\"]");
+    }
+    if (parameters.containsKey("src_remote_server_id") && !(parameters.get("src_remote_server_id") instanceof Long || parameters.get("src_remote_server_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: src_remote_server_id must be of type Long or Integer parameters[\"src_remote_server_id\"]");
+    }
+    if (parameters.containsKey("src_site_id") && !(parameters.get("src_site_id") instanceof Long || parameters.get("src_site_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: src_site_id must be of type Long or Integer parameters[\"src_site_id\"]");
+    }
+    if (parameters.containsKey("sync_interval_minutes") && !(parameters.get("sync_interval_minutes") instanceof Long || parameters.get("sync_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: sync_interval_minutes must be of type Long or Integer parameters[\"sync_interval_minutes\"]");
     }
     if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
     }
     if (parameters.containsKey("trigger_file") && !(parameters.get("trigger_file") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger_file must be of type String parameters[\"trigger_file\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("sync_interval_minutes") && !(parameters.get("sync_interval_minutes") instanceof Long || parameters.get("sync_interval_minutes") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: sync_interval_minutes must be of type Long or Integer parameters[\"sync_interval_minutes\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
     }
 
 

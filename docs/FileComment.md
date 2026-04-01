@@ -101,7 +101,7 @@ void fileComment = FileComment.delete(
 FileComment fileComment = FileComment.list()[0];
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("body", "body");
+parameters.put("body", "What a great file!");
 
 fileComment.update(parameters);
 ```

@@ -115,6 +115,20 @@ public class Style implements ModelInterface {
   }
 
   /**
+  * URL to open when a public visitor clicks the logo
+  */
+  @JsonProperty("logo_click_href")
+  public String logoClickHref;
+
+  public String getLogoClickHref() {
+    return logoClickHref;
+  }
+
+  public void setLogoClickHref(String logoClickHref) {
+    this.logoClickHref = logoClickHref;
+  }
+
+  /**
   * Logo thumbnail
   */
   @JsonProperty("thumbnail")
@@ -129,7 +143,7 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Logo for custom branding.
+  * Logo for custom branding. Required when creating a new style.
   */
   @JsonProperty("file")
   public byte[] file;
@@ -144,7 +158,8 @@ public class Style implements ModelInterface {
 
   /**
   * Parameters:
-  *   file (required) - file - Logo for custom branding.
+  *   file - file - Logo for custom branding. Required when creating a new style.
+  *   logo_click_href - string - URL to open when a public visitor clicks the logo.
   */
   public Style update(HashMap<String, Object> parameters) throws IOException {
     return Style.update(this.path, parameters, this.options);
@@ -216,7 +231,8 @@ public class Style implements ModelInterface {
 
   /**
   * Parameters:
-  *   file (required) - file - Logo for custom branding.
+  *   file - file - Logo for custom branding. Required when creating a new style.
+  *   logo_click_href - string - URL to open when a public visitor clicks the logo.
   */
   public static Style update() throws RuntimeException {
     return update(null, null, null);
@@ -242,15 +258,15 @@ public class Style implements ModelInterface {
     if (path == null) {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
-    if (!parameters.containsKey("file") || parameters.get("file") == null) {
-      throw new NullPointerException("Parameter missing: file parameters[\"file\"]");
-    }
 
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
     if (parameters.containsKey("file") && !(parameters.get("file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: file must be of type byte[] parameters[\"file\"]");
+    }
+    if (parameters.containsKey("logo_click_href") && !(parameters.get("logo_click_href") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: logo_click_href must be of type String parameters[\"logo_click_href\"]");
     }
 
 

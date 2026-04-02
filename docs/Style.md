@@ -7,6 +7,7 @@
   "id": 1,
   "path": "example",
   "logo": "https://mysite.files.com/...",
+  "logo_click_href": "https://www.example.com",
   "thumbnail": {
     "name": "My logo",
     "uri": "https://mysite.files.com/.../my_image.png"
@@ -17,8 +18,9 @@
 * `id` / `id`  (int64): Style ID
 * `path` / `path`  (string): Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `logo` / `logo`  (image): Logo
+* `logo_click_href` / `logoClickHref`  (string): URL to open when a public visitor clicks the logo
 * `thumbnail` / `thumbnail`  (image): Logo thumbnail
-* `file` / `file`  (file): Logo for custom branding.
+* `file` / `file`  (file): Logo for custom branding. Required when creating a new style.
 
 
 ---
@@ -53,7 +55,8 @@ Style style = Style.update(
 ### Parameters
 
 * `path` (String): Required - Style path.
-* `file` (byte[]): Required - Logo for custom branding.
+* `file` (byte[]): Logo for custom branding. Required when creating a new style.
+* `logo_click_href` (String): URL to open when a public visitor clicks the logo.
 
 
 ---
@@ -81,7 +84,7 @@ void style = Style.delete(
 Style style = Style.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("file", "file");
+parameters.put("logo_click_href", "https://www.example.com");
 
 style.update(parameters);
 ```
@@ -89,7 +92,8 @@ style.update(parameters);
 ### Parameters
 
 * `path` (String): Required - Style path.
-* `file` (byte[]): Required - Logo for custom branding.
+* `file` (byte[]): Logo for custom branding. Required when creating a new style.
+* `logo_click_href` (String): URL to open when a public visitor clicks the logo.
 
 
 ---

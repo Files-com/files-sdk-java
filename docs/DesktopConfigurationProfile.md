@@ -18,7 +18,7 @@
 * `name` / `name`  (string): Profile name
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 * `use_for_all_users` / `useForAllUsers`  (boolean): Whether this profile applies to all users in the Workspace by default
-* `mount_mappings` / `mountMappings`  (object): Mount point mappings for the desktop app. Keys are mount points (e.g. drive letters) and values are paths in Files.com that the mount points map to.
+* `mount_mappings` / `mountMappings`  (object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 
 
 ---
@@ -73,7 +73,7 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 ### Parameters
 
 * `name` (String): Required - Profile name
-* `mount_mappings` (Object): Required - Mount point mappings for the desktop app. Keys are mount points (e.g. drive letters) and values are paths in Files.com that the mount points map to.
+* `mount_mappings` (Object): Required - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `workspace_id` (Long): Workspace ID
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
 
@@ -95,7 +95,7 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 * `id` (Long): Required - Desktop Configuration Profile ID.
 * `name` (String): Profile name
 * `workspace_id` (Long): Workspace ID
-* `mount_mappings` (Object): Mount point mappings for the desktop app. Keys are mount points (e.g. drive letters) and values are paths in Files.com that the mount points map to.
+* `mount_mappings` (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
 
 
@@ -137,7 +137,7 @@ desktopConfigurationProfile.update(parameters);
 * `id` (Long): Required - Desktop Configuration Profile ID.
 * `name` (String): Profile name
 * `workspace_id` (Long): Workspace ID
-* `mount_mappings` (Object): Mount point mappings for the desktop app. Keys are mount points (e.g. drive letters) and values are paths in Files.com that the mount points map to.
+* `mount_mappings` (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
 
 

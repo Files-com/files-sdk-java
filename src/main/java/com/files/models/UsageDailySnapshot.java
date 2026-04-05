@@ -125,11 +125,10 @@ public class UsageDailySnapshot implements ModelInterface {
   /**
   * Transformation and AI credits used on this day. Note: initially this tracks GPG encrypt, decrypt, and recrypt usage.
   */
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("transformation_credits_usage")
-  public BigDecimal transformationCreditsUsage;
+  public Long transformationCreditsUsage;
 
-  public BigDecimal getTransformationCreditsUsage() {
+  public Long getTransformationCreditsUsage() {
     return transformationCreditsUsage;
   }
 

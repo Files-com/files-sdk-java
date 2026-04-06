@@ -160,7 +160,6 @@ Sync sync = Sync.create(
 * `description` (String): Description for this sync job
 * `dest_path` (String): Absolute destination path for the sync
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
-* `dest_site_id` (Long): Destination site ID if syncing to a child or partner site
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
 * `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -174,7 +173,6 @@ Sync sync = Sync.create(
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)
-* `src_site_id` (Long): Source site ID if syncing from a child or partner site
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
@@ -234,7 +232,6 @@ Sync sync = Sync.update(
 * `description` (String): Description for this sync job
 * `dest_path` (String): Absolute destination path for the sync
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
-* `dest_site_id` (Long): Destination site ID if syncing to a child or partner site
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
 * `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -248,7 +245,6 @@ Sync sync = Sync.update(
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)
-* `src_site_id` (Long): Source site ID if syncing from a child or partner site
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
@@ -317,7 +313,6 @@ parameters.put("delete_empty_folders", true);
 parameters.put("description", "example");
 parameters.put("dest_path", "example");
 parameters.put("dest_remote_server_id", 1);
-parameters.put("dest_site_id", 1);
 parameters.put("disabled", true);
 parameters.put("exclude_patterns", ["example"]);
 parameters.put("holiday_region", "us_dc");
@@ -331,7 +326,6 @@ parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_times_of_day", ["06:30","14:30"]);
 parameters.put("src_path", "example");
 parameters.put("src_remote_server_id", 1);
-parameters.put("src_site_id", 1);
 parameters.put("sync_interval_minutes", 1);
 parameters.put("trigger", "example");
 parameters.put("trigger_file", "example");
@@ -346,7 +340,6 @@ sync.update(parameters);
 * `description` (String): Description for this sync job
 * `dest_path` (String): Absolute destination path for the sync
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
-* `dest_site_id` (Long): Destination site ID if syncing to a child or partner site
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
 * `holiday_region` (String): If trigger is `custom_schedule`, the sync will check if there is a formal, observed holiday for the region, and if so, it will not run.
@@ -360,7 +353,6 @@ sync.update(parameters);
 * `schedule_times_of_day` (String[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. Times of day in HH:MM format.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)
-* `src_site_id` (Long): Source site ID if syncing from a child or partner site
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.

@@ -129,6 +129,34 @@ public class Notification implements ModelInterface {
   }
 
   /**
+  * Group IDs when the notification requires multiple groups
+  */
+  @JsonProperty("group_ids")
+  public Long[] groupIds;
+
+  public Long[] getGroupIds() {
+    return groupIds;
+  }
+
+  public void setGroupIds(Long[] groupIds) {
+    this.groupIds = groupIds;
+  }
+
+  /**
+  * Group names when the notification requires multiple groups
+  */
+  @JsonProperty("group_names")
+  public String[] groupNames;
+
+  public String[] getGroupNames() {
+    return groupNames;
+  }
+
+  public void setGroupNames(String[] groupNames) {
+    this.groupNames = groupNames;
+  }
+
+  /**
   * If set, will only notify on actions made by a member of one of the specified groups
   */
   @JsonProperty("triggering_group_ids")
@@ -547,6 +575,7 @@ public class Notification implements ModelInterface {
   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
+  *   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
   *   path - string - Path
   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
   */
@@ -609,6 +638,9 @@ public class Notification implements ModelInterface {
     }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
+    }
+    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");

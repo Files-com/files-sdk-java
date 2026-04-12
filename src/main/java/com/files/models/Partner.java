@@ -87,6 +87,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
+  */
+  @JsonProperty("allowed_ips")
+  public String allowedIps;
+
+  public String getAllowedIps() {
+    return allowedIps;
+  }
+
+  public void setAllowedIps(String allowedIps) {
+    this.allowedIps = allowedIps;
+  }
+
+  /**
   * Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   */
   @JsonProperty("allow_credential_changes")
@@ -242,6 +256,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -371,6 +386,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -402,6 +418,9 @@ public class Partner implements ModelInterface {
       throw new NullPointerException("Parameter missing: root_folder parameters[\"root_folder\"]");
     }
 
+    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
+    }
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
     }
@@ -440,6 +459,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
@@ -476,6 +496,9 @@ public class Partner implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
     }
     if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");

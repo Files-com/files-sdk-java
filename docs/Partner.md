@@ -5,6 +5,7 @@
 ```
 {
   "allow_bypassing_2fa_policies": true,
+  "allowed_ips": "10.0.0.0/8\n127.0.0.1",
   "allow_credential_changes": true,
   "allow_providing_gpg_keys": true,
   "allow_user_creation": true,
@@ -28,6 +29,7 @@
 ```
 
 * `allow_bypassing_2fa_policies` / `allowBypassing2faPolicies`  (boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+* `allowed_ips` / `allowedIps`  (string): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_credential_changes` / `allowCredentialChanges`  (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` / `allowProvidingGpgKeys`  (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` / `allowUserCreation`  (boolean): Allow Partner Admins to create users.
@@ -92,6 +94,7 @@ Partner partner = Partner.create(
 
 ### Parameters
 
+* `allowed_ips` (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
@@ -118,6 +121,7 @@ Partner partner = Partner.update(
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
+* `allowed_ips` (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
@@ -153,6 +157,7 @@ void partner = Partner.delete(
 Partner partner = Partner.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("allow_bypassing_2fa_policies", false);
 parameters.put("allow_credential_changes", false);
 parameters.put("allow_providing_gpg_keys", false);
@@ -168,6 +173,7 @@ partner.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Partner ID.
+* `allowed_ips` (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
 * `allow_bypassing_2fa_policies` (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.

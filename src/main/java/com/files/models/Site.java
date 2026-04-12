@@ -823,6 +823,66 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Allow group admins to create users in their groups
+  */
+  @JsonProperty("group_admins_can_add_users")
+  public Boolean groupAdminsCanAddUsers;
+
+  public Boolean getGroupAdminsCanAddUsers() {
+    return groupAdminsCanAddUsers;
+  }
+
+  /**
+  * Allow group admins to delete users in their groups
+  */
+  @JsonProperty("group_admins_can_delete_users")
+  public Boolean groupAdminsCanDeleteUsers;
+
+  public Boolean getGroupAdminsCanDeleteUsers() {
+    return groupAdminsCanDeleteUsers;
+  }
+
+  /**
+  * Allow group admins to enable or disable users in their groups
+  */
+  @JsonProperty("group_admins_can_enable_disable_users")
+  public Boolean groupAdminsCanEnableDisableUsers;
+
+  public Boolean getGroupAdminsCanEnableDisableUsers() {
+    return groupAdminsCanEnableDisableUsers;
+  }
+
+  /**
+  * Allow group admins to modify users in their groups
+  */
+  @JsonProperty("group_admins_can_modify_users")
+  public Boolean groupAdminsCanModifyUsers;
+
+  public Boolean getGroupAdminsCanModifyUsers() {
+    return groupAdminsCanModifyUsers;
+  }
+
+  /**
+  * Allow group admins to reset passwords for users in their groups
+  */
+  @JsonProperty("group_admins_can_reset_passwords")
+  public Boolean groupAdminsCanResetPasswords;
+
+  public Boolean getGroupAdminsCanResetPasswords() {
+    return groupAdminsCanResetPasswords;
+  }
+
+  /**
+  * Allow group admins to set password authentication method
+  */
+  @JsonProperty("group_admins_can_set_user_password")
+  public Boolean groupAdminsCanSetUserPassword;
+
+  public Boolean getGroupAdminsCanSetUserPassword() {
+    return groupAdminsCanSetUserPassword;
+  }
+
+  /**
   * Is there a signed HIPAA BAA between Files.com and this site?
   */
   @JsonProperty("hipaa")
@@ -1833,16 +1893,6 @@ public class Site implements ModelInterface {
     return windowsModeFtp;
   }
 
-  /**
-  * Allow group admins set password authentication method
-  */
-  @JsonProperty("group_admins_can_set_user_password")
-  public Boolean groupAdminsCanSetUserPassword;
-
-  public Boolean getGroupAdminsCanSetUserPassword() {
-    return groupAdminsCanSetUserPassword;
-  }
-
 
   /**
   */
@@ -2003,7 +2053,12 @@ public class Site implements ModelInterface {
   *   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
   *   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-  *   group_admins_can_set_user_password - boolean - Allow group admins set password authentication method
+  *   group_admins_can_add_users - boolean - Allow group admins to create users in their groups
+  *   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
+  *   group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
+  *   group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
+  *   group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
+  *   group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
   *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
   *   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
   *   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
@@ -2398,6 +2453,21 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Object parameters[\"bundle_watermark_value\"]");
+    }
+    if (parameters.containsKey("group_admins_can_add_users") && !(parameters.get("group_admins_can_add_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_add_users must be of type Boolean parameters[\"group_admins_can_add_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_delete_users") && !(parameters.get("group_admins_can_delete_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_delete_users must be of type Boolean parameters[\"group_admins_can_delete_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_enable_disable_users") && !(parameters.get("group_admins_can_enable_disable_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_enable_disable_users must be of type Boolean parameters[\"group_admins_can_enable_disable_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_modify_users") && !(parameters.get("group_admins_can_modify_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_modify_users must be of type Boolean parameters[\"group_admins_can_modify_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_reset_passwords") && !(parameters.get("group_admins_can_reset_passwords") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_reset_passwords must be of type Boolean parameters[\"group_admins_can_reset_passwords\"]");
     }
     if (parameters.containsKey("group_admins_can_set_user_password") && !(parameters.get("group_admins_can_set_user_password") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_set_user_password must be of type Boolean parameters[\"group_admins_can_set_user_password\"]");

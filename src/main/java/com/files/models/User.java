@@ -713,6 +713,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Primary group ID for Group Admin scoping
+  */
+  @JsonProperty("primary_group_id")
+  public Long primaryGroupId;
+
+  public Long getPrimaryGroupId() {
+    return primaryGroupId;
+  }
+
+  public void setPrimaryGroupId(Long primaryGroupId) {
+    this.primaryGroupId = primaryGroupId;
+  }
+
+  /**
   * Number of public keys associated with this user
   */
   @JsonProperty("public_keys_count")
@@ -1329,6 +1343,7 @@ public class User implements ModelInterface {
   *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -1539,6 +1554,7 @@ public class User implements ModelInterface {
   *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -1679,6 +1695,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
+    }
+    if (parameters.containsKey("primary_group_id") && !(parameters.get("primary_group_id") instanceof Long || parameters.get("primary_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: primary_group_id must be of type Long or Integer parameters[\"primary_group_id\"]");
     }
     if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
@@ -1905,6 +1924,7 @@ public class User implements ModelInterface {
   *   partner_admin - boolean - Is this user a Partner administrator?
   *   partner_id - int64 - Partner ID if this user belongs to a Partner
   *   password_validity_days - int64 - Number of days to allow user to use the same password
+  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
   *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
@@ -2056,6 +2076,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
+    }
+    if (parameters.containsKey("primary_group_id") && !(parameters.get("primary_group_id") instanceof Long || parameters.get("primary_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: primary_group_id must be of type Long or Integer parameters[\"primary_group_id\"]");
     }
     if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");

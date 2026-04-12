@@ -553,12 +553,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class BillingOrSiteAdminPermissionRequiredException extends NotAuthorizedException {
-    public BillingOrSiteAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class BillingPermissionRequiredException extends NotAuthorizedException {
     public BillingPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -741,6 +735,36 @@ public class ApiErrorException extends SdkException {
 
   public static class SelfManagedRequiredException extends NotAuthorizedException {
     public SelfManagedRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteAdminOrPartnerAdminPermissionRequiredException extends NotAuthorizedException {
+    public SiteAdminOrPartnerAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredException extends NotAuthorizedException {
+    public SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteAdminOrWorkspaceAdminOrPartnerAdminOrFolderAdminPermissionRequiredException extends NotAuthorizedException {
+    public SiteAdminOrWorkspaceAdminOrPartnerAdminOrFolderAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteAdminOrWorkspaceAdminOrPartnerAdminPermissionRequiredException extends NotAuthorizedException {
+    public SiteAdminOrWorkspaceAdminOrPartnerAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class SiteAdminOrWorkspaceAdminPermissionRequiredException extends NotAuthorizedException {
+    public SiteAdminOrWorkspaceAdminPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

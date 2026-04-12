@@ -52,6 +52,7 @@
   "partner_name": "example",
   "password_set_at": "2000-01-01T01:00:00Z",
   "password_validity_days": 1,
+  "primary_group_id": 1,
   "public_keys_count": 1,
   "receive_admin_alerts": true,
   "require_2fa": "always_require",
@@ -129,6 +130,7 @@
 * `partner_name` / `partnerName`  (string): Name of the Partner if this user belongs to a Partner
 * `password_set_at` / `passwordSetAt`  (date-time): Last time the user's password was set
 * `password_validity_days` / `passwordValidityDays`  (int64): Number of days to allow user to use the same password
+* `primary_group_id` / `primaryGroupId`  (int64): Primary group ID for Group Admin scoping
 * `public_keys_count` / `publicKeysCount`  (int64): Number of public keys associated with this user
 * `receive_admin_alerts` / `receiveAdminAlerts`  (boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_2fa` / `require2fa`  (string): 2FA required setting
@@ -264,6 +266,7 @@ User user = User.create(
 * `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
+* `primary_group_id` (Long): Primary group ID for Group Admin scoping
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
@@ -386,6 +389,7 @@ User user = User.update(
 * `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
+* `primary_group_id` (Long): Primary group ID for Group Admin scoping
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
@@ -513,6 +517,7 @@ parameters.put("office_integration_enabled", true);
 parameters.put("partner_admin", true);
 parameters.put("partner_id", 1);
 parameters.put("password_validity_days", 1);
+parameters.put("primary_group_id", 1);
 parameters.put("readonly_site_admin", true);
 parameters.put("receive_admin_alerts", true);
 parameters.put("require_login_by", "2000-01-01T01:00:00Z");
@@ -575,6 +580,7 @@ user.update(parameters);
 * `partner_admin` (Boolean): Is this user a Partner administrator?
 * `partner_id` (Long): Partner ID if this user belongs to a Partner
 * `password_validity_days` (Long): Number of days to allow user to use the same password
+* `primary_group_id` (Long): Primary group ID for Group Admin scoping
 * `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `receive_admin_alerts` (Boolean): Should the user receive admin alerts such a certificate expiration notifications and overages?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.

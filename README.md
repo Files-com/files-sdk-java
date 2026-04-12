@@ -648,7 +648,6 @@ RuntimeException
 |`ApiKeyOnlyForDesktopAppException`|  `NotAuthorizedException` |
 |`ApiKeyOnlyForMobileAppException`|  `NotAuthorizedException` |
 |`ApiKeyOnlyForOfficeIntegrationException`|  `NotAuthorizedException` |
-|`BillingOrSiteAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`BillingPermissionRequiredException`|  `NotAuthorizedException` |
 |`BundleMaximumUsesReachedException`|  `NotAuthorizedException` |
 |`BundlePermissionRequiredException`|  `NotAuthorizedException` |
@@ -680,6 +679,11 @@ RuntimeException
 |`ReauthenticationNeededActionException`|  `NotAuthorizedException` |
 |`RecaptchaFailedException`|  `NotAuthorizedException` |
 |`SelfManagedRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminOrPartnerAdminPermissionRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminOrWorkspaceAdminOrPartnerAdminOrFolderAdminPermissionRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminOrWorkspaceAdminOrPartnerAdminPermissionRequiredException`|  `NotAuthorizedException` |
+|`SiteAdminOrWorkspaceAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`SiteAdminRequiredException`|  `NotAuthorizedException` |
 |`SiteFilesAreImmutableException`|  `NotAuthorizedException` |
 |`TwoFactorAuthenticationRequiredException`|  `NotAuthorizedException` |

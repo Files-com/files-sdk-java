@@ -103,6 +103,16 @@ public class FileMigration implements ModelInterface {
   }
 
   /**
+  * Reason for the failure, if applicable.
+  */
+  @JsonProperty("failure_message")
+  public String failureMessage;
+
+  public String getFailureMessage() {
+    return failureMessage;
+  }
+
+  /**
   * Number of files processed
   */
   @JsonProperty("files_moved")

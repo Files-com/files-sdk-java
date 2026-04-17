@@ -5,7 +5,7 @@
 ```
 {
   "id": 1,
-  "authentication_method": "password",
+  "authentication_method": "all_non_sso",
   "group_ids": [
     1,
     2,
@@ -26,7 +26,7 @@
 ```
 
 * `id` / `id`  (int64): User Lifecycle Rule ID
-* `authentication_method` / `authenticationMethod`  (string): User authentication method for which the rule will apply.
+* `authentication_method` / `authenticationMethod`  (string): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` / `groupIds`  (array(int64)): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `action` / `action`  (string): Action to take on inactive users (disable or delete)
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies
@@ -94,7 +94,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 
 * `action` (String): Action to take on inactive users (disable or delete)
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
-* `authentication_method` (String): User authentication method for which the rule will apply.
+* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.
@@ -123,7 +123,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
-* `authentication_method` (String): User authentication method for which the rule will apply.
+* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.
@@ -161,7 +161,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("apply_to_all_workspaces", true);
-parameters.put("authentication_method", "password");
+parameters.put("authentication_method", "all_non_sso");
 parameters.put("group_ids", [1,2,3]);
 parameters.put("inactivity_days", 12);
 parameters.put("include_site_admins", true);
@@ -180,7 +180,7 @@ userLifecycleRule.update(parameters);
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
-* `authentication_method` (String): User authentication method for which the rule will apply.
+* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.

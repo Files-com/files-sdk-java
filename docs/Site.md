@@ -92,6 +92,7 @@
   "group_admins_can_delete_users": true,
   "group_admins_can_enable_disable_users": true,
   "group_admins_can_modify_users": true,
+  "group_admins_can_bypass_user_lifecycle_rules": true,
   "group_admins_can_reset_passwords": true,
   "group_admins_can_set_user_password": true,
   "hipaa": true,
@@ -405,6 +406,7 @@
 * `group_admins_can_delete_users` / `groupAdminsCanDeleteUsers`  (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` / `groupAdminsCanEnableDisableUsers`  (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` / `groupAdminsCanModifyUsers`  (boolean): Allow group admins to modify users in their groups
+* `group_admins_can_bypass_user_lifecycle_rules` / `groupAdminsCanBypassUserLifecycleRules`  (boolean): Allow group admins to exempt users in their groups from lifecycle rules
 * `group_admins_can_reset_passwords` / `groupAdminsCanResetPasswords`  (boolean): Allow group admins to reset passwords for users in their groups
 * `group_admins_can_set_user_password` / `groupAdminsCanSetUserPassword`  (boolean): Allow group admins to set password authentication method
 * `hipaa` / `hipaa`  (boolean): Is there a signed HIPAA BAA between Files.com and this site?
@@ -659,6 +661,7 @@ Site site = Site.update(
 * `group_admins_can_delete_users` (Boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (Boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (Boolean): Allow group admins to modify users in their groups
+* `group_admins_can_bypass_user_lifecycle_rules` (Boolean): Allow group admins to exempt users in their groups from lifecycle rules
 * `group_admins_can_reset_passwords` (Boolean): Allow group admins to reset passwords for users in their groups
 * `group_admins_can_set_user_password` (Boolean): Allow group admins to set password authentication method
 * `bundle_recipient_blacklist_free_email_domains` (Boolean): Disallow free email domains for Bundle/Inbox recipients?

@@ -249,6 +249,56 @@ public class MetadataCategory implements ModelInterface {
 
   /**
   * Parameters:
+  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+  *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+  *   path (required) - string - Path to operate on.
+  */
+  public static ListIterator<MetadataCategory> listFor() throws RuntimeException {
+    return listFor(null, null, null);
+  }
+
+  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listFor(path, parameters, null);
+  }
+
+  public static ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listFor(null, parameters, options);
+  }
+
+  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+
+
+    String url = String.format("%s%s/metadata_categories/list_by_path/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<List<MetadataCategory>> typeReference = new TypeReference<List<MetadataCategory>>() {};
+    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Parameters:
   *   name (required) - string - Name of the metadata category.
   *   default_columns - array(string) - Metadata keys that should appear as columns in the UI by default.
   */

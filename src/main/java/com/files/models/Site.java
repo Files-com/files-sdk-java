@@ -863,6 +863,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Allow group admins to exempt users in their groups from lifecycle rules
+  */
+  @JsonProperty("group_admins_can_bypass_user_lifecycle_rules")
+  public Boolean groupAdminsCanBypassUserLifecycleRules;
+
+  public Boolean getGroupAdminsCanBypassUserLifecycleRules() {
+    return groupAdminsCanBypassUserLifecycleRules;
+  }
+
+  /**
   * Allow group admins to reset passwords for users in their groups
   */
   @JsonProperty("group_admins_can_reset_passwords")
@@ -2057,6 +2067,7 @@ public class Site implements ModelInterface {
   *   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
   *   group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
   *   group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
+  *   group_admins_can_bypass_user_lifecycle_rules - boolean - Allow group admins to exempt users in their groups from lifecycle rules
   *   group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
   *   group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
   *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
@@ -2465,6 +2476,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("group_admins_can_modify_users") && !(parameters.get("group_admins_can_modify_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_modify_users must be of type Boolean parameters[\"group_admins_can_modify_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_bypass_user_lifecycle_rules") && !(parameters.get("group_admins_can_bypass_user_lifecycle_rules") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_bypass_user_lifecycle_rules must be of type Boolean parameters[\"group_admins_can_bypass_user_lifecycle_rules\"]");
     }
     if (parameters.containsKey("group_admins_can_reset_passwords") && !(parameters.get("group_admins_can_reset_passwords") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_reset_passwords must be of type Boolean parameters[\"group_admins_can_reset_passwords\"]");

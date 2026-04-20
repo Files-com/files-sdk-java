@@ -311,6 +311,20 @@ public class Notification implements ModelInterface {
   }
 
   /**
+  * Custom subject line to use for notification emails
+  */
+  @JsonProperty("subject")
+  public String subject;
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
+  /**
   * Custom message to include in notification emails
   */
   @JsonProperty("message")
@@ -418,6 +432,7 @@ public class Notification implements ModelInterface {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   subject - string - Custom subject line to use for notification emails
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -569,6 +584,7 @@ public class Notification implements ModelInterface {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   subject - string - Custom subject line to use for notification emails
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -621,6 +637,9 @@ public class Notification implements ModelInterface {
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
     }
+    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
+    }
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
@@ -667,6 +686,7 @@ public class Notification implements ModelInterface {
   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+  *   subject - string - Custom subject line to use for notification emails
   *   message - string - Custom message to include in notification emails
   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
@@ -724,6 +744,9 @@ public class Notification implements ModelInterface {
     }
     if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
+    }
+    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
     }
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");

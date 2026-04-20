@@ -115,7 +115,7 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
+  * Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
   */
   @JsonProperty("use_with_users")
   public String useWithUsers;
@@ -162,7 +162,7 @@ public class Clickwrap implements ModelInterface {
   *   body - string - Body text of Clickwrap (supports Markdown formatting).
   *   use_with_bundles - string - Use this Clickwrap for Bundles?
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
+  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
   */
   public Clickwrap update(HashMap<String, Object> parameters) throws IOException {
     return Clickwrap.update(this.id, parameters, this.options);
@@ -284,7 +284,7 @@ public class Clickwrap implements ModelInterface {
   *   body - string - Body text of Clickwrap (supports Markdown formatting).
   *   use_with_bundles - string - Use this Clickwrap for Bundles?
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
+  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
   */
   public static Clickwrap create() throws RuntimeException {
     return create(null, null);
@@ -331,7 +331,7 @@ public class Clickwrap implements ModelInterface {
   *   body - string - Body text of Clickwrap (supports Markdown formatting).
   *   use_with_bundles - string - Use this Clickwrap for Bundles?
   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for User Registrations?  Note: This only applies to User Registrations where the User is invited to your Files.com site using an E-Mail invitation process where they then set their own password.
+  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
   */
   public static Clickwrap update() throws RuntimeException {
     return update(null, null, null);

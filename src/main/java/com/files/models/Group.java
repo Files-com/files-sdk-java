@@ -227,6 +227,20 @@ public class Group implements ModelInterface {
   }
 
   /**
+  * Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+  */
+  @JsonProperty("desktop_configuration_profile_id")
+  public Long desktopConfigurationProfileId;
+
+  public Long getDesktopConfigurationProfileId() {
+    return desktopConfigurationProfileId;
+  }
+
+  public void setDesktopConfigurationProfileId(Long desktopConfigurationProfileId) {
+    this.desktopConfigurationProfileId = desktopConfigurationProfileId;
+  }
+
+  /**
   * Site ID
   */
   @JsonProperty("site_id")
@@ -263,6 +277,7 @@ public class Group implements ModelInterface {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
@@ -405,6 +420,7 @@ public class Group implements ModelInterface {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name (required) - string - Group name.
   *   workspace_id - int64 - Workspace ID
@@ -448,6 +464,9 @@ public class Group implements ModelInterface {
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
     }
+    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
+    }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
     }
@@ -475,6 +494,7 @@ public class Group implements ModelInterface {
   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   name - string - Group name.
   */
@@ -526,6 +546,9 @@ public class Group implements ModelInterface {
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
+    }
+    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
     }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");

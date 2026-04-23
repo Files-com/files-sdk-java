@@ -52,6 +52,7 @@
   "s3_compatible_bucket": "my-bucket",
   "s3_compatible_endpoint": "mys3platform.com",
   "s3_compatible_region": "us-east-1",
+  "s3_compatible_virtual_hosted_style": true,
   "s3_compatible_access_key": "example",
   "enable_dedicated_ips": true,
   "files_agent_permission_set": "read_write",
@@ -123,6 +124,7 @@
 * `s3_compatible_bucket` / `s3CompatibleBucket`  (string): S3-compatible: Bucket name
 * `s3_compatible_endpoint` / `s3CompatibleEndpoint`  (string): S3-compatible: endpoint
 * `s3_compatible_region` / `s3CompatibleRegion`  (string): S3-compatible: region
+* `s3_compatible_virtual_hosted_style` / `s3CompatibleVirtualHostedStyle`  (boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 * `s3_compatible_access_key` / `s3CompatibleAccessKey`  (string): S3-compatible: Access Key
 * `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `files_agent_permission_set` / `filesAgentPermissionSet`  (string): Local permissions for files agent. read_only, write_only, or read_write
@@ -297,6 +299,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible: endpoint
 * `s3_compatible_region` (String): S3-compatible: region
+* `s3_compatible_virtual_hosted_style` (Boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 * `s3_region` (String): S3 region
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -433,6 +436,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible: endpoint
 * `s3_compatible_region` (String): S3-compatible: region
+* `s3_compatible_virtual_hosted_style` (Boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 * `s3_region` (String): S3 region
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -571,6 +575,7 @@ parameters.put("s3_compatible_access_key", "example");
 parameters.put("s3_compatible_bucket", "my-bucket");
 parameters.put("s3_compatible_endpoint", "mys3platform.com");
 parameters.put("s3_compatible_region", "us-east-1");
+parameters.put("s3_compatible_virtual_hosted_style", true);
 parameters.put("s3_region", "us-east-1");
 parameters.put("server_certificate", "require_match");
 parameters.put("server_host_key", "[public key]");
@@ -651,6 +656,7 @@ remoteServer.update(parameters);
 * `s3_compatible_bucket` (String): S3-compatible: Bucket name
 * `s3_compatible_endpoint` (String): S3-compatible: endpoint
 * `s3_compatible_region` (String): S3-compatible: region
+* `s3_compatible_virtual_hosted_style` (Boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
 * `s3_region` (String): S3 region
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts

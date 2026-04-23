@@ -745,6 +745,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+  */
+  @JsonProperty("s3_compatible_virtual_hosted_style")
+  public Boolean s3CompatibleVirtualHostedStyle;
+
+  public Boolean getS3CompatibleVirtualHostedStyle() {
+    return s3CompatibleVirtualHostedStyle;
+  }
+
+  public void setS3CompatibleVirtualHostedStyle(Boolean s3CompatibleVirtualHostedStyle) {
+    this.s3CompatibleVirtualHostedStyle = s3CompatibleVirtualHostedStyle;
+  }
+
+  /**
   * S3-compatible: Access Key
   */
   @JsonProperty("s3_compatible_access_key")
@@ -1383,6 +1397,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
+  *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -1623,6 +1638,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
+  *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -1840,6 +1856,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
+    }
+    if (parameters.containsKey("s3_compatible_virtual_hosted_style") && !(parameters.get("s3_compatible_virtual_hosted_style") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_virtual_hosted_style must be of type Boolean parameters[\"s3_compatible_virtual_hosted_style\"]");
     }
     if (parameters.containsKey("s3_region") && !(parameters.get("s3_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_region must be of type String parameters[\"s3_region\"]");
@@ -2074,6 +2093,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_bucket - string - S3-compatible: Bucket name
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
+  *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
@@ -2303,6 +2323,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("s3_compatible_region") && !(parameters.get("s3_compatible_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_region must be of type String parameters[\"s3_compatible_region\"]");
+    }
+    if (parameters.containsKey("s3_compatible_virtual_hosted_style") && !(parameters.get("s3_compatible_virtual_hosted_style") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_virtual_hosted_style must be of type Boolean parameters[\"s3_compatible_virtual_hosted_style\"]");
     }
     if (parameters.containsKey("s3_region") && !(parameters.get("s3_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_region must be of type String parameters[\"s3_region\"]");

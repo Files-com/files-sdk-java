@@ -185,7 +185,7 @@ public class Behavior implements ModelInterface {
   }
 
   /**
-  * Is behavior recursive?
+  * Whether this behavior is recursive for this record. `always` behaviors are always `true`, `never` behaviors are always `false`, and `sometimes` behaviors may be either value.
   */
   @JsonProperty("recursive")
   public Boolean recursive;
@@ -231,7 +231,7 @@ public class Behavior implements ModelInterface {
   *   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+  *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
@@ -421,7 +421,7 @@ public class Behavior implements ModelInterface {
   *   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+  *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   path (required) - string - Path where this behavior should apply.
@@ -539,7 +539,7 @@ public class Behavior implements ModelInterface {
   *   value - object - This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-  *   recursive - boolean - If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+  *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.

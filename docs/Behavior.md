@@ -26,7 +26,7 @@
 * `description` / `description`  (string): Description for this behavior.
 * `value` / `value`  (object): Settings for this behavior.  See the section above for an example value to provide here.  Formatting is different for each Behavior type.  May be sent as nested JSON or a single JSON-encoded string.  If using XML encoding for the API call, this data must be sent as a JSON-encoded string.
 * `disable_parent_folder_behavior` / `disableParentFolderBehavior`  (boolean): If true, the parent folder's behavior will be disabled for this folder and its children.
-* `recursive` / `recursive`  (boolean): Is behavior recursive?
+* `recursive` / `recursive`  (boolean): Whether this behavior is recursive for this record. `always` behaviors are always `true`, `never` behaviors are always `false`, and `sometimes` behaviors may be either value.
 * `attachment_file` / `attachmentFile`  (file): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `attachment_delete` / `attachmentDelete`  (boolean): If `true`, delete the file stored in `attachment`.
 
@@ -107,7 +107,7 @@ Behavior behavior = Behavior.create(
 * `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-* `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+* `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `path` (String): Required - Path where this behavior should apply.
@@ -154,7 +154,7 @@ Behavior behavior = Behavior.update(
 * `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-* `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+* `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `attachment_delete` (Boolean): If `true`, delete the file stored in `attachment`.
@@ -201,7 +201,7 @@ behavior.update(parameters);
 * `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
-* `recursive` (Boolean): If `true`, behavior is treated as recursive, meaning that it impacts child folders as well.
+* `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.
 * `description` (String): Description for this behavior.
 * `attachment_delete` (Boolean): If `true`, delete the file stored in `attachment`.

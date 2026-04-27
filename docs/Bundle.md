@@ -55,6 +55,7 @@
   "start_access_on_date": "2000-01-01T01:00:00Z",
   "skip_company": true,
   "id": 1,
+  "bypasses_site_expiration_rules": true,
   "created_at": "2000-01-01T01:00:00Z",
   "dont_separate_submissions_by_folder": true,
   "max_uses": 1,
@@ -112,6 +113,7 @@
 * `start_access_on_date` / `startAccessOnDate`  (date-time): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_company` / `skipCompany`  (boolean): BundleRegistrations can be saved without providing company?
 * `id` / `id`  (int64): Bundle ID
+* `bypasses_site_expiration_rules` / `bypassesSiteExpirationRules`  (boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
 * `created_at` / `createdAt`  (date-time): Bundle created at date/time
 * `dont_separate_submissions_by_folder` / `dontSeparateSubmissionsByFolder`  (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
 * `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
@@ -158,7 +160,7 @@ ListIterator<Bundle> bundle = Bundle.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code` or `user_id`. Valid field combinations are `[ user_id, expires_at ]`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ user_id, expires_at ]`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
@@ -200,6 +202,7 @@ Bundle bundle = Bundle.create(
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `paths` (String[]): Required - A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `bypasses_site_expiration_rules` (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
@@ -264,6 +267,7 @@ Bundle bundle = Bundle.update(
 * `id` (Long): Required - Bundle ID.
 * `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `bypasses_site_expiration_rules` (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
@@ -342,6 +346,7 @@ Bundle bundle = Bundle.find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("paths", ["file.txt"]);
 parameters.put("password", "Password");
+parameters.put("bypasses_site_expiration_rules", true);
 parameters.put("form_field_set_id", 1);
 parameters.put("clickwrap_id", 1);
 parameters.put("code", "abc123");
@@ -376,6 +381,7 @@ bundle.update(parameters);
 * `id` (Long): Required - Bundle ID.
 * `paths` (String[]): A list of paths to include in this bundle.
 * `password` (String): Password for this bundle.
+* `bypasses_site_expiration_rules` (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `clickwrap_id` (Long): ID of the clickwrap to use with this bundle.
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.

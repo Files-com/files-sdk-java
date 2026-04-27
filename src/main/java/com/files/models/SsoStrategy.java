@@ -492,6 +492,16 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
+  * Should this strategy be displayed on the login page?
+  */
+  @JsonProperty("display_on_login_page")
+  public Boolean displayOnLoginPage;
+
+  public Boolean getDisplayOnLoginPage() {
+    return displayOnLoginPage;
+  }
+
+  /**
   * LDAP host
   */
   @JsonProperty("ldap_host")

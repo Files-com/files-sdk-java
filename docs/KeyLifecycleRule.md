@@ -7,6 +7,7 @@
   "id": 1,
   "key_type": "gpg",
   "inactivity_days": 12,
+  "expiration_days": 365,
   "apply_to_all_workspaces": true,
   "name": "inactive gpg keys",
   "workspace_id": 12
@@ -16,6 +17,7 @@
 * `id` / `id`  (int64): Key Lifecycle Rule ID
 * `key_type` / `keyType`  (string): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies.
+* `expiration_days` / `expirationDays`  (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
 * `name` / `name`  (string): Key Lifecycle Rule name
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
@@ -73,6 +75,7 @@ KeyLifecycleRule keyLifecycleRule = KeyLifecycleRule.create(
 ### Parameters
 
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (String): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name
@@ -95,6 +98,7 @@ KeyLifecycleRule keyLifecycleRule = KeyLifecycleRule.update(
 
 * `id` (Long): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (String): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name
@@ -127,6 +131,7 @@ KeyLifecycleRule keyLifecycleRule = KeyLifecycleRule.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("apply_to_all_workspaces", true);
+parameters.put("expiration_days", 365);
 parameters.put("key_type", "gpg");
 parameters.put("inactivity_days", 12);
 parameters.put("name", "inactive gpg keys");
@@ -139,6 +144,7 @@ keyLifecycleRule.update(parameters);
 
 * `id` (Long): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
+* `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `key_type` (String): Key type for which the rule will apply (gpg or ssh).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name

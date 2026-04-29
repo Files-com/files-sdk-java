@@ -115,6 +115,20 @@ public class KeyLifecycleRule implements ModelInterface {
   }
 
   /**
+  * Number of days after creation before an SSH key expires. Applies only to SSH keys.
+  */
+  @JsonProperty("expiration_days")
+  public Long expirationDays;
+
+  public Long getExpirationDays() {
+    return expirationDays;
+  }
+
+  public void setExpirationDays(Long expirationDays) {
+    this.expirationDays = expirationDays;
+  }
+
+  /**
   * If true, a default-workspace rule also applies to keys in all workspaces.
   */
   @JsonProperty("apply_to_all_workspaces")
@@ -159,6 +173,7 @@ public class KeyLifecycleRule implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+  *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
@@ -285,6 +300,7 @@ public class KeyLifecycleRule implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+  *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
@@ -307,6 +323,9 @@ public class KeyLifecycleRule implements ModelInterface {
 
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("expiration_days") && !(parameters.get("expiration_days") instanceof Long || parameters.get("expiration_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: expiration_days must be of type Long or Integer parameters[\"expiration_days\"]");
     }
     if (parameters.containsKey("key_type") && !(parameters.get("key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: key_type must be of type String parameters[\"key_type\"]");
@@ -332,6 +351,7 @@ public class KeyLifecycleRule implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
+  *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
   *   key_type - string - Key type for which the rule will apply (gpg or ssh).
   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
   *   name - string - Key Lifecycle Rule name
@@ -367,6 +387,9 @@ public class KeyLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("expiration_days") && !(parameters.get("expiration_days") instanceof Long || parameters.get("expiration_days") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: expiration_days must be of type Long or Integer parameters[\"expiration_days\"]");
     }
     if (parameters.containsKey("key_type") && !(parameters.get("key_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: key_type must be of type String parameters[\"key_type\"]");

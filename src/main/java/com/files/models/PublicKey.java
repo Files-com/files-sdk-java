@@ -125,6 +125,34 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
+  * Public key expiration date/time
+  */
+  @JsonProperty("expires_at")
+  public Date expiresAt;
+
+  public Date getExpiresAt() {
+    return expiresAt;
+  }
+
+  public void setExpiresAt(Date expiresAt) {
+    this.expiresAt = expiresAt;
+  }
+
+  /**
+  * Is this public key expired?
+  */
+  @JsonProperty("expired")
+  public Boolean expired;
+
+  public Boolean getExpired() {
+    return expired;
+  }
+
+  public void setExpired(Boolean expired) {
+    this.expired = expired;
+  }
+
+  /**
   * Public key fingerprint (MD5)
   */
   @JsonProperty("fingerprint")

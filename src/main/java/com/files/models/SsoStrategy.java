@@ -542,6 +542,16 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
+  * Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
+  */
+  @JsonProperty("ldap_provisioning_enabled")
+  public Boolean ldapProvisioningEnabled;
+
+  public Boolean getLdapProvisioningEnabled() {
+    return ldapProvisioningEnabled;
+  }
+
+  /**
   * Use secure LDAP?
   */
   @JsonProperty("ldap_secure")
@@ -549,6 +559,16 @@ public class SsoStrategy implements ModelInterface {
 
   public Boolean getLdapSecure() {
     return ldapSecure;
+  }
+
+  /**
+  * LDAP server type
+  */
+  @JsonProperty("ldap_type")
+  public String ldapType;
+
+  public String getLdapType() {
+    return ldapType;
   }
 
   /**

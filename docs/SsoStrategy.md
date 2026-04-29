@@ -51,7 +51,9 @@
   "ldap_host_2": "ldap2.site.com",
   "ldap_host_3": "ldap3.site.com",
   "ldap_port": 1,
+  "ldap_provisioning_enabled": true,
   "ldap_secure": true,
+  "ldap_type": "active_directory",
   "ldap_username": "[ldap username]",
   "ldap_username_field": "sAMAccountName"
 }
@@ -104,7 +106,9 @@
 * `ldap_host_2` / `ldapHost2`  (string): LDAP backup host
 * `ldap_host_3` / `ldapHost3`  (string): LDAP backup host
 * `ldap_port` / `ldapPort`  (int64): LDAP port
+* `ldap_provisioning_enabled` / `ldapProvisioningEnabled`  (boolean): Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
 * `ldap_secure` / `ldapSecure`  (boolean): Use secure LDAP?
+* `ldap_type` / `ldapType`  (string): LDAP server type
 * `ldap_username` / `ldapUsername`  (string): Username for signing in to LDAP server.
 * `ldap_username_field` / `ldapUsernameField`  (string): LDAP username field
 

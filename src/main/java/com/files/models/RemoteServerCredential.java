@@ -535,6 +535,20 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
+  * ID of Remote Server Credential to copy omitted values from.
+  */
+  @JsonProperty("copy_values_from_credential_id")
+  public Long copyValuesFromCredentialId;
+
+  public Long getCopyValuesFromCredentialId() {
+    return copyValuesFromCredentialId;
+  }
+
+  public void setCopyValuesFromCredentialId(Long copyValuesFromCredentialId) {
+    this.copyValuesFromCredentialId = copyValuesFromCredentialId;
+  }
+
+  /**
   * Parameters:
   *   name - string - Internal name for your reference
   *   description - string - Internal description for your reference
@@ -722,6 +736,7 @@ public class RemoteServerCredential implements ModelInterface {
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
   *   wasabi_secret_key - string - Wasabi: Secret Key
   *   workspace_id - int64 - Workspace ID (0 for default workspace)
+  *   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
   */
   public static RemoteServerCredential create() throws RuntimeException {
     return create(null, null);
@@ -830,6 +845,9 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
+    if (parameters.containsKey("copy_values_from_credential_id") && !(parameters.get("copy_values_from_credential_id") instanceof Long || parameters.get("copy_values_from_credential_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: copy_values_from_credential_id must be of type Long or Integer parameters[\"copy_values_from_credential_id\"]");
     }
 
 

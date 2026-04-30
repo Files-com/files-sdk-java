@@ -8,6 +8,7 @@
   "name": "North America Desktop Profile",
   "workspace_id": 1,
   "use_for_all_users": true,
+  "disable_drive_mounting": true,
   "mount_mappings": {
     "key": "example value"
   }
@@ -18,6 +19,7 @@
 * `name` / `name`  (string): Profile name
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 * `use_for_all_users` / `useForAllUsers`  (boolean): Whether this profile applies to all users in the Workspace by default
+* `disable_drive_mounting` / `disableDriveMounting`  (boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 * `mount_mappings` / `mountMappings`  (object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 
 
@@ -76,6 +78,7 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 * `mount_mappings` (Object): Required - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `workspace_id` (Long): Workspace ID
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
+* `disable_drive_mounting` (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 
 
 ---
@@ -97,6 +100,7 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 * `workspace_id` (Long): Workspace ID
 * `mount_mappings` (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
+* `disable_drive_mounting` (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 
 
 ---
@@ -128,6 +132,7 @@ parameters.put("name", "North America Desktop Profile");
 parameters.put("workspace_id", 1);
 parameters.put("mount_mappings", {"key":"example value"});
 parameters.put("use_for_all_users", false);
+parameters.put("disable_drive_mounting", false);
 
 desktopConfigurationProfile.update(parameters);
 ```
@@ -139,6 +144,7 @@ desktopConfigurationProfile.update(parameters);
 * `workspace_id` (Long): Workspace ID
 * `mount_mappings` (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
 * `use_for_all_users` (Boolean): Whether this profile applies to all users in the Workspace by default
+* `disable_drive_mounting` (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
 
 
 ---

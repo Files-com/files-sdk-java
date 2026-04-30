@@ -129,6 +129,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   }
 
   /**
+  * Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
+  */
+  @JsonProperty("disable_drive_mounting")
+  public Boolean disableDriveMounting;
+
+  public Boolean getDisableDriveMounting() {
+    return disableDriveMounting;
+  }
+
+  public void setDisableDriveMounting(Boolean disableDriveMounting) {
+    this.disableDriveMounting = disableDriveMounting;
+  }
+
+  /**
   * Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
   */
   @JsonProperty("mount_mappings")
@@ -148,6 +162,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
   *   workspace_id - int64 - Workspace ID
   *   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+  *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
   */
   public DesktopConfigurationProfile update(HashMap<String, Object> parameters) throws IOException {
     return DesktopConfigurationProfile.update(this.id, parameters, this.options);
@@ -273,6 +288,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
   *   mount_mappings (required) - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
   *   workspace_id - int64 - Workspace ID
   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+  *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
   */
   public static DesktopConfigurationProfile create() throws RuntimeException {
     return create(null, null);
@@ -307,6 +323,9 @@ public class DesktopConfigurationProfile implements ModelInterface {
     if (parameters.containsKey("use_for_all_users") && !(parameters.get("use_for_all_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: use_for_all_users must be of type Boolean parameters[\"use_for_all_users\"]");
     }
+    if (parameters.containsKey("disable_drive_mounting") && !(parameters.get("disable_drive_mounting") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: disable_drive_mounting must be of type Boolean parameters[\"disable_drive_mounting\"]");
+    }
 
 
     String url = String.format("%s%s/desktop_configuration_profiles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -322,6 +341,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
   *   workspace_id - int64 - Workspace ID
   *   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+  *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
   */
   public static DesktopConfigurationProfile update() throws RuntimeException {
     return update(null, null, null);
@@ -362,6 +382,9 @@ public class DesktopConfigurationProfile implements ModelInterface {
     }
     if (parameters.containsKey("use_for_all_users") && !(parameters.get("use_for_all_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: use_for_all_users must be of type Boolean parameters[\"use_for_all_users\"]");
+    }
+    if (parameters.containsKey("disable_drive_mounting") && !(parameters.get("disable_drive_mounting") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: disable_drive_mounting must be of type Boolean parameters[\"disable_drive_mounting\"]");
     }
 
 

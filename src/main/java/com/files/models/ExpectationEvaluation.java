@@ -216,9 +216,9 @@ public class ExpectationEvaluation implements ModelInterface {
   * Captured criteria failures for the window.
   */
   @JsonProperty("criteria_errors")
-  public Object[] criteriaErrors;
+  public String[] criteriaErrors;
 
-  public Object[] getCriteriaErrors() {
+  public String[] getCriteriaErrors() {
     return criteriaErrors;
   }
 

@@ -182,6 +182,26 @@ public class BundleAction implements ModelInterface {
     return bundleRegistrationIp;
   }
 
+  /**
+  * Id of associated form field set
+  */
+  @JsonProperty("form_field_set_id")
+  public Long formFieldSetId;
+
+  public Long getFormFieldSetId() {
+    return formFieldSetId;
+  }
+
+  /**
+  * Data for form field set with form field ids as keys and user data as values
+  */
+  @JsonProperty("form_field_data")
+  public Object formFieldData;
+
+  public Object getFormFieldData() {
+    return formFieldData;
+  }
+
 
   /**
   * Parameters:

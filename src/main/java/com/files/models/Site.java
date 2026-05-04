@@ -2133,6 +2133,7 @@ public class Site implements ModelInterface {
   *   disable_2fa_with_delay - boolean - If set to true, we will begin the process of disabling 2FA on this site.
   *   ldap_password_change - string - New LDAP password.
   *   ldap_password_change_confirmation - string - Confirm new LDAP password.
+  *   redirect_old_subdomain - boolean - If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
   *   smtp_password - string - Password for SMTP server.
   */
   public static Site update() throws RuntimeException {
@@ -2674,6 +2675,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("ldap_password_change_confirmation") && !(parameters.get("ldap_password_change_confirmation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_password_change_confirmation must be of type String parameters[\"ldap_password_change_confirmation\"]");
+    }
+    if (parameters.containsKey("redirect_old_subdomain") && !(parameters.get("redirect_old_subdomain") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: redirect_old_subdomain must be of type Boolean parameters[\"redirect_old_subdomain\"]");
     }
     if (parameters.containsKey("smtp_password") && !(parameters.get("smtp_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: smtp_password must be of type String parameters[\"smtp_password\"]");

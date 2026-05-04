@@ -727,4 +727,5 @@ Site site = Site.update(
 * `disable_2fa_with_delay` (Boolean): If set to true, we will begin the process of disabling 2FA on this site.
 * `ldap_password_change` (String): New LDAP password.
 * `ldap_password_change_confirmation` (String): Confirm new LDAP password.
+* `redirect_old_subdomain` (Boolean): If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
 * `smtp_password` (String): Password for SMTP server.

@@ -62,7 +62,7 @@ ListIterator<ApiKey> apiKey = ApiKey.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expires_at`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `aws_style_credentials` and `expires_at`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.

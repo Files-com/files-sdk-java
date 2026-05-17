@@ -143,6 +143,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * When `true`, emails sent to Partner users are copied to the responsible User or Group.
+  */
+  @JsonProperty("cc_emails_to_responsible_party")
+  public Boolean ccEmailsToResponsibleParty;
+
+  public Boolean getCcEmailsToResponsibleParty() {
+    return ccEmailsToResponsibleParty;
+  }
+
+  public void setCcEmailsToResponsibleParty(Boolean ccEmailsToResponsibleParty) {
+    this.ccEmailsToResponsibleParty = ccEmailsToResponsibleParty;
+  }
+
+  /**
   * The unique ID of the Partner.
   */
   @JsonProperty("id")
@@ -213,6 +227,34 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * ID of the Group responsible for this Partner.
+  */
+  @JsonProperty("responsible_group_id")
+  public Long responsibleGroupId;
+
+  public Long getResponsibleGroupId() {
+    return responsibleGroupId;
+  }
+
+  public void setResponsibleGroupId(Long responsibleGroupId) {
+    this.responsibleGroupId = responsibleGroupId;
+  }
+
+  /**
+  * ID of the User responsible for this Partner.
+  */
+  @JsonProperty("responsible_user_id")
+  public Long responsibleUserId;
+
+  public Long getResponsibleUserId() {
+    return responsibleUserId;
+  }
+
+  public void setResponsibleUserId(Long responsibleUserId) {
+    this.responsibleUserId = responsibleUserId;
+  }
+
+  /**
   * The root folder path for this Partner.
   */
   @JsonProperty("root_folder")
@@ -261,7 +303,10 @@ public class Partner implements ModelInterface {
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -391,7 +436,10 @@ public class Partner implements ModelInterface {
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name (required) - string - The name of the Partner.
   *   root_folder (required) - string - The root folder path for this Partner.
@@ -433,8 +481,17 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
     }
+    if (parameters.containsKey("cc_emails_to_responsible_party") && !(parameters.get("cc_emails_to_responsible_party") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: cc_emails_to_responsible_party must be of type Boolean parameters[\"cc_emails_to_responsible_party\"]");
+    }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
+    }
+    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
+    }
+    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
     }
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
@@ -464,7 +521,10 @@ public class Partner implements ModelInterface {
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -512,8 +572,17 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
     }
+    if (parameters.containsKey("cc_emails_to_responsible_party") && !(parameters.get("cc_emails_to_responsible_party") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: cc_emails_to_responsible_party must be of type Boolean parameters[\"cc_emails_to_responsible_party\"]");
+    }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
+    }
+    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
+    }
+    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
     }
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");

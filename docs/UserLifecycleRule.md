@@ -17,6 +17,7 @@
   "include_site_admins": true,
   "apply_to_all_workspaces": true,
   "name": "password specific rules",
+  "notify_users": true,
   "partner_tag": "guest",
   "site_id": 1,
   "workspace_id": 12,
@@ -34,6 +35,7 @@
 * `include_site_admins` / `includeSiteAdmins`  (boolean): If true, the rule will apply to site admins.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a default-workspace rule also applies to users in all workspaces.
 * `name` / `name`  (string): User Lifecycle Rule name
+* `notify_users` / `notifyUsers`  (boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` / `partnerTag`  (string): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `site_id` / `siteId`  (int64): Site ID
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
@@ -100,6 +102,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
+* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -129,6 +132,7 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
+* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -167,6 +171,7 @@ parameters.put("inactivity_days", 12);
 parameters.put("include_site_admins", true);
 parameters.put("include_folder_admins", true);
 parameters.put("name", "password specific rules");
+parameters.put("notify_users", true);
 parameters.put("partner_tag", "guest");
 parameters.put("user_state", "inactive");
 parameters.put("user_tag", "guest");
@@ -186,6 +191,7 @@ userLifecycleRule.update(parameters);
 * `include_site_admins` (Boolean): If true, the rule will apply to site admins.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
+* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.

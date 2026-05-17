@@ -199,6 +199,20 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+  * If true, users will be emailed before the rule disables or deletes them.
+  */
+  @JsonProperty("notify_users")
+  public Boolean notifyUsers;
+
+  public Boolean getNotifyUsers() {
+    return notifyUsers;
+  }
+
+  public void setNotifyUsers(Boolean notifyUsers) {
+    this.notifyUsers = notifyUsers;
+  }
+
+  /**
   * If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   */
   @JsonProperty("partner_tag")
@@ -278,6 +292,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - If true, the rule will apply to site admins.
   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -411,6 +426,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - If true, the rule will apply to site admins.
   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -455,6 +471,9 @@ public class UserLifecycleRule implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
+    if (parameters.containsKey("notify_users") && !(parameters.get("notify_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_users must be of type Boolean parameters[\"notify_users\"]");
+    }
     if (parameters.containsKey("partner_tag") && !(parameters.get("partner_tag") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: partner_tag must be of type String parameters[\"partner_tag\"]");
     }
@@ -486,6 +505,7 @@ public class UserLifecycleRule implements ModelInterface {
   *   include_site_admins - boolean - If true, the rule will apply to site admins.
   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
   *   name - string - User Lifecycle Rule name
+  *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
@@ -542,6 +562,9 @@ public class UserLifecycleRule implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("notify_users") && !(parameters.get("notify_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_users must be of type Boolean parameters[\"notify_users\"]");
     }
     if (parameters.containsKey("partner_tag") && !(parameters.get("partner_tag") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: partner_tag must be of type String parameters[\"partner_tag\"]");

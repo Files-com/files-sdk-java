@@ -37,7 +37,7 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ExternalEvent implements ModelInterface {
+public class EventRecord implements ModelInterface {
   private HashMap<String, Object> options;
 
   public void setOptions(HashMap<String, Object> options) {
@@ -53,15 +53,15 @@ public class ExternalEvent implements ModelInterface {
       .build();
 
 
-  public ExternalEvent() {
+  public EventRecord() {
     this(null, null);
   }
 
-  public ExternalEvent(HashMap<String, Object> parameters) {
+  public EventRecord(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public ExternalEvent(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public EventRecord(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -73,7 +73,7 @@ public class ExternalEvent implements ModelInterface {
 
 
   /**
-  * Event ID
+  * Event Record ID
   */
   @JsonProperty("id")
   public Long id;
@@ -82,12 +82,28 @@ public class ExternalEvent implements ModelInterface {
     return id;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  /**
+  * Workspace ID. 0 means the default workspace or site-wide.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
   }
 
   /**
-  * Type of event being recorded.
+  * Stable event UUID.
+  */
+  @JsonProperty("event_uuid")
+  public String eventUuid;
+
+  public String getEventUuid() {
+    return eventUuid;
+  }
+
+  /**
+  * Versioned event type string.
   */
   @JsonProperty("event_type")
   public String eventType;
@@ -96,40 +112,108 @@ public class ExternalEvent implements ModelInterface {
     return eventType;
   }
 
-  public void setEventType(String eventType) {
-    this.eventType = eventType;
-  }
-
   /**
-  * Status of event.
+  * Event severity.
   */
-  @JsonProperty("status")
-  public String status;
+  @JsonProperty("severity")
+  public String severity;
 
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
+  public String getSeverity() {
+    return severity;
   }
 
   /**
-  * Event body
+  * Source record type.
   */
-  @JsonProperty("body")
-  public String body;
+  @JsonProperty("source_type")
+  public String sourceType;
 
-  public String getBody() {
-    return body;
-  }
-
-  public void setBody(String body) {
-    this.body = body;
+  public String getSourceType() {
+    return sourceType;
   }
 
   /**
-  * External event create date/time
+  * Source record ID.
+  */
+  @JsonProperty("source_id")
+  public Long sourceId;
+
+  public Long getSourceId() {
+    return sourceId;
+  }
+
+  /**
+  * Event occurrence date/time.
+  */
+  @JsonProperty("occurred_at")
+  public Date occurredAt;
+
+  public Date getOccurredAt() {
+    return occurredAt;
+  }
+
+  /**
+  * Human-readable event title.
+  */
+  @JsonProperty("human_title")
+  public String humanTitle;
+
+  public String getHumanTitle() {
+    return humanTitle;
+  }
+
+  /**
+  * Human-readable event summary.
+  */
+  @JsonProperty("human_summary")
+  public String humanSummary;
+
+  public String getHumanSummary() {
+    return humanSummary;
+  }
+
+  /**
+  * Human-readable event detail fields.
+  */
+  @JsonProperty("human_fields")
+  public Object[] humanFields;
+
+  public Object[] getHumanFields() {
+    return humanFields;
+  }
+
+  /**
+  * Actor associated with the event.
+  */
+  @JsonProperty("actor")
+  public Object actor;
+
+  public Object getActor() {
+    return actor;
+  }
+
+  /**
+  * Resources associated with the event.
+  */
+  @JsonProperty("resources")
+  public Object[] resources;
+
+  public Object[] getResources() {
+    return resources;
+  }
+
+  /**
+  * Event payload.
+  */
+  @JsonProperty("payload")
+  public Object payload;
+
+  public Object getPayload() {
+    return payload;
+  }
+
+  /**
+  * Event Record create date/time.
   */
   @JsonProperty("created_at")
   public Date createdAt;
@@ -138,46 +222,29 @@ public class ExternalEvent implements ModelInterface {
     return createdAt;
   }
 
-  /**
-  * Link to log file.
-  */
-  @JsonProperty("body_url")
-  public String bodyUrl;
-
-  public String getBodyUrl() {
-    return bodyUrl;
-  }
-
-  public void setBodyUrl(String bodyUrl) {
-    this.bodyUrl = bodyUrl;
-  }
-
-  public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    ExternalEvent.create(parameters, this.options);
-  }
 
   /**
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `event_type`, `created_at` or `workspace_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type` or `workspace_id`. Valid field combinations are `[ event_type, created_at ]`, `[ workspace_id, created_at ]`, `[ workspace_id, event_type ]` or `[ workspace_id, event_type, created_at ]`.
   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `event_type`.
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
   */
-  public static ListIterator<ExternalEvent> list() throws RuntimeException {
+  public static ListIterator<EventRecord> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<EventRecord> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<EventRecord> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -201,6 +268,9 @@ public class ExternalEvent implements ModelInterface {
     if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
     }
+    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
+    }
     if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
     }
@@ -209,37 +279,37 @@ public class ExternalEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/event_records", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
+    TypeReference<List<EventRecord>> typeReference = new TypeReference<List<EventRecord>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<ExternalEvent> all() throws RuntimeException {
+  public static ListIterator<EventRecord> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<EventRecord> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
   * Parameters:
-  *   id (required) - int64 - External Event ID.
+  *   id (required) - int64 - Event Record ID.
   */
-  public static ExternalEvent find() throws RuntimeException {
+  public static EventRecord find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ExternalEvent find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static EventRecord find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static ExternalEvent find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static EventRecord find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static ExternalEvent find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static EventRecord find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -258,59 +328,18 @@ public class ExternalEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/external_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/event_records/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
-    TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
+    TypeReference<EventRecord> typeReference = new TypeReference<EventRecord>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ExternalEvent get() throws RuntimeException {
+  public static EventRecord get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static ExternalEvent get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static EventRecord get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
-
-  /**
-  * Parameters:
-  *   status (required) - string - Status of event.
-  *   body (required) - string - Event body
-  */
-  public static ExternalEvent create() throws RuntimeException {
-    return create(null, null);
-  }
-
-  public static ExternalEvent create(HashMap<String, Object> parameters) throws RuntimeException {
-    return create(parameters, null);
-  }
-
-
-  public static ExternalEvent create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("status") || parameters.get("status") == null) {
-      throw new NullPointerException("Parameter missing: status parameters[\"status\"]");
-    }
-    if (!parameters.containsKey("body") || parameters.get("body") == null) {
-      throw new NullPointerException("Parameter missing: body parameters[\"body\"]");
-    }
-
-    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-
-
-    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
 
 }

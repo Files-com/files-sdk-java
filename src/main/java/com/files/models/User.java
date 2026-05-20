@@ -741,7 +741,7 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive admin alerts such a certificate expiration notifications and overages?
+  * Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
   */
   @JsonProperty("receive_admin_alerts")
   public Boolean receiveAdminAlerts;
@@ -752,6 +752,118 @@ public class User implements ModelInterface {
 
   public void setReceiveAdminAlerts(Boolean receiveAdminAlerts) {
     this.receiveAdminAlerts = receiveAdminAlerts;
+  }
+
+  /**
+  * Should the user receive site warnings via email?
+  */
+  @JsonProperty("notify_on_all_site_warnings")
+  public Boolean notifyOnAllSiteWarnings;
+
+  public Boolean getNotifyOnAllSiteWarnings() {
+    return notifyOnAllSiteWarnings;
+  }
+
+  public void setNotifyOnAllSiteWarnings(Boolean notifyOnAllSiteWarnings) {
+    this.notifyOnAllSiteWarnings = notifyOnAllSiteWarnings;
+  }
+
+  /**
+  * Should the user receive sso/scim/ldap configuration/sync failures via email?
+  */
+  @JsonProperty("notify_on_all_sso_failures")
+  public Boolean notifyOnAllSsoFailures;
+
+  public Boolean getNotifyOnAllSsoFailures() {
+    return notifyOnAllSsoFailures;
+  }
+
+  public void setNotifyOnAllSsoFailures(Boolean notifyOnAllSsoFailures) {
+    this.notifyOnAllSsoFailures = notifyOnAllSsoFailures;
+  }
+
+  /**
+  * Should the user receive user security events via email?
+  */
+  @JsonProperty("notify_on_all_user_security_events")
+  public Boolean notifyOnAllUserSecurityEvents;
+
+  public Boolean getNotifyOnAllUserSecurityEvents() {
+    return notifyOnAllUserSecurityEvents;
+  }
+
+  public void setNotifyOnAllUserSecurityEvents(Boolean notifyOnAllUserSecurityEvents) {
+    this.notifyOnAllUserSecurityEvents = notifyOnAllUserSecurityEvents;
+  }
+
+  /**
+  * Should the user receive pending work failures via email?
+  */
+  @JsonProperty("notify_on_all_pending_work_failures")
+  public Boolean notifyOnAllPendingWorkFailures;
+
+  public Boolean getNotifyOnAllPendingWorkFailures() {
+    return notifyOnAllPendingWorkFailures;
+  }
+
+  public void setNotifyOnAllPendingWorkFailures(Boolean notifyOnAllPendingWorkFailures) {
+    this.notifyOnAllPendingWorkFailures = notifyOnAllPendingWorkFailures;
+  }
+
+  /**
+  * Should the user receive siem failures via email?
+  */
+  @JsonProperty("notify_on_all_siem_http_destination_failures")
+  public Boolean notifyOnAllSiemHttpDestinationFailures;
+
+  public Boolean getNotifyOnAllSiemHttpDestinationFailures() {
+    return notifyOnAllSiemHttpDestinationFailures;
+  }
+
+  public void setNotifyOnAllSiemHttpDestinationFailures(Boolean notifyOnAllSiemHttpDestinationFailures) {
+    this.notifyOnAllSiemHttpDestinationFailures = notifyOnAllSiemHttpDestinationFailures;
+  }
+
+  /**
+  * Should the user receive sync failures via email?
+  */
+  @JsonProperty("notify_on_all_sync_failures")
+  public Boolean notifyOnAllSyncFailures;
+
+  public Boolean getNotifyOnAllSyncFailures() {
+    return notifyOnAllSyncFailures;
+  }
+
+  public void setNotifyOnAllSyncFailures(Boolean notifyOnAllSyncFailures) {
+    this.notifyOnAllSyncFailures = notifyOnAllSyncFailures;
+  }
+
+  /**
+  * Should the user receive automation failures via email?
+  */
+  @JsonProperty("notify_on_all_automation_failures")
+  public Boolean notifyOnAllAutomationFailures;
+
+  public Boolean getNotifyOnAllAutomationFailures() {
+    return notifyOnAllAutomationFailures;
+  }
+
+  public void setNotifyOnAllAutomationFailures(Boolean notifyOnAllAutomationFailures) {
+    this.notifyOnAllAutomationFailures = notifyOnAllAutomationFailures;
+  }
+
+  /**
+  * Should the user receive expectation failures and misses via email?
+  */
+  @JsonProperty("notify_on_all_expectation_failures")
+  public Boolean notifyOnAllExpectationFailures;
+
+  public Boolean getNotifyOnAllExpectationFailures() {
+    return notifyOnAllExpectationFailures;
+  }
+
+  public void setNotifyOnAllExpectationFailures(Boolean notifyOnAllExpectationFailures) {
+    this.notifyOnAllExpectationFailures = notifyOnAllExpectationFailures;
   }
 
   /**
@@ -1345,7 +1457,15 @@ public class User implements ModelInterface {
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -1556,7 +1676,15 @@ public class User implements ModelInterface {
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -1704,6 +1832,30 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
+    }
+    if (parameters.containsKey("notify_on_all_site_warnings") && !(parameters.get("notify_on_all_site_warnings") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_site_warnings must be of type Boolean parameters[\"notify_on_all_site_warnings\"]");
+    }
+    if (parameters.containsKey("notify_on_all_sso_failures") && !(parameters.get("notify_on_all_sso_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_sso_failures must be of type Boolean parameters[\"notify_on_all_sso_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_user_security_events") && !(parameters.get("notify_on_all_user_security_events") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_user_security_events must be of type Boolean parameters[\"notify_on_all_user_security_events\"]");
+    }
+    if (parameters.containsKey("notify_on_all_pending_work_failures") && !(parameters.get("notify_on_all_pending_work_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_pending_work_failures must be of type Boolean parameters[\"notify_on_all_pending_work_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_siem_http_destination_failures") && !(parameters.get("notify_on_all_siem_http_destination_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_siem_http_destination_failures must be of type Boolean parameters[\"notify_on_all_siem_http_destination_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_sync_failures") && !(parameters.get("notify_on_all_sync_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_sync_failures must be of type Boolean parameters[\"notify_on_all_sync_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_automation_failures") && !(parameters.get("notify_on_all_automation_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_automation_failures must be of type Boolean parameters[\"notify_on_all_automation_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_expectation_failures") && !(parameters.get("notify_on_all_expectation_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_expectation_failures must be of type Boolean parameters[\"notify_on_all_expectation_failures\"]");
     }
     if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");
@@ -1926,7 +2078,15 @@ public class User implements ModelInterface {
   *   password_validity_days - int64 - Number of days to allow user to use the same password
   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Should the user receive admin alerts such a certificate expiration notifications and overages?
+  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
@@ -2085,6 +2245,30 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
+    }
+    if (parameters.containsKey("notify_on_all_site_warnings") && !(parameters.get("notify_on_all_site_warnings") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_site_warnings must be of type Boolean parameters[\"notify_on_all_site_warnings\"]");
+    }
+    if (parameters.containsKey("notify_on_all_sso_failures") && !(parameters.get("notify_on_all_sso_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_sso_failures must be of type Boolean parameters[\"notify_on_all_sso_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_user_security_events") && !(parameters.get("notify_on_all_user_security_events") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_user_security_events must be of type Boolean parameters[\"notify_on_all_user_security_events\"]");
+    }
+    if (parameters.containsKey("notify_on_all_pending_work_failures") && !(parameters.get("notify_on_all_pending_work_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_pending_work_failures must be of type Boolean parameters[\"notify_on_all_pending_work_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_siem_http_destination_failures") && !(parameters.get("notify_on_all_siem_http_destination_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_siem_http_destination_failures must be of type Boolean parameters[\"notify_on_all_siem_http_destination_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_sync_failures") && !(parameters.get("notify_on_all_sync_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_sync_failures must be of type Boolean parameters[\"notify_on_all_sync_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_automation_failures") && !(parameters.get("notify_on_all_automation_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_automation_failures must be of type Boolean parameters[\"notify_on_all_automation_failures\"]");
+    }
+    if (parameters.containsKey("notify_on_all_expectation_failures") && !(parameters.get("notify_on_all_expectation_failures") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: notify_on_all_expectation_failures must be of type Boolean parameters[\"notify_on_all_expectation_failures\"]");
     }
     if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");

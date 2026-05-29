@@ -327,6 +327,7 @@ FileUploadPart file = File.beginUpload(
 * `restart` (Long): File byte offset to restart from.
 * `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
 
 
 ---
@@ -494,6 +495,7 @@ parameters.put("ref", "upload-1");
 parameters.put("restart", 1);
 parameters.put("size", 1);
 parameters.put("with_rename", false);
+parameters.put("buffered_upload", false);
 
 file.beginUpload(parameters);
 ```
@@ -508,3 +510,4 @@ file.beginUpload(parameters);
 * `restart` (Long): File byte offset to restart from.
 * `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
+* `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.

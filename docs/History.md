@@ -55,7 +55,7 @@ ListIterator<Action> history = History.listForFile(
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 * `path` (String): Required - Path to operate on.
 
@@ -78,7 +78,7 @@ ListIterator<Action> history = History.listForFolder(
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 * `path` (String): Required - Path to operate on.
 
@@ -101,7 +101,7 @@ ListIterator<Action> history = History.listForUser(
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 * `user_id` (Long): Required - User ID.
 
@@ -124,7 +124,7 @@ ListIterator<Action> history = History.listLogins(
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 
 
@@ -146,7 +146,7 @@ ListIterator<Action> history = History.list(
 * `end_at` (String): Leave blank or set to a date/time to filter later entries.
 * `display` (String): Display format. Leave blank or set to `full` or `parent`.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10,000, 1,000 or less is recommended).
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
 * `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `user_id`, `folder` or `path`. Valid field combinations are `[  ]`, `[ path ]`, `[ path ]` or `[ path ]`.
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.

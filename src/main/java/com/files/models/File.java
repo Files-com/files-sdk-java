@@ -832,6 +832,7 @@ public class File implements ModelInterface {
   *   restart - int64 - File byte offset to restart from.
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
+  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
   */
   public FileUploadPart beginUpload(HashMap<String, Object> parameters) throws IOException {
     return File.beginUpload(this.path, parameters, this.options);
@@ -1438,6 +1439,7 @@ public class File implements ModelInterface {
   *   restart - int64 - File byte offset to restart from.
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
+  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
   */
   public static FileUploadPart beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
@@ -1487,6 +1489,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
+    }
+    if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
     }
 
 

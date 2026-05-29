@@ -619,6 +619,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InAppAiAssistantUnavailableException extends NotAuthorizedException {
+    public InAppAiAssistantUnavailableException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InsufficientPermissionForParamsException extends NotAuthorizedException {
     public InsufficientPermissionForParamsException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

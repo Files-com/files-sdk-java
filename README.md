@@ -659,6 +659,7 @@ RuntimeException
 |`FolderAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`FullPermissionRequiredException`|  `NotAuthorizedException` |
 |`HistoryPermissionRequiredException`|  `NotAuthorizedException` |
+|`InAppAiAssistantUnavailableException`|  `NotAuthorizedException` |
 |`InsufficientPermissionForParamsException`|  `NotAuthorizedException` |
 |`InsufficientPermissionForSiteException`|  `NotAuthorizedException` |
 |`MoverAccessDeniedException`|  `NotAuthorizedException` |

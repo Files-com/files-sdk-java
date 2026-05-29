@@ -9,6 +9,14 @@
   "additional_text_file_types": [
     "example"
   ],
+  "ai_feature_availability": {
+    "in_app_ai_assistant": {
+      "site_admins": true,
+      "workspace_admins": true,
+      "folder_admins": true,
+      "all_users": true
+    }
+  },
   "allowed_2fa_method_sms": true,
   "allowed_2fa_method_totp": true,
   "allowed_2fa_method_webauthn": true,
@@ -76,6 +84,7 @@
   "mobile_app_session_ip_pinning": true,
   "mobile_app_session_lifetime": 1,
   "disallowed_countries": "US,DE",
+  "disable_all_ai_features": true,
   "disable_files_certificate_generation": true,
   "disable_notifications": true,
   "disable_password_reset": true,
@@ -339,6 +348,7 @@
 * `id` / `id`  (int64): Site Id
 * `name` / `name`  (string): Site name
 * `additional_text_file_types` / `additionalTextFileTypes`  (array(string)): Additional extensions that are considered text files
+* `ai_feature_availability` / `aiFeatureAvailability`  (object): Availability settings for AI features by user class
 * `allowed_2fa_method_sms` / `allowed2faMethodSms`  (boolean): Is SMS two factor authentication allowed?
 * `allowed_2fa_method_totp` / `allowed2faMethodTotp`  (boolean): Is TOTP two factor authentication allowed?
 * `allowed_2fa_method_webauthn` / `allowed2faMethodWebauthn`  (boolean): Is WebAuthn two factor authentication allowed?
@@ -399,6 +409,7 @@
 * `mobile_app_session_ip_pinning` / `mobileAppSessionIpPinning`  (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` / `mobileAppSessionLifetime`  (int64): Mobile app session lifetime (in hours)
 * `disallowed_countries` / `disallowedCountries`  (string): Comma separated list of disallowed Country codes
+* `disable_all_ai_features` / `disableAllAiFeatures`  (boolean): If true, all AI features are disabled for this site.
 * `disable_files_certificate_generation` / `disableFilesCertificateGeneration`  (boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
 * `disable_notifications` / `disableNotifications`  (boolean): Are notifications disabled?
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
@@ -595,6 +606,8 @@ Site site = Site.update(
 * `motd_use_for_ftp` (Boolean): Show message to users connecting via FTP
 * `motd_use_for_sftp` (Boolean): Show message to users connecting via SFTP
 * `left_navigation_visibility` (Object): Visibility settings for account navigation
+* `disable_all_ai_features` (Boolean): If true, all AI features are disabled for this site.
+* `ai_feature_availability` (Object): Availability settings for AI features by user class
 * `additional_text_file_types` (String[]): Additional extensions that are considered text files
 * `bundle_require_note` (Boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (Boolean): Do Bundle creators receive receipts of invitations?

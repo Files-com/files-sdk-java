@@ -103,6 +103,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Availability settings for AI features by user class
+  */
+  @JsonProperty("ai_feature_availability")
+  public Object aiFeatureAvailability;
+
+  public Object getAiFeatureAvailability() {
+    return aiFeatureAvailability;
+  }
+
+  /**
   * Is SMS two factor authentication allowed?
   */
   @JsonProperty("allowed_2fa_method_sms")
@@ -700,6 +710,16 @@ public class Site implements ModelInterface {
 
   public String getDisallowedCountries() {
     return disallowedCountries;
+  }
+
+  /**
+  * If true, all AI features are disabled for this site.
+  */
+  @JsonProperty("disable_all_ai_features")
+  public Boolean disableAllAiFeatures;
+
+  public Boolean getDisableAllAiFeatures() {
+    return disableAllAiFeatures;
   }
 
   /**
@@ -1992,6 +2012,8 @@ public class Site implements ModelInterface {
   *   motd_use_for_ftp - boolean - Show message to users connecting via FTP
   *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
   *   left_navigation_visibility - object - Visibility settings for account navigation
+  *   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
+  *   ai_feature_availability - object - Availability settings for AI features by user class
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
   *   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
@@ -2252,6 +2274,12 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("left_navigation_visibility") && !(parameters.get("left_navigation_visibility") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: left_navigation_visibility must be of type Object parameters[\"left_navigation_visibility\"]");
+    }
+    if (parameters.containsKey("disable_all_ai_features") && !(parameters.get("disable_all_ai_features") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: disable_all_ai_features must be of type Boolean parameters[\"disable_all_ai_features\"]");
+    }
+    if (parameters.containsKey("ai_feature_availability") && !(parameters.get("ai_feature_availability") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: ai_feature_availability must be of type Object parameters[\"ai_feature_availability\"]");
     }
     if (parameters.containsKey("additional_text_file_types") && !(parameters.get("additional_text_file_types") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: additional_text_file_types must be of type String[] parameters[\"additional_text_file_types\"]");

@@ -1049,6 +1049,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Workspace ID the user should land in by default when more than one Workspace is available.
+  */
+  @JsonProperty("default_workspace_id")
+  public Long defaultWorkspaceId;
+
+  public Long getDefaultWorkspaceId() {
+    return defaultWorkspaceId;
+  }
+
+  public void setDefaultWorkspaceId(Long defaultWorkspaceId) {
+    this.defaultWorkspaceId = defaultWorkspaceId;
+  }
+
+  /**
   * Skip Welcome page in the UI?
   */
   @JsonProperty("skip_welcome_screen")
@@ -1442,6 +1456,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1661,6 +1676,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -1784,6 +1800,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
+    }
+    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
@@ -2063,6 +2082,7 @@ public class User implements ModelInterface {
   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
   *   dav_permission - boolean - Can the user connect with WebDAV?
   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
@@ -2197,6 +2217,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
+    }
+    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
     }
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");

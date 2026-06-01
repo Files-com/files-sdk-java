@@ -349,6 +349,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class RequestBodyTooLargeException extends BadRequestException {
+    public RequestBodyTooLargeException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class RequestParamsContainInvalidCharacterException extends BadRequestException {
     public RequestParamsContainInvalidCharacterException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -735,6 +741,12 @@ public class ApiErrorException extends SdkException {
 
   public static class RecaptchaFailedException extends NotAuthorizedException {
     public RecaptchaFailedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class RemoteDesktopDebugLoggingDisabledException extends NotAuthorizedException {
+    public RemoteDesktopDebugLoggingDisabledException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

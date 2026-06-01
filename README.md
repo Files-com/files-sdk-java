@@ -649,6 +649,7 @@ RuntimeException
 |`PartNumberTooLargeException`|  `BadRequestException` |
 |`PathCannotHaveTrailingWhitespaceException`|  `BadRequestException` |
 |`ReauthenticationNeededFieldsException`|  `BadRequestException` |
+|`RequestBodyTooLargeException`|  `BadRequestException` |
 |`RequestParamsContainInvalidCharacterException`|  `BadRequestException` |
 |`RequestParamsInvalidException`|  `BadRequestException` |
 |`RequestParamsRequiredException`|  `BadRequestException` |
@@ -712,6 +713,7 @@ RuntimeException
 |`ReauthenticationFailedFinalException`|  `NotAuthorizedException` |
 |`ReauthenticationNeededActionException`|  `NotAuthorizedException` |
 |`RecaptchaFailedException`|  `NotAuthorizedException` |
+|`RemoteDesktopDebugLoggingDisabledException`|  `NotAuthorizedException` |
 |`SelfManagedRequiredException`|  `NotAuthorizedException` |
 |`SiteAdminOrPartnerAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredException`|  `NotAuthorizedException` |

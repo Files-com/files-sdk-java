@@ -113,6 +113,16 @@ public class OutboundConnectionLog implements ModelInterface {
   }
 
   /**
+  * Source Remote Server name
+  */
+  @JsonProperty("src_remote_server_name")
+  public String srcRemoteServerName;
+
+  public String getSrcRemoteServerName() {
+    return srcRemoteServerName;
+  }
+
+  /**
   * Destination Remote Server ID
   */
   @JsonProperty("dest_remote_server_id")
@@ -120,6 +130,16 @@ public class OutboundConnectionLog implements ModelInterface {
 
   public Long getDestRemoteServerId() {
     return destRemoteServerId;
+  }
+
+  /**
+  * Destination Remote Server name
+  */
+  @JsonProperty("dest_remote_server_name")
+  public String destRemoteServerName;
+
+  public String getDestRemoteServerName() {
+    return destRemoteServerName;
   }
 
   /**

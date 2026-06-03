@@ -1498,6 +1498,7 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
   *   username - string - User's username
+  *   workspace_id - int64 - Workspace ID
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
   */
@@ -2124,6 +2125,7 @@ public class User implements ModelInterface {
   *   user_home - string - Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
   *   workspace_admin - boolean - Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
   *   username - string - User's username
+  *   workspace_id - int64 - Workspace ID
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
   *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
   */
@@ -2343,6 +2345,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("clear_2fa") && !(parameters.get("clear_2fa") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: clear_2fa must be of type Boolean parameters[\"clear_2fa\"]");

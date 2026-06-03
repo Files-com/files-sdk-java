@@ -445,6 +445,7 @@ User user = User.update(
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
+* `workspace_id` (Long): Workspace ID
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
 
@@ -582,6 +583,7 @@ parameters.put("user_root", "example");
 parameters.put("user_home", "example");
 parameters.put("workspace_admin", true);
 parameters.put("username", "user");
+parameters.put("workspace_id", 1);
 parameters.put("clear_2fa", false);
 parameters.put("convert_to_partner_user", false);
 
@@ -654,6 +656,7 @@ user.update(parameters);
 * `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
+* `workspace_id` (Long): Workspace ID
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
 

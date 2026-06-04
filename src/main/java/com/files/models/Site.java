@@ -333,6 +333,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * If true, new Share Links created by a user with a primary group will default to that group as owner.
+  */
+  @JsonProperty("bundles_default_owned_by_primary_group")
+  public Boolean bundlesDefaultOwnedByPrimaryGroup;
+
+  public Boolean getBundlesDefaultOwnedByPrimaryGroup() {
+    return bundlesDefaultOwnedByPrimaryGroup;
+  }
+
+  /**
   * List of email domains to disallow when entering a Bundle/Inbox recipients
   */
   @JsonProperty("bundle_recipient_blacklist_domains")
@@ -2017,6 +2027,7 @@ public class Site implements ModelInterface {
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
   *   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
+  *   bundles_default_owned_by_primary_group - boolean - If true, new Share Links created by a user with a primary group will default to that group as owner.
   *   calculate_file_checksums_crc32 - boolean - Calculate CRC32 checksums for files?
   *   calculate_file_checksums_md5 - boolean - Calculate MD5 checksums for files?
   *   calculate_file_checksums_sha1 - boolean - Calculate SHA1 checksums for files?
@@ -2289,6 +2300,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("bundle_send_shared_receipts") && !(parameters.get("bundle_send_shared_receipts") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_send_shared_receipts must be of type Boolean parameters[\"bundle_send_shared_receipts\"]");
+    }
+    if (parameters.containsKey("bundles_default_owned_by_primary_group") && !(parameters.get("bundles_default_owned_by_primary_group") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundles_default_owned_by_primary_group must be of type Boolean parameters[\"bundles_default_owned_by_primary_group\"]");
     }
     if (parameters.containsKey("calculate_file_checksums_crc32") && !(parameters.get("calculate_file_checksums_crc32") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: calculate_file_checksums_crc32 must be of type Boolean parameters[\"calculate_file_checksums_crc32\"]");

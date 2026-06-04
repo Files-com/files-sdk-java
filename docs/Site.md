@@ -39,6 +39,7 @@
   "bundle_expiration": 1,
   "bundle_not_found_message": "example",
   "bundle_password_required": true,
+  "bundles_default_owned_by_primary_group": true,
   "bundle_recipient_blacklist_domains": [
     "example"
   ],
@@ -373,6 +374,7 @@
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
 * `bundle_not_found_message` / `bundleNotFoundMessage`  (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
+* `bundles_default_owned_by_primary_group` / `bundlesDefaultOwnedByPrimaryGroup`  (boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
 * `bundle_recipient_blacklist_domains` / `bundleRecipientBlacklistDomains`  (array(string)): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `bundle_recipient_blacklist_free_email_domains` / `bundleRecipientBlacklistFreeEmailDomains`  (boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_registration_notifications` / `bundleRegistrationNotifications`  (string): Do Bundle owners receive registration notification?
@@ -613,6 +615,7 @@ Site site = Site.update(
 * `additional_text_file_types` (String[]): Additional extensions that are considered text files
 * `bundle_require_note` (Boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (Boolean): Do Bundle creators receive receipts of invitations?
+* `bundles_default_owned_by_primary_group` (Boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
 * `calculate_file_checksums_crc32` (Boolean): Calculate CRC32 checksums for files?
 * `calculate_file_checksums_md5` (Boolean): Calculate MD5 checksums for files?
 * `calculate_file_checksums_sha1` (Boolean): Calculate SHA1 checksums for files?

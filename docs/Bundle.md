@@ -66,6 +66,7 @@
   "snapshot_id": 1,
   "user_id": 1,
   "username": "user",
+  "group_id": 1,
   "clickwrap_id": 1,
   "inbox_id": 1,
   "watermark_attachment": {
@@ -124,6 +125,7 @@
 * `snapshot_id` / `snapshotId`  (int64): ID of the snapshot containing this bundle's contents.
 * `user_id` / `userId`  (int64): Bundle creator user ID
 * `username` / `username`  (string): Bundle creator username
+* `group_id` / `groupId`  (int64): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `clickwrap_id` / `clickwrapId`  (int64): ID of the clickwrap to use with this bundle.
 * `inbox_id` / `inboxId`  (int64): ID of the associated inbox, if available.
 * `watermark_attachment` / `watermarkAttachment`  (image): Preview watermark image applied to all bundle items.
@@ -209,6 +211,7 @@ Bundle bundle = Bundle.create(
 * `expires_at` (String): Bundle expiration date/time
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
+* `group_id` (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `description` (String): Public description
 * `note` (String): Bundle internal note
 * `code` (String): Bundle code.  This code forms the end part of the Public URL.
@@ -278,6 +281,7 @@ Bundle bundle = Bundle.update(
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
+* `group_id` (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `note` (String): Bundle internal note
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.
@@ -357,6 +361,7 @@ parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("finalize_snapshot", false);
 parameters.put("inbox_id", 1);
 parameters.put("max_uses", 1);
+parameters.put("group_id", 1);
 parameters.put("note", "The internal note on the bundle.");
 parameters.put("path_template", "{{name}}_{{ip}}");
 parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
@@ -392,6 +397,7 @@ bundle.update(parameters);
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
+* `group_id` (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
 * `note` (String): Bundle internal note
 * `path_template` (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
 * `path_template_time_zone` (String): Timezone to use when rendering timestamps in path templates.

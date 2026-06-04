@@ -214,6 +214,8 @@ public class BundleAction implements ModelInterface {
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+  *   bundle_id - int64 - Bundle ID
+  *   bundle_registration_id - int64 - Bundle Registration ID
   */
   public static ListIterator<BundleAction> list() throws RuntimeException {
     return list(null, null);
@@ -256,6 +258,12 @@ public class BundleAction implements ModelInterface {
     }
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
+    }
+    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
+    }
+    if (parameters.containsKey("bundle_registration_id") && !(parameters.get("bundle_registration_id") instanceof Long || parameters.get("bundle_registration_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_registration_id must be of type Long or Integer parameters[\"bundle_registration_id\"]");
     }
 
 

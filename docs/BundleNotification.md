@@ -41,6 +41,7 @@ ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
 * `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+* `bundle_id` (Long): Bundle ID
 
 
 ---

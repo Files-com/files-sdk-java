@@ -201,6 +201,7 @@ public class BundleNotification implements ModelInterface {
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+  *   bundle_id - int64 - Bundle ID
   */
   public static ListIterator<BundleNotification> list() throws RuntimeException {
     return list(null, null);
@@ -231,6 +232,9 @@ public class BundleNotification implements ModelInterface {
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
+    }
+    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
     }
 
 

@@ -530,6 +530,20 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+  */
+  @JsonProperty("group_id")
+  public Long groupId;
+
+  public Long getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Long groupId) {
+    this.groupId = groupId;
+  }
+
+  /**
   * ID of the clickwrap to use with this bundle.
   */
   @JsonProperty("clickwrap_id")
@@ -780,6 +794,7 @@ public class Bundle implements ModelInterface {
   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
+  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
   *   note - string - Bundle internal note
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -951,6 +966,7 @@ public class Bundle implements ModelInterface {
   *   expires_at - string - Bundle expiration date/time
   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
+  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -1018,6 +1034,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
+    }
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -1154,6 +1173,7 @@ public class Bundle implements ModelInterface {
   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
+  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
   *   note - string - Bundle internal note
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -1237,6 +1257,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
+    }
+    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");

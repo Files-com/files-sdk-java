@@ -77,3 +77,5 @@ ListIterator<BundleAction> bundleAction = BundleAction.list(
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 * `filter_lteq` (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+* `bundle_id` (Long): Bundle ID
+* `bundle_registration_id` (Long): Bundle Registration ID

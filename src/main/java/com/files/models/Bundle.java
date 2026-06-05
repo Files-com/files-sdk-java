@@ -404,6 +404,34 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * Indicates if the bundle has been deleted.
+  */
+  @JsonProperty("deleted")
+  public Boolean deleted;
+
+  public Boolean getDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(Boolean deleted) {
+    this.deleted = deleted;
+  }
+
+  /**
+  * Bundle deleted at date/time
+  */
+  @JsonProperty("deleted_at")
+  public Date deletedAt;
+
+  public Date getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
+  }
+
+  /**
   * Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
   */
   @JsonProperty("dont_separate_submissions_by_folder")
@@ -843,6 +871,7 @@ public class Bundle implements ModelInterface {
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+  *   deleted - boolean - If true, only list deleted Share Links.
   */
   public static ListIterator<Bundle> list() throws RuntimeException {
     return list(null, null);
@@ -888,6 +917,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
+    }
+    if (parameters.containsKey("deleted") && !(parameters.get("deleted") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: deleted must be of type Boolean parameters[\"deleted\"]");
     }
 
 

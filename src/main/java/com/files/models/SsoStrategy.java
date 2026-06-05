@@ -432,7 +432,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * 2FA required setting for auto provisioned users.
+  * 2FA required setting for auto provisioned users. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
   */
   @JsonProperty("provision_require_2fa")
   public String provisionRequire2fa;

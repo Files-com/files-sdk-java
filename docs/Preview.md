@@ -15,5 +15,5 @@
 * `id` / `id`  (int64): Preview ID
 * `status` / `status`  (string): Preview status.  Can be invalid, not_generated, generating, complete, or file_too_large
 * `download_uri` / `downloadUri`  (string): Link to download preview
-* `type` / `type`  (string): Preview type. Can be image, pdf, pdf_native, video, or audio
+* `type` / `type`  (string): Preview type. Can be image, pdf, pdf_native, video, audio, or text
 * `size` / `size`  (string): Preview size

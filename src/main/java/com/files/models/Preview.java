@@ -103,7 +103,7 @@ public class Preview implements ModelInterface {
   }
 
   /**
-  * Preview type. Can be image, pdf, pdf_native, video, or audio
+  * Preview type. Can be image, pdf, pdf_native, video, audio, or text
   */
   @JsonProperty("type")
   public String type;

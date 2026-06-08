@@ -17,6 +17,7 @@
   "sending_active": true,
   "generic_payload_type": "example",
   "splunk_token_masked": "example",
+  "crowdstrike_token_masked": "example",
   "azure_dcr_immutable_id": "example",
   "azure_stream_name": "example",
   "azure_oauth_client_credentials_tenant_id": "example",
@@ -73,7 +74,8 @@
 * `additional_headers` / `additionalHeaders`  (object): Additional HTTP Headers included in calls to the destination URL
 * `sending_active` / `sendingActive`  (boolean): Whether this SIEM HTTP Destination is currently being sent to or not
 * `generic_payload_type` / `genericPayloadType`  (string): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-* `splunk_token_masked` / `splunkTokenMasked`  (string): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token_masked` / `splunkTokenMasked`  (string): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token_masked` / `crowdstrikeTokenMasked`  (string): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_dcr_immutable_id` / `azureDcrImmutableId`  (string): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` / `azureStreamName`  (string): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 * `azure_oauth_client_credentials_tenant_id` / `azureOauthClientCredentialsTenantId`  (string): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -117,7 +119,8 @@
 * `last_http_call_duration_ms` / `lastHttpCallDurationMs`  (int64): Duration of the last HTTP Call in milliseconds
 * `most_recent_http_call_success_time` / `mostRecentHttpCallSuccessTime`  (string): Time of Most Recent Successful HTTP Call
 * `connection_test_entry` / `connectionTestEntry`  (string): Connection Test Entry
-* `splunk_token` / `splunkToken`  (string): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token` / `splunkToken`  (string): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` / `crowdstrikeToken`  (string): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_oauth_client_credentials_client_secret` / `azureOauthClientCredentialsClientSecret`  (string): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
 * `qradar_password` / `qradarPassword`  (string): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
 * `solar_winds_token` / `solarWindsToken`  (string): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
@@ -181,7 +184,8 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
 * `file_format` (String): Applicable only for destination type: file. Generated file format.
 * `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-* `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 * `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -232,7 +236,8 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
 * `file_format` (String): Applicable only for destination type: file. Generated file format.
 * `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-* `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 * `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -279,7 +284,8 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
 * `file_format` (String): Applicable only for destination type: file. Generated file format.
 * `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-* `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 * `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -371,7 +377,8 @@ siemHttpDestination.update(parameters);
 * `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
 * `file_format` (String): Applicable only for destination type: file. Generated file format.
 * `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-* `splunk_token` (String): Applicable only for destination type: splunk. Authentication token provided by Splunk.
+* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
 * `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
 * `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
 * `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.

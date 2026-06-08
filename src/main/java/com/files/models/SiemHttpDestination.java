@@ -213,7 +213,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
   */
   @JsonProperty("splunk_token_masked")
   public String splunkTokenMasked;
@@ -224,6 +224,20 @@ public class SiemHttpDestination implements ModelInterface {
 
   public void setSplunkTokenMasked(String splunkTokenMasked) {
     this.splunkTokenMasked = splunkTokenMasked;
+  }
+
+  /**
+  * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+  */
+  @JsonProperty("crowdstrike_token_masked")
+  public String crowdstrikeTokenMasked;
+
+  public String getCrowdstrikeTokenMasked() {
+    return crowdstrikeTokenMasked;
+  }
+
+  public void setCrowdstrikeTokenMasked(String crowdstrikeTokenMasked) {
+    this.crowdstrikeTokenMasked = crowdstrikeTokenMasked;
   }
 
   /**
@@ -829,7 +843,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
   */
   @JsonProperty("splunk_token")
   public String splunkToken;
@@ -840,6 +854,20 @@ public class SiemHttpDestination implements ModelInterface {
 
   public void setSplunkToken(String splunkToken) {
     this.splunkToken = splunkToken;
+  }
+
+  /**
+  * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+  */
+  @JsonProperty("crowdstrike_token")
+  public String crowdstrikeToken;
+
+  public String getCrowdstrikeToken() {
+    return crowdstrikeToken;
+  }
+
+  public void setCrowdstrikeToken(String crowdstrikeToken) {
+    this.crowdstrikeToken = crowdstrikeToken;
   }
 
   /**
@@ -921,7 +949,8 @@ public class SiemHttpDestination implements ModelInterface {
   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
   *   file_format - string - Applicable only for destination type: file. Generated file format.
   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -1066,7 +1095,8 @@ public class SiemHttpDestination implements ModelInterface {
   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
   *   file_format - string - Applicable only for destination type: file. Generated file format.
   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -1133,6 +1163,9 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
+    }
+    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
     }
     if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");
@@ -1227,7 +1260,8 @@ public class SiemHttpDestination implements ModelInterface {
   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
   *   file_format - string - Applicable only for destination type: file. Generated file format.
   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -1298,6 +1332,9 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
+    }
+    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
     }
     if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");
@@ -1382,7 +1419,8 @@ public class SiemHttpDestination implements ModelInterface {
   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
   *   file_format - string - Applicable only for destination type: file. Generated file format.
   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination type: splunk. Authentication token provided by Splunk.
+  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
@@ -1459,6 +1497,9 @@ public class SiemHttpDestination implements ModelInterface {
     }
     if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
+    }
+    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
     }
     if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");

@@ -353,6 +353,20 @@ public class Notification implements ModelInterface {
   }
 
   /**
+  * Workspace ID. `0` means the default workspace.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Is the user unsubscribed from this notification?
   */
   @JsonProperty("unsubscribed")
@@ -438,6 +452,7 @@ public class Notification implements ModelInterface {
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public Notification update(HashMap<String, Object> parameters) throws IOException {
     return Notification.update(this.id, parameters, this.options);
@@ -462,8 +477,8 @@ public class Notification implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `user_id` or `group_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
   *   path - string - Show notifications for this Path.
   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
@@ -590,6 +605,7 @@ public class Notification implements ModelInterface {
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
   *   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
   *   path - string - Path
@@ -655,6 +671,9 @@ public class Notification implements ModelInterface {
     if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
     }
@@ -692,6 +711,7 @@ public class Notification implements ModelInterface {
   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Notification update() throws RuntimeException {
     return update(null, null, null);
@@ -762,6 +782,9 @@ public class Notification implements ModelInterface {
     }
     if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

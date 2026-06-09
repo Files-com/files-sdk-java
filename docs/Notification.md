@@ -35,6 +35,7 @@
     "*.jpg",
     "notify_file.txt"
   ],
+  "workspace_id": 1,
   "unsubscribed": true,
   "unsubscribed_reason": "example",
   "user_id": 1,
@@ -63,6 +64,7 @@
 * `subject` / `subject`  (string): Custom subject line to use for notification emails
 * `message` / `message`  (string): Custom message to include in notification emails
 * `triggering_filenames` / `triggeringFilenames`  (array(string)): Array of filenames (possibly with wildcards) to scope trigger
+* `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
 * `unsubscribed` / `unsubscribed`  (boolean): Is the user unsubscribed from this notification?
 * `unsubscribed_reason` / `unsubscribedReason`  (string): The reason that the user unsubscribed
 * `user_id` / `userId`  (int64): Notification user ID
@@ -86,8 +88,8 @@ ListIterator<Notification> notification = Notification.list(
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `path`, `user_id` or `group_id`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id` or `group_id`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
 * `path` (String): Show notifications for this Path.
 * `include_ancestors` (Boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
@@ -140,6 +142,7 @@ Notification notification = Notification.create(
 * `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
 * `triggering_user_ids` (Long[]): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `group_id` (Long): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
 * `group_ids` (String): Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
 * `path` (String): Path
@@ -175,6 +178,7 @@ Notification notification = Notification.update(
 * `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
 * `triggering_user_ids` (Long[]): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---
@@ -216,6 +220,7 @@ parameters.put("triggering_filenames", ["*.jpg","notify_file.txt"]);
 parameters.put("triggering_group_ids", [1]);
 parameters.put("triggering_user_ids", [1]);
 parameters.put("trigger_by_share_recipients", true);
+parameters.put("workspace_id", 1);
 
 notification.update(parameters);
 ```
@@ -237,6 +242,7 @@ notification.update(parameters);
 * `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
 * `triggering_user_ids` (Long[]): If set, will only notify on actions made one of the specified users
 * `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---

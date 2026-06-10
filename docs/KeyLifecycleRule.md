@@ -15,7 +15,7 @@
 ```
 
 * `id` / `id`  (int64): Key Lifecycle Rule ID
-* `key_type` / `keyType`  (string): Key type for which the rule will apply (gpg or ssh).
+* `key_type` / `keyType`  (string): Key type for which the rule will apply (gpg, ssh, or api).
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies.
 * `expiration_days` / `expirationDays`  (int64): Number of days after creation before an SSH key expires. Applies only to SSH keys.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a default-workspace rule also applies to keys in all workspaces.
@@ -76,7 +76,7 @@ KeyLifecycleRule keyLifecycleRule = KeyLifecycleRule.create(
 
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
 * `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
-* `key_type` (String): Key type for which the rule will apply (gpg or ssh).
+* `key_type` (String): Key type for which the rule will apply (gpg, ssh, or api).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
@@ -99,7 +99,7 @@ KeyLifecycleRule keyLifecycleRule = KeyLifecycleRule.update(
 * `id` (Long): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
 * `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
-* `key_type` (String): Key type for which the rule will apply (gpg or ssh).
+* `key_type` (String): Key type for which the rule will apply (gpg, ssh, or api).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
@@ -145,7 +145,7 @@ keyLifecycleRule.update(parameters);
 * `id` (Long): Required - Key Lifecycle Rule ID.
 * `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.
 * `expiration_days` (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.
-* `key_type` (String): Key type for which the rule will apply (gpg or ssh).
+* `key_type` (String): Key type for which the rule will apply (gpg, ssh, or api).
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies.
 * `name` (String): Key Lifecycle Rule name
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.

@@ -22,6 +22,7 @@
   "disabled": true,
   "trigger": "example",
   "trigger_file": "example",
+  "always_write_trigger_file": true,
   "include_patterns": [
     "example"
   ],
@@ -102,6 +103,7 @@
 * `disabled` / `disabled`  (boolean): Is this sync disabled?
 * `trigger` / `trigger`  (string): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` / `triggerFile`  (string): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `always_write_trigger_file` / `alwaysWriteTriggerFile`  (boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
 * `include_patterns` / `includePatterns`  (array(string)): Array of glob patterns to include
 * `exclude_patterns` / `excludePatterns`  (array(string)): Array of glob patterns to exclude
 * `created_at` / `createdAt`  (date-time): When this sync was created
@@ -187,6 +189,7 @@ Sync sync = Sync.create(
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `always_write_trigger_file` (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
 * `workspace_id` (Long): Workspace ID this sync belongs to
 
 
@@ -259,6 +262,7 @@ Sync sync = Sync.update(
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `always_write_trigger_file` (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
 
 
 ---
@@ -340,6 +344,7 @@ parameters.put("src_remote_server_id", 1);
 parameters.put("sync_interval_minutes", 1);
 parameters.put("trigger", "example");
 parameters.put("trigger_file", "example");
+parameters.put("always_write_trigger_file", true);
 
 sync.update(parameters);
 ```
@@ -367,6 +372,7 @@ sync.update(parameters);
 * `sync_interval_minutes` (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `trigger` (String): Trigger type: daily, custom_schedule, or manual
 * `trigger_file` (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+* `always_write_trigger_file` (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
 
 
 ---

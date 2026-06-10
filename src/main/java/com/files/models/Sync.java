@@ -325,6 +325,20 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
+  */
+  @JsonProperty("always_write_trigger_file")
+  public Boolean alwaysWriteTriggerFile;
+
+  public Boolean getAlwaysWriteTriggerFile() {
+    return alwaysWriteTriggerFile;
+  }
+
+  public void setAlwaysWriteTriggerFile(Boolean alwaysWriteTriggerFile) {
+    this.alwaysWriteTriggerFile = alwaysWriteTriggerFile;
+  }
+
+  /**
   * Array of glob patterns to include
   */
   @JsonProperty("include_patterns")
@@ -520,6 +534,7 @@ public class Sync implements ModelInterface {
   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+  *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
   */
   public Sync update(HashMap<String, Object> parameters) throws IOException {
     return Sync.update(this.id, parameters, this.options);
@@ -661,6 +676,7 @@ public class Sync implements ModelInterface {
   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+  *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
   *   workspace_id - int64 - Workspace ID this sync belongs to
   */
   public static Sync create() throws RuntimeException {
@@ -737,6 +753,9 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("trigger_file") && !(parameters.get("trigger_file") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger_file must be of type String parameters[\"trigger_file\"]");
+    }
+    if (parameters.containsKey("always_write_trigger_file") && !(parameters.get("always_write_trigger_file") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_write_trigger_file must be of type Boolean parameters[\"always_write_trigger_file\"]");
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
@@ -852,6 +871,7 @@ public class Sync implements ModelInterface {
   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
   *   trigger - string - Trigger type: daily, custom_schedule, or manual
   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
+  *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
   */
   public static Sync update() throws RuntimeException {
     return update(null, null, null);
@@ -940,6 +960,9 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("trigger_file") && !(parameters.get("trigger_file") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: trigger_file must be of type String parameters[\"trigger_file\"]");
+    }
+    if (parameters.containsKey("always_write_trigger_file") && !(parameters.get("always_write_trigger_file") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: always_write_trigger_file must be of type Boolean parameters[\"always_write_trigger_file\"]");
     }
 
 

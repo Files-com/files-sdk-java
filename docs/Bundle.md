@@ -190,6 +190,7 @@ Bundle bundle = Bundle.find(
 ### Parameters
 
 * `id` (Long): Required - Bundle ID.
+* `deleted` (Boolean): If true, show a deleted Share Link.
 
 
 ---

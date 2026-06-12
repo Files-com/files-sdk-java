@@ -940,6 +940,7 @@ public class Bundle implements ModelInterface {
   /**
   * Parameters:
   *   id (required) - int64 - Bundle ID.
+  *   deleted - boolean - If true, show a deleted Share Link.
   */
   public static Bundle find() throws RuntimeException {
     return find(null, null, null);
@@ -968,6 +969,9 @@ public class Bundle implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("deleted") && !(parameters.get("deleted") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: deleted must be of type Boolean parameters[\"deleted\"]");
     }
 
 

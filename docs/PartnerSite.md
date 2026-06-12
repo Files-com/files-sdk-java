@@ -4,21 +4,27 @@
 
 ```
 {
-  "partner_id": 1,
-  "partner_name": "Acme Corp",
-  "linked_site_id": 1,
-  "linked_site_name": "Acme's Partner Site",
-  "main_site_id": 2,
-  "main_site_name": "Acme Site"
+  "host_partner_id": 1,
+  "host_partner_name": "Acme Corp",
+  "guest_partner_id": 2,
+  "guest_partner_name": "Example Corp",
+  "host_site_id": 1,
+  "host_site_name": "Acme Site",
+  "guest_site_id": 2,
+  "guest_site_name": "Example Site",
+  "workspace_id": 1
 }
 ```
 
-* `partner_id` / `partnerId`  (int64): Partner ID
-* `partner_name` / `partnerName`  (string): Partner Name
-* `linked_site_id` / `linkedSiteId`  (int64): Linked Site ID
-* `linked_site_name` / `linkedSiteName`  (string): Linked Site Name
-* `main_site_id` / `mainSiteId`  (int64): Main Site ID
-* `main_site_name` / `mainSiteName`  (string): Main Site Name
+* `host_partner_id` / `hostPartnerId`  (int64): Host Partner ID
+* `host_partner_name` / `hostPartnerName`  (string): Host Partner Name
+* `guest_partner_id` / `guestPartnerId`  (int64): Guest Partner ID
+* `guest_partner_name` / `guestPartnerName`  (string): Guest Partner Name
+* `host_site_id` / `hostSiteId`  (int64): Host Site ID
+* `host_site_name` / `hostSiteName`  (string): Host Site Name
+* `guest_site_id` / `guestSiteId`  (int64): Guest Site ID
+* `guest_site_name` / `guestSiteName`  (string): Guest Site Name
+* `workspace_id` / `workspaceId`  (int64): Workspace ID for the Host Partner
 
 
 ---

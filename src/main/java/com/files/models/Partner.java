@@ -227,6 +227,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
+  */
+  @JsonProperty("partnership_role")
+  public String partnershipRole;
+
+  public String getPartnershipRole() {
+    return partnershipRole;
+  }
+
+  public void setPartnershipRole(String partnershipRole) {
+    this.partnershipRole = partnershipRole;
+  }
+
+  /**
   * ID of the Group responsible for this Partner.
   */
   @JsonProperty("responsible_group_id")

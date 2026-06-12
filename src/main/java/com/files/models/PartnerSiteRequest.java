@@ -87,31 +87,31 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Partner ID
+  * Host Partner ID
   */
-  @JsonProperty("partner_id")
-  public Long partnerId;
+  @JsonProperty("host_partner_id")
+  public Long hostPartnerId;
 
-  public Long getPartnerId() {
-    return partnerId;
+  public Long getHostPartnerId() {
+    return hostPartnerId;
   }
 
-  public void setPartnerId(Long partnerId) {
-    this.partnerId = partnerId;
+  public void setHostPartnerId(Long hostPartnerId) {
+    this.hostPartnerId = hostPartnerId;
   }
 
   /**
-  * Linked Site ID
+  * Guest Site ID
   */
-  @JsonProperty("linked_site_id")
-  public Long linkedSiteId;
+  @JsonProperty("guest_site_id")
+  public Long guestSiteId;
 
-  public Long getLinkedSiteId() {
-    return linkedSiteId;
+  public Long getGuestSiteId() {
+    return guestSiteId;
   }
 
-  public void setLinkedSiteId(Long linkedSiteId) {
-    this.linkedSiteId = linkedSiteId;
+  public void setGuestSiteId(Long guestSiteId) {
+    this.guestSiteId = guestSiteId;
   }
 
   /**
@@ -129,21 +129,21 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Main Site Name
+  * Host Site Name
   */
-  @JsonProperty("main_site_name")
-  public String mainSiteName;
+  @JsonProperty("host_site_name")
+  public String hostSiteName;
 
-  public String getMainSiteName() {
-    return mainSiteName;
+  public String getHostSiteName() {
+    return hostSiteName;
   }
 
-  public void setMainSiteName(String mainSiteName) {
-    this.mainSiteName = mainSiteName;
+  public void setHostSiteName(String hostSiteName) {
+    this.hostSiteName = hostSiteName;
   }
 
   /**
-  * Pairing key used to approve this request on the target site
+  * Pairing key used to approve this request on the Guest Site
   */
   @JsonProperty("pairing_key")
   public String pairingKey;
@@ -296,7 +296,7 @@ public class PartnerSiteRequest implements ModelInterface {
 
   /**
   * Parameters:
-  *   partner_id (required) - int64 - Partner ID to link with
+  *   host_partner_id (required) - int64 - Host Partner ID to link with
   *   site_url (required) - string - Site URL to link to
   */
   public static PartnerSiteRequest create() throws RuntimeException {
@@ -313,15 +313,15 @@ public class PartnerSiteRequest implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (!parameters.containsKey("partner_id") || parameters.get("partner_id") == null) {
-      throw new NullPointerException("Parameter missing: partner_id parameters[\"partner_id\"]");
+    if (!parameters.containsKey("host_partner_id") || parameters.get("host_partner_id") == null) {
+      throw new NullPointerException("Parameter missing: host_partner_id parameters[\"host_partner_id\"]");
     }
     if (!parameters.containsKey("site_url") || parameters.get("site_url") == null) {
       throw new NullPointerException("Parameter missing: site_url parameters[\"site_url\"]");
     }
 
-    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
+    if (parameters.containsKey("host_partner_id") && !(parameters.get("host_partner_id") instanceof Long || parameters.get("host_partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: host_partner_id must be of type Long or Integer parameters[\"host_partner_id\"]");
     }
     if (parameters.containsKey("site_url") && !(parameters.get("site_url") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: site_url must be of type String parameters[\"site_url\"]");

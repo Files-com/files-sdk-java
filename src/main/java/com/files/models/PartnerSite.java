@@ -73,63 +73,93 @@ public class PartnerSite implements ModelInterface {
 
 
   /**
-  * Partner ID
+  * Host Partner ID
   */
-  @JsonProperty("partner_id")
-  public Long partnerId;
+  @JsonProperty("host_partner_id")
+  public Long hostPartnerId;
 
-  public Long getPartnerId() {
-    return partnerId;
+  public Long getHostPartnerId() {
+    return hostPartnerId;
   }
 
   /**
-  * Partner Name
+  * Host Partner Name
   */
-  @JsonProperty("partner_name")
-  public String partnerName;
+  @JsonProperty("host_partner_name")
+  public String hostPartnerName;
 
-  public String getPartnerName() {
-    return partnerName;
+  public String getHostPartnerName() {
+    return hostPartnerName;
   }
 
   /**
-  * Linked Site ID
+  * Guest Partner ID
   */
-  @JsonProperty("linked_site_id")
-  public Long linkedSiteId;
+  @JsonProperty("guest_partner_id")
+  public Long guestPartnerId;
 
-  public Long getLinkedSiteId() {
-    return linkedSiteId;
+  public Long getGuestPartnerId() {
+    return guestPartnerId;
   }
 
   /**
-  * Linked Site Name
+  * Guest Partner Name
   */
-  @JsonProperty("linked_site_name")
-  public String linkedSiteName;
+  @JsonProperty("guest_partner_name")
+  public String guestPartnerName;
 
-  public String getLinkedSiteName() {
-    return linkedSiteName;
+  public String getGuestPartnerName() {
+    return guestPartnerName;
   }
 
   /**
-  * Main Site ID
+  * Host Site ID
   */
-  @JsonProperty("main_site_id")
-  public Long mainSiteId;
+  @JsonProperty("host_site_id")
+  public Long hostSiteId;
 
-  public Long getMainSiteId() {
-    return mainSiteId;
+  public Long getHostSiteId() {
+    return hostSiteId;
   }
 
   /**
-  * Main Site Name
+  * Host Site Name
   */
-  @JsonProperty("main_site_name")
-  public String mainSiteName;
+  @JsonProperty("host_site_name")
+  public String hostSiteName;
 
-  public String getMainSiteName() {
-    return mainSiteName;
+  public String getHostSiteName() {
+    return hostSiteName;
+  }
+
+  /**
+  * Guest Site ID
+  */
+  @JsonProperty("guest_site_id")
+  public Long guestSiteId;
+
+  public Long getGuestSiteId() {
+    return guestSiteId;
+  }
+
+  /**
+  * Guest Site Name
+  */
+  @JsonProperty("guest_site_name")
+  public String guestSiteName;
+
+  public String getGuestSiteName() {
+    return guestSiteName;
+  }
+
+  /**
+  * Workspace ID for the Host Partner
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
   }
 
 

@@ -129,6 +129,20 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
+  * Is the current user the user to notify?
+  */
+  @JsonProperty("notify_current_user")
+  public Boolean notifyCurrentUser;
+
+  public Boolean getNotifyCurrentUser() {
+    return notifyCurrentUser;
+  }
+
+  public void setNotifyCurrentUser(Boolean notifyCurrentUser) {
+    this.notifyCurrentUser = notifyCurrentUser;
+  }
+
+  /**
   * The id of the user to notify.
   */
   @JsonProperty("notify_user_id")

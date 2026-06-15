@@ -835,10 +835,10 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public Bundle update(HashMap<String, Object> parameters) throws IOException {
     return Bundle.update(this.id, parameters, this.options);
@@ -865,7 +865,7 @@ public class Bundle implements ModelInterface {
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ user_id, expires_at ]`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
@@ -1222,10 +1222,10 @@ public class Bundle implements ModelInterface {
   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Bundle update() throws RuntimeException {
     return update(null, null, null);
@@ -1333,9 +1333,6 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
     }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
     }
@@ -1344,6 +1341,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

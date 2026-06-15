@@ -166,7 +166,7 @@ ListIterator<Bundle> bundle = Bundle.list(
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ user_id, expires_at ]`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
@@ -300,10 +300,10 @@ Bundle bundle = Bundle.update(
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---
@@ -380,9 +380,9 @@ parameters.put("skip_company", true);
 parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
-parameters.put("workspace_id", 1);
 parameters.put("user_id", 1);
 parameters.put("watermark_attachment_delete", false);
+parameters.put("workspace_id", 1);
 
 bundle.update(parameters);
 ```
@@ -416,10 +416,10 @@ bundle.update(parameters);
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `skip_email` (Boolean): BundleRegistrations can be saved without providing email?
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---

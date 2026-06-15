@@ -101,17 +101,17 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Guest Site ID
+  * Guest Site URL
   */
-  @JsonProperty("guest_site_id")
-  public Long guestSiteId;
+  @JsonProperty("guest_site_url")
+  public String guestSiteUrl;
 
-  public Long getGuestSiteId() {
-    return guestSiteId;
+  public String getGuestSiteUrl() {
+    return guestSiteUrl;
   }
 
-  public void setGuestSiteId(Long guestSiteId) {
-    this.guestSiteId = guestSiteId;
+  public void setGuestSiteUrl(String guestSiteUrl) {
+    this.guestSiteUrl = guestSiteUrl;
   }
 
   /**
@@ -177,34 +177,6 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Site URL to link to
-  */
-  @JsonProperty("site_url")
-  public String siteUrl;
-
-  public String getSiteUrl() {
-    return siteUrl;
-  }
-
-  public void setSiteUrl(String siteUrl) {
-    this.siteUrl = siteUrl;
-  }
-
-  /**
-  * Reject partner site request
-  */
-  public void reject(HashMap<String, Object> parameters) throws IOException {
-    PartnerSiteRequest.reject(this.id, parameters, this.options);
-  }
-
-  /**
-  * Approve partner site request
-  */
-  public void approve(HashMap<String, Object> parameters) throws IOException {
-    PartnerSiteRequest.approve(this.id, parameters, this.options);
-  }
-
-  /**
   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     PartnerSiteRequest.delete(this.id, parameters, this.options);
@@ -223,6 +195,8 @@ public class PartnerSiteRequest implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
   */
   public static ListIterator<PartnerSiteRequest> list() throws RuntimeException {
     return list(null, null);
@@ -244,6 +218,12 @@ public class PartnerSiteRequest implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
 
 
@@ -297,7 +277,7 @@ public class PartnerSiteRequest implements ModelInterface {
   /**
   * Parameters:
   *   host_partner_id (required) - int64 - Host Partner ID to link with
-  *   site_url (required) - string - Site URL to link to
+  *   guest_site_url (required) - string - Guest Site URL to link to
   */
   public static PartnerSiteRequest create() throws RuntimeException {
     return create(null, null);
@@ -316,15 +296,15 @@ public class PartnerSiteRequest implements ModelInterface {
     if (!parameters.containsKey("host_partner_id") || parameters.get("host_partner_id") == null) {
       throw new NullPointerException("Parameter missing: host_partner_id parameters[\"host_partner_id\"]");
     }
-    if (!parameters.containsKey("site_url") || parameters.get("site_url") == null) {
-      throw new NullPointerException("Parameter missing: site_url parameters[\"site_url\"]");
+    if (!parameters.containsKey("guest_site_url") || parameters.get("guest_site_url") == null) {
+      throw new NullPointerException("Parameter missing: guest_site_url parameters[\"guest_site_url\"]");
     }
 
     if (parameters.containsKey("host_partner_id") && !(parameters.get("host_partner_id") instanceof Long || parameters.get("host_partner_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: host_partner_id must be of type Long or Integer parameters[\"host_partner_id\"]");
     }
-    if (parameters.containsKey("site_url") && !(parameters.get("site_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: site_url must be of type String parameters[\"site_url\"]");
+    if (parameters.containsKey("guest_site_url") && !(parameters.get("guest_site_url") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: guest_site_url must be of type String parameters[\"guest_site_url\"]");
     }
 
 
@@ -336,80 +316,66 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   /**
-  * Reject partner site request
+  * Parameters:
+  *   pairing_key (required) - string - Pairing key for the partner site request
   */
   public static void reject() throws RuntimeException {
-    reject(null, null, null);
+    reject(null, null);
   }
 
-  public static void reject(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    reject(id, parameters, null);
+  public static void reject(HashMap<String, Object> parameters) throws RuntimeException {
+    reject(parameters, null);
   }
+
 
   public static void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    reject(null, parameters, options);
-  }
-
-  public static void reject(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
+
+    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
+      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
+    }
+
+    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
     }
 
 
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partner_site_requests/%s/reject", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_site_requests/reject", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
 
 
   /**
-  * Approve partner site request
+  * Parameters:
+  *   pairing_key (required) - string - Pairing key for the partner site request
   */
   public static void approve() throws RuntimeException {
-    approve(null, null, null);
+    approve(null, null);
   }
 
-  public static void approve(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    approve(id, parameters, null);
+  public static void approve(HashMap<String, Object> parameters) throws RuntimeException {
+    approve(parameters, null);
   }
+
 
   public static void approve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    approve(null, parameters, options);
-  }
-
-  public static void approve(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
+
+    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
+      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
+    }
+
+    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
     }
 
 
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partner_site_requests/%s/approve", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_site_requests/approve", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }

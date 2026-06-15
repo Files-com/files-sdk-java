@@ -72,163 +72,51 @@ public class PartnerSite implements ModelInterface {
   }
 
 
-  /**
-  * Host Partner ID
-  */
-  @JsonProperty("host_partner_id")
-  public Long hostPartnerId;
-
-  public Long getHostPartnerId() {
-    return hostPartnerId;
-  }
-
-  /**
-  * Host Partner Name
-  */
-  @JsonProperty("host_partner_name")
-  public String hostPartnerName;
-
-  public String getHostPartnerName() {
-    return hostPartnerName;
-  }
-
-  /**
-  * Guest Partner ID
-  */
-  @JsonProperty("guest_partner_id")
-  public Long guestPartnerId;
-
-  public Long getGuestPartnerId() {
-    return guestPartnerId;
-  }
-
-  /**
-  * Guest Partner Name
-  */
-  @JsonProperty("guest_partner_name")
-  public String guestPartnerName;
-
-  public String getGuestPartnerName() {
-    return guestPartnerName;
-  }
-
-  /**
-  * Host Site ID
-  */
-  @JsonProperty("host_site_id")
-  public Long hostSiteId;
-
-  public Long getHostSiteId() {
-    return hostSiteId;
-  }
-
-  /**
-  * Host Site Name
-  */
-  @JsonProperty("host_site_name")
-  public String hostSiteName;
-
-  public String getHostSiteName() {
-    return hostSiteName;
-  }
-
-  /**
-  * Guest Site ID
-  */
-  @JsonProperty("guest_site_id")
-  public Long guestSiteId;
-
-  public Long getGuestSiteId() {
-    return guestSiteId;
-  }
-
-  /**
-  * Guest Site Name
-  */
-  @JsonProperty("guest_site_name")
-  public String guestSiteName;
-
-  public String getGuestSiteName() {
-    return guestSiteName;
-  }
-
-  /**
-  * Workspace ID for the Host Partner
-  */
-  @JsonProperty("workspace_id")
-  public Long workspaceId;
-
-  public Long getWorkspaceId() {
-    return workspaceId;
-  }
-
 
   /**
   */
-  public static PartnerSite linkeds() throws RuntimeException {
-    return linkeds(null, null);
+  public static void delete() throws RuntimeException {
+    delete(null, null, null);
   }
 
-  public static PartnerSite linkeds(HashMap<String, Object> parameters) throws RuntimeException {
-    return linkeds(parameters, null);
+  public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(id, parameters, null);
   }
 
+  public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
+  }
 
-  public static PartnerSite linkeds(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
-
-
-
-
-    String url = String.format("%s%s/partner_sites/linked_partner_sites", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<PartnerSite> typeReference = new TypeReference<PartnerSite>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
-  public static ListIterator<PartnerSite> list() throws RuntimeException {
-    return list(null, null);
-  }
-
-  public static ListIterator<PartnerSite> list(HashMap<String, Object> parameters) throws RuntimeException {
-    return list(parameters, null);
-  }
-
-
-  public static ListIterator<PartnerSite> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
     }
 
 
-    String url = String.format("%s%s/partner_sites", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
 
-    TypeReference<List<PartnerSite>> typeReference = new TypeReference<List<PartnerSite>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/partner_sites/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
 
-  public static ListIterator<PartnerSite> all() throws RuntimeException {
-    return all(null, null);
+  public static void destroy() throws RuntimeException {
+    destroy(null, null, null);
   }
 
-  public static ListIterator<PartnerSite> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return list(parameters, options);
+  public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(id, parameters, options);
   }
 
 }

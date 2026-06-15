@@ -32,6 +32,8 @@
   "ssl": "if_available",
   "username": "user",
   "google_cloud_storage_bucket": "my-bucket",
+  "google_cloud_storage_authentication_method": "json",
+  "google_cloud_storage_oauth_scope": "https://www.googleapis.com/auth/devstorage.read_only",
   "google_cloud_storage_project_id": "my-project",
   "google_cloud_storage_s3_compatible_access_key": "example",
   "backblaze_b2_s3_endpoint": "s3.us-west-001.backblazeb2.com",
@@ -104,6 +106,8 @@
 * `ssl` / `ssl`  (string): Should we require SSL?
 * `username` / `username`  (string): Remote server username.
 * `google_cloud_storage_bucket` / `googleCloudStorageBucket`  (string): Google Cloud Storage: Bucket Name
+* `google_cloud_storage_authentication_method` / `googleCloudStorageAuthenticationMethod`  (string): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+* `google_cloud_storage_oauth_scope` / `googleCloudStorageOauthScope`  (string): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 * `google_cloud_storage_project_id` / `googleCloudStorageProjectId`  (string): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` / `googleCloudStorageS3CompatibleAccessKey`  (string): Google Cloud Storage: S3-compatible Access Key.
 * `backblaze_b2_s3_endpoint` / `backblazeB2S3Endpoint`  (string): Backblaze B2 Cloud Storage: S3 Endpoint
@@ -278,7 +282,9 @@ RemoteServer remoteServer = RemoteServer.create(
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version
 * `outbound_agent_id` (Long): Route traffic to outbound on a files-agent
+* `google_cloud_storage_authentication_method` (String): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
 * `google_cloud_storage_bucket` (String): Google Cloud Storage: Bucket Name
+* `google_cloud_storage_oauth_scope` (String): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 * `google_cloud_storage_project_id` (String): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `hostname` (String): Hostname or IP address
@@ -415,7 +421,9 @@ RemoteServer remoteServer = RemoteServer.update(
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version
 * `outbound_agent_id` (Long): Route traffic to outbound on a files-agent
+* `google_cloud_storage_authentication_method` (String): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
 * `google_cloud_storage_bucket` (String): Google Cloud Storage: Bucket Name
+* `google_cloud_storage_oauth_scope` (String): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 * `google_cloud_storage_project_id` (String): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `hostname` (String): Hostname or IP address
@@ -554,7 +562,9 @@ parameters.put("files_agent_permission_set", "read_write");
 parameters.put("files_agent_root", "example");
 parameters.put("files_agent_version", "example");
 parameters.put("outbound_agent_id", 1);
+parameters.put("google_cloud_storage_authentication_method", "json");
 parameters.put("google_cloud_storage_bucket", "my-bucket");
+parameters.put("google_cloud_storage_oauth_scope", "https://www.googleapis.com/auth/devstorage.read_only");
 parameters.put("google_cloud_storage_project_id", "my-project");
 parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
 parameters.put("hostname", "remote-server.com");
@@ -635,7 +645,9 @@ remoteServer.update(parameters);
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version
 * `outbound_agent_id` (Long): Route traffic to outbound on a files-agent
+* `google_cloud_storage_authentication_method` (String): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
 * `google_cloud_storage_bucket` (String): Google Cloud Storage: Bucket Name
+* `google_cloud_storage_oauth_scope` (String): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
 * `google_cloud_storage_project_id` (String): Google Cloud Storage: Project ID
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `hostname` (String): Hostname or IP address

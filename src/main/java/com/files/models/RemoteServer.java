@@ -465,6 +465,34 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+  */
+  @JsonProperty("google_cloud_storage_authentication_method")
+  public String googleCloudStorageAuthenticationMethod;
+
+  public String getGoogleCloudStorageAuthenticationMethod() {
+    return googleCloudStorageAuthenticationMethod;
+  }
+
+  public void setGoogleCloudStorageAuthenticationMethod(String googleCloudStorageAuthenticationMethod) {
+    this.googleCloudStorageAuthenticationMethod = googleCloudStorageAuthenticationMethod;
+  }
+
+  /**
+  * Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+  */
+  @JsonProperty("google_cloud_storage_oauth_scope")
+  public String googleCloudStorageOauthScope;
+
+  public String getGoogleCloudStorageOauthScope() {
+    return googleCloudStorageOauthScope;
+  }
+
+  public void setGoogleCloudStorageOauthScope(String googleCloudStorageOauthScope) {
+    this.googleCloudStorageOauthScope = googleCloudStorageOauthScope;
+  }
+
+  /**
   * Google Cloud Storage: Project ID
   */
   @JsonProperty("google_cloud_storage_project_id")
@@ -1376,7 +1404,9 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
   *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+  *   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+  *   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
@@ -1617,7 +1647,9 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
   *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+  *   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+  *   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
@@ -1794,8 +1826,14 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("outbound_agent_id") && !(parameters.get("outbound_agent_id") instanceof Long || parameters.get("outbound_agent_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: outbound_agent_id must be of type Long or Integer parameters[\"outbound_agent_id\"]");
     }
+    if (parameters.containsKey("google_cloud_storage_authentication_method") && !(parameters.get("google_cloud_storage_authentication_method") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_authentication_method must be of type String parameters[\"google_cloud_storage_authentication_method\"]");
+    }
     if (parameters.containsKey("google_cloud_storage_bucket") && !(parameters.get("google_cloud_storage_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_bucket must be of type String parameters[\"google_cloud_storage_bucket\"]");
+    }
+    if (parameters.containsKey("google_cloud_storage_oauth_scope") && !(parameters.get("google_cloud_storage_oauth_scope") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_oauth_scope must be of type String parameters[\"google_cloud_storage_oauth_scope\"]");
     }
     if (parameters.containsKey("google_cloud_storage_project_id") && !(parameters.get("google_cloud_storage_project_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_project_id must be of type String parameters[\"google_cloud_storage_project_id\"]");
@@ -2072,7 +2110,9 @@ public class RemoteServer implements ModelInterface {
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
   *   outbound_agent_id - int64 - Route traffic to outbound on a files-agent
+  *   google_cloud_storage_authentication_method - string - Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
   *   google_cloud_storage_bucket - string - Google Cloud Storage: Bucket Name
+  *   google_cloud_storage_oauth_scope - string - Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
   *   google_cloud_storage_project_id - string - Google Cloud Storage: Project ID
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   hostname - string - Hostname or IP address
@@ -2261,8 +2301,14 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("outbound_agent_id") && !(parameters.get("outbound_agent_id") instanceof Long || parameters.get("outbound_agent_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: outbound_agent_id must be of type Long or Integer parameters[\"outbound_agent_id\"]");
     }
+    if (parameters.containsKey("google_cloud_storage_authentication_method") && !(parameters.get("google_cloud_storage_authentication_method") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_authentication_method must be of type String parameters[\"google_cloud_storage_authentication_method\"]");
+    }
     if (parameters.containsKey("google_cloud_storage_bucket") && !(parameters.get("google_cloud_storage_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_bucket must be of type String parameters[\"google_cloud_storage_bucket\"]");
+    }
+    if (parameters.containsKey("google_cloud_storage_oauth_scope") && !(parameters.get("google_cloud_storage_oauth_scope") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_oauth_scope must be of type String parameters[\"google_cloud_storage_oauth_scope\"]");
     }
     if (parameters.containsKey("google_cloud_storage_project_id") && !(parameters.get("google_cloud_storage_project_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: google_cloud_storage_project_id must be of type String parameters[\"google_cloud_storage_project_id\"]");

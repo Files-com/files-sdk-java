@@ -101,6 +101,20 @@ public class EventChannel implements ModelInterface {
   }
 
   /**
+  * Workspace ID. 0 means the default workspace.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Event Channel description.
   */
   @JsonProperty("description")
@@ -165,6 +179,7 @@ public class EventChannel implements ModelInterface {
   /**
   * Parameters:
   *   name - string - Event Channel name.
+  *   workspace_id - int64 - Workspace ID. 0 means the default workspace.
   *   description - string - Event Channel description.
   *   enabled - boolean - Whether this Event Channel can dispatch events.
   *   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
@@ -192,8 +207,8 @@ public class EventChannel implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled` or `default_channel`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled` and `default_channel`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `default_channel` or `workspace_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `default_channel` or `workspace_id`. Valid field combinations are `[ workspace_id, enabled ]` and `[ workspace_id, default_channel ]`.
   */
   public static ListIterator<EventChannel> list() throws RuntimeException {
     return list(null, null);
@@ -290,6 +305,7 @@ public class EventChannel implements ModelInterface {
   /**
   * Parameters:
   *   name (required) - string - Event Channel name.
+  *   workspace_id - int64 - Workspace ID. 0 means the default workspace.
   *   description - string - Event Channel description.
   *   enabled - boolean - Whether this Event Channel can dispatch events.
   *   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
@@ -315,6 +331,9 @@ public class EventChannel implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
     }
@@ -336,6 +355,7 @@ public class EventChannel implements ModelInterface {
   /**
   * Parameters:
   *   name - string - Event Channel name.
+  *   workspace_id - int64 - Workspace ID. 0 means the default workspace.
   *   description - string - Event Channel description.
   *   enabled - boolean - Whether this Event Channel can dispatch events.
   *   default_channel - boolean - Whether this Event Channel is the default destination for newly published events.
@@ -370,6 +390,9 @@ public class EventChannel implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");

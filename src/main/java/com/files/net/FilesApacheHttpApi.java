@@ -180,6 +180,11 @@ public class FilesApacheHttpApi implements FilesApiInterface {
     boolean requiresAuth = !(url.contains("sessions") && "POST".equalsIgnoreCase(requestType));
 
     if (requiresAuth) {
+      Object workspaceId = options.containsKey("workspace_id") ? options.get("workspace_id") : FilesClient.workspaceId;
+      if (workspaceId != null && !workspaceId.toString().trim().isEmpty()) {
+        request.addHeader("X-Files-Workspace-Id", workspaceId.toString());
+      }
+
       if (options.containsKey("session_id")) {
         if (!(options.get("session_id") instanceof String)) {
           throw new ApiErrorException.InvalidParameterException("Bad option: session_id must be of type String");

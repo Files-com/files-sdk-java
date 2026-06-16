@@ -26,6 +26,7 @@ public abstract class FilesClient {
   private static final FilesApiInterface filesApi = new FilesApacheHttpApi();
   public static String apiKey;
   public static String language;
+  public static Long workspaceId;
   public static Session session;
   public static PoolingHttpClientConnectionManager connectionManager;
   private static final ApacheHttpEvictor evictor;

@@ -32,7 +32,59 @@ public class FilesApiTest {
 
   @After
   public void tearDown() throws IOException {
+    FilesClient.workspaceId = null;
     wireMockServer.stop();
+  }
+
+  @Test
+  public void usesConfiguredWorkspaceId() throws Exception {
+    FilesClient.workspaceId = 123L;
+
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("[]")));
+
+    Folder.listFor("/", null).all();
+
+    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/"))
+        .withHeader("X-Files-Workspace-Id", equalTo("123")));
+  }
+
+  @Test
+  public void usesPerCallWorkspaceId() throws Exception {
+    FilesClient.workspaceId = 123L;
+
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("[]")));
+
+    HashMap<String, Object> options = new HashMap<>();
+    options.put("workspace_id", 456L);
+
+    Folder.listFor("/", null, options).all();
+
+    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/"))
+        .withHeader("X-Files-Workspace-Id", equalTo("456")));
+  }
+
+  @Test
+  public void allowsPerCallWorkspaceIdToBeCleared() throws Exception {
+    FilesClient.workspaceId = 123L;
+
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withBody("[]")));
+
+    HashMap<String, Object> options = new HashMap<>();
+    options.put("workspace_id", null);
+
+    Folder.listFor("/", null, options).all();
+
+    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/"))
+        .withoutHeader("X-Files-Workspace-Id"));
   }
 
   @Test

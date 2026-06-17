@@ -268,6 +268,52 @@ FileAction file = File.move(
 
 ---
 
+## Decrypt a GPG-encrypted file and save it to a destination path
+
+```
+FileAction file = File.gpgDecrypt(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the decrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
+* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
+* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
+## Encrypt a file with GPG and save it to a destination path
+
+```
+FileAction file = File.gpgEncrypt(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the encrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
+* `signing_key_id` (Long): Optional GPG Key ID to sign with.
+* `armor` (Boolean): Output ASCII-armored encrypted data.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
 ## Extract a ZIP file to a destination folder
 
 ```
@@ -456,6 +502,62 @@ file.move(parameters);
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+
+
+---
+
+## Decrypt a GPG-encrypted file and save it to a destination path
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1);
+parameters.put("use_all_private_keys", false);
+parameters.put("ignore_mdc_error", false);
+parameters.put("overwrite", false);
+
+file.gpgDecrypt(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the decrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
+* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
+* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
+## Encrypt a file with GPG and save it to a destination path
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1);
+parameters.put("signing_key_id", 1);
+parameters.put("armor", false);
+parameters.put("overwrite", false);
+
+file.gpgEncrypt(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the encrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
+* `signing_key_id` (Long): Optional GPG Key ID to sign with.
+* `armor` (Boolean): Output ASCII-armored encrypted data.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---

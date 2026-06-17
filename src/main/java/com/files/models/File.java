@@ -810,6 +810,36 @@ public class File implements ModelInterface {
   }
 
   /**
+  * Decrypt a GPG-encrypted file and save it to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the decrypted file.
+  *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+  *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+  *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public FileAction gpgDecrypt(HashMap<String, Object> parameters) throws IOException {
+    return File.gpgDecrypt(this.path, parameters, this.options);
+  }
+
+  /**
+  * Encrypt a file with GPG and save it to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the encrypted file.
+  *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+  *   signing_key_id - int64 - Optional GPG Key ID to sign with.
+  *   armor - boolean - Output ASCII-armored encrypted data.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public FileAction gpgEncrypt(HashMap<String, Object> parameters) throws IOException {
+    return File.gpgEncrypt(this.path, parameters, this.options);
+  }
+
+  /**
   * Extract a ZIP file to a destination folder
   *
   * Parameters:
@@ -1320,6 +1350,146 @@ public class File implements ModelInterface {
 
 
     String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Decrypt a GPG-encrypted file and save it to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the decrypted file.
+  *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+  *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+  *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public static FileAction gpgDecrypt() throws RuntimeException {
+    return gpgDecrypt(null, null, null);
+  }
+
+  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return gpgDecrypt(path, parameters, null);
+  }
+
+  public static FileAction gpgDecrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return gpgDecrypt(null, parameters, options);
+  }
+
+  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("gpg_key_ids") && !(parameters.get("gpg_key_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: gpg_key_ids must be of type Long[] parameters[\"gpg_key_ids\"]");
+    }
+    if (parameters.containsKey("gpg_key_partner_id") && !(parameters.get("gpg_key_partner_id") instanceof Long || parameters.get("gpg_key_partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: gpg_key_partner_id must be of type Long or Integer parameters[\"gpg_key_partner_id\"]");
+    }
+    if (parameters.containsKey("use_all_private_keys") && !(parameters.get("use_all_private_keys") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: use_all_private_keys must be of type Boolean parameters[\"use_all_private_keys\"]");
+    }
+    if (parameters.containsKey("ignore_mdc_error") && !(parameters.get("ignore_mdc_error") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: ignore_mdc_error must be of type Boolean parameters[\"ignore_mdc_error\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
+
+
+
+    String url = String.format("%s%s/file_actions/gpg_decrypt/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Encrypt a file with GPG and save it to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the encrypted file.
+  *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+  *   signing_key_id - int64 - Optional GPG Key ID to sign with.
+  *   armor - boolean - Output ASCII-armored encrypted data.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public static FileAction gpgEncrypt() throws RuntimeException {
+    return gpgEncrypt(null, null, null);
+  }
+
+  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return gpgEncrypt(path, parameters, null);
+  }
+
+  public static FileAction gpgEncrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return gpgEncrypt(null, parameters, options);
+  }
+
+  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("gpg_key_ids") && !(parameters.get("gpg_key_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: gpg_key_ids must be of type Long[] parameters[\"gpg_key_ids\"]");
+    }
+    if (parameters.containsKey("gpg_key_partner_id") && !(parameters.get("gpg_key_partner_id") instanceof Long || parameters.get("gpg_key_partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: gpg_key_partner_id must be of type Long or Integer parameters[\"gpg_key_partner_id\"]");
+    }
+    if (parameters.containsKey("signing_key_id") && !(parameters.get("signing_key_id") instanceof Long || parameters.get("signing_key_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: signing_key_id must be of type Long or Integer parameters[\"signing_key_id\"]");
+    }
+    if (parameters.containsKey("armor") && !(parameters.get("armor") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: armor must be of type Boolean parameters[\"armor\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
+
+
+
+    String url = String.format("%s%s/file_actions/gpg_encrypt/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

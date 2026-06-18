@@ -129,17 +129,17 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Comma-delimited list of usernames who belong to this group (separated by commas).
+  * Username of the user
   */
-  @JsonProperty("usernames")
-  public String usernames;
+  @JsonProperty("username")
+  public String username;
 
-  public String getUsernames() {
-    return usernames;
+  public String getUsername() {
+    return username;
   }
 
-  public void setUsernames(String usernames) {
-    this.usernames = usernames;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   /**

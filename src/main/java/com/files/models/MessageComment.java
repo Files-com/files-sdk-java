@@ -104,13 +104,13 @@ public class MessageComment implements ModelInterface {
   * Reactions to this comment.
   */
   @JsonProperty("reactions")
-  public Object[] reactions;
+  public MessageCommentReaction[] reactions;
 
-  public Object[] getReactions() {
+  public MessageCommentReaction[] getReactions() {
     return reactions;
   }
 
-  public void setReactions(Object[] reactions) {
+  public void setReactions(MessageCommentReaction[] reactions) {
     this.reactions = reactions;
   }
 

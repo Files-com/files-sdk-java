@@ -104,13 +104,13 @@ public class FileComment implements ModelInterface {
   * Reactions to this comment.
   */
   @JsonProperty("reactions")
-  public Object[] reactions;
+  public FileCommentReaction[] reactions;
 
-  public Object[] getReactions() {
+  public FileCommentReaction[] getReactions() {
     return reactions;
   }
 
-  public void setReactions(Object[] reactions) {
+  public void setReactions(FileCommentReaction[] reactions) {
     this.reactions = reactions;
   }
 

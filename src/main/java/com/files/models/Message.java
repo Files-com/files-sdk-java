@@ -118,13 +118,13 @@ public class Message implements ModelInterface {
   * Comments.
   */
   @JsonProperty("comments")
-  public Object[] comments;
+  public MessageComment[] comments;
 
-  public Object[] getComments() {
+  public MessageComment[] getComments() {
     return comments;
   }
 
-  public void setComments(Object[] comments) {
+  public void setComments(MessageComment[] comments) {
     this.comments = comments;
   }
 

@@ -42,7 +42,7 @@
 * `bytes_sent` / `bytesSent`  (int64): Transfer Usage for period - Outbound GB from Files Native Storage
 * `sync_bytes_received` / `syncBytesReceived`  (int64): Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
 * `sync_bytes_sent` / `syncBytesSent`  (int64): Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
-* `usage_by_top_level_dir` / `usageByTopLevelDir`  (array(object)): Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
+* `usage_by_top_level_dir` / `usageByTopLevelDir`  (UsageByTopLevelDir[]): Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
 
 
 ---

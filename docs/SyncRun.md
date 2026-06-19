@@ -64,7 +64,7 @@
 * `sync_id` / `syncId`  (int64): ID of the Sync this run belongs to
 * `sync_name` / `syncName`  (string): Name of the Sync this run belongs to
 * `updated_at` / `updatedAt`  (date-time): When this run was last updated
-* `live_transfers` / `liveTransfers`  (array(object)): Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
+* `live_transfers` / `liveTransfers`  (SyncRunLiveTransfer[]): Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
 
 
 ---

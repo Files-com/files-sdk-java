@@ -118,13 +118,13 @@ public class FormFieldSet implements ModelInterface {
   * Associated form fields
   */
   @JsonProperty("form_fields")
-  public Object[] formFields;
+  public FormField[] formFields;
 
-  public Object[] getFormFields() {
+  public FormField[] getFormFields() {
     return formFields;
   }
 
-  public void setFormFields(Object[] formFields) {
+  public void setFormFields(FormField[] formFields) {
     this.formFields = formFields;
   }
 

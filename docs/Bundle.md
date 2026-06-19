@@ -139,7 +139,7 @@
 * `has_inbox` / `hasInbox`  (boolean): Does this bundle have an associated inbox?
 * `dont_allow_folders_in_uploads` / `dontAllowFoldersInUploads`  (boolean): Should folder uploads be prevented?
 * `paths` / `paths`  (array(string)): A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
-* `bundlepaths` / `bundlepaths`  (array(object)): A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
+* `bundlepaths` / `bundlepaths`  (BundlePath[]): A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
 * `password` / `password`  (string): Password for this bundle.
 * `form_field_set_id` / `formFieldSetId`  (int64): Id of Form Field Set to use with this bundle
 * `create_snapshot` / `createSnapshot`  (boolean): If true, create a snapshot of this bundle's contents.

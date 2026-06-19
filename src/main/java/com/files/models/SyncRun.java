@@ -296,9 +296,9 @@ public class SyncRun implements ModelInterface {
   * Array of in-progress file transfers with progress data. Only present when the sync run status is in_progress.
   */
   @JsonProperty("live_transfers")
-  public Object[] liveTransfers;
+  public SyncRunLiveTransfer[] liveTransfers;
 
-  public Object[] getLiveTransfers() {
+  public SyncRunLiveTransfer[] getLiveTransfers() {
     return liveTransfers;
   }
 

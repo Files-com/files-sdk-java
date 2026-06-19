@@ -701,13 +701,13 @@ public class Bundle implements ModelInterface {
   * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
   @JsonProperty("bundlepaths")
-  public Object[] bundlepaths;
+  public BundlePath[] bundlepaths;
 
-  public Object[] getBundlepaths() {
+  public BundlePath[] getBundlepaths() {
     return bundlepaths;
   }
 
-  public void setBundlepaths(Object[] bundlepaths) {
+  public void setBundlepaths(BundlePath[] bundlepaths) {
     this.bundlepaths = bundlepaths;
   }
 

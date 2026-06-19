@@ -138,9 +138,9 @@ public class Invoice implements ModelInterface {
   * Associated invoice line items
   */
   @JsonProperty("invoice_line_items")
-  public Object[] invoiceLineItems;
+  public InvoiceLineItem[] invoiceLineItems;
 
-  public Object[] getInvoiceLineItems() {
+  public InvoiceLineItem[] getInvoiceLineItems() {
     return invoiceLineItems;
   }
 
@@ -158,9 +158,9 @@ public class Invoice implements ModelInterface {
   * Associated payment line items
   */
   @JsonProperty("payment_line_items")
-  public Object[] paymentLineItems;
+  public PaymentLineItem[] paymentLineItems;
 
-  public Object[] getPaymentLineItems() {
+  public PaymentLineItem[] getPaymentLineItems() {
     return paymentLineItems;
   }
 

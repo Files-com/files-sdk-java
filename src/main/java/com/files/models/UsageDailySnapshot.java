@@ -186,9 +186,9 @@ public class UsageDailySnapshot implements ModelInterface {
   * Usage broken down by each top-level folder
   */
   @JsonProperty("usage_by_top_level_dir")
-  public Object[] usageByTopLevelDir;
+  public UsageByTopLevelDir[] usageByTopLevelDir;
 
-  public Object[] getUsageByTopLevelDir() {
+  public UsageByTopLevelDir[] getUsageByTopLevelDir() {
     return usageByTopLevelDir;
   }
 

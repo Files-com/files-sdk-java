@@ -116,9 +116,9 @@ public class Status implements ModelInterface {
   * A list of api errors
   */
   @JsonProperty("errors")
-  public Object[] errors;
+  public Errors[] errors;
 
-  public Object[] getErrors() {
+  public Errors[] getErrors() {
     return errors;
   }
 

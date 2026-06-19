@@ -216,9 +216,9 @@ public class UsageSnapshot implements ModelInterface {
   * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("usage_by_top_level_dir")
-  public Object[] usageByTopLevelDir;
+  public UsageByTopLevelDir[] usageByTopLevelDir;
 
-  public Object[] getUsageByTopLevelDir() {
+  public UsageByTopLevelDir[] getUsageByTopLevelDir() {
     return usageByTopLevelDir;
   }
 

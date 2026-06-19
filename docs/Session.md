@@ -11,7 +11,7 @@
 }
 ```
 
-* `id` / `id`  (String): Session ID
+* `id` / `id`  (string): Session ID
 * `language` / `language`  (string): Session language
 * `read_only` / `readOnly`  (boolean): Is this session read only?
 * `sftp_insecure_ciphers` / `sftpInsecureCiphers`  (boolean): Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)

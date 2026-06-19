@@ -132,13 +132,13 @@ public class ShareGroup implements ModelInterface {
   * A list of share group members
   */
   @JsonProperty("members")
-  public Object[] members;
+  public ShareGroupMember[] members;
 
-  public Object[] getMembers() {
+  public ShareGroupMember[] getMembers() {
     return members;
   }
 
-  public void setMembers(Object[] members) {
+  public void setMembers(ShareGroupMember[] members) {
     this.members = members;
   }
 

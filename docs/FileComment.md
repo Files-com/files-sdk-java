@@ -17,7 +17,7 @@
 
 * `id` / `id`  (int64): File Comment ID
 * `body` / `body`  (string): Comment body.
-* `reactions` / `reactions`  (array(object)): Reactions to this comment.
+* `reactions` / `reactions`  (FileCommentReaction[]): Reactions to this comment.
 * `path` / `path`  (string): File path.
 
 

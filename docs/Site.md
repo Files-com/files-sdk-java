@@ -81,6 +81,7 @@
   "desktop_app_session_lifetime": 1,
   "legacy_checksums_mode": true,
   "migrate_remote_server_sync_to_sync": true,
+  "mcp_dcr_enabled": true,
   "mobile_app": true,
   "mobile_app_session_ip_pinning": true,
   "mobile_app_session_lifetime": 1,
@@ -411,6 +412,7 @@
 * `desktop_app_session_lifetime` / `desktopAppSessionLifetime`  (int64): Desktop app session lifetime (in hours)
 * `legacy_checksums_mode` / `legacyChecksumsMode`  (boolean): Use legacy checksums mode?
 * `migrate_remote_server_sync_to_sync` / `migrateRemoteServerSyncToSync`  (boolean): If true, we will migrate all remote server syncs to the new Sync model.
+* `mcp_dcr_enabled` / `mcpDcrEnabled`  (boolean): Is OAuth DCR (dynamic client registration) for MCP enabled?
 * `mobile_app` / `mobileApp`  (boolean): Is the mobile app enabled?
 * `mobile_app_session_ip_pinning` / `mobileAppSessionIpPinning`  (boolean): Is mobile app session IP pinning enabled?
 * `mobile_app_session_lifetime` / `mobileAppSessionLifetime`  (int64): Mobile app session lifetime (in hours)
@@ -616,6 +618,7 @@ Site site = Site.update(
 * `left_navigation_visibility` (Object): Visibility settings for account navigation
 * `disable_all_ai_features` (Boolean): If true, all AI features are disabled for this site.
 * `ai_feature_availability` (Object): Availability settings for AI features by user class
+* `mcp_dcr_enabled` (Boolean): Is OAuth DCR (dynamic client registration) for MCP enabled?
 * `additional_text_file_types` (String[]): Additional extensions that are considered text files
 * `bundle_require_note` (Boolean): Do Bundles require internal notes?
 * `bundle_send_shared_receipts` (Boolean): Do Bundle creators receive receipts of invitations?

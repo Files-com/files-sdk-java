@@ -683,6 +683,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Is OAuth DCR (dynamic client registration) for MCP enabled?
+  */
+  @JsonProperty("mcp_dcr_enabled")
+  public Boolean mcpDcrEnabled;
+
+  public Boolean getMcpDcrEnabled() {
+    return mcpDcrEnabled;
+  }
+
+  /**
   * Is the mobile app enabled?
   */
   @JsonProperty("mobile_app")
@@ -2044,6 +2054,7 @@ public class Site implements ModelInterface {
   *   left_navigation_visibility - object - Visibility settings for account navigation
   *   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
   *   ai_feature_availability - object - Availability settings for AI features by user class
+  *   mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
   *   bundle_send_shared_receipts - boolean - Do Bundle creators receive receipts of invitations?
@@ -2313,6 +2324,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("ai_feature_availability") && !(parameters.get("ai_feature_availability") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: ai_feature_availability must be of type Object parameters[\"ai_feature_availability\"]");
+    }
+    if (parameters.containsKey("mcp_dcr_enabled") && !(parameters.get("mcp_dcr_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: mcp_dcr_enabled must be of type Boolean parameters[\"mcp_dcr_enabled\"]");
     }
     if (parameters.containsKey("additional_text_file_types") && !(parameters.get("additional_text_file_types") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: additional_text_file_types must be of type String[] parameters[\"additional_text_file_types\"]");

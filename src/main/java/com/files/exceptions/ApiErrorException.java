@@ -559,6 +559,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class BillingInformationHiddenException extends NotAuthorizedException {
+    public BillingInformationHiddenException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class BillingPermissionRequiredException extends NotAuthorizedException {
     public BillingPermissionRequiredException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

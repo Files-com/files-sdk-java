@@ -4,7 +4,7 @@
 
 ```
 {
-  "id": 1,
+  "id": "example",
   "user_id": 1,
   "workspace_id": 1,
   "last_active_at": "2000-01-01T01:00:00Z",
@@ -20,7 +20,7 @@
 }
 ```
 
-* `id` / `id`  (int64): Chat Session ID.
+* `id` / `id`  (string): Chat Session ID.
 * `user_id` / `userId`  (int64): User ID.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
 * `last_active_at` / `lastActiveAt`  (date-time): Most recent chat activity date/time.
@@ -52,7 +52,7 @@ ListIterator<ChatSession> chatSession = ChatSession.list(
 
 ```
 ChatSession chatSession = ChatSession.find(
-    Long id, 
+    String id, 
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
@@ -60,4 +60,4 @@ ChatSession chatSession = ChatSession.find(
 
 ### Parameters
 
-* `id` (Long): Required - Chat Session ID.
+* `id` (String): Required - Chat Session ID.

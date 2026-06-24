@@ -76,9 +76,9 @@ public class ChatSession implements ModelInterface {
   * Chat Session ID.
   */
   @JsonProperty("id")
-  public Long id;
+  public String id;
 
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -177,13 +177,13 @@ public class ChatSession implements ModelInterface {
 
   /**
   * Parameters:
-  *   id (required) - int64 - Chat Session ID.
+  *   id (required) - string - Chat Session ID.
   */
   public static ChatSession find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static ChatSession find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static ChatSession find(String id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
@@ -191,12 +191,12 @@ public class ChatSession implements ModelInterface {
     return find(null, parameters, options);
   }
 
-  public static ChatSession find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ChatSession find(String id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
     if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
+      id = (String) parameters.get("id");
     }
 
 
@@ -204,13 +204,13 @@ public class ChatSession implements ModelInterface {
       throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
     }
 
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    if (!(id instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type String parameters[\"id\"]");
     }
 
 
 
-    String url = String.format("%s%s/chat_sessions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/chat_sessions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(id));
 
     TypeReference<ChatSession> typeReference = new TypeReference<ChatSession>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -220,7 +220,7 @@ public class ChatSession implements ModelInterface {
     return get(null, null, null);
   }
 
-  public static ChatSession get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ChatSession get(String id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 

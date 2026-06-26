@@ -268,6 +268,29 @@ FileAction file = File.move(
 
 ---
 
+## Transform a file and save the output to a destination path
+
+```
+FileAction file = File.transform(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the transformed output.
+* `transform_type` (String): Required - Transform type. Supported values are `image_convert` and `document_convert`.
+* `target_format` (String): Required - Destination format to create.
+* `width` (Long): Maximum output width for image_convert.
+* `height` (Long): Maximum output height for image_convert.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
 ## Decrypt a GPG-encrypted file and save it to a destination path
 
 ```
@@ -502,6 +525,35 @@ file.move(parameters);
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Move destination path.
 * `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+
+
+---
+
+## Transform a file and save the output to a destination path
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("transform_type", "transform_type");
+parameters.put("target_format", "target_format");
+parameters.put("width", 1);
+parameters.put("height", 1);
+parameters.put("overwrite", false);
+
+file.transform(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the transformed output.
+* `transform_type` (String): Required - Transform type. Supported values are `image_convert` and `document_convert`.
+* `target_format` (String): Required - Destination format to create.
+* `width` (Long): Maximum output width for image_convert.
+* `height` (Long): Maximum output height for image_convert.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---

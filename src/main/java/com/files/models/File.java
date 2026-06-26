@@ -810,6 +810,21 @@ public class File implements ModelInterface {
   }
 
   /**
+  * Transform a file and save the output to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the transformed output.
+  *   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+  *   target_format (required) - string - Destination format to create.
+  *   width - int64 - Maximum output width for image_convert.
+  *   height - int64 - Maximum output height for image_convert.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public FileAction transform(HashMap<String, Object> parameters) throws IOException {
+    return File.transform(this.path, parameters, this.options);
+  }
+
+  /**
   * Decrypt a GPG-encrypted file and save it to a destination path
   *
   * Parameters:
@@ -1350,6 +1365,82 @@ public class File implements ModelInterface {
 
 
     String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Transform a file and save the output to a destination path
+  *
+  * Parameters:
+  *   destination (required) - string - Destination file path for the transformed output.
+  *   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+  *   target_format (required) - string - Destination format to create.
+  *   width - int64 - Maximum output width for image_convert.
+  *   height - int64 - Maximum output height for image_convert.
+  *   overwrite - boolean - Overwrite existing file in the destination?
+  */
+  public static FileAction transform() throws RuntimeException {
+    return transform(null, null, null);
+  }
+
+  public static FileAction transform(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return transform(path, parameters, null);
+  }
+
+  public static FileAction transform(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return transform(null, parameters, options);
+  }
+
+  public static FileAction transform(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
+      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
+    }
+    if (!parameters.containsKey("transform_type") || parameters.get("transform_type") == null) {
+      throw new NullPointerException("Parameter missing: transform_type parameters[\"transform_type\"]");
+    }
+    if (!parameters.containsKey("target_format") || parameters.get("target_format") == null) {
+      throw new NullPointerException("Parameter missing: target_format parameters[\"target_format\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+    if (parameters.containsKey("transform_type") && !(parameters.get("transform_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: transform_type must be of type String parameters[\"transform_type\"]");
+    }
+    if (parameters.containsKey("target_format") && !(parameters.get("target_format") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: target_format must be of type String parameters[\"target_format\"]");
+    }
+    if (parameters.containsKey("width") && !(parameters.get("width") instanceof Long || parameters.get("width") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: width must be of type Long or Integer parameters[\"width\"]");
+    }
+    if (parameters.containsKey("height") && !(parameters.get("height") instanceof Long || parameters.get("height") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: height must be of type Long or Integer parameters[\"height\"]");
+    }
+    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
+    }
+
+
+
+    String url = String.format("%s%s/file_actions/transform/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

@@ -460,6 +460,20 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * Internal name for identifying this Share Link.
+  */
+  @JsonProperty("internal_name")
+  public String internalName;
+
+  public String getInternalName() {
+    return internalName;
+  }
+
+  public void setInternalName(String internalName) {
+    this.internalName = internalName;
+  }
+
+  /**
   * Bundle internal note
   */
   @JsonProperty("note")
@@ -823,6 +837,7 @@ public class Bundle implements ModelInterface {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+  *   internal_name - string - Internal name for identifying this Share Link.
   *   note - string - Bundle internal note
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -1003,6 +1018,7 @@ public class Bundle implements ModelInterface {
   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+  *   internal_name - string - Internal name for identifying this Share Link.
   *   description - string - Public description
   *   note - string - Bundle internal note
   *   code - string - Bundle code.  This code forms the end part of the Public URL.
@@ -1073,6 +1089,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
+    }
+    if (parameters.containsKey("internal_name") && !(parameters.get("internal_name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: internal_name must be of type String parameters[\"internal_name\"]");
     }
     if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
@@ -1210,6 +1229,7 @@ public class Bundle implements ModelInterface {
   *   inbox_id - int64 - ID of the associated inbox, if available.
   *   max_uses - int64 - Maximum number of times bundle can be accessed
   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+  *   internal_name - string - Internal name for identifying this Share Link.
   *   note - string - Bundle internal note
   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
@@ -1296,6 +1316,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
+    }
+    if (parameters.containsKey("internal_name") && !(parameters.get("internal_name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: internal_name must be of type String parameters[\"internal_name\"]");
     }
     if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");

@@ -919,6 +919,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class AiTaskCannotBeRunManuallyException extends ProcessingFailureException {
+    public AiTaskCannotBeRunManuallyException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class AlreadyCompletedException extends ProcessingFailureException {
     public AlreadyCompletedException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

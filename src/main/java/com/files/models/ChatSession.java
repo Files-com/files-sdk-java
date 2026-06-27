@@ -93,6 +93,16 @@ public class ChatSession implements ModelInterface {
   }
 
   /**
+  * AI Task ID. Present when the conversation was started by an AI Task.
+  */
+  @JsonProperty("ai_task_id")
+  public Long aiTaskId;
+
+  public Long getAiTaskId() {
+    return aiTaskId;
+  }
+
+  /**
   * Workspace ID. `0` means the default workspace.
   */
   @JsonProperty("workspace_id")
@@ -137,6 +147,7 @@ public class ChatSession implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`.
   */
   public static ListIterator<ChatSession> list() throws RuntimeException {
     return list(null, null);
@@ -158,6 +169,9 @@ public class ChatSession implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
 
 

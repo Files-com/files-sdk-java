@@ -171,6 +171,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
+  */
+  @JsonProperty("ai_assistant_personality_id")
+  public Long aiAssistantPersonalityId;
+
+  public Long getAiAssistantPersonalityId() {
+    return aiAssistantPersonalityId;
+  }
+
+  public void setAiAssistantPersonalityId(Long aiAssistantPersonalityId) {
+    this.aiAssistantPersonalityId = aiAssistantPersonalityId;
+  }
+
+  /**
   * ID of the Workspace associated with this Partner.
   */
   @JsonProperty("workspace_id")
@@ -312,6 +326,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -445,6 +460,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -480,6 +496,9 @@ public class Partner implements ModelInterface {
       throw new NullPointerException("Parameter missing: root_folder parameters[\"root_folder\"]");
     }
 
+    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
+    }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
     }
@@ -530,6 +549,7 @@ public class Partner implements ModelInterface {
 
   /**
   * Parameters:
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
@@ -570,6 +590,9 @@ public class Partner implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
     }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");

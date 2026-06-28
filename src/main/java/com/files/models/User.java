@@ -307,6 +307,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * AI Assistant Personality ID assigned directly to this user, if any.
+  */
+  @JsonProperty("ai_assistant_personality_id")
+  public Long aiAssistantPersonalityId;
+
+  public Long getAiAssistantPersonalityId() {
+    return aiAssistantPersonalityId;
+  }
+
+  public void setAiAssistantPersonalityId(Long aiAssistantPersonalityId) {
+    this.aiAssistantPersonalityId = aiAssistantPersonalityId;
+  }
+
+  /**
   * Desktop Configuration Profile ID assigned directly to this user, if any.
   */
   @JsonProperty("desktop_configuration_profile_id")
@@ -1447,6 +1461,7 @@ public class User implements ModelInterface {
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -1668,6 +1683,7 @@ public class User implements ModelInterface {
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -1774,6 +1790,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("announcements_read") && !(parameters.get("announcements_read") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: announcements_read must be of type Boolean parameters[\"announcements_read\"]");
+    }
+    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
     }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
@@ -2074,6 +2093,7 @@ public class User implements ModelInterface {
   *   password - string - User password.
   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
@@ -2192,6 +2212,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("announcements_read") && !(parameters.get("announcements_read") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: announcements_read must be of type Boolean parameters[\"announcements_read\"]");
+    }
+    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
     }
     if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");

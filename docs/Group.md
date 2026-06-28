@@ -11,6 +11,7 @@
   "notes": "example",
   "user_ids": "1",
   "usernames": "user",
+  "ai_assistant_personality_id": 1,
   "ftp_permission": true,
   "sftp_permission": true,
   "dav_permission": true,
@@ -28,6 +29,7 @@
 * `notes` / `notes`  (string): Notes about this group
 * `user_ids` / `userIds`  (string): Comma-delimited list of user IDs who belong to this group (separated by commas)
 * `usernames` / `usernames`  (string): Comma-delimited list of usernames who belong to this group (separated by commas)
+* `ai_assistant_personality_id` / `aiAssistantPersonalityId`  (int64): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 * `ftp_permission` / `ftpPermission`  (boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` / `sftpPermission`  (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` / `davPermission`  (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -94,6 +96,7 @@ Group group = Group.create(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -122,6 +125,7 @@ Group group = Group.update(
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
@@ -159,6 +163,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
+parameters.put("ai_assistant_personality_id", 1);
 parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
@@ -176,6 +181,7 @@ group.update(parameters);
 * `notes` (String): Group notes.
 * `user_ids` (String): A list of user ids. If sent as a string, should be comma-delimited.
 * `admin_ids` (String): A list of group admin user ids. If sent as a string, should be comma-delimited.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
 * `ftp_permission` (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.

@@ -23,6 +23,7 @@
   "dav_permission": true,
   "disabled": true,
   "disabled_expired_or_inactive": true,
+  "ai_assistant_personality_id": 1,
   "desktop_configuration_profile_id": 1,
   "email": "john.doe@files.com",
   "filesystem_layout": "site_root",
@@ -110,6 +111,7 @@
 * `dav_permission` / `davPermission`  (boolean): Can the user connect with WebDAV?
 * `disabled` / `disabled`  (boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `disabled_expired_or_inactive` / `disabledExpiredOrInactive`  (boolean): Computed property that returns true if user disabled or expired or inactive.
+* `ai_assistant_personality_id` / `aiAssistantPersonalityId`  (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
 * `email` / `email`  (email): User email address
 * `filesystem_layout` / `filesystemLayout`  (string): File system layout
@@ -262,6 +264,7 @@ User user = User.create(
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
@@ -394,6 +397,7 @@ User user = User.update(
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
@@ -532,6 +536,7 @@ parameters.put("email", "john.doe@files.com");
 parameters.put("group_id", 1);
 parameters.put("group_ids", "example");
 parameters.put("announcements_read", false);
+parameters.put("ai_assistant_personality_id", 1);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("attachments_permission", true);
 parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
@@ -605,6 +610,7 @@ user.update(parameters);
 * `password` (String): User password.
 * `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned directly to this user, if any.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
 * `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated

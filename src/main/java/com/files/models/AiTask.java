@@ -143,6 +143,20 @@ public class AiTask implements ModelInterface {
   }
 
   /**
+  * Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
+  */
+  @JsonProperty("permission_set")
+  public String permissionSet;
+
+  public String getPermissionSet() {
+    return permissionSet;
+  }
+
+  public void setPermissionSet(String permissionSet) {
+    this.permissionSet = permissionSet;
+  }
+
+  /**
   * Path scope used for action-triggered AI Tasks. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
   */
   @JsonProperty("path")
@@ -373,6 +387,7 @@ public class AiTask implements ModelInterface {
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
+  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -509,6 +524,7 @@ public class AiTask implements ModelInterface {
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name (required) - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
+  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -557,6 +573,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
     if (parameters.containsKey("prompt") && !(parameters.get("prompt") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: prompt must be of type String parameters[\"prompt\"]");
@@ -642,6 +661,7 @@ public class AiTask implements ModelInterface {
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
+  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
@@ -697,6 +717,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
     }
     if (parameters.containsKey("prompt") && !(parameters.get("prompt") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: prompt must be of type String parameters[\"prompt\"]");

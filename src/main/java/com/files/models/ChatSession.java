@@ -147,7 +147,8 @@ public class ChatSession implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id` and `workspace_id`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`, `user_id` or `workspace_id`. Valid field combinations are `[ workspace_id, ai_task_id ]` and `[ workspace_id, user_id ]`.
   */
   public static ListIterator<ChatSession> list() throws RuntimeException {
     return list(null, null);
@@ -169,6 +170,9 @@ public class ChatSession implements ModelInterface {
     }
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
     }
     if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");

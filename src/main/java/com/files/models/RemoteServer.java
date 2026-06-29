@@ -955,6 +955,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Files.com direct link: paired API key prefix.
+  */
+  @JsonProperty("files_api_key_prefix")
+  public String filesApiKeyPrefix;
+
+  public String getFilesApiKeyPrefix() {
+    return filesApiKeyPrefix;
+  }
+
+  public void setFilesApiKeyPrefix(String filesApiKeyPrefix) {
+    this.filesApiKeyPrefix = filesApiKeyPrefix;
+  }
+
+  /**
   * Cloudflare: Bucket name
   */
   @JsonProperty("cloudflare_bucket")
@@ -1333,6 +1347,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Files.com direct link: API key used once to pair the remote server.
+  */
+  @JsonProperty("files_api_key")
+  public String filesApiKey;
+
+  public String getFilesApiKey() {
+    return filesApiKey;
+  }
+
+  public void setFilesApiKey(String filesApiKey) {
+    this.filesApiKey = filesApiKey;
+  }
+
+  /**
   * Push update to Files Agent
   */
   public AgentPushUpdate agentPushUpdate(HashMap<String, Object> parameters) throws IOException {
@@ -1400,6 +1428,7 @@ public class RemoteServer implements ModelInterface {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
   *   filebase_bucket - string - Filebase: Bucket name
+  *   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
@@ -1643,6 +1672,7 @@ public class RemoteServer implements ModelInterface {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
   *   filebase_bucket - string - Filebase: Bucket name
+  *   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
@@ -1813,6 +1843,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
+    }
+    if (parameters.containsKey("files_api_key") && !(parameters.get("files_api_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: files_api_key must be of type String parameters[\"files_api_key\"]");
     }
     if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");
@@ -2106,6 +2139,7 @@ public class RemoteServer implements ModelInterface {
   *   enable_dedicated_ips - boolean - `true` if remote server only accepts connections from dedicated IPs
   *   filebase_access_key - string - Filebase: Access Key.
   *   filebase_bucket - string - Filebase: Bucket name
+  *   files_api_key - string - Files.com direct link: API key used once to pair the remote server.
   *   files_agent_permission_set - string - Local permissions for files agent. read_only, write_only, or read_write
   *   files_agent_root - string - Agent local root path
   *   files_agent_version - string - Files Agent version
@@ -2288,6 +2322,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("filebase_bucket") && !(parameters.get("filebase_bucket") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: filebase_bucket must be of type String parameters[\"filebase_bucket\"]");
+    }
+    if (parameters.containsKey("files_api_key") && !(parameters.get("files_api_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: files_api_key must be of type String parameters[\"files_api_key\"]");
     }
     if (parameters.containsKey("files_agent_permission_set") && !(parameters.get("files_agent_permission_set") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: files_agent_permission_set must be of type String parameters[\"files_agent_permission_set\"]");

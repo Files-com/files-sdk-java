@@ -67,6 +67,7 @@
   "outbound_agent_id": 1,
   "filebase_bucket": "my-bucket",
   "filebase_access_key": "example",
+  "files_api_key_prefix": "example",
   "cloudflare_bucket": "my-bucket",
   "cloudflare_access_key": "example",
   "cloudflare_endpoint": "https://<ACCOUNT_ID>.r2.cloudflarestorage.com",
@@ -141,6 +142,7 @@
 * `outbound_agent_id` / `outboundAgentId`  (int64): Route traffic to outbound on a files-agent
 * `filebase_bucket` / `filebaseBucket`  (string): Filebase: Bucket name
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase: Access Key.
+* `files_api_key_prefix` / `filesApiKeyPrefix`  (string): Files.com direct link: paired API key prefix.
 * `cloudflare_bucket` / `cloudflareBucket`  (string): Cloudflare: Bucket name
 * `cloudflare_access_key` / `cloudflareAccessKey`  (string): Cloudflare: Access Key.
 * `cloudflare_endpoint` / `cloudflareEndpoint`  (string): Cloudflare: endpoint
@@ -168,6 +170,7 @@
 * `linode_secret_key` / `linodeSecretKey`  (string): Linode: Secret Key
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible: Secret Key
 * `wasabi_secret_key` / `wasabiSecretKey`  (string): Wasabi: Secret Key
+* `files_api_key` / `filesApiKey`  (string): Files.com direct link: API key used once to pair the remote server.
 
 
 ---
@@ -278,6 +281,7 @@ RemoteServer remoteServer = RemoteServer.create(
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.
 * `filebase_bucket` (String): Filebase: Bucket name
+* `files_api_key` (String): Files.com direct link: API key used once to pair the remote server.
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version
@@ -417,6 +421,7 @@ RemoteServer remoteServer = RemoteServer.update(
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.
 * `filebase_bucket` (String): Filebase: Bucket name
+* `files_api_key` (String): Files.com direct link: API key used once to pair the remote server.
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version
@@ -641,6 +646,7 @@ remoteServer.update(parameters);
 * `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
 * `filebase_access_key` (String): Filebase: Access Key.
 * `filebase_bucket` (String): Filebase: Bucket name
+* `files_api_key` (String): Files.com direct link: API key used once to pair the remote server.
 * `files_agent_permission_set` (String): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` (String): Agent local root path
 * `files_agent_version` (String): Files Agent version

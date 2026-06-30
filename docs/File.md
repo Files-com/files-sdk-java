@@ -282,8 +282,9 @@ FileAction file = File.transform(
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Destination file path for the transformed output.
-* `transform_type` (String): Required - Transform type. Supported values are `image_convert` and `document_convert`.
+* `transform_type` (String): Required - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
 * `target_format` (String): Required - Destination format to create.
+* `script` (String): Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
 * `width` (Long): Maximum output width for image_convert.
 * `height` (Long): Maximum output height for image_convert.
 * `overwrite` (Boolean): Overwrite existing file in the destination?
@@ -549,8 +550,9 @@ file.transform(parameters);
 
 * `path` (String): Required - Path to operate on.
 * `destination` (String): Required - Destination file path for the transformed output.
-* `transform_type` (String): Required - Transform type. Supported values are `image_convert` and `document_convert`.
+* `transform_type` (String): Required - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
 * `target_format` (String): Required - Destination format to create.
+* `script` (String): Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
 * `width` (Long): Maximum output width for image_convert.
 * `height` (Long): Maximum output height for image_convert.
 * `overwrite` (Boolean): Overwrite existing file in the destination?

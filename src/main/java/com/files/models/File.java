@@ -814,8 +814,9 @@ public class File implements ModelInterface {
   *
   * Parameters:
   *   destination (required) - string - Destination file path for the transformed output.
-  *   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+  *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
   *   target_format (required) - string - Destination format to create.
+  *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
   *   width - int64 - Maximum output width for image_convert.
   *   height - int64 - Maximum output height for image_convert.
   *   overwrite - boolean - Overwrite existing file in the destination?
@@ -1376,8 +1377,9 @@ public class File implements ModelInterface {
   *
   * Parameters:
   *   destination (required) - string - Destination file path for the transformed output.
-  *   transform_type (required) - string - Transform type. Supported values are `image_convert` and `document_convert`.
+  *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
   *   target_format (required) - string - Destination format to create.
+  *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
   *   width - int64 - Maximum output width for image_convert.
   *   height - int64 - Maximum output height for image_convert.
   *   overwrite - boolean - Overwrite existing file in the destination?
@@ -1427,6 +1429,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("target_format") && !(parameters.get("target_format") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: target_format must be of type String parameters[\"target_format\"]");
+    }
+    if (parameters.containsKey("script") && !(parameters.get("script") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: script must be of type String parameters[\"script\"]");
     }
     if (parameters.containsKey("width") && !(parameters.get("width") instanceof Long || parameters.get("width") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: width must be of type Long or Integer parameters[\"width\"]");

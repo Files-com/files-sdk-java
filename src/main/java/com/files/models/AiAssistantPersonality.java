@@ -101,6 +101,20 @@ public class AiAssistantPersonality implements ModelInterface {
   }
 
   /**
+  * AI Assistant Personality name.
+  */
+  @JsonProperty("name")
+  public String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
   * System prompt injected into the in-app AI Assistant.
   */
   @JsonProperty("system_prompt")
@@ -165,6 +179,7 @@ public class AiAssistantPersonality implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+  *   name - string - AI Assistant Personality name.
   *   system_prompt - string - System prompt injected into the in-app AI Assistant.
   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -290,6 +305,7 @@ public class AiAssistantPersonality implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+  *   name (required) - string - AI Assistant Personality name.
   *   system_prompt (required) - string - System prompt injected into the in-app AI Assistant.
   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -308,12 +324,18 @@ public class AiAssistantPersonality implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
     if (!parameters.containsKey("system_prompt") || parameters.get("system_prompt") == null) {
       throw new NullPointerException("Parameter missing: system_prompt parameters[\"system_prompt\"]");
     }
 
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
     if (parameters.containsKey("system_prompt") && !(parameters.get("system_prompt") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: system_prompt must be of type String parameters[\"system_prompt\"]");
@@ -336,6 +358,7 @@ public class AiAssistantPersonality implements ModelInterface {
   /**
   * Parameters:
   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
+  *   name - string - AI Assistant Personality name.
   *   system_prompt - string - System prompt injected into the in-app AI Assistant.
   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
@@ -370,6 +393,9 @@ public class AiAssistantPersonality implements ModelInterface {
     }
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
     if (parameters.containsKey("system_prompt") && !(parameters.get("system_prompt") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: system_prompt must be of type String parameters[\"system_prompt\"]");

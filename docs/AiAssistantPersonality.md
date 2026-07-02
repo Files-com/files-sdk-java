@@ -6,6 +6,7 @@
 {
   "id": 1,
   "workspace_id": 1,
+  "name": "Concise Assistant",
   "system_prompt": "Respond as a concise operations assistant.",
   "use_by_default": true,
   "apply_to_all_workspaces": true,
@@ -16,6 +17,7 @@
 
 * `id` / `id`  (int64): AI Assistant Personality ID.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
+* `name` / `name`  (string): AI Assistant Personality name.
 * `system_prompt` / `systemPrompt`  (string): System prompt injected into the in-app AI Assistant.
 * `use_by_default` / `useByDefault`  (boolean): Whether this personality is the default personality for the Workspace.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, this default-workspace personality can apply to users in all workspaces.
@@ -75,6 +77,7 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.create(
 ### Parameters
 
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (String): Required - AI Assistant Personality name.
 * `system_prompt` (String): Required - System prompt injected into the in-app AI Assistant.
 * `use_by_default` (Boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
@@ -96,6 +99,7 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.update(
 
 * `id` (Long): Required - Ai Assistant Personality ID.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (String): AI Assistant Personality name.
 * `system_prompt` (String): System prompt injected into the in-app AI Assistant.
 * `use_by_default` (Boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
@@ -127,6 +131,7 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("apply_to_all_workspaces", false);
+parameters.put("name", "Concise Assistant");
 parameters.put("system_prompt", "Respond as a concise operations assistant.");
 parameters.put("use_by_default", false);
 parameters.put("workspace_id", 0);
@@ -138,6 +143,7 @@ aiAssistantPersonality.update(parameters);
 
 * `id` (Long): Required - Ai Assistant Personality ID.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace personality can apply to users in all workspaces.
+* `name` (String): AI Assistant Personality name.
 * `system_prompt` (String): System prompt injected into the in-app AI Assistant.
 * `use_by_default` (Boolean): Whether this personality is the default personality for the Workspace.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.

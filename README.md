@@ -626,6 +626,7 @@ RuntimeException
 |`InvalidOauthProviderException`|  `BadRequestException` |
 |`InvalidPathException`|  `BadRequestException` |
 |`InvalidReturnToUrlException`|  `BadRequestException` |
+|`InvalidSearchQueryException`|  `BadRequestException` |
 |`InvalidSortFieldException`|  `BadRequestException` |
 |`InvalidSortFilterCombinationException`|  `BadRequestException` |
 |`InvalidUploadOffsetException`|  `BadRequestException` |

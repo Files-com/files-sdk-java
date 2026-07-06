@@ -277,6 +277,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class InvalidSearchQueryException extends BadRequestException {
+    public InvalidSearchQueryException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class InvalidSortFieldException extends BadRequestException {
     public InvalidSortFieldException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

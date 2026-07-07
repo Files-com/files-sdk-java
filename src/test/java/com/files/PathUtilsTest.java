@@ -25,4 +25,12 @@ public class PathUtilsTest {
       assertEquals(PathUtils.normalize_for_comparison(rawText), normalizedText);
     }
   }
+
+  @Test
+  public void validateNormalizePreservesPathIdentity() {
+    assertEquals("remote/path/to/file.txt", PathUtils.normalize("/../../remote\\path//./to/file.txt"));
+    assertEquals("remote/path/to/file.txt", PathUtils.normalize("remote/../path/to/file.txt"));
+    assertEquals("_/RemoteServers/42/remote/path/to/file.txt",
+        PathUtils.normalize("_/RemoteServers/42/" + "/../../remote\\path//./to/file.txt"));
+  }
 }

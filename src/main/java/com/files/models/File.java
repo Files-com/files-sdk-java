@@ -19,6 +19,7 @@ import com.files.ListIterator;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
+import com.files.util.PathUtils;
 import com.files.util.UrlUtils;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -99,6 +100,190 @@ public class File implements ModelInterface {
     String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+  private static String underscoreDestinationPath(String root, Long id, String relativePath) {
+    return PathUtils.normalize("_/" + root + "/" + id.toString() + "/" + (relativePath == null ? "" : relativePath));
+  }
+
+  public static FileUploadPart uploadToRemoteServer(Long remoteServerId, String destinationPath) throws RuntimeException {
+    return uploadToRemoteServer(remoteServerId, destinationPath, null, null);
+  }
+
+  public static FileUploadPart uploadToRemoteServer(Long remoteServerId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return uploadToRemoteServer(remoteServerId, destinationPath, parameters, null);
+  }
+
+  public static FileUploadPart uploadToRemoteServer(Long remoteServerId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return create(underscoreDestinationPath("RemoteServers", remoteServerId, destinationPath), parameters, options);
+  }
+
+  public static FileAction copyToRemoteServer(String path, Long remoteServerId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return copyToRemoteServer(path, remoteServerId, destinationPath, parameters, null);
+  }
+
+  public static FileAction copyToRemoteServer(String path, Long remoteServerId, String destinationPath) throws RuntimeException {
+    return copyToRemoteServer(path, remoteServerId, destinationPath, null, null);
+  }
+
+  public static FileAction copyToRemoteServer(String path, Long remoteServerId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("RemoteServers", remoteServerId, destinationPath));
+    return copy(path, parameters, options);
+  }
+
+  public static FileAction moveToRemoteServer(String path, Long remoteServerId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return moveToRemoteServer(path, remoteServerId, destinationPath, parameters, null);
+  }
+
+  public static FileAction moveToRemoteServer(String path, Long remoteServerId, String destinationPath) throws RuntimeException {
+    return moveToRemoteServer(path, remoteServerId, destinationPath, null, null);
+  }
+
+  public static FileAction moveToRemoteServer(String path, Long remoteServerId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("RemoteServers", remoteServerId, destinationPath));
+    return move(path, parameters, options);
+  }
+
+  public FileAction copyToRemoteServer(Long remoteServerId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("RemoteServers", remoteServerId, destinationPath));
+    return copy(parameters);
+  }
+
+  public FileAction copyToRemoteServer(Long remoteServerId, String destinationPath) throws IOException {
+    return copyToRemoteServer(remoteServerId, destinationPath, null);
+  }
+
+  public FileAction moveToRemoteServer(Long remoteServerId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("RemoteServers", remoteServerId, destinationPath));
+    return move(parameters);
+  }
+
+  public FileAction moveToRemoteServer(Long remoteServerId, String destinationPath) throws IOException {
+    return moveToRemoteServer(remoteServerId, destinationPath, null);
+  }
+
+  public static FileUploadPart uploadToSnapshot(Long snapshotId, String destinationPath) throws RuntimeException {
+    return uploadToSnapshot(snapshotId, destinationPath, null, null);
+  }
+
+  public static FileUploadPart uploadToSnapshot(Long snapshotId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return uploadToSnapshot(snapshotId, destinationPath, parameters, null);
+  }
+
+  public static FileUploadPart uploadToSnapshot(Long snapshotId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return create(underscoreDestinationPath("Snapshots", snapshotId, destinationPath), parameters, options);
+  }
+
+  public static FileAction copyToSnapshot(String path, Long snapshotId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return copyToSnapshot(path, snapshotId, destinationPath, parameters, null);
+  }
+
+  public static FileAction copyToSnapshot(String path, Long snapshotId, String destinationPath) throws RuntimeException {
+    return copyToSnapshot(path, snapshotId, destinationPath, null, null);
+  }
+
+  public static FileAction copyToSnapshot(String path, Long snapshotId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Snapshots", snapshotId, destinationPath));
+    return copy(path, parameters, options);
+  }
+
+  public static FileAction moveToSnapshot(String path, Long snapshotId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return moveToSnapshot(path, snapshotId, destinationPath, parameters, null);
+  }
+
+  public static FileAction moveToSnapshot(String path, Long snapshotId, String destinationPath) throws RuntimeException {
+    return moveToSnapshot(path, snapshotId, destinationPath, null, null);
+  }
+
+  public static FileAction moveToSnapshot(String path, Long snapshotId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Snapshots", snapshotId, destinationPath));
+    return move(path, parameters, options);
+  }
+
+  public FileAction copyToSnapshot(Long snapshotId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Snapshots", snapshotId, destinationPath));
+    return copy(parameters);
+  }
+
+  public FileAction copyToSnapshot(Long snapshotId, String destinationPath) throws IOException {
+    return copyToSnapshot(snapshotId, destinationPath, null);
+  }
+
+  public FileAction moveToSnapshot(Long snapshotId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Snapshots", snapshotId, destinationPath));
+    return move(parameters);
+  }
+
+  public FileAction moveToSnapshot(Long snapshotId, String destinationPath) throws IOException {
+    return moveToSnapshot(snapshotId, destinationPath, null);
+  }
+
+  public static FileUploadPart uploadToChildSite(Long siteId, String destinationPath) throws RuntimeException {
+    return uploadToChildSite(siteId, destinationPath, null, null);
+  }
+
+  public static FileUploadPart uploadToChildSite(Long siteId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return uploadToChildSite(siteId, destinationPath, parameters, null);
+  }
+
+  public static FileUploadPart uploadToChildSite(Long siteId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return create(underscoreDestinationPath("Sites", siteId, destinationPath), parameters, options);
+  }
+
+  public static FileAction copyToChildSite(String path, Long siteId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return copyToChildSite(path, siteId, destinationPath, parameters, null);
+  }
+
+  public static FileAction copyToChildSite(String path, Long siteId, String destinationPath) throws RuntimeException {
+    return copyToChildSite(path, siteId, destinationPath, null, null);
+  }
+
+  public static FileAction copyToChildSite(String path, Long siteId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Sites", siteId, destinationPath));
+    return copy(path, parameters, options);
+  }
+
+  public static FileAction moveToChildSite(String path, Long siteId, String destinationPath, HashMap<String, Object> parameters) throws RuntimeException {
+    return moveToChildSite(path, siteId, destinationPath, parameters, null);
+  }
+
+  public static FileAction moveToChildSite(String path, Long siteId, String destinationPath) throws RuntimeException {
+    return moveToChildSite(path, siteId, destinationPath, null, null);
+  }
+
+  public static FileAction moveToChildSite(String path, Long siteId, String destinationPath, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Sites", siteId, destinationPath));
+    return move(path, parameters, options);
+  }
+
+  public FileAction copyToChildSite(Long siteId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Sites", siteId, destinationPath));
+    return copy(parameters);
+  }
+
+  public FileAction copyToChildSite(Long siteId, String destinationPath) throws IOException {
+    return copyToChildSite(siteId, destinationPath, null);
+  }
+
+  public FileAction moveToChildSite(Long siteId, String destinationPath, HashMap<String, Object> parameters) throws IOException {
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    parameters.put("destination", underscoreDestinationPath("Sites", siteId, destinationPath));
+    return move(parameters);
+  }
+
+  public FileAction moveToChildSite(Long siteId, String destinationPath) throws IOException {
+    return moveToChildSite(siteId, destinationPath, null);
   }
 
 

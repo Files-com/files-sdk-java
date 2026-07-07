@@ -18,7 +18,7 @@ public class PathUtils {
   protected PathUtils() {
   }
 
-  public static String normalize_for_comparison(String str) {
+  public static String normalize(String str) {
     String newStr = str;
     newStr = NULL_BYTE.matcher(newStr).replaceAll("");
     newStr = BACKSLASH.matcher(newStr).replaceAll("/");
@@ -32,6 +32,12 @@ public class PathUtils {
       }
     }
     newStr = joiner.toString();
+
+    return newStr;
+  }
+
+  public static String normalize_for_comparison(String str) {
+    String newStr = normalize(str);
 
     newStr = Normalizer.normalize(newStr, Normalizer.Form.NFKC);
     newStr = transliterate(newStr);

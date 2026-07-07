@@ -5,6 +5,7 @@
 ```
 {
   "id": "example",
+  "title": "example",
   "user_id": 1,
   "ai_task_id": 1,
   "workspace_id": 1,
@@ -22,6 +23,7 @@
 ```
 
 * `id` / `id`  (string): Chat Session ID.
+* `title` / `title`  (string): Short AI-generated chat title.
 * `user_id` / `userId`  (int64): User ID.
 * `ai_task_id` / `aiTaskId`  (int64): AI Task ID. Present when the conversation was started by an AI Task.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.

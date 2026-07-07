@@ -83,6 +83,16 @@ public class ChatSession implements ModelInterface {
   }
 
   /**
+  * Short AI-generated chat title.
+  */
+  @JsonProperty("title")
+  public String title;
+
+  public String getTitle() {
+    return title;
+  }
+
+  /**
   * User ID.
   */
   @JsonProperty("user_id")

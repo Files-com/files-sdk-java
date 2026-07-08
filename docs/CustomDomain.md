@@ -18,11 +18,11 @@
 
 * `id` / `id`  (int64): Custom Domain ID.
 * `domain` / `domain`  (string): Customer-owned domain name.
-* `destination` / `destination`  (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
+* `destination` / `destination`  (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `dns_status` / `dnsStatus`  (string): Current DNS verification status.
 * `ssl_certificate_id` / `sslCertificateId`  (int64): Current SSL certificate ID.
 * `brick_managed` / `brickManaged`  (boolean): Is this domain's SSL certificate automatically managed and renewed by Files.com?
-* `folder_behavior_id` / `folderBehaviorId`  (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `folder_behavior_id` / `folderBehaviorId`  (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `created_at` / `createdAt`  (date-time): When this Custom Domain was created.
 * `updated_at` / `updatedAt`  (date-time): When this Custom Domain was last updated.
 
@@ -77,8 +77,8 @@ CustomDomain customDomain = CustomDomain.create(
 
 ### Parameters
 
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Required - Customer-owned domain name.
 
@@ -98,8 +98,8 @@ CustomDomain customDomain = CustomDomain.update(
 ### Parameters
 
 * `id` (Long): Required - Custom Domain ID.
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Customer-owned domain name.
 
@@ -140,8 +140,8 @@ customDomain.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Custom Domain ID.
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Customer-owned domain name.
 

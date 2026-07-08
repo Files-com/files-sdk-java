@@ -102,7 +102,7 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
+  * Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
   */
   @JsonProperty("destination")
   public String destination;
@@ -158,7 +158,7 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+  * Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   */
   @JsonProperty("folder_behavior_id")
   public Long folderBehaviorId;
@@ -193,8 +193,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
   *   domain - string - Customer-owned domain name.
   */
@@ -314,8 +314,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
   *   domain (required) - string - Customer-owned domain name.
   */
@@ -360,8 +360,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, or `s3_endpoint`.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.
+  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
   *   domain - string - Customer-owned domain name.
   */

@@ -172,6 +172,20 @@ public class Behavior implements ModelInterface {
   }
 
   /**
+  * Public URL for this publicly hosted folder when the `Serve Publicly` behavior has a key configured.  When a Custom Domain with `public_hosting` destination is attached to this behavior, the URL uses that domain.  Otherwise it uses the site's `subdomain.hosted-by-files.com` host.
+  */
+  @JsonProperty("public_hosting_url")
+  public String publicHostingUrl;
+
+  public String getPublicHostingUrl() {
+    return publicHostingUrl;
+  }
+
+  public void setPublicHostingUrl(String publicHostingUrl) {
+    this.publicHostingUrl = publicHostingUrl;
+  }
+
+  /**
   * If true, the parent folder's behavior will be disabled for this folder and its children.
   */
   @JsonProperty("disable_parent_folder_behavior")

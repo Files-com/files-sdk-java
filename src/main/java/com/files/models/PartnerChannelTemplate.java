@@ -38,7 +38,7 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PartnerChannel implements ModelInterface {
+public class PartnerChannelTemplate implements ModelInterface {
   private HashMap<String, Object> options;
 
   public void setOptions(HashMap<String, Object> options) {
@@ -54,15 +54,15 @@ public class PartnerChannel implements ModelInterface {
       .build();
 
 
-  public PartnerChannel() {
+  public PartnerChannelTemplate() {
     this(null, null);
   }
 
-  public PartnerChannel(HashMap<String, Object> parameters) {
+  public PartnerChannelTemplate(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public PartnerChannel(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public PartnerChannelTemplate(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -74,7 +74,7 @@ public class PartnerChannel implements ModelInterface {
 
 
   /**
-  * The unique ID of the Partner Channel.
+  * The unique ID of the Partner Channel Template.
   */
   @JsonProperty("id")
   public Long id;
@@ -88,7 +88,7 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace associated with this Partner Channel.
+  * ID of the Workspace associated with this Partner Channel Template.
   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
@@ -102,31 +102,17 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * ID of the Partner this Channel belongs to.
+  * The name of the Partner Channel Template.
   */
-  @JsonProperty("partner_id")
-  public Long partnerId;
+  @JsonProperty("name")
+  public String name;
 
-  public Long getPartnerId() {
-    return partnerId;
+  public String getName() {
+    return name;
   }
 
-  public void setPartnerId(Long partnerId) {
-    this.partnerId = partnerId;
-  }
-
-  /**
-  * ID of the Partner Channel Template that manages this Channel, if any.
-  */
-  @JsonProperty("partner_channel_template_id")
-  public Long partnerChannelTemplateId;
-
-  public Long getPartnerChannelTemplateId() {
-    return partnerChannelTemplateId;
-  }
-
-  public void setPartnerChannelTemplateId(Long partnerChannelTemplateId) {
-    this.partnerChannelTemplateId = partnerChannelTemplateId;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
@@ -228,7 +214,7 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * Resolved to-Partner folder name after Channel override and default.
+  * Resolved to-Partner folder name after Template override and default.
   */
   @JsonProperty("effective_to_partner_folder_name")
   public String effectiveToPartnerFolderName;
@@ -242,7 +228,7 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * Resolved from-Partner folder name after Channel override and default.
+  * Resolved from-Partner folder name after Template override and default.
   */
   @JsonProperty("effective_from_partner_folder_name")
   public String effectiveFromPartnerFolderName;
@@ -256,48 +242,6 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * Resolved Channel folder path.
-  */
-  @JsonProperty("channel_path")
-  public String channelPath;
-
-  public String getChannelPath() {
-    return channelPath;
-  }
-
-  public void setChannelPath(String channelPath) {
-    this.channelPath = channelPath;
-  }
-
-  /**
-  * Resolved to-Partner folder path.
-  */
-  @JsonProperty("to_partner_folder_path")
-  public String toPartnerFolderPath;
-
-  public String getToPartnerFolderPath() {
-    return toPartnerFolderPath;
-  }
-
-  public void setToPartnerFolderPath(String toPartnerFolderPath) {
-    this.toPartnerFolderPath = toPartnerFolderPath;
-  }
-
-  /**
-  * Resolved from-Partner folder path.
-  */
-  @JsonProperty("from_partner_folder_path")
-  public String fromPartnerFolderPath;
-
-  public String getFromPartnerFolderPath() {
-    return fromPartnerFolderPath;
-  }
-
-  public void setFromPartnerFolderPath(String fromPartnerFolderPath) {
-    this.fromPartnerFolderPath = fromPartnerFolderPath;
-  }
-
-  /**
   * Parameters:
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
@@ -305,16 +249,17 @@ public class PartnerChannel implements ModelInterface {
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
   *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+  *   name - string - The name of the Partner Channel Template.
   *   path - string - Channel path relative to the Partner root folder.
   */
-  public PartnerChannel update(HashMap<String, Object> parameters) throws IOException {
-    return PartnerChannel.update(this.id, parameters, this.options);
+  public PartnerChannelTemplate update(HashMap<String, Object> parameters) throws IOException {
+    return PartnerChannelTemplate.update(this.id, parameters, this.options);
   }
 
   /**
   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    PartnerChannel.delete(this.id, parameters, this.options);
+    PartnerChannelTemplate.delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
@@ -323,26 +268,26 @@ public class PartnerChannel implements ModelInterface {
 
   public void save() throws IOException {
     HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    PartnerChannel.create(parameters, this.options);
+    PartnerChannelTemplate.create(parameters, this.options);
   }
 
   /**
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
   */
-  public static ListIterator<PartnerChannel> list() throws RuntimeException {
+  public static ListIterator<PartnerChannelTemplate> list() throws RuntimeException {
     return list(null, null);
   }
 
-  public static ListIterator<PartnerChannel> list(HashMap<String, Object> parameters) throws RuntimeException {
+  public static ListIterator<PartnerChannelTemplate> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
-  public static ListIterator<PartnerChannel> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<PartnerChannelTemplate> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -362,37 +307,37 @@ public class PartnerChannel implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_channels", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<List<PartnerChannel>> typeReference = new TypeReference<List<PartnerChannel>>() {};
+    TypeReference<List<PartnerChannelTemplate>> typeReference = new TypeReference<List<PartnerChannelTemplate>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static ListIterator<PartnerChannel> all() throws RuntimeException {
+  public static ListIterator<PartnerChannelTemplate> all() throws RuntimeException {
     return all(null, null);
   }
 
-  public static ListIterator<PartnerChannel> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static ListIterator<PartnerChannelTemplate> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
   * Parameters:
-  *   id (required) - int64 - Partner Channel ID.
+  *   id (required) - int64 - Partner Channel Template ID.
   */
-  public static PartnerChannel find() throws RuntimeException {
+  public static PartnerChannelTemplate find() throws RuntimeException {
     return find(null, null, null);
   }
 
-  public static PartnerChannel find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static PartnerChannelTemplate find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
-  public static PartnerChannel find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
-  public static PartnerChannel find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -411,17 +356,17 @@ public class PartnerChannel implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_channels/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
-    TypeReference<PartnerChannel> typeReference = new TypeReference<PartnerChannel>() {};
+    TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
   }
 
-  public static PartnerChannel get() throws RuntimeException {
+  public static PartnerChannelTemplate get() throws RuntimeException {
     return get(null, null, null);
   }
 
-  public static PartnerChannel get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
@@ -433,26 +378,26 @@ public class PartnerChannel implements ModelInterface {
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
   *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
-  *   partner_id (required) - int64 - ID of the Partner this Channel belongs to.
+  *   name (required) - string - The name of the Partner Channel Template.
   *   path (required) - string - Channel path relative to the Partner root folder.
-  *   workspace_id - int64 - ID of the Workspace associated with this Partner Channel.
+  *   workspace_id - int64 - ID of the Workspace associated with this Partner Channel Template.
   */
-  public static PartnerChannel create() throws RuntimeException {
+  public static PartnerChannelTemplate create() throws RuntimeException {
     return create(null, null);
   }
 
-  public static PartnerChannel create(HashMap<String, Object> parameters) throws RuntimeException {
+  public static PartnerChannelTemplate create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
-  public static PartnerChannel create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
 
-    if (!parameters.containsKey("partner_id") || parameters.get("partner_id") == null) {
-      throw new NullPointerException("Parameter missing: partner_id parameters[\"partner_id\"]");
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
     if (!parameters.containsKey("path") || parameters.get("path") == null) {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
@@ -476,8 +421,8 @@ public class PartnerChannel implements ModelInterface {
     if (parameters.containsKey("to_partner_route_path") && !(parameters.get("to_partner_route_path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: to_partner_route_path must be of type String parameters[\"to_partner_route_path\"]");
     }
-    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
@@ -487,9 +432,9 @@ public class PartnerChannel implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_channels", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
 
-    TypeReference<PartnerChannel> typeReference = new TypeReference<PartnerChannel>() {};
+    TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
@@ -502,21 +447,22 @@ public class PartnerChannel implements ModelInterface {
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
   *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+  *   name - string - The name of the Partner Channel Template.
   *   path - string - Channel path relative to the Partner root folder.
   */
-  public static PartnerChannel update() throws RuntimeException {
+  public static PartnerChannelTemplate update() throws RuntimeException {
     return update(null, null, null);
   }
 
-  public static PartnerChannel update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+  public static PartnerChannelTemplate update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
-  public static PartnerChannel update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
-  public static PartnerChannel update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static PartnerChannelTemplate update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = parameters != null ? parameters : new HashMap<String, Object>();
     options = options != null ? options : new HashMap<String, Object>();
 
@@ -550,15 +496,18 @@ public class PartnerChannel implements ModelInterface {
     if (parameters.containsKey("to_partner_route_path") && !(parameters.get("to_partner_route_path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: to_partner_route_path must be of type String parameters[\"to_partner_route_path\"]");
     }
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
     if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
 
 
-    String url = String.format("%s%s/partner_channels/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
-    TypeReference<PartnerChannel> typeReference = new TypeReference<PartnerChannel>() {};
+    TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
   }
 
@@ -596,7 +545,7 @@ public class PartnerChannel implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_channels/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

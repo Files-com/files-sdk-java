@@ -242,6 +242,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * ID of the Partner Channel Template assigned to this Partner.
+  */
+  @JsonProperty("partner_channel_template_id")
+  public Long partnerChannelTemplateId;
+
+  public Long getPartnerChannelTemplateId() {
+    return partnerChannelTemplateId;
+  }
+
+  public void setPartnerChannelTemplateId(Long partnerChannelTemplateId) {
+    this.partnerChannelTemplateId = partnerChannelTemplateId;
+  }
+
+  /**
   * This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
   */
   @JsonProperty("partnership_role")
@@ -335,6 +349,7 @@ public class Partner implements ModelInterface {
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -469,6 +484,7 @@ public class Partner implements ModelInterface {
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -521,6 +537,9 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
     }
+    if (parameters.containsKey("partner_channel_template_id") && !(parameters.get("partner_channel_template_id") instanceof Long || parameters.get("partner_channel_template_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_channel_template_id must be of type Long or Integer parameters[\"partner_channel_template_id\"]");
+    }
     if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
     }
@@ -558,6 +577,7 @@ public class Partner implements ModelInterface {
   *   allow_user_creation - boolean - Allow Partner Admins to create users.
   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
   *   notes - string - Notes about this Partner.
+  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -615,6 +635,9 @@ public class Partner implements ModelInterface {
     }
     if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
+    }
+    if (parameters.containsKey("partner_channel_template_id") && !(parameters.get("partner_channel_template_id") instanceof Long || parameters.get("partner_channel_template_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_channel_template_id must be of type Long or Integer parameters[\"partner_channel_template_id\"]");
     }
     if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");

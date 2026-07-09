@@ -20,6 +20,7 @@
     2,
     3
   ],
+  "partner_channel_template_id": 1,
   "partnership_role": "host",
   "responsible_group_id": 1,
   "responsible_user_id": 1,
@@ -45,6 +46,7 @@
 * `name` / `name`  (string): The name of the Partner.
 * `notes` / `notes`  (string): Notes about this Partner.
 * `partner_admin_ids` / `partnerAdminIds`  (array(int64)): Array of User IDs that are Partner Admins for this Partner.
+* `partner_channel_template_id` / `partnerChannelTemplateId`  (int64): ID of the Partner Channel Template assigned to this Partner.
 * `partnership_role` / `partnershipRole`  (string): This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
 * `responsible_group_id` / `responsibleGroupId`  (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` / `responsibleUserId`  (int64): ID of the User responsible for this Partner.
@@ -112,6 +114,7 @@ Partner partner = Partner.create(
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (String): Notes about this Partner.
+* `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -143,6 +146,7 @@ Partner partner = Partner.update(
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (String): Notes about this Partner.
+* `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -183,6 +187,7 @@ parameters.put("allow_providing_gpg_keys", false);
 parameters.put("allow_user_creation", false);
 parameters.put("cc_emails_to_responsible_party", false);
 parameters.put("notes", "This is a note about the partner.");
+parameters.put("partner_channel_template_id", 1);
 parameters.put("responsible_group_id", 1);
 parameters.put("responsible_user_id", 1);
 parameters.put("tags", "example");
@@ -203,6 +208,7 @@ partner.update(parameters);
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
 * `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
 * `notes` (String): Notes about this Partner.
+* `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.

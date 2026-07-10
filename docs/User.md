@@ -25,6 +25,7 @@
   "disabled_expired_or_inactive": true,
   "ai_assistant_personality_id": 1,
   "desktop_configuration_profile_id": 1,
+  "integration_centric_profile_id": 1,
   "email": "john.doe@files.com",
   "filesystem_layout": "site_root",
   "first_login_at": "2000-01-01T01:00:00Z",
@@ -113,6 +114,7 @@
 * `disabled_expired_or_inactive` / `disabledExpiredOrInactive`  (boolean): Computed property that returns true if user disabled or expired or inactive.
 * `ai_assistant_personality_id` / `aiAssistantPersonalityId`  (int64): AI Assistant Personality ID assigned directly to this user, if any.
 * `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned directly to this user, if any.
+* `integration_centric_profile_id` / `integrationCentricProfileId`  (int64): Integration Centric Profile ID assigned directly to this user, if any.
 * `email` / `email`  (email): User email address
 * `filesystem_layout` / `filesystemLayout`  (string): File system layout
 * `first_login_at` / `firstLoginAt`  (date-time): User's first login time
@@ -279,6 +281,7 @@ User user = User.create(
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned directly to this user, if any.
 * `language` (String): Preferred language
 * `notification_daily_send_time` (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (String): User's full name
@@ -412,6 +415,7 @@ User user = User.update(
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned directly to this user, if any.
 * `language` (String): Preferred language
 * `notification_daily_send_time` (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (String): User's full name
@@ -551,6 +555,7 @@ parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
 parameters.put("header_text", "User-specific message.");
+parameters.put("integration_centric_profile_id", 1);
 parameters.put("language", "en");
 parameters.put("notification_daily_send_time", 18);
 parameters.put("name", "John Doe");
@@ -625,6 +630,7 @@ user.update(parameters);
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
 * `header_text` (String): Text to display to the user in the header of the UI
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned directly to this user, if any.
 * `language` (String): Preferred language
 * `notification_daily_send_time` (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
 * `name` (String): User's full name

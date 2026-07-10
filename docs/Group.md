@@ -17,6 +17,7 @@
   "dav_permission": true,
   "restapi_permission": true,
   "desktop_configuration_profile_id": 1,
+  "integration_centric_profile_id": 1,
   "site_id": 1,
   "workspace_id": 1
 }
@@ -35,6 +36,7 @@
 * `dav_permission` / `davPermission`  (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` / `restapiPermission`  (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+* `integration_centric_profile_id` / `integrationCentricProfileId`  (int64): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `site_id` / `siteId`  (int64): Site ID
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 
@@ -102,6 +104,7 @@ Group group = Group.create(
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Required - Group name.
 * `workspace_id` (Long): Workspace ID
@@ -131,6 +134,7 @@ Group group = Group.update(
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
 
@@ -169,6 +173,7 @@ parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
 parameters.put("restapi_permission", true);
 parameters.put("desktop_configuration_profile_id", 1);
+parameters.put("integration_centric_profile_id", 1);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
 
@@ -187,6 +192,7 @@ group.update(parameters);
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
 

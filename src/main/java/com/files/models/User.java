@@ -336,6 +336,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Integration Centric Profile ID assigned directly to this user, if any.
+  */
+  @JsonProperty("integration_centric_profile_id")
+  public Long integrationCentricProfileId;
+
+  public Long getIntegrationCentricProfileId() {
+    return integrationCentricProfileId;
+  }
+
+  public void setIntegrationCentricProfileId(Long integrationCentricProfileId) {
+    this.integrationCentricProfileId = integrationCentricProfileId;
+  }
+
+  /**
   * User email address
   */
   @JsonProperty("email")
@@ -1477,6 +1491,7 @@ public class User implements ModelInterface {
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
+  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
   *   language - string - Preferred language
   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
   *   name - string - User's full name
@@ -1699,6 +1714,7 @@ public class User implements ModelInterface {
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
+  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
   *   language - string - Preferred language
   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
   *   name - string - User's full name
@@ -1836,6 +1852,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("header_text") && !(parameters.get("header_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: header_text must be of type String parameters[\"header_text\"]");
+    }
+    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
     }
     if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
@@ -2109,6 +2128,7 @@ public class User implements ModelInterface {
   *   filesystem_layout - string - File system layout
   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
   *   header_text - string - Text to display to the user in the header of the UI
+  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
   *   language - string - Preferred language
   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
   *   name - string - User's full name
@@ -2258,6 +2278,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("header_text") && !(parameters.get("header_text") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: header_text must be of type String parameters[\"header_text\"]");
+    }
+    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
     }
     if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");

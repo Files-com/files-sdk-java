@@ -10,8 +10,8 @@
   "path": "claims/medical",
   "to_partner_folder_name": "outgoing",
   "from_partner_folder_name": "incoming",
-  "from_partner_route_path": "processing/from-partner",
-  "to_partner_route_path": "delivery/to-partner",
+  "from_partner_route_path_pattern": "processing/{{partner_name}}/from-partner",
+  "to_partner_route_path_pattern": "delivery/{{partner_name}}/to-partner",
   "to_partner_managed_folder_paths": [
     "reports/monthly"
   ],
@@ -29,8 +29,8 @@
 * `path` / `path`  (string): Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `to_partner_folder_name` / `toPartnerFolderName`  (string): Optional Channel-level to-Partner folder name override.
 * `from_partner_folder_name` / `fromPartnerFolderName`  (string): Optional Channel-level from-Partner folder name override.
-* `from_partner_route_path` / `fromPartnerRoutePath`  (string): Optional route path for files uploaded by the Partner.
-* `to_partner_route_path` / `toPartnerRoutePath`  (string): Optional route path for files delivered to the Partner.
+* `from_partner_route_path_pattern` / `fromPartnerRoutePathPattern`  (string): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
+* `to_partner_route_path_pattern` / `toPartnerRoutePathPattern`  (string): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 * `to_partner_managed_folder_paths` / `toPartnerManagedFolderPaths`  (array(string)): Managed folder paths inside the to-Partner folder.
 * `from_partner_managed_folder_paths` / `fromPartnerManagedFolderPaths`  (array(string)): Managed folder paths inside the from-Partner folder.
 * `effective_to_partner_folder_name` / `effectiveToPartnerFolderName`  (string): Resolved to-Partner folder name after Template override and default.
@@ -90,10 +90,10 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.create(
 
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
-* `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.
+* `from_partner_route_path_pattern` (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (String): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (String[]): Managed folder paths inside the to-Partner folder.
-* `to_partner_route_path` (String): Optional route path for files delivered to the Partner.
+* `to_partner_route_path_pattern` (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 * `name` (String): Required - The name of the Partner Channel Template.
 * `path` (String): Required - Channel path relative to the Partner root folder.
 * `workspace_id` (Long): ID of the Workspace associated with this Partner Channel Template.
@@ -116,10 +116,10 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.update(
 * `id` (Long): Required - Partner Channel Template ID.
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
-* `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.
+* `from_partner_route_path_pattern` (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (String): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (String[]): Managed folder paths inside the to-Partner folder.
-* `to_partner_route_path` (String): Optional route path for files delivered to the Partner.
+* `to_partner_route_path_pattern` (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 * `name` (String): The name of the Partner Channel Template.
 * `path` (String): Channel path relative to the Partner root folder.
 
@@ -151,10 +151,10 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(id);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("from_partner_folder_name", "incoming");
 parameters.put("from_partner_managed_folder_paths", ["claims/received"]);
-parameters.put("from_partner_route_path", "processing/from-partner");
+parameters.put("from_partner_route_path_pattern", "processing/{{partner_name}}/from-partner");
 parameters.put("to_partner_folder_name", "outgoing");
 parameters.put("to_partner_managed_folder_paths", ["reports/monthly"]);
-parameters.put("to_partner_route_path", "delivery/to-partner");
+parameters.put("to_partner_route_path_pattern", "delivery/{{partner_name}}/to-partner");
 parameters.put("name", "Claims Template");
 parameters.put("path", "claims/medical");
 
@@ -166,10 +166,10 @@ partnerChannelTemplate.update(parameters);
 * `id` (Long): Required - Partner Channel Template ID.
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
-* `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.
+* `from_partner_route_path_pattern` (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
 * `to_partner_folder_name` (String): Optional Channel-level to-Partner folder name override.
 * `to_partner_managed_folder_paths` (String[]): Managed folder paths inside the to-Partner folder.
-* `to_partner_route_path` (String): Optional route path for files delivered to the Partner.
+* `to_partner_route_path_pattern` (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
 * `name` (String): The name of the Partner Channel Template.
 * `path` (String): Channel path relative to the Partner root folder.
 

@@ -158,31 +158,31 @@ public class PartnerChannelTemplate implements ModelInterface {
   }
 
   /**
-  * Optional route path for files uploaded by the Partner.
+  * Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
   */
-  @JsonProperty("from_partner_route_path")
-  public String fromPartnerRoutePath;
+  @JsonProperty("from_partner_route_path_pattern")
+  public String fromPartnerRoutePathPattern;
 
-  public String getFromPartnerRoutePath() {
-    return fromPartnerRoutePath;
+  public String getFromPartnerRoutePathPattern() {
+    return fromPartnerRoutePathPattern;
   }
 
-  public void setFromPartnerRoutePath(String fromPartnerRoutePath) {
-    this.fromPartnerRoutePath = fromPartnerRoutePath;
+  public void setFromPartnerRoutePathPattern(String fromPartnerRoutePathPattern) {
+    this.fromPartnerRoutePathPattern = fromPartnerRoutePathPattern;
   }
 
   /**
-  * Optional route path for files delivered to the Partner.
+  * Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
   */
-  @JsonProperty("to_partner_route_path")
-  public String toPartnerRoutePath;
+  @JsonProperty("to_partner_route_path_pattern")
+  public String toPartnerRoutePathPattern;
 
-  public String getToPartnerRoutePath() {
-    return toPartnerRoutePath;
+  public String getToPartnerRoutePathPattern() {
+    return toPartnerRoutePathPattern;
   }
 
-  public void setToPartnerRoutePath(String toPartnerRoutePath) {
-    this.toPartnerRoutePath = toPartnerRoutePath;
+  public void setToPartnerRoutePathPattern(String toPartnerRoutePathPattern) {
+    this.toPartnerRoutePathPattern = toPartnerRoutePathPattern;
   }
 
   /**
@@ -245,10 +245,10 @@ public class PartnerChannelTemplate implements ModelInterface {
   * Parameters:
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-  *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+  *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-  *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+  *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
   *   name - string - The name of the Partner Channel Template.
   *   path - string - Channel path relative to the Partner root folder.
   */
@@ -374,10 +374,10 @@ public class PartnerChannelTemplate implements ModelInterface {
   * Parameters:
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-  *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+  *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-  *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+  *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
   *   name (required) - string - The name of the Partner Channel Template.
   *   path (required) - string - Channel path relative to the Partner root folder.
   *   workspace_id - int64 - ID of the Workspace associated with this Partner Channel Template.
@@ -409,8 +409,8 @@ public class PartnerChannelTemplate implements ModelInterface {
     if (parameters.containsKey("from_partner_managed_folder_paths") && !(parameters.get("from_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: from_partner_managed_folder_paths must be of type String[] parameters[\"from_partner_managed_folder_paths\"]");
     }
-    if (parameters.containsKey("from_partner_route_path") && !(parameters.get("from_partner_route_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: from_partner_route_path must be of type String parameters[\"from_partner_route_path\"]");
+    if (parameters.containsKey("from_partner_route_path_pattern") && !(parameters.get("from_partner_route_path_pattern") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: from_partner_route_path_pattern must be of type String parameters[\"from_partner_route_path_pattern\"]");
     }
     if (parameters.containsKey("to_partner_folder_name") && !(parameters.get("to_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: to_partner_folder_name must be of type String parameters[\"to_partner_folder_name\"]");
@@ -418,8 +418,8 @@ public class PartnerChannelTemplate implements ModelInterface {
     if (parameters.containsKey("to_partner_managed_folder_paths") && !(parameters.get("to_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: to_partner_managed_folder_paths must be of type String[] parameters[\"to_partner_managed_folder_paths\"]");
     }
-    if (parameters.containsKey("to_partner_route_path") && !(parameters.get("to_partner_route_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: to_partner_route_path must be of type String parameters[\"to_partner_route_path\"]");
+    if (parameters.containsKey("to_partner_route_path_pattern") && !(parameters.get("to_partner_route_path_pattern") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: to_partner_route_path_pattern must be of type String parameters[\"to_partner_route_path_pattern\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -443,10 +443,10 @@ public class PartnerChannelTemplate implements ModelInterface {
   * Parameters:
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-  *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
+  *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-  *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
+  *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
   *   name - string - The name of the Partner Channel Template.
   *   path - string - Channel path relative to the Partner root folder.
   */
@@ -484,8 +484,8 @@ public class PartnerChannelTemplate implements ModelInterface {
     if (parameters.containsKey("from_partner_managed_folder_paths") && !(parameters.get("from_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: from_partner_managed_folder_paths must be of type String[] parameters[\"from_partner_managed_folder_paths\"]");
     }
-    if (parameters.containsKey("from_partner_route_path") && !(parameters.get("from_partner_route_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: from_partner_route_path must be of type String parameters[\"from_partner_route_path\"]");
+    if (parameters.containsKey("from_partner_route_path_pattern") && !(parameters.get("from_partner_route_path_pattern") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: from_partner_route_path_pattern must be of type String parameters[\"from_partner_route_path_pattern\"]");
     }
     if (parameters.containsKey("to_partner_folder_name") && !(parameters.get("to_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: to_partner_folder_name must be of type String parameters[\"to_partner_folder_name\"]");
@@ -493,8 +493,8 @@ public class PartnerChannelTemplate implements ModelInterface {
     if (parameters.containsKey("to_partner_managed_folder_paths") && !(parameters.get("to_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: to_partner_managed_folder_paths must be of type String[] parameters[\"to_partner_managed_folder_paths\"]");
     }
-    if (parameters.containsKey("to_partner_route_path") && !(parameters.get("to_partner_route_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: to_partner_route_path must be of type String parameters[\"to_partner_route_path\"]");
+    if (parameters.containsKey("to_partner_route_path_pattern") && !(parameters.get("to_partner_route_path_pattern") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: to_partner_route_path_pattern must be of type String parameters[\"to_partner_route_path_pattern\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

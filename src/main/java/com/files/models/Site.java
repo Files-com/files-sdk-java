@@ -874,6 +874,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Allow group admins to add or remove existing users in their groups
+  */
+  @JsonProperty("group_admins_can_manage_group_memberships")
+  public Boolean groupAdminsCanManageGroupMemberships;
+
+  public Boolean getGroupAdminsCanManageGroupMemberships() {
+    return groupAdminsCanManageGroupMemberships;
+  }
+
+  /**
   * Allow group admins to delete users in their groups
   */
   @JsonProperty("group_admins_can_delete_users")
@@ -2130,6 +2140,7 @@ public class Site implements ModelInterface {
   *   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   group_admins_can_add_users - boolean - Allow group admins to create users in their groups
+  *   group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
   *   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
   *   group_admins_can_enable_disable_users - boolean - Allow group admins to enable or disable users in their groups
   *   group_admins_can_modify_users - boolean - Allow group admins to modify users in their groups
@@ -2550,6 +2561,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("group_admins_can_add_users") && !(parameters.get("group_admins_can_add_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_add_users must be of type Boolean parameters[\"group_admins_can_add_users\"]");
+    }
+    if (parameters.containsKey("group_admins_can_manage_group_memberships") && !(parameters.get("group_admins_can_manage_group_memberships") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: group_admins_can_manage_group_memberships must be of type Boolean parameters[\"group_admins_can_manage_group_memberships\"]");
     }
     if (parameters.containsKey("group_admins_can_delete_users") && !(parameters.get("group_admins_can_delete_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_delete_users must be of type Boolean parameters[\"group_admins_can_delete_users\"]");

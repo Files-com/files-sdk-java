@@ -100,6 +100,7 @@
   "non_sso_users_allowed": true,
   "folder_permissions_groups_only": true,
   "group_admins_can_add_users": true,
+  "group_admins_can_manage_group_memberships": true,
   "group_admins_can_delete_users": true,
   "group_admins_can_enable_disable_users": true,
   "group_admins_can_modify_users": true,
@@ -435,6 +436,7 @@
 * `non_sso_users_allowed` / `nonSsoUsersAllowed`  (boolean): If true, users can be manually created / modified / deleted by Site Admins. Otherwise, users can only be managed via your SSO provider.
 * `folder_permissions_groups_only` / `folderPermissionsGroupsOnly`  (boolean): If true, permissions for this site must be bound to a group (not a user).
 * `group_admins_can_add_users` / `groupAdminsCanAddUsers`  (boolean): Allow group admins to create users in their groups
+* `group_admins_can_manage_group_memberships` / `groupAdminsCanManageGroupMemberships`  (boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` / `groupAdminsCanDeleteUsers`  (boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` / `groupAdminsCanEnableDisableUsers`  (boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` / `groupAdminsCanModifyUsers`  (boolean): Allow group admins to modify users in their groups
@@ -697,6 +699,7 @@ Site site = Site.update(
 * `revoke_bundle_access_on_disable_or_delete` (Boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
 * `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_add_users` (Boolean): Allow group admins to create users in their groups
+* `group_admins_can_manage_group_memberships` (Boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` (Boolean): Allow group admins to delete users in their groups
 * `group_admins_can_enable_disable_users` (Boolean): Allow group admins to enable or disable users in their groups
 * `group_admins_can_modify_users` (Boolean): Allow group admins to modify users in their groups

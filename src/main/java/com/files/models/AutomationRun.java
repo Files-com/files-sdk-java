@@ -94,6 +94,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * ID of the immutable Automation version pinned by this run.
+  */
+  @JsonProperty("automation_version_id")
+  public Long automationVersionId;
+
+  public Long getAutomationVersionId() {
+    return automationVersionId;
+  }
+
+  /**
   * Workspace ID.
   */
   @JsonProperty("workspace_id")
@@ -201,6 +211,26 @@ public class AutomationRun implements ModelInterface {
 
   public Long getFailedOperations() {
     return failedOperations;
+  }
+
+  /**
+  * Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+  */
+  @JsonProperty("definition")
+  public Object definition;
+
+  public Object getDefinition() {
+    return definition;
+  }
+
+  /**
+  * Link to the run journal artifact.
+  */
+  @JsonProperty("journal_url")
+  public String journalUrl;
+
+  public String getJournalUrl() {
+    return journalUrl;
   }
 
   /**

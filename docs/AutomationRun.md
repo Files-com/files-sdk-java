@@ -6,6 +6,7 @@
 {
   "id": 1,
   "automation_id": 1,
+  "automation_version_id": 1,
   "workspace_id": 1,
   "completed_at": "2000-01-01T01:00:00Z",
   "created_at": "2000-01-01T01:00:00Z",
@@ -17,12 +18,15 @@
   "status": "success",
   "successful_operations": 1,
   "failed_operations": 1,
+  "definition": "example",
+  "journal_url": "example",
   "status_messages_url": "https://www.example.com/log_file.txt"
 }
 ```
 
 * `id` / `id`  (int64): ID.
 * `automation_id` / `automationId`  (int64): ID of the associated Automation.
+* `automation_version_id` / `automationVersionId`  (int64): ID of the immutable Automation version pinned by this run.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID.
 * `completed_at` / `completedAt`  (date-time): Automation run completion/failure date/time.
 * `created_at` / `createdAt`  (date-time): Automation run start date/time.
@@ -34,6 +38,8 @@
 * `status` / `status`  (string): The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
 * `successful_operations` / `successfulOperations`  (int64): Count of successful operations.
 * `failed_operations` / `failedOperations`  (int64): Count of failed operations.
+* `definition` / `definition`  (object): Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+* `journal_url` / `journalUrl`  (string): Link to the run journal artifact.
 * `status_messages_url` / `statusMessagesUrl`  (string): Link to status messages log file.
 
 

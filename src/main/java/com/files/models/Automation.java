@@ -172,6 +172,20 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * Automation v2 graph definition.
+  */
+  @JsonProperty("definition")
+  public Object definition;
+
+  public Object getDefinition() {
+    return definition;
+  }
+
+  public void setDefinition(Object definition) {
+    this.definition = definition;
+  }
+
+  /**
   * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
   */
   @JsonProperty("destination_replace_from")
@@ -393,6 +407,20 @@ public class Automation implements ModelInterface {
 
   public void setPathTimeZone(String pathTimeZone) {
     this.pathTimeZone = pathTimeZone;
+  }
+
+  /**
+  * Current Automation v2 definition version.
+  */
+  @JsonProperty("version")
+  public Long version;
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
   }
 
   /**

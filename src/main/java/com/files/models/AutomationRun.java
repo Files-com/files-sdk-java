@@ -114,6 +114,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * Date/time at which cancellation was requested.
+  */
+  @JsonProperty("cancel_requested_at")
+  public Date cancelRequestedAt;
+
+  public Date getCancelRequestedAt() {
+    return cancelRequestedAt;
+  }
+
+  /**
   * Automation run completion/failure date/time.
   */
   @JsonProperty("completed_at")
@@ -184,7 +194,7 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * The success status of the AutomationRun. One of `running`, `success`, `partial_failure`, or `failure`.
+  * The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
   */
   @JsonProperty("status")
   public String status;
@@ -224,6 +234,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
+  */
+  @JsonProperty("node_states")
+  public Object nodeStates;
+
+  public Object getNodeStates() {
+    return nodeStates;
+  }
+
+  /**
   * Link to the run journal artifact.
   */
   @JsonProperty("journal_url")
@@ -241,6 +261,13 @@ public class AutomationRun implements ModelInterface {
 
   public String getStatusMessagesUrl() {
     return statusMessagesUrl;
+  }
+
+  /**
+  * Cancel Automation Run
+  */
+  public AutomationRun cancel(HashMap<String, Object> parameters) throws IOException {
+    return AutomationRun.cancel(this.id, parameters, this.options);
   }
 
 
@@ -353,5 +380,46 @@ public class AutomationRun implements ModelInterface {
   public static AutomationRun get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
+
+  /**
+  * Cancel Automation Run
+  */
+  public static AutomationRun cancel() throws RuntimeException {
+    return cancel(null, null, null);
+  }
+
+  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return cancel(id, parameters, null);
+  }
+
+  public static AutomationRun cancel(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return cancel(null, parameters, options);
+  }
+
+  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/automation_runs/%s/cancel", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
 }

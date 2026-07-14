@@ -853,6 +853,32 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  */
+  public static AutomationAuthoringSchema getAuthoringSchema() throws RuntimeException {
+    return getAuthoringSchema(null, null);
+  }
+
+  public static AutomationAuthoringSchema getAuthoringSchema(HashMap<String, Object> parameters) throws RuntimeException {
+    return getAuthoringSchema(parameters, null);
+  }
+
+
+  public static AutomationAuthoringSchema getAuthoringSchema(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+
+
+
+
+    String url = String.format("%s%s/automations/authoring_schema", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<AutomationAuthoringSchema> typeReference = new TypeReference<AutomationAuthoringSchema>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
   * Parameters:
   *   source - string - Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
   *   destinations - array(string) - A list of destination paths. Use a trailing slash for folder destinations and omit it for file destinations.

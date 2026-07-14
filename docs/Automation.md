@@ -186,6 +186,19 @@ Automation automation = Automation.find(
 
 ---
 
+## Show the Automation v2 authoring schema and active node catalog
+
+```
+AutomationAuthoringSchema automation = Automation.getAuthoringSchema(
+    
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+
+---
+
 ## Create Automation
 
 ```

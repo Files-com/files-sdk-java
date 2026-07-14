@@ -184,6 +184,26 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * ID of the run whose persisted node outputs this run reused.
+  */
+  @JsonProperty("rerun_of_run_id")
+  public Long rerunOfRunId;
+
+  public Long getRerunOfRunId() {
+    return rerunOfRunId;
+  }
+
+  /**
+  * Node at which this run resumed execution.
+  */
+  @JsonProperty("rerun_from_node_id")
+  public String rerunFromNodeId;
+
+  public String getRerunFromNodeId() {
+    return rerunFromNodeId;
+  }
+
+  /**
   * Automation run runtime.
   */
   @JsonProperty("runtime")
@@ -244,6 +264,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * Execution status, timing, and bounded output summaries for each node. For performance reasons, this is not provided when listing Automation runs.
+  */
+  @JsonProperty("execution_nodes")
+  public AutomationExecutionNode[] executionNodes;
+
+  public AutomationExecutionNode[] getExecutionNodes() {
+    return executionNodes;
+  }
+
+  /**
   * Link to the run journal artifact.
   */
   @JsonProperty("journal_url")
@@ -268,6 +298,16 @@ public class AutomationRun implements ModelInterface {
   */
   public AutomationRun cancel(HashMap<String, Object> parameters) throws IOException {
     return AutomationRun.cancel(this.id, parameters, this.options);
+  }
+
+  /**
+  * Re-run Automation from Node
+  *
+  * Parameters:
+  *   node_id (required) - string - Node ID at which execution should resume.
+  */
+  public AutomationRun rerun(HashMap<String, Object> parameters) throws IOException {
+    return AutomationRun.rerun(this.id, parameters, this.options);
   }
 
 
@@ -382,6 +422,55 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * Parameters:
+  *   id (required) - int64 - Automation Run ID.
+  *   node_id (required) - string - Node ID from the pinned Automation definition.
+  */
+  public static AutomationExecutionNode findNode() throws RuntimeException {
+    return findNode(null, null, null);
+  }
+
+  public static AutomationExecutionNode findNode(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return findNode(id, parameters, null);
+  }
+
+  public static AutomationExecutionNode findNode(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return findNode(null, parameters, options);
+  }
+
+  public static AutomationExecutionNode findNode(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+    if (!parameters.containsKey("node_id") || parameters.get("node_id") == null) {
+      throw new NullPointerException("Parameter missing: node_id parameters[\"node_id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("node_id") && !(parameters.get("node_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: node_id must be of type String parameters[\"node_id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/automation_runs/%s/node", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<AutomationExecutionNode> typeReference = new TypeReference<AutomationExecutionNode>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
   * Cancel Automation Run
   */
   public static AutomationRun cancel() throws RuntimeException {
@@ -416,6 +505,56 @@ public class AutomationRun implements ModelInterface {
 
 
     String url = String.format("%s%s/automation_runs/%s/cancel", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Re-run Automation from Node
+  *
+  * Parameters:
+  *   node_id (required) - string - Node ID at which execution should resume.
+  */
+  public static AutomationRun rerun() throws RuntimeException {
+    return rerun(null, null, null);
+  }
+
+  public static AutomationRun rerun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return rerun(id, parameters, null);
+  }
+
+  public static AutomationRun rerun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return rerun(null, parameters, options);
+  }
+
+  public static AutomationRun rerun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+    if (!parameters.containsKey("node_id") || parameters.get("node_id") == null) {
+      throw new NullPointerException("Parameter missing: node_id parameters[\"node_id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("node_id") && !(parameters.get("node_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: node_id must be of type String parameters[\"node_id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/automation_runs/%s/rerun", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

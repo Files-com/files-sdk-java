@@ -103,5 +103,15 @@ public class AutomationAuthoringSchema implements ModelInterface {
     return nodes;
   }
 
+  /**
+  * Stable public URL for the Automation v2 graph definition JSON Schema.
+  */
+  @JsonProperty("schema_url")
+  public String schemaUrl;
+
+  public String getSchemaUrl() {
+    return schemaUrl;
+  }
+
 
 }

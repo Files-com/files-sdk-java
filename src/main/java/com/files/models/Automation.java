@@ -270,6 +270,20 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * If trigger is `email`, this is the address that triggers the Automation.
+  */
+  @JsonProperty("inbound_email_address")
+  public String inboundEmailAddress;
+
+  public String getInboundEmailAddress() {
+    return inboundEmailAddress;
+  }
+
+  public void setInboundEmailAddress(String inboundEmailAddress) {
+    this.inboundEmailAddress = inboundEmailAddress;
+  }
+
+  /**
   * Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
   */
   @JsonProperty("flatten_destination_structure")
@@ -676,7 +690,10 @@ public class Automation implements ModelInterface {
   }
 
   /**
-  * Manually Run Automation
+  * Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+  *
+  * Parameters:
+  *   items - array(object) - Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
   */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
     Automation.manualRun(this.id, parameters, this.options);
@@ -1045,7 +1062,10 @@ public class Automation implements ModelInterface {
 
 
   /**
-  * Manually Run Automation
+  * Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+  *
+  * Parameters:
+  *   items - array(object) - Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
   */
   public static void manualRun() throws RuntimeException {
     manualRun(null, null, null);
@@ -1074,6 +1094,9 @@ public class Automation implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("items") && !(parameters.get("items") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: items must be of type Object[] parameters[\"items\"]");
     }
 
 

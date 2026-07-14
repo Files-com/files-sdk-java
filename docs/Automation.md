@@ -32,6 +32,7 @@
       }
     }
   ],
+  "inbound_email_address": "example-automation-abc123@inbox.files.com",
   "flatten_destination_structure": true,
   "group_ids": [
     1,
@@ -112,6 +113,7 @@
 * `disabled` / `disabled`  (boolean): If true, this automation will not run.
 * `exclude_pattern` / `excludePattern`  (string): If set, this glob pattern will exclude files from the automation. Supports globs, except on remote mounts.
 * `import_urls` / `importUrls`  (array(object)): List of URLs to be imported and names to be used.
+* `inbound_email_address` / `inboundEmailAddress`  (string): If trigger is `email`, this is the address that triggers the Automation.
 * `flatten_destination_structure` / `flattenDestinationStructure`  (boolean): Normally copy and move automations that use globs will implicitly preserve the source folder structure in the destination.  If this flag is `true`, the source folder structure will be flattened in the destination.  This is useful for copying or moving files from multiple folders into a single destination folder.
 * `group_ids` / `groupIds`  (array(int64)): IDs of Groups for the Automation (i.e. who to Request File from)
 * `ignore_locked_folders` / `ignoreLockedFolders`  (boolean): If true, the Lock Folders behavior will be disregarded for automated actions.
@@ -249,7 +251,7 @@ Automation automation = Automation.create(
 
 ---
 
-## Manually Run Automation
+## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
 void automation = Automation.manualRun(
@@ -262,6 +264,7 @@ void automation = Automation.manualRun(
 ### Parameters
 
 * `id` (Long): Required - Automation ID.
+* `items` (Object[]): Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
 
 
 ---
@@ -333,12 +336,13 @@ void automation = Automation.delete(
 
 ---
 
-## Manually Run Automation
+## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
 Automation automation = Automation.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("items", [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]);
 
 automation.manualRun(parameters);
 ```
@@ -346,6 +350,7 @@ automation.manualRun(parameters);
 ### Parameters
 
 * `id` (Long): Required - Automation ID.
+* `items` (Object[]): Initial items for a v2 manual trigger. Each item contains exactly one `file` path or `data` object.
 
 
 ---

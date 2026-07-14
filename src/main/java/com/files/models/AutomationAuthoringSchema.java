@@ -84,6 +84,16 @@ public class AutomationAuthoringSchema implements ModelInterface {
   }
 
   /**
+  * Typed error families accepted by Automation v2 on_error rules.
+  */
+  @JsonProperty("error_families")
+  public Object[] errorFamilies;
+
+  public Object[] getErrorFamilies() {
+    return errorFamilies;
+  }
+
+  /**
   * Active Automation v2 node authoring metadata.
   */
   @JsonProperty("nodes")

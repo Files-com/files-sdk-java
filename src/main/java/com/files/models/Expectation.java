@@ -354,7 +354,7 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Structured criteria v1 definition for the expectation.
+  * Versioned success criteria definition for the expectation. Criteria v2 supports optional FTS content validation.
   */
   @JsonProperty("criteria")
   public Object criteria;
@@ -469,7 +469,7 @@ public class Expectation implements ModelInterface {
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Structured criteria v1 definition for the expectation.
+  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public Expectation update(HashMap<String, Object> parameters) throws IOException {
@@ -609,7 +609,7 @@ public class Expectation implements ModelInterface {
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Structured criteria v1 definition for the expectation.
+  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Expectation create() throws RuntimeException {
@@ -753,7 +753,7 @@ public class Expectation implements ModelInterface {
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Structured criteria v1 definition for the expectation.
+  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Expectation update() throws RuntimeException {

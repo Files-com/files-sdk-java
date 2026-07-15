@@ -214,7 +214,7 @@ public class ExpectationEvaluation implements ModelInterface {
   }
 
   /**
-  * Captured criteria failures for the window.
+  * Captured criteria failures for the window, including file-scoped FTS errors and returned validation details.
   */
   @JsonProperty("criteria_errors")
   public String[] criteriaErrors;

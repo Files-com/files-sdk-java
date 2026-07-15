@@ -690,6 +690,13 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * Upgrade a legacy Automation to Automation v2
+  */
+  public Automation upgrade(HashMap<String, Object> parameters) throws IOException {
+    return Automation.upgrade(this.id, parameters, this.options);
+  }
+
+  /**
   * Manually Run Automation. v2 Automations require Site or Workspace Admin permission
   *
   * Parameters:
@@ -1055,6 +1062,47 @@ public class Automation implements ModelInterface {
 
 
     String url = String.format("%s%s/automations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+
+    TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Upgrade a legacy Automation to Automation v2
+  */
+  public static Automation upgrade() throws RuntimeException {
+    return upgrade(null, null, null);
+  }
+
+  public static Automation upgrade(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return upgrade(id, parameters, null);
+  }
+
+  public static Automation upgrade(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return upgrade(null, parameters, options);
+  }
+
+  public static Automation upgrade(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/automations/%s/upgrade", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Automation> typeReference = new TypeReference<Automation>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

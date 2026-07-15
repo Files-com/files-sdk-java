@@ -251,6 +251,23 @@ Automation automation = Automation.create(
 
 ---
 
+## Upgrade a legacy Automation to Automation v2
+
+```
+Automation automation = Automation.upgrade(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation ID.
+
+
+---
+
 ## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
 
 ```
@@ -327,6 +344,23 @@ void automation = Automation.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation ID.
+
+
+---
+
+## Upgrade a legacy Automation to Automation v2
+
+```
+Automation automation = Automation.find(id);
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+automation.upgrade(parameters);
 ```
 
 ### Parameters

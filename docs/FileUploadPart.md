@@ -25,7 +25,16 @@
   "partsize": 1,
   "path": "",
   "ref": "upload-1",
-  "upload_uri": "example"
+  "upload_uri": "example",
+  "direct_connection_info": {
+    "version": 1,
+    "server_name": "example",
+    "addresses": [
+      "example"
+    ],
+    "direct_uri": "example",
+    "ca_pem": "example"
+  }
 }
 ```
 
@@ -45,3 +54,4 @@
 * `path` / `path`  (string): New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `ref` / `ref`  (string): Reference name for this upload part
 * `upload_uri` / `uploadUri`  (string): URI to upload this part to
+* `direct_connection_info` / `directConnectionInfo`  (directConnectionInfo): Optional direct connection information for direct Agent transfer attempts

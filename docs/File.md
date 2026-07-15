@@ -38,6 +38,15 @@
   "subfolders_locked?": true,
   "is_locked": true,
   "download_uri": "https://mysite.files.com/...",
+  "direct_connection_info": {
+    "version": 1,
+    "server_name": "example",
+    "addresses": [
+      "example"
+    ],
+    "direct_uri": "example",
+    "ca_pem": "example"
+  },
   "priority_color": "red",
   "preview_id": 1,
   "preview": {
@@ -82,6 +91,7 @@
 * `subfolders_locked?` / `subfoldersLocked`  (boolean): Are subfolders locked and unable to be modified?
 * `is_locked` / `isLocked`  (boolean): Is this folder locked and unable to be modified?
 * `download_uri` / `downloadUri`  (string): Link to download file. Provided only in response to a download request.
+* `direct_connection_info` / `directConnectionInfo`  (directConnectionInfo): Optional direct connection information for direct Agent transfer attempts
 * `priority_color` / `priorityColor`  (string): Bookmark/priority color of file/folder
 * `preview_id` / `previewId`  (int64): File preview ID
 * `preview` / `preview`  (preview): File preview
@@ -96,6 +106,7 @@
 * `structure` / `structure`  (string): If copying folder, copy just the structure?
 * `with_rename` / `withRename`  (boolean): Allow file rename instead of overwrite?
 * `buffered_upload` / `bufferedUpload`  (boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` / `withDirectConnectionInfo`  (boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -117,6 +128,7 @@ File file = File.download(
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (Boolean): Include file preview information?
 * `with_priority_color` (Boolean): Include file priority color information?
+* `with_direct_connection_info` (Boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -149,6 +161,7 @@ FileUploadPart file = File.create(
 * `structure` (String): If copying folder, copy just the structure?
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (Boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -398,6 +411,7 @@ FileUploadPart file = File.beginUpload(
 * `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (Boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -410,6 +424,7 @@ File file = File.find(path);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("with_previews", false);
 parameters.put("with_priority_color", false);
+parameters.put("with_direct_connection_info", false);
 
 file.download(parameters);
 ```
@@ -421,6 +436,7 @@ file.download(parameters);
 * `preview_size` (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
 * `with_previews` (Boolean): Include file preview information?
 * `with_priority_color` (Boolean): Include file priority color information?
+* `with_direct_connection_info` (Boolean): Include optional direct connection information for a direct Agent transfer attempt?
 
 
 ---
@@ -652,6 +668,7 @@ parameters.put("restart", 1);
 parameters.put("size", 1);
 parameters.put("with_rename", false);
 parameters.put("buffered_upload", false);
+parameters.put("with_direct_connection_info", false);
 
 file.beginUpload(parameters);
 ```
@@ -667,3 +684,4 @@ file.beginUpload(parameters);
 * `size` (Long): Total bytes of file being uploaded (include bytes being retained if appending/restarting).
 * `with_rename` (Boolean): Allow file rename instead of overwrite?
 * `buffered_upload` (Boolean): If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+* `with_direct_connection_info` (Boolean): Include optional direct connection information for a direct Agent transfer attempt?

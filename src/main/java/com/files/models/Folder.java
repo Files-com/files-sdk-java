@@ -518,6 +518,20 @@ public class Folder implements ModelInterface {
   }
 
   /**
+  * Optional direct connection information for direct Agent transfer attempts
+  */
+  @JsonProperty("direct_connection_info")
+  public DirectConnectionInfo directConnectionInfo;
+
+  public DirectConnectionInfo getDirectConnectionInfo() {
+    return directConnectionInfo;
+  }
+
+  public void setDirectConnectionInfo(DirectConnectionInfo directConnectionInfo) {
+    this.directConnectionInfo = directConnectionInfo;
+  }
+
+  /**
   * Bookmark/priority color of file/folder
   */
   @JsonProperty("priority_color")

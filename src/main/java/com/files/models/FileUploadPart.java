@@ -323,5 +323,15 @@ public class FileUploadPart implements ModelInterface {
     return uploadUri;
   }
 
+  /**
+  * Optional direct connection information for direct Agent transfer attempts
+  */
+  @JsonProperty("direct_connection_info")
+  public DirectConnectionInfo directConnectionInfo;
+
+  public DirectConnectionInfo getDirectConnectionInfo() {
+    return directConnectionInfo;
+  }
+
 
 }

@@ -734,6 +734,20 @@ public class File implements ModelInterface {
   }
 
   /**
+  * Optional direct connection information for direct Agent transfer attempts
+  */
+  @JsonProperty("direct_connection_info")
+  public DirectConnectionInfo directConnectionInfo;
+
+  public DirectConnectionInfo getDirectConnectionInfo() {
+    return directConnectionInfo;
+  }
+
+  public void setDirectConnectionInfo(DirectConnectionInfo directConnectionInfo) {
+    this.directConnectionInfo = directConnectionInfo;
+  }
+
+  /**
   * Bookmark/priority color of file/folder
   */
   @JsonProperty("priority_color")
@@ -929,6 +943,20 @@ public class File implements ModelInterface {
   }
 
   /**
+  * Include optional direct connection information for a direct Agent transfer attempt?
+  */
+  @JsonProperty("with_direct_connection_info")
+  public Boolean withDirectConnectionInfo;
+
+  public Boolean getWithDirectConnectionInfo() {
+    return withDirectConnectionInfo;
+  }
+
+  public void setWithDirectConnectionInfo(Boolean withDirectConnectionInfo) {
+    this.withDirectConnectionInfo = withDirectConnectionInfo;
+  }
+
+  /**
   * Download File
   *
   * Parameters:
@@ -936,6 +964,7 @@ public class File implements ModelInterface {
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
+  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
   */
   public File download(HashMap<String, Object> parameters) throws IOException {
     return File.download(this.path, parameters, this.options);
@@ -1064,6 +1093,7 @@ public class File implements ModelInterface {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
   */
   public FileUploadPart beginUpload(HashMap<String, Object> parameters) throws IOException {
     return File.beginUpload(this.path, parameters, this.options);
@@ -1082,6 +1112,7 @@ public class File implements ModelInterface {
   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
   *   with_previews - boolean - Include file preview information?
   *   with_priority_color - boolean - Include file priority color information?
+  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
   */
   public static File download() throws RuntimeException {
     return download(null, null, null);
@@ -1123,6 +1154,9 @@ public class File implements ModelInterface {
     if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
     }
+    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
+    }
 
 
 
@@ -1151,6 +1185,7 @@ public class File implements ModelInterface {
   *   structure - string - If copying folder, copy just the structure?
   *   with_rename - boolean - Allow file rename instead of overwrite?
   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
   */
   public static FileUploadPart create() throws RuntimeException {
     return create(null, null, null);
@@ -1221,6 +1256,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
+    }
+    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
     }
 
     if (!parameters.containsKey("action")) {
@@ -1891,6 +1929,7 @@ public class File implements ModelInterface {
   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
   *   with_rename - boolean - Allow file rename instead of overwrite?
   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
   */
   public static FileUploadPart beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
@@ -1943,6 +1982,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
+    }
+    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
     }
 
 

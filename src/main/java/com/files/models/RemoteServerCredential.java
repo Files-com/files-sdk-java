@@ -284,6 +284,48 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
+  * SharePoint: Microsoft Entra tenant ID for app-only authentication.
+  */
+  @JsonProperty("sharepoint_tenant_id")
+  public String sharepointTenantId;
+
+  public String getSharepointTenantId() {
+    return sharepointTenantId;
+  }
+
+  public void setSharepointTenantId(String sharepointTenantId) {
+    this.sharepointTenantId = sharepointTenantId;
+  }
+
+  /**
+  * SharePoint: Microsoft Entra application client ID for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_id")
+  public String sharepointClientId;
+
+  public String getSharepointClientId() {
+    return sharepointClientId;
+  }
+
+  public void setSharepointClientId(String sharepointClientId) {
+    this.sharepointClientId = sharepointClientId;
+  }
+
+  /**
+  * SharePoint: App-only credential type. Either secret or certificate.
+  */
+  @JsonProperty("sharepoint_app_credential_type")
+  public String sharepointAppCredentialType;
+
+  public String getSharepointAppCredentialType() {
+    return sharepointAppCredentialType;
+  }
+
+  public void setSharepointAppCredentialType(String sharepointAppCredentialType) {
+    this.sharepointAppCredentialType = sharepointAppCredentialType;
+  }
+
+  /**
   * Remote server username.
   */
   @JsonProperty("username")
@@ -522,6 +564,34 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
+  * SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_certificate")
+  public String sharepointClientCertificate;
+
+  public String getSharepointClientCertificate() {
+    return sharepointClientCertificate;
+  }
+
+  public void setSharepointClientCertificate(String sharepointClientCertificate) {
+    this.sharepointClientCertificate = sharepointClientCertificate;
+  }
+
+  /**
+  * SharePoint: Microsoft Entra application client secret for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_secret")
+  public String sharepointClientSecret;
+
+  public String getSharepointClientSecret() {
+    return sharepointClientSecret;
+  }
+
+  public void setSharepointClientSecret(String sharepointClientSecret) {
+    this.sharepointClientSecret = sharepointClientSecret;
+  }
+
+  /**
   * Wasabi: Secret Key
   */
   @JsonProperty("wasabi_secret_key")
@@ -562,6 +632,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   linode_access_key - string - Linode: Access Key
   *   s3_compatible_access_key - string - S3-compatible: Access Key
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   password - string - Password, if needed.
@@ -580,6 +652,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   wasabi_secret_key - string - Wasabi: Secret Key
   */
   public RemoteServerCredential update(HashMap<String, Object> parameters) throws IOException {
@@ -717,6 +791,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   linode_access_key - string - Linode: Access Key
   *   s3_compatible_access_key - string - S3-compatible: Access Key
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   password - string - Password, if needed.
@@ -735,6 +811,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   wasabi_secret_key - string - Wasabi: Secret Key
   *   workspace_id - int64 - Workspace ID (0 for default workspace)
   *   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
@@ -786,6 +864,12 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
+    }
+    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
     }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
@@ -841,6 +925,12 @@ public class RemoteServerCredential implements ModelInterface {
     if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
     }
+    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
+    }
     if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
     }
@@ -872,6 +962,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
   *   linode_access_key - string - Linode: Access Key
   *   s3_compatible_access_key - string - S3-compatible: Access Key
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
   *   password - string - Password, if needed.
@@ -890,6 +982,8 @@ public class RemoteServerCredential implements ModelInterface {
   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
   *   linode_secret_key - string - Linode: Secret Key
   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   wasabi_secret_key - string - Wasabi: Secret Key
   */
   public static RemoteServerCredential update() throws RuntimeException {
@@ -953,6 +1047,12 @@ public class RemoteServerCredential implements ModelInterface {
     if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
     }
+    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
+    }
+    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
+    }
     if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
     }
@@ -1006,6 +1106,12 @@ public class RemoteServerCredential implements ModelInterface {
     }
     if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
     }
     if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");

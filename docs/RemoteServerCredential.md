@@ -19,6 +19,9 @@
   "filebase_access_key": "example",
   "cloudflare_access_key": "example",
   "linode_access_key": "example",
+  "sharepoint_tenant_id": "00000000-0000-0000-0000-000000000000",
+  "sharepoint_client_id": "00000000-0000-0000-0000-000000000000",
+  "sharepoint_app_credential_type": "secret",
   "username": "user"
 }
 ```
@@ -38,6 +41,9 @@
 * `filebase_access_key` / `filebaseAccessKey`  (string): Filebase: Access Key.
 * `cloudflare_access_key` / `cloudflareAccessKey`  (string): Cloudflare: Access Key.
 * `linode_access_key` / `linodeAccessKey`  (string): Linode: Access Key
+* `sharepoint_tenant_id` / `sharepointTenantId`  (string): SharePoint: Microsoft Entra tenant ID for app-only authentication.
+* `sharepoint_client_id` / `sharepointClientId`  (string): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_app_credential_type` / `sharepointAppCredentialType`  (string): SharePoint: App-only credential type. Either secret or certificate.
 * `username` / `username`  (string): Remote server username.
 * `password` / `password`  (string): Password, if needed.
 * `private_key` / `privateKey`  (string): Private key, if needed.
@@ -55,6 +61,8 @@
 * `google_cloud_storage_s3_compatible_secret_key` / `googleCloudStorageS3CompatibleSecretKey`  (string): Google Cloud Storage: S3-compatible secret key
 * `linode_secret_key` / `linodeSecretKey`  (string): Linode: Secret Key
 * `s3_compatible_secret_key` / `s3CompatibleSecretKey`  (string): S3-compatible: Secret Key
+* `sharepoint_client_certificate` / `sharepointClientCertificate`  (string): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` / `sharepointClientSecret`  (string): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `wasabi_secret_key` / `wasabiSecretKey`  (string): Wasabi: Secret Key
 * `copy_values_from_credential_id` / `copyValuesFromCredentialId`  (int64): ID of Remote Server Credential to copy omitted values from.
 
@@ -122,6 +130,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `linode_access_key` (String): Linode: Access Key
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `password` (String): Password, if needed.
@@ -140,6 +150,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 * `google_cloud_storage_s3_compatible_secret_key` (String): Google Cloud Storage: S3-compatible secret key
 * `linode_secret_key` (String): Linode: Secret Key
 * `s3_compatible_secret_key` (String): S3-compatible: Secret Key
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `wasabi_secret_key` (String): Wasabi: Secret Key
 * `workspace_id` (Long): Workspace ID (0 for default workspace)
 * `copy_values_from_credential_id` (Long): ID of Remote Server Credential to copy omitted values from.
@@ -171,6 +183,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `linode_access_key` (String): Linode: Access Key
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `password` (String): Password, if needed.
@@ -189,6 +203,8 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 * `google_cloud_storage_s3_compatible_secret_key` (String): Google Cloud Storage: S3-compatible secret key
 * `linode_secret_key` (String): Linode: Secret Key
 * `s3_compatible_secret_key` (String): S3-compatible: Secret Key
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `wasabi_secret_key` (String): Wasabi: Secret Key
 
 
@@ -228,6 +244,8 @@ parameters.put("filebase_access_key", "example");
 parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
 parameters.put("linode_access_key", "example");
 parameters.put("s3_compatible_access_key", "example");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
 parameters.put("username", "user");
 parameters.put("wasabi_access_key", "example");
 
@@ -248,6 +266,8 @@ remoteServerCredential.update(parameters);
 * `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
 * `linode_access_key` (String): Linode: Access Key
 * `s3_compatible_access_key` (String): S3-compatible: Access Key
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
 * `password` (String): Password, if needed.
@@ -266,6 +286,8 @@ remoteServerCredential.update(parameters);
 * `google_cloud_storage_s3_compatible_secret_key` (String): Google Cloud Storage: S3-compatible secret key
 * `linode_secret_key` (String): Linode: Secret Key
 * `s3_compatible_secret_key` (String): S3-compatible: Secret Key
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `wasabi_secret_key` (String): Wasabi: Secret Key
 
 

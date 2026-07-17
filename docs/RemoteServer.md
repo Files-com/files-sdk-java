@@ -44,6 +44,11 @@
   "auth_status": "in_setup",
   "auth_account_name": "me@example.com",
   "one_drive_account_type": "personal",
+  "sharepoint_tenant_id": "00000000-0000-0000-0000-000000000000",
+  "sharepoint_client_id": "00000000-0000-0000-0000-000000000000",
+  "sharepoint_app_authentication": true,
+  "sharepoint_app_credential_type": "secret",
+  "sharepoint_site_url": "https://example.sharepoint.com/sites/accounting",
   "azure_blob_storage_account": "storage-account-name",
   "azure_blob_storage_container": "container-name",
   "azure_blob_storage_hierarchical_namespace": true,
@@ -119,6 +124,11 @@
 * `auth_status` / `authStatus`  (string): Either `in_setup` or `complete`
 * `auth_account_name` / `authAccountName`  (string): Describes the authorized account
 * `one_drive_account_type` / `oneDriveAccountType`  (string): OneDrive: Either personal or business_other account types
+* `sharepoint_tenant_id` / `sharepointTenantId`  (string): SharePoint: Microsoft Entra tenant ID for app-only authentication.
+* `sharepoint_client_id` / `sharepointClientId`  (string): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_app_authentication` / `sharepointAppAuthentication`  (boolean): SharePoint: If true, this remote server uses Microsoft Entra app-only authentication.
+* `sharepoint_app_credential_type` / `sharepointAppCredentialType`  (string): SharePoint: App-only credential type. Either secret or certificate.
+* `sharepoint_site_url` / `sharepointSiteUrl`  (string): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
 * `azure_blob_storage_account` / `azureBlobStorageAccount`  (string): Azure Blob Storage: Account name
 * `azure_blob_storage_container` / `azureBlobStorageContainer`  (string): Azure Blob Storage: Container name
 * `azure_blob_storage_hierarchical_namespace` / `azureBlobStorageHierarchicalNamespace`  (boolean): Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
@@ -156,6 +166,8 @@
 * `private_key` / `privateKey`  (string): Private key, if needed.
 * `private_key_passphrase` / `privateKeyPassphrase`  (string): Passphrase for private key if needed.
 * `reset_authentication` / `resetAuthentication`  (boolean): Reset authenticated account?
+* `sharepoint_client_certificate` / `sharepointClientCertificate`  (string): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` / `sharepointClientSecret`  (string): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `ssl_certificate` / `sslCertificate`  (string): SSL client certificate.
 * `aws_secret_key` / `awsSecretKey`  (string): AWS: secret key.
 * `azure_blob_storage_access_key` / `azureBlobStorageAccessKey`  (string): Azure Blob Storage: Access Key
@@ -249,6 +261,8 @@ RemoteServer remoteServer = RemoteServer.create(
 * `private_key` (String): Private key, if needed.
 * `private_key_passphrase` (String): Passphrase for private key if needed.
 * `reset_authentication` (Boolean): Reset authenticated account?
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `ssl_certificate` (String): SSL client certificate.
 * `aws_secret_key` (String): AWS: secret key.
 * `azure_blob_storage_access_key` (String): Azure Blob Storage: Access Key
@@ -317,6 +331,9 @@ RemoteServer remoteServer = RemoteServer.create(
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_site_url` (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `ssl` (String): Should we require SSL?
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
@@ -389,6 +406,8 @@ RemoteServer remoteServer = RemoteServer.update(
 * `private_key` (String): Private key, if needed.
 * `private_key_passphrase` (String): Passphrase for private key if needed.
 * `reset_authentication` (Boolean): Reset authenticated account?
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `ssl_certificate` (String): SSL client certificate.
 * `aws_secret_key` (String): AWS: secret key.
 * `azure_blob_storage_access_key` (String): Azure Blob Storage: Access Key
@@ -457,6 +476,9 @@ RemoteServer remoteServer = RemoteServer.update(
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_site_url` (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `ssl` (String): Should we require SSL?
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.
@@ -598,6 +620,9 @@ parameters.put("s3_region", "us-east-1");
 parameters.put("server_certificate", "require_match");
 parameters.put("server_host_key", "[public key]");
 parameters.put("server_type", "s3");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_site_url", "https://example.sharepoint.com/sites/accounting");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
 parameters.put("ssl", "if_available");
 parameters.put("username", "user");
 parameters.put("wasabi_access_key", "example");
@@ -614,6 +639,8 @@ remoteServer.update(parameters);
 * `private_key` (String): Private key, if needed.
 * `private_key_passphrase` (String): Passphrase for private key if needed.
 * `reset_authentication` (Boolean): Reset authenticated account?
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
 * `ssl_certificate` (String): SSL client certificate.
 * `aws_secret_key` (String): AWS: secret key.
 * `azure_blob_storage_access_key` (String): Azure Blob Storage: Access Key
@@ -682,6 +709,9 @@ remoteServer.update(parameters);
 * `server_certificate` (String): Remote server certificate
 * `server_host_key` (String): Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
 * `server_type` (String): Remote server type.
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_site_url` (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
 * `ssl` (String): Should we require SSL?
 * `username` (String): Remote server username.
 * `wasabi_access_key` (String): Wasabi: Access Key.

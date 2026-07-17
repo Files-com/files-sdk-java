@@ -634,6 +634,76 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * SharePoint: Microsoft Entra tenant ID for app-only authentication.
+  */
+  @JsonProperty("sharepoint_tenant_id")
+  public String sharepointTenantId;
+
+  public String getSharepointTenantId() {
+    return sharepointTenantId;
+  }
+
+  public void setSharepointTenantId(String sharepointTenantId) {
+    this.sharepointTenantId = sharepointTenantId;
+  }
+
+  /**
+  * SharePoint: Microsoft Entra application client ID for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_id")
+  public String sharepointClientId;
+
+  public String getSharepointClientId() {
+    return sharepointClientId;
+  }
+
+  public void setSharepointClientId(String sharepointClientId) {
+    this.sharepointClientId = sharepointClientId;
+  }
+
+  /**
+  * SharePoint: If true, this remote server uses Microsoft Entra app-only authentication.
+  */
+  @JsonProperty("sharepoint_app_authentication")
+  public Boolean sharepointAppAuthentication;
+
+  public Boolean getSharepointAppAuthentication() {
+    return sharepointAppAuthentication;
+  }
+
+  public void setSharepointAppAuthentication(Boolean sharepointAppAuthentication) {
+    this.sharepointAppAuthentication = sharepointAppAuthentication;
+  }
+
+  /**
+  * SharePoint: App-only credential type. Either secret or certificate.
+  */
+  @JsonProperty("sharepoint_app_credential_type")
+  public String sharepointAppCredentialType;
+
+  public String getSharepointAppCredentialType() {
+    return sharepointAppCredentialType;
+  }
+
+  public void setSharepointAppCredentialType(String sharepointAppCredentialType) {
+    this.sharepointAppCredentialType = sharepointAppCredentialType;
+  }
+
+  /**
+  * SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+  */
+  @JsonProperty("sharepoint_site_url")
+  public String sharepointSiteUrl;
+
+  public String getSharepointSiteUrl() {
+    return sharepointSiteUrl;
+  }
+
+  public void setSharepointSiteUrl(String sharepointSiteUrl) {
+    this.sharepointSiteUrl = sharepointSiteUrl;
+  }
+
+  /**
   * Azure Blob Storage: Account name
   */
   @JsonProperty("azure_blob_storage_account")
@@ -1152,6 +1222,34 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_certificate")
+  public String sharepointClientCertificate;
+
+  public String getSharepointClientCertificate() {
+    return sharepointClientCertificate;
+  }
+
+  public void setSharepointClientCertificate(String sharepointClientCertificate) {
+    this.sharepointClientCertificate = sharepointClientCertificate;
+  }
+
+  /**
+  * SharePoint: Microsoft Entra application client secret for app-only authentication.
+  */
+  @JsonProperty("sharepoint_client_secret")
+  public String sharepointClientSecret;
+
+  public String getSharepointClientSecret() {
+    return sharepointClientSecret;
+  }
+
+  public void setSharepointClientSecret(String sharepointClientSecret) {
+    this.sharepointClientSecret = sharepointClientSecret;
+  }
+
+  /**
   * SSL client certificate.
   */
   @JsonProperty("ssl_certificate")
@@ -1408,6 +1506,8 @@ public class RemoteServer implements ModelInterface {
   *   private_key - string - Private key, if needed.
   *   private_key_passphrase - string - Passphrase for private key if needed.
   *   reset_authentication - boolean - Reset authenticated account?
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   ssl_certificate - string - SSL client certificate.
   *   aws_secret_key - string - AWS: secret key.
   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -1476,6 +1576,9 @@ public class RemoteServer implements ModelInterface {
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   ssl - string - Should we require SSL?
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
@@ -1657,6 +1760,8 @@ public class RemoteServer implements ModelInterface {
   *   private_key - string - Private key, if needed.
   *   private_key_passphrase - string - Passphrase for private key if needed.
   *   reset_authentication - boolean - Reset authenticated account?
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   ssl_certificate - string - SSL client certificate.
   *   aws_secret_key - string - AWS: secret key.
   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -1725,6 +1830,9 @@ public class RemoteServer implements ModelInterface {
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   ssl - string - Should we require SSL?
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
@@ -1761,6 +1869,12 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("reset_authentication") && !(parameters.get("reset_authentication") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: reset_authentication must be of type Boolean parameters[\"reset_authentication\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
     }
     if (parameters.containsKey("ssl_certificate") && !(parameters.get("ssl_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_certificate must be of type String parameters[\"ssl_certificate\"]");
@@ -1965,6 +2079,15 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
+    }
+    if (parameters.containsKey("sharepoint_site_url") && !(parameters.get("sharepoint_site_url") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_site_url must be of type String parameters[\"sharepoint_site_url\"]");
+    }
+    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
     }
     if (parameters.containsKey("ssl") && !(parameters.get("ssl") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl must be of type String parameters[\"ssl\"]");
@@ -2127,6 +2250,8 @@ public class RemoteServer implements ModelInterface {
   *   private_key - string - Private key, if needed.
   *   private_key_passphrase - string - Passphrase for private key if needed.
   *   reset_authentication - boolean - Reset authenticated account?
+  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
   *   ssl_certificate - string - SSL client certificate.
   *   aws_secret_key - string - AWS: secret key.
   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
@@ -2195,6 +2320,9 @@ public class RemoteServer implements ModelInterface {
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Remote server SSH Host Key. If provided, we will require that the server host key matches the provided key. Uses OpenSSH format similar to what would go into ~/.ssh/known_hosts
   *   server_type - string - Remote server type.
+  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+  *   sharepoint_site_url - string - SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
   *   ssl - string - Should we require SSL?
   *   username - string - Remote server username.
   *   wasabi_access_key - string - Wasabi: Access Key.
@@ -2240,6 +2368,12 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("reset_authentication") && !(parameters.get("reset_authentication") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: reset_authentication must be of type Boolean parameters[\"reset_authentication\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
     }
     if (parameters.containsKey("ssl_certificate") && !(parameters.get("ssl_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_certificate must be of type String parameters[\"ssl_certificate\"]");
@@ -2444,6 +2578,15 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
+    }
+    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
+    }
+    if (parameters.containsKey("sharepoint_site_url") && !(parameters.get("sharepoint_site_url") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_site_url must be of type String parameters[\"sharepoint_site_url\"]");
+    }
+    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
     }
     if (parameters.containsKey("ssl") && !(parameters.get("ssl") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl must be of type String parameters[\"ssl\"]");

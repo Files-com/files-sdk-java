@@ -158,6 +158,20 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
+  * Workspace ID. `0` means the default workspace.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * An array of paths to add to the snapshot.
   */
   @JsonProperty("paths")
@@ -299,6 +313,7 @@ public class Snapshot implements ModelInterface {
   *   expires_at - string - When the snapshot expires.
   *   name - string - A name for the snapshot.
   *   paths - array(string) - An array of paths to add to the snapshot.
+  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Snapshot create() throws RuntimeException {
     return create(null, null);
@@ -323,6 +338,9 @@ public class Snapshot implements ModelInterface {
     }
     if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
 
 

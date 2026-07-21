@@ -9,7 +9,8 @@
   "finalized_at": "2000-01-01T01:00:00Z",
   "name": "My Snapshot",
   "user_id": 1,
-  "bundle_id": 1
+  "bundle_id": 1,
+  "workspace_id": 1
 }
 ```
 
@@ -19,6 +20,7 @@
 * `name` / `name`  (string): A name for the snapshot.
 * `user_id` / `userId`  (int64): The user that created this snapshot, if applicable.
 * `bundle_id` / `bundleId`  (int64): The bundle using this snapshot, if applicable.
+* `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
 * `paths` / `paths`  (array(string)): An array of paths to add to the snapshot.
 
 
@@ -74,6 +76,7 @@ Snapshot snapshot = Snapshot.create(
 * `expires_at` (String): When the snapshot expires.
 * `name` (String): A name for the snapshot.
 * `paths` (String[]): An array of paths to add to the snapshot.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
 ---

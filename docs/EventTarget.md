@@ -23,8 +23,8 @@
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, this default-workspace target can receive events from all workspaces.
 * `enabled` / `enabled`  (boolean): Whether this Event Target can receive events.
-* `config` / `config`  (object): Event Target configuration.
-* `delivery_policy` / `deliveryPolicy`  (object): Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+* `config` / `config`  (object): Event Target configuration. Folder targets accept path and format (json or csv).
+* `delivery_policy` / `deliveryPolicy`  (object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
 * `created_at` / `createdAt`  (date-time): Event Target create date/time.
 * `updated_at` / `updatedAt`  (date-time): Event Target update date/time.
 
@@ -83,10 +83,10 @@ EventTarget eventTarget = EventTarget.create(
 * `name` (String): Required - Event Target name.
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace target can receive events from all workspaces.
-* `target_type` (String): Required - Event Target type.
 * `enabled` (Boolean): Whether this Event Target can receive events.
-* `config` (Object): Required - Event Target configuration.
-* `delivery_policy` (Object): Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+* `config` (Object): Required - Event Target configuration. Folder targets accept path and format (json or csv).
+* `delivery_policy` (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
+* `target_type` (String): Required - Event Target type.
 
 
 ---
@@ -107,10 +107,9 @@ EventTarget eventTarget = EventTarget.update(
 * `name` (String): Event Target name.
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace target can receive events from all workspaces.
-* `target_type` (String): Event Target type.
 * `enabled` (Boolean): Whether this Event Target can receive events.
-* `config` (Object): Event Target configuration.
-* `delivery_policy` (Object): Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+* `config` (Object): Event Target configuration. Folder targets accept path and format (json or csv).
+* `delivery_policy` (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
 
 
 ---
@@ -141,7 +140,6 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "example");
 parameters.put("workspace_id", 1);
 parameters.put("apply_to_all_workspaces", true);
-parameters.put("target_type", "example");
 parameters.put("enabled", true);
 parameters.put("config", "example");
 parameters.put("delivery_policy", "example");
@@ -155,10 +153,9 @@ eventTarget.update(parameters);
 * `name` (String): Event Target name.
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace target can receive events from all workspaces.
-* `target_type` (String): Event Target type.
 * `enabled` (Boolean): Whether this Event Target can receive events.
-* `config` (Object): Event Target configuration.
-* `delivery_policy` (Object): Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+* `config` (Object): Event Target configuration. Folder targets accept path and format (json or csv).
+* `delivery_policy` (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
 
 
 ---

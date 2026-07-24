@@ -158,7 +158,7 @@ public class EventTarget implements ModelInterface {
   }
 
   /**
-  * Event Target configuration.
+  * Event Target configuration. Folder targets accept path and format (json or csv).
   */
   @JsonProperty("config")
   public Object config;
@@ -172,7 +172,7 @@ public class EventTarget implements ModelInterface {
   }
 
   /**
-  * Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+  * Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
   */
   @JsonProperty("delivery_policy")
   public Object deliveryPolicy;
@@ -210,10 +210,9 @@ public class EventTarget implements ModelInterface {
   *   name - string - Event Target name.
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-  *   target_type - string - Event Target type.
   *   enabled - boolean - Whether this Event Target can receive events.
-  *   config - object - Event Target configuration.
-  *   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+  *   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
+  *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
   */
   public EventTarget update(HashMap<String, Object> parameters) throws IOException {
     return EventTarget.update(this.id, parameters, this.options);
@@ -338,10 +337,10 @@ public class EventTarget implements ModelInterface {
   *   name (required) - string - Event Target name.
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-  *   target_type (required) - string - Event Target type.
   *   enabled - boolean - Whether this Event Target can receive events.
-  *   config (required) - object - Event Target configuration.
-  *   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+  *   config (required) - object - Event Target configuration. Folder targets accept path and format (json or csv).
+  *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
+  *   target_type (required) - string - Event Target type.
   */
   public static EventTarget create() throws RuntimeException {
     return create(null, null);
@@ -360,11 +359,11 @@ public class EventTarget implements ModelInterface {
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
-    if (!parameters.containsKey("target_type") || parameters.get("target_type") == null) {
-      throw new NullPointerException("Parameter missing: target_type parameters[\"target_type\"]");
-    }
     if (!parameters.containsKey("config") || parameters.get("config") == null) {
       throw new NullPointerException("Parameter missing: config parameters[\"config\"]");
+    }
+    if (!parameters.containsKey("target_type") || parameters.get("target_type") == null) {
+      throw new NullPointerException("Parameter missing: target_type parameters[\"target_type\"]");
     }
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
@@ -376,9 +375,6 @@ public class EventTarget implements ModelInterface {
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
     }
-    if (parameters.containsKey("target_type") && !(parameters.get("target_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: target_type must be of type String parameters[\"target_type\"]");
-    }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
     }
@@ -387,6 +383,9 @@ public class EventTarget implements ModelInterface {
     }
     if (parameters.containsKey("delivery_policy") && !(parameters.get("delivery_policy") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: delivery_policy must be of type Object parameters[\"delivery_policy\"]");
+    }
+    if (parameters.containsKey("target_type") && !(parameters.get("target_type") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: target_type must be of type String parameters[\"target_type\"]");
     }
 
 
@@ -402,10 +401,9 @@ public class EventTarget implements ModelInterface {
   *   name - string - Event Target name.
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-  *   target_type - string - Event Target type.
   *   enabled - boolean - Whether this Event Target can receive events.
-  *   config - object - Event Target configuration.
-  *   delivery_policy - object - Event Target delivery policy. Email targets support batch_interval in seconds, between 600 and 86400.
+  *   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
+  *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400.
   */
   public static EventTarget update() throws RuntimeException {
     return update(null, null, null);
@@ -443,9 +441,6 @@ public class EventTarget implements ModelInterface {
     }
     if (parameters.containsKey("apply_to_all_workspaces") && !(parameters.get("apply_to_all_workspaces") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: apply_to_all_workspaces must be of type Boolean parameters[\"apply_to_all_workspaces\"]");
-    }
-    if (parameters.containsKey("target_type") && !(parameters.get("target_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: target_type must be of type String parameters[\"target_type\"]");
     }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");

@@ -158,7 +158,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  * IDs of child sites excluded from this default policy.
   */
   @JsonProperty("skip_child_site_ids")
   public Long[] skipChildSiteIds;
@@ -169,6 +169,34 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
   public void setSkipChildSiteIds(Long[] skipChildSiteIds) {
     this.skipChildSiteIds = skipChildSiteIds;
+  }
+
+  /**
+  * IDs of child sites explicitly assigned to this non-default policy.
+  */
+  @JsonProperty("child_site_ids")
+  public Long[] childSiteIds;
+
+  public Long[] getChildSiteIds() {
+    return childSiteIds;
+  }
+
+  public void setChildSiteIds(Long[] childSiteIds) {
+    this.childSiteIds = childSiteIds;
+  }
+
+  /**
+  * Whether this policy applies to child sites not explicitly assigned to another policy.
+  */
+  @JsonProperty("default_policy")
+  public Boolean defaultPolicy;
+
+  public Boolean getDefaultPolicy() {
+    return defaultPolicy;
+  }
+
+  public void setDefaultPolicy(Boolean defaultPolicy) {
+    this.defaultPolicy = defaultPolicy;
   }
 
   /**
@@ -194,7 +222,9 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   /**
   * Parameters:
   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
   *   policy_type - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
   *   description - string - Description for this policy.
@@ -312,7 +342,9 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   /**
   * Parameters:
   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
   *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
   *   description - string - Description for this policy.
@@ -341,6 +373,12 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
     }
+    if (parameters.containsKey("child_site_ids") && !(parameters.get("child_site_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: child_site_ids must be of type Long[] parameters[\"child_site_ids\"]");
+    }
+    if (parameters.containsKey("default_policy") && !(parameters.get("default_policy") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: default_policy must be of type Boolean parameters[\"default_policy\"]");
+    }
     if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");
     }
@@ -362,7 +400,9 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   /**
   * Parameters:
   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites that this policy has been exempted from. If `skip_child_site_ids` is empty, the policy will be applied to all child sites. To apply a policy to a child site that has been exempted, remove it from `skip_child_site_ids` or set it to an empty array (`[]`).
+  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
   *   policy_type - string - Type of policy.  Valid values: `settings`.
   *   name - string - Name for this policy.
   *   description - string - Description for this policy.
@@ -400,6 +440,12 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     }
     if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
+    }
+    if (parameters.containsKey("child_site_ids") && !(parameters.get("child_site_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: child_site_ids must be of type Long[] parameters[\"child_site_ids\"]");
+    }
+    if (parameters.containsKey("default_policy") && !(parameters.get("default_policy") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: default_policy must be of type Boolean parameters[\"default_policy\"]");
     }
     if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");

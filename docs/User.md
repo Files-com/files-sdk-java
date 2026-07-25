@@ -181,8 +181,8 @@
 * `time_zone` / `timeZone`  (string): User time zone
 * `type_of_2fa` / `typeOf2fa`  (string): Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
 * `type_of_2fa_for_display` / `typeOf2faForDisplay`  (string): Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
-* `user_root` / `userRoot`  (string): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
-* `user_home` / `userHome`  (string): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `user_root` / `userRoot`  (string): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+* `user_home` / `userHome`  (string): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `days_remaining_until_password_expire` / `daysRemainingUntilPasswordExpire`  (int64): Number of days remaining until password expires
 * `password_expire_at` / `passwordExpireAt`  (date-time): Password expiration datetime
 * `avatar_file` / `avatarFile`  (file): An image file for your user avatar.
@@ -321,8 +321,8 @@ User user = User.create(
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone
-* `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
-* `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+* `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): Required - User's username
 * `workspace_id` (Long): Workspace ID
@@ -457,8 +457,8 @@ User user = User.update(
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone
-* `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
-* `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+* `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID
@@ -676,8 +676,8 @@ user.update(parameters);
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone
-* `user_root` (String): Root folder for FTP (and optionally SFTP if the appropriate site-wide setting is set).  Note that this is not used for API, Desktop, or Web interface.
-* `user_home` (String): Home folder for FTP/SFTP.  Note that this is not used for API, Desktop, or Web interface.
+* `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+* `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID

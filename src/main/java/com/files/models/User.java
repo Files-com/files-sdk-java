@@ -966,6 +966,34 @@ public class User implements ModelInterface {
   }
 
   /**
+  * ID of the internal Group responsible for this Partner User, overriding the Partner default.
+  */
+  @JsonProperty("responsible_group_id")
+  public Long responsibleGroupId;
+
+  public Long getResponsibleGroupId() {
+    return responsibleGroupId;
+  }
+
+  public void setResponsibleGroupId(Long responsibleGroupId) {
+    this.responsibleGroupId = responsibleGroupId;
+  }
+
+  /**
+  * ID of the internal User responsible for this Partner User, overriding the Partner default.
+  */
+  @JsonProperty("responsible_user_id")
+  public Long responsibleUserId;
+
+  public Long getResponsibleUserId() {
+    return responsibleUserId;
+  }
+
+  public void setResponsibleUserId(Long responsibleUserId) {
+    this.responsibleUserId = responsibleUserId;
+  }
+
+  /**
   * Is the user an allowed to view all (non-billing) site configuration for this site?
   */
   @JsonProperty("readonly_site_admin")
@@ -1514,6 +1542,8 @@ public class User implements ModelInterface {
   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
+  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
@@ -1737,6 +1767,8 @@ public class User implements ModelInterface {
   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
+  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
@@ -1921,6 +1953,12 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");
+    }
+    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
+    }
+    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
@@ -2151,6 +2189,8 @@ public class User implements ModelInterface {
   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
   *   require_password_change - boolean - Is a password change required upon next user login?
+  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
@@ -2347,6 +2387,12 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");
+    }
+    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
+    }
+    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");

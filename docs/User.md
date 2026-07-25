@@ -70,6 +70,8 @@
   "active_2fa": true,
   "require_password_change": true,
   "password_expired": true,
+  "responsible_group_id": 1,
+  "responsible_user_id": 1,
   "readonly_site_admin": true,
   "restapi_permission": true,
   "self_managed": true,
@@ -159,6 +161,8 @@
 * `active_2fa` / `active2fa`  (boolean): Is 2fa active for the user?
 * `require_password_change` / `requirePasswordChange`  (boolean): Is a password change required upon next user login?
 * `password_expired` / `passwordExpired`  (boolean): Is user's password expired?
+* `responsible_group_id` / `responsibleGroupId`  (int64): ID of the internal Group responsible for this Partner User, overriding the Partner default.
+* `responsible_user_id` / `responsibleUserId`  (int64): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `readonly_site_admin` / `readonlySiteAdmin`  (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `restapi_permission` / `restapiPermission`  (boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 * `self_managed` / `selfManaged`  (boolean): Does this user manage it's own credentials or is it a shared/bot user?
@@ -304,6 +308,8 @@ User user = User.create(
 * `notify_on_all_expectation_failures` (Boolean): Should the user receive expectation failures and misses via email?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
+* `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
+* `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?
@@ -438,6 +444,8 @@ User user = User.update(
 * `notify_on_all_expectation_failures` (Boolean): Should the user receive expectation failures and misses via email?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
+* `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
+* `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?
@@ -578,6 +586,8 @@ parameters.put("notify_on_all_automation_failures", true);
 parameters.put("notify_on_all_expectation_failures", true);
 parameters.put("require_login_by", "2000-01-01T01:00:00Z");
 parameters.put("require_password_change", true);
+parameters.put("responsible_group_id", 1);
+parameters.put("responsible_user_id", 1);
 parameters.put("restapi_permission", true);
 parameters.put("self_managed", true);
 parameters.put("sftp_permission", true);
@@ -653,6 +663,8 @@ user.update(parameters);
 * `notify_on_all_expectation_failures` (Boolean): Should the user receive expectation failures and misses via email?
 * `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
 * `require_password_change` (Boolean): Is a password change required upon next user login?
+* `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
+* `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?

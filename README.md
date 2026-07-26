@@ -705,6 +705,8 @@ RuntimeException
 |`ReauthenticationNeededActionException`|  `NotAuthorizedException` |
 |`RecaptchaFailedException`|  `NotAuthorizedException` |
 |`RemoteDesktopDebugLoggingDisabledException`|  `NotAuthorizedException` |
+|`RootFolderBehaviorSiteAdminRequiredException`|  `NotAuthorizedException` |
+|`RootFolderBehaviorSkipSiteAdminRequiredException`|  `NotAuthorizedException` |
 |`SelfManagedRequiredException`|  `NotAuthorizedException` |
 |`SiteAdminOrPartnerAdminPermissionRequiredException`|  `NotAuthorizedException` |
 |`SiteAdminOrWorkspaceAdminOrFolderAdminPermissionRequiredException`|  `NotAuthorizedException` |

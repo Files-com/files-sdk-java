@@ -1465,6 +1465,26 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
+  */
+  @JsonProperty("restrict_root_folder_behaviors_to_site_admins")
+  public Boolean restrictRootFolderBehaviorsToSiteAdmins;
+
+  public Boolean getRestrictRootFolderBehaviorsToSiteAdmins() {
+    return restrictRootFolderBehaviorsToSiteAdmins;
+  }
+
+  /**
+  * If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
+  */
+  @JsonProperty("root_folder_behaviors_apply_to_workspaces")
+  public Boolean rootFolderBehaviorsApplyToWorkspaces;
+
+  public Boolean getRootFolderBehaviorsApplyToWorkspaces() {
+    return rootFolderBehaviorsApplyToWorkspaces;
+  }
+
+  /**
   * If true, SSO users using the default user-level two-factor authentication setting are exempt from the site-wide two-factor authentication requirement.
   */
   @JsonProperty("require_2fa_exempt_all_sso_users")
@@ -2118,6 +2138,8 @@ public class Site implements ModelInterface {
   *   document_edits_in_bundle_allowed - boolean - If true, allow public viewers of Bundles with full permissions to use document editing integrations.
   *   password_requirements_apply_to_bundles - boolean - Require bundles' passwords, and passwords for other items (inboxes, public shares, etc.) to conform to the same requirements as users' passwords?
   *   prevent_root_permissions_for_non_site_admins - boolean - If true, we will prevent non-administrators from receiving any permissions directly on the root folder.  This is commonly used to prevent the accidental application of permissions.
+  *   restrict_root_folder_behaviors_to_site_admins - boolean - If true, only site admins may create, modify, or delete any behavior at the site root, or a skip that would disable one.
+  *   root_folder_behaviors_apply_to_workspaces - boolean - If true, supported protective behaviors at the site root also apply within named workspaces. Requires restrict_root_folder_behaviors_to_site_admins to be enabled.
   *   opt_out_global - boolean - Use servers in the USA only?
   *   use_provided_modified_at - boolean - Allow uploaders to set `provided_modified_at` for uploaded files?
   *   custom_namespace - boolean - Is this site using a custom namespace for users?
@@ -2495,6 +2517,12 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("prevent_root_permissions_for_non_site_admins") && !(parameters.get("prevent_root_permissions_for_non_site_admins") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: prevent_root_permissions_for_non_site_admins must be of type Boolean parameters[\"prevent_root_permissions_for_non_site_admins\"]");
+    }
+    if (parameters.containsKey("restrict_root_folder_behaviors_to_site_admins") && !(parameters.get("restrict_root_folder_behaviors_to_site_admins") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: restrict_root_folder_behaviors_to_site_admins must be of type Boolean parameters[\"restrict_root_folder_behaviors_to_site_admins\"]");
+    }
+    if (parameters.containsKey("root_folder_behaviors_apply_to_workspaces") && !(parameters.get("root_folder_behaviors_apply_to_workspaces") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: root_folder_behaviors_apply_to_workspaces must be of type Boolean parameters[\"root_folder_behaviors_apply_to_workspaces\"]");
     }
     if (parameters.containsKey("opt_out_global") && !(parameters.get("opt_out_global") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: opt_out_global must be of type Boolean parameters[\"opt_out_global\"]");

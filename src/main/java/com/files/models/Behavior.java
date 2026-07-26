@@ -214,6 +214,48 @@ public class Behavior implements ModelInterface {
   }
 
   /**
+  * If true, this behavior is inherited from a higher scope rather than owned by the requested workspace.
+  */
+  @JsonProperty("inherited")
+  public Boolean inherited;
+
+  public Boolean getInherited() {
+    return inherited;
+  }
+
+  public void setInherited(Boolean inherited) {
+    this.inherited = inherited;
+  }
+
+  /**
+  * If true, this behavior is controlled by a parent-site policy and cannot be modified locally.
+  */
+  @JsonProperty("managed")
+  public Boolean managed;
+
+  public Boolean getManaged() {
+    return managed;
+  }
+
+  public void setManaged(Boolean managed) {
+    this.managed = managed;
+  }
+
+  /**
+  * If true, this behavior may only be modified by a site admin because it is at the site root or disables a root behavior.
+  */
+  @JsonProperty("root_behavior_site_admin_only")
+  public Boolean rootBehaviorSiteAdminOnly;
+
+  public Boolean getRootBehaviorSiteAdminOnly() {
+    return rootBehaviorSiteAdminOnly;
+  }
+
+  public void setRootBehaviorSiteAdminOnly(Boolean rootBehaviorSiteAdminOnly) {
+    this.rootBehaviorSiteAdminOnly = rootBehaviorSiteAdminOnly;
+  }
+
+  /**
   * Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
   */
   @JsonProperty("attachment_file")

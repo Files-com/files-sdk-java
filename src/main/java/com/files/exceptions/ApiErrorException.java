@@ -763,6 +763,18 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class RootFolderBehaviorSiteAdminRequiredException extends NotAuthorizedException {
+    public RootFolderBehaviorSiteAdminRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class RootFolderBehaviorSkipSiteAdminRequiredException extends NotAuthorizedException {
+    public RootFolderBehaviorSkipSiteAdminRequiredException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class SelfManagedRequiredException extends NotAuthorizedException {
     public SelfManagedRequiredException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

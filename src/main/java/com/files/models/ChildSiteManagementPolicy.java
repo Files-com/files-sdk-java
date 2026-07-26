@@ -130,7 +130,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+  * Policy configuration data. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
   */
   @JsonProperty("value")
   public Object value;

@@ -25,6 +25,7 @@
   "responsible_group_id": 1,
   "responsible_user_id": 1,
   "root_folder": "/AcmeCorp",
+  "show_partner_channel_home_page": true,
   "tags": "example",
   "user_ids": [
     1,
@@ -51,6 +52,7 @@
 * `responsible_group_id` / `responsibleGroupId`  (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` / `responsibleUserId`  (int64): ID of the User responsible for this Partner.
 * `root_folder` / `rootFolder`  (string): The root folder path for this Partner.
+* `show_partner_channel_home_page` / `showPartnerChannelHomePage`  (boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` / `tags`  (string): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_ids` / `userIds`  (array(int64)): Array of User IDs that belong to this Partner.
 
@@ -117,6 +119,7 @@ Partner partner = Partner.create(
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (Boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): Required - The name of the Partner.
 * `root_folder` (String): Required - The root folder path for this Partner.
@@ -149,6 +152,7 @@ Partner partner = Partner.update(
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (Boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
 * `root_folder` (String): The root folder path for this Partner.
@@ -190,6 +194,7 @@ parameters.put("notes", "This is a note about the partner.");
 parameters.put("partner_channel_template_id", 1);
 parameters.put("responsible_group_id", 1);
 parameters.put("responsible_user_id", 1);
+parameters.put("show_partner_channel_home_page", false);
 parameters.put("tags", "example");
 parameters.put("name", "Acme Corp");
 parameters.put("root_folder", "/AcmeCorp");
@@ -211,6 +216,7 @@ partner.update(parameters);
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
 * `responsible_user_id` (Long): ID of the User responsible for this Partner.
+* `show_partner_channel_home_page` (Boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
 * `root_folder` (String): The root folder path for this Partner.

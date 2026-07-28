@@ -312,6 +312,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Show Partner users a simplified home page built from this Partner's Channels.
+  */
+  @JsonProperty("show_partner_channel_home_page")
+  public Boolean showPartnerChannelHomePage;
+
+  public Boolean getShowPartnerChannelHomePage() {
+    return showPartnerChannelHomePage;
+  }
+
+  public void setShowPartnerChannelHomePage(Boolean showPartnerChannelHomePage) {
+    this.showPartnerChannelHomePage = showPartnerChannelHomePage;
+  }
+
+  /**
   * Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   */
   @JsonProperty("tags")
@@ -352,6 +366,7 @@ public class Partner implements ModelInterface {
   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -487,6 +502,7 @@ public class Partner implements ModelInterface {
   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name (required) - string - The name of the Partner.
   *   root_folder (required) - string - The root folder path for this Partner.
@@ -546,6 +562,9 @@ public class Partner implements ModelInterface {
     if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
     }
+    if (parameters.containsKey("show_partner_channel_home_page") && !(parameters.get("show_partner_channel_home_page") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: show_partner_channel_home_page must be of type Boolean parameters[\"show_partner_channel_home_page\"]");
+    }
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
     }
@@ -580,6 +599,7 @@ public class Partner implements ModelInterface {
   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
   *   root_folder - string - The root folder path for this Partner.
@@ -644,6 +664,9 @@ public class Partner implements ModelInterface {
     }
     if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
+    }
+    if (parameters.containsKey("show_partner_channel_home_page") && !(parameters.get("show_partner_channel_home_page") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: show_partner_channel_home_page must be of type Boolean parameters[\"show_partner_channel_home_page\"]");
     }
     if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");

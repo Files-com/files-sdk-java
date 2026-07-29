@@ -94,6 +94,7 @@
   "domain_hsts_header": true,
   "domain_letsencrypt_chain": "example",
   "email": "john.doe@files.com",
+  "fedramp": true,
   "ftp_enabled": true,
   "reply_to_email": "jane.doe@files.com",
   "non_sso_groups_allowed": true,
@@ -434,6 +435,7 @@
 * `domain_hsts_header` / `domainHstsHeader`  (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
 * `domain_letsencrypt_chain` / `domainLetsencryptChain`  (string): Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
 * `email` / `email`  (email): Main email for this site
+* `fedramp` / `fedramp`  (boolean): Are FedRAMP security restrictions enabled for this site?
 * `ftp_enabled` / `ftpEnabled`  (boolean): Is FTP enabled?
 * `reply_to_email` / `replyToEmail`  (email): Reply-to email for this site
 * `non_sso_groups_allowed` / `nonSsoGroupsAllowed`  (boolean): If true, groups can be manually created / modified / deleted by Site Admins. Otherwise, groups can only be managed via your SSO provider.
@@ -648,6 +650,7 @@ Site site = Site.update(
 * `sftp_insecure_ciphers` (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
 * `sftp_insecure_diffie_hellman` (Boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.
 * `disable_files_certificate_generation` (Boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.
+* `fedramp` (Boolean): Are FedRAMP security restrictions enabled for this site?
 * `user_lockout` (Boolean): Will users be locked out after incorrect login attempts?
 * `user_lockout_tries` (Long): Number of login tries within `user_lockout_within` hours before users are locked out
 * `user_lockout_within` (Long): Number of hours for user lockout window

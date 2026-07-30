@@ -984,6 +984,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * Whether the Files Agent Proxy recently validated a direct transfer connection. `true` means a direct connection was recently validated (actual availability can vary by client network), `false` means direct transfers are enabled but not currently available, and `null` means direct transfers are disabled or unsupported. Only provided for a connected Files Agent when showing a single Remote Server.
+  */
+  @JsonProperty("direct_transfer_available")
+  public Boolean directTransferAvailable;
+
+  public Boolean getDirectTransferAvailable() {
+    return directTransferAvailable;
+  }
+
+  public void setDirectTransferAvailable(Boolean directTransferAvailable) {
+    this.directTransferAvailable = directTransferAvailable;
+  }
+
+  /**
   * Route traffic to outbound on a files-agent
   */
   @JsonProperty("outbound_agent_id")

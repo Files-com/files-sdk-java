@@ -124,6 +124,16 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
+  * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
+  */
+  @JsonProperty("enabled")
+  public Boolean enabled;
+
+  public Boolean getEnabled() {
+    return enabled;
+  }
+
+  /**
   * Count of users with this SSO Strategy
   */
   @JsonProperty("user_count")
@@ -480,16 +490,6 @@ public class SsoStrategy implements ModelInterface {
 
   public String getLdapDomain() {
     return ldapDomain;
-  }
-
-  /**
-  * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
-  */
-  @JsonProperty("enabled")
-  public Boolean enabled;
-
-  public Boolean getEnabled() {
-    return enabled;
   }
 
   /**

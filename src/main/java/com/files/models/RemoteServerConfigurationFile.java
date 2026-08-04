@@ -124,6 +124,16 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
+  * Optional customer-facing name for this Agent installation
+  */
+  @JsonProperty("node_name")
+  public String nodeName;
+
+  public String getNodeName() {
+    return nodeName;
+  }
+
+  /**
   * Follow symlinks when traversing directories
   */
   @JsonProperty("follow_links")

@@ -229,6 +229,23 @@ RemoteServer remoteServer = RemoteServer.find(
 
 ---
 
+## List Files.com Agent nodes
+
+```
+AgentNode remoteServer = RemoteServer.agentNodes(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
 ```
@@ -498,6 +515,23 @@ void remoteServer = RemoteServer.delete(
     HashMap<String, Object> parameters = null,
     HashMap<String, Object> options = null
 )
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## List Files.com Agent nodes
+
+```
+RemoteServer remoteServer = RemoteServer.find(id);
+
+HashMap<String, Object> parameters = new HashMap<>();
+
+remoteServer.agentNodes(parameters);
 ```
 
 ### Parameters

@@ -1488,6 +1488,13 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * List Files.com Agent nodes
+  */
+  public AgentNode agentNodes(HashMap<String, Object> parameters) throws IOException {
+    return RemoteServer.agentNodes(this.id, parameters, this.options);
+  }
+
+  /**
   * Push update to Files Agent
   */
   public AgentPushUpdate agentPushUpdate(HashMap<String, Object> parameters) throws IOException {
@@ -1724,6 +1731,47 @@ public class RemoteServer implements ModelInterface {
   public static RemoteServer get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
+
+  /**
+  * List Files.com Agent nodes
+  */
+  public static AgentNode agentNodes() throws RuntimeException {
+    return agentNodes(null, null, null);
+  }
+
+  public static AgentNode agentNodes(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return agentNodes(id, parameters, null);
+  }
+
+  public static AgentNode agentNodes(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return agentNodes(null, parameters, options);
+  }
+
+  public static AgentNode agentNodes(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+
+
+    String url = String.format("%s%s/remote_servers/%s/agent_nodes", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<AgentNode> typeReference = new TypeReference<AgentNode>() {};
+    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
 
   /**
   * Parameters:

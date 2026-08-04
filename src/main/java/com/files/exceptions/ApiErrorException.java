@@ -337,6 +337,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class OffsetUploadNotAllowedWithMalwareScanningException extends BadRequestException {
+    public OffsetUploadNotAllowedWithMalwareScanningException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class PartNumberTooLargeException extends BadRequestException {
     public PartNumberTooLargeException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

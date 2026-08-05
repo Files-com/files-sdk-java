@@ -18,6 +18,7 @@
   "mic_sha_256": "example",
   "as2_to": "example",
   "as2_from": "example",
+  "as2_subject": "example",
   "date": "example",
   "message_id": "example",
   "body_size": "example",
@@ -54,6 +55,7 @@
 * `mic_sha_256` / `micSha256`  (string): AS2 Message Integrity Check SHA256
 * `as2_to` / `as2To`  (string): AS2 TO
 * `as2_from` / `as2From`  (string): AS2 FROM
+* `as2_subject` / `as2Subject`  (string): AS2 Subject
 * `date` / `date`  (string): Date Header
 * `message_id` / `messageId`  (string): AS2 Message Id
 * `body_size` / `bodySize`  (string): Encrypted Payload Body Size

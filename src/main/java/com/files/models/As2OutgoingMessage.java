@@ -194,6 +194,16 @@ public class As2OutgoingMessage implements ModelInterface {
   }
 
   /**
+  * AS2 Subject
+  */
+  @JsonProperty("as2_subject")
+  public String as2Subject;
+
+  public String getAs2Subject() {
+    return as2Subject;
+  }
+
+  /**
   * Date Header
   */
   @JsonProperty("date")

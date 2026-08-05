@@ -268,7 +268,7 @@ Automation automation = Automation.upgrade(
 
 ---
 
-## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+## Manually Run Automation
 
 ```
 void automation = Automation.manualRun(
@@ -370,7 +370,7 @@ automation.upgrade(parameters);
 
 ---
 
-## Manually Run Automation. v2 Automations require Site or Workspace Admin permission
+## Manually Run Automation
 
 ```
 Automation automation = Automation.find(id);

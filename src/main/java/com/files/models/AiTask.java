@@ -256,6 +256,20 @@ public class AiTask implements ModelInterface {
   }
 
   /**
+  * If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
+  */
+  @JsonProperty("schedule_id")
+  public Long scheduleId;
+
+  public Long getScheduleId() {
+    return scheduleId;
+  }
+
+  public void setScheduleId(Long scheduleId) {
+    this.scheduleId = scheduleId;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   */
   @JsonProperty("schedule_days_of_week")
@@ -270,7 +284,7 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format for scheduled AI Tasks.
+  * Times of day in HH:MM format for the AI Task schedule.
   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
@@ -298,7 +312,7 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Optional holiday region used by scheduled AI Tasks.
+  * Optional holiday region used by the AI Task schedule.
   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
@@ -384,16 +398,17 @@ public class AiTask implements ModelInterface {
   * Parameters:
   *   description - string - AI Task description.
   *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
   *   trigger - string - How this AI Task is triggered.
   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -521,16 +536,17 @@ public class AiTask implements ModelInterface {
   * Parameters:
   *   description - string - AI Task description.
   *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name (required) - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
   *   trigger - string - How this AI Task is triggered.
   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -583,6 +599,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
@@ -658,16 +677,17 @@ public class AiTask implements ModelInterface {
   * Parameters:
   *   description - string - AI Task description.
   *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by scheduled AI Tasks.
+  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
   *   name - string - AI Task name.
   *   path - string - Path scope used for action-triggered AI Tasks.
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for scheduled AI Tasks.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
   *   trigger - string - How this AI Task is triggered.
   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
@@ -727,6 +747,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");

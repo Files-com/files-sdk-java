@@ -242,6 +242,20 @@ public class Expectation implements ModelInterface {
   }
 
   /**
+  * If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+  */
+  @JsonProperty("schedule_id")
+  public Long scheduleId;
+
+  public Long getScheduleId() {
+    return scheduleId;
+  }
+
+  public void setScheduleId(Long scheduleId) {
+    this.scheduleId = scheduleId;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   */
   @JsonProperty("schedule_days_of_week")
@@ -256,7 +270,7 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format for schedule-driven expectations.
+  * Times of day in HH:MM format for the Expectation schedule.
   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
@@ -270,7 +284,7 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Time zone used by the expectation schedule.
+  * Time zone used by the Expectation schedule.
   */
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
@@ -284,7 +298,7 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Optional holiday region used by schedule-driven expectations.
+  * Optional holiday region used by the Expectation schedule.
   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
@@ -461,10 +475,11 @@ public class Expectation implements ModelInterface {
   *   trigger - string - How this expectation opens windows.
   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-  *   schedule_time_zone - string - Time zone used by the expectation schedule.
-  *   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -601,10 +616,11 @@ public class Expectation implements ModelInterface {
   *   trigger - string - How this expectation opens windows.
   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-  *   schedule_time_zone - string - Time zone used by the expectation schedule.
-  *   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -653,6 +669,9 @@ public class Expectation implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
@@ -745,10 +764,11 @@ public class Expectation implements ModelInterface {
   *   trigger - string - How this expectation opens windows.
   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven expectations.
-  *   schedule_time_zone - string - Time zone used by the expectation schedule.
-  *   holiday_region - string - Optional holiday region used by schedule-driven expectations.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
@@ -810,6 +830,9 @@ public class Expectation implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");

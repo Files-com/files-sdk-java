@@ -214,6 +214,20 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
+  * If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
+  */
+  @JsonProperty("schedule_id")
+  public Long scheduleId;
+
+  public Long getScheduleId() {
+    return scheduleId;
+  }
+
+  public void setScheduleId(Long scheduleId) {
+    this.scheduleId = scheduleId;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   */
   @JsonProperty("schedule_days_of_week")
@@ -228,7 +242,7 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format for schedule-driven exports.
+  * Times of day in HH:MM format for the scheduled export schedule.
   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
@@ -242,7 +256,7 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
-  * Time zone used by the scheduled export.
+  * Time zone used by the scheduled export schedule.
   */
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
@@ -256,7 +270,7 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
-  * Optional holiday region used by schedule-driven exports.
+  * Optional holiday region used by the scheduled export schedule.
   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
@@ -341,10 +355,11 @@ public class ScheduledExport implements ModelInterface {
   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-  *   schedule_time_zone - string - Time zone used by the scheduled export.
-  *   holiday_region - string - Optional holiday region used by schedule-driven exports.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+  *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+  *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
   */
   public ScheduledExport update(HashMap<String, Object> parameters) throws IOException {
     return ScheduledExport.update(this.id, parameters, this.options);
@@ -478,10 +493,11 @@ public class ScheduledExport implements ModelInterface {
   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-  *   schedule_time_zone - string - Time zone used by the scheduled export.
-  *   holiday_region - string - Optional holiday region used by schedule-driven exports.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+  *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+  *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
   */
   public static ScheduledExport create() throws RuntimeException {
     return create(null, null);
@@ -528,6 +544,9 @@ public class ScheduledExport implements ModelInterface {
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
     }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
+    }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
     }
@@ -559,10 +578,11 @@ public class ScheduledExport implements ModelInterface {
   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for schedule-driven exports.
-  *   schedule_time_zone - string - Time zone used by the scheduled export.
-  *   holiday_region - string - Optional holiday region used by schedule-driven exports.
+  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
+  *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
+  *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
   */
   public static ScheduledExport update() throws RuntimeException {
     return update(null, null, null);
@@ -615,6 +635,9 @@ public class ScheduledExport implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
     }
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");

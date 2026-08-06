@@ -34,6 +34,7 @@
   "sync_interval_minutes": 1,
   "interval": "week",
   "recurring_day": 25,
+  "schedule_id": 1,
   "schedule_days_of_week": [
     0,
     2,
@@ -111,10 +112,11 @@
 * `sync_interval_minutes` / `syncIntervalMinutes`  (int64): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-* `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone for scheduled times. If not set, times are interpreted as UTC.
-* `holiday_region` / `holidayRegion`  (string): Skip sync if there is a formal, observed holiday for this region.
+* `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone for the schedule. If not set, times are interpreted as UTC.
+* `holiday_region` / `holidayRegion`  (string): Skip the sync if there is a formal, observed holiday for this region.
 * `latest_sync_run` / `latestSyncRun`  (syncRun): The latest run of this sync
 
 
@@ -175,14 +177,15 @@ Sync sync = Sync.create(
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
-* `holiday_region` (String): Skip sync if there is a formal, observed holiday for this region.
+* `holiday_region` (String): Skip the sync if there is a formal, observed holiday for this region.
 * `include_patterns` (String[]): Array of glob patterns to include
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-* `schedule_time_zone` (String): Time zone for scheduled times. If not set, times are interpreted as UTC.
+* `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)
@@ -248,14 +251,15 @@ Sync sync = Sync.update(
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
-* `holiday_region` (String): Skip sync if there is a formal, observed holiday for this region.
+* `holiday_region` (String): Skip the sync if there is a formal, observed holiday for this region.
 * `include_patterns` (String[]): Array of glob patterns to include
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-* `schedule_time_zone` (String): Time zone for scheduled times. If not set, times are interpreted as UTC.
+* `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)
@@ -336,6 +340,7 @@ parameters.put("interval", "week");
 parameters.put("keep_after_copy", true);
 parameters.put("name", "example");
 parameters.put("recurring_day", 25);
+parameters.put("schedule_id", 1);
 parameters.put("schedule_days_of_week", [0,2,4]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_times_of_day", ["06:30","14:30"]);
@@ -358,14 +363,15 @@ sync.update(parameters);
 * `dest_remote_server_id` (Long): Remote server ID for the destination (if remote)
 * `disabled` (Boolean): Is this sync disabled?
 * `exclude_patterns` (String[]): Array of glob patterns to exclude
-* `holiday_region` (String): Skip sync if there is a formal, observed holiday for this region.
+* `holiday_region` (String): Skip the sync if there is a formal, observed holiday for this region.
 * `include_patterns` (String[]): Array of glob patterns to include
 * `interval` (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-* `schedule_time_zone` (String): Time zone for scheduled times. If not set, times are interpreted as UTC.
+* `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync
 * `src_remote_server_id` (Long): Remote server ID for the source (if remote)

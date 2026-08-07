@@ -38,7 +38,7 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AgentNode implements ModelInterface {
+public class AgentNodeConnection implements ModelInterface {
   private HashMap<String, Object> options;
 
   public void setOptions(HashMap<String, Object> options) {
@@ -54,15 +54,15 @@ public class AgentNode implements ModelInterface {
       .build();
 
 
-  public AgentNode() {
+  public AgentNodeConnection() {
     this(null, null);
   }
 
-  public AgentNode(HashMap<String, Object> parameters) {
+  public AgentNodeConnection(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public AgentNode(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public AgentNodeConnection(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -74,47 +74,17 @@ public class AgentNode implements ModelInterface {
 
 
   /**
-  * Stable Agent installation ID
+  * How the Agent process uses this proxy connection
   */
-  @JsonProperty("node_id")
-  public String nodeId;
+  @JsonProperty("mode")
+  public String mode;
 
-  public String getNodeId() {
-    return nodeId;
+  public String getMode() {
+    return mode;
   }
 
   /**
-  * Customer-configured Agent node name
-  */
-  @JsonProperty("name")
-  public String name;
-
-  public String getName() {
-    return name;
-  }
-
-  /**
-  * Hostname reported by the Agent
-  */
-  @JsonProperty("hostname")
-  public String hostname;
-
-  public String getHostname() {
-    return hostname;
-  }
-
-  /**
-  * Configured traffic preference
-  */
-  @JsonProperty("availability_role")
-  public String availabilityRole;
-
-  public String getAvailabilityRole() {
-    return availabilityRole;
-  }
-
-  /**
-  * Whether this node currently has an available Agent instance
+  * Whether this connection was observed recently and has not disconnected
   */
   @JsonProperty("status")
   public String status;
@@ -124,43 +94,13 @@ public class AgentNode implements ModelInterface {
   }
 
   /**
-  * Whether this node is the current default route for new unscoped work
-  */
-  @JsonProperty("is_default")
-  public Boolean isDefault;
-
-  public Boolean getIsDefault() {
-    return isDefault;
-  }
-
-  /**
-  * Whether the proxy recently validated a direct connection to this Agent node. False means direct transfers are enabled but not currently available; null means disabled or unsupported.
-  */
-  @JsonProperty("direct_transfer_available")
-  public Boolean directTransferAvailable;
-
-  public Boolean getDirectTransferAvailable() {
-    return directTransferAvailable;
-  }
-
-  /**
-  * Most recent successful node observation
+  * Most recent successful observation for this connection
   */
   @JsonProperty("last_seen_at")
   public Date lastSeenAt;
 
   public Date getLastSeenAt() {
     return lastSeenAt;
-  }
-
-  /**
-  * Current Agent processes for this node
-  */
-  @JsonProperty("instances")
-  public AgentNodeInstance[] instances;
-
-  public AgentNodeInstance[] getInstances() {
-    return instances;
   }
 
 

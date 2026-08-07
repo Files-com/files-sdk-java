@@ -38,7 +38,7 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AgentNode implements ModelInterface {
+public class AgentNodeInstance implements ModelInterface {
   private HashMap<String, Object> options;
 
   public void setOptions(HashMap<String, Object> options) {
@@ -54,15 +54,15 @@ public class AgentNode implements ModelInterface {
       .build();
 
 
-  public AgentNode() {
+  public AgentNodeInstance() {
     this(null, null);
   }
 
-  public AgentNode(HashMap<String, Object> parameters) {
+  public AgentNodeInstance(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
-  public AgentNode(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+  public AgentNodeInstance(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = options;
     try {
       ObjectReader objectReader = objectMapper.readerForUpdating(this);
@@ -74,47 +74,27 @@ public class AgentNode implements ModelInterface {
 
 
   /**
-  * Stable Agent installation ID
+  * Ephemeral ID for this running Agent process
   */
-  @JsonProperty("node_id")
-  public String nodeId;
+  @JsonProperty("instance_id")
+  public String instanceId;
 
-  public String getNodeId() {
-    return nodeId;
+  public String getInstanceId() {
+    return instanceId;
   }
 
   /**
-  * Customer-configured Agent node name
+  * Role of this process during an Agent update
   */
-  @JsonProperty("name")
-  public String name;
+  @JsonProperty("process_state")
+  public String processState;
 
-  public String getName() {
-    return name;
+  public String getProcessState() {
+    return processState;
   }
 
   /**
-  * Hostname reported by the Agent
-  */
-  @JsonProperty("hostname")
-  public String hostname;
-
-  public String getHostname() {
-    return hostname;
-  }
-
-  /**
-  * Configured traffic preference
-  */
-  @JsonProperty("availability_role")
-  public String availabilityRole;
-
-  public String getAvailabilityRole() {
-    return availabilityRole;
-  }
-
-  /**
-  * Whether this node currently has an available Agent instance
+  * Whether this process has an available proxy connection
   */
   @JsonProperty("status")
   public String status;
@@ -124,7 +104,7 @@ public class AgentNode implements ModelInterface {
   }
 
   /**
-  * Whether this node is the current default route for new unscoped work
+  * Whether this process receives new unscoped work for its node
   */
   @JsonProperty("is_default")
   public Boolean isDefault;
@@ -134,17 +114,17 @@ public class AgentNode implements ModelInterface {
   }
 
   /**
-  * Whether the proxy recently validated a direct connection to this Agent node. False means direct transfers are enabled but not currently available; null means disabled or unsupported.
+  * Agent version reported by this process
   */
-  @JsonProperty("direct_transfer_available")
-  public Boolean directTransferAvailable;
+  @JsonProperty("agent_version")
+  public String agentVersion;
 
-  public Boolean getDirectTransferAvailable() {
-    return directTransferAvailable;
+  public String getAgentVersion() {
+    return agentVersion;
   }
 
   /**
-  * Most recent successful node observation
+  * Most recent successful observation for this process
   */
   @JsonProperty("last_seen_at")
   public Date lastSeenAt;
@@ -154,13 +134,13 @@ public class AgentNode implements ModelInterface {
   }
 
   /**
-  * Current Agent processes for this node
+  * Proxy connections observed for this process
   */
-  @JsonProperty("instances")
-  public AgentNodeInstance[] instances;
+  @JsonProperty("connections")
+  public AgentNodeConnection[] connections;
 
-  public AgentNodeInstance[] getInstances() {
-    return instances;
+  public AgentNodeConnection[] getConnections() {
+    return connections;
   }
 
 

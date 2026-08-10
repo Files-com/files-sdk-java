@@ -452,6 +452,20 @@ public class Automation implements ModelInterface {
   }
 
   /**
+  * If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  */
+  @JsonProperty("recurring_days")
+  public Long[] recurringDays;
+
+  public Long[] getRecurringDays() {
+    return recurringDays;
+  }
+
+  public void setRecurringDays(Long[] recurringDays) {
+    this.recurringDays = recurringDays;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
   */
   @JsonProperty("schedule_id")
@@ -755,6 +769,7 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
   public Automation update(HashMap<String, Object> parameters) throws IOException {
@@ -952,6 +967,7 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation (required) - string - Automation type
   *   workspace_id - int64 - Workspace ID
   */
@@ -1071,6 +1087,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");
@@ -1209,6 +1228,7 @@ public class Automation implements ModelInterface {
   *   trigger_actions - array(string) - If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
   *   value - object - A Hash of attributes specific to the automation type.
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   automation - string - Automation type
   */
   public static Automation update() throws RuntimeException {
@@ -1337,6 +1357,9 @@ public class Automation implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("automation") && !(parameters.get("automation") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: automation must be of type String parameters[\"automation\"]");

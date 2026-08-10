@@ -256,6 +256,20 @@ public class AiTask implements ModelInterface {
   }
 
   /**
+  * If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+  */
+  @JsonProperty("recurring_days")
+  public Long[] recurringDays;
+
+  public Long[] getRecurringDays() {
+    return recurringDays;
+  }
+
+  public void setRecurringDays(Long[] recurringDays) {
+    this.recurringDays = recurringDays;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   */
   @JsonProperty("schedule_id")
@@ -405,6 +419,7 @@ public class AiTask implements ModelInterface {
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -543,6 +558,7 @@ public class AiTask implements ModelInterface {
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -599,6 +615,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
@@ -684,6 +703,7 @@ public class AiTask implements ModelInterface {
   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
   *   prompt - string - Prompt sent when this AI Task is invoked.
   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
@@ -747,6 +767,9 @@ public class AiTask implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");

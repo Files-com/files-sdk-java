@@ -34,6 +34,10 @@
   "sync_interval_minutes": 1,
   "interval": "week",
   "recurring_day": 25,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "schedule_days_of_week": [
     0,
@@ -112,6 +116,7 @@
 * `sync_interval_minutes` / `syncIntervalMinutes`  (int64): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` / `recurringDays`  (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
@@ -183,6 +188,7 @@ Sync sync = Sync.create(
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
@@ -257,6 +263,7 @@ Sync sync = Sync.update(
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
@@ -340,6 +347,7 @@ parameters.put("interval", "week");
 parameters.put("keep_after_copy", true);
 parameters.put("name", "example");
 parameters.put("recurring_day", 25);
+parameters.put("recurring_days", [1,15]);
 parameters.put("schedule_id", 1);
 parameters.put("schedule_days_of_week", [0,2,4]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
@@ -369,6 +377,7 @@ sync.update(parameters);
 * `keep_after_copy` (Boolean): Keep files after copying?
 * `name` (String): Name for this sync job
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.

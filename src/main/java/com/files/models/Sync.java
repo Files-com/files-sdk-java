@@ -430,6 +430,20 @@ public class Sync implements ModelInterface {
   }
 
   /**
+  * If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  */
+  @JsonProperty("recurring_days")
+  public Long[] recurringDays;
+
+  public Long[] getRecurringDays() {
+    return recurringDays;
+  }
+
+  public void setRecurringDays(Long[] recurringDays) {
+    this.recurringDays = recurringDays;
+  }
+
+  /**
   * If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
   */
   @JsonProperty("schedule_id")
@@ -541,6 +555,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   name - string - Name for this sync job
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
@@ -684,6 +699,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   name - string - Name for this sync job
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
@@ -746,6 +762,9 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
@@ -883,6 +902,7 @@ public class Sync implements ModelInterface {
   *   keep_after_copy - boolean - Keep files after copying?
   *   name - string - Name for this sync job
   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+  *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
@@ -957,6 +977,9 @@ public class Sync implements ModelInterface {
     }
     if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
+    }
+    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
     }
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");

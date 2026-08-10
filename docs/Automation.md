@@ -48,6 +48,10 @@
   "path_time_zone": "Eastern Time (US & Canada)",
   "version": 1,
   "recurring_day": 25,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "retry_on_failure_interval_in_minutes": 60,
   "retry_on_failure_number_of_attempts": 10,
@@ -127,6 +131,7 @@
 * `path_time_zone` / `pathTimeZone`  (string): Timezone to use when rendering timestamps in paths.
 * `version` / `version`  (int64): Current Automation v2 definition version.
 * `recurring_day` / `recurringDay`  (int64): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` / `recurringDays`  (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
 * `retry_on_failure_interval_in_minutes` / `retryOnFailureIntervalInMinutes`  (int64): If the Automation fails, retry at this interval (in minutes).  Acceptable values are 5 through 1440 (one day).  Set to null to disable.
 * `retry_on_failure_number_of_attempts` / `retryOnFailureNumberOfAttempts`  (int64): If the Automation fails, retry at most this many times.  Maximum allowed value: 10.  Set to null to disable.
@@ -248,6 +253,7 @@ Automation automation = Automation.create(
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (String): Required - Automation type
 * `workspace_id` (Long): Workspace ID
 
@@ -335,6 +341,7 @@ Automation automation = Automation.update(
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (String): Automation type
 
 
@@ -432,6 +439,7 @@ parameters.put("trigger", "daily");
 parameters.put("trigger_actions", ["create"]);
 parameters.put("value", {"limit":"1"});
 parameters.put("recurring_day", 25);
+parameters.put("recurring_days", [1,15]);
 parameters.put("automation", "create_folder");
 
 automation.update(parameters);
@@ -473,6 +481,7 @@ automation.update(parameters);
 * `trigger_actions` (String[]): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `value` (Object): A Hash of attributes specific to the automation type.
 * `recurring_day` (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
+* `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `automation` (String): Automation type
 
 

@@ -16,6 +16,10 @@
   "trigger": "daily",
   "interval": "month",
   "recurring_day": 1,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "schedule_days_of_week": [
     1,
@@ -45,6 +49,7 @@
 * `trigger` / `trigger`  (string): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` / `recurringDay`  (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` / `recurringDays`  (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day in HH:MM format for the scheduled export schedule.
@@ -117,6 +122,7 @@ ScheduledExport scheduledExport = ScheduledExport.create(
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the scheduled export schedule.
@@ -147,6 +153,7 @@ ScheduledExport scheduledExport = ScheduledExport.update(
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the scheduled export schedule.
@@ -187,6 +194,7 @@ parameters.put("disabled", true);
 parameters.put("trigger", "daily");
 parameters.put("interval", "month");
 parameters.put("recurring_day", 1);
+parameters.put("recurring_days", [1,15]);
 parameters.put("schedule_id", 1);
 parameters.put("schedule_days_of_week", [1,3,5]);
 parameters.put("schedule_times_of_day", ["06:30"]);
@@ -207,6 +215,7 @@ scheduledExport.update(parameters);
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the scheduled export.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the scheduled export schedule.

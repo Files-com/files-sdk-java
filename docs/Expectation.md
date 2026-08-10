@@ -16,6 +16,10 @@
   "trigger": "manual",
   "interval": "day",
   "recurring_day": 3,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "schedule_days_of_week": [
     1,
@@ -60,6 +64,7 @@
 * `trigger` / `trigger`  (string): How this expectation opens windows.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` / `recurringDay`  (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` / `recurringDays`  (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day in HH:MM format for the Expectation schedule.
@@ -138,6 +143,7 @@ Expectation expectation = Expectation.create(
 * `trigger` (String): How this expectation opens windows.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
@@ -192,6 +198,7 @@ Expectation expectation = Expectation.update(
 * `trigger` (String): How this expectation opens windows.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
@@ -256,6 +263,7 @@ parameters.put("disabled", true);
 parameters.put("trigger", "manual");
 parameters.put("interval", "day");
 parameters.put("recurring_day", 3);
+parameters.put("recurring_days", [1,15]);
 parameters.put("schedule_id", 1);
 parameters.put("schedule_days_of_week", [1,3,5]);
 parameters.put("schedule_times_of_day", ["06:00"]);
@@ -283,6 +291,7 @@ expectation.update(parameters);
 * `trigger` (String): How this expectation opens windows.
 * `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.

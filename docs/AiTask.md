@@ -19,6 +19,10 @@
   ],
   "interval": "day",
   "recurring_day": 1,
+  "recurring_days": [
+    1,
+    15
+  ],
   "schedule_id": 1,
   "schedule_days_of_week": [
     1,
@@ -51,6 +55,7 @@
 * `trigger_actions` / `triggerActions`  (array(string)): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
 * `interval` / `interval`  (string): If trigger is `daily`, this specifies how often to run the AI Task.
 * `recurring_day` / `recurringDay`  (int64): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` / `recurringDays`  (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day in HH:MM format for the AI Task schedule.
@@ -123,6 +128,7 @@ AiTask aiTask = AiTask.create(
 * `permission_set` (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (String): Required - Prompt sent when this AI Task is invoked.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (String): Time zone used by the AI Task schedule.
@@ -174,6 +180,7 @@ AiTask aiTask = AiTask.update(
 * `permission_set` (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (String): Prompt sent when this AI Task is invoked.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (String): Time zone used by the AI Task schedule.
@@ -235,6 +242,7 @@ parameters.put("path", "incoming/reports");
 parameters.put("permission_set", "files_only");
 parameters.put("prompt", "Summarize the uploaded file and identify follow-up actions.");
 parameters.put("recurring_day", 1);
+parameters.put("recurring_days", [1,15]);
 parameters.put("schedule_id", 1);
 parameters.put("schedule_days_of_week", [1,3,5]);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
@@ -259,6 +267,7 @@ aiTask.update(parameters);
 * `permission_set` (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
 * `prompt` (String): Prompt sent when this AI Task is invoked.
 * `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
 * `schedule_time_zone` (String): Time zone used by the AI Task schedule.

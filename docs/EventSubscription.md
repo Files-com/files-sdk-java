@@ -9,6 +9,8 @@
   "workspace_id": 1,
   "apply_to_all_workspaces": true,
   "name": "example",
+  "subject": "example",
+  "message": "example",
   "enabled": true,
   "event_types": [
     "example"
@@ -28,6 +30,8 @@
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, this default-workspace subscription applies to events from all workspaces.
 * `name` / `name`  (string): Event Subscription name.
+* `subject` / `subject`  (string): Custom subject line to use for notification emails.
+* `message` / `message`  (string): Custom message to include in notification emails.
 * `enabled` / `enabled`  (boolean): Whether this Event Subscription can dispatch events.
 * `event_types` / `eventTypes`  (array(string)): Event type strings matched by this subscription. Blank means all event types.
 * `filter` / `filter`  (object): Structured event payload filter.
@@ -92,6 +96,8 @@ EventSubscription eventSubscription = EventSubscription.create(
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace subscription applies to events from all workspaces.
 * `name` (String): Required - Event Subscription name.
+* `subject` (String): Custom subject line to use for notification emails.
+* `message` (String): Custom message to include in notification emails.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.
@@ -118,6 +124,8 @@ EventSubscription eventSubscription = EventSubscription.update(
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace subscription applies to events from all workspaces.
 * `name` (String): Event Subscription name.
+* `subject` (String): Custom subject line to use for notification emails.
+* `message` (String): Custom message to include in notification emails.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.
@@ -154,6 +162,8 @@ parameters.put("event_channel_id", 1);
 parameters.put("workspace_id", 1);
 parameters.put("apply_to_all_workspaces", true);
 parameters.put("name", "example");
+parameters.put("subject", "example");
+parameters.put("message", "example");
 parameters.put("enabled", true);
 parameters.put("event_types", ["example"]);
 parameters.put("delivery_policy", "example");
@@ -169,6 +179,8 @@ eventSubscription.update(parameters);
 * `workspace_id` (Long): Workspace ID. 0 means the default workspace or site-wide.
 * `apply_to_all_workspaces` (Boolean): If true, this default-workspace subscription applies to events from all workspaces.
 * `name` (String): Event Subscription name.
+* `subject` (String): Custom subject line to use for notification emails.
+* `message` (String): Custom message to include in notification emails.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.

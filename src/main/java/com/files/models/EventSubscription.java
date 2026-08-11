@@ -144,6 +144,34 @@ public class EventSubscription implements ModelInterface {
   }
 
   /**
+  * Custom subject line to use for notification emails.
+  */
+  @JsonProperty("subject")
+  public String subject;
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
+  /**
+  * Custom message to include in notification emails.
+  */
+  @JsonProperty("message")
+  public String message;
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  /**
   * Whether this Event Subscription can dispatch events.
   */
   @JsonProperty("enabled")
@@ -239,6 +267,8 @@ public class EventSubscription implements ModelInterface {
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
   *   name - string - Event Subscription name.
+  *   subject - string - Custom subject line to use for notification emails.
+  *   message - string - Custom message to include in notification emails.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -369,6 +399,8 @@ public class EventSubscription implements ModelInterface {
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
   *   name (required) - string - Event Subscription name.
+  *   subject - string - Custom subject line to use for notification emails.
+  *   message - string - Custom message to include in notification emails.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -405,6 +437,12 @@ public class EventSubscription implements ModelInterface {
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
+    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
+    }
+    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
+    }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
     }
@@ -435,6 +473,8 @@ public class EventSubscription implements ModelInterface {
   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
   *   name - string - Event Subscription name.
+  *   subject - string - Custom subject line to use for notification emails.
+  *   message - string - Custom message to include in notification emails.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -480,6 +520,12 @@ public class EventSubscription implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
+    }
+    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");

@@ -394,6 +394,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
+  */
+  @JsonProperty("bundle_send_one_time_password_to_recipient_at_registration")
+  public Boolean bundleSendOneTimePasswordToRecipientAtRegistration;
+
+  public Boolean getBundleSendOneTimePasswordToRecipientAtRegistration() {
+    return bundleSendOneTimePasswordToRecipientAtRegistration;
+  }
+
+  /**
   * Do Bundles require internal notes?
   */
   @JsonProperty("bundle_require_note")
@@ -2143,6 +2153,7 @@ public class Site implements ModelInterface {
   *   bundle_password_required - boolean - Do Bundles require password protection?
   *   bundle_require_registration - boolean - Do Bundles require registration?
   *   bundle_require_share_recipient - boolean - Do Bundles require recipients for sharing?
+  *   bundle_send_one_time_password_to_recipient_at_registration - boolean - If true, new Share Links must send a one-time password to the recipient when they register. Requires bundle_require_share_recipient and cannot be enabled with bundle_password_required.
   *   bundle_registration_notifications - string - Do Bundle owners receive registration notification?
   *   bundle_activity_notifications - string - Do Bundle owners receive activity notifications?
   *   bundle_upload_receipt_notifications - string - Do Bundle uploaders receive upload confirmation notifications?
@@ -2513,6 +2524,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("bundle_require_share_recipient") && !(parameters.get("bundle_require_share_recipient") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_require_share_recipient must be of type Boolean parameters[\"bundle_require_share_recipient\"]");
+    }
+    if (parameters.containsKey("bundle_send_one_time_password_to_recipient_at_registration") && !(parameters.get("bundle_send_one_time_password_to_recipient_at_registration") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_send_one_time_password_to_recipient_at_registration must be of type Boolean parameters[\"bundle_send_one_time_password_to_recipient_at_registration\"]");
     }
     if (parameters.containsKey("bundle_registration_notifications") && !(parameters.get("bundle_registration_notifications") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: bundle_registration_notifications must be of type String parameters[\"bundle_registration_notifications\"]");

@@ -699,6 +699,20 @@ public class Bundle implements ModelInterface {
   }
 
   /**
+  * Upload slots requested by the associated Inbox. Each slot contains a name used as its label and destination subfolder name.
+  */
+  @JsonProperty("requested_upload_slots")
+  public Object[] requestedUploadSlots;
+
+  public Object[] getRequestedUploadSlots() {
+    return requestedUploadSlots;
+  }
+
+  public void setRequestedUploadSlots(Object[] requestedUploadSlots) {
+    this.requestedUploadSlots = requestedUploadSlots;
+  }
+
+  /**
   * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
   */
   @JsonProperty("paths")

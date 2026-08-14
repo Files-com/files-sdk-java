@@ -6,7 +6,47 @@
 {
   "id": 1,
   "name": "Company Holidays",
-  "definition": "example",
+  "definition": {
+    "months": {
+      "0": [
+        {
+          "name": "Good Friday",
+          "function": "easter(year)",
+          "function_modifier": -2
+        }
+      ],
+      "1": [
+        {
+          "name": "New Year's Day",
+          "mday": 1,
+          "observed": "to_weekday_if_weekend(date)"
+        },
+        {
+          "name": "Third Monday",
+          "week": 3,
+          "wday": 1
+        }
+      ],
+      "11": [
+        {
+          "name": "Thanksgiving",
+          "week": 4,
+          "wday": 4
+        }
+      ],
+      "12": [
+        {
+          "name": "Christmas Eve Early Close",
+          "mday": 24,
+          "start_time": "13:00",
+          "end_time": "17:00",
+          "year_ranges": {
+            "from": 2026
+          }
+        }
+      ]
+    }
+  },
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -117,7 +157,7 @@ void holidayCalendar = HolidayCalendar.delete(
 HolidayCalendar holidayCalendar = HolidayCalendar.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("definition", "example");
+parameters.put("definition", {"months":{"0":[{"name":"Good Friday","function":"easter(year)","function_modifier":-2}],"1":[{"name":"New Year's Day","mday":1,"observed":"to_weekday_if_weekend(date)"},{"name":"Third Monday","week":3,"wday":1}],"11":[{"name":"Thanksgiving","week":4,"wday":4}],"12":[{"name":"Christmas Eve Early Close","mday":24,"start_time":"13:00","end_time":"17:00","year_ranges":{"from":2026}}]}});
 parameters.put("name", "Company Holidays");
 
 holidayCalendar.update(parameters);

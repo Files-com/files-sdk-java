@@ -74,7 +74,7 @@ public class HolidayCalendar implements ModelInterface {
 
 
   /**
-  * Holiday Calendar ID. Use `custom_ id ` as a scheduled resource's `holiday_region`.
+  * Holiday Calendar ID. Set a scheduled resource's `holiday_region` to `custom_` followed by this ID to make it skip the days in this calendar.
   */
   @JsonProperty("id")
   public Long id;
@@ -102,7 +102,7 @@ public class HolidayCalendar implements ModelInterface {
   }
 
   /**
-  * Holiday rules for the calendar. For more information, refer to the Holiday Calendars section of the Files.com documentation.
+  * Holiday rules for the calendar.
   */
   @JsonProperty("definition")
   public Object definition;
@@ -137,6 +137,7 @@ public class HolidayCalendar implements ModelInterface {
 
   /**
   * Parameters:
+  *   definition - object - Holiday rules for the calendar.
   *   name - string - Holiday Calendar name.
   */
   public HolidayCalendar update(HashMap<String, Object> parameters) throws IOException {
@@ -255,6 +256,7 @@ public class HolidayCalendar implements ModelInterface {
 
   /**
   * Parameters:
+  *   definition (required) - object - Holiday rules for the calendar.
   *   name (required) - string - Holiday Calendar name.
   */
   public static HolidayCalendar create() throws RuntimeException {
@@ -271,10 +273,16 @@ public class HolidayCalendar implements ModelInterface {
     options = options != null ? options : new HashMap<String, Object>();
 
 
+    if (!parameters.containsKey("definition") || parameters.get("definition") == null) {
+      throw new NullPointerException("Parameter missing: definition parameters[\"definition\"]");
+    }
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
 
+    if (parameters.containsKey("definition") && !(parameters.get("definition") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: definition must be of type Object parameters[\"definition\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -289,6 +297,7 @@ public class HolidayCalendar implements ModelInterface {
 
   /**
   * Parameters:
+  *   definition - object - Holiday rules for the calendar.
   *   name - string - Holiday Calendar name.
   */
   public static HolidayCalendar update() throws RuntimeException {
@@ -318,6 +327,9 @@ public class HolidayCalendar implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("definition") && !(parameters.get("definition") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: definition must be of type Object parameters[\"definition\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

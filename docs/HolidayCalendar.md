@@ -12,9 +12,9 @@
 }
 ```
 
-* `id` / `id`  (int64): Holiday Calendar ID. Use `custom_<id>` as a scheduled resource's `holiday_region`.
+* `id` / `id`  (int64): Holiday Calendar ID. Set a scheduled resource's `holiday_region` to `custom_` followed by this ID to make it skip the days in this calendar.
 * `name` / `name`  (string): Holiday Calendar name.
-* `definition` / `definition`  (object): Holiday rules for the calendar. For more information, refer to the Holiday Calendars section of the Files.com documentation.
+* `definition` / `definition`  (object): Holiday rules for the calendar.
 * `created_at` / `createdAt`  (date-time): Creation time.
 * `updated_at` / `updatedAt`  (date-time): Last update time.
 
@@ -69,6 +69,7 @@ HolidayCalendar holidayCalendar = HolidayCalendar.create(
 
 ### Parameters
 
+* `definition` (Object): Required - Holiday rules for the calendar.
 * `name` (String): Required - Holiday Calendar name.
 
 
@@ -87,6 +88,7 @@ HolidayCalendar holidayCalendar = HolidayCalendar.update(
 ### Parameters
 
 * `id` (Long): Required - Holiday Calendar ID.
+* `definition` (Object): Holiday rules for the calendar.
 * `name` (String): Holiday Calendar name.
 
 
@@ -115,6 +117,7 @@ void holidayCalendar = HolidayCalendar.delete(
 HolidayCalendar holidayCalendar = HolidayCalendar.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("definition", "example");
 parameters.put("name", "Company Holidays");
 
 holidayCalendar.update(parameters);
@@ -123,6 +126,7 @@ holidayCalendar.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Holiday Calendar ID.
+* `definition` (Object): Holiday rules for the calendar.
 * `name` (String): Holiday Calendar name.
 
 

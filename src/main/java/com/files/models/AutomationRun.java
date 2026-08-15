@@ -104,6 +104,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+  * Pinned Automation v2 definition version.
+  */
+  @JsonProperty("version")
+  public Long version;
+
+  public Long getVersion() {
+    return version;
+  }
+
+  /**
   * Workspace ID.
   */
   @JsonProperty("workspace_id")

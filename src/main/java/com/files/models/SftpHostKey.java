@@ -74,6 +74,20 @@ public class SftpHostKey implements ModelInterface {
 
 
   /**
+  * If true, use this SFTP Host Key.
+  */
+  @JsonProperty("active")
+  public Boolean active;
+
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
+  }
+
+  /**
   * SFTP Host Key ID
   */
   @JsonProperty("id")
@@ -99,6 +113,20 @@ public class SftpHostKey implements ModelInterface {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  /**
+  * SSH key type
+  */
+  @JsonProperty("key_type")
+  public String keyType;
+
+  public String getKeyType() {
+    return keyType;
+  }
+
+  public void setKeyType(String keyType) {
+    this.keyType = keyType;
   }
 
   /**
@@ -145,6 +173,7 @@ public class SftpHostKey implements ModelInterface {
 
   /**
   * Parameters:
+  *   active - boolean - If true, use this SFTP Host Key.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -260,6 +289,7 @@ public class SftpHostKey implements ModelInterface {
 
   /**
   * Parameters:
+  *   active - boolean - If true, use this SFTP Host Key.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -278,6 +308,9 @@ public class SftpHostKey implements ModelInterface {
 
 
 
+    if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -295,6 +328,7 @@ public class SftpHostKey implements ModelInterface {
 
   /**
   * Parameters:
+  *   active - boolean - If true, use this SFTP Host Key.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -325,6 +359,9 @@ public class SftpHostKey implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

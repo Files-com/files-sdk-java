@@ -1605,6 +1605,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Ids of the selected custom SFTP Host Keys
+  */
+  @JsonProperty("active_sftp_host_key_ids")
+  public Long[] activeSftpHostKeyIds;
+
+  public Long[] getActiveSftpHostKeyIds() {
+    return activeSftpHostKeyIds;
+  }
+
+  /**
   * If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.
   */
   @JsonProperty("sftp_insecure_ciphers")
@@ -2180,6 +2190,7 @@ public class Site implements ModelInterface {
   *   show_user_notifications_log_in_link - boolean - Show log in link in user notifications?
   *   sftp_host_key_type - string - Sftp Host Key Type
   *   active_sftp_host_key_id - int64 - Id of the currently selected custom SFTP Host Key
+  *   active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
   *   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
   *   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
   *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
@@ -2605,6 +2616,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("active_sftp_host_key_id") && !(parameters.get("active_sftp_host_key_id") instanceof Long || parameters.get("active_sftp_host_key_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_id must be of type Long or Integer parameters[\"active_sftp_host_key_id\"]");
+    }
+    if (parameters.containsKey("active_sftp_host_key_ids") && !(parameters.get("active_sftp_host_key_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: active_sftp_host_key_ids must be of type Long[] parameters[\"active_sftp_host_key_ids\"]");
     }
     if (parameters.containsKey("protocol_access_groups_only") && !(parameters.get("protocol_access_groups_only") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: protocol_access_groups_only must be of type Boolean parameters[\"protocol_access_groups_only\"]");

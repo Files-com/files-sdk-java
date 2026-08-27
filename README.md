@@ -732,6 +732,7 @@ RuntimeException
 |`PlanNotFoundException`|  `NotFoundException` |
 |`SiteNotFoundException`|  `NotFoundException` |
 |`UserNotFoundException`|  `NotFoundException` |
+|`AgentPushUpdateBlockedException`|  `ProcessingFailureException` |
 |`AgentUnavailableException`|  `ProcessingFailureException` |
 |`AiTaskCannotBeRunManuallyException`|  `ProcessingFailureException` |
 |`AlreadyCompletedException`|  `ProcessingFailureException` |

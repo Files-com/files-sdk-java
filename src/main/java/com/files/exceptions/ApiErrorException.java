@@ -937,6 +937,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class AgentPushUpdateBlockedException extends ProcessingFailureException {
+    public AgentPushUpdateBlockedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class AgentUnavailableException extends ProcessingFailureException {
     public AgentUnavailableException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

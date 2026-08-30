@@ -102,6 +102,20 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
+  * Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+  */
+  @JsonProperty("direction")
+  public String direction;
+
+  public String getDirection() {
+    return direction;
+  }
+
+  public void setDirection(String direction) {
+    this.direction = direction;
+  }
+
+  /**
   * ID of the Partner this Channel belongs to.
   */
   @JsonProperty("partner_id")
@@ -299,6 +313,7 @@ public class PartnerChannel implements ModelInterface {
 
   /**
   * Parameters:
+  *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -427,6 +442,7 @@ public class PartnerChannel implements ModelInterface {
 
   /**
   * Parameters:
+  *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -458,6 +474,9 @@ public class PartnerChannel implements ModelInterface {
       throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
     }
 
+    if (parameters.containsKey("direction") && !(parameters.get("direction") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: direction must be of type String parameters[\"direction\"]");
+    }
     if (parameters.containsKey("from_partner_folder_name") && !(parameters.get("from_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: from_partner_folder_name must be of type String parameters[\"from_partner_folder_name\"]");
     }
@@ -496,6 +515,7 @@ public class PartnerChannel implements ModelInterface {
 
   /**
   * Parameters:
+  *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -531,6 +551,9 @@ public class PartnerChannel implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("direction") && !(parameters.get("direction") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: direction must be of type String parameters[\"direction\"]");
     }
     if (parameters.containsKey("from_partner_folder_name") && !(parameters.get("from_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: from_partner_folder_name must be of type String parameters[\"from_partner_folder_name\"]");

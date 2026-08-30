@@ -6,6 +6,7 @@
 {
   "id": 1,
   "workspace_id": 1,
+  "direction": "two_way",
   "partner_id": 1,
   "partner_channel_template_id": 1,
   "path": "claims/medical",
@@ -29,6 +30,7 @@
 
 * `id` / `id`  (int64): The unique ID of the Partner Channel.
 * `workspace_id` / `workspaceId`  (int64): ID of the Workspace associated with this Partner Channel.
+* `direction` / `direction`  (string): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `partner_id` / `partnerId`  (int64): ID of the Partner this Channel belongs to.
 * `partner_channel_template_id` / `partnerChannelTemplateId`  (int64): ID of the Partner Channel Template that manages this Channel, if any.
 * `path` / `path`  (string): Channel path relative to the Partner root folder. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
@@ -96,6 +98,7 @@ PartnerChannel partnerChannel = PartnerChannel.create(
 
 ### Parameters
 
+* `direction` (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.
@@ -122,6 +125,7 @@ PartnerChannel partnerChannel = PartnerChannel.update(
 ### Parameters
 
 * `id` (Long): Required - Partner Channel ID.
+* `direction` (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.
@@ -156,6 +160,7 @@ void partnerChannel = PartnerChannel.delete(
 PartnerChannel partnerChannel = PartnerChannel.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("direction", "two_way");
 parameters.put("from_partner_folder_name", "incoming");
 parameters.put("from_partner_managed_folder_paths", ["claims/received"]);
 parameters.put("from_partner_route_path", "processing/from-partner");
@@ -170,6 +175,7 @@ partnerChannel.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Partner Channel ID.
+* `direction` (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
 * `from_partner_folder_name` (String): Optional Channel-level from-Partner folder name override.
 * `from_partner_managed_folder_paths` (String[]): Managed folder paths inside the from-Partner folder.
 * `from_partner_route_path` (String): Optional route path for files uploaded by the Partner.

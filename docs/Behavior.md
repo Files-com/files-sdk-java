@@ -11,7 +11,11 @@
   "name": "example",
   "description": "example",
   "value": {
-    "method": "GET"
+    "urls": [
+      "https://example.com/webhook"
+    ],
+    "method": "POST",
+    "encoding": "JSON"
   },
   "public_hosting_url": "example",
   "disable_parent_folder_behavior": true,
@@ -112,7 +116,7 @@ Behavior behavior = Behavior.create(
 
 ### Parameters
 
-* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
@@ -159,7 +163,7 @@ Behavior behavior = Behavior.update(
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
@@ -193,7 +197,7 @@ void behavior = Behavior.delete(
 Behavior behavior = Behavior.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("value", "{\"method\": \"GET\"}");
+parameters.put("value", {"urls":["https://example.com/webhook"],"method":"POST","encoding":"JSON"});
 parameters.put("disable_parent_folder_behavior", false);
 parameters.put("recursive", false);
 parameters.put("name", "example");
@@ -206,7 +210,7 @@ behavior.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - Behavior ID.
-* `value` (Object): This field stores a hash of data specific to the type of behavior. See The Behavior Types section for example values for each type of behavior.
+* `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
 * `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.

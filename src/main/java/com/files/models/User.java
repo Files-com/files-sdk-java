@@ -1456,7 +1456,7 @@ public class User implements ModelInterface {
   }
 
   /**
-  * If true, convert this user to a partner user by assigning the partner_id provided.
+  * Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
   */
   @JsonProperty("convert_to_partner_user")
   public Boolean convertToPartnerUser;
@@ -1561,7 +1561,7 @@ public class User implements ModelInterface {
   *   username - string - User's username
   *   workspace_id - int64 - Workspace ID
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-  *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
+  *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
   */
   public User update(HashMap<String, Object> parameters) throws IOException {
     return User.update(this.id, parameters, this.options);
@@ -2208,7 +2208,7 @@ public class User implements ModelInterface {
   *   username - string - User's username
   *   workspace_id - int64 - Workspace ID
   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-  *   convert_to_partner_user - boolean - If true, convert this user to a partner user by assigning the partner_id provided.
+  *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
   */
   public static User update() throws RuntimeException {
     return update(null, null, null);

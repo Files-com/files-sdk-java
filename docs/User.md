@@ -196,7 +196,7 @@
 * `password_confirmation` / `passwordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `password`.
 * `announcements_read` / `announcementsRead`  (boolean): Signifies that the user has read all the announcements in the UI.
 * `clear_2fa` / `clear2fa`  (boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-* `convert_to_partner_user` / `convertToPartnerUser`  (boolean): If true, convert this user to a partner user by assigning the partner_id provided.
+* `convert_to_partner_user` / `convertToPartnerUser`  (boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 
 
 ---
@@ -463,7 +463,7 @@ User user = User.update(
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-* `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
+* `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 
 
 ---
@@ -682,7 +682,7 @@ user.update(parameters);
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-* `convert_to_partner_user` (Boolean): If true, convert this user to a partner user by assigning the partner_id provided.
+* `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 
 
 ---

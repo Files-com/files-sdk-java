@@ -172,6 +172,20 @@ public class EventSubscription implements ModelInterface {
   }
 
   /**
+  * If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
+  */
+  @JsonProperty("message_only")
+  public Boolean messageOnly;
+
+  public Boolean getMessageOnly() {
+    return messageOnly;
+  }
+
+  public void setMessageOnly(Boolean messageOnly) {
+    this.messageOnly = messageOnly;
+  }
+
+  /**
   * Whether this Event Subscription can dispatch events.
   */
   @JsonProperty("enabled")
@@ -269,6 +283,7 @@ public class EventSubscription implements ModelInterface {
   *   name - string - Event Subscription name.
   *   subject - string - Custom subject line to use for notification emails.
   *   message - string - Custom message to include in notification emails.
+  *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -401,6 +416,7 @@ public class EventSubscription implements ModelInterface {
   *   name (required) - string - Event Subscription name.
   *   subject - string - Custom subject line to use for notification emails.
   *   message - string - Custom message to include in notification emails.
+  *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -443,6 +459,9 @@ public class EventSubscription implements ModelInterface {
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
     }
+    if (parameters.containsKey("message_only") && !(parameters.get("message_only") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: message_only must be of type Boolean parameters[\"message_only\"]");
+    }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
     }
@@ -475,6 +494,7 @@ public class EventSubscription implements ModelInterface {
   *   name - string - Event Subscription name.
   *   subject - string - Custom subject line to use for notification emails.
   *   message - string - Custom message to include in notification emails.
+  *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
   *   enabled - boolean - Whether this Event Subscription can dispatch events.
   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types.
   *   filter - object - Structured event payload filter.
@@ -526,6 +546,9 @@ public class EventSubscription implements ModelInterface {
     }
     if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
+    }
+    if (parameters.containsKey("message_only") && !(parameters.get("message_only") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: message_only must be of type Boolean parameters[\"message_only\"]");
     }
     if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");

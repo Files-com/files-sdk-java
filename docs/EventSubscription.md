@@ -11,6 +11,7 @@
   "name": "example",
   "subject": "example",
   "message": "example",
+  "message_only": true,
   "enabled": true,
   "event_types": [
     "example"
@@ -32,6 +33,7 @@
 * `name` / `name`  (string): Event Subscription name.
 * `subject` / `subject`  (string): Custom subject line to use for notification emails.
 * `message` / `message`  (string): Custom message to include in notification emails.
+* `message_only` / `messageOnly`  (boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 * `enabled` / `enabled`  (boolean): Whether this Event Subscription can dispatch events.
 * `event_types` / `eventTypes`  (array(string)): Event type strings matched by this subscription. Blank means all event types.
 * `filter` / `filter`  (object): Structured event payload filter.
@@ -98,6 +100,7 @@ EventSubscription eventSubscription = EventSubscription.create(
 * `name` (String): Required - Event Subscription name.
 * `subject` (String): Custom subject line to use for notification emails.
 * `message` (String): Custom message to include in notification emails.
+* `message_only` (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.
@@ -126,6 +129,7 @@ EventSubscription eventSubscription = EventSubscription.update(
 * `name` (String): Event Subscription name.
 * `subject` (String): Custom subject line to use for notification emails.
 * `message` (String): Custom message to include in notification emails.
+* `message_only` (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.
@@ -164,6 +168,7 @@ parameters.put("apply_to_all_workspaces", true);
 parameters.put("name", "example");
 parameters.put("subject", "example");
 parameters.put("message", "example");
+parameters.put("message_only", true);
 parameters.put("enabled", true);
 parameters.put("event_types", ["example"]);
 parameters.put("delivery_policy", "example");
@@ -181,6 +186,7 @@ eventSubscription.update(parameters);
 * `name` (String): Event Subscription name.
 * `subject` (String): Custom subject line to use for notification emails.
 * `message` (String): Custom message to include in notification emails.
+* `message_only` (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
 * `enabled` (Boolean): Whether this Event Subscription can dispatch events.
 * `event_types` (String[]): Event type strings matched by this subscription. Blank means all event types.
 * `filter` (Object): Structured event payload filter.

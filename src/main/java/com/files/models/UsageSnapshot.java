@@ -114,6 +114,16 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
+  * Total Transformation and AI credits used in this usage period. Updated daily. Does not include credits consumed today.
+  */
+  @JsonProperty("transformation_credits_usage")
+  public Long transformationCreditsUsage;
+
+  public Long getTransformationCreditsUsage() {
+    return transformationCreditsUsage;
+  }
+
+  /**
   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
   */
   @JsonProperty("current_storage")

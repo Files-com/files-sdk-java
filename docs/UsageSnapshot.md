@@ -8,6 +8,7 @@
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
   "high_water_user_count": 1,
+  "transformation_credits_usage": 1,
   "current_storage": 1,
   "high_water_storage": 1,
   "root_storage": 1,
@@ -32,6 +33,7 @@
 * `start_at` / `startAt`  (date-time): Usage snapshot start date/time
 * `end_at` / `endAt`  (date-time): Usage snapshot end date/time
 * `high_water_user_count` / `highWaterUserCount`  (int64): Highest user count number in time period
+* `transformation_credits_usage` / `transformationCreditsUsage`  (int64): Total Transformation and AI credits used in this usage period. Updated daily. Does not include credits consumed today.
 * `current_storage` / `currentStorage`  (int64): Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
 * `high_water_storage` / `highWaterStorage`  (int64): Highest Storage Usage GB recorded in time period (used for billing)
 * `root_storage` / `rootStorage`  (int64): Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)

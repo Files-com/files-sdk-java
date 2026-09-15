@@ -147,6 +147,7 @@ FileUploadPart file = File.create(
 
 * `path` (String): Required - Path to operate on.
 * `action` (String): The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
+* `custom_metadata` (Object): Custom metadata map to save when `action=end` completes the upload.  Replaces existing metadata; an empty map clears it.  No separate metadata-edit permission is required.  Supported on native files and configured remote mounts, excluding remote server automount paths.  Limited to 32 keys, 256 characters per key and 1024 characters per value.
 * `etags[etag]` (String[]): etag identifier.
 * `etags[part]` (Long[]): Part number.
 * `length` (Long): Length of file.

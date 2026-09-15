@@ -1171,6 +1171,7 @@ public class File implements ModelInterface {
   * Parameters:
   *   path (required) - string - Path to operate on.
   *   action - string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
+  *   custom_metadata - object - Custom metadata map to save when `action=end` completes the upload.  Replaces existing metadata; an empty map clears it.  No separate metadata-edit permission is required.  Supported on native files and configured remote mounts, excluding remote server automount paths.  Limited to 32 keys, 256 characters per key and 1024 characters per value.
   *   etags[etag] (required) - array(string) - etag identifier.
   *   etags[part] (required) - array(int64) - Part number.
   *   length - int64 - Length of file.
@@ -1220,6 +1221,9 @@ public class File implements ModelInterface {
     }
     if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
+    }
+    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Object parameters[\"custom_metadata\"]");
     }
     if (parameters.containsKey("length") && !(parameters.get("length") instanceof Long || parameters.get("length") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: length must be of type Long or Integer parameters[\"length\"]");

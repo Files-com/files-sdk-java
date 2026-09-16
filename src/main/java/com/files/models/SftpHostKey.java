@@ -88,6 +88,20 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
+  * Custom Domain ID. If set, this key is used only for that Custom Domain.
+  */
+  @JsonProperty("custom_domain_id")
+  public Long customDomainId;
+
+  public Long getCustomDomainId() {
+    return customDomainId;
+  }
+
+  public void setCustomDomainId(Long customDomainId) {
+    this.customDomainId = customDomainId;
+  }
+
+  /**
   * SFTP Host Key ID
   */
   @JsonProperty("id")
@@ -174,6 +188,7 @@ public class SftpHostKey implements ModelInterface {
   /**
   * Parameters:
   *   active - boolean - If true, use this SFTP Host Key.
+  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -290,6 +305,7 @@ public class SftpHostKey implements ModelInterface {
   /**
   * Parameters:
   *   active - boolean - If true, use this SFTP Host Key.
+  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -311,6 +327,9 @@ public class SftpHostKey implements ModelInterface {
     if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
     }
+    if (parameters.containsKey("custom_domain_id") && !(parameters.get("custom_domain_id") instanceof Long || parameters.get("custom_domain_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: custom_domain_id must be of type Long or Integer parameters[\"custom_domain_id\"]");
+    }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
     }
@@ -329,6 +348,7 @@ public class SftpHostKey implements ModelInterface {
   /**
   * Parameters:
   *   active - boolean - If true, use this SFTP Host Key.
+  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
   *   name - string - The friendly name of this SFTP Host Key.
   *   private_key - string - The private key data.
   */
@@ -362,6 +382,9 @@ public class SftpHostKey implements ModelInterface {
     }
     if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
+    }
+    if (parameters.containsKey("custom_domain_id") && !(parameters.get("custom_domain_id") instanceof Long || parameters.get("custom_domain_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: custom_domain_id must be of type Long or Integer parameters[\"custom_domain_id\"]");
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");

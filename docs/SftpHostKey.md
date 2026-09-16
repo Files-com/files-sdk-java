@@ -5,6 +5,7 @@
 ```
 {
   "active": true,
+  "custom_domain_id": 1,
   "id": 1,
   "name": "My Key",
   "key_type": "ssh-rsa",
@@ -14,6 +15,7 @@
 ```
 
 * `active` / `active`  (boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` / `customDomainId`  (int64): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `id` / `id`  (int64): SFTP Host Key ID
 * `name` / `name`  (string): The friendly name of this SFTP Host Key.
 * `key_type` / `keyType`  (string): SSH key type
@@ -72,6 +74,7 @@ SftpHostKey sftpHostKey = SftpHostKey.create(
 ### Parameters
 
 * `active` (Boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (String): The friendly name of this SFTP Host Key.
 * `private_key` (String): The private key data.
 
@@ -92,6 +95,7 @@ SftpHostKey sftpHostKey = SftpHostKey.update(
 
 * `id` (Long): Required - Sftp Host Key ID.
 * `active` (Boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (String): The friendly name of this SFTP Host Key.
 * `private_key` (String): The private key data.
 
@@ -122,6 +126,7 @@ SftpHostKey sftpHostKey = SftpHostKey.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("active", true);
+parameters.put("custom_domain_id", 1);
 parameters.put("name", "My Key");
 
 sftpHostKey.update(parameters);
@@ -131,6 +136,7 @@ sftpHostKey.update(parameters);
 
 * `id` (Long): Required - Sftp Host Key ID.
 * `active` (Boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
 * `name` (String): The friendly name of this SFTP Host Key.
 * `private_key` (String): The private key data.
 

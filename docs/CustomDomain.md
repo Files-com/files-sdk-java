@@ -11,6 +11,10 @@
   "ssl_certificate_id": 1,
   "brick_managed": true,
   "folder_behavior_id": 1,
+  "ip_addresses": [
+    "203.0.113.1",
+    "203.0.113.2"
+  ],
   "created_at": "2000-01-01T01:00:00Z",
   "updated_at": "2000-01-01T01:00:00Z"
 }
@@ -23,6 +27,7 @@
 * `ssl_certificate_id` / `sslCertificateId`  (int64): Current SSL certificate ID.
 * `brick_managed` / `brickManaged`  (boolean): Is this domain's SSL certificate automatically managed and renewed by Files.com?
 * `folder_behavior_id` / `folderBehaviorId`  (int64): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+* `ip_addresses` / `ipAddresses`  (array(string)): Dedicated public IP addresses allocated to this Custom Domain.
 * `created_at` / `createdAt`  (date-time): When this Custom Domain was created.
 * `updated_at` / `updatedAt`  (date-time): When this Custom Domain was last updated.
 
@@ -61,6 +66,24 @@ CustomDomain customDomain = CustomDomain.find(
 ### Parameters
 
 * `id` (Long): Required - Custom Domain ID.
+
+
+---
+
+## Allocate dedicated IP addresses to this Custom Domain
+
+```
+CustomDomain customDomain = CustomDomain.createAllocateIp(
+    Long id, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `id` (Long): Required - Custom Domain ID.
+* `count` (Long): Required - Number of dedicated IP addresses to allocate.
 
 
 ---

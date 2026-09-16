@@ -172,6 +172,20 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
+  * Dedicated public IP addresses allocated to this Custom Domain.
+  */
+  @JsonProperty("ip_addresses")
+  public String[] ipAddresses;
+
+  public String[] getIpAddresses() {
+    return ipAddresses;
+  }
+
+  public void setIpAddresses(String[] ipAddresses) {
+    this.ipAddresses = ipAddresses;
+  }
+
+  /**
   * When this Custom Domain was created.
   */
   @JsonProperty("created_at")
@@ -311,6 +325,55 @@ public class CustomDomain implements ModelInterface {
   public static CustomDomain get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
+
+  /**
+  * Parameters:
+  *   id (required) - int64 - Custom Domain ID.
+  *   count (required) - int64 - Number of dedicated IP addresses to allocate.
+  */
+  public static CustomDomain createAllocateIp() throws RuntimeException {
+    return createAllocateIp(null, null, null);
+  }
+
+  public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return createAllocateIp(id, parameters, null);
+  }
+
+  public static CustomDomain createAllocateIp(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return createAllocateIp(null, parameters, options);
+  }
+
+  public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+    if (!parameters.containsKey("count") || parameters.get("count") == null) {
+      throw new NullPointerException("Parameter missing: count parameters[\"count\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("count") && !(parameters.get("count") instanceof Long || parameters.get("count") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: count must be of type Long or Integer parameters[\"count\"]");
+    }
+
+
+
+    String url = String.format("%s%s/custom_domains/%s/allocate_ips", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+
+    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+  }
+
 
   /**
   * Parameters:

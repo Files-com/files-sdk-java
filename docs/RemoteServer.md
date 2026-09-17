@@ -64,7 +64,6 @@
   "enable_dedicated_ips": true,
   "files_agent_permission_set": "read_write",
   "files_agent_root": "example",
-  "files_agent_api_token": "example",
   "files_agent_version": "example",
   "files_agent_up_to_date": true,
   "files_agent_latest_version": "example",
@@ -86,7 +85,7 @@
 ```
 
 * `id` / `id`  (int64): Remote Server ID
-* `disabled` / `disabled`  (boolean): If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+* `disabled` / `disabled`  (boolean): If true, this Remote Server is disabled. Updating it clears this flag, except for retired Agent v1 records, which remain disabled.
 * `authentication_method` / `authenticationMethod`  (string): Type of authentication method to use
 * `hostname` / `hostname`  (string): Hostname or IP address
 * `remote_home_path` / `remoteHomePath`  (string): Initial home folder on remote server
@@ -145,7 +144,6 @@
 * `enable_dedicated_ips` / `enableDedicatedIps`  (boolean): `true` if remote server only accepts connections from dedicated IPs
 * `files_agent_permission_set` / `filesAgentPermissionSet`  (string): Local permissions for files agent. read_only, write_only, or read_write
 * `files_agent_root` / `filesAgentRoot`  (string): Agent local root path
-* `files_agent_api_token` / `filesAgentApiToken`  (string): Files Agent API Token
 * `files_agent_version` / `filesAgentVersion`  (string): Files Agent version
 * `files_agent_up_to_date` / `filesAgentUpToDate`  (boolean): If true, the Files Agent is up to date.
 * `files_agent_latest_version` / `filesAgentLatestVersion`  (string): Latest available Files Agent version
@@ -380,34 +378,6 @@ AgentPushUpdate remoteServer = RemoteServer.agentPushUpdate(
 
 ---
 
-## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-
-```
-RemoteServerConfigurationFile remoteServer = RemoteServer.configurationFile(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-* `api_token` (String): Files Agent API Token
-* `permission_set` (String): The permission set for the agent ['read_write', 'read_only', 'write_only']
-* `root` (String): The root directory for the agent
-* `hostname` (String): 
-* `port` (Long): Incoming port for files agent connections
-* `status` (String): either running or shutdown
-* `config_version` (String): agent config version
-* `private_key` (String): The private key for the agent
-* `public_key` (String): public key
-* `server_host_key` (String): 
-* `subdomain` (String): Files.com subdomain site name
-
-
----
-
 ## Update Remote Server
 
 ```
@@ -554,45 +524,6 @@ remoteServer.agentPushUpdate(parameters);
 ### Parameters
 
 * `id` (Long): Required - Remote Server ID.
-
-
----
-
-## Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-
-```
-RemoteServer remoteServer = RemoteServer.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("api_token", "example");
-parameters.put("permission_set", "example");
-parameters.put("root", "C:\\Users\\");
-parameters.put("hostname", "example");
-parameters.put("port", 1);
-parameters.put("status", "example");
-parameters.put("config_version", "example");
-parameters.put("private_key", "example");
-parameters.put("public_key", "example");
-parameters.put("server_host_key", "example");
-parameters.put("subdomain", "example");
-
-remoteServer.configurationFile(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-* `api_token` (String): Files Agent API Token
-* `permission_set` (String): The permission set for the agent ['read_write', 'read_only', 'write_only']
-* `root` (String): The root directory for the agent
-* `hostname` (String): 
-* `port` (Long): Incoming port for files agent connections
-* `status` (String): either running or shutdown
-* `config_version` (String): agent config version
-* `private_key` (String): The private key for the agent
-* `public_key` (String): public key
-* `server_host_key` (String): 
-* `subdomain` (String): Files.com subdomain site name
 
 
 ---

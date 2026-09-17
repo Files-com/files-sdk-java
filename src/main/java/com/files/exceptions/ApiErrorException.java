@@ -463,12 +463,6 @@ public class ApiErrorException extends SdkException {
     }
   }
 
-  public static class FilesAgentTokenFailedException extends NotAuthenticatedException {
-    public FilesAgentTokenFailedException(String message, ResponseError responseError, List<Header> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
   public static class InboxRegistrationCodeFailedException extends NotAuthenticatedException {
     public InboxRegistrationCodeFailedException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

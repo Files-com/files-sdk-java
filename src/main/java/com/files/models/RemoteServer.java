@@ -88,7 +88,7 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * If true, this Remote Server has been disabled due to failures.  Make any change or set disabled to false to clear this flag.
+  * If true, this Remote Server is disabled. Updating it clears this flag, except for retired Agent v1 records, which remain disabled.
   */
   @JsonProperty("disabled")
   public Boolean disabled;
@@ -914,20 +914,6 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
-  * Files Agent API Token
-  */
-  @JsonProperty("files_agent_api_token")
-  public String filesAgentApiToken;
-
-  public String getFilesAgentApiToken() {
-    return filesAgentApiToken;
-  }
-
-  public void setFilesAgentApiToken(String filesAgentApiToken) {
-    this.filesAgentApiToken = filesAgentApiToken;
-  }
-
-  /**
   * Files Agent version
   */
   @JsonProperty("files_agent_version")
@@ -1499,26 +1485,6 @@ public class RemoteServer implements ModelInterface {
   */
   public AgentPushUpdate agentPushUpdate(HashMap<String, Object> parameters) throws IOException {
     return RemoteServer.agentPushUpdate(this.id, parameters, this.options);
-  }
-
-  /**
-  * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-  *
-  * Parameters:
-  *   api_token - string - Files Agent API Token
-  *   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
-  *   root - string - The root directory for the agent
-  *   hostname - string
-  *   port - int64 - Incoming port for files agent connections
-  *   status - string - either running or shutdown
-  *   config_version - string - agent config version
-  *   private_key - string - The private key for the agent
-  *   public_key - string - public key
-  *   server_host_key - string
-  *   subdomain - string - Files.com subdomain site name
-  */
-  public RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters) throws IOException {
-    return RemoteServer.configurationFile(this.id, parameters, this.options);
   }
 
   /**
@@ -2215,93 +2181,6 @@ public class RemoteServer implements ModelInterface {
     String url = String.format("%s%s/remote_servers/%s/agent_push_update", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AgentPushUpdate> typeReference = new TypeReference<AgentPushUpdate>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
-  }
-
-
-  /**
-  * Post local changes, check in, and download configuration file (used by some Remote Server integrations, such as the Files.com Agent)
-  *
-  * Parameters:
-  *   api_token - string - Files Agent API Token
-  *   permission_set - string - The permission set for the agent ['read_write', 'read_only', 'write_only']
-  *   root - string - The root directory for the agent
-  *   hostname - string
-  *   port - int64 - Incoming port for files agent connections
-  *   status - string - either running or shutdown
-  *   config_version - string - agent config version
-  *   private_key - string - The private key for the agent
-  *   public_key - string - public key
-  *   server_host_key - string
-  *   subdomain - string - Files.com subdomain site name
-  */
-  public static RemoteServerConfigurationFile configurationFile() throws RuntimeException {
-    return configurationFile(null, null, null);
-  }
-
-  public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return configurationFile(id, parameters, null);
-  }
-
-  public static RemoteServerConfigurationFile configurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return configurationFile(null, parameters, options);
-  }
-
-  public static RemoteServerConfigurationFile configurationFile(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("api_token") && !(parameters.get("api_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: api_token must be of type String parameters[\"api_token\"]");
-    }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
-    if (parameters.containsKey("root") && !(parameters.get("root") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: root must be of type String parameters[\"root\"]");
-    }
-    if (parameters.containsKey("hostname") && !(parameters.get("hostname") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: hostname must be of type String parameters[\"hostname\"]");
-    }
-    if (parameters.containsKey("port") && !(parameters.get("port") instanceof Long || parameters.get("port") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: port must be of type Long or Integer parameters[\"port\"]");
-    }
-    if (parameters.containsKey("status") && !(parameters.get("status") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: status must be of type String parameters[\"status\"]");
-    }
-    if (parameters.containsKey("config_version") && !(parameters.get("config_version") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: config_version must be of type String parameters[\"config_version\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-    if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
-    }
-    if (parameters.containsKey("server_host_key") && !(parameters.get("server_host_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: server_host_key must be of type String parameters[\"server_host_key\"]");
-    }
-    if (parameters.containsKey("subdomain") && !(parameters.get("subdomain") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: subdomain must be of type String parameters[\"subdomain\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_servers/%s/configuration_file", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<RemoteServerConfigurationFile> typeReference = new TypeReference<RemoteServerConfigurationFile>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 

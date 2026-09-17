@@ -224,7 +224,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * SCIM OAuth Access Token.
+  * SCIM OAuth Access Token. Only returned when the token is first issued or reset.
   */
   @JsonProperty("scim_oauth_access_token")
   public String scimOauthAccessToken;

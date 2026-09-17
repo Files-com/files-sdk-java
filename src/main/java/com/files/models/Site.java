@@ -2193,7 +2193,6 @@ public class Site implements ModelInterface {
   *   active_sftp_host_key_ids - array(int64) - Ids of the selected custom SFTP Host Keys
   *   protocol_access_groups_only - boolean - If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
   *   revoke_bundle_access_on_disable_or_delete - boolean - Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-  *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   group_admins_can_add_users - boolean - Allow group admins to create users in their groups
   *   group_admins_can_manage_group_memberships - boolean - Allow group admins to add or remove existing users in their groups
   *   group_admins_can_delete_users - boolean - Allow group admins to delete users in their groups
@@ -2249,6 +2248,7 @@ public class Site implements ModelInterface {
   *   ldap_group_inclusion - string - Comma or newline separated list of group names (with optional wildcards) to include when syncing.
   *   ldap_base_dn - string - Base DN for looking up users in LDAP server
   *   uploads_via_email_authentication - boolean - Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+  *   bundle_watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   icon16_file - file
   *   icon16_delete - boolean - If true, will delete the file stored in icon16
   *   icon32_file - file
@@ -2626,9 +2626,6 @@ public class Site implements ModelInterface {
     if (parameters.containsKey("revoke_bundle_access_on_disable_or_delete") && !(parameters.get("revoke_bundle_access_on_disable_or_delete") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: revoke_bundle_access_on_disable_or_delete must be of type Boolean parameters[\"revoke_bundle_access_on_disable_or_delete\"]");
     }
-    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Object parameters[\"bundle_watermark_value\"]");
-    }
     if (parameters.containsKey("group_admins_can_add_users") && !(parameters.get("group_admins_can_add_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_add_users must be of type Boolean parameters[\"group_admins_can_add_users\"]");
     }
@@ -2793,6 +2790,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("uploads_via_email_authentication") && !(parameters.get("uploads_via_email_authentication") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: uploads_via_email_authentication must be of type Boolean parameters[\"uploads_via_email_authentication\"]");
+    }
+    if (parameters.containsKey("bundle_watermark_value") && !(parameters.get("bundle_watermark_value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_watermark_value must be of type Object parameters[\"bundle_watermark_value\"]");
     }
     if (parameters.containsKey("icon16_file") && !(parameters.get("icon16_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: icon16_file must be of type byte[] parameters[\"icon16_file\"]");

@@ -12,7 +12,7 @@
   "server_certificate": "require_match",
   "http_auth_username": "username",
   "additional_http_headers": {
-    "key": "example value"
+    "X-Partner": "acme"
   },
   "default_mime_type": "application/octet-stream",
   "mdn_validation_level": "none",
@@ -176,7 +176,7 @@ parameters.put("mdn_validation_level", "none");
 parameters.put("signature_validation_level", "normal");
 parameters.put("server_certificate", "require_match");
 parameters.put("default_mime_type", "application/octet-stream");
-parameters.put("additional_http_headers", {"key":"example value"});
+parameters.put("additional_http_headers", {"X-Partner":"acme"});
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
 parameters.put("public_certificate", "example");

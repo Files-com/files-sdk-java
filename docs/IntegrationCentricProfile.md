@@ -9,7 +9,10 @@
   "workspace_id": 1,
   "use_for_all_users": false,
   "expected_remote_servers": [
-    "example"
+    {
+      "server_type": "dropbox",
+      "name": "Dropbox"
+    }
   ]
 }
 ```
@@ -126,7 +129,7 @@ IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Business Systems Onboarding");
 parameters.put("workspace_id", 1);
-parameters.put("expected_remote_servers", ["example"]);
+parameters.put("expected_remote_servers", [{"server_type":"dropbox","name":"Dropbox"}]);
 parameters.put("use_for_all_users", false);
 
 integrationCentricProfile.update(parameters);

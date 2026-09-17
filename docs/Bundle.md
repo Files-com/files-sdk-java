@@ -77,14 +77,18 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "watermark_value": {
-    "key": "example value"
+    "gravity": "SouthWest",
+    "max_height_or_width": 20,
+    "transparency": 25
   },
   "send_one_time_password_to_recipient_at_registration": true,
   "workspace_id": 1,
   "has_inbox": true,
   "dont_allow_folders_in_uploads": true,
   "requested_upload_slots": [
-    "example"
+    {
+      "name": "Photo ID"
+    }
   ],
   "paths": [
     "file.txt"
@@ -244,6 +248,7 @@ Bundle bundle = Bundle.create(
 * `snapshot_id` (Long): ID of the snapshot containing this bundle's contents.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 
 
 ---
@@ -311,6 +316,7 @@ Bundle bundle = Bundle.update(
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 
@@ -391,6 +397,7 @@ parameters.put("skip_email", true);
 parameters.put("skip_name", true);
 parameters.put("user_id", 1);
 parameters.put("watermark_attachment_delete", false);
+parameters.put("watermark_value", {"gravity":"SouthWest","max_height_or_width":20,"transparency":25});
 parameters.put("workspace_id", 1);
 
 bundle.update(parameters);
@@ -429,6 +436,7 @@ bundle.update(parameters);
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
 * `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
 

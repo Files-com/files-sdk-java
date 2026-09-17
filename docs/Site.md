@@ -56,7 +56,9 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "bundle_watermark_value": {
-    "key": "example value"
+    "gravity": "SouthWest",
+    "max_height_or_width": 20,
+    "transparency": 25
   },
   "calculate_file_checksums_crc32": true,
   "calculate_file_checksums_md5": true,
@@ -716,7 +718,6 @@ Site site = Site.update(
 * `active_sftp_host_key_ids` (Long[]): Ids of the selected custom SFTP Host Keys
 * `protocol_access_groups_only` (Boolean): If true, protocol access permissions on users will be ignored, and only protocol access permissions set on Groups will be honored.  Make sure that your current user is a member of a group with API permission when changing this value to avoid locking yourself out of your site.
 * `revoke_bundle_access_on_disable_or_delete` (Boolean): Auto-removes bundles for disabled/deleted users and enforces bundle expiry within user access period.
-* `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `group_admins_can_add_users` (Boolean): Allow group admins to create users in their groups
 * `group_admins_can_manage_group_memberships` (Boolean): Allow group admins to add or remove existing users in their groups
 * `group_admins_can_delete_users` (Boolean): Allow group admins to delete users in their groups
@@ -772,6 +773,7 @@ Site site = Site.update(
 * `ldap_group_inclusion` (String): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 * `ldap_base_dn` (String): Base DN for looking up users in LDAP server
 * `uploads_via_email_authentication` (Boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+* `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `icon16_file` (byte[]): 
 * `icon16_delete` (Boolean): If true, will delete the file stored in icon16
 * `icon32_file` (byte[]): 

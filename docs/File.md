@@ -14,7 +14,7 @@
   "created_by_remote_server_id": 1,
   "created_by_sync_id": 1,
   "custom_metadata": {
-    "key": "value"
+    "department": "finance"
   },
   "display_name": "file.txt",
   "type": "file",
@@ -448,7 +448,7 @@ file.download(parameters);
 File file = File.find(path);
 
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("custom_metadata", {"key":"value"});
+parameters.put("custom_metadata", {"department":"finance"});
 parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
 parameters.put("priority_color", "red");
 

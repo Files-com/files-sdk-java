@@ -10,7 +10,7 @@
   "use_for_all_users": false,
   "disable_drive_mounting": false,
   "mount_mappings": {
-    "key": "example value"
+    "W": "Americas"
   }
 }
 ```
@@ -130,7 +130,7 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "North America Desktop Profile");
 parameters.put("workspace_id", 1);
-parameters.put("mount_mappings", {"key":"example value"});
+parameters.put("mount_mappings", {"W":"Americas"});
 parameters.put("use_for_all_users", false);
 parameters.put("disable_drive_mounting", false);
 

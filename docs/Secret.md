@@ -10,7 +10,7 @@
   "description": "Used by production API integrations.",
   "secret_type": "token",
   "metadata": {
-    "key": "example value"
+    "header_name": "Authorization"
   },
   "value_field_names": [
     "example"
@@ -139,7 +139,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Production API token");
 parameters.put("description", "Used by production API integrations.");
 parameters.put("secret_type", "token");
-parameters.put("metadata", {"key":"example value"});
+parameters.put("metadata", {"header_name":"Authorization"});
 
 secret.update(parameters);
 ```

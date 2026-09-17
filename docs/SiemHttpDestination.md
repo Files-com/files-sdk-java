@@ -12,7 +12,7 @@
   "file_format": "example",
   "file_interval_minutes": 1,
   "additional_headers": {
-    "key": "example value"
+    "Authorization": "Bearer YOUR_TOKEN"
   },
   "sending_active": true,
   "generic_payload_type": "example",
@@ -338,7 +338,7 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "example");
-parameters.put("additional_headers", {"key":"example value"});
+parameters.put("additional_headers", {"Authorization":"Bearer YOUR_TOKEN"});
 parameters.put("sending_active", true);
 parameters.put("generic_payload_type", "example");
 parameters.put("file_destination_path", "example");

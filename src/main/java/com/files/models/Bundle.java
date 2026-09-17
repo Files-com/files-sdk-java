@@ -868,6 +868,7 @@ public class Bundle implements ModelInterface {
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public Bundle update(HashMap<String, Object> parameters) throws IOException {
@@ -1053,6 +1054,7 @@ public class Bundle implements ModelInterface {
   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   */
   public static Bundle create() throws RuntimeException {
     return create(null, null);
@@ -1165,6 +1167,9 @@ public class Bundle implements ModelInterface {
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
     }
+    if (parameters.containsKey("watermark_value") && !(parameters.get("watermark_value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: watermark_value must be of type Object parameters[\"watermark_value\"]");
+    }
 
 
     String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
@@ -1260,6 +1265,7 @@ public class Bundle implements ModelInterface {
   *   user_id - int64 - The owning user id. Only site admins can set this.
   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
   */
   public static Bundle update() throws RuntimeException {
@@ -1379,6 +1385,9 @@ public class Bundle implements ModelInterface {
     }
     if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
       throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
+    }
+    if (parameters.containsKey("watermark_value") && !(parameters.get("watermark_value") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: watermark_value must be of type Object parameters[\"watermark_value\"]");
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");

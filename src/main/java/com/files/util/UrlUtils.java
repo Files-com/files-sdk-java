@@ -1,10 +1,9 @@
 package com.files.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -110,10 +109,9 @@ public class UrlUtils {
 
   public static String encodeUrlPath(String urlPath) {
     try {
-      return new URI(null, null, urlPath, null).getRawPath();
-    } catch (URISyntaxException ex) {
-      // NOOP
+      return URLEncoder.encode(urlPath, StandardCharsets.UTF_8.name()).replace("+", "%20");
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalStateException("UTF-8 is unavailable", e);
     }
-    return urlPath;
   }
 }

@@ -63,16 +63,25 @@ public class UrlUtilsTest {
 
   @Test
   public void encodeUrlPath() throws MalformedURLException {
-    // Some test URLs in a list, like a literal list of three urls with spaces in paths
     List<String> urls = Arrays.asList(
+        "",
+        "/",
         "path",
+        "colon:name.txt",
+        "colon:folder/child.txt",
         "path with space",
-        "path/with space/subdir"
+        "path/with space/subdir",
+        "path/a+b%#?é.txt"
     );
     List<String> sanitizedUrls = Arrays.asList(
+        "",
+        "%2F",
         "path",
+        "colon%3Aname.txt",
+        "colon%3Afolder%2Fchild.txt",
         "path%20with%20space",
-        "path/with%20space/subdir"
+        "path%2Fwith%20space%2Fsubdir",
+        "path%2Fa%2Bb%25%23%3F%C3%A9.txt"
     );
     // zip the urls and iterate through them
     for (int i = 0; i < urls.size(); i++) {

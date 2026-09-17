@@ -74,6 +74,7 @@
   "responsible_user_id": 1,
   "readonly_site_admin": true,
   "restapi_permission": true,
+  "s3_compatible_endpoint_permission": true,
   "self_managed": true,
   "sftp_permission": true,
   "site_admin": true,
@@ -165,6 +166,7 @@
 * `responsible_user_id` / `responsibleUserId`  (int64): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `readonly_site_admin` / `readonlySiteAdmin`  (boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
 * `restapi_permission` / `restapiPermission`  (boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+* `s3_compatible_endpoint_permission` / `s3CompatibleEndpointPermission`  (boolean): Can the user access the S3-compatible endpoint? Defaults to true.
 * `self_managed` / `selfManaged`  (boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` / `sftpPermission`  (boolean): Can the user access with SFTP?
 * `site_admin` / `siteAdmin`  (boolean): Is the user an administrator for this site?
@@ -311,6 +313,7 @@ User user = User.create(
 * `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
 * `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+* `s3_compatible_endpoint_permission` (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?
 * `site_admin` (Boolean): Is the user an administrator for this site?
@@ -447,6 +450,7 @@ User user = User.update(
 * `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
 * `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+* `s3_compatible_endpoint_permission` (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?
 * `site_admin` (Boolean): Is the user an administrator for this site?
@@ -589,6 +593,7 @@ parameters.put("require_password_change", true);
 parameters.put("responsible_group_id", 1);
 parameters.put("responsible_user_id", 1);
 parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
 parameters.put("self_managed", true);
 parameters.put("sftp_permission", true);
 parameters.put("site_admin", true);
@@ -666,6 +671,7 @@ user.update(parameters);
 * `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
 * `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
 * `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+* `s3_compatible_endpoint_permission` (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.
 * `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` (Boolean): Can the user access with SFTP?
 * `site_admin` (Boolean): Is the user an administrator for this site?

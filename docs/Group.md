@@ -16,6 +16,7 @@
   "sftp_permission": true,
   "dav_permission": true,
   "restapi_permission": true,
+  "s3_compatible_endpoint_permission": true,
   "desktop_configuration_profile_id": 1,
   "integration_centric_profile_id": 1,
   "site_id": 1,
@@ -35,6 +36,7 @@
 * `sftp_permission` / `sftpPermission`  (boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` / `davPermission`  (boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` / `restapiPermission`  (boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `s3_compatible_endpoint_permission` / `s3CompatibleEndpointPermission`  (boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 * `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `integration_centric_profile_id` / `integrationCentricProfileId`  (int64): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `site_id` / `siteId`  (int64): Site ID
@@ -103,6 +105,7 @@ Group group = Group.create(
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `s3_compatible_endpoint_permission` (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
@@ -133,6 +136,7 @@ Group group = Group.update(
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `s3_compatible_endpoint_permission` (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
@@ -172,6 +176,7 @@ parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
 parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
 parameters.put("desktop_configuration_profile_id", 1);
 parameters.put("integration_centric_profile_id", 1);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
@@ -191,6 +196,7 @@ group.update(parameters);
 * `sftp_permission` (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
 * `dav_permission` (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
 * `restapi_permission` (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+* `s3_compatible_endpoint_permission` (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited

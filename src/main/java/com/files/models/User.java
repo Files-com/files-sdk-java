@@ -1022,6 +1022,20 @@ public class User implements ModelInterface {
   }
 
   /**
+  * Can the user access the S3-compatible endpoint? Defaults to true.
+  */
+  @JsonProperty("s3_compatible_endpoint_permission")
+  public Boolean s3CompatibleEndpointPermission;
+
+  public Boolean getS3CompatibleEndpointPermission() {
+    return s3CompatibleEndpointPermission;
+  }
+
+  public void setS3CompatibleEndpointPermission(Boolean s3CompatibleEndpointPermission) {
+    this.s3CompatibleEndpointPermission = s3CompatibleEndpointPermission;
+  }
+
+  /**
   * Does this user manage it's own credentials or is it a shared/bot user?
   */
   @JsonProperty("self_managed")
@@ -1545,6 +1559,7 @@ public class User implements ModelInterface {
   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
   *   site_admin - boolean - Is the user an administrator for this site?
@@ -1770,6 +1785,7 @@ public class User implements ModelInterface {
   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
   *   site_admin - boolean - Is the user an administrator for this site?
@@ -1962,6 +1978,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
+    }
+    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
     }
     if (parameters.containsKey("self_managed") && !(parameters.get("self_managed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: self_managed must be of type Boolean parameters[\"self_managed\"]");
@@ -2192,6 +2211,7 @@ public class User implements ModelInterface {
   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
   *   sftp_permission - boolean - Can the user access with SFTP?
   *   site_admin - boolean - Is the user an administrator for this site?
@@ -2396,6 +2416,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
+    }
+    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
     }
     if (parameters.containsKey("self_managed") && !(parameters.get("self_managed") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: self_managed must be of type Boolean parameters[\"self_managed\"]");

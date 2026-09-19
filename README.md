@@ -670,6 +670,7 @@ RuntimeException
 |`ApiKeyIsDisabledException`|  `NotAuthorizedException` |
 |`ApiKeyIsPathRestrictedException`|  `NotAuthorizedException` |
 |`ApiKeyOnlyForDesktopAppException`|  `NotAuthorizedException` |
+|`ApiKeyOnlyForFileOperationsException`|  `NotAuthorizedException` |
 |`ApiKeyOnlyForMobileAppException`|  `NotAuthorizedException` |
 |`ApiKeyOnlyForOfficeIntegrationException`|  `NotAuthorizedException` |
 |`BillingInformationHiddenException`|  `NotAuthorizedException` |

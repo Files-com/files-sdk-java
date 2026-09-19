@@ -553,6 +553,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class ApiKeyOnlyForFileOperationsException extends NotAuthorizedException {
+    public ApiKeyOnlyForFileOperationsException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class ApiKeyOnlyForMobileAppException extends NotAuthorizedException {
     public ApiKeyOnlyForMobileAppException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

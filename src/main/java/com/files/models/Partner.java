@@ -256,7 +256,7 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
+  * This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
   */
   @JsonProperty("partnership_role")
   public String partnershipRole;
@@ -369,6 +369,7 @@ public class Partner implements ModelInterface {
   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
+  *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
   *   root_folder - string - The root folder path for this Partner.
   */
   public Partner update(HashMap<String, Object> parameters) throws IOException {
@@ -602,6 +603,7 @@ public class Partner implements ModelInterface {
   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
   *   name - string - The name of the Partner.
+  *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
   *   root_folder - string - The root folder path for this Partner.
   */
   public static Partner update() throws RuntimeException {
@@ -673,6 +675,9 @@ public class Partner implements ModelInterface {
     }
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+    if (parameters.containsKey("partnership_role") && !(parameters.get("partnership_role") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: partnership_role must be of type String parameters[\"partnership_role\"]");
     }
     if (parameters.containsKey("root_folder") && !(parameters.get("root_folder") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: root_folder must be of type String parameters[\"root_folder\"]");

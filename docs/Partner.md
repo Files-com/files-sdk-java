@@ -48,7 +48,7 @@
 * `notes` / `notes`  (string): Notes about this Partner.
 * `partner_admin_ids` / `partnerAdminIds`  (array(int64)): Array of User IDs that are Partner Admins for this Partner.
 * `partner_channel_template_id` / `partnerChannelTemplateId`  (int64): ID of the Partner Channel Template assigned to this Partner.
-* `partnership_role` / `partnershipRole`  (string): This site's role in Partner Site relationships for this Partner. Can be `host`, `guest`, `host_and_guest`, or null.
+* `partnership_role` / `partnershipRole`  (string): This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
 * `responsible_group_id` / `responsibleGroupId`  (int64): ID of the Group responsible for this Partner.
 * `responsible_user_id` / `responsibleUserId`  (int64): ID of the User responsible for this Partner.
 * `root_folder` / `rootFolder`  (string): The root folder path for this Partner.
@@ -155,6 +155,7 @@ Partner partner = Partner.update(
 * `show_partner_channel_home_page` (Boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
+* `partnership_role` (String): This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
 * `root_folder` (String): The root folder path for this Partner.
 
 
@@ -197,6 +198,7 @@ parameters.put("responsible_user_id", 1);
 parameters.put("show_partner_channel_home_page", false);
 parameters.put("tags", "example");
 parameters.put("name", "Acme Corp");
+parameters.put("partnership_role", "host");
 parameters.put("root_folder", "/AcmeCorp");
 
 partner.update(parameters);
@@ -219,6 +221,7 @@ partner.update(parameters);
 * `show_partner_channel_home_page` (Boolean): Show Partner users a simplified home page built from this Partner's Channels.
 * `tags` (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `name` (String): The name of the Partner.
+* `partnership_role` (String): This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
 * `root_folder` (String): The root folder path for this Partner.
 
 

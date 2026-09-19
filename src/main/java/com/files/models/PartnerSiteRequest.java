@@ -352,6 +352,7 @@ public class PartnerSiteRequest implements ModelInterface {
   /**
   * Parameters:
   *   pairing_key (required) - string - Pairing key for the partner site request
+  *   partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
   */
   public static void approve() throws RuntimeException {
     approve(null, null);
@@ -373,6 +374,9 @@ public class PartnerSiteRequest implements ModelInterface {
 
     if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
+    }
+    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
     }
 
 

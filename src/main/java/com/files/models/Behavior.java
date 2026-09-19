@@ -186,7 +186,7 @@ public class Behavior implements ModelInterface {
   }
 
   /**
-  * If true, the parent folder's behavior will be disabled for this folder and its children.
+  * If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
   */
   @JsonProperty("disable_parent_folder_behavior")
   public Boolean disableParentFolderBehavior;
@@ -287,7 +287,7 @@ public class Behavior implements ModelInterface {
   * Parameters:
   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
@@ -477,7 +477,7 @@ public class Behavior implements ModelInterface {
   * Parameters:
   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.
@@ -595,7 +595,7 @@ public class Behavior implements ModelInterface {
   * Parameters:
   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-  *   disable_parent_folder_behavior - boolean - If `true`, the parent folder's behavior will be disabled for this folder and its children. This is the main mechanism for canceling out a `recursive` behavior higher in the folder tree.
+  *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
   *   name - string - Name for this behavior.
   *   description - string - Description for this behavior.

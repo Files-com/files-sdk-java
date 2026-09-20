@@ -102,10 +102,6 @@
   ],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "source": "example",
-  "legacy_sync_ids": [
-    1,
-    2
-  ],
   "sync_ids": [
     1,
     2
@@ -164,8 +160,7 @@
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `source` / `source`  (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
-* `legacy_sync_ids` / `legacySyncIds`  (array(int64)): IDs of remote sync folder behaviors to run by this Automation
-* `sync_ids` / `syncIds`  (array(int64)): IDs of syncs to run by this Automation. This is the new way to specify syncs, and it is recommended to use this instead of `legacy_sync_ids`.
+* `sync_ids` / `syncIds`  (array(int64)): IDs of Syncs to run by this Automation.
 * `trigger_actions` / `triggerActions`  (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `trigger` / `trigger`  (string): How this automation is triggered to run.
 * `user_id` / `userId`  (int64): User ID of the Automation's creator.
@@ -249,7 +244,6 @@ Automation automation = Automation.create(
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs, except on remote mounts.
-* `legacy_sync_ids` (String): A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -338,7 +332,6 @@ Automation automation = Automation.update(
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs, except on remote mounts.
-* `legacy_sync_ids` (String): A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
@@ -437,7 +430,6 @@ parameters.put("destination_replace_from", "example");
 parameters.put("destination_replace_to", "example");
 parameters.put("interval", "year");
 parameters.put("path", "example");
-parameters.put("legacy_sync_ids", [1,2]);
 parameters.put("sync_ids", [1,2]);
 parameters.put("user_ids", [1,2]);
 parameters.put("group_ids", [1,2]);
@@ -480,7 +472,6 @@ automation.update(parameters);
 * `destination_replace_to` (String): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `interval` (String): How often to run this automation? One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
 * `path` (String): Path on which this Automation runs.  Supports globs, except on remote mounts.
-* `legacy_sync_ids` (String): A list of legacy sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `sync_ids` (String): A list of sync IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.

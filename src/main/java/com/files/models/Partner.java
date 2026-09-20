@@ -158,6 +158,20 @@ public class Partner implements ModelInterface {
   }
 
   /**
+  * Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
+  */
+  @JsonProperty("connections")
+  public PartnerConnection[] connections;
+
+  public PartnerConnection[] getConnections() {
+    return connections;
+  }
+
+  public void setConnections(PartnerConnection[] connections) {
+    this.connections = connections;
+  }
+
+  /**
   * The unique ID of the Partner.
   */
   @JsonProperty("id")

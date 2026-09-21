@@ -465,7 +465,7 @@ User user = User.update(
 * `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
-* `workspace_id` (Long): Workspace ID
+* `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 
@@ -686,7 +686,7 @@ user.update(parameters);
 * `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
 * `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
 * `username` (String): User's username
-* `workspace_id` (Long): Workspace ID
+* `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
 * `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
 

@@ -5,6 +5,7 @@ import com.files.models.Bundle;
 import com.files.models.File;
 import com.files.models.Folder;
 import com.files.models.User;
+import com.files.net.HttpMethods;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.io.IOException;
@@ -108,6 +109,63 @@ public class FilesApiTest {
 
     wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
         .withoutHeader("X-Files-Workspace-Id"));
+  }
+
+  @Test
+  public void stripsFilesAuthHeadersOnCrossOriginRedirects() throws Exception {
+    WireMockServer storageServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
+    storageServer.start();
+    try {
+      FilesClient.workspaceId = 123L;
+      wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirect"))
+          .willReturn(aResponse()
+              .withStatus(302)
+              .withHeader("Location", "http://localhost:" + storageServer.port() + "/download")));
+      storageServer.stubFor(get(urlEqualTo("/download"))
+          .willReturn(aResponse()
+              .withStatus(302)
+              .withHeader("Location", "http://localhost:" + wireMockServer.port() + "/returned")));
+      wireMockServer.stubFor(get(urlEqualTo("/returned"))
+          .willReturn(aResponse().withStatus(200).withBody("{}")));
+
+      FilesClient.apiRequest(
+          "http://localhost:" + wireMockServer.port() + "/api/rest/v1/redirect",
+          HttpMethods.RequestMethods.GET,
+          new HashMap<>(),
+          new HashMap<>());
+
+      storageServer.verify(getRequestedFor(urlEqualTo("/download"))
+          .withoutHeader("X-FilesAPI-Key")
+          .withoutHeader("X-FilesAPI-Auth")
+          .withoutHeader("X-Files-Workspace-Id"));
+      wireMockServer.verify(getRequestedFor(urlEqualTo("/returned"))
+          .withoutHeader("X-FilesAPI-Key")
+          .withoutHeader("X-FilesAPI-Auth")
+          .withoutHeader("X-Files-Workspace-Id"));
+    } finally {
+      storageServer.stop();
+    }
+  }
+
+  @Test
+  public void keepsFilesAuthHeadersOnSameOriginRedirects() throws Exception {
+    FilesClient.workspaceId = 123L;
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirect"))
+        .willReturn(aResponse()
+            .withStatus(302)
+            .withHeader("Location", "/api/rest/v1/redirected")));
+    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirected"))
+        .willReturn(aResponse().withStatus(200).withBody("{}")));
+
+    FilesClient.apiRequest(
+        "http://localhost:" + wireMockServer.port() + "/api/rest/v1/redirect",
+        HttpMethods.RequestMethods.GET,
+        new HashMap<>(),
+        new HashMap<>());
+
+    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/redirected"))
+        .withHeader("X-FilesAPI-Key", equalTo("test-key"))
+        .withHeader("X-Files-Workspace-Id", equalTo("123")));
   }
 
   @Test

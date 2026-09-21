@@ -189,16 +189,16 @@ public class FilesApacheHttpApi implements FilesApiInterface {
         if (!(options.get("session_id") instanceof String)) {
           throw new ApiErrorException.InvalidParameterException("Bad option: session_id must be of type String");
         }
-        request.addHeader("X-FilesApi-Auth", (String) options.get("session_id"));
+        request.addHeader("X-FilesAPI-Auth", (String) options.get("session_id"));
       } else if (options.containsKey("api_key")) {
         if (!(options.get("api_key") instanceof String)) {
           throw new ApiErrorException.InvalidParameterException("Bad option: api_key must be of type String");
         }
-        request.addHeader("X-FilesApi-Key", (String) options.get("api_key"));
+        request.addHeader("X-FilesAPI-Key", (String) options.get("api_key"));
       } else if (FilesClient.session != null && FilesClient.session.getId().length() > 0) {
-        request.addHeader("X-FilesApi-Auth", FilesClient.session.getId());
+        request.addHeader("X-FilesAPI-Auth", FilesClient.session.getId());
       } else if (FilesClient.apiKey != null && FilesClient.apiKey.length() > 0) {
-        request.addHeader("X-FilesApi-Key", FilesClient.apiKey);
+        request.addHeader("X-FilesAPI-Key", FilesClient.apiKey);
       } else {
         throw new ApiErrorException.AuthenticationException(
           String.format("Authentication required for API request: %s %s", url, requestType), null);

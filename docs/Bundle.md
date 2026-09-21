@@ -60,6 +60,7 @@
   "deleted": true,
   "deleted_at": "2000-01-01T01:00:00Z",
   "dont_separate_submissions_by_folder": true,
+  "effective_expires_at": "2000-01-01T01:00:00Z",
   "max_uses": 1,
   "internal_name": "Quarterly reports",
   "note": "The internal note on the bundle.",
@@ -110,7 +111,7 @@
 * `color_top_text` / `colorTopText`  (string): Top bar text color
 * `url` / `url`  (string): Public URL of Share Link
 * `description` / `description`  (string): Public description
-* `expires_at` / `expiresAt`  (date-time): Bundle expiration date/time
+* `expires_at` / `expiresAt`  (date-time): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
 * `permissions` / `permissions`  (string): Permissions that apply to Folders in this Share Link.
 * `preview_only` / `previewOnly`  (boolean): 
@@ -129,6 +130,7 @@
 * `deleted` / `deleted`  (boolean): Indicates if the bundle has been deleted.
 * `deleted_at` / `deletedAt`  (date-time): Bundle deleted at date/time
 * `dont_separate_submissions_by_folder` / `dontSeparateSubmissionsByFolder`  (boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+* `effective_expires_at` / `effectiveExpiresAt`  (date-time): Read-only expiration date/time, using the explicit expiration or the site-wide setting when applicable. Null when the Share Link does not expire.
 * `max_uses` / `maxUses`  (int64): Maximum number of times bundle can be accessed
 * `internal_name` / `internalName`  (string): Internal name for identifying this Share Link.
 * `note` / `note`  (string): Bundle internal note
@@ -224,7 +226,7 @@ Bundle bundle = Bundle.create(
 * `form_field_set_id` (Long): Id of Form Field Set to use with this bundle
 * `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-* `expires_at` (String): Bundle expiration date/time
+* `expires_at` (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
 * `group_id` (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.
@@ -295,7 +297,7 @@ Bundle bundle = Bundle.update(
 * `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `description` (String): Public description
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-* `expires_at` (String): Bundle expiration date/time
+* `expires_at` (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed
@@ -415,7 +417,7 @@ bundle.update(parameters);
 * `create_snapshot` (Boolean): If true, create a snapshot of this bundle's contents.
 * `description` (String): Public description
 * `dont_separate_submissions_by_folder` (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-* `expires_at` (String): Bundle expiration date/time
+* `expires_at` (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `finalize_snapshot` (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
 * `inbox_id` (Long): ID of the associated inbox, if available.
 * `max_uses` (Long): Maximum number of times bundle can be accessed

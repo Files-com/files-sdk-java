@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.7.309-SNAPSHOT</version>
+    <version>1.7.310-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -110,7 +110,7 @@
         </resources>
     </build>
     <properties>
-        <jackson.version>2.16.0</jackson.version>
+        <jackson.version>2.18.11</jackson.version>
         <log4j.version>2.19.0</log4j.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>

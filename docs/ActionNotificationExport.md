@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "export_version": "20201213.2",
   "start_at": "2000-01-01T01:00:00Z",
   "end_at": "2000-01-01T01:00:00Z",
@@ -21,6 +22,7 @@
 ```
 
 * `id` / `id`  (int64): History Export ID
+* `workspace_id` / `workspaceId`  (int64): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
 * `export_version` / `exportVersion`  (string): Version of the underlying records for the export.
 * `start_at` / `startAt`  (date-time): Start date/time of export range.
 * `end_at` / `endAt`  (date-time): End date/time of export range.
@@ -68,6 +70,7 @@ ActionNotificationExport actionNotificationExport = ActionNotificationExport.cre
 ### Parameters
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
+* `workspace_id` (Long): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
 * `start_at` (String): Start date/time of export range.
 * `end_at` (String): End date/time of export range.
 * `query_message` (String): Error message associated with the request, if any.

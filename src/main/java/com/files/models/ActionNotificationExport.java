@@ -88,6 +88,20 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
+  * Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * Version of the underlying records for the export.
   */
   @JsonProperty("export_version")
@@ -326,6 +340,7 @@ public class ActionNotificationExport implements ModelInterface {
   /**
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+  *   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
   *   start_at - string - Start date/time of export range.
   *   end_at - string - End date/time of export range.
   *   query_message - string - Error message associated with the request, if any.
@@ -353,6 +368,9 @@ public class ActionNotificationExport implements ModelInterface {
 
     if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");

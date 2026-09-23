@@ -1965,7 +1965,7 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
+  * Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
   */
   @JsonProperty("email_footer_custom_text")
   public String emailFooterCustomText;
@@ -2225,7 +2225,7 @@ public class Site implements ModelInterface {
   *   site_public_footer - string - Custom site footer text for public pages
   *   login_help_text - string - Login help text
   *   use_dedicated_ips_for_smtp - boolean - If using custom SMTP, should we use dedicated IPs to deliver emails?
-  *   email_footer_custom_text - string - Custom footer text for system-generated emails. Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
+  *   email_footer_custom_text - string - Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
   *   smtp_address - string - SMTP server hostname or IP
   *   smtp_authentication - string - SMTP server authentication type
   *   smtp_from - string - From address to use when mailing through custom SMTP

@@ -8,5 +8,5 @@ if command -v jenv &> /dev/null; then
 
   jenv local 1.8 # Force 1.8 with jenv
 fi
-mvn rewrite:run
+mvn rewrite:run || exit 1
 mvn -B -DskipTests -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn -DskipTests clean package

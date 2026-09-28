@@ -155,7 +155,8 @@ public class FilesApacheHttpApi implements FilesApiInterface {
     HttpPut request = new HttpPut(url);
     request.setEntity(new ByteArrayEntity(buffer, 0, (int) length, ContentType.APPLICATION_OCTET_STREAM));
   
-    FilesHttpClient.getInstance().getHttpExecutor().executeWithRetry(request);
+    HttpResponse response = FilesHttpClient.getInstance().getHttpExecutor().executeWithRetry(request);
+    releaseUploadResponse(response);
     return length;
   }
 
@@ -165,8 +166,15 @@ public class FilesApacheHttpApi implements FilesApiInterface {
     HttpPut request = new HttpPut(url);
     request.setEntity(new InputStreamEntity(inputStream, length, ContentType.APPLICATION_OCTET_STREAM));
 
-    FilesHttpClient.getInstance().getHttpExecutor().executeWithRetry(request);
+    HttpResponse response = FilesHttpClient.getInstance().getHttpExecutor().executeWithRetry(request);
+    releaseUploadResponse(response);
     return 0;
+  }
+
+  // The upload already succeeded and its response body is unused. Draining it releases the pooled
+  // connection; if draining fails, the connection is discarded without failing the upload.
+  private void releaseUploadResponse(HttpResponse response) {
+    EntityUtils.consumeQuietly(response.getEntity());
   }
 
   private void addHeaders(HttpRequestBase request, HashMap<String, Object> options) {

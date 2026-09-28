@@ -8,6 +8,8 @@ import com.files.models.User;
 import com.files.net.HttpMethods;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class FilesApiTest {
+  private static final String[] UPLOAD_RESPONSE_BODIES = {"", "{}"};
+  private static final byte[] UPLOAD_BYTES = new byte[20000];
+
+  static {
+    for (int i = 0; i < UPLOAD_BYTES.length; i++) {
+      UPLOAD_BYTES[i] = (byte)i;
+    }
+  }
+
   private WireMockServer wireMockServer;
 
   @Before
@@ -373,5 +384,54 @@ public class FilesApiTest {
       assert("Your account must login using a different server, test.host.".equals(exception.getError()));
       assert(exception.getData().get("host").equals("test.host"));
     }
+  }
+
+  @Test
+  public void putBufferReleasesPooledConnectionAfterSuccessfulUpload() throws IOException {
+    for (String responseBody : UPLOAD_RESPONSE_BODIES) {
+      stubUploadResponse(responseBody);
+      int leasedBefore = leasedConnections();
+
+      long returned = FilesClient.putBuffer(uploadUrl(), HttpMethods.RequestMethods.PUT, "upload.bin",
+          UPLOAD_BYTES, UPLOAD_BYTES.length);
+
+      assertEquals(UPLOAD_BYTES.length, returned);
+      assertEquals("leased connections after response [" + responseBody + "]", leasedBefore, leasedConnections());
+    }
+    wireMockServer.verify(UPLOAD_RESPONSE_BODIES.length,
+        putRequestedFor(urlEqualTo("/upload")).withRequestBody(binaryEqualTo(UPLOAD_BYTES)));
+  }
+
+  @Test
+  public void putBufferedInputStreamReleasesPooledConnectionAfterSuccessfulUpload() throws IOException {
+    for (String responseBody : UPLOAD_RESPONSE_BODIES) {
+      stubUploadResponse(responseBody);
+      int leasedBefore = leasedConnections();
+
+      long returned = FilesClient.putBufferedInputStream(uploadUrl(), HttpMethods.RequestMethods.PUT, "upload.bin",
+          new BufferedInputStream(new ByteArrayInputStream(UPLOAD_BYTES)), UPLOAD_BYTES.length);
+
+      assertEquals(0, returned);
+      assertEquals("leased connections after response [" + responseBody + "]", leasedBefore, leasedConnections());
+    }
+    wireMockServer.verify(UPLOAD_RESPONSE_BODIES.length,
+        putRequestedFor(urlEqualTo("/upload")).withRequestBody(binaryEqualTo(UPLOAD_BYTES)));
+  }
+
+  private void stubUploadResponse(String body) {
+    // Set Content-Length explicitly; WireMock would otherwise chunk even an empty body.
+    wireMockServer.stubFor(put(urlEqualTo("/upload"))
+        .willReturn(aResponse()
+            .withStatus(200)
+            .withHeader("Content-Length", String.valueOf(body.length()))
+            .withBody(body)));
+  }
+
+  private String uploadUrl() {
+    return "http://localhost:" + wireMockServer.port() + "/upload";
+  }
+
+  private static int leasedConnections() {
+    return FilesClient.connectionManager.getTotalStats().getLeased();
   }
 }

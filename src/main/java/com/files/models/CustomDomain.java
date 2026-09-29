@@ -88,6 +88,48 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
+  * Workspace ID (0 for the default workspace).
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
+  * Allow all workspaces to use this default-workspace Custom Domain.
+  */
+  @JsonProperty("available_to_all_workspaces")
+  public Boolean availableToAllWorkspaces;
+
+  public Boolean getAvailableToAllWorkspaces() {
+    return availableToAllWorkspaces;
+  }
+
+  public void setAvailableToAllWorkspaces(Boolean availableToAllWorkspaces) {
+    this.availableToAllWorkspaces = availableToAllWorkspaces;
+  }
+
+  /**
+  * Eligible public IP addresses for Remote Server outbound connections. Empty when this Custom Domain is not eligible for outbound selection.
+  */
+  @JsonProperty("outbound_ip_addresses")
+  public String[] outboundIpAddresses;
+
+  public String[] getOutboundIpAddresses() {
+    return outboundIpAddresses;
+  }
+
+  public void setOutboundIpAddresses(String[] outboundIpAddresses) {
+    this.outboundIpAddresses = outboundIpAddresses;
+  }
+
+  /**
   * Customer-owned domain name.
   */
   @JsonProperty("domain")
@@ -207,6 +249,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
+  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -235,7 +279,8 @@ public class CustomDomain implements ModelInterface {
   * Parameters:
   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
+  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
+  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
   */
   public static ListIterator<CustomDomain> list() throws RuntimeException {
     return list(null, null);
@@ -260,6 +305,9 @@ public class CustomDomain implements ModelInterface {
     }
     if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
       throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
+    }
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
     }
 
 
@@ -377,6 +425,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
+  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -400,6 +450,12 @@ public class CustomDomain implements ModelInterface {
       throw new NullPointerException("Parameter missing: domain parameters[\"domain\"]");
     }
 
+    if (parameters.containsKey("available_to_all_workspaces") && !(parameters.get("available_to_all_workspaces") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: available_to_all_workspaces must be of type Boolean parameters[\"available_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
     }
@@ -423,6 +479,8 @@ public class CustomDomain implements ModelInterface {
 
   /**
   * Parameters:
+  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
   *   ssl_certificate_id - int64 - Current SSL certificate ID.
@@ -455,6 +513,12 @@ public class CustomDomain implements ModelInterface {
 
     if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+    if (parameters.containsKey("available_to_all_workspaces") && !(parameters.get("available_to_all_workspaces") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: available_to_all_workspaces must be of type Boolean parameters[\"available_to_all_workspaces\"]");
+    }
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
     }
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");

@@ -116,6 +116,20 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
+  * Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
+  */
+  @JsonProperty("use_channel_root")
+  public Boolean useChannelRoot;
+
+  public Boolean getUseChannelRoot() {
+    return useChannelRoot;
+  }
+
+  public void setUseChannelRoot(Boolean useChannelRoot) {
+    this.useChannelRoot = useChannelRoot;
+  }
+
+  /**
   * ID of the Partner this Channel belongs to.
   */
   @JsonProperty("partner_id")
@@ -242,7 +256,7 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * Resolved to-Partner folder name after Channel override and default.
+  * Resolved to-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
   */
   @JsonProperty("effective_to_partner_folder_name")
   public String effectiveToPartnerFolderName;
@@ -256,7 +270,7 @@ public class PartnerChannel implements ModelInterface {
   }
 
   /**
-  * Resolved from-Partner folder name after Channel override and default.
+  * Resolved from-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
   */
   @JsonProperty("effective_from_partner_folder_name")
   public String effectiveFromPartnerFolderName;
@@ -314,6 +328,7 @@ public class PartnerChannel implements ModelInterface {
   /**
   * Parameters:
   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+  *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -443,6 +458,7 @@ public class PartnerChannel implements ModelInterface {
   /**
   * Parameters:
   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+  *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -476,6 +492,9 @@ public class PartnerChannel implements ModelInterface {
 
     if (parameters.containsKey("direction") && !(parameters.get("direction") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: direction must be of type String parameters[\"direction\"]");
+    }
+    if (parameters.containsKey("use_channel_root") && !(parameters.get("use_channel_root") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: use_channel_root must be of type Boolean parameters[\"use_channel_root\"]");
     }
     if (parameters.containsKey("from_partner_folder_name") && !(parameters.get("from_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: from_partner_folder_name must be of type String parameters[\"from_partner_folder_name\"]");
@@ -516,6 +535,7 @@ public class PartnerChannel implements ModelInterface {
   /**
   * Parameters:
   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
+  *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
@@ -554,6 +574,9 @@ public class PartnerChannel implements ModelInterface {
     }
     if (parameters.containsKey("direction") && !(parameters.get("direction") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: direction must be of type String parameters[\"direction\"]");
+    }
+    if (parameters.containsKey("use_channel_root") && !(parameters.get("use_channel_root") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: use_channel_root must be of type Boolean parameters[\"use_channel_root\"]");
     }
     if (parameters.containsKey("from_partner_folder_name") && !(parameters.get("from_partner_folder_name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: from_partner_folder_name must be of type String parameters[\"from_partner_folder_name\"]");

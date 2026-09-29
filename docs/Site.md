@@ -142,6 +142,7 @@
   "ldap_host_3": "ldap3.site.com",
   "ldap_port": 1,
   "ldap_secure": true,
+  "ldap_server_certificate": "require_match",
   "ldap_type": "open_ldap",
   "ldap_user_action": "disabled",
   "ldap_user_include_groups": "example",
@@ -476,6 +477,7 @@
 * `ldap_host_3` / `ldapHost3`  (string): LDAP backup host
 * `ldap_port` / `ldapPort`  (int64): LDAP port
 * `ldap_secure` / `ldapSecure`  (boolean): Use secure LDAP?
+* `ldap_server_certificate` / `ldapServerCertificate`  (string): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 * `ldap_type` / `ldapType`  (string): LDAP type
 * `ldap_user_action` / `ldapUserAction`  (string): Should we sync users from LDAP server?
 * `ldap_user_include_groups` / `ldapUserIncludeGroups`  (string): Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
@@ -764,6 +766,7 @@ Site site = Site.update(
 * `ldap_host_3` (String): LDAP backup host
 * `ldap_port` (Long): LDAP port
 * `ldap_secure` (Boolean): Use secure LDAP?
+* `ldap_server_certificate` (String): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
 * `ldap_username` (String): Username for signing in to LDAP server.
 * `ldap_username_field` (String): LDAP username field
 * `ldap_domain` (String): Domain name that will be appended to usernames

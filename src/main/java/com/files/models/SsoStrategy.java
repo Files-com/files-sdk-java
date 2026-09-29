@@ -563,6 +563,16 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
+  * How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+  */
+  @JsonProperty("ldap_server_certificate")
+  public String ldapServerCertificate;
+
+  public String getLdapServerCertificate() {
+    return ldapServerCertificate;
+  }
+
+  /**
   * LDAP server type
   */
   @JsonProperty("ldap_type")

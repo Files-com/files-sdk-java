@@ -1154,6 +1154,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+  */
+  @JsonProperty("ldap_server_certificate")
+  public String ldapServerCertificate;
+
+  public String getLdapServerCertificate() {
+    return ldapServerCertificate;
+  }
+
+  /**
   * LDAP type
   */
   @JsonProperty("ldap_type")
@@ -2238,6 +2248,7 @@ public class Site implements ModelInterface {
   *   ldap_host_3 - string - LDAP backup host
   *   ldap_port - int64 - LDAP port
   *   ldap_secure - boolean - Use secure LDAP?
+  *   ldap_server_certificate - string - How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
   *   ldap_username - string - Username for signing in to LDAP server.
   *   ldap_username_field - string - LDAP username field
   *   ldap_domain - string - Domain name that will be appended to usernames
@@ -2760,6 +2771,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("ldap_secure") && !(parameters.get("ldap_secure") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_secure must be of type Boolean parameters[\"ldap_secure\"]");
+    }
+    if (parameters.containsKey("ldap_server_certificate") && !(parameters.get("ldap_server_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: ldap_server_certificate must be of type String parameters[\"ldap_server_certificate\"]");
     }
     if (parameters.containsKey("ldap_username") && !(parameters.get("ldap_username") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ldap_username must be of type String parameters[\"ldap_username\"]");

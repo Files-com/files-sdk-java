@@ -312,7 +312,7 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
-  * Most recent scheduled run time.
+  * Most recent scheduled attempt time, including attempts that failed validation.
   */
   @JsonProperty("last_run_at")
   public Date lastRunAt;
@@ -337,6 +337,20 @@ public class ScheduledExport implements ModelInterface {
 
   public void setLastExportId(Long lastExportId) {
     this.lastExportId = lastExportId;
+  }
+
+  /**
+  * Validation error from the most recent scheduled attempt. The schedule remains enabled and retries at its next scheduled time. Cleared when an export is successfully created; does not describe errors during export generation.
+  */
+  @JsonProperty("last_error")
+  public String lastError;
+
+  public String getLastError() {
+    return lastError;
+  }
+
+  public void setLastError(String lastError) {
+    this.lastError = lastError;
   }
 
   /**

@@ -104,7 +104,7 @@ public class Site implements ModelInterface {
   }
 
   /**
-  * Availability settings for AI features by user class
+  * Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
   */
   @JsonProperty("ai_feature_availability")
   public Object aiFeatureAvailability;
@@ -1575,6 +1575,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
+  */
+  @JsonProperty("s3_compatible_endpoint_enabled")
+  public Boolean s3CompatibleEndpointEnabled;
+
+  public Boolean getS3CompatibleEndpointEnabled() {
+    return s3CompatibleEndpointEnabled;
+  }
+
+  /**
   * Is SFTP enabled?
   */
   @JsonProperty("sftp_enabled")
@@ -2124,7 +2134,7 @@ public class Site implements ModelInterface {
   *   motd_use_for_sftp - boolean - Show message to users connecting via SFTP
   *   left_navigation_visibility - object - Visibility settings for account navigation
   *   disable_all_ai_features - boolean - If true, all AI features are disabled for this site.
-  *   ai_feature_availability - object - Availability settings for AI features by user class
+  *   ai_feature_availability - object - Availability settings for AI features. Each feature requires the site_admins, workspace_admins, folder_admins, and all_users keys. Optional selected_group_members defaults to false; when true, members of at least one group in group_ids get access regardless of the other options. All availability options are additive: any enabled option matching the user grants access. Optional group_ids is an array of integer IDs of active groups on this site, from any workspace. Omitted or empty group_ids grants no access through selected_group_members and does not affect other options. Disabling all AI features overrides these settings.
   *   mcp_dcr_enabled - boolean - Is OAuth DCR (dynamic client registration) for MCP enabled?
   *   additional_text_file_types - array(string) - Additional extensions that are considered text files
   *   bundle_require_note - boolean - Do Bundles require internal notes?
@@ -2193,6 +2203,7 @@ public class Site implements ModelInterface {
   *   user_requests_notify_admins - boolean - Send email to site admins when a user request is received?
   *   dav_enabled - boolean - Is WebDAV enabled?
   *   ftp_enabled - boolean - Is FTP enabled?
+  *   s3_compatible_endpoint_enabled - boolean - Is the S3-compatible endpoint enabled for all users and workspaces on this site? Defaults to true. When false, user and group S3 permissions do not allow access.
   *   sftp_enabled - boolean - Is SFTP enabled?
   *   sftp_finalize_partial_uploads - boolean - Finalize partial SFTP uploads from interrupted connections? Default: true.
   *   users_can_create_api_keys - boolean - Allow users to create their own API keys?
@@ -2606,6 +2617,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("ftp_enabled") && !(parameters.get("ftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ftp_enabled must be of type Boolean parameters[\"ftp_enabled\"]");
+    }
+    if (parameters.containsKey("s3_compatible_endpoint_enabled") && !(parameters.get("s3_compatible_endpoint_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_enabled must be of type Boolean parameters[\"s3_compatible_endpoint_enabled\"]");
     }
     if (parameters.containsKey("sftp_enabled") && !(parameters.get("sftp_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: sftp_enabled must be of type Boolean parameters[\"sftp_enabled\"]");

@@ -595,6 +595,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class CannotAdministerHigherLevelUserException extends NotAuthorizedException {
+    public CannotAdministerHigherLevelUserException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class CannotLoginWhileUsingKeyException extends NotAuthorizedException {
     public CannotLoginWhileUsingKeyException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
@@ -1209,6 +1215,12 @@ public class ApiErrorException extends SdkException {
 
   public static class RecipientAlreadySharedException extends ProcessingFailureException {
     public RecipientAlreadySharedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  public static class RemoteEntryReadOnlyException extends ProcessingFailureException {
+    public RemoteEntryReadOnlyException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

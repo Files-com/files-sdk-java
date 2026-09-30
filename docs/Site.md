@@ -411,7 +411,7 @@
 * `calculate_file_checksums_md5` / `calculateFileChecksumsMd5`  (boolean): Calculate MD5 checksums for files?
 * `calculate_file_checksums_sha1` / `calculateFileChecksumsSha1`  (boolean): Calculate SHA1 checksums for files?
 * `calculate_file_checksums_sha256` / `calculateFileChecksumsSha256`  (boolean): Calculate SHA256 checksums for files?
-* `uploads_via_email_authentication` / `uploadsViaEmailAuthentication`  (boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+* `uploads_via_email_authentication` / `uploadsViaEmailAuthentication`  (boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 * `color2_left` / `color2Left`  (string): Page link and button color
 * `color2_link` / `color2Link`  (string): Top bar link color
 * `color2_text` / `color2Text`  (string): Page link and button color
@@ -776,7 +776,7 @@ Site site = Site.update(
 * `ldap_group_exclusion` (String): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
 * `ldap_group_inclusion` (String): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
 * `ldap_base_dn` (String): Base DN for looking up users in LDAP server
-* `uploads_via_email_authentication` (Boolean): Do incoming emails in the Inboxes require checking for SPF/DKIM/DMARC?
+* `uploads_via_email_authentication` (Boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 * `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `icon16_file` (byte[]): 
 * `icon16_delete` (Boolean): If true, will delete the file stored in icon16

@@ -1357,6 +1357,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class SearchUnavailableException extends ServiceUnavailableException {
+    public SearchUnavailableException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class SiteDisabledException extends ServiceUnavailableException {
     public SiteDisabledException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

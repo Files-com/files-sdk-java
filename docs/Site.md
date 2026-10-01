@@ -251,6 +251,7 @@
   "smtp_authentication": "plain",
   "smtp_from": "me@my-mail-server.com",
   "smtp_port": 25,
+  "smtp_ssl": "require",
   "smtp_username": "mail",
   "session_expiry_minutes": 360,
   "snapshot_sharing_enabled": true,
@@ -545,6 +546,7 @@
 * `smtp_authentication` / `smtpAuthentication`  (string): SMTP server authentication type
 * `smtp_from` / `smtpFrom`  (string): From address to use when mailing through custom SMTP
 * `smtp_port` / `smtpPort`  (int64): SMTP server port
+* `smtp_ssl` / `smtpSsl`  (string): Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
 * `smtp_username` / `smtpUsername`  (string): SMTP server username
 * `session_expiry_minutes` / `sessionExpiryMinutes`  (int64): Session expiry in minutes
 * `snapshot_sharing_enabled` / `snapshotSharingEnabled`  (boolean): Allow snapshot share links creation
@@ -767,6 +769,7 @@ Site site = Site.update(
 * `smtp_from` (String): From address to use when mailing through custom SMTP
 * `smtp_username` (String): SMTP server username
 * `smtp_port` (Long): SMTP server port
+* `smtp_ssl` (String): Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
 * `ldap_enabled` (Boolean): Main LDAP setting: is LDAP enabled?
 * `ldap_type` (String): LDAP type
 * `ldap_host` (String): LDAP host

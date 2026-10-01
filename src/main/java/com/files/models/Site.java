@@ -1775,6 +1775,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
+  */
+  @JsonProperty("smtp_ssl")
+  public String smtpSsl;
+
+  public String getSmtpSsl() {
+    return smtpSsl;
+  }
+
+  /**
   * SMTP server username
   */
   @JsonProperty("smtp_username")
@@ -2252,6 +2262,7 @@ public class Site implements ModelInterface {
   *   smtp_from - string - From address to use when mailing through custom SMTP
   *   smtp_username - string - SMTP server username
   *   smtp_port - int64 - SMTP server port
+  *   smtp_ssl - string - Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted; require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address.
   *   ldap_enabled - boolean - Main LDAP setting: is LDAP enabled?
   *   ldap_type - string - LDAP type
   *   ldap_host - string - LDAP host
@@ -2764,6 +2775,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("smtp_port") && !(parameters.get("smtp_port") instanceof Long || parameters.get("smtp_port") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: smtp_port must be of type Long or Integer parameters[\"smtp_port\"]");
+    }
+    if (parameters.containsKey("smtp_ssl") && !(parameters.get("smtp_ssl") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: smtp_ssl must be of type String parameters[\"smtp_ssl\"]");
     }
     if (parameters.containsKey("ldap_enabled") && !(parameters.get("ldap_enabled") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: ldap_enabled must be of type Boolean parameters[\"ldap_enabled\"]");

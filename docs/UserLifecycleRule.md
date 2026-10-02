@@ -20,7 +20,7 @@
   "notify_users": true,
   "partner_tag": "guest",
   "site_id": 1,
-  "workspace_id": 12,
+  "workspace_id": 1,
   "user_state": "inactive",
   "user_tag": "guest"
 }
@@ -32,13 +32,13 @@
 * `action` / `action`  (string): Action to take on inactive users (disable or delete)
 * `inactivity_days` / `inactivityDays`  (int64): Number of days of inactivity before the rule applies
 * `include_folder_admins` / `includeFolderAdmins`  (boolean): If true, the rule will apply to folder admins.
-* `include_site_admins` / `includeSiteAdmins`  (boolean): If true, the rule will apply to site admins.
-* `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a default-workspace rule also applies to users in all workspaces.
+* `include_site_admins` / `includeSiteAdmins`  (boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
+* `apply_to_all_workspaces` / `applyToAllWorkspaces`  (boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 * `name` / `name`  (string): User Lifecycle Rule name
 * `notify_users` / `notifyUsers`  (boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` / `partnerTag`  (string): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `site_id` / `siteId`  (int64): Site ID
-* `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
+* `workspace_id` / `workspaceId`  (int64): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 * `user_state` / `userState`  (string): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` / `userTag`  (string): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 
@@ -95,18 +95,18 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
 ### Parameters
 
 * `action` (String): Action to take on inactive users (disable or delete)
-* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
+* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 * `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
-* `include_site_admins` (Boolean): If true, the rule will apply to site admins.
+* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
 * `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 
 
 ---
@@ -125,18 +125,18 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
 
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
-* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
+* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 * `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
-* `include_site_admins` (Boolean): If true, the rule will apply to site admins.
+* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
 * `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 
 
 ---
@@ -175,7 +175,7 @@ parameters.put("notify_users", true);
 parameters.put("partner_tag", "guest");
 parameters.put("user_state", "inactive");
 parameters.put("user_tag", "guest");
-parameters.put("workspace_id", 12);
+parameters.put("workspace_id", 0);
 
 userLifecycleRule.update(parameters);
 ```
@@ -184,18 +184,18 @@ userLifecycleRule.update(parameters);
 
 * `id` (Long): Required - User Lifecycle Rule ID.
 * `action` (String): Action to take on inactive users (disable or delete)
-* `apply_to_all_workspaces` (Boolean): If true, a default-workspace rule also applies to users in all workspaces.
+* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
 * `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
 * `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
 * `inactivity_days` (Long): Number of days of inactivity before the rule applies
-* `include_site_admins` (Boolean): If true, the rule will apply to site admins.
+* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
 * `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
 * `name` (String): User Lifecycle Rule name
 * `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
 * `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
 * `user_state` (String): State of the users to apply the rule to (inactive or disabled)
 * `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
 
 
 ---

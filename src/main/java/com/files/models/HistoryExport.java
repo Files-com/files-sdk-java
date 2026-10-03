@@ -74,6 +74,20 @@ public class HistoryExport implements ModelInterface {
 
 
   /**
+  * Workspace of the export. 0 represents the default workspace. A null value means a site-wide export.
+  */
+  @JsonProperty("workspace_id")
+  public Long workspaceId;
+
+  public Long getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(Long workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+
+  /**
   * History Export ID
   */
   @JsonProperty("id")

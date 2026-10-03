@@ -170,9 +170,9 @@
 * `self_managed` / `selfManaged`  (boolean): Does this user manage it's own credentials or is it a shared/bot user?
 * `sftp_permission` / `sftpPermission`  (boolean): Can the user access with SFTP?
 * `site_admin` / `siteAdmin`  (boolean): Is the user an administrator for this site?
-* `workspace_admin` / `workspaceAdmin`  (boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
+* `workspace_admin` / `workspaceAdmin`  (boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
 * `site_id` / `siteId`  (int64): Site ID
-* `workspace_id` / `workspaceId`  (int64): Workspace ID
+* `workspace_id` / `workspaceId`  (int64): ID of the Workspace the user belongs to. 0 is the Default Workspace.
 * `default_workspace_id` / `defaultWorkspaceId`  (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `skip_welcome_screen` / `skipWelcomeScreen`  (boolean): Skip Welcome page in the UI?
 * `ssl_required` / `sslRequired`  (string): SSL required setting
@@ -326,9 +326,9 @@ User user = User.create(
 * `time_zone` (String): User time zone
 * `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
+* `workspace_admin` (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
 * `username` (String): Required - User's username
-* `workspace_id` (Long): Workspace ID
+* `workspace_id` (Long): ID of the Workspace the user belongs to. 0 is the Default Workspace.
 
 
 ---
@@ -463,7 +463,7 @@ User user = User.update(
 * `time_zone` (String): User time zone
 * `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
+* `workspace_admin` (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
@@ -684,7 +684,7 @@ user.update(parameters);
 * `time_zone` (String): User time zone
 * `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
 * `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-* `workspace_admin` (Boolean): Is the user a Workspace administrator?  Applicable only to the workspace ID related to this user, if one is set.
+* `workspace_admin` (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
 * `username` (String): User's username
 * `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
 * `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.

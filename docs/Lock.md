@@ -31,6 +31,7 @@
 * `allow_access_by_any_user` / `allowAccessByAnyUser`  (boolean): Can lock be modified by users other than its creator?
 * `user_id` / `userId`  (int64): Lock creator user ID
 * `username` / `username`  (string): Lock creator username
+* `expected_token` / `expectedToken`  (string): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 
 
 ---
@@ -68,6 +69,8 @@ Lock lock = Lock.create(
 ### Parameters
 
 * `path` (String): Required - Path
+* `token` (String): Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
+* `expected_token` (String): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
 * `allow_access_by_any_user` (Boolean): Can lock be modified by users other than its creator?
 * `exclusive` (Boolean): Is lock exclusive?
 * `recursive` (Boolean): Does lock apply to subfolders?

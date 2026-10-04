@@ -239,6 +239,20 @@ public class Lock implements ModelInterface {
   }
 
   /**
+  * Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
+  */
+  @JsonProperty("expected_token")
+  public String expectedToken;
+
+  public String getExpectedToken() {
+    return expectedToken;
+  }
+
+  public void setExpectedToken(String expectedToken) {
+    this.expectedToken = expectedToken;
+  }
+
+  /**
   * Parameters:
   *   token (required) - string - Lock token
   */
@@ -312,6 +326,8 @@ public class Lock implements ModelInterface {
   /**
   * Parameters:
   *   path (required) - string - Path
+  *   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
+  *   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
   *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
   *   exclusive - boolean - Is lock exclusive?
   *   recursive - boolean - Does lock apply to subfolders?
@@ -344,6 +360,12 @@ public class Lock implements ModelInterface {
 
     if (!(path instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("token") && !(parameters.get("token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
+    }
+    if (parameters.containsKey("expected_token") && !(parameters.get("expected_token") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: expected_token must be of type String parameters[\"expected_token\"]");
     }
     if (parameters.containsKey("allow_access_by_any_user") && !(parameters.get("allow_access_by_any_user") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_access_by_any_user must be of type Boolean parameters[\"allow_access_by_any_user\"]");

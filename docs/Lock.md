@@ -23,7 +23,7 @@
 * `timeout` / `timeout`  (int64): Lock timeout in seconds
 * `depth` / `depth`  (string): 
 * `recursive` / `recursive`  (boolean): Does lock apply to subfolders?
-* `owner` / `owner`  (string): Owner of the lock.  This can be any arbitrary string.
+* `owner` / `owner`  (string): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
 * `scope` / `scope`  (string): 
 * `exclusive` / `exclusive`  (boolean): Is lock exclusive?
 * `token` / `token`  (string): Lock token.  Use to release lock.
@@ -74,6 +74,7 @@ Lock lock = Lock.create(
 * `allow_access_by_any_user` (Boolean): Can lock be modified by users other than its creator?
 * `exclusive` (Boolean): Is lock exclusive?
 * `recursive` (Boolean): Does lock apply to subfolders?
+* `owner` (String): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
 * `timeout` (Long): Lock timeout in seconds
 
 

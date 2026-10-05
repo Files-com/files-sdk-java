@@ -1351,6 +1351,12 @@ public class ApiErrorException extends SdkException {
     }
   }
 
+  public static class LockOperationBusyException extends ServiceUnavailableException {
+    public LockOperationBusyException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
   public static class MigrationInProgressException extends ServiceUnavailableException {
     public MigrationInProgressException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);

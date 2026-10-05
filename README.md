@@ -870,6 +870,7 @@ RuntimeException
 |`TooManyRequestsException`|  `RateLimitedException` |
 |`TooManySharesException`|  `RateLimitedException` |
 |`AutomationsUnavailableException`|  `ServiceUnavailableException` |
+|`LockOperationBusyException`|  `ServiceUnavailableException` |
 |`MigrationInProgressException`|  `ServiceUnavailableException` |
 |`SearchUnavailableException`|  `ServiceUnavailableException` |
 |`SiteDisabledException`|  `ServiceUnavailableException` |

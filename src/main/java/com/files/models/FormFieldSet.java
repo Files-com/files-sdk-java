@@ -116,7 +116,7 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Associated form fields
+  * Associated form field definitions; authenticated form field set responses include historical definitions, while form_layout identifies current fields
   */
   @JsonProperty("form_fields")
   public FormField[] formFields;

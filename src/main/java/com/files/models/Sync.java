@@ -622,7 +622,7 @@ public class Sync implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/syncs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/syncs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Sync>> typeReference = new TypeReference<List<Sync>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -671,7 +671,7 @@ public class Sync implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Sync> typeReference = new TypeReference<Sync>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -801,7 +801,7 @@ public class Sync implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/syncs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/syncs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Sync> typeReference = new TypeReference<Sync>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -842,7 +842,7 @@ public class Sync implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/syncs/%s/dry_run", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/syncs/%s/dry_run", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -882,7 +882,7 @@ public class Sync implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/syncs/%s/manual_run", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/syncs/%s/manual_run", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -1014,7 +1014,7 @@ public class Sync implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Sync> typeReference = new TypeReference<Sync>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -1054,7 +1054,7 @@ public class Sync implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/syncs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

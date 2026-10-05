@@ -1024,7 +1024,7 @@ public class SiemHttpDestination implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SiemHttpDestination>> typeReference = new TypeReference<List<SiemHttpDestination>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1073,7 +1073,7 @@ public class SiemHttpDestination implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1242,7 +1242,7 @@ public class SiemHttpDestination implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1405,7 +1405,7 @@ public class SiemHttpDestination implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/siem_http_destinations/send_test_entry", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/siem_http_destinations/send_test_entry", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -1577,7 +1577,7 @@ public class SiemHttpDestination implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -1617,7 +1617,7 @@ public class SiemHttpDestination implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

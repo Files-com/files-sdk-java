@@ -371,7 +371,7 @@ public class As2Station implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<As2Station>> typeReference = new TypeReference<List<As2Station>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -420,7 +420,7 @@ public class As2Station implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -483,7 +483,7 @@ public class As2Station implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -540,7 +540,7 @@ public class As2Station implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -580,7 +580,7 @@ public class As2Station implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

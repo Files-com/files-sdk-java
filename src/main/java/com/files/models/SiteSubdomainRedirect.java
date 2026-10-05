@@ -156,7 +156,7 @@ public class SiteSubdomainRedirect implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/site_subdomain_redirects", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/site_subdomain_redirects", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SiteSubdomainRedirect>> typeReference = new TypeReference<List<SiteSubdomainRedirect>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -205,7 +205,7 @@ public class SiteSubdomainRedirect implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/site_subdomain_redirects/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/site_subdomain_redirects/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SiteSubdomainRedirect> typeReference = new TypeReference<SiteSubdomainRedirect>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -252,7 +252,7 @@ public class SiteSubdomainRedirect implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/site_subdomain_redirects/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/site_subdomain_redirects/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

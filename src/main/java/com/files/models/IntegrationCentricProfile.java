@@ -205,7 +205,7 @@ public class IntegrationCentricProfile implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<IntegrationCentricProfile>> typeReference = new TypeReference<List<IntegrationCentricProfile>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -254,7 +254,7 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -310,7 +310,7 @@ public class IntegrationCentricProfile implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -367,7 +367,7 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -407,7 +407,7 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -182,7 +182,7 @@ public class FileCommentReaction implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/file_comment_reactions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/file_comment_reactions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<FileCommentReaction> typeReference = new TypeReference<FileCommentReaction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -222,7 +222,7 @@ public class FileCommentReaction implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_comment_reactions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/file_comment_reactions/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

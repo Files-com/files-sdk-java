@@ -191,7 +191,7 @@ public class HolidayCalendar implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/holiday_calendars", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/holiday_calendars", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<HolidayCalendar>> typeReference = new TypeReference<List<HolidayCalendar>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -240,7 +240,7 @@ public class HolidayCalendar implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<HolidayCalendar> typeReference = new TypeReference<HolidayCalendar>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -288,7 +288,7 @@ public class HolidayCalendar implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/holiday_calendars", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/holiday_calendars", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<HolidayCalendar> typeReference = new TypeReference<HolidayCalendar>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -337,7 +337,7 @@ public class HolidayCalendar implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<HolidayCalendar> typeReference = new TypeReference<HolidayCalendar>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -377,7 +377,7 @@ public class HolidayCalendar implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/holiday_calendars/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

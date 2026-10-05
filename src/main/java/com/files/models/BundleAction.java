@@ -268,7 +268,7 @@ public class BundleAction implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_actions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_actions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<BundleAction>> typeReference = new TypeReference<List<BundleAction>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

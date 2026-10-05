@@ -273,7 +273,7 @@ public class History implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/history/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/history/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -339,7 +339,7 @@ public class History implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/history/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/history/folders/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -405,7 +405,7 @@ public class History implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/history/users/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(user_id)));
+    String url = String.format("%s%s/history/users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(user_id)));
 
     TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -456,7 +456,7 @@ public class History implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/history/login", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -515,7 +515,7 @@ public class History implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/history", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Action>> typeReference = new TypeReference<List<Action>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

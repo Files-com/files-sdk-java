@@ -239,7 +239,7 @@ public class SftpHostKey implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SftpHostKey>> typeReference = new TypeReference<List<SftpHostKey>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -288,7 +288,7 @@ public class SftpHostKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -338,7 +338,7 @@ public class SftpHostKey implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -395,7 +395,7 @@ public class SftpHostKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -435,7 +435,7 @@ public class SftpHostKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

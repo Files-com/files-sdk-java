@@ -270,7 +270,7 @@ public class SsoEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sso_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sso_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SsoEvent>> typeReference = new TypeReference<List<SsoEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -319,7 +319,7 @@ public class SsoEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sso_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/sso_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SsoEvent> typeReference = new TypeReference<SsoEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

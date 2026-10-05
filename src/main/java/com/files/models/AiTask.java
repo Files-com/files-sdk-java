@@ -484,7 +484,7 @@ public class AiTask implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<AiTask>> typeReference = new TypeReference<List<AiTask>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -533,7 +533,7 @@ public class AiTask implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -645,7 +645,7 @@ public class AiTask implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -686,7 +686,7 @@ public class AiTask implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_tasks/%s/manual_run", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_tasks/%s/manual_run", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -798,7 +798,7 @@ public class AiTask implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -838,7 +838,7 @@ public class AiTask implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

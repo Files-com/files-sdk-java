@@ -195,7 +195,7 @@ public class FileComment implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_comments/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_comments/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<FileComment>> typeReference = new TypeReference<List<FileComment>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -236,7 +236,7 @@ public class FileComment implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/file_comments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/file_comments", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<FileComment> typeReference = new TypeReference<FileComment>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -284,7 +284,7 @@ public class FileComment implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<FileComment> typeReference = new TypeReference<FileComment>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -324,7 +324,7 @@ public class FileComment implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/file_comments/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -213,7 +213,7 @@ public class ActionNotificationExportResult implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/action_notification_export_results", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/action_notification_export_results", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ActionNotificationExportResult>> typeReference = new TypeReference<List<ActionNotificationExportResult>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

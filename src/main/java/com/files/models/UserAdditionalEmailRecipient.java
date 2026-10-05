@@ -206,7 +206,7 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_additional_email_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_additional_email_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UserAdditionalEmailRecipient>> typeReference = new TypeReference<List<UserAdditionalEmailRecipient>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -255,7 +255,7 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<UserAdditionalEmailRecipient> typeReference = new TypeReference<UserAdditionalEmailRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -300,7 +300,7 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_additional_email_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_additional_email_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<UserAdditionalEmailRecipient> typeReference = new TypeReference<UserAdditionalEmailRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -345,7 +345,7 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<UserAdditionalEmailRecipient> typeReference = new TypeReference<UserAdditionalEmailRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -385,7 +385,7 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_additional_email_recipients/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -208,7 +208,7 @@ public class FileMigration implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_migrations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/file_migrations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<FileMigration> typeReference = new TypeReference<FileMigration>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

@@ -206,7 +206,7 @@ public class SiemHttpDestinationEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/siem_http_destination_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/siem_http_destination_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SiemHttpDestinationEvent>> typeReference = new TypeReference<List<SiemHttpDestinationEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -255,7 +255,7 @@ public class SiemHttpDestinationEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/siem_http_destination_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/siem_http_destination_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SiemHttpDestinationEvent> typeReference = new TypeReference<SiemHttpDestinationEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

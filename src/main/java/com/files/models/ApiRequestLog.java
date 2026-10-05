@@ -336,7 +336,7 @@ public class ApiRequestLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/api_request_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_request_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ApiRequestLog>> typeReference = new TypeReference<List<ApiRequestLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

@@ -316,7 +316,7 @@ public class Lock implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -386,7 +386,7 @@ public class Lock implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<Lock> typeReference = new TypeReference<Lock>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -434,7 +434,7 @@ public class Lock implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -186,7 +186,7 @@ public class ScimLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/scim_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/scim_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ScimLog>> typeReference = new TypeReference<List<ScimLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -235,7 +235,7 @@ public class ScimLog implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/scim_logs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/scim_logs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ScimLog> typeReference = new TypeReference<ScimLog>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

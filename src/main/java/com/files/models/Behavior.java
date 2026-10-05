@@ -348,7 +348,7 @@ public class Behavior implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -397,7 +397,7 @@ public class Behavior implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -466,7 +466,7 @@ public class Behavior implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/behaviors/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/behaviors/folders/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -531,7 +531,7 @@ public class Behavior implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/behaviors", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -585,7 +585,7 @@ public class Behavior implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/behaviors/webhook/test", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/behaviors/webhook/test", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -653,7 +653,7 @@ public class Behavior implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Behavior> typeReference = new TypeReference<Behavior>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -693,7 +693,7 @@ public class Behavior implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/behaviors/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

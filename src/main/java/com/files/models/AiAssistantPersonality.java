@@ -240,7 +240,7 @@ public class AiAssistantPersonality implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ai_assistant_personalities", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ai_assistant_personalities", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<AiAssistantPersonality>> typeReference = new TypeReference<List<AiAssistantPersonality>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -289,7 +289,7 @@ public class AiAssistantPersonality implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AiAssistantPersonality> typeReference = new TypeReference<AiAssistantPersonality>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -349,7 +349,7 @@ public class AiAssistantPersonality implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ai_assistant_personalities", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ai_assistant_personalities", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<AiAssistantPersonality> typeReference = new TypeReference<AiAssistantPersonality>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -410,7 +410,7 @@ public class AiAssistantPersonality implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AiAssistantPersonality> typeReference = new TypeReference<AiAssistantPersonality>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -450,7 +450,7 @@ public class AiAssistantPersonality implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/ai_assistant_personalities/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

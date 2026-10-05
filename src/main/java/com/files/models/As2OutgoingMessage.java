@@ -446,7 +446,7 @@ public class As2OutgoingMessage implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/as2_outgoing_messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/as2_outgoing_messages", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<As2OutgoingMessage>> typeReference = new TypeReference<List<As2OutgoingMessage>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

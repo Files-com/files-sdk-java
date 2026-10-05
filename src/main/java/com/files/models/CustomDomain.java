@@ -311,7 +311,7 @@ public class CustomDomain implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<CustomDomain>> typeReference = new TypeReference<List<CustomDomain>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -360,7 +360,7 @@ public class CustomDomain implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -416,7 +416,7 @@ public class CustomDomain implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/custom_domains/%s/allocate_ips", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/custom_domains/%s/allocate_ips", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -470,7 +470,7 @@ public class CustomDomain implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -535,7 +535,7 @@ public class CustomDomain implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -575,7 +575,7 @@ public class CustomDomain implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

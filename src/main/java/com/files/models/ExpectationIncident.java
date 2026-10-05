@@ -284,7 +284,7 @@ public class ExpectationIncident implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/expectation_incidents", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/expectation_incidents", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ExpectationIncident>> typeReference = new TypeReference<List<ExpectationIncident>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -333,7 +333,7 @@ public class ExpectationIncident implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectation_incidents/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectation_incidents/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -381,7 +381,7 @@ public class ExpectationIncident implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectation_incidents/%s/resolve", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectation_incidents/%s/resolve", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -431,7 +431,7 @@ public class ExpectationIncident implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectation_incidents/%s/snooze", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectation_incidents/%s/snooze", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -472,7 +472,7 @@ public class ExpectationIncident implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectation_incidents/%s/acknowledge", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectation_incidents/%s/acknowledge", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

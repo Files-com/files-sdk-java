@@ -155,7 +155,7 @@ public class InboxUpload implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/inbox_uploads", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/inbox_uploads", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<InboxUpload>> typeReference = new TypeReference<List<InboxUpload>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

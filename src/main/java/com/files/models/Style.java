@@ -216,7 +216,7 @@ public class Style implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<Style> typeReference = new TypeReference<Style>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -272,7 +272,7 @@ public class Style implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<Style> typeReference = new TypeReference<Style>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -312,7 +312,7 @@ public class Style implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

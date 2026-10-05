@@ -196,7 +196,7 @@ public class UserSecurityEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_security_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_security_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UserSecurityEvent>> typeReference = new TypeReference<List<UserSecurityEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -245,7 +245,7 @@ public class UserSecurityEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_security_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_security_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<UserSecurityEvent> typeReference = new TypeReference<UserSecurityEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

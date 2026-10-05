@@ -190,7 +190,7 @@ public class ChatSession implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/chat_sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/chat_sessions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ChatSession>> typeReference = new TypeReference<List<ChatSession>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -239,7 +239,7 @@ public class ChatSession implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/chat_sessions/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(id));
+    String url = String.format("%s%s/chat_sessions/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(id));
 
     TypeReference<ChatSession> typeReference = new TypeReference<ChatSession>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

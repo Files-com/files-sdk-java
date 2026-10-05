@@ -226,7 +226,7 @@ public class Session implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Session> typeReference = new TypeReference<Session>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -252,7 +252,7 @@ public class Session implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

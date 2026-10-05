@@ -79,6 +79,8 @@ public class FilesHttpClient {
   }
 
   private static class FilesAuthRedirectInterceptor implements HttpRequestInterceptor {
+    private static final String REQUEST_ORIGIN =
+        FilesAuthRedirectInterceptor.class.getName() + ".requestOrigin";
     private static final String AUTH_HEADERS_STRIPPED =
         FilesAuthRedirectInterceptor.class.getName() + ".authHeadersStripped";
     private static final String[] FILES_AUTH_HEADERS = {
@@ -90,10 +92,15 @@ public class FilesHttpClient {
     @Override
     public void process(HttpRequest request, org.apache.http.protocol.HttpContext context) {
       HttpHost targetHost = HttpCoreContext.adapt(context).getTargetHost();
+      // The first request goes to the API root the caller chose, which may be a per-request api_root
+      // option rather than the global one, so redirects are compared against that origin.
+      if (targetHost != null && context.getAttribute(REQUEST_ORIGIN) == null) {
+        context.setAttribute(REQUEST_ORIGIN, URI.create(targetHost.toURI()));
+      }
       boolean stripAuthHeaders = Boolean.TRUE.equals(context.getAttribute(AUTH_HEADERS_STRIPPED));
       if (!stripAuthHeaders
           && targetHost != null
-          && !sameOrigin(URI.create(FilesConfig.getInstance().getApiRoot()), URI.create(targetHost.toURI()))) {
+          && !sameOrigin((URI) context.getAttribute(REQUEST_ORIGIN), URI.create(targetHost.toURI()))) {
         context.setAttribute(AUTH_HEADERS_STRIPPED, Boolean.TRUE);
         stripAuthHeaders = true;
       }

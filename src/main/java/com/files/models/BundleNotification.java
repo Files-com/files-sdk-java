@@ -253,7 +253,7 @@ public class BundleNotification implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<BundleNotification>> typeReference = new TypeReference<List<BundleNotification>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -302,7 +302,7 @@ public class BundleNotification implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -359,7 +359,7 @@ public class BundleNotification implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -408,7 +408,7 @@ public class BundleNotification implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -448,7 +448,7 @@ public class BundleNotification implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

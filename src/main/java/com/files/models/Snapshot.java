@@ -245,7 +245,7 @@ public class Snapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Snapshot>> typeReference = new TypeReference<List<Snapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -294,7 +294,7 @@ public class Snapshot implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -344,7 +344,7 @@ public class Snapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -385,7 +385,7 @@ public class Snapshot implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/snapshots/%s/finalize", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/snapshots/%s/finalize", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -437,7 +437,7 @@ public class Snapshot implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -477,7 +477,7 @@ public class Snapshot implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

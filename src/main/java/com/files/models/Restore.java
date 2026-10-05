@@ -422,7 +422,7 @@ public class Restore implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Restore>> typeReference = new TypeReference<List<Restore>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -487,7 +487,7 @@ public class Restore implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Restore> typeReference = new TypeReference<Restore>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

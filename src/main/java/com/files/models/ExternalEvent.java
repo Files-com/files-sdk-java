@@ -210,7 +210,7 @@ public class ExternalEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ExternalEvent>> typeReference = new TypeReference<List<ExternalEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -259,7 +259,7 @@ public class ExternalEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/external_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/external_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -307,7 +307,7 @@ public class ExternalEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/external_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ExternalEvent> typeReference = new TypeReference<ExternalEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

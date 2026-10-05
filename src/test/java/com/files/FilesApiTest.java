@@ -105,6 +105,30 @@ public class FilesApiTest {
   }
 
   @Test
+  public void sendsRequestsToPerCallApiRoot() throws Exception {
+    WireMockServer perCallServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
+    perCallServer.start();
+    try {
+      perCallServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
+          .willReturn(aResponse()
+              .withStatus(200)
+              .withBody("[]")));
+
+      HashMap<String, Object> options = new HashMap<>();
+      options.put("api_root", "http://localhost:" + perCallServer.port());
+      options.put("api_key", "per-call-key");
+
+      Folder.listFor("/", null, options).all();
+
+      perCallServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
+          .withHeader("X-FilesAPI-Key", equalTo("per-call-key")));
+      wireMockServer.verify(0, anyRequestedFor(anyUrl()));
+    } finally {
+      perCallServer.stop();
+    }
+  }
+
+  @Test
   public void allowsPerCallWorkspaceIdToBeCleared() throws Exception {
     FilesClient.workspaceId = 123L;
 

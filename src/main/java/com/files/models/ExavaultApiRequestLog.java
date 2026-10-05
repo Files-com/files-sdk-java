@@ -246,7 +246,7 @@ public class ExavaultApiRequestLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/exavault_api_request_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/exavault_api_request_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ExavaultApiRequestLog>> typeReference = new TypeReference<List<ExavaultApiRequestLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

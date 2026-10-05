@@ -97,7 +97,7 @@ public class File implements ModelInterface {
     if (!parameters.containsKey("action")) {
       parameters.put("action", "put");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -1160,7 +1160,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1270,7 +1270,7 @@ public class File implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1323,7 +1323,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -1368,7 +1368,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
@@ -1428,7 +1428,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1476,7 +1476,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/zip_list/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/zip_list/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<ZipListEntry>> typeReference = new TypeReference<List<ZipListEntry>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -1538,7 +1538,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1592,7 +1592,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1672,7 +1672,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/transform/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/transform/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1742,7 +1742,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/gpg_decrypt/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/gpg_decrypt/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1812,7 +1812,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/gpg_encrypt/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/gpg_encrypt/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1869,7 +1869,7 @@ public class File implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/file_actions/unzip", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/file_actions/unzip", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1914,7 +1914,7 @@ public class File implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/file_actions/zip", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/file_actions/zip", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -1993,7 +1993,7 @@ public class File implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

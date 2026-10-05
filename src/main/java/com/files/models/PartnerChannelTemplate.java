@@ -337,7 +337,7 @@ public class PartnerChannelTemplate implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<PartnerChannelTemplate>> typeReference = new TypeReference<List<PartnerChannelTemplate>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -386,7 +386,7 @@ public class PartnerChannelTemplate implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -470,7 +470,7 @@ public class PartnerChannelTemplate implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_channel_templates", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -551,7 +551,7 @@ public class PartnerChannelTemplate implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<PartnerChannelTemplate> typeReference = new TypeReference<PartnerChannelTemplate>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -591,7 +591,7 @@ public class PartnerChannelTemplate implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_channel_templates/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

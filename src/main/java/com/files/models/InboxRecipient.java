@@ -219,7 +219,7 @@ public class InboxRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<InboxRecipient>> typeReference = new TypeReference<List<InboxRecipient>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -283,7 +283,7 @@ public class InboxRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<InboxRecipient> typeReference = new TypeReference<InboxRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

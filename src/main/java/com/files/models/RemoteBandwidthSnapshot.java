@@ -176,7 +176,7 @@ public class RemoteBandwidthSnapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/remote_bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/remote_bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<RemoteBandwidthSnapshot>> typeReference = new TypeReference<List<RemoteBandwidthSnapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

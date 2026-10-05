@@ -286,7 +286,7 @@ public class AutomationLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/automation_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/automation_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<AutomationLog>> typeReference = new TypeReference<List<AutomationLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

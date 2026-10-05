@@ -142,7 +142,7 @@ public class IpAddress implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ip_addresses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ip_addresses", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<IpAddress>> typeReference = new TypeReference<List<IpAddress>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -184,7 +184,7 @@ public class IpAddress implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ip_addresses/smartfile-reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ip_addresses/smartfile-reserved", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -219,7 +219,7 @@ public class IpAddress implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ip_addresses/exavault-reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ip_addresses/exavault-reserved", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -254,7 +254,7 @@ public class IpAddress implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ip_addresses/reserved", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ip_addresses/reserved", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

@@ -212,7 +212,7 @@ public class FileMigrationLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/file_migration_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/file_migration_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<FileMigrationLog>> typeReference = new TypeReference<List<FileMigrationLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

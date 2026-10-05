@@ -266,7 +266,7 @@ public class ActionLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/action_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/action_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ActionLog>> typeReference = new TypeReference<List<ActionLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

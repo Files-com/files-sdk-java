@@ -449,7 +449,7 @@ public class ScheduledExport implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/scheduled_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/scheduled_exports", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ScheduledExport>> typeReference = new TypeReference<List<ScheduledExport>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -498,7 +498,7 @@ public class ScheduledExport implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ScheduledExport> typeReference = new TypeReference<ScheduledExport>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -594,7 +594,7 @@ public class ScheduledExport implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/scheduled_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/scheduled_exports", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ScheduledExport> typeReference = new TypeReference<ScheduledExport>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -691,7 +691,7 @@ public class ScheduledExport implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ScheduledExport> typeReference = new TypeReference<ScheduledExport>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -731,7 +731,7 @@ public class ScheduledExport implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/scheduled_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -122,7 +122,7 @@ public class HolidayRegion implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/holiday_regions/supported", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/holiday_regions/supported", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<HolidayRegion> typeReference = new TypeReference<HolidayRegion>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

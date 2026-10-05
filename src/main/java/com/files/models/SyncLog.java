@@ -242,7 +242,7 @@ public class SyncLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sync_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sync_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SyncLog>> typeReference = new TypeReference<List<SyncLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

@@ -262,7 +262,7 @@ public class UsageSnapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/usage_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/usage_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UsageSnapshot>> typeReference = new TypeReference<List<UsageSnapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

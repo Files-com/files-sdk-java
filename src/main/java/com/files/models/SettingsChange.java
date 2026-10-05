@@ -180,7 +180,7 @@ public class SettingsChange implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/settings_changes", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/settings_changes", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SettingsChange>> typeReference = new TypeReference<List<SettingsChange>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

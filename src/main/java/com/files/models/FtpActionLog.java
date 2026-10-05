@@ -326,7 +326,7 @@ public class FtpActionLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/ftp_action_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/ftp_action_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<FtpActionLog>> typeReference = new TypeReference<List<FtpActionLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

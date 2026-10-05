@@ -254,7 +254,7 @@ public class BundleRegistration implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_registrations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<BundleRegistration>> typeReference = new TypeReference<List<BundleRegistration>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

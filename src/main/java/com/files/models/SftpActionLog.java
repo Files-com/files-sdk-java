@@ -366,7 +366,7 @@ public class SftpActionLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sftp_action_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sftp_action_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SftpActionLog>> typeReference = new TypeReference<List<SftpActionLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

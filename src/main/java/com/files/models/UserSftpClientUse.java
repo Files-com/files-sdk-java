@@ -156,7 +156,7 @@ public class UserSftpClientUse implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_sftp_client_uses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_sftp_client_uses", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UserSftpClientUse>> typeReference = new TypeReference<List<UserSftpClientUse>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

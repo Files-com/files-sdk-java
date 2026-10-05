@@ -368,7 +368,7 @@ public class AutomationRun implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/automation_runs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/automation_runs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<AutomationRun>> typeReference = new TypeReference<List<AutomationRun>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -417,7 +417,7 @@ public class AutomationRun implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/automation_runs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/automation_runs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -473,7 +473,7 @@ public class AutomationRun implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/automation_runs/%s/node", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/automation_runs/%s/node", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AutomationExecutionNode> typeReference = new TypeReference<AutomationExecutionNode>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -514,7 +514,7 @@ public class AutomationRun implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/automation_runs/%s/cancel", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/automation_runs/%s/cancel", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -564,7 +564,7 @@ public class AutomationRun implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/automation_runs/%s/rerun", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/automation_runs/%s/rerun", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

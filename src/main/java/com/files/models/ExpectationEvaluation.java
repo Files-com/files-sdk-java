@@ -290,7 +290,7 @@ public class ExpectationEvaluation implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/expectation_evaluations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/expectation_evaluations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ExpectationEvaluation>> typeReference = new TypeReference<List<ExpectationEvaluation>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -339,7 +339,7 @@ public class ExpectationEvaluation implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/expectation_evaluations/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/expectation_evaluations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ExpectationEvaluation> typeReference = new TypeReference<ExpectationEvaluation>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

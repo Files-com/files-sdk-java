@@ -236,7 +236,7 @@ public class InboundS3Log implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/inbound_s3_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/inbound_s3_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<InboundS3Log>> typeReference = new TypeReference<List<InboundS3Log>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

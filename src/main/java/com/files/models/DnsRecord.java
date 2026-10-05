@@ -142,7 +142,7 @@ public class DnsRecord implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/dns_records", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/dns_records", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<DnsRecord>> typeReference = new TypeReference<List<DnsRecord>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

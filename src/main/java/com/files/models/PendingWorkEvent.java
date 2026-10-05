@@ -206,7 +206,7 @@ public class PendingWorkEvent implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/pending_work_events", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/pending_work_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<PendingWorkEvent>> typeReference = new TypeReference<List<PendingWorkEvent>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -255,7 +255,7 @@ public class PendingWorkEvent implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/pending_work_events/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/pending_work_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<PendingWorkEvent> typeReference = new TypeReference<PendingWorkEvent>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

@@ -306,7 +306,7 @@ public class WebDavActionLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/web_dav_action_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/web_dav_action_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<WebDavActionLog>> typeReference = new TypeReference<List<WebDavActionLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

@@ -234,7 +234,7 @@ public class Payment implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/payments", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/payments", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<AccountLineItem>> typeReference = new TypeReference<List<AccountLineItem>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -283,7 +283,7 @@ public class Payment implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/payments/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/payments/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<AccountLineItem> typeReference = new TypeReference<AccountLineItem>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

@@ -236,7 +236,7 @@ public class PublicHostingRequestLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/public_hosting_request_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/public_hosting_request_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<PublicHostingRequestLog>> typeReference = new TypeReference<List<PublicHostingRequestLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

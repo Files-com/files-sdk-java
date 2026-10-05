@@ -210,7 +210,7 @@ public class UserCipherUse implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_cipher_uses", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_cipher_uses", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UserCipherUse>> typeReference = new TypeReference<List<UserCipherUse>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

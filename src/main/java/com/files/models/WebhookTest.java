@@ -351,7 +351,7 @@ public class WebhookTest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/webhook_tests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/webhook_tests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<WebhookTest> typeReference = new TypeReference<WebhookTest>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

@@ -296,7 +296,7 @@ public class OutboundConnectionLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/outbound_connection_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/outbound_connection_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<OutboundConnectionLog>> typeReference = new TypeReference<List<OutboundConnectionLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

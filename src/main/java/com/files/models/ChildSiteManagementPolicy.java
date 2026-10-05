@@ -276,7 +276,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ChildSiteManagementPolicy>> typeReference = new TypeReference<List<ChildSiteManagementPolicy>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -325,7 +325,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -390,7 +390,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -459,7 +459,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -499,7 +499,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

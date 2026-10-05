@@ -222,7 +222,7 @@ public class EmailLog implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/email_logs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/email_logs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<EmailLog>> typeReference = new TypeReference<List<EmailLog>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

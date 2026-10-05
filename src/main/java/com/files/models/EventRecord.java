@@ -280,7 +280,7 @@ public class EventRecord implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/event_records", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/event_records", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<EventRecord>> typeReference = new TypeReference<List<EventRecord>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -329,7 +329,7 @@ public class EventRecord implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/event_records/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/event_records/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<EventRecord> typeReference = new TypeReference<EventRecord>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

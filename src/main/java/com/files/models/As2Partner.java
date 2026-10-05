@@ -436,7 +436,7 @@ public class As2Partner implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<As2Partner>> typeReference = new TypeReference<List<As2Partner>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -485,7 +485,7 @@ public class As2Partner implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -579,7 +579,7 @@ public class As2Partner implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -664,7 +664,7 @@ public class As2Partner implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -704,7 +704,7 @@ public class As2Partner implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

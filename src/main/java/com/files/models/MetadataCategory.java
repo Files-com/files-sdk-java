@@ -185,7 +185,7 @@ public class MetadataCategory implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/metadata_categories", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/metadata_categories", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<MetadataCategory>> typeReference = new TypeReference<List<MetadataCategory>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -234,7 +234,7 @@ public class MetadataCategory implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<MetadataCategory> typeReference = new TypeReference<MetadataCategory>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -291,7 +291,7 @@ public class MetadataCategory implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/metadata_categories/list_by_path/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/metadata_categories/list_by_path/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<MetadataCategory>> typeReference = new TypeReference<List<MetadataCategory>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -329,7 +329,7 @@ public class MetadataCategory implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/metadata_categories", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/metadata_categories", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<MetadataCategory> typeReference = new TypeReference<MetadataCategory>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -378,7 +378,7 @@ public class MetadataCategory implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<MetadataCategory> typeReference = new TypeReference<MetadataCategory>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -418,7 +418,7 @@ public class MetadataCategory implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/metadata_categories/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

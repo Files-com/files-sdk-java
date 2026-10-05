@@ -226,7 +226,7 @@ public class InboxRegistration implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<InboxRegistration>> typeReference = new TypeReference<List<InboxRegistration>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

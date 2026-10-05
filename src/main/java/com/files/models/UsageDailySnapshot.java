@@ -246,7 +246,7 @@ public class UsageDailySnapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/usage_daily_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/usage_daily_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UsageDailySnapshot>> typeReference = new TypeReference<List<UsageDailySnapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

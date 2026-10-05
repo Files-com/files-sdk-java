@@ -1,7 +1,9 @@
 package com.files;
 
+import com.files.exceptions.ApiErrorException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,16 @@ public class FilesConfig {
 
   public String getApiRoot() {
     return properties.getProperty("apiRoot", "https://app.files.com");
+  }
+
+  public String getApiRoot(Map<String, Object> options) {
+    if (options == null || options.get("api_root") == null) {
+      return getApiRoot();
+    }
+    if (!(options.get("api_root") instanceof String)) {
+      throw new ApiErrorException.InvalidParameterException("Bad option: api_root must be of type String");
+    }
+    return (String) options.get("api_root");
   }
 
   public String getApiKey() {

@@ -491,7 +491,7 @@ public class HistoryExport implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/history_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/history_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<HistoryExport> typeReference = new TypeReference<HistoryExport>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -613,7 +613,7 @@ public class HistoryExport implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/history_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/history_exports", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<HistoryExport> typeReference = new TypeReference<HistoryExport>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

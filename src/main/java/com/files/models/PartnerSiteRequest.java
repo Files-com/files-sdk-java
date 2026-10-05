@@ -228,7 +228,7 @@ public class PartnerSiteRequest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<PartnerSiteRequest>> typeReference = new TypeReference<List<PartnerSiteRequest>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -269,7 +269,7 @@ public class PartnerSiteRequest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_site_requests/find_by_pairing_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_site_requests/find_by_pairing_key", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.GET, parameters, options);
   }
@@ -309,7 +309,7 @@ public class PartnerSiteRequest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<PartnerSiteRequest> typeReference = new TypeReference<PartnerSiteRequest>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -343,7 +343,7 @@ public class PartnerSiteRequest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_site_requests/reject", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_site_requests/reject", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -380,7 +380,7 @@ public class PartnerSiteRequest implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/partner_site_requests/approve", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/partner_site_requests/approve", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -419,7 +419,7 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/partner_site_requests/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/partner_site_requests/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

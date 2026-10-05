@@ -354,7 +354,7 @@ public class UserLifecycleRule implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_lifecycle_rules", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_lifecycle_rules", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<UserLifecycleRule>> typeReference = new TypeReference<List<UserLifecycleRule>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -403,7 +403,7 @@ public class UserLifecycleRule implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<UserLifecycleRule> typeReference = new TypeReference<UserLifecycleRule>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -489,7 +489,7 @@ public class UserLifecycleRule implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/user_lifecycle_rules", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/user_lifecycle_rules", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<UserLifecycleRule> typeReference = new TypeReference<UserLifecycleRule>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -582,7 +582,7 @@ public class UserLifecycleRule implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<UserLifecycleRule> typeReference = new TypeReference<UserLifecycleRule>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -622,7 +622,7 @@ public class UserLifecycleRule implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/user_lifecycle_rules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

@@ -360,7 +360,7 @@ public class SyncRun implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/sync_runs", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/sync_runs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<SyncRun>> typeReference = new TypeReference<List<SyncRun>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -409,7 +409,7 @@ public class SyncRun implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/sync_runs/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/sync_runs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<SyncRun> typeReference = new TypeReference<SyncRun>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);

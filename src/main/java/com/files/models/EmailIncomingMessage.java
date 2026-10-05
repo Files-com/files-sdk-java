@@ -220,7 +220,7 @@ public class EmailIncomingMessage implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/email_incoming_messages", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/email_incoming_messages", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<EmailIncomingMessage>> typeReference = new TypeReference<List<EmailIncomingMessage>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

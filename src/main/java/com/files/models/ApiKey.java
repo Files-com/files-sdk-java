@@ -416,7 +416,7 @@ public class ApiKey implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<ApiKey>> typeReference = new TypeReference<List<ApiKey>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -449,7 +449,7 @@ public class ApiKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -491,7 +491,7 @@ public class ApiKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -560,7 +560,7 @@ public class ApiKey implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -599,7 +599,7 @@ public class ApiKey implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -652,7 +652,7 @@ public class ApiKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ApiKey> typeReference = new TypeReference<ApiKey>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -678,7 +678,7 @@ public class ApiKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/api_key", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }
@@ -717,7 +717,7 @@ public class ApiKey implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/api_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

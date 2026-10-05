@@ -324,7 +324,7 @@ public class App implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/apps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/apps", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<App>> typeReference = new TypeReference<List<App>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

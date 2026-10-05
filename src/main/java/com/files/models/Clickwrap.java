@@ -216,7 +216,7 @@ public class Clickwrap implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<Clickwrap>> typeReference = new TypeReference<List<Clickwrap>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -265,7 +265,7 @@ public class Clickwrap implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -319,7 +319,7 @@ public class Clickwrap implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -380,7 +380,7 @@ public class Clickwrap implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -420,7 +420,7 @@ public class Clickwrap implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

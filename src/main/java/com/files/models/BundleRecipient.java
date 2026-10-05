@@ -251,7 +251,7 @@ public class BundleRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<BundleRecipient>> typeReference = new TypeReference<List<BundleRecipient>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -319,7 +319,7 @@ public class BundleRecipient implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bundle_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<BundleRecipient> typeReference = new TypeReference<BundleRecipient>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

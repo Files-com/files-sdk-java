@@ -323,7 +323,7 @@ public class ActionNotificationExport implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/action_notification_exports/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/action_notification_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -401,7 +401,7 @@ public class ActionNotificationExport implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/action_notification_exports", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/action_notification_exports", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

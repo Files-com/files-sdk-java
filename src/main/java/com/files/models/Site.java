@@ -2084,7 +2084,7 @@ public class Site implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Site> typeReference = new TypeReference<Site>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -2110,7 +2110,7 @@ public class Site implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/site/usage", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<UsageSnapshot> typeReference = new TypeReference<UsageSnapshot>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -2909,7 +2909,7 @@ public class Site implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/site", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<Site> typeReference = new TypeReference<Site>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);

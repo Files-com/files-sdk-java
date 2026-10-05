@@ -216,7 +216,7 @@ public class BandwidthSnapshot implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/bandwidth_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<BandwidthSnapshot>> typeReference = new TypeReference<List<BandwidthSnapshot>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);

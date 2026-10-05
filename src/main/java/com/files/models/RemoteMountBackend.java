@@ -386,7 +386,7 @@ public class RemoteMountBackend implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<RemoteMountBackend>> typeReference = new TypeReference<List<RemoteMountBackend>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -435,7 +435,7 @@ public class RemoteMountBackend implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -530,7 +530,7 @@ public class RemoteMountBackend implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -571,7 +571,7 @@ public class RemoteMountBackend implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/remote_mount_backends/%s/reset_status", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/remote_mount_backends/%s/reset_status", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
   }
@@ -659,7 +659,7 @@ public class RemoteMountBackend implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -699,7 +699,7 @@ public class RemoteMountBackend implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

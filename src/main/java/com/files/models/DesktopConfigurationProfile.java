@@ -220,7 +220,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/desktop_configuration_profiles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/desktop_configuration_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<List<DesktopConfigurationProfile>> typeReference = new TypeReference<List<DesktopConfigurationProfile>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -269,7 +269,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<DesktopConfigurationProfile> typeReference = new TypeReference<DesktopConfigurationProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
@@ -329,7 +329,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
     }
 
 
-    String url = String.format("%s%s/desktop_configuration_profiles", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase());
+    String url = String.format("%s%s/desktop_configuration_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
 
     TypeReference<DesktopConfigurationProfile> typeReference = new TypeReference<DesktopConfigurationProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
@@ -390,7 +390,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     TypeReference<DesktopConfigurationProfile> typeReference = new TypeReference<DesktopConfigurationProfile>() {};
     return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
@@ -430,7 +430,7 @@ public class DesktopConfigurationProfile implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
+    String url = String.format("%s%s/desktop_configuration_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
 
     FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
   }

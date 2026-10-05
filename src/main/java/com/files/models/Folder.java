@@ -671,7 +671,7 @@ public class Folder implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<List<File>> typeReference = new TypeReference<List<File>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
@@ -721,7 +721,7 @@ public class Folder implements ModelInterface {
 
 
 
-    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("%s%s/folders/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
 
     TypeReference<Folder> typeReference = new TypeReference<Folder>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);

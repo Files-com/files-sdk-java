@@ -9,4 +9,6 @@ if command -v jenv &> /dev/null; then
   jenv local 1.8 # Force 1.8 with jenv
 fi
 mvn rewrite:run || exit 1
-mvn -B -DskipTests -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false versions:set && mvn -DskipTests clean package
+# versions:set by its full coordinates: the bare prefix would resolve whichever versions-maven-plugin is
+# newest when the build runs.
+mvn -B -DskipTests -DnewVersion=$(cat ./_VERSION) -DgenerateBackupPoms=false org.codehaus.mojo:versions-maven-plugin:2.22.0:set && mvn -DskipTests clean package

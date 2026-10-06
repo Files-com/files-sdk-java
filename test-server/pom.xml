@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- The WireMock server FilesApiTest runs against. servers.sh starts it in its own JDK 17
+         process, on the classpath this POM resolves, so the SDK's tests keep Java 8 and the SDK's
+         own dependencies. It is never built or published. -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.files</groupId>
+    <artifactId>files-sdk-test-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Files.com Java SDK test server</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.7.0</version>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencyManagement>
+        <dependencies>
+            <!-- wiremock-jetty12 3.13.2 imports Jetty 12.0.30, which known advisories affect. -->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-bom</artifactId>
+                <version>12.0.39</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-bom</artifactId>
+                <version>12.0.39</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- WireMock 3.13.2 imports Jackson 2.20.1, which known advisories affect. -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>2.22.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- WireMock 3.13.2 declares versions of these that known advisories affect. Helpers stays
+                 at WireMock's 4.3.1: from 4.4.0 it moves NumberHelper and AssignHelper, which
+                 WireMock loads at startup, to another package. -->
+            <dependency>
+                <groupId>com.github.jknack</groupId>
+                <artifactId>handlebars</artifactId>
+                <version>4.5.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>5.6.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>5.4.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>5.4.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-jetty12</artifactId>
+            <version>3.13.2</version>
+        </dependency>
+        <!-- WireMock's xmlunit-core adds this only when Maven runs on Java 9 or later. build-java
+             runs Maven on Java 8, so it is declared to give the server, on JDK 17, the classpath
+             its scan resolves. -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+    </dependencies>
+</project>

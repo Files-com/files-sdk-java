@@ -6,8 +6,6 @@ import com.files.models.File;
 import com.files.models.Folder;
 import com.files.models.User;
 import com.files.net.HttpMethods;
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,7 +15,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.files.TestServer.request;
+import static com.files.TestServer.response;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -31,35 +30,31 @@ public class FilesApiTest {
     }
   }
 
-  private WireMockServer wireMockServer;
+  private final TestServer server = TestServer.fromEnvironment("FILES_TEST_SERVER_URL");
+  // A second origin, for cross-origin redirects.
+  private final TestServer storageServer = TestServer.fromEnvironment("FILES_TEST_STORAGE_SERVER_URL");
 
   @Before
   public void setUp() throws IOException {
-    wireMockServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
-    wireMockServer.start();
+    server.reset();
+    storageServer.reset();
 
-    String baseUrl = "http://localhost:" + wireMockServer.port();
-    FilesClient.setProperty("apiRoot", baseUrl);
+    FilesClient.setProperty("apiRoot", server.baseUrl());
     FilesClient.apiKey = "test-key";
   }
 
   @After
   public void tearDown() throws IOException {
     FilesClient.workspaceId = null;
-    wireMockServer.stop();
   }
 
   @Test
   public void deletesReturnedPathsContainingColons() throws IOException {
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withHeader("Content-Type", "application/json")
-            .withBody("[{\"path\":\"colon:name.txt\"},{\"path\":\"colon:folder/child.txt\"}]")));
-    wireMockServer.stubFor(delete(urlEqualTo("/api/rest/v1/files/colon%3Aname.txt"))
-        .willReturn(aResponse().withStatus(204)));
-    wireMockServer.stubFor(delete(urlEqualTo("/api/rest/v1/files/colon%3Afolder%2Fchild.txt"))
-        .willReturn(aResponse().withStatus(204)));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(200)
+        .withHeader("Content-Type", "application/json")
+        .withBody("[{\"path\":\"colon:name.txt\"},{\"path\":\"colon:folder/child.txt\"}]"));
+    server.stub("DELETE", "/api/rest/v1/files/colon%3Aname.txt", response(204));
+    server.stub("DELETE", "/api/rest/v1/files/colon%3Afolder%2Fchild.txt", response(204));
 
     List<File> files = Folder.listFor("/", null).all();
     assertEquals(2, files.size());
@@ -67,140 +62,112 @@ public class FilesApiTest {
       file.delete(null);
     }
 
-    wireMockServer.verify(1, deleteRequestedFor(urlEqualTo("/api/rest/v1/files/colon%3Aname.txt")));
-    wireMockServer.verify(1, deleteRequestedFor(urlEqualTo("/api/rest/v1/files/colon%3Afolder%2Fchild.txt")));
+    server.verify(1, request("DELETE", "/api/rest/v1/files/colon%3Aname.txt"));
+    server.verify(1, request("DELETE", "/api/rest/v1/files/colon%3Afolder%2Fchild.txt"));
   }
 
   @Test
   public void usesConfiguredWorkspaceId() throws Exception {
     FilesClient.workspaceId = 123L;
 
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withBody("[]")));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(200)
+        .withBody("[]"));
 
     Folder.listFor("/", null).all();
 
-    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .withHeader("X-Files-Workspace-Id", equalTo("123")));
+    server.verify(request("GET", "/api/rest/v1/folders/%2F")
+        .withHeader("X-Files-Workspace-Id", "123"));
   }
 
   @Test
   public void usesPerCallWorkspaceId() throws Exception {
     FilesClient.workspaceId = 123L;
 
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withBody("[]")));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(200)
+        .withBody("[]"));
 
     HashMap<String, Object> options = new HashMap<>();
     options.put("workspace_id", 456L);
 
     Folder.listFor("/", null, options).all();
 
-    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .withHeader("X-Files-Workspace-Id", equalTo("456")));
-  }
-
-  @Test
-  public void sendsRequestsToPerCallApiRoot() throws Exception {
-    WireMockServer perCallServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
-    perCallServer.start();
-    try {
-      perCallServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-          .willReturn(aResponse()
-              .withStatus(200)
-              .withBody("[]")));
-
-      HashMap<String, Object> options = new HashMap<>();
-      options.put("api_root", "http://localhost:" + perCallServer.port());
-      options.put("api_key", "per-call-key");
-
-      Folder.listFor("/", null, options).all();
-
-      perCallServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
-          .withHeader("X-FilesAPI-Key", equalTo("per-call-key")));
-      wireMockServer.verify(0, anyRequestedFor(anyUrl()));
-    } finally {
-      perCallServer.stop();
-    }
+    server.verify(request("GET", "/api/rest/v1/folders/%2F")
+        .withHeader("X-Files-Workspace-Id", "456"));
   }
 
   @Test
   public void allowsPerCallWorkspaceIdToBeCleared() throws Exception {
     FilesClient.workspaceId = 123L;
 
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withBody("[]")));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(200)
+        .withBody("[]"));
 
     HashMap<String, Object> options = new HashMap<>();
     options.put("workspace_id", null);
 
     Folder.listFor("/", null, options).all();
 
-    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/folders/%2F"))
+    server.verify(request("GET", "/api/rest/v1/folders/%2F")
         .withoutHeader("X-Files-Workspace-Id"));
   }
 
   @Test
+  public void sendsRequestsToPerCallApiRoot() throws Exception {
+    storageServer.stub("GET", "/api/rest/v1/folders/%2F", response(200)
+        .withBody("[]"));
+
+    HashMap<String, Object> options = new HashMap<>();
+    options.put("api_root", storageServer.baseUrl());
+    options.put("api_key", "per-call-key");
+
+    Folder.listFor("/", null, options).all();
+
+    storageServer.verify(request("GET", "/api/rest/v1/folders/%2F")
+        .withHeader("X-FilesAPI-Key", "per-call-key"));
+    server.verify(0, request("GET", "/api/rest/v1/folders/%2F"));
+  }
+
+  @Test
   public void stripsFilesAuthHeadersOnCrossOriginRedirects() throws Exception {
-    WireMockServer storageServer = new WireMockServer(WireMockConfiguration.options().dynamicPort());
-    storageServer.start();
-    try {
-      FilesClient.workspaceId = 123L;
-      wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirect"))
-          .willReturn(aResponse()
-              .withStatus(302)
-              .withHeader("Location", "http://localhost:" + storageServer.port() + "/download")));
-      storageServer.stubFor(get(urlEqualTo("/download"))
-          .willReturn(aResponse()
-              .withStatus(302)
-              .withHeader("Location", "http://localhost:" + wireMockServer.port() + "/returned")));
-      wireMockServer.stubFor(get(urlEqualTo("/returned"))
-          .willReturn(aResponse().withStatus(200).withBody("{}")));
+    FilesClient.workspaceId = 123L;
+    server.stub("GET", "/api/rest/v1/redirect", response(302)
+        .withHeader("Location", storageServer.url("/download")));
+    storageServer.stub("GET", "/download", response(302)
+        .withHeader("Location", server.url("/returned")));
+    server.stub("GET", "/returned", response(200).withBody("{}"));
 
-      FilesClient.apiRequest(
-          "http://localhost:" + wireMockServer.port() + "/api/rest/v1/redirect",
-          HttpMethods.RequestMethods.GET,
-          new HashMap<>(),
-          new HashMap<>());
+    FilesClient.apiRequest(
+        server.url("/api/rest/v1/redirect"),
+        HttpMethods.RequestMethods.GET,
+        new HashMap<>(),
+        new HashMap<>());
 
-      storageServer.verify(getRequestedFor(urlEqualTo("/download"))
-          .withoutHeader("X-FilesAPI-Key")
-          .withoutHeader("X-FilesAPI-Auth")
-          .withoutHeader("X-Files-Workspace-Id"));
-      wireMockServer.verify(getRequestedFor(urlEqualTo("/returned"))
-          .withoutHeader("X-FilesAPI-Key")
-          .withoutHeader("X-FilesAPI-Auth")
-          .withoutHeader("X-Files-Workspace-Id"));
-    } finally {
-      storageServer.stop();
-    }
+    storageServer.verify(request("GET", "/download")
+        .withoutHeader("X-FilesAPI-Key")
+        .withoutHeader("X-FilesAPI-Auth")
+        .withoutHeader("X-Files-Workspace-Id"));
+    server.verify(request("GET", "/returned")
+        .withoutHeader("X-FilesAPI-Key")
+        .withoutHeader("X-FilesAPI-Auth")
+        .withoutHeader("X-Files-Workspace-Id"));
   }
 
   @Test
   public void keepsFilesAuthHeadersOnSameOriginRedirects() throws Exception {
     FilesClient.workspaceId = 123L;
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirect"))
-        .willReturn(aResponse()
-            .withStatus(302)
-            .withHeader("Location", "/api/rest/v1/redirected")));
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/redirected"))
-        .willReturn(aResponse().withStatus(200).withBody("{}")));
+    server.stub("GET", "/api/rest/v1/redirect", response(302)
+        .withHeader("Location", "/api/rest/v1/redirected"));
+    server.stub("GET", "/api/rest/v1/redirected", response(200).withBody("{}"));
 
     FilesClient.apiRequest(
-        "http://localhost:" + wireMockServer.port() + "/api/rest/v1/redirect",
+        server.url("/api/rest/v1/redirect"),
         HttpMethods.RequestMethods.GET,
         new HashMap<>(),
         new HashMap<>());
 
-    wireMockServer.verify(getRequestedFor(urlEqualTo("/api/rest/v1/redirected"))
-        .withHeader("X-FilesAPI-Key", equalTo("test-key"))
-        .withHeader("X-Files-Workspace-Id", equalTo("123")));
+    server.verify(request("GET", "/api/rest/v1/redirected")
+        .withHeader("X-FilesAPI-Key", "test-key")
+        .withHeader("X-Files-Workspace-Id", "123"));
   }
 
   @Test
@@ -230,11 +197,9 @@ public class FilesApiTest {
     +    "\"type\": \"processing-failure/model-save-error\""
     +  "}";
 
-    wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/users"))
-        .willReturn(aResponse()
-            .withStatus(400)
-            .withHeader("Content-Type", "application/json; charset=utf-8")
-            .withBody(body)));
+    server.stub("POST", "/api/rest/v1/users", response(400)
+        .withHeader("Content-Type", "application/json; charset=utf-8")
+        .withBody(body));
 
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("username", "testuser");
@@ -258,11 +223,9 @@ public class FilesApiTest {
       +   "\"error\": \"Not Found.  This may be related to your permissions.\""
       + "}";
 
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2Fmissing"))
-        .willReturn(aResponse()
-            .withStatus(404)
-            .withHeader("Content-Type", "application/json; charset=utf-8")
-            .withBody(body)));
+    server.stub("GET", "/api/rest/v1/folders/%2Fmissing", response(404)
+        .withHeader("Content-Type", "application/json; charset=utf-8")
+        .withBody(body));
 
     try {
       Folder.listFor("/missing", null).all();
@@ -281,10 +244,8 @@ public class FilesApiTest {
 
   @Test
   public void handleNoResponseData() throws Exception {
-    wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/bundles/1/share"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withBody("")));
+    server.stub("POST", "/api/rest/v1/bundles/1/share", response(200)
+        .withBody(""));
 
     // Should not throw an exception
     Bundle.share((long)1, null);
@@ -292,10 +253,8 @@ public class FilesApiTest {
 
   @Test
   public void handleEmptyResponse() throws Exception {
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2Fmissing"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withBody("[]")));
+    server.stub("GET", "/api/rest/v1/folders/%2Fmissing", response(200)
+        .withBody("[]"));
 
     int count = 0;
     for (File file : Folder.listFor("/missing", null).listAutoPaging()) {
@@ -307,10 +266,8 @@ public class FilesApiTest {
   @Test
   public void handleBadGateway() throws Exception {
     final String body = "<html><head><title>502 Bad Gateway</title></head><body><center><h1>502 Bad Gateway</h1></center><hr><center>files.com</center></body></html>";
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(502)
-            .withBody(body)));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(502)
+        .withBody(body));
 
     try {
       Folder.listFor("/", null).all();
@@ -329,10 +286,8 @@ public class FilesApiTest {
     + "<text>"
     +   "<para>test</para>"
     + "</text>";
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-        .willReturn(aResponse()
-            .withStatus(400)
-            .withBody(body)));
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(400)
+        .withBody(body));
 
     try {
       Folder.listFor("/", null).all();
@@ -357,11 +312,9 @@ public class FilesApiTest {
       +   "}"
       + "}";
 
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-      .willReturn(aResponse()
-        .withStatus(403)
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(403)
         .withHeader("x-files-host", "test.host")
-        .withBody(body)));
+        .withBody(body));
 
     try {
       Folder.listFor("/", null).all();
@@ -390,11 +343,9 @@ public class FilesApiTest {
       +      "\"host\": \"test.host\""
       +   "}"
       + "}";
-    wireMockServer.stubFor(get(urlEqualTo("/api/rest/v1/folders/%2F"))
-      .willReturn(aResponse()
-        .withStatus(401)
+    server.stub("GET", "/api/rest/v1/folders/%2F", response(401)
         .withHeader("Content-Type", "application/json; charset=utf-8")
-        .withBody(body)));
+        .withBody(body));
 
     try {
       Folder.listFor("/", null).all();
@@ -422,8 +373,7 @@ public class FilesApiTest {
       assertEquals(UPLOAD_BYTES.length, returned);
       assertEquals("leased connections after response [" + responseBody + "]", leasedBefore, leasedConnections());
     }
-    wireMockServer.verify(UPLOAD_RESPONSE_BODIES.length,
-        putRequestedFor(urlEqualTo("/upload")).withRequestBody(binaryEqualTo(UPLOAD_BYTES)));
+    server.verify(UPLOAD_RESPONSE_BODIES.length, request("PUT", "/upload").withRequestBody(UPLOAD_BYTES));
   }
 
   @Test
@@ -438,21 +388,18 @@ public class FilesApiTest {
       assertEquals(0, returned);
       assertEquals("leased connections after response [" + responseBody + "]", leasedBefore, leasedConnections());
     }
-    wireMockServer.verify(UPLOAD_RESPONSE_BODIES.length,
-        putRequestedFor(urlEqualTo("/upload")).withRequestBody(binaryEqualTo(UPLOAD_BYTES)));
+    server.verify(UPLOAD_RESPONSE_BODIES.length, request("PUT", "/upload").withRequestBody(UPLOAD_BYTES));
   }
 
-  private void stubUploadResponse(String body) {
+  private void stubUploadResponse(String body) throws IOException {
     // Set Content-Length explicitly; WireMock would otherwise chunk even an empty body.
-    wireMockServer.stubFor(put(urlEqualTo("/upload"))
-        .willReturn(aResponse()
-            .withStatus(200)
-            .withHeader("Content-Length", String.valueOf(body.length()))
-            .withBody(body)));
+    server.stub("PUT", "/upload", response(200)
+        .withHeader("Content-Length", String.valueOf(body.length()))
+        .withBody(body));
   }
 
   private String uploadUrl() {
-    return "http://localhost:" + wireMockServer.port() + "/upload";
+    return server.url("/upload");
   }
 
   private static int leasedConnections() {

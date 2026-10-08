@@ -312,6 +312,20 @@ public class RemoteServer implements ModelInterface {
   }
 
   /**
+  * ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+  */
+  @JsonProperty("s3_kms_key_id")
+  public String s3KmsKeyId;
+
+  public String getS3KmsKeyId() {
+    return s3KmsKeyId;
+  }
+
+  public void setS3KmsKeyId(String s3KmsKeyId) {
+    this.s3KmsKeyId = s3KmsKeyId;
+  }
+
+  /**
   * AWS Access Key.
   */
   @JsonProperty("aws_access_key")
@@ -1588,6 +1602,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
   *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+  *   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -1884,6 +1899,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
   *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+  *   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -2129,6 +2145,9 @@ public class RemoteServer implements ModelInterface {
     if (parameters.containsKey("s3_compatible_virtual_hosted_style") && !(parameters.get("s3_compatible_virtual_hosted_style") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_virtual_hosted_style must be of type Boolean parameters[\"s3_compatible_virtual_hosted_style\"]");
     }
+    if (parameters.containsKey("s3_kms_key_id") && !(parameters.get("s3_kms_key_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_kms_key_id must be of type String parameters[\"s3_kms_key_id\"]");
+    }
     if (parameters.containsKey("s3_region") && !(parameters.get("s3_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_region must be of type String parameters[\"s3_region\"]");
     }
@@ -2291,6 +2310,7 @@ public class RemoteServer implements ModelInterface {
   *   s3_compatible_endpoint - string - S3-compatible: endpoint
   *   s3_compatible_region - string - S3-compatible: region
   *   s3_compatible_virtual_hosted_style - boolean - S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+  *   s3_kms_key_id - string - ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
   *   s3_region - string - S3 region
   *   server_certificate - string - Remote server certificate
   *   server_host_key - string - Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
@@ -2544,6 +2564,9 @@ public class RemoteServer implements ModelInterface {
     }
     if (parameters.containsKey("s3_compatible_virtual_hosted_style") && !(parameters.get("s3_compatible_virtual_hosted_style") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: s3_compatible_virtual_hosted_style must be of type Boolean parameters[\"s3_compatible_virtual_hosted_style\"]");
+    }
+    if (parameters.containsKey("s3_kms_key_id") && !(parameters.get("s3_kms_key_id") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: s3_kms_key_id must be of type String parameters[\"s3_kms_key_id\"]");
     }
     if (parameters.containsKey("s3_region") && !(parameters.get("s3_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: s3_region must be of type String parameters[\"s3_region\"]");

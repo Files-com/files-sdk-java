@@ -37,8 +37,10 @@
 * `public_certificate_not_before` / `publicCertificateNotBefore`  (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` / `publicCertificateNotAfter`  (string): Not after value of public certificate used for message security.
 * `private_key_password_md5` / `privateKeyPasswordMd5`  (string): MD5 hash of private key password used for message security.
-* `private_key` / `privateKey`  (string): 
-* `private_key_password` / `privateKeyPassword`  (string): 
+* `private_key` / `privateKey`  (string): PEM-encoded private key matching public_certificate.
+* `private_key_password` / `privateKeyPassword`  (string): Password for the PEM-encoded private key.
+* `pkcs12` / `pkcs12`  (string): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+* `pkcs12_password` / `pkcs12Password`  (string): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 
 
 ---
@@ -94,9 +96,11 @@ As2Station as2Station = As2Station.create(
 
 * `name` (String): Required - The station's formal AS2 name.
 * `workspace_id` (Long): ID of the Workspace associated with this AS2 Station.
-* `public_certificate` (String): Required - 
-* `private_key` (String): Required - 
-* `private_key_password` (String): 
+* `public_certificate` (String): Public certificate used for message security.
+* `private_key` (String): PEM-encoded private key matching public_certificate.
+* `private_key_password` (String): Password for the PEM-encoded private key.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 
 
 ---
@@ -115,9 +119,11 @@ As2Station as2Station = As2Station.update(
 
 * `id` (Long): Required - As2 Station ID.
 * `name` (String): The station's formal AS2 name.
-* `public_certificate` (String): 
-* `private_key` (String): 
-* `private_key_password` (String): 
+* `public_certificate` (String): Public certificate used for message security.
+* `private_key` (String): PEM-encoded private key matching public_certificate.
+* `private_key_password` (String): Password for the PEM-encoded private key.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 
 
 ---
@@ -155,9 +161,11 @@ as2Station.update(parameters);
 
 * `id` (Long): Required - As2 Station ID.
 * `name` (String): The station's formal AS2 name.
-* `public_certificate` (String): 
-* `private_key` (String): 
-* `private_key_password` (String): 
+* `public_certificate` (String): Public certificate used for message security.
+* `private_key` (String): PEM-encoded private key matching public_certificate.
+* `private_key_password` (String): Password for the PEM-encoded private key.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
 
 
 ---

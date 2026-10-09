@@ -284,6 +284,7 @@ public class As2Station implements ModelInterface {
   }
 
   /**
+  * PEM-encoded private key matching public_certificate.
   */
   @JsonProperty("private_key")
   public String privateKey;
@@ -297,6 +298,7 @@ public class As2Station implements ModelInterface {
   }
 
   /**
+  * Password for the PEM-encoded private key.
   */
   @JsonProperty("private_key_password")
   public String privateKeyPassword;
@@ -310,11 +312,41 @@ public class As2Station implements ModelInterface {
   }
 
   /**
+  * Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+  */
+  @JsonProperty("pkcs12")
+  public String pkcs12;
+
+  public String getPkcs12() {
+    return pkcs12;
+  }
+
+  public void setPkcs12(String pkcs12) {
+    this.pkcs12 = pkcs12;
+  }
+
+  /**
+  * Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+  */
+  @JsonProperty("pkcs12_password")
+  public String pkcs12Password;
+
+  public String getPkcs12Password() {
+    return pkcs12Password;
+  }
+
+  public void setPkcs12Password(String pkcs12Password) {
+    this.pkcs12Password = pkcs12Password;
+  }
+
+  /**
   * Parameters:
   *   name - string - The station's formal AS2 name.
-  *   public_certificate - string
-  *   private_key - string
-  *   private_key_password - string
+  *   public_certificate - string - Public certificate used for message security.
+  *   private_key - string - PEM-encoded private key matching public_certificate.
+  *   private_key_password - string - Password for the PEM-encoded private key.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
   */
   public As2Station update(HashMap<String, Object> parameters) throws IOException {
     return As2Station.update(this.id, parameters, this.options);
@@ -438,9 +470,11 @@ public class As2Station implements ModelInterface {
   * Parameters:
   *   name (required) - string - The station's formal AS2 name.
   *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
-  *   public_certificate (required) - string
-  *   private_key (required) - string
-  *   private_key_password - string
+  *   public_certificate - string - Public certificate used for message security.
+  *   private_key - string - PEM-encoded private key matching public_certificate.
+  *   private_key_password - string - Password for the PEM-encoded private key.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
   */
   public static As2Station create() throws RuntimeException {
     return create(null, null);
@@ -459,12 +493,6 @@ public class As2Station implements ModelInterface {
     if (!parameters.containsKey("name") || parameters.get("name") == null) {
       throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
     }
-    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
-      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
-    }
-    if (!parameters.containsKey("private_key") || parameters.get("private_key") == null) {
-      throw new NullPointerException("Parameter missing: private_key parameters[\"private_key\"]");
-    }
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
@@ -481,6 +509,12 @@ public class As2Station implements ModelInterface {
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
     }
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
+    }
 
 
     String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
@@ -493,9 +527,11 @@ public class As2Station implements ModelInterface {
   /**
   * Parameters:
   *   name - string - The station's formal AS2 name.
-  *   public_certificate - string
-  *   private_key - string
-  *   private_key_password - string
+  *   public_certificate - string - Public certificate used for message security.
+  *   private_key - string - PEM-encoded private key matching public_certificate.
+  *   private_key_password - string - Password for the PEM-encoded private key.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
   */
   public static As2Station update() throws RuntimeException {
     return update(null, null, null);
@@ -536,6 +572,12 @@ public class As2Station implements ModelInterface {
     }
     if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
+    }
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
     }
 
 

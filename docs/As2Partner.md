@@ -50,6 +50,8 @@
 * `public_certificate_not_before` / `publicCertificateNotBefore`  (string): Not before value of public certificate used for message security.
 * `public_certificate_not_after` / `publicCertificateNotAfter`  (string): Not after value of public certificate used for message security.
 * `http_auth_password` / `httpAuthPassword`  (string): Password to send to server for HTTP Authentication.
+* `pkcs12` / `pkcs12`  (string): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+* `pkcs12_password` / `pkcs12Password`  (string): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
 
 
 ---
@@ -114,7 +116,9 @@ As2Partner as2Partner = As2Partner.create(
 * `as2_station_id` (Long): Required - ID of the AS2 Station associated with this partner.
 * `name` (String): Required - The partner's formal AS2 name.
 * `uri` (String): Required - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-* `public_certificate` (String): Required - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+* `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
 
 
 ---
@@ -143,6 +147,8 @@ As2Partner as2Partner = As2Partner.update(
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
 
 
 ---
@@ -198,6 +204,8 @@ as2Partner.update(parameters);
 * `name` (String): The partner's formal AS2 name.
 * `uri` (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).
 * `public_certificate` (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+* `pkcs12` (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+* `pkcs12_password` (String): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
 
 
 ---

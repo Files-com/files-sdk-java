@@ -368,6 +368,34 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
+  * Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+  */
+  @JsonProperty("pkcs12")
+  public String pkcs12;
+
+  public String getPkcs12() {
+    return pkcs12;
+  }
+
+  public void setPkcs12(String pkcs12) {
+    this.pkcs12 = pkcs12;
+  }
+
+  /**
+  * Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+  */
+  @JsonProperty("pkcs12_password")
+  public String pkcs12Password;
+
+  public String getPkcs12Password() {
+    return pkcs12Password;
+  }
+
+  public void setPkcs12Password(String pkcs12Password) {
+    this.pkcs12Password = pkcs12Password;
+  }
+
+  /**
   * Parameters:
   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
   *   http_auth_username - string - Username to send to server for HTTP Authentication.
@@ -380,6 +408,8 @@ public class As2Partner implements ModelInterface {
   *   name - string - The partner's formal AS2 name.
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
   */
   public As2Partner update(HashMap<String, Object> parameters) throws IOException {
     return As2Partner.update(this.id, parameters, this.options);
@@ -512,7 +542,9 @@ public class As2Partner implements ModelInterface {
   *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
   *   name (required) - string - The partner's formal AS2 name.
   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-  *   public_certificate (required) - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+  *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
   */
   public static As2Partner create() throws RuntimeException {
     return create(null, null);
@@ -536,9 +568,6 @@ public class As2Partner implements ModelInterface {
     }
     if (!parameters.containsKey("uri") || parameters.get("uri") == null) {
       throw new NullPointerException("Parameter missing: uri parameters[\"uri\"]");
-    }
-    if (!parameters.containsKey("public_certificate") || parameters.get("public_certificate") == null) {
-      throw new NullPointerException("Parameter missing: public_certificate parameters[\"public_certificate\"]");
     }
 
     if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
@@ -577,6 +606,12 @@ public class As2Partner implements ModelInterface {
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
     }
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
+    }
 
 
     String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
@@ -599,6 +634,8 @@ public class As2Partner implements ModelInterface {
   *   name - string - The partner's formal AS2 name.
   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
   */
   public static As2Partner update() throws RuntimeException {
     return update(null, null, null);
@@ -660,6 +697,12 @@ public class As2Partner implements ModelInterface {
     }
     if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
+    }
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
     }
 
 

@@ -242,6 +242,24 @@ ListIterator<ZipListEntry> file = File.zipListContents(
 
 ---
 
+## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+
+```
+FileAction file = File.beginDelete(
+    String path, 
+    HashMap<String, Object> parameters = null,
+    HashMap<String, Object> options = null
+)
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+
+
+---
+
 ## Copy File/Folder
 
 ```
@@ -497,6 +515,25 @@ file.zipListContents(parameters);
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
+
+
+---
+
+## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+
+```
+File file = File.find(path);
+
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("recursive", false);
+
+file.beginDelete(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---

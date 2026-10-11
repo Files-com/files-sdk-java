@@ -84,7 +84,7 @@ public class FileAction implements ModelInterface {
   }
 
   /**
-  * If status is pending, this is the id of the File Migration to check for status updates.
+  * If status is pending, this is the id of the File Migration to check for status updates.  Delete actions include it whenever the deletion runs as a File Migration, including while it is processing.
   */
   @JsonProperty("file_migration_id")
   public Long fileMigrationId;

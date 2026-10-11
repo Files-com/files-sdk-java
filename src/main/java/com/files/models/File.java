@@ -1000,6 +1000,16 @@ public class File implements ModelInterface {
   }
 
   /**
+  * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+  *
+  * Parameters:
+  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+  */
+  public FileAction beginDelete(HashMap<String, Object> parameters) throws IOException {
+    return File.beginDelete(this.path, parameters, this.options);
+  }
+
+  /**
   * Copy File/Folder
   *
   * Parameters:
@@ -1480,6 +1490,53 @@ public class File implements ModelInterface {
 
     TypeReference<List<ZipListEntry>> typeReference = new TypeReference<List<ZipListEntry>>() {};
     return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+  }
+
+
+  /**
+  * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+  *
+  * Parameters:
+  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+  */
+  public static FileAction beginDelete() throws RuntimeException {
+    return beginDelete(null, null, null);
+  }
+
+  public static FileAction beginDelete(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return beginDelete(path, parameters, null);
+  }
+
+  public static FileAction beginDelete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return beginDelete(null, parameters, options);
+  }
+
+  public static FileAction beginDelete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = parameters != null ? parameters : new HashMap<String, Object>();
+    options = options != null ? options : new HashMap<String, Object>();
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
+    }
+
+
+
+    String url = String.format("%s%s/file_actions/delete/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+
+    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
+    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
 
 

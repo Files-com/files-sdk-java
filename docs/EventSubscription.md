@@ -178,6 +178,7 @@ parameters.put("message", "example");
 parameters.put("message_only", true);
 parameters.put("enabled", true);
 parameters.put("event_types", ["sync_run.failure.v1"]);
+parameters.put("filter", {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":true}});
 parameters.put("delivery_policy", "example");
 parameters.put("event_target_ids", [1]);
 

@@ -191,7 +191,7 @@
 * `avatar_delete` / `avatarDelete`  (boolean): If true, the avatar will be deleted.
 * `change_password` / `changePassword`  (string): Used for changing a password on an existing user.
 * `change_password_confirmation` / `changePasswordConfirmation`  (string): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-* `grant_permission` / `grantPermission`  (string): Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+* `grant_permission` / `grantPermission`  (string): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
 * `group_id` / `groupId`  (int64): Group ID to associate this user with.
 * `imported_password_hash` / `importedPasswordHash`  (string): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
 * `password` / `password`  (string): User password.
@@ -265,7 +265,7 @@ User user = User.create(
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (String): User's email.
-* `grant_permission` (String): Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+* `grant_permission` (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
@@ -402,7 +402,7 @@ User user = User.update(
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (String): User's email.
-* `grant_permission` (String): Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+* `grant_permission` (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
@@ -623,7 +623,7 @@ user.update(parameters);
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
 * `email` (String): User's email.
-* `grant_permission` (String): Permission to grant on the User Root upon user creation. Can be blank or `full`, `read`, `write`, `list`, `read+write`, or `list+write`
+* `grant_permission` (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
 * `group_id` (Long): Group ID to associate this user with.
 * `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
 * `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.

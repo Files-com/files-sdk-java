@@ -114,6 +114,16 @@ public class EventDeliveryAttempt implements ModelInterface {
   }
 
   /**
+  * Shared summary ID when this event is delivered in a Slack or Teams subfolder summary. All events in a summary share its delivery outcome.
+  */
+  @JsonProperty("activity_notification_batch_id")
+  public Long activityNotificationBatchId;
+
+  public Long getActivityNotificationBatchId() {
+    return activityNotificationBatchId;
+  }
+
+  /**
   * Workspace ID. 0 means the default workspace or site-wide.
   */
   @JsonProperty("workspace_id")

@@ -102,6 +102,20 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
+  * Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
+  */
+  @JsonProperty("require_complete_metadata_capture")
+  public Boolean requireCompleteMetadataCapture;
+
+  public Boolean getRequireCompleteMetadataCapture() {
+    return requireCompleteMetadataCapture;
+  }
+
+  public void setRequireCompleteMetadataCapture(Boolean requireCompleteMetadataCapture) {
+    this.requireCompleteMetadataCapture = requireCompleteMetadataCapture;
+  }
+
+  /**
   * Layout of the form
   */
   @JsonProperty("form_layout")
@@ -216,6 +230,7 @@ public class FormFieldSet implements ModelInterface {
   /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
   *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
@@ -340,6 +355,7 @@ public class FormFieldSet implements ModelInterface {
   * Parameters:
   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
   *   title - string - Title to be displayed
+  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
   *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
@@ -366,6 +382,9 @@ public class FormFieldSet implements ModelInterface {
     }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
+    }
+    if (parameters.containsKey("require_complete_metadata_capture") && !(parameters.get("require_complete_metadata_capture") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: require_complete_metadata_capture must be of type Boolean parameters[\"require_complete_metadata_capture\"]");
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
@@ -394,6 +413,7 @@ public class FormFieldSet implements ModelInterface {
   /**
   * Parameters:
   *   title - string - Title to be displayed
+  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
   *   workspace_id - int64 - Workspace ID
   *   skip_email - boolean - Skip validating form email
   *   skip_name - boolean - Skip validating form name
@@ -430,6 +450,9 @@ public class FormFieldSet implements ModelInterface {
     }
     if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
+    }
+    if (parameters.containsKey("require_complete_metadata_capture") && !(parameters.get("require_complete_metadata_capture") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: require_complete_metadata_capture must be of type Boolean parameters[\"require_complete_metadata_capture\"]");
     }
     if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");

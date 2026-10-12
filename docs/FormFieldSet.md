@@ -6,6 +6,7 @@
 {
   "id": 1,
   "title": "Sample Form Title",
+  "require_complete_metadata_capture": false,
   "form_layout": [
     1,
     2,
@@ -37,6 +38,7 @@
 
 * `id` / `id`  (int64): Form field set id
 * `title` / `title`  (string): Title to be displayed
+* `require_complete_metadata_capture` / `requireCompleteMetadataCapture`  (boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 * `form_layout` / `formLayout`  (array(int64)): Layout of the form
 * `form_fields` / `formFields`  (FormField[]): Associated form field definitions; authenticated form field set responses include historical definitions, while form_layout identifies current fields
 * `skip_name` / `skipName`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
@@ -99,6 +101,7 @@ FormFieldSet formFieldSet = FormFieldSet.create(
 
 * `user_id` (Long): User ID.  Provide a value of `0` to operate the current session's user.
 * `title` (String): Title to be displayed
+* `require_complete_metadata_capture` (Boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 * `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name
@@ -122,6 +125,7 @@ FormFieldSet formFieldSet = FormFieldSet.update(
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `require_complete_metadata_capture` (Boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 * `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name
@@ -155,6 +159,7 @@ FormFieldSet formFieldSet = FormFieldSet.find(id);
 
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("title", "Sample Form Title");
+parameters.put("require_complete_metadata_capture", false);
 parameters.put("workspace_id", 1);
 parameters.put("skip_email", false);
 parameters.put("skip_name", false);
@@ -168,6 +173,7 @@ formFieldSet.update(parameters);
 
 * `id` (Long): Required - Form Field Set ID.
 * `title` (String): Title to be displayed
+* `require_complete_metadata_capture` (Boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
 * `workspace_id` (Long): Workspace ID
 * `skip_email` (Boolean): Skip validating form email
 * `skip_name` (Boolean): Skip validating form name

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.7.358-SNAPSHOT</version>
+    <version>1.7.359-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -110,7 +110,8 @@
         </resources>
     </build>
     <properties>
-        <jackson.version>2.18.11</jackson.version>
+        <jackson.version>2.21.7</jackson.version>
+        <jackson-annotations.version>2.21</jackson-annotations.version> <!-- Released without a patch number since 2.20 -->
         <log4j.version>2.26.1</log4j.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -119,7 +120,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
+            <version>${jackson-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -145,6 +146,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>4.5.14</version> <!-- Ensure the version matches httpclient -->
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.23.0</version> <!-- Overrides the older version httpclient depends on -->
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

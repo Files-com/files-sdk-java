@@ -69,6 +69,7 @@
   "calculate_file_checksums_md5": true,
   "calculate_file_checksums_sha1": true,
   "calculate_file_checksums_sha256": true,
+  "child_site_folder_admins_can_see_parent_site_directory": true,
   "uploads_via_email_authentication": true,
   "color2_left": "#0066a7",
   "color2_link": "#d34f5d",
@@ -420,6 +421,7 @@
 * `calculate_file_checksums_md5` / `calculateFileChecksumsMd5`  (boolean): Calculate MD5 checksums for files?
 * `calculate_file_checksums_sha1` / `calculateFileChecksumsSha1`  (boolean): Calculate SHA1 checksums for files?
 * `calculate_file_checksums_sha256` / `calculateFileChecksumsSha256`  (boolean): Calculate SHA256 checksums for files?
+* `child_site_folder_admins_can_see_parent_site_directory` / `childSiteFolderAdminsCanSeeParentSiteDirectory`  (boolean): If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
 * `uploads_via_email_authentication` / `uploadsViaEmailAuthentication`  (boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 * `color2_left` / `color2Left`  (string): Page link and button color
 * `color2_link` / `color2Link`  (string): Top bar link color
@@ -745,6 +747,7 @@ Site site = Site.update(
 * `group_admins_can_bypass_user_lifecycle_rules` (Boolean): Allow group admins to exempt users in their groups from lifecycle rules
 * `group_admins_can_reset_passwords` (Boolean): Allow group admins to reset passwords for users in their groups
 * `group_admins_can_set_user_password` (Boolean): Allow group admins to set password authentication method
+* `child_site_folder_admins_can_see_parent_site_directory` (Boolean): If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
 * `bundle_recipient_blacklist_free_email_domains` (Boolean): Disallow free email domains for Bundle/Inbox recipients?
 * `bundle_recipient_blacklist_domains` (String[]): List of email domains to disallow when entering a Bundle/Inbox recipients
 * `admins_bypass_locked_subfolders` (Boolean): Allow admins to bypass the locked subfolders setting.

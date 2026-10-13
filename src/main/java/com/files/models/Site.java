@@ -494,6 +494,16 @@ public class Site implements ModelInterface {
   }
 
   /**
+  * If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
+  */
+  @JsonProperty("child_site_folder_admins_can_see_parent_site_directory")
+  public Boolean childSiteFolderAdminsCanSeeParentSiteDirectory;
+
+  public Boolean getChildSiteFolderAdminsCanSeeParentSiteDirectory() {
+    return childSiteFolderAdminsCanSeeParentSiteDirectory;
+  }
+
+  /**
   * Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
   */
   @JsonProperty("uploads_via_email_authentication")
@@ -2254,6 +2264,7 @@ public class Site implements ModelInterface {
   *   group_admins_can_bypass_user_lifecycle_rules - boolean - Allow group admins to exempt users in their groups from lifecycle rules
   *   group_admins_can_reset_passwords - boolean - Allow group admins to reset passwords for users in their groups
   *   group_admins_can_set_user_password - boolean - Allow group admins to set password authentication method
+  *   child_site_folder_admins_can_see_parent_site_directory - boolean - If true, administrators on this site's Child Sites, including Folder Admins, can list this site's Default Workspace users and groups and grant them folder permissions and notifications on Child Site paths.
   *   bundle_recipient_blacklist_free_email_domains - boolean - Disallow free email domains for Bundle/Inbox recipients?
   *   bundle_recipient_blacklist_domains - array(string) - List of email domains to disallow when entering a Bundle/Inbox recipients
   *   admins_bypass_locked_subfolders - boolean - Allow admins to bypass the locked subfolders setting.
@@ -2713,6 +2724,9 @@ public class Site implements ModelInterface {
     }
     if (parameters.containsKey("group_admins_can_set_user_password") && !(parameters.get("group_admins_can_set_user_password") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: group_admins_can_set_user_password must be of type Boolean parameters[\"group_admins_can_set_user_password\"]");
+    }
+    if (parameters.containsKey("child_site_folder_admins_can_see_parent_site_directory") && !(parameters.get("child_site_folder_admins_can_see_parent_site_directory") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: child_site_folder_admins_can_see_parent_site_directory must be of type Boolean parameters[\"child_site_folder_admins_can_see_parent_site_directory\"]");
     }
     if (parameters.containsKey("bundle_recipient_blacklist_free_email_domains") && !(parameters.get("bundle_recipient_blacklist_free_email_domains") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: bundle_recipient_blacklist_free_email_domains must be of type Boolean parameters[\"bundle_recipient_blacklist_free_email_domains\"]");

@@ -86,9 +86,9 @@ try {
   User user = new User(params, requestOptions);
 
   // You may also specify the API key on a per-request basis in the final parameter to static methods.
-  HashMap<String, Object> requestOptions = new HashMap<>();
-  requestOptions.put("api_key", "my-key");
-  User.find(id, params, requestOptions);
+  HashMap<String, Object> perRequestOptions = new HashMap<>();
+  perRequestOptions.put("api_key", "my-key");
+  User.find(id, params, perRequestOptions);
 } catch (NotAuthenticatedException e) {
   System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 } catch (SdkException e) {
@@ -123,12 +123,12 @@ import com.files.exceptions.ApiErrorException.*;
 import com.files.models.Session;
 import java.util.HashMap;
 
-HashMap<String, Object> sessionParameters = new HashMap<>()
+HashMap<String, Object> sessionParameters = new HashMap<>();
 sessionParameters.put("username", "username");
 sessionParameters.put("password", "password");
 
 try {
-  Session session = Session.create(parameters);
+  Session session = Session.create(sessionParameters);
 } catch (NotAuthenticatedException e) {
   System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 } catch (SdkException e) {
@@ -157,9 +157,9 @@ try {
   user = new User(params, requestOptions);
 
   // You may also specify the session ID on a per-request basis in the final parameter to static methods.
-  HashMap<String, Object> requestOptions = new HashMap<>();
-  requestOptions.put("session_id", session.getId());
-  User.find(id, params, requestOptions);
+  HashMap<String, Object> perRequestOptions = new HashMap<>();
+  perRequestOptions.put("session_id", session.getId());
+  User.find(id, params, perRequestOptions);
 } catch (NotAuthenticatedException e) {
   System.out.println("Authentication Error Occurred (" + e.getClass().getName() + "): " + e.getMessage());
 } catch (SdkException e) {
@@ -578,7 +578,7 @@ Delete the Permission by its returned `id` as the Site Administrator in Workspac
 HashMap<String, Object> query = new HashMap<>();
 query.put("user_id", "789");
 query.put("include_groups", true);
-var grants = Permission.list(query, options);
+com.files.ListIterator<Permission> grants = Permission.list(query, options);
 Permission.delete(9001L, null, options);
 ```
 
@@ -948,7 +948,7 @@ import com.files.models.Folder;
 import java.util.List;
 
 try {
-  List<File> items = Folder.listFor(path, null).all()
+  List<File> items = Folder.listFor(path, null).all();
   for (File item : items) {
     System.out.println(item.path);
   }

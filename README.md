@@ -344,7 +344,7 @@ import com.files.exceptions.ApiErrorException.*;
 import com.files.models.User;
 import java.util.HashMap;
 
-// users who haven't logged in since 2024-01-01
+// users who have logged in on or after 2024-01-01
 HashMap<String, Object> args = new HashMap<>();
 HashMap<String, Object> filterArgs = new HashMap<>();
 filterArgs.put("last_login_at", "2024-01-01");

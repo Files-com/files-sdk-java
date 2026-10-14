@@ -226,6 +226,7 @@ ListIterator<User> user = User.list(
 * `filter_lteq` (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
 * `ids` (String): comma-separated list of User IDs
 * `include_parent_site_users` (Boolean): Include users from the parent site.
+* `include_default_workspace_users` (Boolean): When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
 * `search` (String): Searches for partial matches of name, username, or email.
 
 

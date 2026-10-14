@@ -355,6 +355,7 @@ public class Group implements ModelInterface {
   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
   *   ids - string - Comma-separated list of group ids to include in results.
   *   include_parent_site_groups - boolean - Include groups from the parent site.
+  *   include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
   */
   public static ListIterator<Group> list() throws RuntimeException {
     return list(null, null);
@@ -391,6 +392,9 @@ public class Group implements ModelInterface {
     }
     if (parameters.containsKey("include_parent_site_groups") && !(parameters.get("include_parent_site_groups") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_parent_site_groups must be of type Boolean parameters[\"include_parent_site_groups\"]");
+    }
+    if (parameters.containsKey("include_default_workspace_groups") && !(parameters.get("include_default_workspace_groups") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_default_workspace_groups must be of type Boolean parameters[\"include_default_workspace_groups\"]");
     }
 
 

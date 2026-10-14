@@ -1612,6 +1612,7 @@ public class User implements ModelInterface {
   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
   *   ids - string - comma-separated list of User IDs
   *   include_parent_site_users - boolean - Include users from the parent site.
+  *   include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
   *   search - string - Searches for partial matches of name, username, or email.
   */
   public static ListIterator<User> list() throws RuntimeException {
@@ -1661,6 +1662,9 @@ public class User implements ModelInterface {
     }
     if (parameters.containsKey("include_parent_site_users") && !(parameters.get("include_parent_site_users") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: include_parent_site_users must be of type Boolean parameters[\"include_parent_site_users\"]");
+    }
+    if (parameters.containsKey("include_default_workspace_users") && !(parameters.get("include_default_workspace_users") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: include_default_workspace_users must be of type Boolean parameters[\"include_default_workspace_users\"]");
     }
     if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");

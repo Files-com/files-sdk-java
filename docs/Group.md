@@ -64,6 +64,7 @@ ListIterator<Group> group = Group.list(
 * `filter_prefix` (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
 * `ids` (String): Comma-separated list of group ids to include in results.
 * `include_parent_site_groups` (Boolean): Include groups from the parent site.
+* `include_default_workspace_groups` (Boolean): When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
 
 
 ---

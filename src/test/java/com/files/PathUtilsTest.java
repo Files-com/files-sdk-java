@@ -2,15 +2,15 @@ package com.files;
 
 import static org.junit.Assert.assertEquals;
 
-import com.files.util.PathUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.files.util.PathUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Locale;
 import java.nio.file.Paths;
+import java.util.Locale;
 import org.junit.Test;
 
 public class PathUtilsTest {

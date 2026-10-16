@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SiemHttpDestination implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every SiemHttpDestination, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   public SiemHttpDestination(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class SiemHttpDestination implements ModelInterface {
 
 
   /**
-  * SIEM HTTP Destination ID
-  */
+   * SIEM HTTP Destination ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Name for this Destination
-  */
+   * Name for this Destination
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Destination Type
-  */
+   * Destination Type
+   */
   @JsonProperty("destination_type")
   public String destinationType;
 
@@ -116,8 +138,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Destination Url
-  */
+   * Destination Url
+   */
   @JsonProperty("destination_url")
   public String destinationUrl;
 
@@ -130,8 +152,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: file. Destination folder path on Files.com.
-  */
+   * Applicable only for destination type: file. Destination folder path on Files.com.
+   */
   @JsonProperty("file_destination_path")
   public String fileDestinationPath;
 
@@ -144,8 +166,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: file. Generated file format.
-  */
+   * Applicable only for destination type: file. Generated file format.
+   */
   @JsonProperty("file_format")
   public String fileFormat;
 
@@ -158,8 +180,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: file. Interval, in minutes, between file deliveries.
-  */
+   * Applicable only for destination type: file. Interval, in minutes, between file deliveries.
+   */
   @JsonProperty("file_interval_minutes")
   public Long fileIntervalMinutes;
 
@@ -172,8 +194,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Additional HTTP Headers included in calls to the destination URL
-  */
+   * Additional HTTP Headers included in calls to the destination URL
+   */
   @JsonProperty("additional_headers")
   public Object additionalHeaders;
 
@@ -186,8 +208,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether this SIEM HTTP Destination is currently being sent to or not
-  */
+   * Whether this SIEM HTTP Destination is currently being sent to or not
+   */
   @JsonProperty("sending_active")
   public Boolean sendingActive;
 
@@ -200,8 +222,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-  */
+   * Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+   */
   @JsonProperty("generic_payload_type")
   public String genericPayloadType;
 
@@ -214,8 +236,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  */
+   * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   */
   @JsonProperty("splunk_token_masked")
   public String splunkTokenMasked;
 
@@ -228,8 +250,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  */
+   * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   */
   @JsonProperty("crowdstrike_token_masked")
   public String crowdstrikeTokenMasked;
 
@@ -242,8 +264,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-  */
+   * Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+   */
   @JsonProperty("azure_dcr_immutable_id")
   public String azureDcrImmutableId;
 
@@ -256,8 +278,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  */
+   * Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+   */
   @JsonProperty("azure_stream_name")
   public String azureStreamName;
 
@@ -270,8 +292,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-  */
+   * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+   */
   @JsonProperty("azure_oauth_client_credentials_tenant_id")
   public String azureOauthClientCredentialsTenantId;
 
@@ -284,8 +306,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-  */
+   * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+   */
   @JsonProperty("azure_oauth_client_credentials_client_id")
   public String azureOauthClientCredentialsClientId;
 
@@ -298,8 +320,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client Secret.
-  */
+   * Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client Secret.
+   */
   @JsonProperty("azure_oauth_client_credentials_client_secret_masked")
   public String azureOauthClientCredentialsClientSecretMasked;
 
@@ -312,8 +334,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-  */
+   * Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+   */
   @JsonProperty("qradar_username")
   public String qradarUsername;
 
@@ -326,8 +348,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  */
+   * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   */
   @JsonProperty("qradar_password_masked")
   public String qradarPasswordMasked;
 
@@ -340,8 +362,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  */
+   * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   */
   @JsonProperty("solar_winds_token_masked")
   public String solarWindsTokenMasked;
 
@@ -354,8 +376,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: new_relic. API key provided by New Relic.
-  */
+   * Applicable only for destination type: new_relic. API key provided by New Relic.
+   */
   @JsonProperty("new_relic_api_key_masked")
   public String newRelicApiKeyMasked;
 
@@ -368,8 +390,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: datadog. API key provided by Datadog.
-  */
+   * Applicable only for destination type: datadog. API key provided by Datadog.
+   */
   @JsonProperty("datadog_api_key_masked")
   public String datadogApiKeyMasked;
 
@@ -382,8 +404,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for action logs.
-  */
+   * Whether or not sending is enabled for action logs.
+   */
   @JsonProperty("action_send_enabled")
   public Boolean actionSendEnabled;
 
@@ -396,8 +418,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("action_entries_sent")
   public Long actionEntriesSent;
 
@@ -410,8 +432,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for sftp_action logs.
-  */
+   * Whether or not sending is enabled for sftp_action logs.
+   */
   @JsonProperty("sftp_action_send_enabled")
   public Boolean sftpActionSendEnabled;
 
@@ -424,8 +446,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("sftp_action_entries_sent")
   public Long sftpActionEntriesSent;
 
@@ -438,8 +460,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for ftp_action logs.
-  */
+   * Whether or not sending is enabled for ftp_action logs.
+   */
   @JsonProperty("ftp_action_send_enabled")
   public Boolean ftpActionSendEnabled;
 
@@ -452,8 +474,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("ftp_action_entries_sent")
   public Long ftpActionEntriesSent;
 
@@ -466,8 +488,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for web_dav_action logs.
-  */
+   * Whether or not sending is enabled for web_dav_action logs.
+   */
   @JsonProperty("web_dav_action_send_enabled")
   public Boolean webDavActionSendEnabled;
 
@@ -480,8 +502,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("web_dav_action_entries_sent")
   public Long webDavActionEntriesSent;
 
@@ -494,8 +516,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for sync logs.
-  */
+   * Whether or not sending is enabled for sync logs.
+   */
   @JsonProperty("sync_send_enabled")
   public Boolean syncSendEnabled;
 
@@ -508,8 +530,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("sync_entries_sent")
   public Long syncEntriesSent;
 
@@ -522,8 +544,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for outbound_connection logs.
-  */
+   * Whether or not sending is enabled for outbound_connection logs.
+   */
   @JsonProperty("outbound_connection_send_enabled")
   public Boolean outboundConnectionSendEnabled;
 
@@ -536,8 +558,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("outbound_connection_entries_sent")
   public Long outboundConnectionEntriesSent;
 
@@ -550,8 +572,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for automation logs.
-  */
+   * Whether or not sending is enabled for automation logs.
+   */
   @JsonProperty("automation_send_enabled")
   public Boolean automationSendEnabled;
 
@@ -564,8 +586,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("automation_entries_sent")
   public Long automationEntriesSent;
 
@@ -578,8 +600,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for api_request logs.
-  */
+   * Whether or not sending is enabled for api_request logs.
+   */
   @JsonProperty("api_request_send_enabled")
   public Boolean apiRequestSendEnabled;
 
@@ -592,8 +614,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("api_request_entries_sent")
   public Long apiRequestEntriesSent;
 
@@ -606,8 +628,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for public_hosting_request logs.
-  */
+   * Whether or not sending is enabled for public_hosting_request logs.
+   */
   @JsonProperty("public_hosting_request_send_enabled")
   public Boolean publicHostingRequestSendEnabled;
 
@@ -620,8 +642,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("public_hosting_request_entries_sent")
   public Long publicHostingRequestEntriesSent;
 
@@ -634,8 +656,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for email logs.
-  */
+   * Whether or not sending is enabled for email logs.
+   */
   @JsonProperty("email_send_enabled")
   public Boolean emailSendEnabled;
 
@@ -648,8 +670,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("email_entries_sent")
   public Long emailEntriesSent;
 
@@ -662,8 +684,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for exavault_api_request logs.
-  */
+   * Whether or not sending is enabled for exavault_api_request logs.
+   */
   @JsonProperty("exavault_api_request_send_enabled")
   public Boolean exavaultApiRequestSendEnabled;
 
@@ -676,8 +698,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("exavault_api_request_entries_sent")
   public Long exavaultApiRequestEntriesSent;
 
@@ -690,8 +712,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Whether or not sending is enabled for settings_change logs.
-  */
+   * Whether or not sending is enabled for settings_change logs.
+   */
   @JsonProperty("settings_change_send_enabled")
   public Boolean settingsChangeSendEnabled;
 
@@ -704,8 +726,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Number of log entries sent for the lifetime of this destination.
-  */
+   * Number of log entries sent for the lifetime of this destination.
+   */
   @JsonProperty("settings_change_entries_sent")
   public Long settingsChangeEntriesSent;
 
@@ -718,8 +740,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
-  */
+   * Type of URL that was last called. Can be `destination_url` or `azure_oauth_client_credentials_url`
+   */
   @JsonProperty("last_http_call_target_type")
   public String lastHttpCallTargetType;
 
@@ -732,8 +754,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Was the last HTTP call made successful?
-  */
+   * Was the last HTTP call made successful?
+   */
   @JsonProperty("last_http_call_success")
   public Boolean lastHttpCallSuccess;
 
@@ -746,8 +768,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Last HTTP Call Response Code
-  */
+   * Last HTTP Call Response Code
+   */
   @JsonProperty("last_http_call_response_code")
   public Long lastHttpCallResponseCode;
 
@@ -760,8 +782,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Last HTTP Call Response Body. Large responses are truncated.
-  */
+   * Last HTTP Call Response Body. Large responses are truncated.
+   */
   @JsonProperty("last_http_call_response_body")
   public String lastHttpCallResponseBody;
 
@@ -774,8 +796,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Last HTTP Call Error Message if applicable
-  */
+   * Last HTTP Call Error Message if applicable
+   */
   @JsonProperty("last_http_call_error_message")
   public String lastHttpCallErrorMessage;
 
@@ -788,8 +810,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Time of Last HTTP Call
-  */
+   * Time of Last HTTP Call
+   */
   @JsonProperty("last_http_call_time")
   public String lastHttpCallTime;
 
@@ -802,8 +824,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Duration of the last HTTP Call in milliseconds
-  */
+   * Duration of the last HTTP Call in milliseconds
+   */
   @JsonProperty("last_http_call_duration_ms")
   public Long lastHttpCallDurationMs;
 
@@ -816,8 +838,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Time of Most Recent Successful HTTP Call
-  */
+   * Time of Most Recent Successful HTTP Call
+   */
   @JsonProperty("most_recent_http_call_success_time")
   public String mostRecentHttpCallSuccessTime;
 
@@ -830,8 +852,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Connection Test Entry
-  */
+   * Connection Test Entry
+   */
   @JsonProperty("connection_test_entry")
   public String connectionTestEntry;
 
@@ -844,8 +866,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  */
+   * Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   */
   @JsonProperty("splunk_token")
   public String splunkToken;
 
@@ -858,8 +880,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  */
+   * Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   */
   @JsonProperty("crowdstrike_token")
   public String crowdstrikeToken;
 
@@ -872,8 +894,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-  */
+   * Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+   */
   @JsonProperty("azure_oauth_client_credentials_client_secret")
   public String azureOauthClientCredentialsClientSecret;
 
@@ -886,8 +908,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  */
+   * Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   */
   @JsonProperty("qradar_password")
   public String qradarPassword;
 
@@ -900,8 +922,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  */
+   * Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   */
   @JsonProperty("solar_winds_token")
   public String solarWindsToken;
 
@@ -914,8 +936,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: new_relic. API key provided by New Relic.
-  */
+   * Applicable only for destination type: new_relic. API key provided by New Relic.
+   */
   @JsonProperty("new_relic_api_key")
   public String newRelicApiKey;
 
@@ -928,8 +950,8 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Applicable only for destination type: datadog. API key provided by Datadog.
-  */
+   * Applicable only for destination type: datadog. API key provided by Datadog.
+   */
   @JsonProperty("datadog_api_key")
   public String datadogApiKey;
 
@@ -942,65 +964,151 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Name for this Destination
-  *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-  *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-  *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-  *   file_format - string - Applicable only for destination type: file. Generated file format.
-  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-  *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-  *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-  *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-  *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-  *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-  *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-  *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-  *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-  *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-  *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-  *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-  *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-  *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-  *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-  *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-  *   destination_type - string - Destination Type
-  *   destination_url - string - Destination Url
-  */
+   * Updates this SiemHttpDestination. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Name for this Destination
+   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
+   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
+   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+   *   file_format - string - Applicable only for destination type: file. Generated file format.
+   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
+   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
+   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
+   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
+   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
+   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
+   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
+   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
+   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
+   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
+   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
+   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
+   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
+   *   destination_type - string - Destination Type
+   *   destination_url - string - Destination Url
+   */
   public SiemHttpDestination update(HashMap<String, Object> parameters) throws IOException {
-    return SiemHttpDestination.update(this.id, parameters, this.options);
+    SiemHttpDestination updated = filesClient().siemHttpDestinations().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    SiemHttpDestination.delete(this.id, parameters, this.options);
+    filesClient().siemHttpDestinations().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this SiemHttpDestination: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    SiemHttpDestination.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().siemHttpDestinations().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(SiemHttpDestination canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.destinationType = canonical.destinationType;
+    this.destinationUrl = canonical.destinationUrl;
+    this.fileDestinationPath = canonical.fileDestinationPath;
+    this.fileFormat = canonical.fileFormat;
+    this.fileIntervalMinutes = canonical.fileIntervalMinutes;
+    this.additionalHeaders = canonical.additionalHeaders;
+    this.sendingActive = canonical.sendingActive;
+    this.genericPayloadType = canonical.genericPayloadType;
+    this.splunkTokenMasked = canonical.splunkTokenMasked;
+    this.crowdstrikeTokenMasked = canonical.crowdstrikeTokenMasked;
+    this.azureDcrImmutableId = canonical.azureDcrImmutableId;
+    this.azureStreamName = canonical.azureStreamName;
+    this.azureOauthClientCredentialsTenantId = canonical.azureOauthClientCredentialsTenantId;
+    this.azureOauthClientCredentialsClientId = canonical.azureOauthClientCredentialsClientId;
+    this.azureOauthClientCredentialsClientSecretMasked = canonical.azureOauthClientCredentialsClientSecretMasked;
+    this.qradarUsername = canonical.qradarUsername;
+    this.qradarPasswordMasked = canonical.qradarPasswordMasked;
+    this.solarWindsTokenMasked = canonical.solarWindsTokenMasked;
+    this.newRelicApiKeyMasked = canonical.newRelicApiKeyMasked;
+    this.datadogApiKeyMasked = canonical.datadogApiKeyMasked;
+    this.actionSendEnabled = canonical.actionSendEnabled;
+    this.actionEntriesSent = canonical.actionEntriesSent;
+    this.sftpActionSendEnabled = canonical.sftpActionSendEnabled;
+    this.sftpActionEntriesSent = canonical.sftpActionEntriesSent;
+    this.ftpActionSendEnabled = canonical.ftpActionSendEnabled;
+    this.ftpActionEntriesSent = canonical.ftpActionEntriesSent;
+    this.webDavActionSendEnabled = canonical.webDavActionSendEnabled;
+    this.webDavActionEntriesSent = canonical.webDavActionEntriesSent;
+    this.syncSendEnabled = canonical.syncSendEnabled;
+    this.syncEntriesSent = canonical.syncEntriesSent;
+    this.outboundConnectionSendEnabled = canonical.outboundConnectionSendEnabled;
+    this.outboundConnectionEntriesSent = canonical.outboundConnectionEntriesSent;
+    this.automationSendEnabled = canonical.automationSendEnabled;
+    this.automationEntriesSent = canonical.automationEntriesSent;
+    this.apiRequestSendEnabled = canonical.apiRequestSendEnabled;
+    this.apiRequestEntriesSent = canonical.apiRequestEntriesSent;
+    this.publicHostingRequestSendEnabled = canonical.publicHostingRequestSendEnabled;
+    this.publicHostingRequestEntriesSent = canonical.publicHostingRequestEntriesSent;
+    this.emailSendEnabled = canonical.emailSendEnabled;
+    this.emailEntriesSent = canonical.emailEntriesSent;
+    this.exavaultApiRequestSendEnabled = canonical.exavaultApiRequestSendEnabled;
+    this.exavaultApiRequestEntriesSent = canonical.exavaultApiRequestEntriesSent;
+    this.settingsChangeSendEnabled = canonical.settingsChangeSendEnabled;
+    this.settingsChangeEntriesSent = canonical.settingsChangeEntriesSent;
+    this.lastHttpCallTargetType = canonical.lastHttpCallTargetType;
+    this.lastHttpCallSuccess = canonical.lastHttpCallSuccess;
+    this.lastHttpCallResponseCode = canonical.lastHttpCallResponseCode;
+    this.lastHttpCallResponseBody = canonical.lastHttpCallResponseBody;
+    this.lastHttpCallErrorMessage = canonical.lastHttpCallErrorMessage;
+    this.lastHttpCallTime = canonical.lastHttpCallTime;
+    this.lastHttpCallDurationMs = canonical.lastHttpCallDurationMs;
+    this.mostRecentHttpCallSuccessTime = canonical.mostRecentHttpCallSuccessTime;
+    this.connectionTestEntry = canonical.connectionTestEntry;
+    this.splunkToken = canonical.splunkToken;
+    this.crowdstrikeToken = canonical.crowdstrikeToken;
+    this.azureOauthClientCredentialsClientSecret = canonical.azureOauthClientCredentialsClientSecret;
+    this.qradarPassword = canonical.qradarPassword;
+    this.solarWindsToken = canonical.solarWindsToken;
+    this.newRelicApiKey = canonical.newRelicApiKey;
+    this.datadogApiKey = canonical.datadogApiKey;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<SiemHttpDestination> list() throws RuntimeException {
     return list(null, null);
   }
@@ -1011,23 +1119,7 @@ public class SiemHttpDestination implements ModelInterface {
 
 
   public static ListIterator<SiemHttpDestination> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<SiemHttpDestination>> typeReference = new TypeReference<List<SiemHttpDestination>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().siemHttpDestinations().list(parameters, options);
   }
 
   public static ListIterator<SiemHttpDestination> all() throws RuntimeException {
@@ -1039,9 +1131,9 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Siem Http Destination ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Siem Http Destination ID.
+   */
   public static SiemHttpDestination find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -1055,28 +1147,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   public static SiemHttpDestination find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().siemHttpDestinations().find(id, parameters, options);
   }
 
   public static SiemHttpDestination get() throws RuntimeException {
@@ -1088,41 +1159,41 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Name for this Destination
-  *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-  *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-  *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-  *   file_format - string - Applicable only for destination type: file. Generated file format.
-  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-  *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-  *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-  *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-  *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-  *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-  *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-  *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-  *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-  *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-  *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-  *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-  *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-  *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-  *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-  *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-  *   destination_type (required) - string - Destination Type
-  *   destination_url - string - Destination Url
-  */
+   * Parameters:
+   *   name - string - Name for this Destination
+   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
+   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
+   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+   *   file_format - string - Applicable only for destination type: file. Generated file format.
+   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
+   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
+   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
+   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
+   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
+   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
+   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
+   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
+   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
+   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
+   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
+   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
+   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
+   *   destination_type (required) - string - Destination Type
+   *   destination_url - string - Destination Url
+   */
   public static SiemHttpDestination create() throws RuntimeException {
     return create(null, null);
   }
@@ -1133,159 +1204,47 @@ public class SiemHttpDestination implements ModelInterface {
 
 
   public static SiemHttpDestination create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("destination_type") || parameters.get("destination_type") == null) {
-      throw new NullPointerException("Parameter missing: destination_type parameters[\"destination_type\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
-    }
-    if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");
-    }
-    if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
-    }
-    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
-    }
-    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
-    }
-    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
-    }
-    if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
-    }
-    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
-    }
-    if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");
-    }
-    if (parameters.containsKey("azure_stream_name") && !(parameters.get("azure_stream_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_stream_name must be of type String parameters[\"azure_stream_name\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_tenant_id") && !(parameters.get("azure_oauth_client_credentials_tenant_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_tenant_id must be of type String parameters[\"azure_oauth_client_credentials_tenant_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_id") && !(parameters.get("azure_oauth_client_credentials_client_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_id must be of type String parameters[\"azure_oauth_client_credentials_client_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_secret") && !(parameters.get("azure_oauth_client_credentials_client_secret") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_secret must be of type String parameters[\"azure_oauth_client_credentials_client_secret\"]");
-    }
-    if (parameters.containsKey("qradar_username") && !(parameters.get("qradar_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_username must be of type String parameters[\"qradar_username\"]");
-    }
-    if (parameters.containsKey("qradar_password") && !(parameters.get("qradar_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_password must be of type String parameters[\"qradar_password\"]");
-    }
-    if (parameters.containsKey("solar_winds_token") && !(parameters.get("solar_winds_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: solar_winds_token must be of type String parameters[\"solar_winds_token\"]");
-    }
-    if (parameters.containsKey("new_relic_api_key") && !(parameters.get("new_relic_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: new_relic_api_key must be of type String parameters[\"new_relic_api_key\"]");
-    }
-    if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
-    }
-    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("ftp_action_send_enabled") && !(parameters.get("ftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_action_send_enabled must be of type Boolean parameters[\"ftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("web_dav_action_send_enabled") && !(parameters.get("web_dav_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: web_dav_action_send_enabled must be of type Boolean parameters[\"web_dav_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sync_send_enabled") && !(parameters.get("sync_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sync_send_enabled must be of type Boolean parameters[\"sync_send_enabled\"]");
-    }
-    if (parameters.containsKey("outbound_connection_send_enabled") && !(parameters.get("outbound_connection_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: outbound_connection_send_enabled must be of type Boolean parameters[\"outbound_connection_send_enabled\"]");
-    }
-    if (parameters.containsKey("automation_send_enabled") && !(parameters.get("automation_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: automation_send_enabled must be of type Boolean parameters[\"automation_send_enabled\"]");
-    }
-    if (parameters.containsKey("api_request_send_enabled") && !(parameters.get("api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: api_request_send_enabled must be of type Boolean parameters[\"api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("public_hosting_request_send_enabled") && !(parameters.get("public_hosting_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: public_hosting_request_send_enabled must be of type Boolean parameters[\"public_hosting_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("email_send_enabled") && !(parameters.get("email_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: email_send_enabled must be of type Boolean parameters[\"email_send_enabled\"]");
-    }
-    if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
-    }
-    if (parameters.containsKey("destination_type") && !(parameters.get("destination_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_type must be of type String parameters[\"destination_type\"]");
-    }
-    if (parameters.containsKey("destination_url") && !(parameters.get("destination_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_url must be of type String parameters[\"destination_url\"]");
-    }
-
-
-    String url = String.format("%s%s/siem_http_destinations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().siemHttpDestinations().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   siem_http_destination_id - int64 - SIEM HTTP Destination ID
-  *   destination_type - string - Destination Type
-  *   destination_url - string - Destination Url
-  *   name - string - Name for this Destination
-  *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-  *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-  *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-  *   file_format - string - Applicable only for destination type: file. Generated file format.
-  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-  *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-  *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-  *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-  *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-  *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-  *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-  *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-  *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-  *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-  *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-  *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-  *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-  *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-  *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-  *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-  */
+   * Parameters:
+   *   siem_http_destination_id - int64 - SIEM HTTP Destination ID
+   *   destination_type - string - Destination Type
+   *   destination_url - string - Destination Url
+   *   name - string - Name for this Destination
+   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
+   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
+   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+   *   file_format - string - Applicable only for destination type: file. Generated file format.
+   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
+   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
+   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
+   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
+   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
+   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
+   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
+   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
+   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
+   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
+   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
+   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
+   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
+   */
   public static void sendTestEntry() throws RuntimeException {
     sendTestEntry(null, null);
   }
@@ -1296,157 +1255,46 @@ public class SiemHttpDestination implements ModelInterface {
 
 
   public static void sendTestEntry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("siem_http_destination_id") && !(parameters.get("siem_http_destination_id") instanceof Long || parameters.get("siem_http_destination_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: siem_http_destination_id must be of type Long or Integer parameters[\"siem_http_destination_id\"]");
-    }
-    if (parameters.containsKey("destination_type") && !(parameters.get("destination_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_type must be of type String parameters[\"destination_type\"]");
-    }
-    if (parameters.containsKey("destination_url") && !(parameters.get("destination_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_url must be of type String parameters[\"destination_url\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
-    }
-    if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");
-    }
-    if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
-    }
-    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
-    }
-    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
-    }
-    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
-    }
-    if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
-    }
-    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
-    }
-    if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");
-    }
-    if (parameters.containsKey("azure_stream_name") && !(parameters.get("azure_stream_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_stream_name must be of type String parameters[\"azure_stream_name\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_tenant_id") && !(parameters.get("azure_oauth_client_credentials_tenant_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_tenant_id must be of type String parameters[\"azure_oauth_client_credentials_tenant_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_id") && !(parameters.get("azure_oauth_client_credentials_client_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_id must be of type String parameters[\"azure_oauth_client_credentials_client_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_secret") && !(parameters.get("azure_oauth_client_credentials_client_secret") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_secret must be of type String parameters[\"azure_oauth_client_credentials_client_secret\"]");
-    }
-    if (parameters.containsKey("qradar_username") && !(parameters.get("qradar_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_username must be of type String parameters[\"qradar_username\"]");
-    }
-    if (parameters.containsKey("qradar_password") && !(parameters.get("qradar_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_password must be of type String parameters[\"qradar_password\"]");
-    }
-    if (parameters.containsKey("solar_winds_token") && !(parameters.get("solar_winds_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: solar_winds_token must be of type String parameters[\"solar_winds_token\"]");
-    }
-    if (parameters.containsKey("new_relic_api_key") && !(parameters.get("new_relic_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: new_relic_api_key must be of type String parameters[\"new_relic_api_key\"]");
-    }
-    if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
-    }
-    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("ftp_action_send_enabled") && !(parameters.get("ftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_action_send_enabled must be of type Boolean parameters[\"ftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("web_dav_action_send_enabled") && !(parameters.get("web_dav_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: web_dav_action_send_enabled must be of type Boolean parameters[\"web_dav_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sync_send_enabled") && !(parameters.get("sync_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sync_send_enabled must be of type Boolean parameters[\"sync_send_enabled\"]");
-    }
-    if (parameters.containsKey("outbound_connection_send_enabled") && !(parameters.get("outbound_connection_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: outbound_connection_send_enabled must be of type Boolean parameters[\"outbound_connection_send_enabled\"]");
-    }
-    if (parameters.containsKey("automation_send_enabled") && !(parameters.get("automation_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: automation_send_enabled must be of type Boolean parameters[\"automation_send_enabled\"]");
-    }
-    if (parameters.containsKey("api_request_send_enabled") && !(parameters.get("api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: api_request_send_enabled must be of type Boolean parameters[\"api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("public_hosting_request_send_enabled") && !(parameters.get("public_hosting_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: public_hosting_request_send_enabled must be of type Boolean parameters[\"public_hosting_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("email_send_enabled") && !(parameters.get("email_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: email_send_enabled must be of type Boolean parameters[\"email_send_enabled\"]");
-    }
-    if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
-    }
-
-
-    String url = String.format("%s%s/siem_http_destinations/send_test_entry", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().siemHttpDestinations().sendTestEntry(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Name for this Destination
-  *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-  *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-  *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-  *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-  *   file_format - string - Applicable only for destination type: file. Generated file format.
-  *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-  *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-  *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-  *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-  *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-  *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-  *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-  *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-  *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-  *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-  *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-  *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-  *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-  *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-  *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-  *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-  *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-  *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-  *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-  *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-  *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-  *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-  *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-  *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-  *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-  *   destination_type - string - Destination Type
-  *   destination_url - string - Destination Url
-  */
+   * Parameters:
+   *   name - string - Name for this Destination
+   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
+   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
+   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
+   *   file_format - string - Applicable only for destination type: file. Generated file format.
+   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
+   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
+   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
+   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
+   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
+   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
+   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
+   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
+   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
+   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
+   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
+   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
+   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
+   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
+   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
+   *   destination_type - string - Destination Type
+   *   destination_url - string - Destination Url
+   */
   public static SiemHttpDestination update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -1460,132 +1308,12 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   public static SiemHttpDestination update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("additional_headers") && !(parameters.get("additional_headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: additional_headers must be of type Object parameters[\"additional_headers\"]");
-    }
-    if (parameters.containsKey("sending_active") && !(parameters.get("sending_active") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sending_active must be of type Boolean parameters[\"sending_active\"]");
-    }
-    if (parameters.containsKey("generic_payload_type") && !(parameters.get("generic_payload_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: generic_payload_type must be of type String parameters[\"generic_payload_type\"]");
-    }
-    if (parameters.containsKey("file_destination_path") && !(parameters.get("file_destination_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_destination_path must be of type String parameters[\"file_destination_path\"]");
-    }
-    if (parameters.containsKey("file_format") && !(parameters.get("file_format") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_format must be of type String parameters[\"file_format\"]");
-    }
-    if (parameters.containsKey("file_interval_minutes") && !(parameters.get("file_interval_minutes") instanceof Long || parameters.get("file_interval_minutes") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: file_interval_minutes must be of type Long or Integer parameters[\"file_interval_minutes\"]");
-    }
-    if (parameters.containsKey("splunk_token") && !(parameters.get("splunk_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: splunk_token must be of type String parameters[\"splunk_token\"]");
-    }
-    if (parameters.containsKey("crowdstrike_token") && !(parameters.get("crowdstrike_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: crowdstrike_token must be of type String parameters[\"crowdstrike_token\"]");
-    }
-    if (parameters.containsKey("azure_dcr_immutable_id") && !(parameters.get("azure_dcr_immutable_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_dcr_immutable_id must be of type String parameters[\"azure_dcr_immutable_id\"]");
-    }
-    if (parameters.containsKey("azure_stream_name") && !(parameters.get("azure_stream_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_stream_name must be of type String parameters[\"azure_stream_name\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_tenant_id") && !(parameters.get("azure_oauth_client_credentials_tenant_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_tenant_id must be of type String parameters[\"azure_oauth_client_credentials_tenant_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_id") && !(parameters.get("azure_oauth_client_credentials_client_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_id must be of type String parameters[\"azure_oauth_client_credentials_client_id\"]");
-    }
-    if (parameters.containsKey("azure_oauth_client_credentials_client_secret") && !(parameters.get("azure_oauth_client_credentials_client_secret") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_oauth_client_credentials_client_secret must be of type String parameters[\"azure_oauth_client_credentials_client_secret\"]");
-    }
-    if (parameters.containsKey("qradar_username") && !(parameters.get("qradar_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_username must be of type String parameters[\"qradar_username\"]");
-    }
-    if (parameters.containsKey("qradar_password") && !(parameters.get("qradar_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: qradar_password must be of type String parameters[\"qradar_password\"]");
-    }
-    if (parameters.containsKey("solar_winds_token") && !(parameters.get("solar_winds_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: solar_winds_token must be of type String parameters[\"solar_winds_token\"]");
-    }
-    if (parameters.containsKey("new_relic_api_key") && !(parameters.get("new_relic_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: new_relic_api_key must be of type String parameters[\"new_relic_api_key\"]");
-    }
-    if (parameters.containsKey("datadog_api_key") && !(parameters.get("datadog_api_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: datadog_api_key must be of type String parameters[\"datadog_api_key\"]");
-    }
-    if (parameters.containsKey("action_send_enabled") && !(parameters.get("action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: action_send_enabled must be of type Boolean parameters[\"action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sftp_action_send_enabled") && !(parameters.get("sftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_action_send_enabled must be of type Boolean parameters[\"sftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("ftp_action_send_enabled") && !(parameters.get("ftp_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_action_send_enabled must be of type Boolean parameters[\"ftp_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("web_dav_action_send_enabled") && !(parameters.get("web_dav_action_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: web_dav_action_send_enabled must be of type Boolean parameters[\"web_dav_action_send_enabled\"]");
-    }
-    if (parameters.containsKey("sync_send_enabled") && !(parameters.get("sync_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sync_send_enabled must be of type Boolean parameters[\"sync_send_enabled\"]");
-    }
-    if (parameters.containsKey("outbound_connection_send_enabled") && !(parameters.get("outbound_connection_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: outbound_connection_send_enabled must be of type Boolean parameters[\"outbound_connection_send_enabled\"]");
-    }
-    if (parameters.containsKey("automation_send_enabled") && !(parameters.get("automation_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: automation_send_enabled must be of type Boolean parameters[\"automation_send_enabled\"]");
-    }
-    if (parameters.containsKey("api_request_send_enabled") && !(parameters.get("api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: api_request_send_enabled must be of type Boolean parameters[\"api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("public_hosting_request_send_enabled") && !(parameters.get("public_hosting_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: public_hosting_request_send_enabled must be of type Boolean parameters[\"public_hosting_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("email_send_enabled") && !(parameters.get("email_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: email_send_enabled must be of type Boolean parameters[\"email_send_enabled\"]");
-    }
-    if (parameters.containsKey("exavault_api_request_send_enabled") && !(parameters.get("exavault_api_request_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: exavault_api_request_send_enabled must be of type Boolean parameters[\"exavault_api_request_send_enabled\"]");
-    }
-    if (parameters.containsKey("settings_change_send_enabled") && !(parameters.get("settings_change_send_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: settings_change_send_enabled must be of type Boolean parameters[\"settings_change_send_enabled\"]");
-    }
-    if (parameters.containsKey("destination_type") && !(parameters.get("destination_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_type must be of type String parameters[\"destination_type\"]");
-    }
-    if (parameters.containsKey("destination_url") && !(parameters.get("destination_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination_url must be of type String parameters[\"destination_url\"]");
-    }
-
-
-
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SiemHttpDestination> typeReference = new TypeReference<SiemHttpDestination>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().siemHttpDestinations().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -1599,27 +1327,7 @@ public class SiemHttpDestination implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/siem_http_destinations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().siemHttpDestinations().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

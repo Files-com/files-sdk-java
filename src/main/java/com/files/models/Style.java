@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Style implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Style, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Style implements ModelInterface {
   }
 
   public Style(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Style implements ModelInterface {
 
 
   /**
-  * Style ID
-  */
+   * Style ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -102,8 +124,8 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Logo
-  */
+   * Logo
+   */
   @JsonProperty("logo")
   public Image logo;
 
@@ -116,8 +138,8 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * URL to open when a public visitor clicks the logo
-  */
+   * URL to open when a public visitor clicks the logo
+   */
   @JsonProperty("logo_click_href")
   public String logoClickHref;
 
@@ -130,8 +152,8 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Logo thumbnail
-  */
+   * Logo thumbnail
+   */
   @JsonProperty("thumbnail")
   public Image thumbnail;
 
@@ -144,8 +166,8 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Logo for custom branding. Required when creating a new style.
-  */
+   * Logo for custom branding. Required when creating a new style.
+   */
   @JsonProperty("file")
   public byte[] file;
 
@@ -158,33 +180,62 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   file - file - Logo for custom branding. Required when creating a new style.
-  *   logo_click_href - string - URL to open when a public visitor clicks the logo.
-  */
+   * Updates this Style. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   file - file - Logo for custom branding. Required when creating a new style.
+   *   logo_click_href - string - URL to open when a public visitor clicks the logo.
+   */
   public Style update(HashMap<String, Object> parameters) throws IOException {
-    return Style.update(this.path, parameters, this.options);
+    Style updated = filesClient().styles().update(this.path, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Style.delete(this.path, parameters, this.options);
+    filesClient().styles().delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
-  public void save() throws IOException {
-    update();
-  }
-
 
   /**
-  * Parameters:
-  *   path (required) - string - Style path.
-  */
+   * Saves this Style by updating it with its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
+  public void save() throws IOException {
+    update(saveParameters());
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.file != null) {
+      parameters.put("file", this.file);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Style canonical) {
+    this.id = canonical.id;
+    this.path = canonical.path;
+    this.logo = canonical.logo;
+    this.logoClickHref = canonical.logoClickHref;
+    this.thumbnail = canonical.thumbnail;
+    this.file = canonical.file;
+  }
+
+  /**
+   * Parameters:
+   *   path (required) - string - Style path.
+   */
   public static Style find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -198,28 +249,7 @@ public class Style implements ModelInterface {
   }
 
   public static Style find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<Style> typeReference = new TypeReference<Style>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().styles().find(path, parameters, options);
   }
 
   public static Style get() throws RuntimeException {
@@ -231,10 +261,10 @@ public class Style implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   file - file - Logo for custom branding. Required when creating a new style.
-  *   logo_click_href - string - URL to open when a public visitor clicks the logo.
-  */
+   * Parameters:
+   *   file - file - Logo for custom branding. Required when creating a new style.
+   *   logo_click_href - string - URL to open when a public visitor clicks the logo.
+   */
   public static Style update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -248,39 +278,12 @@ public class Style implements ModelInterface {
   }
 
   public static Style update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("file") && !(parameters.get("file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: file must be of type byte[] parameters[\"file\"]");
-    }
-    if (parameters.containsKey("logo_click_href") && !(parameters.get("logo_click_href") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: logo_click_href must be of type String parameters[\"logo_click_href\"]");
-    }
-
-
-
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<Style> typeReference = new TypeReference<Style>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().styles().update(path, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -294,27 +297,7 @@ public class Style implements ModelInterface {
   }
 
   public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-
-    String url = String.format("%s%s/styles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().styles().delete(path, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

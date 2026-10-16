@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GroupUser implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every GroupUser, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class GroupUser implements ModelInterface {
   }
 
   public GroupUser(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class GroupUser implements ModelInterface {
 
 
   /**
-  * Group name
-  */
+   * Group name
+   */
   @JsonProperty("group_name")
   public String groupName;
 
@@ -88,8 +110,8 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Group ID
-  */
+   * Group ID
+   */
   @JsonProperty("group_id")
   public Long groupId;
 
@@ -102,8 +124,8 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * User ID
-  */
+   * User ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -116,8 +138,8 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Is this user an administrator of this group?
-  */
+   * Is this user an administrator of this group?
+   */
   @JsonProperty("admin")
   public Boolean admin;
 
@@ -130,8 +152,8 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Username of the user
-  */
+   * Username of the user
+   */
   @JsonProperty("username")
   public String username;
 
@@ -144,8 +166,8 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Group User ID.
-  */
+   * Group User ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -158,40 +180,70 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   group_id (required) - int64 - Group ID to add user to.
-  *   user_id (required) - int64 - User ID to add to group.
-  *   admin - boolean - Is the user a group administrator?
-  */
+   * Updates this GroupUser. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   group_id (required) - int64 - Group ID to add user to.
+   *   user_id (required) - int64 - User ID to add to group.
+   *   admin - boolean - Is the user a group administrator?
+   */
   public GroupUser update(HashMap<String, Object> parameters) throws IOException {
-    return GroupUser.update(this.id, parameters, this.options);
+    GroupUser updated = filesClient().groupUsers().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  * Parameters:
-  *   group_id (required) - int64 - Group ID from which to remove user.
-  *   user_id (required) - int64 - User ID to remove from group.
-  */
+   * Parameters:
+   *   group_id (required) - int64 - Group ID from which to remove user.
+   *   user_id (required) - int64 - User ID to remove from group.
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    GroupUser.delete(this.id, parameters, this.options);
+    filesClient().groupUsers().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this GroupUser: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    GroupUser.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().groupUsers().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(GroupUser canonical) {
+    this.groupName = canonical.groupName;
+    this.groupId = canonical.groupId;
+    this.userId = canonical.userId;
+    this.admin = canonical.admin;
+    this.username = canonical.username;
+    this.id = canonical.id;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   group_id - int64 - Group ID. If provided, returns memberships of this group. Requires a Site Administrator, a Read-only Administrator, a Workspace Administrator for the group's workspace, or a Group Administrator of this group.
-  *   user_id - int64 - User ID.  If provided, will return group_users of this user.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   group_id - int64 - Group ID. If provided, returns memberships of this group. Requires a Site Administrator, a Read-only Administrator, a Workspace Administrator for the group's workspace, or a Group Administrator of this group.
+   *   user_id - int64 - User ID.  If provided, will return group_users of this user.
+   */
   public static ListIterator<GroupUser> list() throws RuntimeException {
     return list(null, null);
   }
@@ -202,29 +254,7 @@ public class GroupUser implements ModelInterface {
 
 
   public static ListIterator<GroupUser> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-
-
-    String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<GroupUser>> typeReference = new TypeReference<List<GroupUser>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().groupUsers().list(parameters, options);
   }
 
   public static ListIterator<GroupUser> all() throws RuntimeException {
@@ -236,11 +266,11 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   group_id (required) - int64 - Group ID to add user to.
-  *   user_id (required) - int64 - User ID to add to group.
-  *   admin - boolean - Is the user a group administrator?
-  */
+   * Parameters:
+   *   group_id (required) - int64 - Group ID to add user to.
+   *   user_id (required) - int64 - User ID to add to group.
+   *   admin - boolean - Is the user a group administrator?
+   */
   public static GroupUser create() throws RuntimeException {
     return create(null, null);
   }
@@ -251,41 +281,16 @@ public class GroupUser implements ModelInterface {
 
 
   public static GroupUser create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
-      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
-    }
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
-    }
-
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
-    }
-
-
-    String url = String.format("%s%s/group_users", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().groupUsers().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   group_id (required) - int64 - Group ID to add user to.
-  *   user_id (required) - int64 - User ID to add to group.
-  *   admin - boolean - Is the user a group administrator?
-  */
+   * Parameters:
+   *   group_id (required) - int64 - Group ID to add user to.
+   *   user_id (required) - int64 - User ID to add to group.
+   *   admin - boolean - Is the user a group administrator?
+   */
   public static GroupUser update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -299,51 +304,15 @@ public class GroupUser implements ModelInterface {
   }
 
   public static GroupUser update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
-      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
-    }
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("admin") && !(parameters.get("admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: admin must be of type Boolean parameters[\"admin\"]");
-    }
-
-
-
-    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<GroupUser> typeReference = new TypeReference<GroupUser>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().groupUsers().update(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   group_id (required) - int64 - Group ID from which to remove user.
-  *   user_id (required) - int64 - User ID to remove from group.
-  */
+   * Parameters:
+   *   group_id (required) - int64 - Group ID from which to remove user.
+   *   user_id (required) - int64 - User ID to remove from group.
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -357,39 +326,7 @@ public class GroupUser implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("group_id") || parameters.get("group_id") == null) {
-      throw new NullPointerException("Parameter missing: group_id parameters[\"group_id\"]");
-    }
-    if (!parameters.containsKey("user_id") || parameters.get("user_id") == null) {
-      throw new NullPointerException("Parameter missing: user_id parameters[\"user_id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/group_users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().groupUsers().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

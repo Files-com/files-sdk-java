@@ -1,5 +1,8 @@
 package com.files;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,13 +15,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 /**
  * A WireMock server that test.sh runs in its own JDK 17 process (see test-server/servers.sh).
- * Tests stub and verify requests through WireMock's admin API, so they run on Java 8 with only the
- * SDK's dependencies. Admin calls bypass the SDK, leaving its connection pool to the requests under test.
+ * Tests stub and verify requests through WireMock's admin API, without WireMock's own classes. Admin
+ * calls bypass the SDK, leaving its connection pool to the requests under test.
  */
 final class TestServer {
   private static final ObjectMapper JSON = new ObjectMapper();
@@ -75,12 +75,13 @@ final class TestServer {
     assertTrue("no request matching " + pattern.json, count(pattern) > 0);
   }
 
-  private int count(RequestPattern pattern) throws IOException {
+  // How many requests the server received that match the pattern.
+  int count(RequestPattern pattern) throws IOException {
     return admin("/__admin/requests/count", pattern.json).get("count").asInt();
   }
 
   private JsonNode admin(String path, JsonNode body) throws IOException {
-    HttpURLConnection connection = (HttpURLConnection)new URL(baseUrl + path).openConnection();
+    HttpURLConnection connection = (HttpURLConnection) new URL(baseUrl + path).openConnection();
     try {
       connection.setRequestMethod("POST");
       connection.setDoOutput(true);

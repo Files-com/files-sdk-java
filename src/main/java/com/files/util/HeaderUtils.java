@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class HeaderUtils {
   // This is NOT an ISO Date format, but an HTTP Date per https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date
@@ -25,8 +24,10 @@ public class HeaderUtils {
         return cappedRetrySeconds(Integer.parseInt(retryValue));
       } catch (NumberFormatException e) {
         try {
-          // `toSeconds` rounds toward zero, so add 1 to round up and always delay enough time
-          return cappedRetrySeconds((int) TimeUnit.MILLISECONDS.toSeconds(HTTP_DATE_FORMAT.parse(retryValue).getTime() - Date.from(Instant.now()).getTime()) + 1);
+          // Round up to whole seconds, so the delay is always long enough; a time already past means
+          // no delay.
+          long millis = HTTP_DATE_FORMAT.parse(retryValue).getTime() - Date.from(Instant.now()).getTime();
+          return cappedRetrySeconds((int) Math.max(0, (millis + 999) / 1000));
         } catch (ParseException e2) {
           return null;
         }
@@ -34,8 +35,5 @@ public class HeaderUtils {
     }
 
     return null;
-  }
-
-  private HeaderUtils() {
   }
 }

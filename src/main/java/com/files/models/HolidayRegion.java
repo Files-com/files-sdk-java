@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HolidayRegion implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every HolidayRegion, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class HolidayRegion implements ModelInterface {
   }
 
   public HolidayRegion(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class HolidayRegion implements ModelInterface {
 
 
   /**
-  * The code representing a region
-  */
+   * The code representing a region
+   */
   @JsonProperty("code")
   public String code;
 
@@ -84,8 +106,8 @@ public class HolidayRegion implements ModelInterface {
   }
 
   /**
-  * The name of the region
-  */
+   * The name of the region
+   */
   @JsonProperty("name")
   public String name;
 
@@ -95,10 +117,10 @@ public class HolidayRegion implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static HolidayRegion getSupported() throws RuntimeException {
     return getSupported(null, null);
   }
@@ -109,23 +131,7 @@ public class HolidayRegion implements ModelInterface {
 
 
   public static HolidayRegion getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/holiday_regions/supported", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<HolidayRegion> typeReference = new TypeReference<HolidayRegion>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().holidayRegions().getSupported(parameters, options);
   }
 
 

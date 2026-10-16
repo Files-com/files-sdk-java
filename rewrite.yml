@@ -1,12 +1,34 @@
 ---
+# Formatting only: blank lines, spacing, indentation and imports. Changes that alter code belong in the
+# templates.
+type: specs.openrewrite.org/v1beta/recipe
+name: com.files.java.Format
+displayName: Format the Files.com Java SDK
+recipeList:
+  - org.openrewrite.java.format.BlankLines
+  - org.openrewrite.java.format.Spaces
+  - org.openrewrite.java.format.TabsAndIndents
+  - org.openrewrite.java.format.NormalizeTabsOrSpaces
+  - org.openrewrite.java.format.RemoveTrailingWhitespace
+  - org.openrewrite.java.format.EmptyNewlineAtEndOfFile
+  - org.openrewrite.java.RemoveUnusedImports
+  - org.openrewrite.java.OrderImports
+---
+type: specs.openrewrite.org/v1beta/style
+name: com.files.JavaStyle
 styleConfigs:
   - org.openrewrite.java.style.TabsAndIndentsStyle:
       useTabCharacter: false
       tabSize: 2
       indentSize: 2
       continuationIndent: 4
-      indentsRelativeToExpressionStart: true # or false
+      indentsRelativeToExpressionStart: false
       methodDeclarationParameters:
         alignWhenMultiple: false
   - org.openrewrite.java.style.ImportLayoutStyle:
       classCountToUseStarImport: 9999
+      nameCountToUseStarImport: 9999
+      layout:
+        - import static all other imports
+        - <blank line>
+        - import all other imports

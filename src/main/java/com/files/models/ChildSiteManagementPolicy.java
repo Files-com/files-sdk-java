@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChildSiteManagementPolicy implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every ChildSiteManagementPolicy, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   public ChildSiteManagementPolicy(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
   /**
-  * Policy ID.
-  */
+   * Policy ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Type of policy.  Valid values: `settings`.
-  */
+   * Type of policy.  Valid values: `settings`.
+   */
   @JsonProperty("policy_type")
   public String policyType;
 
@@ -102,8 +124,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Name for this policy.
-  */
+   * Name for this policy.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -116,8 +138,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Description for this policy.
-  */
+   * Description for this policy.
+   */
   @JsonProperty("description")
   public String description;
 
@@ -130,8 +152,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Policy configuration data. On a Child Site, contains only managed setting names with null values. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
-  */
+   * Policy configuration data. On a Child Site, contains only managed setting names with null values. Settings policies accept site settings plus an optional `folder_behaviors` array for parent-managed root behaviors on child sites. For more information, refer to the Value Hash section of the developer documentation.
+   */
   @JsonProperty("value")
   public Object value;
 
@@ -144,8 +166,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * IDs of child sites that this policy has been applied to. This field is read-only.
-  */
+   * IDs of child sites that this policy has been applied to. This field is read-only.
+   */
   @JsonProperty("applied_child_site_ids")
   public Long[] appliedChildSiteIds;
 
@@ -158,8 +180,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * IDs of child sites excluded from this default policy.
-  */
+   * IDs of child sites excluded from this default policy.
+   */
   @JsonProperty("skip_child_site_ids")
   public Long[] skipChildSiteIds;
 
@@ -172,8 +194,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * IDs of child sites explicitly assigned to this non-default policy.
-  */
+   * IDs of child sites explicitly assigned to this non-default policy.
+   */
   @JsonProperty("child_site_ids")
   public Long[] childSiteIds;
 
@@ -186,8 +208,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Whether this policy applies to child sites not explicitly assigned to another policy.
-  */
+   * Whether this policy applies to child sites not explicitly assigned to another policy.
+   */
   @JsonProperty("default_policy")
   public Boolean defaultPolicy;
 
@@ -200,8 +222,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * When this policy was created.
-  */
+   * When this policy was created.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -210,8 +232,8 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * When this policy was last updated.
-  */
+   * When this policy was last updated.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -220,39 +242,81 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
-  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
-  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
-  *   policy_type - string - Type of policy.  Valid values: `settings`.
-  *   name - string - Name for this policy.
-  *   description - string - Description for this policy.
-  */
+   * Updates this ChildSiteManagementPolicy. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+   *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+   *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+   *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
+   *   policy_type - string - Type of policy.  Valid values: `settings`.
+   *   name - string - Name for this policy.
+   *   description - string - Description for this policy.
+   */
   public ChildSiteManagementPolicy update(HashMap<String, Object> parameters) throws IOException {
-    return ChildSiteManagementPolicy.update(this.id, parameters, this.options);
+    ChildSiteManagementPolicy updated = filesClient().childSiteManagementPolicies().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    ChildSiteManagementPolicy.delete(this.id, parameters, this.options);
+    filesClient().childSiteManagementPolicies().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this ChildSiteManagementPolicy: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    ChildSiteManagementPolicy.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().childSiteManagementPolicies().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.skipChildSiteIds != null) {
+      parameters.put("skip_child_site_ids", this.skipChildSiteIds);
+    }
+    if (this.childSiteIds != null) {
+      parameters.put("child_site_ids", this.childSiteIds);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(ChildSiteManagementPolicy canonical) {
+    this.id = canonical.id;
+    this.policyType = canonical.policyType;
+    this.name = canonical.name;
+    this.description = canonical.description;
+    this.value = canonical.value;
+    this.appliedChildSiteIds = canonical.appliedChildSiteIds;
+    this.skipChildSiteIds = canonical.skipChildSiteIds;
+    this.childSiteIds = canonical.childSiteIds;
+    this.defaultPolicy = canonical.defaultPolicy;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<ChildSiteManagementPolicy> list() throws RuntimeException {
     return list(null, null);
   }
@@ -263,23 +327,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
   public static ListIterator<ChildSiteManagementPolicy> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<ChildSiteManagementPolicy>> typeReference = new TypeReference<List<ChildSiteManagementPolicy>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().childSiteManagementPolicies().list(parameters, options);
   }
 
   public static ListIterator<ChildSiteManagementPolicy> all() throws RuntimeException {
@@ -291,9 +339,9 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Child Site Management Policy ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Child Site Management Policy ID.
+   */
   public static ChildSiteManagementPolicy find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -307,28 +355,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   public static ChildSiteManagementPolicy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().childSiteManagementPolicies().find(id, parameters, options);
   }
 
   public static ChildSiteManagementPolicy get() throws RuntimeException {
@@ -340,15 +367,15 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
-  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
-  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
-  *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
-  *   name - string - Name for this policy.
-  *   description - string - Description for this policy.
-  */
+   * Parameters:
+   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+   *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+   *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+   *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
+   *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
+   *   name - string - Name for this policy.
+   *   description - string - Description for this policy.
+   */
   public static ChildSiteManagementPolicy create() throws RuntimeException {
     return create(null, null);
   }
@@ -359,54 +386,20 @@ public class ChildSiteManagementPolicy implements ModelInterface {
 
 
   public static ChildSiteManagementPolicy create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("policy_type") || parameters.get("policy_type") == null) {
-      throw new NullPointerException("Parameter missing: policy_type parameters[\"policy_type\"]");
-    }
-
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
-    }
-    if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
-    }
-    if (parameters.containsKey("child_site_ids") && !(parameters.get("child_site_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: child_site_ids must be of type Long[] parameters[\"child_site_ids\"]");
-    }
-    if (parameters.containsKey("default_policy") && !(parameters.get("default_policy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: default_policy must be of type Boolean parameters[\"default_policy\"]");
-    }
-    if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-
-
-    String url = String.format("%s%s/child_site_management_policies", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().childSiteManagementPolicies().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-  *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
-  *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
-  *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
-  *   policy_type - string - Type of policy.  Valid values: `settings`.
-  *   name - string - Name for this policy.
-  *   description - string - Description for this policy.
-  */
+   * Parameters:
+   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
+   *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
+   *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
+   *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
+   *   policy_type - string - Type of policy.  Valid values: `settings`.
+   *   name - string - Name for this policy.
+   *   description - string - Description for this policy.
+   */
   public static ChildSiteManagementPolicy update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -420,54 +413,12 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   public static ChildSiteManagementPolicy update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("value") && !(parameters.get("value") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: value must be of type Object parameters[\"value\"]");
-    }
-    if (parameters.containsKey("skip_child_site_ids") && !(parameters.get("skip_child_site_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: skip_child_site_ids must be of type Long[] parameters[\"skip_child_site_ids\"]");
-    }
-    if (parameters.containsKey("child_site_ids") && !(parameters.get("child_site_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: child_site_ids must be of type Long[] parameters[\"child_site_ids\"]");
-    }
-    if (parameters.containsKey("default_policy") && !(parameters.get("default_policy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: default_policy must be of type Boolean parameters[\"default_policy\"]");
-    }
-    if (parameters.containsKey("policy_type") && !(parameters.get("policy_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: policy_type must be of type String parameters[\"policy_type\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-
-
-
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ChildSiteManagementPolicy> typeReference = new TypeReference<ChildSiteManagementPolicy>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().childSiteManagementPolicies().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -481,27 +432,7 @@ public class ChildSiteManagementPolicy implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/child_site_management_policies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().childSiteManagementPolicies().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

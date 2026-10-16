@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SsoEvent implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every SsoEvent, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class SsoEvent implements ModelInterface {
   }
 
   public SsoEvent(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class SsoEvent implements ModelInterface {
 
 
   /**
-  * Event ID
-  */
+   * Event ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Type of SSO event being recorded.
-  */
+   * Type of SSO event being recorded.
+   */
   @JsonProperty("event_type")
   public String eventType;
 
@@ -94,8 +116,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Status of event.
-  */
+   * Status of event.
+   */
   @JsonProperty("status")
   public String status;
 
@@ -104,8 +126,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Event body.
-  */
+   * Event body.
+   */
   @JsonProperty("body")
   public String body;
 
@@ -114,8 +136,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Event errors.
-  */
+   * Event errors.
+   */
   @JsonProperty("event_errors")
   public String[] eventErrors;
 
@@ -124,8 +146,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Event create date/time.
-  */
+   * Event create date/time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -134,8 +156,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Link to log file.
-  */
+   * Link to log file.
+   */
   @JsonProperty("body_url")
   public String bodyUrl;
 
@@ -144,8 +166,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * User ID.
-  */
+   * User ID.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -154,8 +176,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Username on Files.com for the SSO login attempt.
-  */
+   * Username on Files.com for the SSO login attempt.
+   */
   @JsonProperty("username")
   public String username;
 
@@ -164,8 +186,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Identity Provider UID for the SSO login attempt.
-  */
+   * Identity Provider UID for the SSO login attempt.
+   */
   @JsonProperty("idp_uid")
   public String idpUid;
 
@@ -174,8 +196,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * SSO provider for the SSO login attempt.
-  */
+   * SSO provider for the SSO login attempt.
+   */
   @JsonProperty("provider")
   public String provider;
 
@@ -184,8 +206,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * SSO provider label for the SSO login attempt.
-  */
+   * SSO provider label for the SSO login attempt.
+   */
   @JsonProperty("provider_label")
   public String providerLabel;
 
@@ -194,8 +216,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * IP address for the SSO login attempt.
-  */
+   * IP address for the SSO login attempt.
+   */
   @JsonProperty("ip")
   public String ip;
 
@@ -204,8 +226,8 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Region for the SSO login attempt.
-  */
+   * Region for the SSO login attempt.
+   */
   @JsonProperty("region")
   public String region;
 
@@ -215,17 +237,17 @@ public class SsoEvent implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `event_type`, `status` or `user_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type`, `idp_uid`, `ip`, `provider`, `status`, `user_id` or `username`. Valid field combinations are `[ event_type, created_at ]`, `[ idp_uid, created_at ]`, `[ ip, created_at ]`, `[ provider, created_at ]`, `[ status, created_at ]`, `[ user_id, created_at ]`, `[ username, created_at ]`, `[ event_type, status ]`, `[ idp_uid, status ]`, `[ ip, status ]`, `[ provider, status ]`, `[ user_id, status ]`, `[ username, status ]`, `[ event_type, status, created_at ]`, `[ idp_uid, status, created_at ]`, `[ ip, status, created_at ]`, `[ provider, status, created_at ]`, `[ user_id, status, created_at ]` or `[ username, status, created_at ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `idp_uid`, `ip`, `provider` or `username`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `event_type`, `status` or `user_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type`, `idp_uid`, `ip`, `provider`, `status`, `user_id` or `username`. Valid field combinations are `[ event_type, created_at ]`, `[ idp_uid, created_at ]`, `[ ip, created_at ]`, `[ provider, created_at ]`, `[ status, created_at ]`, `[ user_id, created_at ]`, `[ username, created_at ]`, `[ event_type, status ]`, `[ idp_uid, status ]`, `[ ip, status ]`, `[ provider, status ]`, `[ user_id, status ]`, `[ username, status ]`, `[ event_type, status, created_at ]`, `[ idp_uid, status, created_at ]`, `[ ip, status, created_at ]`, `[ provider, status, created_at ]`, `[ user_id, status, created_at ]` or `[ username, status, created_at ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `idp_uid`, `ip`, `provider` or `username`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   */
   public static ListIterator<SsoEvent> list() throws RuntimeException {
     return list(null, null);
   }
@@ -236,44 +258,7 @@ public class SsoEvent implements ModelInterface {
 
 
   public static ListIterator<SsoEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-
-
-    String url = String.format("%s%s/sso_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<SsoEvent>> typeReference = new TypeReference<List<SsoEvent>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().ssoEvents().list(parameters, options);
   }
 
   public static ListIterator<SsoEvent> all() throws RuntimeException {
@@ -285,9 +270,9 @@ public class SsoEvent implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Sso Event ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Sso Event ID.
+   */
   public static SsoEvent find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -301,28 +286,7 @@ public class SsoEvent implements ModelInterface {
   }
 
   public static SsoEvent find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sso_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SsoEvent> typeReference = new TypeReference<SsoEvent>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().ssoEvents().find(id, parameters, options);
   }
 
   public static SsoEvent get() throws RuntimeException {

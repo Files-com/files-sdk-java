@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Expectation implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Expectation, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Expectation implements ModelInterface {
   }
 
   public Expectation(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Expectation implements ModelInterface {
 
 
   /**
-  * Expectation ID
-  */
+   * Expectation ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Expectation name.
-  */
+   * Expectation name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -116,8 +138,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Expectation description.
-  */
+   * Expectation description.
+   */
   @JsonProperty("description")
   public String description;
 
@@ -130,8 +152,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Path scope for the expectation. Supports workspace-relative presentation. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Path scope for the expectation. Supports workspace-relative presentation. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -144,8 +166,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Source glob used to select candidate files.
-  */
+   * Source glob used to select candidate files.
+   */
   @JsonProperty("source")
   public String source;
 
@@ -158,8 +180,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Optional source exclusion glob.
-  */
+   * Optional source exclusion glob.
+   */
   @JsonProperty("exclude_pattern")
   public String excludePattern;
 
@@ -172,8 +194,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If true, the expectation is disabled.
-  */
+   * If true, the expectation is disabled.
+   */
   @JsonProperty("disabled")
   public Boolean disabled;
 
@@ -186,8 +208,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Criteria schema version for this expectation.
-  */
+   * Criteria schema version for this expectation.
+   */
   @JsonProperty("expectations_version")
   public Long expectationsVersion;
 
@@ -200,8 +222,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * How this expectation opens windows.
-  */
+   * How this expectation opens windows.
+   */
   @JsonProperty("trigger")
   public String trigger;
 
@@ -214,8 +236,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this specifies how often to run the expectation.
-  */
+   * If trigger is `daily`, this specifies how often to run the expectation.
+   */
   @JsonProperty("interval")
   public String interval;
 
@@ -228,8 +250,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this selects the day number inside the chosen interval.
-  */
+   * If trigger is `daily`, this selects the day number inside the chosen interval.
+   */
   @JsonProperty("recurring_day")
   public Long recurringDay;
 
@@ -242,8 +264,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  */
+   * If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   */
   @JsonProperty("recurring_days")
   public Long[] recurringDays;
 
@@ -256,8 +278,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-  */
+   * If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+   */
   @JsonProperty("schedule_id")
   public Long scheduleId;
 
@@ -270,8 +292,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  */
+   * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   */
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
@@ -284,8 +306,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format for the Expectation schedule.
-  */
+   * Times of day in HH:MM format for the Expectation schedule.
+   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
@@ -298,8 +320,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Time zone used by the Expectation schedule.
-  */
+   * Time zone used by the Expectation schedule.
+   */
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
@@ -312,8 +334,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Optional holiday region used by the Expectation schedule.
-  */
+   * Optional holiday region used by the Expectation schedule.
+   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
@@ -326,8 +348,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * How many seconds before the due boundary the window starts.
-  */
+   * How many seconds before the due boundary the window starts.
+   */
   @JsonProperty("lookback_interval")
   public Long lookbackInterval;
 
@@ -340,8 +362,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * How many seconds a schedule-driven window may remain eligible to close as late.
-  */
+   * How many seconds a schedule-driven window may remain eligible to close as late.
+   */
   @JsonProperty("late_acceptance_interval")
   public Long lateAcceptanceInterval;
 
@@ -354,8 +376,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * How many quiet seconds are required before final closure.
-  */
+   * How many quiet seconds are required before final closure.
+   */
   @JsonProperty("inactivity_interval")
   public Long inactivityInterval;
 
@@ -368,8 +390,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Hard-stop duration in seconds for unscheduled expectations.
-  */
+   * Hard-stop duration in seconds for unscheduled expectations.
+   */
   @JsonProperty("max_open_interval")
   public Long maxOpenInterval;
 
@@ -382,8 +404,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Versioned success criteria definition for the expectation. Criteria v2 supports optional FTS content validation.
-  */
+   * Versioned success criteria definition for the expectation. Criteria v2 supports optional FTS content validation.
+   */
   @JsonProperty("criteria")
   public Object criteria;
 
@@ -396,8 +418,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Last time this expectation was evaluated.
-  */
+   * Last time this expectation was evaluated.
+   */
   @JsonProperty("last_evaluated_at")
   public Date lastEvaluatedAt;
 
@@ -410,8 +432,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Last time this expectation closed successfully.
-  */
+   * Last time this expectation closed successfully.
+   */
   @JsonProperty("last_success_at")
   public Date lastSuccessAt;
 
@@ -424,8 +446,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Last time this expectation closed with a failure result.
-  */
+   * Last time this expectation closed with a failure result.
+   */
   @JsonProperty("last_failure_at")
   public Date lastFailureAt;
 
@@ -438,8 +460,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Most recent terminal result for this expectation.
-  */
+   * Most recent terminal result for this expectation.
+   */
   @JsonProperty("last_result")
   public String lastResult;
 
@@ -452,8 +474,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Creation time.
-  */
+   * Creation time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -462,8 +484,8 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Last update time.
-  */
+   * Last update time.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -472,62 +494,125 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Manually open an Expectation window
-  */
+   * Manually open an Expectation window
+   */
   public ExpectationEvaluation triggerEvaluation(HashMap<String, Object> parameters) throws IOException {
-    return Expectation.triggerEvaluation(this.id, parameters, this.options);
+    return filesClient().expectations().triggerEvaluation(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   name - string - Expectation name.
-  *   description - string - Expectation description.
-  *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
-  *   source - string - Source glob used to select candidate files.
-  *   exclude_pattern - string - Optional source exclusion glob.
-  *   disabled - boolean - If true, the expectation is disabled.
-  *   trigger - string - How this expectation opens windows.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
-  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
-  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
-  *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
-  *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
-  *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
-  *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Updates this Expectation. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Expectation name.
+   *   description - string - Expectation description.
+   *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
+   *   source - string - Source glob used to select candidate files.
+   *   exclude_pattern - string - Optional source exclusion glob.
+   *   disabled - boolean - If true, the expectation is disabled.
+   *   trigger - string - How this expectation opens windows.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+   *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+   *   holiday_region - string - Optional holiday region used by the Expectation schedule.
+   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
+   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
+   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
+   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
+   *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public Expectation update(HashMap<String, Object> parameters) throws IOException {
-    return Expectation.update(this.id, parameters, this.options);
+    Expectation updated = filesClient().expectations().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Expectation.delete(this.id, parameters, this.options);
+    filesClient().expectations().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Expectation: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Expectation.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().expectations().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.recurringDays != null) {
+      parameters.put("recurring_days", this.recurringDays);
+    }
+    if (this.scheduleDaysOfWeek != null) {
+      parameters.put("schedule_days_of_week", this.scheduleDaysOfWeek);
+    }
+    if (this.scheduleTimesOfDay != null) {
+      parameters.put("schedule_times_of_day", this.scheduleTimesOfDay);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Expectation canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.name = canonical.name;
+    this.description = canonical.description;
+    this.path = canonical.path;
+    this.source = canonical.source;
+    this.excludePattern = canonical.excludePattern;
+    this.disabled = canonical.disabled;
+    this.expectationsVersion = canonical.expectationsVersion;
+    this.trigger = canonical.trigger;
+    this.interval = canonical.interval;
+    this.recurringDay = canonical.recurringDay;
+    this.recurringDays = canonical.recurringDays;
+    this.scheduleId = canonical.scheduleId;
+    this.scheduleDaysOfWeek = canonical.scheduleDaysOfWeek;
+    this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
+    this.scheduleTimeZone = canonical.scheduleTimeZone;
+    this.holidayRegion = canonical.holidayRegion;
+    this.lookbackInterval = canonical.lookbackInterval;
+    this.lateAcceptanceInterval = canonical.lateAcceptanceInterval;
+    this.inactivityInterval = canonical.inactivityInterval;
+    this.maxOpenInterval = canonical.maxOpenInterval;
+    this.criteria = canonical.criteria;
+    this.lastEvaluatedAt = canonical.lastEvaluatedAt;
+    this.lastSuccessAt = canonical.lastSuccessAt;
+    this.lastFailureAt = canonical.lastFailureAt;
+    this.lastResult = canonical.lastResult;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `disabled`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `disabled`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
+   */
   public static ListIterator<Expectation> list() throws RuntimeException {
     return list(null, null);
   }
@@ -538,29 +623,7 @@ public class Expectation implements ModelInterface {
 
 
   public static ListIterator<Expectation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/expectations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Expectation>> typeReference = new TypeReference<List<Expectation>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectations().list(parameters, options);
   }
 
   public static ListIterator<Expectation> all() throws RuntimeException {
@@ -572,9 +635,9 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Expectation ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Expectation ID.
+   */
   public static Expectation find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -588,28 +651,7 @@ public class Expectation implements ModelInterface {
   }
 
   public static Expectation find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Expectation> typeReference = new TypeReference<Expectation>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectations().find(id, parameters, options);
   }
 
   public static Expectation get() throws RuntimeException {
@@ -621,29 +663,29 @@ public class Expectation implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Expectation name.
-  *   description - string - Expectation description.
-  *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
-  *   source - string - Source glob used to select candidate files.
-  *   exclude_pattern - string - Optional source exclusion glob.
-  *   disabled - boolean - If true, the expectation is disabled.
-  *   trigger - string - How this expectation opens windows.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
-  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
-  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
-  *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
-  *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
-  *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
-  *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   name - string - Expectation name.
+   *   description - string - Expectation description.
+   *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
+   *   source - string - Source glob used to select candidate files.
+   *   exclude_pattern - string - Optional source exclusion glob.
+   *   disabled - boolean - If true, the expectation is disabled.
+   *   trigger - string - How this expectation opens windows.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+   *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+   *   holiday_region - string - Optional holiday region used by the Expectation schedule.
+   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
+   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
+   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
+   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
+   *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static Expectation create() throws RuntimeException {
     return create(null, null);
   }
@@ -654,86 +696,13 @@ public class Expectation implements ModelInterface {
 
 
   public static Expectation create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
-    }
-    if (parameters.containsKey("exclude_pattern") && !(parameters.get("exclude_pattern") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: exclude_pattern must be of type String parameters[\"exclude_pattern\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
-    }
-    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("lookback_interval") && !(parameters.get("lookback_interval") instanceof Long || parameters.get("lookback_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: lookback_interval must be of type Long or Integer parameters[\"lookback_interval\"]");
-    }
-    if (parameters.containsKey("late_acceptance_interval") && !(parameters.get("late_acceptance_interval") instanceof Long || parameters.get("late_acceptance_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: late_acceptance_interval must be of type Long or Integer parameters[\"late_acceptance_interval\"]");
-    }
-    if (parameters.containsKey("inactivity_interval") && !(parameters.get("inactivity_interval") instanceof Long || parameters.get("inactivity_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inactivity_interval must be of type Long or Integer parameters[\"inactivity_interval\"]");
-    }
-    if (parameters.containsKey("max_open_interval") && !(parameters.get("max_open_interval") instanceof Long || parameters.get("max_open_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: max_open_interval must be of type Long or Integer parameters[\"max_open_interval\"]");
-    }
-    if (parameters.containsKey("criteria") && !(parameters.get("criteria") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: criteria must be of type Object parameters[\"criteria\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/expectations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Expectation> typeReference = new TypeReference<Expectation>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectations().create(parameters, options);
   }
 
 
   /**
-  * Manually open an Expectation window
-  */
+   * Manually open an Expectation window
+   */
   public static ExpectationEvaluation triggerEvaluation() throws RuntimeException {
     return triggerEvaluation(null, null, null);
   }
@@ -747,55 +716,34 @@ public class Expectation implements ModelInterface {
   }
 
   public static ExpectationEvaluation triggerEvaluation(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectations/%s/trigger_evaluation", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ExpectationEvaluation> typeReference = new TypeReference<ExpectationEvaluation>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectations().triggerEvaluation(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Expectation name.
-  *   description - string - Expectation description.
-  *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
-  *   source - string - Source glob used to select candidate files.
-  *   exclude_pattern - string - Optional source exclusion glob.
-  *   disabled - boolean - If true, the expectation is disabled.
-  *   trigger - string - How this expectation opens windows.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
-  *   schedule_time_zone - string - Time zone used by the Expectation schedule.
-  *   holiday_region - string - Optional holiday region used by the Expectation schedule.
-  *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
-  *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
-  *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
-  *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-  *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   name - string - Expectation name.
+   *   description - string - Expectation description.
+   *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
+   *   source - string - Source glob used to select candidate files.
+   *   exclude_pattern - string - Optional source exclusion glob.
+   *   disabled - boolean - If true, the expectation is disabled.
+   *   trigger - string - How this expectation opens windows.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
+   *   schedule_time_zone - string - Time zone used by the Expectation schedule.
+   *   holiday_region - string - Optional holiday region used by the Expectation schedule.
+   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
+   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
+   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
+   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
+   *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static Expectation update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -809,96 +757,12 @@ public class Expectation implements ModelInterface {
   }
 
   public static Expectation update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
-    }
-    if (parameters.containsKey("exclude_pattern") && !(parameters.get("exclude_pattern") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: exclude_pattern must be of type String parameters[\"exclude_pattern\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
-    }
-    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("lookback_interval") && !(parameters.get("lookback_interval") instanceof Long || parameters.get("lookback_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: lookback_interval must be of type Long or Integer parameters[\"lookback_interval\"]");
-    }
-    if (parameters.containsKey("late_acceptance_interval") && !(parameters.get("late_acceptance_interval") instanceof Long || parameters.get("late_acceptance_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: late_acceptance_interval must be of type Long or Integer parameters[\"late_acceptance_interval\"]");
-    }
-    if (parameters.containsKey("inactivity_interval") && !(parameters.get("inactivity_interval") instanceof Long || parameters.get("inactivity_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inactivity_interval must be of type Long or Integer parameters[\"inactivity_interval\"]");
-    }
-    if (parameters.containsKey("max_open_interval") && !(parameters.get("max_open_interval") instanceof Long || parameters.get("max_open_interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: max_open_interval must be of type Long or Integer parameters[\"max_open_interval\"]");
-    }
-    if (parameters.containsKey("criteria") && !(parameters.get("criteria") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: criteria must be of type Object parameters[\"criteria\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Expectation> typeReference = new TypeReference<Expectation>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectations().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -912,27 +776,7 @@ public class Expectation implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().expectations().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

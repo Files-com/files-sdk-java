@@ -3,8 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <!-- The WireMock server FilesApiTest runs against. servers.sh starts it in its own JDK 17
-         process, on the classpath this POM resolves, so the SDK's tests keep Java 8 and the SDK's
-         own dependencies. It is never built or published. -->
+         process, on the classpath this POM resolves. It is never built or published. -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk-test-server</artifactId>
@@ -76,9 +75,8 @@
             <artifactId>wiremock-jetty12</artifactId>
             <version>3.13.2</version>
         </dependency>
-        <!-- WireMock's xmlunit-core adds this only when Maven runs on Java 9 or later. build-java
-             runs Maven on Java 8, so it is declared to give the server, on JDK 17, the classpath
-             its scan resolves. -->
+        <!-- WireMock's xmlunit-core adds this only when Maven runs on Java 9 or later. It is
+             declared so that the server, on JDK 17, has it whichever JDK Maven runs on. -->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>

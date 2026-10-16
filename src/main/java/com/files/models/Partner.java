@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Partner implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Partner, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Partner implements ModelInterface {
   }
 
   public Partner(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Partner implements ModelInterface {
 
 
   /**
-  * Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-  */
+   * Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+   */
   @JsonProperty("allow_bypassing_2fa_policies")
   public Boolean allowBypassing2faPolicies;
 
@@ -88,8 +110,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-  */
+   * A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
+   */
   @JsonProperty("allowed_ips")
   public String allowedIps;
 
@@ -102,8 +124,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-  */
+   * Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+   */
   @JsonProperty("allow_credential_changes")
   public Boolean allowCredentialChanges;
 
@@ -116,8 +138,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Allow Partner Admins to provide GPG keys.
-  */
+   * Allow Partner Admins to provide GPG keys.
+   */
   @JsonProperty("allow_providing_gpg_keys")
   public Boolean allowProvidingGpgKeys;
 
@@ -130,8 +152,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Allow Partner Admins to create users.
-  */
+   * Allow Partner Admins to create users.
+   */
   @JsonProperty("allow_user_creation")
   public Boolean allowUserCreation;
 
@@ -144,8 +166,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * When `true`, emails sent to Partner users are copied to the responsible User or Group.
-  */
+   * When `true`, emails sent to Partner users are copied to the responsible User or Group.
+   */
   @JsonProperty("cc_emails_to_responsible_party")
   public Boolean ccEmailsToResponsibleParty;
 
@@ -158,8 +180,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
-  */
+   * Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
+   */
   @JsonProperty("connections")
   public PartnerConnection[] connections;
 
@@ -172,8 +194,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * The unique ID of the Partner.
-  */
+   * The unique ID of the Partner.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -186,8 +208,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-  */
+   * AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
+   */
   @JsonProperty("ai_assistant_personality_id")
   public Long aiAssistantPersonalityId;
 
@@ -200,8 +222,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace associated with this Partner.
-  */
+   * ID of the Workspace associated with this Partner.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -214,8 +236,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * The name of the Partner.
-  */
+   * The name of the Partner.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -228,8 +250,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Notes about this Partner.
-  */
+   * Notes about this Partner.
+   */
   @JsonProperty("notes")
   public String notes;
 
@@ -242,8 +264,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Array of User IDs that are Partner Admins for this Partner.
-  */
+   * Array of User IDs that are Partner Admins for this Partner.
+   */
   @JsonProperty("partner_admin_ids")
   public Long[] partnerAdminIds;
 
@@ -256,8 +278,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * ID of the Partner Channel Template assigned to this Partner.
-  */
+   * ID of the Partner Channel Template assigned to this Partner.
+   */
   @JsonProperty("partner_channel_template_id")
   public Long partnerChannelTemplateId;
 
@@ -270,8 +292,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
-  */
+   * This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
+   */
   @JsonProperty("partnership_role")
   public String partnershipRole;
 
@@ -284,8 +306,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * ID of the Group responsible for this Partner.
-  */
+   * ID of the Group responsible for this Partner.
+   */
   @JsonProperty("responsible_group_id")
   public Long responsibleGroupId;
 
@@ -298,8 +320,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * ID of the User responsible for this Partner.
-  */
+   * ID of the User responsible for this Partner.
+   */
   @JsonProperty("responsible_user_id")
   public Long responsibleUserId;
 
@@ -312,8 +334,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * The root folder path for this Partner.
-  */
+   * The root folder path for this Partner.
+   */
   @JsonProperty("root_folder")
   public String rootFolder;
 
@@ -326,8 +348,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Show Partner users a simplified home page built from this Partner's Channels.
-  */
+   * Show Partner users a simplified home page built from this Partner's Channels.
+   */
   @JsonProperty("show_partner_channel_home_page")
   public Boolean showPartnerChannelHomePage;
 
@@ -340,8 +362,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  */
+   * Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   */
   @JsonProperty("tags")
   public String tags;
 
@@ -354,8 +376,8 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Array of User IDs that belong to this Partner.
-  */
+   * Array of User IDs that belong to this Partner.
+   */
   @JsonProperty("user_ids")
   public Long[] userIds;
 
@@ -368,50 +390,95 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-  *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-  *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-  *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-  *   notes - string - Notes about this Partner.
-  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   name - string - The name of the Partner.
-  *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
-  *   root_folder - string - The root folder path for this Partner.
-  */
+   * Updates this Partner. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
+   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
+   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+   *   notes - string - Notes about this Partner.
+   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
+   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
+   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   name - string - The name of the Partner.
+   *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
+   *   root_folder - string - The root folder path for this Partner.
+   */
   public Partner update(HashMap<String, Object> parameters) throws IOException {
-    return Partner.update(this.id, parameters, this.options);
+    Partner updated = filesClient().partners().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Partner.delete(this.id, parameters, this.options);
+    filesClient().partners().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Partner: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Partner.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().partners().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Partner canonical) {
+    this.allowBypassing2faPolicies = canonical.allowBypassing2faPolicies;
+    this.allowedIps = canonical.allowedIps;
+    this.allowCredentialChanges = canonical.allowCredentialChanges;
+    this.allowProvidingGpgKeys = canonical.allowProvidingGpgKeys;
+    this.allowUserCreation = canonical.allowUserCreation;
+    this.ccEmailsToResponsibleParty = canonical.ccEmailsToResponsibleParty;
+    this.connections = canonical.connections;
+    this.id = canonical.id;
+    this.aiAssistantPersonalityId = canonical.aiAssistantPersonalityId;
+    this.workspaceId = canonical.workspaceId;
+    this.name = canonical.name;
+    this.notes = canonical.notes;
+    this.partnerAdminIds = canonical.partnerAdminIds;
+    this.partnerChannelTemplateId = canonical.partnerChannelTemplateId;
+    this.partnershipRole = canonical.partnershipRole;
+    this.responsibleGroupId = canonical.responsibleGroupId;
+    this.responsibleUserId = canonical.responsibleUserId;
+    this.rootFolder = canonical.rootFolder;
+    this.showPartnerChannelHomePage = canonical.showPartnerChannelHomePage;
+    this.tags = canonical.tags;
+    this.userIds = canonical.userIds;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   */
   public static ListIterator<Partner> list() throws RuntimeException {
     return list(null, null);
   }
@@ -422,29 +489,7 @@ public class Partner implements ModelInterface {
 
 
   public static ListIterator<Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Partner>> typeReference = new TypeReference<List<Partner>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().partners().list(parameters, options);
   }
 
   public static ListIterator<Partner> all() throws RuntimeException {
@@ -456,9 +501,9 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Partner ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Partner ID.
+   */
   public static Partner find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -472,28 +517,7 @@ public class Partner implements ModelInterface {
   }
 
   public static Partner find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Partner> typeReference = new TypeReference<Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().partners().find(id, parameters, options);
   }
 
   public static Partner get() throws RuntimeException {
@@ -505,24 +529,24 @@ public class Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-  *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-  *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-  *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-  *   notes - string - Notes about this Partner.
-  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   name (required) - string - The name of the Partner.
-  *   root_folder (required) - string - The root folder path for this Partner.
-  *   workspace_id - int64 - ID of the Workspace associated with this Partner.
-  */
+   * Parameters:
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
+   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
+   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+   *   notes - string - Notes about this Partner.
+   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
+   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
+   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   name (required) - string - The name of the Partner.
+   *   root_folder (required) - string - The root folder path for this Partner.
+   *   workspace_id - int64 - ID of the Workspace associated with this Partner.
+   */
   public static Partner create() throws RuntimeException {
     return create(null, null);
   }
@@ -533,93 +557,29 @@ public class Partner implements ModelInterface {
 
 
   public static Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("root_folder") || parameters.get("root_folder") == null) {
-      throw new NullPointerException("Parameter missing: root_folder parameters[\"root_folder\"]");
-    }
-
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
-    }
-    if (parameters.containsKey("allow_credential_changes") && !(parameters.get("allow_credential_changes") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_credential_changes must be of type Boolean parameters[\"allow_credential_changes\"]");
-    }
-    if (parameters.containsKey("allow_providing_gpg_keys") && !(parameters.get("allow_providing_gpg_keys") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_providing_gpg_keys must be of type Boolean parameters[\"allow_providing_gpg_keys\"]");
-    }
-    if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
-    }
-    if (parameters.containsKey("cc_emails_to_responsible_party") && !(parameters.get("cc_emails_to_responsible_party") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: cc_emails_to_responsible_party must be of type Boolean parameters[\"cc_emails_to_responsible_party\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("partner_channel_template_id") && !(parameters.get("partner_channel_template_id") instanceof Long || parameters.get("partner_channel_template_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_channel_template_id must be of type Long or Integer parameters[\"partner_channel_template_id\"]");
-    }
-    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
-    }
-    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
-    }
-    if (parameters.containsKey("show_partner_channel_home_page") && !(parameters.get("show_partner_channel_home_page") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: show_partner_channel_home_page must be of type Boolean parameters[\"show_partner_channel_home_page\"]");
-    }
-    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("root_folder") && !(parameters.get("root_folder") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: root_folder must be of type String parameters[\"root_folder\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Partner> typeReference = new TypeReference<Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().partners().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-  *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-  *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-  *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-  *   allow_user_creation - boolean - Allow Partner Admins to create users.
-  *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-  *   notes - string - Notes about this Partner.
-  *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-  *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-  *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-  *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-  *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   name - string - The name of the Partner.
-  *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
-  *   root_folder - string - The root folder path for this Partner.
-  */
+   * Parameters:
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
+   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
+   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
+   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
+   *   allow_user_creation - boolean - Allow Partner Admins to create users.
+   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
+   *   notes - string - Notes about this Partner.
+   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
+   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
+   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
+   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
+   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   name - string - The name of the Partner.
+   *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
+   *   root_folder - string - The root folder path for this Partner.
+   */
   public static Partner update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -633,81 +593,12 @@ public class Partner implements ModelInterface {
   }
 
   public static Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("allow_bypassing_2fa_policies") && !(parameters.get("allow_bypassing_2fa_policies") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_bypassing_2fa_policies must be of type Boolean parameters[\"allow_bypassing_2fa_policies\"]");
-    }
-    if (parameters.containsKey("allow_credential_changes") && !(parameters.get("allow_credential_changes") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_credential_changes must be of type Boolean parameters[\"allow_credential_changes\"]");
-    }
-    if (parameters.containsKey("allow_providing_gpg_keys") && !(parameters.get("allow_providing_gpg_keys") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_providing_gpg_keys must be of type Boolean parameters[\"allow_providing_gpg_keys\"]");
-    }
-    if (parameters.containsKey("allow_user_creation") && !(parameters.get("allow_user_creation") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_user_creation must be of type Boolean parameters[\"allow_user_creation\"]");
-    }
-    if (parameters.containsKey("cc_emails_to_responsible_party") && !(parameters.get("cc_emails_to_responsible_party") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: cc_emails_to_responsible_party must be of type Boolean parameters[\"cc_emails_to_responsible_party\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("partner_channel_template_id") && !(parameters.get("partner_channel_template_id") instanceof Long || parameters.get("partner_channel_template_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_channel_template_id must be of type Long or Integer parameters[\"partner_channel_template_id\"]");
-    }
-    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
-    }
-    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
-    }
-    if (parameters.containsKey("show_partner_channel_home_page") && !(parameters.get("show_partner_channel_home_page") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: show_partner_channel_home_page must be of type Boolean parameters[\"show_partner_channel_home_page\"]");
-    }
-    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("partnership_role") && !(parameters.get("partnership_role") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: partnership_role must be of type String parameters[\"partnership_role\"]");
-    }
-    if (parameters.containsKey("root_folder") && !(parameters.get("root_folder") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: root_folder must be of type String parameters[\"root_folder\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Partner> typeReference = new TypeReference<Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().partners().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -721,27 +612,7 @@ public class Partner implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().partners().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

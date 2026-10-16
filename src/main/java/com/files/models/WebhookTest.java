@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebhookTest implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every WebhookTest, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class WebhookTest implements ModelInterface {
   }
 
   public WebhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class WebhookTest implements ModelInterface {
 
 
   /**
-  * Status HTTP code
-  */
+   * Status HTTP code
+   */
   @JsonProperty("code")
   public Long code;
 
@@ -88,8 +110,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Error message
-  */
+   * Error message
+   */
   @JsonProperty("message")
   public String message;
 
@@ -102,8 +124,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Status message
-  */
+   * Status message
+   */
   @JsonProperty("status")
   public String status;
 
@@ -116,8 +138,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Additional data
-  */
+   * Additional data
+   */
   @JsonProperty("data")
   public Auto data;
 
@@ -130,8 +152,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * The success status of the webhook test
-  */
+   * The success status of the webhook test
+   */
   @JsonProperty("success")
   public Boolean success;
 
@@ -144,8 +166,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * URL for testing the webhook.
-  */
+   * URL for testing the webhook.
+   */
   @JsonProperty("url")
   public String url;
 
@@ -158,8 +180,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * HTTP method(GET or POST).
-  */
+   * HTTP method(GET or POST).
+   */
   @JsonProperty("method")
   public String method;
 
@@ -172,8 +194,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-  */
+   * HTTP encoding method.  Can be JSON, XML, or RAW (form data).
+   */
   @JsonProperty("encoding")
   public String encoding;
 
@@ -186,8 +208,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Additional request headers.
-  */
+   * Additional request headers.
+   */
   @JsonProperty("headers")
   public Object headers;
 
@@ -200,8 +222,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Additional body parameters.
-  */
+   * Additional body parameters.
+   */
   @JsonProperty("body")
   public Object body;
 
@@ -214,8 +236,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * raw body text
-  */
+   * raw body text
+   */
   @JsonProperty("raw_body")
   public String rawBody;
 
@@ -228,8 +250,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Send the file data as the request body?
-  */
+   * Send the file data as the request body?
+   */
   @JsonProperty("file_as_body")
   public Boolean fileAsBody;
 
@@ -242,8 +264,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Send the file data as a named parameter in the request POST body
-  */
+   * Send the file data as a named parameter in the request POST body
+   */
   @JsonProperty("file_form_field")
   public String fileFormField;
 
@@ -256,8 +278,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * action for test body
-  */
+   * action for test body
+   */
   @JsonProperty("action")
   public String action;
 
@@ -270,8 +292,8 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-  * Use dedicated IPs for sending the webhook?
-  */
+   * Use dedicated IPs for sending the webhook?
+   */
   @JsonProperty("use_dedicated_ips")
   public Boolean useDedicatedIps;
 
@@ -283,24 +305,56 @@ public class WebhookTest implements ModelInterface {
     this.useDedicatedIps = useDedicatedIps;
   }
 
+
+  /**
+   * Creates this WebhookTest from its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    WebhookTest.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    refreshFrom(filesClient().webhookTests().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(WebhookTest canonical) {
+    this.code = canonical.code;
+    this.message = canonical.message;
+    this.status = canonical.status;
+    this.data = canonical.data;
+    this.success = canonical.success;
+    this.url = canonical.url;
+    this.method = canonical.method;
+    this.encoding = canonical.encoding;
+    this.headers = canonical.headers;
+    this.body = canonical.body;
+    this.rawBody = canonical.rawBody;
+    this.fileAsBody = canonical.fileAsBody;
+    this.fileFormField = canonical.fileFormField;
+    this.action = canonical.action;
+    this.useDedicatedIps = canonical.useDedicatedIps;
   }
 
   /**
-  * Parameters:
-  *   url (required) - string - URL for testing the webhook.
-  *   method - string - HTTP method(GET or POST).
-  *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-  *   headers - object - Additional request headers.
-  *   body - object - Additional body parameters.
-  *   raw_body - string - raw body text
-  *   file_as_body - boolean - Send the file data as the request body?
-  *   file_form_field - string - Send the file data as a named parameter in the request POST body
-  *   action - string - action for test body
-  *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
-  */
+   * Parameters:
+   *   url (required) - string - URL for testing the webhook.
+   *   method - string - HTTP method(GET or POST).
+   *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
+   *   headers - object - Additional request headers.
+   *   body - object - Additional body parameters.
+   *   raw_body - string - raw body text
+   *   file_as_body - boolean - Send the file data as the request body?
+   *   file_form_field - string - Send the file data as a named parameter in the request POST body
+   *   action - string - action for test body
+   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
+   */
   public static WebhookTest create() throws RuntimeException {
     return create(null, null);
   }
@@ -311,50 +365,7 @@ public class WebhookTest implements ModelInterface {
 
 
   public static WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("url") || parameters.get("url") == null) {
-      throw new NullPointerException("Parameter missing: url parameters[\"url\"]");
-    }
-
-    if (parameters.containsKey("url") && !(parameters.get("url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: url must be of type String parameters[\"url\"]");
-    }
-    if (parameters.containsKey("method") && !(parameters.get("method") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: method must be of type String parameters[\"method\"]");
-    }
-    if (parameters.containsKey("encoding") && !(parameters.get("encoding") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: encoding must be of type String parameters[\"encoding\"]");
-    }
-    if (parameters.containsKey("headers") && !(parameters.get("headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: headers must be of type Object parameters[\"headers\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type Object parameters[\"body\"]");
-    }
-    if (parameters.containsKey("raw_body") && !(parameters.get("raw_body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: raw_body must be of type String parameters[\"raw_body\"]");
-    }
-    if (parameters.containsKey("file_as_body") && !(parameters.get("file_as_body") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: file_as_body must be of type Boolean parameters[\"file_as_body\"]");
-    }
-    if (parameters.containsKey("file_form_field") && !(parameters.get("file_form_field") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: file_form_field must be of type String parameters[\"file_form_field\"]");
-    }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("use_dedicated_ips") && !(parameters.get("use_dedicated_ips") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: use_dedicated_ips must be of type Boolean parameters[\"use_dedicated_ips\"]");
-    }
-
-
-    String url = String.format("%s%s/webhook_tests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<WebhookTest> typeReference = new TypeReference<WebhookTest>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().webhookTests().create(parameters, options);
   }
 
 

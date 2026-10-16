@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsageSnapshot implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every UsageSnapshot, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   public UsageSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class UsageSnapshot implements ModelInterface {
 
 
   /**
-  * Usage snapshot ID
-  */
+   * Usage snapshot ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Usage snapshot start date/time
-  */
+   * Usage snapshot start date/time
+   */
   @JsonProperty("start_at")
   public Date startAt;
 
@@ -94,8 +116,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Usage snapshot end date/time
-  */
+   * Usage snapshot end date/time
+   */
   @JsonProperty("end_at")
   public Date endAt;
 
@@ -104,8 +126,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Highest user count number in time period
-  */
+   * Highest user count number in time period
+   */
   @JsonProperty("high_water_user_count")
   public Long highWaterUserCount;
 
@@ -114,8 +136,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Total Transformation and AI credits used in this usage period. Updated daily. Does not include credits consumed today.
-  */
+   * Total Transformation and AI credits used in this usage period. Updated daily. Does not include credits consumed today.
+   */
   @JsonProperty("transformation_credits_usage")
   public Long transformationCreditsUsage;
 
@@ -124,8 +146,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
-  */
+   * Current total Storage Usage GB as of end date (not necessarily high water mark, which is used for billing)
+   */
   @JsonProperty("current_storage")
   public Long currentStorage;
 
@@ -134,8 +156,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Highest Storage Usage GB recorded in time period (used for billing)
-  */
+   * Highest Storage Usage GB recorded in time period (used for billing)
+   */
   @JsonProperty("high_water_storage")
   public Long highWaterStorage;
 
@@ -144,8 +166,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
-  */
+   * Storage Usage for root folder as of end date (not necessarily high water mark, which is used for billing)
+   */
   @JsonProperty("root_storage")
   public Long rootStorage;
 
@@ -154,8 +176,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
-  */
+   * Storage Usage for files that are deleted but uploaded within last 30 days as of end date (not necessarily high water mark, which is used for billing)
+   */
   @JsonProperty("deleted_files_counted_in_minimum")
   public Long deletedFilesCountedInMinimum;
 
@@ -164,8 +186,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
-  */
+   * Storage Usage for files that are deleted but retained as backups as of end date (not necessarily high water mark, which is used for billing)
+   */
   @JsonProperty("deleted_files_storage")
   public Long deletedFilesStorage;
 
@@ -174,8 +196,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Storage + Transfer Usage - Total Billable amount
-  */
+   * Storage + Transfer Usage - Total Billable amount
+   */
   @JsonProperty("total_billable_usage")
   public Long totalBillableUsage;
 
@@ -184,8 +206,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Transfer usage for period - Total Billable amount
-  */
+   * Transfer usage for period - Total Billable amount
+   */
   @JsonProperty("total_billable_transfer_usage")
   public Long totalBillableTransferUsage;
 
@@ -194,8 +216,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Transfer Usage for period - Outbound GB from Files Native Storage
-  */
+   * Transfer Usage for period - Outbound GB from Files Native Storage
+   */
   @JsonProperty("bytes_sent")
   public Long bytesSent;
 
@@ -204,8 +226,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
-  */
+   * Transfer Usage for period - Inbound GB to Remote Servers (Sync/Mount)
+   */
   @JsonProperty("sync_bytes_received")
   public Long syncBytesReceived;
 
@@ -214,8 +236,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
-  */
+   * Transfer Usage for period - Outbound GB from Remote Servers (Sync/Mount)
+   */
   @JsonProperty("sync_bytes_sent")
   public Long syncBytesSent;
 
@@ -224,8 +246,8 @@ public class UsageSnapshot implements ModelInterface {
   }
 
   /**
-  * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
-  */
+   * Storage Usage - map of root folders to their usage as of end date (not necessarily high water mark, which is used for billing)
+   */
   @JsonProperty("usage_by_top_level_dir")
   public UsageByTopLevelDir[] usageByTopLevelDir;
 
@@ -235,10 +257,10 @@ public class UsageSnapshot implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<UsageSnapshot> list() throws RuntimeException {
     return list(null, null);
   }
@@ -249,23 +271,7 @@ public class UsageSnapshot implements ModelInterface {
 
 
   public static ListIterator<UsageSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/usage_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<UsageSnapshot>> typeReference = new TypeReference<List<UsageSnapshot>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().usageSnapshots().list(parameters, options);
   }
 
   public static ListIterator<UsageSnapshot> all() throws RuntimeException {

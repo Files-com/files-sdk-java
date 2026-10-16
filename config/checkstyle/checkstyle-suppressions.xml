@@ -9,4 +9,6 @@
             files="src/main/java/com/files/util/BufferPool.java"/>
     <suppress checks="ParameterName"
             files="src/main/java/com/files/models/History.java"/>
+    <suppress checks="ParameterName"
+            files="src/main/java/com/files/operations/HistoryOperations.java"/>
 </suppressions>

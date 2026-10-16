@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# Runs servers.sh and test.sh from throwaway copies, with stand-ins for the JDK and Maven, to show
-# how they own the two test servers: a clean start and stop, a repeated start, a start in which
-# one server fails, a start that cannot record a server it launched, a server still running when
-# stop gives up, a recorded PID that ps reports for another process, and what test.sh reports when
-# the tests fail, the servers will not stop, or both.
+# Runs servers.sh and test.sh from throwaway copies, with stand-ins for the JDKs, the Maven wrapper
+# and Maven, to show how they own the two test servers: a clean start and stop, a repeated start, a
+# start in which one server fails, a start that cannot record a server it launched, a server still
+# running when stop gives up, a recorded PID that ps reports for another process, and what test.sh
+# reports when the tests fail, the servers will not stop, or both.
 #
 #   test-server/servers-test.sh
 
@@ -61,12 +61,13 @@ SH
 
 cat > "$work/bin/mvn" <<'SH'
 #!/usr/bin/env bash
-# Stands in for Maven: writes a classpath when asked for one, and for `test` notes the server URLs
-# it was given and how many stand-in servers were running, then exits with FAKE_TEST_STATUS.
+# Stands in for Maven: writes a classpath when asked for one, and for `test` or `verify` notes the
+# server URLs it was given and how many stand-in servers were running, then exits with
+# FAKE_TEST_STATUS.
 for arg in "$@"; do
   case $arg in
     -Dmdep.outputFile=*) echo /stand-in/wiremock.jar > "${arg#-Dmdep.outputFile=}" ;;
-    test)
+    test | verify)
       running=0
       while read -r pid name; do
         state=$(ps -o stat= -p "$pid" 2> /dev/null) && [[ $state != Z* ]] && running=$((running + 1))
@@ -125,29 +126,47 @@ SH
 cat > "$work/shift-bin/ps" <<'SH'
 #!/usr/bin/env bash
 # Stands in for ps after the system clock was adjusted: the boot time the kernel reports, from which
-# ps computes start times, has moved, so every start time it reports is a second later.
+# ps computes start times, has moved, so every start time it reports is a second later. Like
+# servers.sh, it reads and writes start times with GNU date, or else BSD date.
 status=0
 output=$("$REAL_PS" "$@") || status=$?
 date_pattern='[A-Z][a-z][a-z] [A-Z][a-z][a-z] [ 0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9] [0-9][0-9][0-9][0-9]'
 while IFS= read -r line; do
   if [[ $line =~ ^(.*)($date_pattern)(.*)$ ]]; then
-    seconds=$(LC_ALL=C TZ=UTC date -d "${BASH_REMATCH[2]}" +%s)
-    line="${BASH_REMATCH[1]}$(LC_ALL=C TZ=UTC date -d "@$((seconds + 1))" '+%a %b %e %T %Y')${BASH_REMATCH[3]}"
+    seconds=$(LC_ALL=C TZ=UTC date -d "${BASH_REMATCH[2]}" +%s 2> /dev/null \
+      || LC_ALL=C TZ=UTC date -j -f '%a %b %e %T %Y' "${BASH_REMATCH[2]}" +%s)
+    later=$(LC_ALL=C TZ=UTC date -d "@$((seconds + 1))" '+%a %b %e %T %Y' 2> /dev/null \
+      || LC_ALL=C TZ=UTC date -r "$((seconds + 1))" '+%a %b %e %T %Y')
+    line="${BASH_REMATCH[1]}$later${BASH_REMATCH[3]}"
   fi
   [[ -z $output ]] || printf '%s\n' "$line"
 done <<< "$output"
 exit "$status"
 SH
-chmod +x "$work/jdk/bin/java" "$work/bin/mvn" "$work/reuse-bin/ps" "$work/hide-bin/ps" "$work/shift-bin/ps"
+# test.sh sources build-jdk.sh to choose the JDK that builds the SDK, downloading it on first use, and
+# runs Maven, as servers.sh does, through the Maven wrapper. In a checkout, the build JDK is left as
+# it is and the wrapper runs the stand-in Maven on PATH, so nothing is downloaded.
+cat > "$work/build-jdk.sh" <<'SH'
+# Stands in for build-jdk.sh: the stand-in Maven needs no build JDK.
+SH
+cat > "$work/mvnw" <<'SH'
+#!/usr/bin/env bash
+# Stands in for the Maven wrapper: runs the stand-in Maven.
+exec mvn "$@"
+SH
+chmod +x "$work/jdk/bin/java" "$work/bin/mvn" "$work/mvnw" "$work/reuse-bin/ps" "$work/hide-bin/ps" "$work/shift-bin/ps"
 real_ps=$(command -v ps)
 
-# checkout <name>: a throwaway copy of the Java target's test.sh and test-server/servers.sh.
+# checkout <name>: a throwaway copy of the Java target's test.sh and test-server/servers.sh, beside
+# the stand-ins for build-jdk.sh and the Maven wrapper.
 checkout() {
   local dir="$work/$1"
   mkdir -p "$dir/test-server" "$dir/fake"
   : > "$dir/fake/pids"
   cp -p "$here/../test.sh" "$dir/test.sh"
   cp -p "$here/servers.sh" "$dir/test-server/servers.sh"
+  cp -p "$work/build-jdk.sh" "$dir/build-jdk.sh"
+  cp -p "$work/mvnw" "$dir/mvnw"
   echo "$dir"
 }
 
@@ -345,7 +364,7 @@ check "no server runs after that stop" none_alive "$dir"
 dir=$(checkout recipe)
 run "$dir" ./test.sh
 expect "test.sh passes when the tests pass and the servers stop" 0
-check "mvn test ran against both servers" grep -q -F 'http://127.0.0.1:41001 http://127.0.0.1:41002 running=2' "$dir/fake/mvn-test"
+check "the tests ran against both servers" grep -q -F 'http://127.0.0.1:41001 http://127.0.0.1:41002 running=2' "$dir/fake/mvn-test"
 check "no server runs after test.sh" none_alive "$dir"
 
 dir=$(checkout recipe-test-failure)
@@ -372,7 +391,7 @@ run "$dir" ./test-server/servers.sh stop
 dir=$(checkout recipe-start-failure)
 FAKE_STORAGE=dies run "$dir" ./test.sh
 expect "test.sh fails when a server does not start" 1 "the storage test server did not start"
-check "mvn test does not run" test ! -e "$dir/fake/mvn-test"
+check "the tests do not run" test ! -e "$dir/fake/mvn-test"
 check "no server runs after that failure" none_alive "$dir"
 
 dir=$(checkout recipe-already-running)

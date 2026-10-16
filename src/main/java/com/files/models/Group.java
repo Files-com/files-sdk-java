@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Group implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Group, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Group implements ModelInterface {
   }
 
   public Group(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Group implements ModelInterface {
 
 
   /**
-  * Group ID
-  */
+   * Group ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Group name
-  */
+   * Group name
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * A list of allowed IPs if applicable.  Newline delimited
-  */
+   * A list of allowed IPs if applicable.  Newline delimited
+   */
   @JsonProperty("allowed_ips")
   public String allowedIps;
 
@@ -116,8 +138,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Comma-delimited list of user IDs who are group administrators (separated by commas)
-  */
+   * Comma-delimited list of user IDs who are group administrators (separated by commas)
+   */
   @JsonProperty("admin_ids")
   public String adminIds;
 
@@ -130,8 +152,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Notes about this group
-  */
+   * Notes about this group
+   */
   @JsonProperty("notes")
   public String notes;
 
@@ -144,8 +166,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Comma-delimited list of user IDs who belong to this group (separated by commas)
-  */
+   * Comma-delimited list of user IDs who belong to this group (separated by commas)
+   */
   @JsonProperty("user_ids")
   public String userIds;
 
@@ -158,8 +180,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Comma-delimited list of usernames who belong to this group (separated by commas)
-  */
+   * Comma-delimited list of usernames who belong to this group (separated by commas)
+   */
   @JsonProperty("usernames")
   public String usernames;
 
@@ -172,8 +194,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-  */
+   * AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
+   */
   @JsonProperty("ai_assistant_personality_id")
   public Long aiAssistantPersonalityId;
 
@@ -186,8 +208,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-  */
+   * If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+   */
   @JsonProperty("ftp_permission")
   public Boolean ftpPermission;
 
@@ -200,8 +222,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-  */
+   * If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+   */
   @JsonProperty("sftp_permission")
   public Boolean sftpPermission;
 
@@ -214,8 +236,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-  */
+   * If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+   */
   @JsonProperty("dav_permission")
   public Boolean davPermission;
 
@@ -228,8 +250,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-  */
+   * If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+   */
   @JsonProperty("restapi_permission")
   public Boolean restapiPermission;
 
@@ -242,8 +264,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-  */
+   * If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
+   */
   @JsonProperty("s3_compatible_endpoint_permission")
   public Boolean s3CompatibleEndpointPermission;
 
@@ -256,8 +278,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  */
+   * Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   */
   @JsonProperty("desktop_configuration_profile_id")
   public Long desktopConfigurationProfileId;
 
@@ -270,8 +292,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  */
+   * Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   */
   @JsonProperty("integration_centric_profile_id")
   public Long integrationCentricProfileId;
 
@@ -284,8 +306,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Site ID
-  */
+   * Site ID
+   */
   @JsonProperty("site_id")
   public Long siteId;
 
@@ -298,8 +320,8 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Workspace ID
-  */
+   * Workspace ID
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -312,51 +334,92 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   notes - string - Group notes.
-  *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-  *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-  *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-  *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-  *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-  *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-  *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   name - string - Group name.
-  */
+   * Updates this Group. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   notes - string - Group notes.
+   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
+   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
+   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   name - string - Group name.
+   */
   public Group update(HashMap<String, Object> parameters) throws IOException {
-    return Group.update(this.id, parameters, this.options);
+    Group updated = filesClient().groups().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Group.delete(this.id, parameters, this.options);
+    filesClient().groups().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Group: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Group.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().groups().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Group canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.allowedIps = canonical.allowedIps;
+    this.adminIds = canonical.adminIds;
+    this.notes = canonical.notes;
+    this.userIds = canonical.userIds;
+    this.usernames = canonical.usernames;
+    this.aiAssistantPersonalityId = canonical.aiAssistantPersonalityId;
+    this.ftpPermission = canonical.ftpPermission;
+    this.sftpPermission = canonical.sftpPermission;
+    this.davPermission = canonical.davPermission;
+    this.restapiPermission = canonical.restapiPermission;
+    this.s3CompatibleEndpointPermission = canonical.s3CompatibleEndpointPermission;
+    this.desktopConfigurationProfileId = canonical.desktopConfigurationProfileId;
+    this.integrationCentricProfileId = canonical.integrationCentricProfileId;
+    this.siteId = canonical.siteId;
+    this.workspaceId = canonical.workspaceId;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
-  *   ids - string - Comma-separated list of group ids to include in results.
-  *   include_parent_site_groups - boolean - Include groups from the parent site.
-  *   include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   *   ids - string - Comma-separated list of group ids to include in results.
+   *   include_parent_site_groups - boolean - Include groups from the parent site.
+   *   include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
+   */
   public static ListIterator<Group> list() throws RuntimeException {
     return list(null, null);
   }
@@ -367,41 +430,7 @@ public class Group implements ModelInterface {
 
 
   public static ListIterator<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("ids") && !(parameters.get("ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ids must be of type String parameters[\"ids\"]");
-    }
-    if (parameters.containsKey("include_parent_site_groups") && !(parameters.get("include_parent_site_groups") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_parent_site_groups must be of type Boolean parameters[\"include_parent_site_groups\"]");
-    }
-    if (parameters.containsKey("include_default_workspace_groups") && !(parameters.get("include_default_workspace_groups") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_default_workspace_groups must be of type Boolean parameters[\"include_default_workspace_groups\"]");
-    }
-
-
-    String url = String.format("%s%s/groups", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Group>> typeReference = new TypeReference<List<Group>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().groups().list(parameters, options);
   }
 
   public static ListIterator<Group> all() throws RuntimeException {
@@ -413,9 +442,9 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Group ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Group ID.
+   */
   public static Group find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -429,28 +458,7 @@ public class Group implements ModelInterface {
   }
 
   public static Group find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Group> typeReference = new TypeReference<Group>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().groups().find(id, parameters, options);
   }
 
   public static Group get() throws RuntimeException {
@@ -462,22 +470,22 @@ public class Group implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   notes - string - Group notes.
-  *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-  *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-  *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-  *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-  *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-  *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-  *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   name (required) - string - Group name.
-  *   workspace_id - int64 - Workspace ID
-  */
+   * Parameters:
+   *   notes - string - Group notes.
+   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
+   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
+   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   name (required) - string - Group name.
+   *   workspace_id - int64 - Workspace ID
+   */
   public static Group create() throws RuntimeException {
     return create(null, null);
   }
@@ -488,81 +496,26 @@ public class Group implements ModelInterface {
 
 
   public static Group create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
-    }
-    if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
-    }
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
-    }
-    if (parameters.containsKey("sftp_permission") && !(parameters.get("sftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_permission must be of type Boolean parameters[\"sftp_permission\"]");
-    }
-    if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
-    }
-    if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
-    }
-    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
-    }
-    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
-    }
-    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/groups", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Group> typeReference = new TypeReference<Group>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().groups().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   notes - string - Group notes.
-  *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-  *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-  *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-  *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-  *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-  *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-  *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   name - string - Group name.
-  */
+   * Parameters:
+   *   notes - string - Group notes.
+   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
+   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
+   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
+   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
+   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
+   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
+   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   name - string - Group name.
+   */
   public static Group update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -576,72 +529,12 @@ public class Group implements ModelInterface {
   }
 
   public static Group update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
-    }
-    if (parameters.containsKey("admin_ids") && !(parameters.get("admin_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: admin_ids must be of type String parameters[\"admin_ids\"]");
-    }
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
-    }
-    if (parameters.containsKey("sftp_permission") && !(parameters.get("sftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_permission must be of type Boolean parameters[\"sftp_permission\"]");
-    }
-    if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
-    }
-    if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
-    }
-    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
-    }
-    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
-    }
-    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-
-
-
-    String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Group> typeReference = new TypeReference<Group>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().groups().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -655,27 +548,7 @@ public class Group implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().groups().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

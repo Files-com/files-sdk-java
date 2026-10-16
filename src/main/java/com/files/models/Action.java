@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Action implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Action, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Action implements ModelInterface {
   }
 
   public Action(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Action implements ModelInterface {
 
 
   /**
-  * Action ID
-  */
+   * Action ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -94,8 +116,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Action occurrence date/time
-  */
+   * Action occurrence date/time
+   */
   @JsonProperty("when")
   public Date when;
 
@@ -104,8 +126,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * The destination path for this action, if applicable
-  */
+   * The destination path for this action, if applicable
+   */
   @JsonProperty("destination")
   public String destination;
 
@@ -114,8 +136,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Friendly displayed output
-  */
+   * Friendly displayed output
+   */
   @JsonProperty("display")
   public String display;
 
@@ -124,8 +146,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * IP Address that performed this action
-  */
+   * IP Address that performed this action
+   */
   @JsonProperty("ip")
   public String ip;
 
@@ -134,8 +156,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * The source path for this action, if applicable
-  */
+   * The source path for this action, if applicable
+   */
   @JsonProperty("source")
   public String source;
 
@@ -144,8 +166,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Targets
-  */
+   * Targets
+   */
   @JsonProperty("targets")
   public Object targets;
 
@@ -154,8 +176,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * User ID
-  */
+   * User ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -164,8 +186,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Username
-  */
+   * Username
+   */
   @JsonProperty("username")
   public String username;
 
@@ -174,8 +196,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * true if this change was performed by a user on a parent site.
-  */
+   * true if this change was performed by a user on a parent site.
+   */
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
 
@@ -184,8 +206,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Type of action
-  */
+   * Type of action
+   */
   @JsonProperty("action")
   public String action;
 
@@ -194,8 +216,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Failure type.  If action was a user login or session failure, why did it fail?
-  */
+   * Failure type.  If action was a user login or session failure, why did it fail?
+   */
   @JsonProperty("failure_type")
   public String failureType;
 
@@ -204,8 +226,8 @@ public class Action implements ModelInterface {
   }
 
   /**
-  * Interface on which this action occurred.
-  */
+   * Interface on which this action occurred.
+   */
   @JsonProperty("interface")
   public String interfaceName;
 

@@ -109,8 +109,8 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
 * `health_check_type` (String): Type of health check to perform.
 * `interval` (Long): Interval in seconds between health checks.
-* `min_free_cpu` (Double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (Double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.
+* `min_free_mem` (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.
@@ -156,8 +156,8 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
 * `health_check_type` (String): Type of health check to perform.
 * `interval` (Long): Interval in seconds between health checks.
-* `min_free_cpu` (Double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (Double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.
+* `min_free_mem` (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.
@@ -231,8 +231,8 @@ remoteMountBackend.update(parameters);
 * `health_check_enabled` (Boolean): True if health checks are enabled for this backend.
 * `health_check_type` (String): Type of health check to perform.
 * `interval` (Long): Interval in seconds between health checks.
-* `min_free_cpu` (Double): Minimum free CPU percentage required for this backend to be considered healthy.
-* `min_free_mem` (Double): Minimum free memory percentage required for this backend to be considered healthy.
+* `min_free_cpu` (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.
+* `min_free_mem` (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.
 * `priority` (Long): Priority of this backend.
 * `remote_path` (String): Path on the remote server to treat as the root of this mount.
 * `rise` (Long): Number of consecutive successes before considering the backend healthy.

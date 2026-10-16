@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Restore implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Restore, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Restore implements ModelInterface {
   }
 
   public Restore(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Restore implements ModelInterface {
 
 
   /**
-  * Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
-  */
+   * Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+   */
   @JsonProperty("earliest_date")
   public Date earliestDate;
 
@@ -88,8 +110,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Restore Record ID.
-  */
+   * Restore Record ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -102,8 +124,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of directories that were successfully restored.
-  */
+   * Number of directories that were successfully restored.
+   */
   @JsonProperty("dirs_restored")
   public Long dirsRestored;
 
@@ -116,8 +138,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of directories that were not able to be restored.
-  */
+   * Number of directories that were not able to be restored.
+   */
   @JsonProperty("dirs_errored")
   public Long dirsErrored;
 
@@ -130,8 +152,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Total number of directories processed.
-  */
+   * Total number of directories processed.
+   */
   @JsonProperty("dirs_total")
   public Long dirsTotal;
 
@@ -144,8 +166,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of files successfully restored.
-  */
+   * Number of files successfully restored.
+   */
   @JsonProperty("files_restored")
   public Long filesRestored;
 
@@ -158,8 +180,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of files that were not able to be restored.
-  */
+   * Number of files that were not able to be restored.
+   */
   @JsonProperty("files_errored")
   public Long filesErrored;
 
@@ -172,8 +194,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Total number of files processed.
-  */
+   * Total number of files processed.
+   */
   @JsonProperty("files_total")
   public Long filesTotal;
 
@@ -186,8 +208,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
-  */
+   * Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
+   */
   @JsonProperty("prefix")
   public String prefix;
 
@@ -200,8 +222,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
-  */
+   * Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
+   */
   @JsonProperty("restoration_type")
   public String restorationType;
 
@@ -214,8 +236,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-  */
+   * If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
+   */
   @JsonProperty("restore_in_place")
   public Boolean restoreInPlace;
 
@@ -228,8 +250,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
-  */
+   * If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
+   */
   @JsonProperty("restore_deleted_permissions")
   public Boolean restoreDeletedPermissions;
 
@@ -242,8 +264,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of users successfully restored (only present for `restoration_type=users`).
-  */
+   * Number of users successfully restored (only present for `restoration_type=users`).
+   */
   @JsonProperty("users_restored")
   public Long usersRestored;
 
@@ -256,8 +278,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of users that failed to restore (only present for `restoration_type=users`).
-  */
+   * Number of users that failed to restore (only present for `restoration_type=users`).
+   */
   @JsonProperty("users_errored")
   public Long usersErrored;
 
@@ -270,8 +292,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Total number of users processed (only present for `restoration_type=users`).
-  */
+   * Total number of users processed (only present for `restoration_type=users`).
+   */
   @JsonProperty("users_total")
   public Long usersTotal;
 
@@ -284,8 +306,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of API keys restored (only present for `restoration_type=users`).
-  */
+   * Number of API keys restored (only present for `restoration_type=users`).
+   */
   @JsonProperty("api_keys_restored")
   public Long apiKeysRestored;
 
@@ -298,8 +320,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of public keys restored (only present for `restoration_type=users`).
-  */
+   * Number of public keys restored (only present for `restoration_type=users`).
+   */
   @JsonProperty("public_keys_restored")
   public Long publicKeysRestored;
 
@@ -312,8 +334,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Number of two factor authentication methods restored (only present for `restoration_type=users`).
-  */
+   * Number of two factor authentication methods restored (only present for `restoration_type=users`).
+   */
   @JsonProperty("two_factor_authentication_methods_restored")
   public Long twoFactorAuthenticationMethodsRestored;
 
@@ -326,8 +348,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Status of the restoration process.
-  */
+   * Status of the restoration process.
+   */
   @JsonProperty("status")
   public String status;
 
@@ -340,8 +362,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
-  */
+   * If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+   */
   @JsonProperty("update_timestamps")
   public Boolean updateTimestamps;
 
@@ -354,8 +376,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
-  */
+   * Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -368,8 +390,8 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Error messages received while restoring files and/or directories. Only present if there were errors.
-  */
+   * Error messages received while restoring files and/or directories. Only present if there were errors.
+   */
   @JsonProperty("error_messages")
   public String[] errorMessages;
 
@@ -381,18 +403,57 @@ public class Restore implements ModelInterface {
     this.errorMessages = errorMessages;
   }
 
+
+  /**
+   * Creates this Restore from its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Restore.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    refreshFrom(filesClient().restores().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Restore canonical) {
+    this.earliestDate = canonical.earliestDate;
+    this.id = canonical.id;
+    this.dirsRestored = canonical.dirsRestored;
+    this.dirsErrored = canonical.dirsErrored;
+    this.dirsTotal = canonical.dirsTotal;
+    this.filesRestored = canonical.filesRestored;
+    this.filesErrored = canonical.filesErrored;
+    this.filesTotal = canonical.filesTotal;
+    this.prefix = canonical.prefix;
+    this.restorationType = canonical.restorationType;
+    this.restoreInPlace = canonical.restoreInPlace;
+    this.restoreDeletedPermissions = canonical.restoreDeletedPermissions;
+    this.usersRestored = canonical.usersRestored;
+    this.usersErrored = canonical.usersErrored;
+    this.usersTotal = canonical.usersTotal;
+    this.apiKeysRestored = canonical.apiKeysRestored;
+    this.publicKeysRestored = canonical.publicKeysRestored;
+    this.twoFactorAuthenticationMethodsRestored = canonical.twoFactorAuthenticationMethodsRestored;
+    this.status = canonical.status;
+    this.updateTimestamps = canonical.updateTimestamps;
+    this.workspaceId = canonical.workspaceId;
+    this.errorMessages = canonical.errorMessages;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
+   */
   public static ListIterator<Restore> list() throws RuntimeException {
     return list(null, null);
   }
@@ -403,29 +464,7 @@ public class Restore implements ModelInterface {
 
 
   public static ListIterator<Restore> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Restore>> typeReference = new TypeReference<List<Restore>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().restores().list(parameters, options);
   }
 
   public static ListIterator<Restore> all() throws RuntimeException {
@@ -437,15 +476,15 @@ public class Restore implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
-  *   prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
-  *   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
-  *   restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
-  *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-  *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
-  *   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
-  */
+   * Parameters:
+   *   earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
+   *   prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
+   *   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
+   *   restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
+   *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
+   *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
+   *   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+   */
   public static Restore create() throws RuntimeException {
     return create(null, null);
   }
@@ -456,41 +495,7 @@ public class Restore implements ModelInterface {
 
 
   public static Restore create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("earliest_date") || parameters.get("earliest_date") == null) {
-      throw new NullPointerException("Parameter missing: earliest_date parameters[\"earliest_date\"]");
-    }
-
-    if (parameters.containsKey("earliest_date") && !(parameters.get("earliest_date") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: earliest_date must be of type String parameters[\"earliest_date\"]");
-    }
-    if (parameters.containsKey("prefix") && !(parameters.get("prefix") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: prefix must be of type String parameters[\"prefix\"]");
-    }
-    if (parameters.containsKey("restoration_type") && !(parameters.get("restoration_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: restoration_type must be of type String parameters[\"restoration_type\"]");
-    }
-    if (parameters.containsKey("restore_deleted_permissions") && !(parameters.get("restore_deleted_permissions") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restore_deleted_permissions must be of type Boolean parameters[\"restore_deleted_permissions\"]");
-    }
-    if (parameters.containsKey("restore_in_place") && !(parameters.get("restore_in_place") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restore_in_place must be of type Boolean parameters[\"restore_in_place\"]");
-    }
-    if (parameters.containsKey("update_timestamps") && !(parameters.get("update_timestamps") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: update_timestamps must be of type Boolean parameters[\"update_timestamps\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/restores", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Restore> typeReference = new TypeReference<Restore>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().restores().create(parameters, options);
   }
 
 

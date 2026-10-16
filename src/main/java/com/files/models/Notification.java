@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Notification implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Notification, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Notification implements ModelInterface {
   }
 
   public Notification(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Notification implements ModelInterface {
 
 
   /**
-  * Notification ID
-  */
+   * Notification ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Folder path to notify on. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -102,8 +124,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * ID of Group to receive notifications
-  */
+   * ID of Group to receive notifications
+   */
   @JsonProperty("group_id")
   public Long groupId;
 
@@ -116,8 +138,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Group name, if a Group ID is set
-  */
+   * Group name, if a Group ID is set
+   */
   @JsonProperty("group_name")
   public String groupName;
 
@@ -130,8 +152,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Group IDs when the notification requires multiple groups
-  */
+   * Group IDs when the notification requires multiple groups
+   */
   @JsonProperty("group_ids")
   public Long[] groupIds;
 
@@ -144,8 +166,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Group names when the notification requires multiple groups
-  */
+   * Group names when the notification requires multiple groups
+   */
   @JsonProperty("group_names")
   public String[] groupNames;
 
@@ -158,8 +180,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * If set, will only notify on actions made by a member of one of the specified groups
-  */
+   * If set, will only notify on actions made by a member of one of the specified groups
+   */
   @JsonProperty("triggering_group_ids")
   public Long[] triggeringGroupIds;
 
@@ -172,8 +194,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * If set, will only notify on actions made one of the specified users
-  */
+   * If set, will only notify on actions made one of the specified users
+   */
   @JsonProperty("triggering_user_ids")
   public Long[] triggeringUserIds;
 
@@ -186,8 +208,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Notify when actions are performed by a share recipient?
-  */
+   * Notify when actions are performed by a share recipient?
+   */
   @JsonProperty("trigger_by_share_recipients")
   public Boolean triggerByShareRecipients;
 
@@ -200,8 +222,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
-  */
+   * If true, will send notifications about a user's own activity to that user.  If false, only activity performed by other users (or anonymous users) will be sent in notifications.
+   */
   @JsonProperty("notify_user_actions")
   public Boolean notifyUserActions;
 
@@ -214,8 +236,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Trigger on files copied to this path?
-  */
+   * Trigger on files copied to this path?
+   */
   @JsonProperty("notify_on_copy")
   public Boolean notifyOnCopy;
 
@@ -228,8 +250,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Trigger on files deleted in this path?
-  */
+   * Trigger on files deleted in this path?
+   */
   @JsonProperty("notify_on_delete")
   public Boolean notifyOnDelete;
 
@@ -242,8 +264,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Trigger on files downloaded in this path?
-  */
+   * Trigger on files downloaded in this path?
+   */
   @JsonProperty("notify_on_download")
   public Boolean notifyOnDownload;
 
@@ -256,8 +278,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Trigger on files moved to this path?
-  */
+   * Trigger on files moved to this path?
+   */
   @JsonProperty("notify_on_move")
   public Boolean notifyOnMove;
 
@@ -270,8 +292,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Trigger on files created/uploaded/updated/changed in this path?
-  */
+   * Trigger on files created/uploaded/updated/changed in this path?
+   */
   @JsonProperty("notify_on_upload")
   public Boolean notifyOnUpload;
 
@@ -284,8 +306,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Apply notification recursively?  This will enable notifications for each subfolder.
-  */
+   * Apply notification recursively?  This will enable notifications for each subfolder.
+   */
   @JsonProperty("recursive")
   public Boolean recursive;
 
@@ -298,8 +320,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * The time interval that notifications are aggregated to
-  */
+   * The time interval that notifications are aggregated to
+   */
   @JsonProperty("send_interval")
   public String sendInterval;
 
@@ -312,8 +334,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Custom subject line to use for notification emails
-  */
+   * Custom subject line to use for notification emails
+   */
   @JsonProperty("subject")
   public String subject;
 
@@ -326,8 +348,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Custom message to include in notification emails
-  */
+   * Custom message to include in notification emails
+   */
   @JsonProperty("message")
   public String message;
 
@@ -340,8 +362,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Array of filenames (possibly with wildcards) to scope trigger
-  */
+   * Array of filenames (possibly with wildcards) to scope trigger
+   */
   @JsonProperty("triggering_filenames")
   public String[] triggeringFilenames;
 
@@ -354,8 +376,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -368,8 +390,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Is the user unsubscribed from this notification?
-  */
+   * Is the user unsubscribed from this notification?
+   */
   @JsonProperty("unsubscribed")
   public Boolean unsubscribed;
 
@@ -382,8 +404,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * The reason that the user unsubscribed
-  */
+   * The reason that the user unsubscribed
+   */
   @JsonProperty("unsubscribed_reason")
   public String unsubscribedReason;
 
@@ -396,8 +418,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Notification user ID
-  */
+   * Notification user ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -410,8 +432,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Notification username
-  */
+   * Notification username
+   */
   @JsonProperty("username")
   public String username;
 
@@ -424,8 +446,8 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
-  */
+   * If true, it means that the recipient at this user's email address has manually unsubscribed from all emails, or had their email "hard bounce", which means that we are unable to send mail to this user's current email address. Notifications will resume if the user changes their email address.
+   */
   @JsonProperty("suppressed_email")
   public Boolean suppressedEmail;
 
@@ -438,53 +460,116 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-  *   notify_on_delete - boolean - Trigger on files deleted in this path?
-  *   notify_on_download - boolean - Trigger on files downloaded in this path?
-  *   notify_on_move - boolean - Trigger on files moved to this path?
-  *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
-  *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
-  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
-  *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-  *   subject - string - Custom subject line to use for notification emails
-  *   message - string - Custom message to include in notification emails
-  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
-  *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
-  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Updates this Notification. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+   *   notify_on_delete - boolean - Trigger on files deleted in this path?
+   *   notify_on_download - boolean - Trigger on files downloaded in this path?
+   *   notify_on_move - boolean - Trigger on files moved to this path?
+   *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
+   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
+   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+   *   subject - string - Custom subject line to use for notification emails
+   *   message - string - Custom message to include in notification emails
+   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
+   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
+   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
+   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public Notification update(HashMap<String, Object> parameters) throws IOException {
-    return Notification.update(this.id, parameters, this.options);
+    Notification updated = filesClient().notifications().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Notification.delete(this.id, parameters, this.options);
+    filesClient().notifications().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Notification: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Notification.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().notifications().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.triggeringFilenames != null) {
+      parameters.put("triggering_filenames", this.triggeringFilenames);
+    }
+    if (this.triggeringGroupIds != null) {
+      parameters.put("triggering_group_ids", this.triggeringGroupIds);
+    }
+    if (this.triggeringUserIds != null) {
+      parameters.put("triggering_user_ids", this.triggeringUserIds);
+    }
+    if (this.groupIds != null) {
+      parameters.put("group_ids", ModelUtils.commaDelimited(this.groupIds));
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Notification canonical) {
+    this.id = canonical.id;
+    this.path = canonical.path;
+    this.groupId = canonical.groupId;
+    this.groupName = canonical.groupName;
+    this.groupIds = canonical.groupIds;
+    this.groupNames = canonical.groupNames;
+    this.triggeringGroupIds = canonical.triggeringGroupIds;
+    this.triggeringUserIds = canonical.triggeringUserIds;
+    this.triggerByShareRecipients = canonical.triggerByShareRecipients;
+    this.notifyUserActions = canonical.notifyUserActions;
+    this.notifyOnCopy = canonical.notifyOnCopy;
+    this.notifyOnDelete = canonical.notifyOnDelete;
+    this.notifyOnDownload = canonical.notifyOnDownload;
+    this.notifyOnMove = canonical.notifyOnMove;
+    this.notifyOnUpload = canonical.notifyOnUpload;
+    this.recursive = canonical.recursive;
+    this.sendInterval = canonical.sendInterval;
+    this.subject = canonical.subject;
+    this.message = canonical.message;
+    this.triggeringFilenames = canonical.triggeringFilenames;
+    this.workspaceId = canonical.workspaceId;
+    this.unsubscribed = canonical.unsubscribed;
+    this.unsubscribedReason = canonical.unsubscribedReason;
+    this.userId = canonical.userId;
+    this.username = canonical.username;
+    this.suppressedEmail = canonical.suppressedEmail;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-  *   path - string - Show notifications for this Path.
-  *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
-  *   group_id - string
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
+   *   path - string - Show notifications for this Path.
+   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
+   *   group_id - string
+   */
   public static ListIterator<Notification> list() throws RuntimeException {
     return list(null, null);
   }
@@ -495,41 +580,7 @@ public class Notification implements ModelInterface {
 
 
   public static ListIterator<Notification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("include_ancestors") && !(parameters.get("include_ancestors") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_ancestors must be of type Boolean parameters[\"include_ancestors\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type String parameters[\"group_id\"]");
-    }
-
-
-    String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Notification>> typeReference = new TypeReference<List<Notification>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().notifications().list(parameters, options);
   }
 
   public static ListIterator<Notification> all() throws RuntimeException {
@@ -541,9 +592,9 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Notification ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Notification ID.
+   */
   public static Notification find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -557,28 +608,7 @@ public class Notification implements ModelInterface {
   }
 
   public static Notification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().notifications().find(id, parameters, options);
   }
 
   public static Notification get() throws RuntimeException {
@@ -590,28 +620,28 @@ public class Notification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
-  *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-  *   notify_on_delete - boolean - Trigger on files deleted in this path?
-  *   notify_on_download - boolean - Trigger on files downloaded in this path?
-  *   notify_on_move - boolean - Trigger on files moved to this path?
-  *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
-  *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
-  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
-  *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-  *   subject - string - Custom subject line to use for notification emails
-  *   message - string - Custom message to include in notification emails
-  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
-  *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
-  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
-  *   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
-  *   path - string - Path
-  *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
-  */
+   * Parameters:
+   *   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
+   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+   *   notify_on_delete - boolean - Trigger on files deleted in this path?
+   *   notify_on_download - boolean - Trigger on files downloaded in this path?
+   *   notify_on_move - boolean - Trigger on files moved to this path?
+   *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
+   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
+   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+   *   subject - string - Custom subject line to use for notification emails
+   *   message - string - Custom message to include in notification emails
+   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
+   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
+   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
+   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
+   *   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
+   *   path - string - Path
+   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
+   */
   public static Notification create() throws RuntimeException {
     return create(null, null);
   }
@@ -622,98 +652,28 @@ public class Notification implements ModelInterface {
 
 
   public static Notification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("notify_on_copy") && !(parameters.get("notify_on_copy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
-    }
-    if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
-    }
-    if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
-    }
-    if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
-    }
-    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
-    if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
-    }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-    if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
-    }
-    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
-    }
-    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
-    }
-    if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
-    }
-    if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
-    }
-    if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
-    }
-    if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-
-
-    String url = String.format("%s%s/notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().notifications().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-  *   notify_on_delete - boolean - Trigger on files deleted in this path?
-  *   notify_on_download - boolean - Trigger on files downloaded in this path?
-  *   notify_on_move - boolean - Trigger on files moved to this path?
-  *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
-  *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
-  *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
-  *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-  *   subject - string - Custom subject line to use for notification emails
-  *   message - string - Custom message to include in notification emails
-  *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
-  *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-  *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
-  *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+   *   notify_on_delete - boolean - Trigger on files deleted in this path?
+   *   notify_on_download - boolean - Trigger on files downloaded in this path?
+   *   notify_on_move - boolean - Trigger on files moved to this path?
+   *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
+   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
+   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
+   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+   *   subject - string - Custom subject line to use for notification emails
+   *   message - string - Custom message to include in notification emails
+   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
+   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
+   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
+   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static Notification update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -727,78 +687,12 @@ public class Notification implements ModelInterface {
   }
 
   public static Notification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("notify_on_copy") && !(parameters.get("notify_on_copy") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_copy must be of type Boolean parameters[\"notify_on_copy\"]");
-    }
-    if (parameters.containsKey("notify_on_delete") && !(parameters.get("notify_on_delete") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_delete must be of type Boolean parameters[\"notify_on_delete\"]");
-    }
-    if (parameters.containsKey("notify_on_download") && !(parameters.get("notify_on_download") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_download must be of type Boolean parameters[\"notify_on_download\"]");
-    }
-    if (parameters.containsKey("notify_on_move") && !(parameters.get("notify_on_move") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_move must be of type Boolean parameters[\"notify_on_move\"]");
-    }
-    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
-    if (parameters.containsKey("notify_user_actions") && !(parameters.get("notify_user_actions") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_user_actions must be of type Boolean parameters[\"notify_user_actions\"]");
-    }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-    if (parameters.containsKey("send_interval") && !(parameters.get("send_interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: send_interval must be of type String parameters[\"send_interval\"]");
-    }
-    if (parameters.containsKey("subject") && !(parameters.get("subject") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: subject must be of type String parameters[\"subject\"]");
-    }
-    if (parameters.containsKey("message") && !(parameters.get("message") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: message must be of type String parameters[\"message\"]");
-    }
-    if (parameters.containsKey("triggering_filenames") && !(parameters.get("triggering_filenames") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_filenames must be of type String[] parameters[\"triggering_filenames\"]");
-    }
-    if (parameters.containsKey("triggering_group_ids") && !(parameters.get("triggering_group_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_group_ids must be of type Long[] parameters[\"triggering_group_ids\"]");
-    }
-    if (parameters.containsKey("triggering_user_ids") && !(parameters.get("triggering_user_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: triggering_user_ids must be of type Long[] parameters[\"triggering_user_ids\"]");
-    }
-    if (parameters.containsKey("trigger_by_share_recipients") && !(parameters.get("trigger_by_share_recipients") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: trigger_by_share_recipients must be of type Boolean parameters[\"trigger_by_share_recipients\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Notification> typeReference = new TypeReference<Notification>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().notifications().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -812,27 +706,7 @@ public class Notification implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().notifications().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

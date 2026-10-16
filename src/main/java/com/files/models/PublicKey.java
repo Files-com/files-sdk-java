@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicKey implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every PublicKey, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class PublicKey implements ModelInterface {
   }
 
   public PublicKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class PublicKey implements ModelInterface {
 
 
   /**
-  * Public key ID
-  */
+   * Public key ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Workspace ID (0 for default workspace).
-  */
+   * Workspace ID (0 for default workspace).
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key title
-  */
+   * Public key title
+   */
   @JsonProperty("title")
   public String title;
 
@@ -116,8 +138,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key created at date/time
-  */
+   * Public key created at date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -126,8 +148,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key expiration date/time
-  */
+   * Public key expiration date/time
+   */
   @JsonProperty("expires_at")
   public Date expiresAt;
 
@@ -140,8 +162,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Is this public key expired?
-  */
+   * Is this public key expired?
+   */
   @JsonProperty("expired")
   public Boolean expired;
 
@@ -154,8 +176,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key fingerprint (MD5)
-  */
+   * Public key fingerprint (MD5)
+   */
   @JsonProperty("fingerprint")
   public String fingerprint;
 
@@ -168,8 +190,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Public key fingerprint (SHA256)
-  */
+   * Public key fingerprint (SHA256)
+   */
   @JsonProperty("fingerprint_sha256")
   public String fingerprintSha256;
 
@@ -182,8 +204,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Only returned when generating keys. Can be invalid, not_generated, generating, complete
-  */
+   * Only returned when generating keys. Can be invalid, not_generated, generating, complete
+   */
   @JsonProperty("status")
   public String status;
 
@@ -196,8 +218,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Key's most recent login time via SFTP
-  */
+   * Key's most recent login time via SFTP
+   */
   @JsonProperty("last_login_at")
   public Date lastLoginAt;
 
@@ -210,8 +232,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Only returned when generating keys. Private key generated for the user.
-  */
+   * Only returned when generating keys. Private key generated for the user.
+   */
   @JsonProperty("generated_private_key")
   public String generatedPrivateKey;
 
@@ -224,8 +246,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Only returned when generating keys. Public key generated for the user.
-  */
+   * Only returned when generating keys. Public key generated for the user.
+   */
   @JsonProperty("generated_public_key")
   public String generatedPublicKey;
 
@@ -238,8 +260,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Username of the user this public key is associated with
-  */
+   * Username of the user this public key is associated with
+   */
   @JsonProperty("username")
   public String username;
 
@@ -252,8 +274,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * User ID this public key is associated with
-  */
+   * User ID this public key is associated with
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -266,8 +288,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Actual contents of SSH key.
-  */
+   * Actual contents of SSH key.
+   */
   @JsonProperty("public_key")
   public String publicKey;
 
@@ -280,8 +302,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * If true, generate a new SSH key pair. Can not be used with `public_key`
-  */
+   * If true, generate a new SSH key pair. Can not be used with `public_key`
+   */
   @JsonProperty("generate_keypair")
   public Boolean generateKeypair;
 
@@ -294,8 +316,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  */
+   * Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   */
   @JsonProperty("generate_private_key_password")
   public String generatePrivateKeyPassword;
 
@@ -308,8 +330,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  */
+   * Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   */
   @JsonProperty("generate_algorithm")
   public String generateAlgorithm;
 
@@ -322,8 +344,8 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  */
+   * Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   */
   @JsonProperty("generate_length")
   public Long generateLength;
 
@@ -336,40 +358,83 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   title (required) - string - Internal reference for key.
-  */
+   * Updates this PublicKey. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   title (required) - string - Internal reference for key.
+   */
   public PublicKey update(HashMap<String, Object> parameters) throws IOException {
-    return PublicKey.update(this.id, parameters, this.options);
+    PublicKey updated = filesClient().publicKeys().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    PublicKey.delete(this.id, parameters, this.options);
+    filesClient().publicKeys().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this PublicKey: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    PublicKey.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().publicKeys().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(PublicKey canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.title = canonical.title;
+    this.createdAt = canonical.createdAt;
+    this.expiresAt = canonical.expiresAt;
+    this.expired = canonical.expired;
+    this.fingerprint = canonical.fingerprint;
+    this.fingerprintSha256 = canonical.fingerprintSha256;
+    this.status = canonical.status;
+    this.lastLoginAt = canonical.lastLoginAt;
+    this.generatedPrivateKey = canonical.generatedPrivateKey;
+    this.generatedPublicKey = canonical.generatedPublicKey;
+    this.username = canonical.username;
+    this.userId = canonical.userId;
+    this.publicKey = canonical.publicKey;
+    this.generateKeypair = canonical.generateKeypair;
+    this.generatePrivateKeyPassword = canonical.generatePrivateKeyPassword;
+    this.generateAlgorithm = canonical.generateAlgorithm;
+    this.generateLength = canonical.generateLength;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `user_id`, `title` or `created_at`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `workspace_id`. Valid field combinations are `[ workspace_id, created_at ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `user_id`, `title` or `created_at`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `workspace_id`. Valid field combinations are `[ workspace_id, created_at ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   */
   public static ListIterator<PublicKey> list() throws RuntimeException {
     return list(null, null);
   }
@@ -380,44 +445,7 @@ public class PublicKey implements ModelInterface {
 
 
   public static ListIterator<PublicKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-
-
-    String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<PublicKey>> typeReference = new TypeReference<List<PublicKey>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().publicKeys().list(parameters, options);
   }
 
   public static ListIterator<PublicKey> all() throws RuntimeException {
@@ -429,9 +457,9 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Public Key ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Public Key ID.
+   */
   public static PublicKey find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -445,28 +473,7 @@ public class PublicKey implements ModelInterface {
   }
 
   public static PublicKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().publicKeys().find(id, parameters, options);
   }
 
   public static PublicKey get() throws RuntimeException {
@@ -478,15 +485,15 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   title (required) - string - Internal reference for key.
-  *   public_key - string - Actual contents of SSH key.
-  *   generate_keypair - boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
-  *   generate_private_key_password - string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  *   generate_algorithm - string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  *   generate_length - int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   title (required) - string - Internal reference for key.
+   *   public_key - string - Actual contents of SSH key.
+   *   generate_keypair - boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
+   *   generate_private_key_password - string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   *   generate_algorithm - string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   *   generate_length - int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   */
   public static PublicKey create() throws RuntimeException {
     return create(null, null);
   }
@@ -497,48 +504,14 @@ public class PublicKey implements ModelInterface {
 
 
   public static PublicKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("title") || parameters.get("title") == null) {
-      throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
-    }
-    if (parameters.containsKey("public_key") && !(parameters.get("public_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_key must be of type String parameters[\"public_key\"]");
-    }
-    if (parameters.containsKey("generate_keypair") && !(parameters.get("generate_keypair") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: generate_keypair must be of type Boolean parameters[\"generate_keypair\"]");
-    }
-    if (parameters.containsKey("generate_private_key_password") && !(parameters.get("generate_private_key_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: generate_private_key_password must be of type String parameters[\"generate_private_key_password\"]");
-    }
-    if (parameters.containsKey("generate_algorithm") && !(parameters.get("generate_algorithm") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: generate_algorithm must be of type String parameters[\"generate_algorithm\"]");
-    }
-    if (parameters.containsKey("generate_length") && !(parameters.get("generate_length") instanceof Long || parameters.get("generate_length") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: generate_length must be of type Long or Integer parameters[\"generate_length\"]");
-    }
-
-
-    String url = String.format("%s%s/public_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().publicKeys().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   title (required) - string - Internal reference for key.
-  */
+   * Parameters:
+   *   title (required) - string - Internal reference for key.
+   */
   public static PublicKey update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -552,39 +525,12 @@ public class PublicKey implements ModelInterface {
   }
 
   public static PublicKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("title") || parameters.get("title") == null) {
-      throw new NullPointerException("Parameter missing: title parameters[\"title\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
-    }
-
-
-
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<PublicKey> typeReference = new TypeReference<PublicKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().publicKeys().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -598,27 +544,7 @@ public class PublicKey implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/public_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().publicKeys().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

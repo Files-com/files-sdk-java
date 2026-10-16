@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Lock implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Lock, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Lock implements ModelInterface {
   }
 
   public Lock(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Lock implements ModelInterface {
 
 
   /**
-  * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -88,8 +110,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Lock timeout in seconds
-  */
+   * Lock timeout in seconds
+   */
   @JsonProperty("timeout")
   public Long timeout;
 
@@ -102,7 +124,7 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("depth")
   public String depth;
 
@@ -115,8 +137,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Does lock apply to subfolders?
-  */
+   * Does lock apply to subfolders?
+   */
   @JsonProperty("recursive")
   public Boolean recursive;
 
@@ -129,8 +151,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
-  */
+   * Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
+   */
   @JsonProperty("owner")
   public String owner;
 
@@ -143,7 +165,7 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("scope")
   public String scope;
 
@@ -156,8 +178,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Is lock exclusive?
-  */
+   * Is lock exclusive?
+   */
   @JsonProperty("exclusive")
   public Boolean exclusive;
 
@@ -170,8 +192,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Lock token.  Use to release lock.
-  */
+   * Lock token.  Use to release lock.
+   */
   @JsonProperty("token")
   public String token;
 
@@ -184,7 +206,7 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("type")
   public String type;
 
@@ -197,8 +219,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Can lock be modified by users other than its creator?
-  */
+   * Can lock be modified by users other than its creator?
+   */
   @JsonProperty("allow_access_by_any_user")
   public Boolean allowAccessByAnyUser;
 
@@ -211,8 +233,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Lock creator user ID
-  */
+   * Lock creator user ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -225,8 +247,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Lock creator username
-  */
+   * Lock creator username
+   */
   @JsonProperty("username")
   public String username;
 
@@ -239,8 +261,8 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
-  */
+   * Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
+   */
   @JsonProperty("expected_token")
   public String expectedToken;
 
@@ -253,29 +275,59 @@ public class Lock implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   token (required) - string - Lock token
-  */
+   * Parameters:
+   *   token (required) - string - Lock token
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Lock.delete(this.path, parameters, this.options);
+    filesClient().locks().delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Creates this Lock from its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Lock.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    refreshFrom(filesClient().locks().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Lock canonical) {
+    this.path = canonical.path;
+    this.timeout = canonical.timeout;
+    this.depth = canonical.depth;
+    this.recursive = canonical.recursive;
+    this.owner = canonical.owner;
+    this.scope = canonical.scope;
+    this.exclusive = canonical.exclusive;
+    this.token = canonical.token;
+    this.type = canonical.type;
+    this.allowAccessByAnyUser = canonical.allowAccessByAnyUser;
+    this.userId = canonical.userId;
+    this.username = canonical.username;
+    this.expectedToken = canonical.expectedToken;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   path (required) - string - Path to operate on.
-  *   include_children - boolean - Include locks from children objects?
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   path (required) - string - Path to operate on.
+   *   include_children - boolean - Include locks from children objects?
+   */
   public static ListIterator<Lock> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
@@ -289,51 +341,21 @@ public class Lock implements ModelInterface {
   }
 
   public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("include_children") && !(parameters.get("include_children") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_children must be of type Boolean parameters[\"include_children\"]");
-    }
-
-
-
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<List<Lock>> typeReference = new TypeReference<List<Lock>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().locks().listFor(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   path (required) - string - Path
-  *   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
-  *   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
-  *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
-  *   exclusive - boolean - Is lock exclusive?
-  *   recursive - boolean - Does lock apply to subfolders?
-  *   owner - string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
-  *   timeout - int64 - Lock timeout in seconds
-  */
+   * Parameters:
+   *   path (required) - string - Path
+   *   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
+   *   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
+   *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
+   *   exclusive - boolean - Is lock exclusive?
+   *   recursive - boolean - Does lock apply to subfolders?
+   *   owner - string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
+   *   timeout - int64 - Lock timeout in seconds
+   */
   public static Lock create() throws RuntimeException {
     return create(null, null, null);
   }
@@ -347,56 +369,14 @@ public class Lock implements ModelInterface {
   }
 
   public static Lock create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("token") && !(parameters.get("token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
-    }
-    if (parameters.containsKey("expected_token") && !(parameters.get("expected_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: expected_token must be of type String parameters[\"expected_token\"]");
-    }
-    if (parameters.containsKey("allow_access_by_any_user") && !(parameters.get("allow_access_by_any_user") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: allow_access_by_any_user must be of type Boolean parameters[\"allow_access_by_any_user\"]");
-    }
-    if (parameters.containsKey("exclusive") && !(parameters.get("exclusive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: exclusive must be of type Boolean parameters[\"exclusive\"]");
-    }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-    if (parameters.containsKey("owner") && !(parameters.get("owner") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: owner must be of type String parameters[\"owner\"]");
-    }
-    if (parameters.containsKey("timeout") && !(parameters.get("timeout") instanceof Long || parameters.get("timeout") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: timeout must be of type Long or Integer parameters[\"timeout\"]");
-    }
-
-
-
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<Lock> typeReference = new TypeReference<Lock>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().locks().create(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   token (required) - string - Lock token
-  */
+   * Parameters:
+   *   token (required) - string - Lock token
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -410,33 +390,7 @@ public class Lock implements ModelInterface {
   }
 
   public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("token") || parameters.get("token") == null) {
-      throw new NullPointerException("Parameter missing: token parameters[\"token\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("token") && !(parameters.get("token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: token must be of type String parameters[\"token\"]");
-    }
-
-
-
-    String url = String.format("%s%s/locks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().locks().delete(path, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

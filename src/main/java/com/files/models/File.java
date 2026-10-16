@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class File implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every File, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -53,6 +75,8 @@ public class File implements ModelInterface {
       .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
 
+  // Opens a download; it is not an attribute to serialize when saving the File.
+  @JsonIgnore
   public FilesInputStream getInputStream() throws IOException {
     return getInputStream(0L, 0L);
   }
@@ -62,17 +86,16 @@ public class File implements ModelInterface {
   }
 
   public FilesInputStream getInputStream(long start, long end) throws IOException {
-    return FilesClient.getFileInputStream(this.downloadUri, start, end);
+    return filesClient().transfers().openDownload(this);
   }
 
   /**
-   *  Save the File to disk.
+   * Saves the File's contents to the local path, with the client that returned this File. The
+   * contents are checked before they replace anything at the path; see
+   * {@link com.files.net.Transfers#download(File, java.nio.file.Path, com.files.net.DownloadOptions)}.
    */
   public void saveAsLocalFile(String path) throws IOException {
-    try (FileOutputStream outputStream = new FileOutputStream(path);
-        FilesInputStream inputStream = getInputStream()) {
-      inputStream.transferTo(outputStream);
-    }
+    filesClient().transfers().download(this, java.nio.file.Paths.get(path), null);
   }
 
   public static File completeUpload(String path, HashMap<String, Object> parameters) throws IOException {
@@ -80,13 +103,8 @@ public class File implements ModelInterface {
   }
 
   public static File completeUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws IOException {
-    if (parameters == null) {
-      parameters = new HashMap<String, Object>();
-    }
-    if (options == null) {
-      options = new HashMap<String, Object>();
-    }
-
+    parameters = parameters != null ? new HashMap<String, Object>(parameters) : new HashMap<String, Object>();
+    options = options != null ? new HashMap<String, Object>(options) : new HashMap<String, Object>();
 
     if (path != null) {
       parameters.put("path", path);
@@ -97,7 +115,7 @@ public class File implements ModelInterface {
     if (!parameters.containsKey("action")) {
       parameters.put("action", "put");
     }
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
+    String url = String.format("/files/%s", UrlUtils.encodeUrlPath((String) parameters.get("path")));
     TypeReference<File> typeReference = new TypeReference<File>() {};
     return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
   }
@@ -287,11 +305,28 @@ public class File implements ModelInterface {
   }
 
 
+  public File() {
+    this(null, null);
+  }
+
+  public File(HashMap<String, Object> parameters) {
+    this(parameters, null);
+  }
+
+  public File(HashMap<String, Object> parameters, HashMap<String, Object> options) {
+    this.options = ClientRuntime.retainedOptions(options);
+    try {
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
+    } catch (JsonProcessingException e) {
+      // TODO: error generation on constructor
+    }
+  }
 
 
   /**
-  * File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * File/Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -304,8 +339,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * User ID of the User who created the file/folder
-  */
+   * User ID of the User who created the file/folder
+   */
   @JsonProperty("created_by_id")
   public Long createdById;
 
@@ -318,8 +353,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the API key that created the file/folder
-  */
+   * ID of the API key that created the file/folder
+   */
   @JsonProperty("created_by_api_key_id")
   public Long createdByApiKeyId;
 
@@ -332,8 +367,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the AS2 Incoming Message that created the file/folder
-  */
+   * ID of the AS2 Incoming Message that created the file/folder
+   */
   @JsonProperty("created_by_as2_incoming_message_id")
   public Long createdByAs2IncomingMessageId;
 
@@ -346,8 +381,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Automation that created the file/folder
-  */
+   * ID of the Automation that created the file/folder
+   */
   @JsonProperty("created_by_automation_id")
   public Long createdByAutomationId;
 
@@ -360,8 +395,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Bundle Registration that created the file/folder
-  */
+   * ID of the Bundle Registration that created the file/folder
+   */
   @JsonProperty("created_by_bundle_registration_id")
   public Long createdByBundleRegistrationId;
 
@@ -374,8 +409,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Inbox that created the file/folder
-  */
+   * ID of the Inbox that created the file/folder
+   */
   @JsonProperty("created_by_inbox_id")
   public Long createdByInboxId;
 
@@ -388,8 +423,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Remote Server that created the file/folder
-  */
+   * ID of the Remote Server that created the file/folder
+   */
   @JsonProperty("created_by_remote_server_id")
   public Long createdByRemoteServerId;
 
@@ -402,8 +437,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Sync that created the file/folder
-  */
+   * ID of the Sync that created the file/folder
+   */
   @JsonProperty("created_by_sync_id")
   public Long createdBySyncId;
 
@@ -416,8 +451,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
-  */
+   * Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+   */
   @JsonProperty("custom_metadata")
   public Object customMetadata;
 
@@ -430,8 +465,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File/Folder display name
-  */
+   * File/Folder display name
+   */
   @JsonProperty("display_name")
   public String displayName;
 
@@ -444,8 +479,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Type: `directory` or `file`.
-  */
+   * Type: `directory` or `file`.
+   */
   @JsonProperty("type")
   public String type;
 
@@ -458,8 +493,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File/Folder size
-  */
+   * File/Folder size
+   */
   @JsonProperty("size")
   public Long size;
 
@@ -472,8 +507,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File created date/time
-  */
+   * File created date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -482,8 +517,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * User ID of the User who last modified the file/folder
-  */
+   * User ID of the User who last modified the file/folder
+   */
   @JsonProperty("last_modified_by_id")
   public Long lastModifiedById;
 
@@ -496,8 +531,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the API key that last modified the file/folder
-  */
+   * ID of the API key that last modified the file/folder
+   */
   @JsonProperty("last_modified_by_api_key_id")
   public Long lastModifiedByApiKeyId;
 
@@ -510,8 +545,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Automation that last modified the file/folder
-  */
+   * ID of the Automation that last modified the file/folder
+   */
   @JsonProperty("last_modified_by_automation_id")
   public Long lastModifiedByAutomationId;
 
@@ -524,8 +559,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Bundle Registration that last modified the file/folder
-  */
+   * ID of the Bundle Registration that last modified the file/folder
+   */
   @JsonProperty("last_modified_by_bundle_registration_id")
   public Long lastModifiedByBundleRegistrationId;
 
@@ -538,8 +573,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Remote Server that last modified the file/folder
-  */
+   * ID of the Remote Server that last modified the file/folder
+   */
   @JsonProperty("last_modified_by_remote_server_id")
   public Long lastModifiedByRemoteServerId;
 
@@ -552,8 +587,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * ID of the Sync that last modified the file/folder
-  */
+   * ID of the Sync that last modified the file/folder
+   */
   @JsonProperty("last_modified_by_sync_id")
   public Long lastModifiedBySyncId;
 
@@ -566,8 +601,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
-  */
+   * File last modified date/time, according to the server.  This is the timestamp of the last Files.com operation of the file, regardless of what modified timestamp was sent.
+   */
   @JsonProperty("mtime")
   public Date mtime;
 
@@ -580,8 +615,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop :Cloud syncing to preserve modified at times.
-  */
+   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop :Cloud syncing to preserve modified at times.
+   */
   @JsonProperty("provided_mtime")
   public Date providedMtime;
 
@@ -594,8 +629,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
-  */
+   * File CRC32 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+   */
   @JsonProperty("crc32")
   public String crc32;
 
@@ -608,8 +643,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
-  */
+   * File MD5 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+   */
   @JsonProperty("md5")
   public String md5;
 
@@ -622,8 +657,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File SHA1 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
-  */
+   * File SHA1 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+   */
   @JsonProperty("sha1")
   public String sha1;
 
@@ -636,8 +671,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File SHA256 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
-  */
+   * File SHA256 checksum. This is sometimes delayed, so if you get a blank response, wait and try again.
+   */
   @JsonProperty("sha256")
   public String sha256;
 
@@ -650,8 +685,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * MIME Type.  This is determined by the filename extension and is not stored separately internally.
-  */
+   * MIME Type.  This is determined by the filename extension and is not stored separately internally.
+   */
   @JsonProperty("mime_type")
   public String mimeType;
 
@@ -664,8 +699,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Region location
-  */
+   * Region location
+   */
   @JsonProperty("region")
   public String region;
 
@@ -678,8 +713,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
-  */
+   * A short string representing the current user's permissions.  Can be `r` (Read),`w` (Write),`d` (Delete), `l` (List) or any combination
+   */
   @JsonProperty("permissions")
   public String permissions;
 
@@ -692,8 +727,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Are subfolders locked and unable to be modified?
-  */
+   * Are subfolders locked and unable to be modified?
+   */
   @JsonProperty("subfolders_locked?")
   public Boolean subfoldersLocked;
 
@@ -706,8 +741,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Is this folder locked and unable to be modified?
-  */
+   * Is this folder locked and unable to be modified?
+   */
   @JsonProperty("is_locked")
   public Boolean isLocked;
 
@@ -720,8 +755,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Link to download file. Provided only in response to a download request.
-  */
+   * Link to download file. Provided only in response to a download request.
+   */
   @JsonProperty("download_uri")
   public String downloadUri;
 
@@ -734,8 +769,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Optional direct connection information for direct Agent transfer attempts
-  */
+   * Optional direct connection information for direct Agent transfer attempts
+   */
   @JsonProperty("direct_connection_info")
   public DirectConnectionInfo directConnectionInfo;
 
@@ -748,8 +783,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Bookmark/priority color of file/folder
-  */
+   * Bookmark/priority color of file/folder
+   */
   @JsonProperty("priority_color")
   public String priorityColor;
 
@@ -762,8 +797,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File preview ID
-  */
+   * File preview ID
+   */
   @JsonProperty("preview_id")
   public Long previewId;
 
@@ -776,8 +811,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File preview
-  */
+   * File preview
+   */
   @JsonProperty("preview")
   public Preview preview;
 
@@ -790,8 +825,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
-  */
+   * The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
+   */
   @JsonProperty("action")
   public String action;
 
@@ -804,8 +839,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Length of file.
-  */
+   * Length of file.
+   */
   @JsonProperty("length")
   public Long length;
 
@@ -818,8 +853,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Create parent directories if they do not exist?
-  */
+   * Create parent directories if they do not exist?
+   */
   @JsonProperty("mkdir_parents")
   public Boolean mkdirParents;
 
@@ -832,8 +867,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Part if uploading a part.
-  */
+   * Part if uploading a part.
+   */
   @JsonProperty("part")
   public Long part;
 
@@ -846,8 +881,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * How many parts to fetch?
-  */
+   * How many parts to fetch?
+   */
   @JsonProperty("parts")
   public Long parts;
 
@@ -860,7 +895,7 @@ public class File implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("ref")
   public String ref;
 
@@ -873,8 +908,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * File byte offset to restart from.
-  */
+   * File byte offset to restart from.
+   */
   @JsonProperty("restart")
   public Long restart;
 
@@ -887,8 +922,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-  */
+   * If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+   */
   @JsonProperty("copy_behaviors")
   public Boolean copyBehaviors;
 
@@ -901,8 +936,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * If copying folder, copy just the structure?
-  */
+   * If copying folder, copy just the structure?
+   */
   @JsonProperty("structure")
   public String structure;
 
@@ -915,8 +950,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Allow file rename instead of overwrite?
-  */
+   * Allow file rename instead of overwrite?
+   */
   @JsonProperty("with_rename")
   public Boolean withRename;
 
@@ -929,8 +964,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
-  */
+   * If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+   */
   @JsonProperty("buffered_upload")
   public Boolean bufferedUpload;
 
@@ -943,8 +978,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Include optional direct connection information for a direct Agent transfer attempt?
+   */
   @JsonProperty("with_direct_connection_info")
   public Boolean withDirectConnectionInfo;
 
@@ -957,35 +992,38 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Download File
-  *
-  * Parameters:
-  *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
-  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-  *   with_previews - boolean - Include file preview information?
-  *   with_priority_color - boolean - Include file priority color information?
-  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Download File
+   *
+   * Parameters:
+   *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
+   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+   *   with_previews - boolean - Include file preview information?
+   *   with_priority_color - boolean - Include file priority color information?
+   *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
+   */
   public File download(HashMap<String, Object> parameters) throws IOException {
-    return File.download(this.path, parameters, this.options);
+    return filesClient().files().download(this.path, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
-  *   provided_mtime - string - Modified time of file.
-  *   priority_color - string - Priority/Bookmark color of file.
-  */
+   * Updates this File. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+   *   provided_mtime - string - Modified time of file.
+   *   priority_color - string - Priority/Bookmark color of file.
+   */
   public File update(HashMap<String, Object> parameters) throws IOException {
-    return File.update(this.path, parameters, this.options);
+    File updated = filesClient().files().update(this.path, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  * Parameters:
-  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-  */
+   * Parameters:
+   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    File.delete(this.path, parameters, this.options);
+    filesClient().files().delete(this.path, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
@@ -993,137 +1031,201 @@ public class File implements ModelInterface {
   }
 
   /**
-  * List the contents of a ZIP file
-  */
+   * List the contents of a ZIP file
+   */
   public ListIterator<ZipListEntry> zipListContents(HashMap<String, Object> parameters) throws IOException {
-    return File.zipListContents(this.path, parameters, this.options);
+    return filesClient().files().zipListContents(this.path, parameters, this.options);
   }
 
   /**
-  * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-  *
-  * Parameters:
-  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-  */
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+   *
+   * Parameters:
+   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+   */
   public FileAction beginDelete(HashMap<String, Object> parameters) throws IOException {
-    return File.beginDelete(this.path, parameters, this.options);
+    return filesClient().files().beginDelete(this.path, parameters, this.options);
   }
 
   /**
-  * Copy File/Folder
-  *
-  * Parameters:
-  *   destination (required) - string - Copy destination path.
-  *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-  *   structure - boolean - Copy structure only?
-  *   overwrite - boolean - Overwrite existing file(s) in the destination?
-  */
+   * Copy File/Folder
+   *
+   * Parameters:
+   *   destination (required) - string - Copy destination path.
+   *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+   *   structure - boolean - Copy structure only?
+   *   overwrite - boolean - Overwrite existing file(s) in the destination?
+   */
   public FileAction copy(HashMap<String, Object> parameters) throws IOException {
-    return File.copy(this.path, parameters, this.options);
+    return filesClient().files().copy(this.path, parameters, this.options);
   }
 
   /**
-  * Move File/Folder
-  *
-  * Parameters:
-  *   destination (required) - string - Move destination path.
-  *   overwrite - boolean - Overwrite existing file(s) in the destination?
-  */
+   * Move File/Folder
+   *
+   * Parameters:
+   *   destination (required) - string - Move destination path.
+   *   overwrite - boolean - Overwrite existing file(s) in the destination?
+   */
   public FileAction move(HashMap<String, Object> parameters) throws IOException {
-    return File.move(this.path, parameters, this.options);
+    return filesClient().files().move(this.path, parameters, this.options);
   }
 
   /**
-  * Transform a file and save the output to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the transformed output.
-  *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
-  *   target_format (required) - string - Destination format to create.
-  *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
-  *   width - int64 - Maximum output width for image_convert.
-  *   height - int64 - Maximum output height for image_convert.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Transform a file and save the output to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the transformed output.
+   *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
+   *   target_format (required) - string - Destination format to create.
+   *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
+   *   width - int64 - Maximum output width for image_convert.
+   *   height - int64 - Maximum output height for image_convert.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public FileAction transform(HashMap<String, Object> parameters) throws IOException {
-    return File.transform(this.path, parameters, this.options);
+    return filesClient().files().transform(this.path, parameters, this.options);
   }
 
   /**
-  * Decrypt a GPG-encrypted file and save it to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the decrypted file.
-  *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
-  *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
-  *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Decrypt a GPG-encrypted file and save it to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the decrypted file.
+   *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+   *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+   *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+   *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public FileAction gpgDecrypt(HashMap<String, Object> parameters) throws IOException {
-    return File.gpgDecrypt(this.path, parameters, this.options);
+    return filesClient().files().gpgDecrypt(this.path, parameters, this.options);
   }
 
   /**
-  * Encrypt a file with GPG and save it to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the encrypted file.
-  *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
-  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
-  *   signing_key_id - int64 - Optional GPG Key ID to sign with.
-  *   armor - boolean - Output ASCII-armored encrypted data.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Encrypt a file with GPG and save it to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the encrypted file.
+   *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+   *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+   *   signing_key_id - int64 - Optional GPG Key ID to sign with.
+   *   armor - boolean - Output ASCII-armored encrypted data.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public FileAction gpgEncrypt(HashMap<String, Object> parameters) throws IOException {
-    return File.gpgEncrypt(this.path, parameters, this.options);
+    return filesClient().files().gpgEncrypt(this.path, parameters, this.options);
   }
 
   /**
-  * Extract a ZIP file to a destination folder
-  *
-  * Parameters:
-  *   destination (required) - string - Destination folder path for extracted files.
-  *   filename - string - Optional single entry filename to extract.
-  *   overwrite - boolean - Overwrite existing files in the destination?
-  */
+   * Extract a ZIP file to a destination folder
+   *
+   * Parameters:
+   *   destination (required) - string - Destination folder path for extracted files.
+   *   filename - string - Optional single entry filename to extract.
+   *   overwrite - boolean - Overwrite existing files in the destination?
+   */
   public FileAction unzip(HashMap<String, Object> parameters) throws IOException {
-    return File.unzip(this.path, parameters, this.options);
+    return filesClient().files().unzip(this.path, parameters, this.options);
   }
 
   /**
-  * Begin File Upload
-  *
-  * Parameters:
-  *   mkdir_parents - boolean - Create parent directories if they do not exist?
-  *   part - int64 - Part if uploading a part.
-  *   parts - int64 - How many parts to fetch?
-  *   ref - string -
-  *   restart - int64 - File byte offset to restart from.
-  *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
-  *   with_rename - boolean - Allow file rename instead of overwrite?
-  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
-  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Begin File Upload
+   *
+   * Parameters:
+   *   mkdir_parents - boolean - Create parent directories if they do not exist?
+   *   part - int64 - Part if uploading a part.
+   *   parts - int64 - How many parts to fetch?
+   *   ref - string -
+   *   restart - int64 - File byte offset to restart from.
+   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
+   *   with_rename - boolean - Allow file rename instead of overwrite?
+   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+   *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
+   */
   public FileUploadPart beginUpload(HashMap<String, Object> parameters) throws IOException {
-    return File.beginUpload(this.path, parameters, this.options);
+    return filesClient().files().beginUpload(this.path, parameters, this.options);
   }
 
+
+  /**
+   * Creates this File from its current attributes.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    File.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    filesClient().files().create(parameters, this.options);
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(File canonical) {
+    this.path = canonical.path;
+    this.createdById = canonical.createdById;
+    this.createdByApiKeyId = canonical.createdByApiKeyId;
+    this.createdByAs2IncomingMessageId = canonical.createdByAs2IncomingMessageId;
+    this.createdByAutomationId = canonical.createdByAutomationId;
+    this.createdByBundleRegistrationId = canonical.createdByBundleRegistrationId;
+    this.createdByInboxId = canonical.createdByInboxId;
+    this.createdByRemoteServerId = canonical.createdByRemoteServerId;
+    this.createdBySyncId = canonical.createdBySyncId;
+    this.customMetadata = canonical.customMetadata;
+    this.displayName = canonical.displayName;
+    this.type = canonical.type;
+    this.size = canonical.size;
+    this.createdAt = canonical.createdAt;
+    this.lastModifiedById = canonical.lastModifiedById;
+    this.lastModifiedByApiKeyId = canonical.lastModifiedByApiKeyId;
+    this.lastModifiedByAutomationId = canonical.lastModifiedByAutomationId;
+    this.lastModifiedByBundleRegistrationId = canonical.lastModifiedByBundleRegistrationId;
+    this.lastModifiedByRemoteServerId = canonical.lastModifiedByRemoteServerId;
+    this.lastModifiedBySyncId = canonical.lastModifiedBySyncId;
+    this.mtime = canonical.mtime;
+    this.providedMtime = canonical.providedMtime;
+    this.crc32 = canonical.crc32;
+    this.md5 = canonical.md5;
+    this.sha1 = canonical.sha1;
+    this.sha256 = canonical.sha256;
+    this.mimeType = canonical.mimeType;
+    this.region = canonical.region;
+    this.permissions = canonical.permissions;
+    this.subfoldersLocked = canonical.subfoldersLocked;
+    this.isLocked = canonical.isLocked;
+    this.downloadUri = canonical.downloadUri;
+    this.directConnectionInfo = canonical.directConnectionInfo;
+    this.priorityColor = canonical.priorityColor;
+    this.previewId = canonical.previewId;
+    this.preview = canonical.preview;
+    this.action = canonical.action;
+    this.length = canonical.length;
+    this.mkdirParents = canonical.mkdirParents;
+    this.part = canonical.part;
+    this.parts = canonical.parts;
+    this.ref = canonical.ref;
+    this.restart = canonical.restart;
+    this.copyBehaviors = canonical.copyBehaviors;
+    this.structure = canonical.structure;
+    this.withRename = canonical.withRename;
+    this.bufferedUpload = canonical.bufferedUpload;
+    this.withDirectConnectionInfo = canonical.withDirectConnectionInfo;
   }
 
   /**
-  * Download File
-  *
-  * Parameters:
-  *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
-  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-  *   with_previews - boolean - Include file preview information?
-  *   with_priority_color - boolean - Include file priority color information?
-  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Download File
+   *
+   * Parameters:
+   *   action - string - Can be blank, `redirect` or `stat`.  If set to `stat`, we will return file information but without a download URL, and without logging a download.  If set to `redirect` we will serve a 302 redirect directly to the file.  This is used for integrations with Zapier, and is not recommended for most integrations.
+   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+   *   with_previews - boolean - Include file preview information?
+   *   with_priority_color - boolean - Include file priority color information?
+   *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
+   */
   public static File download() throws RuntimeException {
     return download(null, null, null);
   }
@@ -1137,67 +1239,31 @@ public class File implements ModelInterface {
   }
 
   public static File download(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
-    }
-    if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
-    }
-    if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
-    }
-    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
-    }
-
-
-
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<File> typeReference = new TypeReference<File>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().download(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   path (required) - string - Path to operate on.
-  *   action - string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
-  *   custom_metadata - object - Custom metadata map to save when `action=end` completes the upload.  Replaces existing metadata; an empty map clears it.  No separate metadata-edit permission is required.  Supported on native files and configured remote mounts, excluding remote server automount paths.  Limited to 32 keys, 256 characters per key and 1024 characters per value.
-  *   etags[etag] (required) - array(string) - etag identifier.
-  *   etags[part] (required) - array(int64) - Part number.
-  *   length - int64 - Length of file.
-  *   mkdir_parents - boolean - Create parent directories if they do not exist?
-  *   part - int64 - Part if uploading a part.
-  *   parts - int64 - How many parts to fetch?
-  *   provided_mtime - string - User provided modification time.
-  *   ref - string -
-  *   restart - int64 - File byte offset to restart from.
-  *   size - int64 - Size of file.
-  *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-  *   structure - string - If copying folder, copy just the structure?
-  *   with_rename - boolean - Allow file rename instead of overwrite?
-  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
-  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Parameters:
+   *   path (required) - string - Path to operate on.
+   *   action - string - The action to perform.  Can be `append`, `attachment`, `end`, `upload`, `put`, or may not exist
+   *   custom_metadata - object - Custom metadata map to save when `action=end` completes the upload.  Replaces existing metadata; an empty map clears it.  No separate metadata-edit permission is required.  Supported on native files and configured remote mounts, excluding remote server automount paths.  Limited to 32 keys, 256 characters per key and 1024 characters per value.
+   *   etags[etag] (required) - array(string) - etag identifier.
+   *   etags[part] (required) - array(int64) - Part number.
+   *   length - int64 - Length of file.
+   *   mkdir_parents - boolean - Create parent directories if they do not exist?
+   *   part - int64 - Part if uploading a part.
+   *   parts - int64 - How many parts to fetch?
+   *   provided_mtime - string - User provided modification time.
+   *   ref - string -
+   *   restart - int64 - File byte offset to restart from.
+   *   size - int64 - Size of file.
+   *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+   *   structure - string - If copying folder, copy just the structure?
+   *   with_rename - boolean - Allow file rename instead of overwrite?
+   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+   *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
+   */
   public static FileUploadPart create() throws RuntimeException {
     return create(null, null, null);
   }
@@ -1211,88 +1277,16 @@ public class File implements ModelInterface {
   }
 
   public static FileUploadPart create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-    if (path != null && parameters.get("path") == null) {
-      parameters.put("path", path);
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("action") && !(parameters.get("action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: action must be of type String parameters[\"action\"]");
-    }
-    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Object parameters[\"custom_metadata\"]");
-    }
-    if (parameters.containsKey("length") && !(parameters.get("length") instanceof Long || parameters.get("length") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: length must be of type Long or Integer parameters[\"length\"]");
-    }
-    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
-    }
-    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long || parameters.get("part") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: part must be of type Long or Integer parameters[\"part\"]");
-    }
-    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long || parameters.get("parts") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: parts must be of type Long or Integer parameters[\"parts\"]");
-    }
-    if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
-    }
-    if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
-    }
-    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long || parameters.get("restart") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: restart must be of type Long or Integer parameters[\"restart\"]");
-    }
-    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long || parameters.get("size") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: size must be of type Long or Integer parameters[\"size\"]");
-    }
-    if (parameters.containsKey("copy_behaviors") && !(parameters.get("copy_behaviors") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: copy_behaviors must be of type Boolean parameters[\"copy_behaviors\"]");
-    }
-    if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: structure must be of type String parameters[\"structure\"]");
-    }
-    if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
-    }
-    if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
-    }
-    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
-    }
-
-    if (!parameters.containsKey("action")) {
-      parameters.put("action", "put");
-    }
-
-
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().create(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
-  *   provided_mtime - string - Modified time of file.
-  *   priority_color - string - Priority/Bookmark color of file.
-  */
+   * Parameters:
+   *   custom_metadata - object - Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.
+   *   provided_mtime - string - Modified time of file.
+   *   priority_color - string - Priority/Bookmark color of file.
+   */
   public static File update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -1306,44 +1300,14 @@ public class File implements ModelInterface {
   }
 
   public static File update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("custom_metadata") && !(parameters.get("custom_metadata") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: custom_metadata must be of type Object parameters[\"custom_metadata\"]");
-    }
-    if (parameters.containsKey("provided_mtime") && !(parameters.get("provided_mtime") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: provided_mtime must be of type String parameters[\"provided_mtime\"]");
-    }
-    if (parameters.containsKey("priority_color") && !(parameters.get("priority_color") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: priority_color must be of type String parameters[\"priority_color\"]");
-    }
-
-
-
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<File> typeReference = new TypeReference<File>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().update(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-  */
+   * Parameters:
+   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -1357,30 +1321,7 @@ public class File implements ModelInterface {
   }
 
   public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-
-
-
-    String url = String.format("%s%s/files/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().files().delete(path, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {
@@ -1392,12 +1333,12 @@ public class File implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   path (required) - string - Path to operate on.
-  *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-  *   with_previews - boolean - Include file preview information?
-  *   with_priority_color - boolean - Include file priority color information?
-  */
+   * Parameters:
+   *   path (required) - string - Path to operate on.
+   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
+   *   with_previews - boolean - Include file preview information?
+   *   with_priority_color - boolean - Include file priority color information?
+   */
   public static File find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -1411,37 +1352,7 @@ public class File implements ModelInterface {
   }
 
   public static File find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("preview_size") && !(parameters.get("preview_size") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: preview_size must be of type String parameters[\"preview_size\"]");
-    }
-    if (parameters.containsKey("with_previews") && !(parameters.get("with_previews") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_previews must be of type Boolean parameters[\"with_previews\"]");
-    }
-    if (parameters.containsKey("with_priority_color") && !(parameters.get("with_priority_color") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_priority_color must be of type Boolean parameters[\"with_priority_color\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/metadata/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<File> typeReference = new TypeReference<File>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().find(path, parameters, options);
   }
 
   public static File get() throws RuntimeException {
@@ -1453,8 +1364,8 @@ public class File implements ModelInterface {
   }
 
   /**
-  * List the contents of a ZIP file
-  */
+   * List the contents of a ZIP file
+   */
   public static ListIterator<ZipListEntry> zipListContents() throws RuntimeException {
     return zipListContents(null, null, null);
   }
@@ -1468,37 +1379,16 @@ public class File implements ModelInterface {
   }
 
   public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/zip_list/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<List<ZipListEntry>> typeReference = new TypeReference<List<ZipListEntry>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().zipListContents(path, parameters, options);
   }
 
 
   /**
-  * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-  *
-  * Parameters:
-  *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-  */
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+   *
+   * Parameters:
+   *   recursive - boolean - If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
+   */
   public static FileAction beginDelete() throws RuntimeException {
     return beginDelete(null, null, null);
   }
@@ -1512,43 +1402,19 @@ public class File implements ModelInterface {
   }
 
   public static FileAction beginDelete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/delete/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().beginDelete(path, parameters, options);
   }
 
 
   /**
-  * Copy File/Folder
-  *
-  * Parameters:
-  *   destination (required) - string - Copy destination path.
-  *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-  *   structure - boolean - Copy structure only?
-  *   overwrite - boolean - Overwrite existing file(s) in the destination?
-  */
+   * Copy File/Folder
+   *
+   * Parameters:
+   *   destination (required) - string - Copy destination path.
+   *   copy_behaviors - boolean - If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+   *   structure - boolean - Copy structure only?
+   *   overwrite - boolean - Overwrite existing file(s) in the destination?
+   */
   public static FileAction copy() throws RuntimeException {
     return copy(null, null, null);
   }
@@ -1562,53 +1428,17 @@ public class File implements ModelInterface {
   }
 
   public static FileAction copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("copy_behaviors") && !(parameters.get("copy_behaviors") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: copy_behaviors must be of type Boolean parameters[\"copy_behaviors\"]");
-    }
-    if (parameters.containsKey("structure") && !(parameters.get("structure") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: structure must be of type Boolean parameters[\"structure\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/copy/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().copy(path, parameters, options);
   }
 
 
   /**
-  * Move File/Folder
-  *
-  * Parameters:
-  *   destination (required) - string - Move destination path.
-  *   overwrite - boolean - Overwrite existing file(s) in the destination?
-  */
+   * Move File/Folder
+   *
+   * Parameters:
+   *   destination (required) - string - Move destination path.
+   *   overwrite - boolean - Overwrite existing file(s) in the destination?
+   */
   public static FileAction move() throws RuntimeException {
     return move(null, null, null);
   }
@@ -1622,52 +1452,22 @@ public class File implements ModelInterface {
   }
 
   public static FileAction move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/move/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().move(path, parameters, options);
   }
 
 
   /**
-  * Transform a file and save the output to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the transformed output.
-  *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
-  *   target_format (required) - string - Destination format to create.
-  *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
-  *   width - int64 - Maximum output width for image_convert.
-  *   height - int64 - Maximum output height for image_convert.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Transform a file and save the output to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the transformed output.
+   *   transform_type (required) - string - Transform type. Supported values are `image_convert`, `document_convert`, and `files_transform_script_execute`.
+   *   target_format (required) - string - Destination format to create.
+   *   script - string - Files TransformScript source. Required when transform_type is `files_transform_script_execute`.
+   *   width - int64 - Maximum output width for image_convert.
+   *   height - int64 - Maximum output height for image_convert.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public static FileAction transform() throws RuntimeException {
     return transform(null, null, null);
   }
@@ -1681,72 +1481,21 @@ public class File implements ModelInterface {
   }
 
   public static FileAction transform(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-    if (!parameters.containsKey("transform_type") || parameters.get("transform_type") == null) {
-      throw new NullPointerException("Parameter missing: transform_type parameters[\"transform_type\"]");
-    }
-    if (!parameters.containsKey("target_format") || parameters.get("target_format") == null) {
-      throw new NullPointerException("Parameter missing: target_format parameters[\"target_format\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("transform_type") && !(parameters.get("transform_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: transform_type must be of type String parameters[\"transform_type\"]");
-    }
-    if (parameters.containsKey("target_format") && !(parameters.get("target_format") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: target_format must be of type String parameters[\"target_format\"]");
-    }
-    if (parameters.containsKey("script") && !(parameters.get("script") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: script must be of type String parameters[\"script\"]");
-    }
-    if (parameters.containsKey("width") && !(parameters.get("width") instanceof Long || parameters.get("width") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: width must be of type Long or Integer parameters[\"width\"]");
-    }
-    if (parameters.containsKey("height") && !(parameters.get("height") instanceof Long || parameters.get("height") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: height must be of type Long or Integer parameters[\"height\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/transform/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().transform(path, parameters, options);
   }
 
 
   /**
-  * Decrypt a GPG-encrypted file and save it to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the decrypted file.
-  *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
-  *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
-  *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Decrypt a GPG-encrypted file and save it to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the decrypted file.
+   *   gpg_key_ids - array(int64) - GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+   *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for decryption.
+   *   use_all_private_keys - boolean - Use every accessible private GPG key in the source workspace for decryption.
+   *   ignore_mdc_error - boolean - Ignore errors from the MDC (modification detection code) check.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public static FileAction gpgDecrypt() throws RuntimeException {
     return gpgDecrypt(null, null, null);
   }
@@ -1760,63 +1509,21 @@ public class File implements ModelInterface {
   }
 
   public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("gpg_key_ids") && !(parameters.get("gpg_key_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: gpg_key_ids must be of type Long[] parameters[\"gpg_key_ids\"]");
-    }
-    if (parameters.containsKey("gpg_key_partner_id") && !(parameters.get("gpg_key_partner_id") instanceof Long || parameters.get("gpg_key_partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: gpg_key_partner_id must be of type Long or Integer parameters[\"gpg_key_partner_id\"]");
-    }
-    if (parameters.containsKey("use_all_private_keys") && !(parameters.get("use_all_private_keys") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: use_all_private_keys must be of type Boolean parameters[\"use_all_private_keys\"]");
-    }
-    if (parameters.containsKey("ignore_mdc_error") && !(parameters.get("ignore_mdc_error") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ignore_mdc_error must be of type Boolean parameters[\"ignore_mdc_error\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/gpg_decrypt/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().gpgDecrypt(path, parameters, options);
   }
 
 
   /**
-  * Encrypt a file with GPG and save it to a destination path
-  *
-  * Parameters:
-  *   destination (required) - string - Destination file path for the encrypted file.
-  *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
-  *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
-  *   signing_key_id - int64 - Optional GPG Key ID to sign with.
-  *   armor - boolean - Output ASCII-armored encrypted data.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Encrypt a file with GPG and save it to a destination path
+   *
+   * Parameters:
+   *   destination (required) - string - Destination file path for the encrypted file.
+   *   gpg_key_ids - array(int64) - GPG Key IDs to encrypt with.
+   *   gpg_key_partner_id - int64 - Partner ID whose GPG keys should be used for encryption.
+   *   signing_key_id - int64 - Optional GPG Key ID to sign with.
+   *   armor - boolean - Output ASCII-armored encrypted data.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public static FileAction gpgEncrypt() throws RuntimeException {
     return gpgEncrypt(null, null, null);
   }
@@ -1830,60 +1537,18 @@ public class File implements ModelInterface {
   }
 
   public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("gpg_key_ids") && !(parameters.get("gpg_key_ids") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: gpg_key_ids must be of type Long[] parameters[\"gpg_key_ids\"]");
-    }
-    if (parameters.containsKey("gpg_key_partner_id") && !(parameters.get("gpg_key_partner_id") instanceof Long || parameters.get("gpg_key_partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: gpg_key_partner_id must be of type Long or Integer parameters[\"gpg_key_partner_id\"]");
-    }
-    if (parameters.containsKey("signing_key_id") && !(parameters.get("signing_key_id") instanceof Long || parameters.get("signing_key_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: signing_key_id must be of type Long or Integer parameters[\"signing_key_id\"]");
-    }
-    if (parameters.containsKey("armor") && !(parameters.get("armor") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: armor must be of type Boolean parameters[\"armor\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/gpg_encrypt/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().gpgEncrypt(path, parameters, options);
   }
 
 
   /**
-  * Extract a ZIP file to a destination folder
-  *
-  * Parameters:
-  *   destination (required) - string - Destination folder path for extracted files.
-  *   filename - string - Optional single entry filename to extract.
-  *   overwrite - boolean - Overwrite existing files in the destination?
-  */
+   * Extract a ZIP file to a destination folder
+   *
+   * Parameters:
+   *   destination (required) - string - Destination folder path for extracted files.
+   *   filename - string - Optional single entry filename to extract.
+   *   overwrite - boolean - Overwrite existing files in the destination?
+   */
   public static FileAction unzip() throws RuntimeException {
     return unzip(null, null, null);
   }
@@ -1897,48 +1562,16 @@ public class File implements ModelInterface {
   }
 
   public static FileAction unzip(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("filename") && !(parameters.get("filename") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filename must be of type String parameters[\"filename\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-    String url = String.format("%s%s/file_actions/unzip", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().unzip(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   paths (required) - array(string) - Paths to include in the ZIP.
-  *   destination (required) - string - Destination file path for the ZIP.
-  *   overwrite - boolean - Overwrite existing file in the destination?
-  */
+   * Parameters:
+   *   paths (required) - array(string) - Paths to include in the ZIP.
+   *   destination (required) - string - Destination file path for the ZIP.
+   *   overwrite - boolean - Overwrite existing file in the destination?
+   */
   public static FileAction zip() throws RuntimeException {
     return zip(null, null);
   }
@@ -1949,49 +1582,24 @@ public class File implements ModelInterface {
 
 
   public static FileAction zip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
-      throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: overwrite must be of type Boolean parameters[\"overwrite\"]");
-    }
-
-
-    String url = String.format("%s%s/file_actions/zip", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<FileAction> typeReference = new TypeReference<FileAction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().zip(parameters, options);
   }
 
 
   /**
-  * Begin File Upload
-  *
-  * Parameters:
-  *   mkdir_parents - boolean - Create parent directories if they do not exist?
-  *   part - int64 - Part if uploading a part.
-  *   parts - int64 - How many parts to fetch?
-  *   ref - string -
-  *   restart - int64 - File byte offset to restart from.
-  *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
-  *   with_rename - boolean - Allow file rename instead of overwrite?
-  *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
-  *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
-  */
+   * Begin File Upload
+   *
+   * Parameters:
+   *   mkdir_parents - boolean - Create parent directories if they do not exist?
+   *   part - int64 - Part if uploading a part.
+   *   parts - int64 - How many parts to fetch?
+   *   ref - string -
+   *   restart - int64 - File byte offset to restart from.
+   *   size - int64 - Total bytes of file being uploaded (include bytes being retained if appending/restarting).
+   *   with_rename - boolean - Allow file rename instead of overwrite?
+   *   buffered_upload - boolean - If true, and the path refers to a destination not stored on Files.com (such as a remote server mount), the upload will be uploaded first to Files.com before being sent to the remote server mount. This can allow clients to upload using parallel parts to a remote server destination that does not offer parallel parts support natively.
+   *   with_direct_connection_info - boolean - Include optional direct connection information for a direct Agent transfer attempt?
+   */
   public static FileUploadPart beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
   }
@@ -2005,55 +1613,7 @@ public class File implements ModelInterface {
   }
 
   public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("mkdir_parents") && !(parameters.get("mkdir_parents") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: mkdir_parents must be of type Boolean parameters[\"mkdir_parents\"]");
-    }
-    if (parameters.containsKey("part") && !(parameters.get("part") instanceof Long || parameters.get("part") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: part must be of type Long or Integer parameters[\"part\"]");
-    }
-    if (parameters.containsKey("parts") && !(parameters.get("parts") instanceof Long || parameters.get("parts") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: parts must be of type Long or Integer parameters[\"parts\"]");
-    }
-    if (parameters.containsKey("ref") && !(parameters.get("ref") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ref must be of type String parameters[\"ref\"]");
-    }
-    if (parameters.containsKey("restart") && !(parameters.get("restart") instanceof Long || parameters.get("restart") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: restart must be of type Long or Integer parameters[\"restart\"]");
-    }
-    if (parameters.containsKey("size") && !(parameters.get("size") instanceof Long || parameters.get("size") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: size must be of type Long or Integer parameters[\"size\"]");
-    }
-    if (parameters.containsKey("with_rename") && !(parameters.get("with_rename") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_rename must be of type Boolean parameters[\"with_rename\"]");
-    }
-    if (parameters.containsKey("buffered_upload") && !(parameters.get("buffered_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: buffered_upload must be of type Boolean parameters[\"buffered_upload\"]");
-    }
-    if (parameters.containsKey("with_direct_connection_info") && !(parameters.get("with_direct_connection_info") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: with_direct_connection_info must be of type Boolean parameters[\"with_direct_connection_info\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_actions/begin_upload/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().files().beginUpload(path, parameters, options);
   }
 
 

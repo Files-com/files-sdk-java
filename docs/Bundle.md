@@ -250,7 +250,7 @@ Bundle bundle = Bundle.create(
 * `start_access_on_date` (String): Date when share will start to be accessible. If `nil` access granted right after create.
 * `snapshot_id` (Long): ID of the snapshot containing this bundle's contents.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
-* `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (byte[] or Attachment): Preview watermark image applied to all bundle items.
 * `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 
 
@@ -318,7 +318,7 @@ Bundle bundle = Bundle.update(
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
-* `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (byte[] or Attachment): Preview watermark image applied to all bundle items.
 * `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 
@@ -438,7 +438,7 @@ bundle.update(parameters);
 * `skip_name` (Boolean): BundleRegistrations can be saved without providing name?
 * `user_id` (Long): The owning user id. Only site admins can set this.
 * `watermark_attachment_delete` (Boolean): If true, will delete the file stored in watermark_attachment
-* `watermark_attachment_file` (byte[]): Preview watermark image applied to all bundle items.
+* `watermark_attachment_file` (byte[] or Attachment): Preview watermark image applied to all bundle items.
 * `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
 

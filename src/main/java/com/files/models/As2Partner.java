@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class As2Partner implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every As2Partner, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class As2Partner implements ModelInterface {
   }
 
   public As2Partner(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class As2Partner implements ModelInterface {
 
 
   /**
-  * ID of the AS2 Partner.
-  */
+   * ID of the AS2 Partner.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace associated with this AS2 Partner.
-  */
+   * ID of the Workspace associated with this AS2 Partner.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * ID of the AS2 Station associated with this partner.
-  */
+   * ID of the AS2 Station associated with this partner.
+   */
   @JsonProperty("as2_station_id")
   public Long as2StationId;
 
@@ -116,8 +138,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * The partner's formal AS2 name.
-  */
+   * The partner's formal AS2 name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -130,8 +152,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-  */
+   * Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+   */
   @JsonProperty("uri")
   public String uri;
 
@@ -144,8 +166,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-  */
+   * Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
+   */
   @JsonProperty("server_certificate")
   public String serverCertificate;
 
@@ -158,8 +180,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Username to send to server for HTTP Authentication.
-  */
+   * Username to send to server for HTTP Authentication.
+   */
   @JsonProperty("http_auth_username")
   public String httpAuthUsername;
 
@@ -172,8 +194,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Additional HTTP Headers for outgoing message sent to this partner.
-  */
+   * Additional HTTP Headers for outgoing message sent to this partner.
+   */
   @JsonProperty("additional_http_headers")
   public Object additionalHttpHeaders;
 
@@ -186,8 +208,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Default mime type of the file attached to the encrypted message
-  */
+   * Default mime type of the file attached to the encrypted message
+   */
   @JsonProperty("default_mime_type")
   public String defaultMimeType;
 
@@ -200,8 +222,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-  */
+   * How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
+   */
   @JsonProperty("mdn_validation_level")
   public String mdnValidationLevel;
 
@@ -214,8 +236,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-  */
+   * Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
+   */
   @JsonProperty("signature_validation_level")
   public String signatureValidationLevel;
 
@@ -228,8 +250,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-  */
+   * If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
+   */
   @JsonProperty("enable_dedicated_ips")
   public Boolean enableDedicatedIps;
 
@@ -242,8 +264,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Serial of public certificate used for message security in hex format.
-  */
+   * Serial of public certificate used for message security in hex format.
+   */
   @JsonProperty("hex_public_certificate_serial")
   public String hexPublicCertificateSerial;
 
@@ -256,8 +278,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Public certificate used for message security.
-  */
+   * Public certificate used for message security.
+   */
   @JsonProperty("public_certificate")
   public String publicCertificate;
 
@@ -270,8 +292,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * MD5 hash of public certificate used for message security.
-  */
+   * MD5 hash of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_md5")
   public String publicCertificateMd5;
 
@@ -284,8 +306,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Subject of public certificate used for message security.
-  */
+   * Subject of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_subject")
   public String publicCertificateSubject;
 
@@ -298,8 +320,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Issuer of public certificate used for message security.
-  */
+   * Issuer of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_issuer")
   public String publicCertificateIssuer;
 
@@ -312,8 +334,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Serial of public certificate used for message security.
-  */
+   * Serial of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_serial")
   public String publicCertificateSerial;
 
@@ -326,8 +348,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Not before value of public certificate used for message security.
-  */
+   * Not before value of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_not_before")
   public String publicCertificateNotBefore;
 
@@ -340,8 +362,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Not after value of public certificate used for message security.
-  */
+   * Not after value of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_not_after")
   public String publicCertificateNotAfter;
 
@@ -354,8 +376,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Password to send to server for HTTP Authentication.
-  */
+   * Password to send to server for HTTP Authentication.
+   */
   @JsonProperty("http_auth_password")
   public String httpAuthPassword;
 
@@ -368,8 +390,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-  */
+   * Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+   */
   @JsonProperty("pkcs12")
   public String pkcs12;
 
@@ -382,8 +404,8 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
-  */
+   * Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   */
   @JsonProperty("pkcs12_password")
   public String pkcs12Password;
 
@@ -396,47 +418,94 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-  *   http_auth_username - string - Username to send to server for HTTP Authentication.
-  *   http_auth_password - string - Password to send to server for HTTP Authentication.
-  *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-  *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
-  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
-  *   name - string - The partner's formal AS2 name.
-  *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-  *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
-  */
+   * Updates this As2Partner. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
+   *   http_auth_username - string - Username to send to server for HTTP Authentication.
+   *   http_auth_password - string - Password to send to server for HTTP Authentication.
+   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
+   *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
+   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
+   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
+   *   name - string - The partner's formal AS2 name.
+   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   */
   public As2Partner update(HashMap<String, Object> parameters) throws IOException {
-    return As2Partner.update(this.id, parameters, this.options);
+    As2Partner updated = filesClient().as2Partners().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    As2Partner.delete(this.id, parameters, this.options);
+    filesClient().as2Partners().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this As2Partner: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    As2Partner.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().as2Partners().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(As2Partner canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.as2StationId = canonical.as2StationId;
+    this.name = canonical.name;
+    this.uri = canonical.uri;
+    this.serverCertificate = canonical.serverCertificate;
+    this.httpAuthUsername = canonical.httpAuthUsername;
+    this.additionalHttpHeaders = canonical.additionalHttpHeaders;
+    this.defaultMimeType = canonical.defaultMimeType;
+    this.mdnValidationLevel = canonical.mdnValidationLevel;
+    this.signatureValidationLevel = canonical.signatureValidationLevel;
+    this.enableDedicatedIps = canonical.enableDedicatedIps;
+    this.hexPublicCertificateSerial = canonical.hexPublicCertificateSerial;
+    this.publicCertificate = canonical.publicCertificate;
+    this.publicCertificateMd5 = canonical.publicCertificateMd5;
+    this.publicCertificateSubject = canonical.publicCertificateSubject;
+    this.publicCertificateIssuer = canonical.publicCertificateIssuer;
+    this.publicCertificateSerial = canonical.publicCertificateSerial;
+    this.publicCertificateNotBefore = canonical.publicCertificateNotBefore;
+    this.publicCertificateNotAfter = canonical.publicCertificateNotAfter;
+    this.httpAuthPassword = canonical.httpAuthPassword;
+    this.pkcs12 = canonical.pkcs12;
+    this.pkcs12Password = canonical.pkcs12Password;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
+   */
   public static ListIterator<As2Partner> list() throws RuntimeException {
     return list(null, null);
   }
@@ -447,29 +516,7 @@ public class As2Partner implements ModelInterface {
 
 
   public static ListIterator<As2Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<As2Partner>> typeReference = new TypeReference<List<As2Partner>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Partners().list(parameters, options);
   }
 
   public static ListIterator<As2Partner> all() throws RuntimeException {
@@ -481,9 +528,9 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - As2 Partner ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - As2 Partner ID.
+   */
   public static As2Partner find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -497,28 +544,7 @@ public class As2Partner implements ModelInterface {
   }
 
   public static As2Partner find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Partners().find(id, parameters, options);
   }
 
   public static As2Partner get() throws RuntimeException {
@@ -530,22 +556,22 @@ public class As2Partner implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-  *   http_auth_username - string - Username to send to server for HTTP Authentication.
-  *   http_auth_password - string - Password to send to server for HTTP Authentication.
-  *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-  *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
-  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
-  *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
-  *   name (required) - string - The partner's formal AS2 name.
-  *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-  *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
-  */
+   * Parameters:
+   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
+   *   http_auth_username - string - Username to send to server for HTTP Authentication.
+   *   http_auth_password - string - Password to send to server for HTTP Authentication.
+   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
+   *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
+   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
+   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
+   *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
+   *   name (required) - string - The partner's formal AS2 name.
+   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   */
   public static As2Partner create() throws RuntimeException {
     return create(null, null);
   }
@@ -556,87 +582,26 @@ public class As2Partner implements ModelInterface {
 
 
   public static As2Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("as2_station_id") || parameters.get("as2_station_id") == null) {
-      throw new NullPointerException("Parameter missing: as2_station_id parameters[\"as2_station_id\"]");
-    }
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("uri") || parameters.get("uri") == null) {
-      throw new NullPointerException("Parameter missing: uri parameters[\"uri\"]");
-    }
-
-    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
-    }
-    if (parameters.containsKey("http_auth_username") && !(parameters.get("http_auth_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: http_auth_username must be of type String parameters[\"http_auth_username\"]");
-    }
-    if (parameters.containsKey("http_auth_password") && !(parameters.get("http_auth_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: http_auth_password must be of type String parameters[\"http_auth_password\"]");
-    }
-    if (parameters.containsKey("mdn_validation_level") && !(parameters.get("mdn_validation_level") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: mdn_validation_level must be of type String parameters[\"mdn_validation_level\"]");
-    }
-    if (parameters.containsKey("signature_validation_level") && !(parameters.get("signature_validation_level") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: signature_validation_level must be of type String parameters[\"signature_validation_level\"]");
-    }
-    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
-    }
-    if (parameters.containsKey("default_mime_type") && !(parameters.get("default_mime_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: default_mime_type must be of type String parameters[\"default_mime_type\"]");
-    }
-    if (parameters.containsKey("additional_http_headers") && !(parameters.get("additional_http_headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: additional_http_headers must be of type Object parameters[\"additional_http_headers\"]");
-    }
-    if (parameters.containsKey("as2_station_id") && !(parameters.get("as2_station_id") instanceof Long || parameters.get("as2_station_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: as2_station_id must be of type Long or Integer parameters[\"as2_station_id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
-    }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
-    }
-    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
-    }
-    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
-    }
-
-
-    String url = String.format("%s%s/as2_partners", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Partners().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-  *   http_auth_username - string - Username to send to server for HTTP Authentication.
-  *   http_auth_password - string - Password to send to server for HTTP Authentication.
-  *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-  *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-  *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-  *   default_mime_type - string - Default mime type of the file attached to the encrypted message
-  *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
-  *   name - string - The partner's formal AS2 name.
-  *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-  *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
-  */
+   * Parameters:
+   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
+   *   http_auth_username - string - Username to send to server for HTTP Authentication.
+   *   http_auth_password - string - Password to send to server for HTTP Authentication.
+   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
+   *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
+   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
+   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
+   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
+   *   name - string - The partner's formal AS2 name.
+   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
+   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   */
   public static As2Partner update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -650,72 +615,12 @@ public class As2Partner implements ModelInterface {
   }
 
   public static As2Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("enable_dedicated_ips") && !(parameters.get("enable_dedicated_ips") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: enable_dedicated_ips must be of type Boolean parameters[\"enable_dedicated_ips\"]");
-    }
-    if (parameters.containsKey("http_auth_username") && !(parameters.get("http_auth_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: http_auth_username must be of type String parameters[\"http_auth_username\"]");
-    }
-    if (parameters.containsKey("http_auth_password") && !(parameters.get("http_auth_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: http_auth_password must be of type String parameters[\"http_auth_password\"]");
-    }
-    if (parameters.containsKey("mdn_validation_level") && !(parameters.get("mdn_validation_level") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: mdn_validation_level must be of type String parameters[\"mdn_validation_level\"]");
-    }
-    if (parameters.containsKey("signature_validation_level") && !(parameters.get("signature_validation_level") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: signature_validation_level must be of type String parameters[\"signature_validation_level\"]");
-    }
-    if (parameters.containsKey("server_certificate") && !(parameters.get("server_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: server_certificate must be of type String parameters[\"server_certificate\"]");
-    }
-    if (parameters.containsKey("default_mime_type") && !(parameters.get("default_mime_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: default_mime_type must be of type String parameters[\"default_mime_type\"]");
-    }
-    if (parameters.containsKey("additional_http_headers") && !(parameters.get("additional_http_headers") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: additional_http_headers must be of type Object parameters[\"additional_http_headers\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("uri") && !(parameters.get("uri") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: uri must be of type String parameters[\"uri\"]");
-    }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
-    }
-    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
-    }
-    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<As2Partner> typeReference = new TypeReference<As2Partner>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Partners().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -729,27 +634,7 @@ public class As2Partner implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_partners/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().as2Partners().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

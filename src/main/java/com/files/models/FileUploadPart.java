@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileUploadPart implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every FileUploadPart, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -53,95 +75,46 @@ public class FileUploadPart implements ModelInterface {
       .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
 
+  /**
+   * Sends the rest of this upload from the stream, until it ends, and completes it: this part and
+   * each part after it hold the bytes Files.com plans for them. The stream is read, never closed.
+   * See {@link com.files.net.Transfers#continueUpload(FileUploadPart, InputStream, long, com.files.net.UploadOptions)}.
+   *
+   * @param date the modification time to record for the file, or null to let Files.com choose
+   */
   public File putInputStream(InputStream inputStream, Date date) throws IOException, InterruptedException {
     return putInputStream(inputStream, date, 6);
   }
 
+  /**
+   * Like {@link #putInputStream(InputStream, Date)}, sending up to {@code threadCount} parts at the
+   * same time when Files.com allows it.
+   */
   public File putInputStream(InputStream inputStream, Date date, int threadCount) throws IOException, InterruptedException {
-    final RequestMethods requestMethod = httpMethod == "post" ? RequestMethods.POST : RequestMethods.PUT;
-    final boolean isParallel = this.parallelParts && threadCount > 1;
-    final java.util.concurrent.ExecutorService executor = isParallel ? java.util.concurrent.Executors.newFixedThreadPool(threadCount) : null;
-    final java.util.concurrent.Semaphore semaphore = isParallel ? new java.util.concurrent.Semaphore(threadCount * 2) : null;
-    final List<java.util.concurrent.Future<Void>> concurrentUploads = new java.util.ArrayList<>();
-    BufferedInputStream bufferedInputStream = null;
-    FileUploadPart part = this;
-
-    try {
-      bufferedInputStream = new BufferedInputStream(inputStream);
-
-      while (true) {
-        final byte[] buffer = new byte[part.partsize.intValue()];
-        final int bytesRead = bufferedInputStream.read(buffer);
-        if (bytesRead == -1) {
-          break;
-        }
-
-        if (isParallel) {
-          semaphore.acquire();
-
-          final FileUploadPart currentPart = part;
-          concurrentUploads.add(executor.submit(() -> {
-            try {
-              FilesClient.putBuffer(currentPart.uploadUri, requestMethod, currentPart.path, buffer, bytesRead);
-            } finally {
-              semaphore.release();
-            }
-            return null;
-          }));
-        } else {
-          FilesClient.putBuffer(part.uploadUri, requestMethod, part.path, buffer, bytesRead);
-        }
-
-        final HashMap<String, Object> parameters = new HashMap<>((Map<String, Object>) part.parameters);
-        parameters.put("ref", part.ref);
-        parameters.put("part", part.partNumber + 1);
-        part = File.create(part.path, parameters, part.options);
-      }
-
-      for (java.util.concurrent.Future<Void> future : concurrentUploads) {
-        try {
-          future.get();
-        } catch (java.util.concurrent.ExecutionException e) {
-          throw new IOException(e.getCause());
-        }
-      }
-    } finally {
-      if (bufferedInputStream != null) {
-        bufferedInputStream.close();
-      }
-      if (executor != null) {
-        executor.shutdown();
-      }
-    }
-
-    return part.completeUpload();
+    return filesClient().transfers().continueUpload(this, inputStream, -1, uploadOptions(date, Math.max(1, Math.min(threadCount, 1024)))).getFile();
   }
 
+  /**
+   * Sends the stream's next {@code length} bytes as this upload's parts and completes it. The stream
+   * is read, never closed.
+   */
   public File putBufferedInputStream(BufferedInputStream inputStream, long length, Date date) throws IOException {
-    final RequestMethods requestMethod = httpMethod == "post" ? RequestMethods.POST : RequestMethods.PUT;
-    FilesClient.putBufferedInputStream(this.uploadUri, requestMethod, this.path, inputStream, length);
-    return completeUpload();
+    return filesClient().transfers().continueUpload(this, inputStream, length, uploadOptions(date, com.files.net.UploadOptions.DEFAULT_MAX_CONCURRENCY)).getFile();
   }
 
+  /**
+   * Sends the local file as this upload's parts and completes it.
+   */
   public File putLocalFile(String source) throws IOException {
-    java.io.File file = new java.io.File(source);
-    long fileLength = file.length();
-    BufferedInputStream bufferedInputStream = null;
-    try {
-      bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
-      return putBufferedInputStream(bufferedInputStream, fileLength, null);
-    } finally {
-      if (bufferedInputStream != null) {
-        bufferedInputStream.close();
-      }
-    }
+    return filesClient().transfers().continueUpload(this, java.nio.file.Paths.get(source), uploadOptions(null, com.files.net.UploadOptions.DEFAULT_MAX_CONCURRENCY)).getFile();
   }
 
-  private File completeUpload() throws IOException {
-    final HashMap<String, Object> parameters = new HashMap<>();
-    parameters.put("action", "end");
-    parameters.put("ref", this.ref);
-    return File.completeUpload(this.path, parameters, this.options);
+  private com.files.net.UploadOptions uploadOptions(Date date, int concurrency) {
+    return com.files.net.UploadOptions.builder()
+        .maxConcurrency(concurrency)
+        .modifiedTime(date != null ? date.toInstant() : null)
+        .requestOptions(this.options)
+        .build();
   }
 
   public FileUploadPart() {
@@ -153,10 +126,10 @@ public class FileUploadPart implements ModelInterface {
   }
 
   public FileUploadPart(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -164,8 +137,8 @@ public class FileUploadPart implements ModelInterface {
 
 
   /**
-  * Content-Type and File to send
-  */
+   * Content-Type and File to send
+   */
   @JsonProperty("send")
   public Object send;
 
@@ -174,8 +147,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Type of upload
-  */
+   * Type of upload
+   */
   @JsonProperty("action")
   public String action;
 
@@ -184,8 +157,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * If `true`, this file exists and you may wish to ask the user for overwrite confirmation
-  */
+   * If `true`, this file exists and you may wish to ask the user for overwrite confirmation
+   */
   @JsonProperty("ask_about_overwrites")
   public Boolean askAboutOverwrites;
 
@@ -194,8 +167,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Number of parts in the upload
-  */
+   * Number of parts in the upload
+   */
   @JsonProperty("available_parts")
   public Long availableParts;
 
@@ -204,8 +177,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Date/time of when this Upload part expires and the URL cannot be used any more
-  */
+   * Date/time of when this Upload part expires and the URL cannot be used any more
+   */
   @JsonProperty("expires")
   public String expires;
 
@@ -214,8 +187,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Additional upload headers to provide as part of the upload
-  */
+   * Additional upload headers to provide as part of the upload
+   */
   @JsonProperty("headers")
   public Object headers;
 
@@ -224,8 +197,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * HTTP Method to use for uploading the part, usually `PUT`
-  */
+   * HTTP Method to use for uploading the part, usually `PUT`
+   */
   @JsonProperty("http_method")
   public String httpMethod;
 
@@ -234,8 +207,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Size in bytes for this part
-  */
+   * Size in bytes for this part
+   */
   @JsonProperty("next_partsize")
   public Long nextPartsize;
 
@@ -244,8 +217,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
-  */
+   * If `true`, multiple parts may be uploaded in parallel.  If `false`, be sure to only upload one part at a time, in order.
+   */
   @JsonProperty("parallel_parts")
   public Boolean parallelParts;
 
@@ -254,8 +227,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * If `true`, parts may be retried. If `false`, a part cannot be retried and the upload should be restarted.
-  */
+   * If `true`, parts may be retried. If `false`, a part cannot be retried and the upload should be restarted.
+   */
   @JsonProperty("retry_parts")
   public Boolean retryParts;
 
@@ -264,8 +237,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Additional HTTP parameters to send with the upload
-  */
+   * Additional HTTP parameters to send with the upload
+   */
   @JsonProperty("parameters")
   public Object parameters;
 
@@ -274,8 +247,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Number of this upload part
-  */
+   * Number of this upload part
+   */
   @JsonProperty("part_number")
   public Long partNumber;
 
@@ -284,8 +257,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Size in bytes for the next upload part
-  */
+   * Size in bytes for the next upload part
+   */
   @JsonProperty("partsize")
   public Long partsize;
 
@@ -294,8 +267,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * New file path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -304,8 +277,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Reference name for this upload part
-  */
+   * Reference name for this upload part
+   */
   @JsonProperty("ref")
   public String ref;
 
@@ -314,8 +287,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * URI to upload this part to
-  */
+   * URI to upload this part to
+   */
   @JsonProperty("upload_uri")
   public String uploadUri;
 
@@ -324,8 +297,8 @@ public class FileUploadPart implements ModelInterface {
   }
 
   /**
-  * Optional direct connection information for direct Agent transfer attempts
-  */
+   * Optional direct connection information for direct Agent transfer attempts
+   */
   @JsonProperty("direct_connection_info")
   public DirectConnectionInfo directConnectionInfo;
 

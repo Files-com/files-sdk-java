@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Invoice implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Invoice, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Invoice implements ModelInterface {
   }
 
   public Invoice(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Invoice implements ModelInterface {
 
 
   /**
-  * Line item Id
-  */
+   * Line item Id
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item amount
-  */
+   * Line item amount
+   */
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("amount")
   public BigDecimal amount;
@@ -95,8 +117,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item balance
-  */
+   * Line item balance
+   */
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("balance")
   public BigDecimal balance;
@@ -106,8 +128,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item created at
-  */
+   * Line item created at
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -116,8 +138,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item currency
-  */
+   * Line item currency
+   */
   @JsonProperty("currency")
   public String currency;
 
@@ -126,8 +148,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item download uri
-  */
+   * Line item download uri
+   */
   @JsonProperty("download_uri")
   public String downloadUri;
 
@@ -136,8 +158,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Associated invoice line items
-  */
+   * Associated invoice line items
+   */
   @JsonProperty("invoice_line_items")
   public InvoiceLineItem[] invoiceLineItems;
 
@@ -146,8 +168,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Line item payment method
-  */
+   * Line item payment method
+   */
   @JsonProperty("method")
   public String method;
 
@@ -156,8 +178,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Associated payment line items
-  */
+   * Associated payment line items
+   */
   @JsonProperty("payment_line_items")
   public PaymentLineItem[] paymentLineItems;
 
@@ -166,8 +188,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Date/time payment was reversed if applicable
-  */
+   * Date/time payment was reversed if applicable
+   */
   @JsonProperty("payment_reversed_at")
   public Date paymentReversedAt;
 
@@ -176,8 +198,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Type of payment if applicable
-  */
+   * Type of payment if applicable
+   */
   @JsonProperty("payment_type")
   public String paymentType;
 
@@ -186,8 +208,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Site name this line item is for
-  */
+   * Site name this line item is for
+   */
   @JsonProperty("site_name")
   public String siteName;
 
@@ -196,8 +218,8 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Type of line item, either payment or invoice
-  */
+   * Type of line item, either payment or invoice
+   */
   @JsonProperty("type")
   public String type;
 
@@ -207,10 +229,10 @@ public class Invoice implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<AccountLineItem> list() throws RuntimeException {
     return list(null, null);
   }
@@ -221,23 +243,7 @@ public class Invoice implements ModelInterface {
 
 
   public static ListIterator<AccountLineItem> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/invoices", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<AccountLineItem>> typeReference = new TypeReference<List<AccountLineItem>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().invoices().list(parameters, options);
   }
 
   public static ListIterator<AccountLineItem> all() throws RuntimeException {
@@ -249,9 +255,9 @@ public class Invoice implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Invoice ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Invoice ID.
+   */
   public static AccountLineItem find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -265,28 +271,7 @@ public class Invoice implements ModelInterface {
   }
 
   public static AccountLineItem find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/invoices/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AccountLineItem> typeReference = new TypeReference<AccountLineItem>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().invoices().find(id, parameters, options);
   }
 
   public static AccountLineItem get() throws RuntimeException {

@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRequest implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every UserRequest, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class UserRequest implements ModelInterface {
   }
 
   public UserRequest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class UserRequest implements ModelInterface {
 
 
   /**
-  * ID
-  */
+   * ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * User's full name
-  */
+   * User's full name
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * User email address
-  */
+   * User email address
+   */
   @JsonProperty("email")
   public String email;
 
@@ -116,8 +138,8 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * Details of the user's request
-  */
+   * Details of the user's request
+   */
   @JsonProperty("details")
   public String details;
 
@@ -130,8 +152,8 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * User's company name
-  */
+   * User's company name
+   */
   @JsonProperty("company")
   public String company;
 
@@ -144,9 +166,9 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    UserRequest.delete(this.id, parameters, this.options);
+    filesClient().userRequests().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
@@ -155,10 +177,10 @@ public class UserRequest implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<UserRequest> list() throws RuntimeException {
     return list(null, null);
   }
@@ -169,23 +191,7 @@ public class UserRequest implements ModelInterface {
 
 
   public static ListIterator<UserRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<UserRequest>> typeReference = new TypeReference<List<UserRequest>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().userRequests().list(parameters, options);
   }
 
   public static ListIterator<UserRequest> all() throws RuntimeException {
@@ -197,9 +203,9 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - User Request ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - User Request ID.
+   */
   public static UserRequest find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -213,28 +219,7 @@ public class UserRequest implements ModelInterface {
   }
 
   public static UserRequest find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().userRequests().find(id, parameters, options);
   }
 
   public static UserRequest get() throws RuntimeException {
@@ -246,12 +231,12 @@ public class UserRequest implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name (required) - string - Name of user requested
-  *   email (required) - string - Email of user requested
-  *   details (required) - string - Details of the user request
-  *   company - string - Company of the user requested
-  */
+   * Parameters:
+   *   name (required) - string - Name of user requested
+   *   email (required) - string - Email of user requested
+   *   details (required) - string - Details of the user request
+   *   company - string - Company of the user requested
+   */
   public static UserRequest create() throws RuntimeException {
     return create(null, null);
   }
@@ -262,43 +247,12 @@ public class UserRequest implements ModelInterface {
 
 
   public static UserRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("email") || parameters.get("email") == null) {
-      throw new NullPointerException("Parameter missing: email parameters[\"email\"]");
-    }
-    if (!parameters.containsKey("details") || parameters.get("details") == null) {
-      throw new NullPointerException("Parameter missing: details parameters[\"details\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("email") && !(parameters.get("email") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
-    }
-    if (parameters.containsKey("details") && !(parameters.get("details") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: details must be of type String parameters[\"details\"]");
-    }
-    if (parameters.containsKey("company") && !(parameters.get("company") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
-    }
-
-
-    String url = String.format("%s%s/user_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<UserRequest> typeReference = new TypeReference<UserRequest>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().userRequests().create(parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -312,27 +266,7 @@ public class UserRequest implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/user_requests/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().userRequests().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

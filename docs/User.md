@@ -261,7 +261,7 @@ User user = User.create(
 
 ### Parameters
 
-* `avatar_file` (byte[]): An image file for your user avatar.
+* `avatar_file` (byte[] or Attachment): An image file for your user avatar.
 * `avatar_delete` (Boolean): If true, the avatar will be deleted.
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -398,7 +398,7 @@ User user = User.update(
 ### Parameters
 
 * `id` (Long): Required - User ID.
-* `avatar_file` (byte[]): An image file for your user avatar.
+* `avatar_file` (byte[] or Attachment): An image file for your user avatar.
 * `avatar_delete` (Boolean): If true, the avatar will be deleted.
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
@@ -619,7 +619,7 @@ user.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - User ID.
-* `avatar_file` (byte[]): An image file for your user avatar.
+* `avatar_file` (byte[] or Attachment): An image file for your user avatar.
 * `avatar_delete` (Boolean): If true, the avatar will be deleted.
 * `change_password` (String): Used for changing a password on an existing user.
 * `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.

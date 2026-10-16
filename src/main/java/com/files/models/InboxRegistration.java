@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InboxRegistration implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every InboxRegistration, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class InboxRegistration implements ModelInterface {
   }
 
   public InboxRegistration(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class InboxRegistration implements ModelInterface {
 
 
   /**
-  * Registration cookie code
-  */
+   * Registration cookie code
+   */
   @JsonProperty("code")
   public String code;
 
@@ -84,8 +106,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Registrant name
-  */
+   * Registrant name
+   */
   @JsonProperty("name")
   public String name;
 
@@ -94,8 +116,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Registrant company name
-  */
+   * Registrant company name
+   */
   @JsonProperty("company")
   public String company;
 
@@ -104,8 +126,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Registrant email address
-  */
+   * Registrant email address
+   */
   @JsonProperty("email")
   public String email;
 
@@ -114,8 +136,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Registrant IP Address
-  */
+   * Registrant IP Address
+   */
   @JsonProperty("ip")
   public String ip;
 
@@ -124,8 +146,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Clickwrap text that was shown to the registrant
-  */
+   * Clickwrap text that was shown to the registrant
+   */
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
 
@@ -134,8 +156,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Id of associated form field set
-  */
+   * Id of associated form field set
+   */
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
 
@@ -144,8 +166,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Data for form field set with form field ids as keys and user data as values
-  */
+   * Data for form field set with form field ids as keys and user data as values
+   */
   @JsonProperty("form_field_data")
   public Object formFieldData;
 
@@ -154,8 +176,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Id of associated inbox
-  */
+   * Id of associated inbox
+   */
   @JsonProperty("inbox_id")
   public Long inboxId;
 
@@ -164,8 +186,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Id of associated inbox recipient
-  */
+   * Id of associated inbox recipient
+   */
   @JsonProperty("inbox_recipient_id")
   public Long inboxRecipientId;
 
@@ -174,8 +196,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Title of associated inbox
-  */
+   * Title of associated inbox
+   */
   @JsonProperty("inbox_title")
   public String inboxTitle;
 
@@ -184,8 +206,8 @@ public class InboxRegistration implements ModelInterface {
   }
 
   /**
-  * Registration creation date/time
-  */
+   * Registration creation date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -195,11 +217,11 @@ public class InboxRegistration implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   folder_behavior_id - int64 - ID of the associated Inbox. This is required if the user is not a site admin.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   folder_behavior_id - int64 - ID of the associated Inbox. This is required if the user is not a site admin.
+   */
   public static ListIterator<InboxRegistration> list() throws RuntimeException {
     return list(null, null);
   }
@@ -210,26 +232,7 @@ public class InboxRegistration implements ModelInterface {
 
 
   public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long || parameters.get("folder_behavior_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long or Integer parameters[\"folder_behavior_id\"]");
-    }
-
-
-    String url = String.format("%s%s/inbox_registrations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<InboxRegistration>> typeReference = new TypeReference<List<InboxRegistration>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().inboxRegistrations().list(parameters, options);
   }
 
   public static ListIterator<InboxRegistration> all() throws RuntimeException {

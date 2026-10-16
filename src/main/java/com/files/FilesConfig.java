@@ -26,7 +26,13 @@ import org.slf4j.LoggerFactory;
  * otherwise {@code true} only for {@code "true"}, ignoring case. A string property takes its
  * default only when unset. Code that reads a property once keeps the value it read: for example
  * {@link FilesClient} reads {@code upstreamMaxConnections} and {@code upstreamTimeout} when it is
- * initialized.
+ * initialized. {@link FilesClient#defaultClient()}, the client the static methods use, reads the
+ * properties it is built with when it is called, so a change applies from the next call. Its API
+ * requests, and the storage requests of {@link FilesClient}'s static methods, read
+ * {@code maxNetworkRetries} (or {@code upstreamMaxAttempts}), {@code initialRetryDelayMillis} and
+ * {@code maximumRetrySeconds} again before each attempt; a transfer keeps the values it started
+ * with. A {@link FilesClient} built with {@link FilesClient#builder()} reads none of these
+ * properties.
  */
 public class FilesConfig {
   private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
@@ -189,7 +195,22 @@ public class FilesConfig {
    */
   public int getCachedBufferMaxBytes() {
     return intProperty("cachedBufferMaxBytes", (int) Math.min(Runtime.getRuntime().maxMemory() / 5,
-            1610612736 /* 1.5 GB */));
+        1610612736 /* 1.5 GB */));
+  }
+
+  /**
+   * Returns the {@code connectTimeoutMillis} integer property: how long, in milliseconds, a request
+   * of {@link FilesClient#defaultClient()} waits to open a connection. 0 means no limit, and a
+   * negative value leaves the limit to the system default. A change applies from the next call. An
+   * Apache client passed to {@code FilesHttpExecutor} directly keeps its own timeouts. How long a
+   * request of the default client waits for a connection from the SDK's pool is separate: 10
+   * seconds, and not configurable. A built client sets it with
+   * {@link FilesClient.Builder#connectionAcquisitionTimeout(java.time.Duration)}.
+   *
+   * @return the property's value, 30000 (30 seconds) when unset or empty
+   */
+  public int getConnectTimeoutMillis() {
+    return intProperty("connectTimeoutMillis", 30000);
   }
 
   /**
@@ -202,21 +223,73 @@ public class FilesConfig {
   }
 
   /**
-   * Returns the {@code initialRetryDelayMillis} integer property, in milliseconds.
+   * Returns the {@code initialRetryDelayMillis} integer property: how long, in milliseconds, the
+   * SDK waits before the first retry of a request. Each later retry of that request waits twice as
+   * long as the one before, up to {@link #getMaximumRetrySeconds()}. The client the static methods
+   * use, {@link FilesClient#defaultClient()}, reads this for every retry, so a change applies from
+   * its next retry; a {@link FilesClient} built with {@link FilesClient#builder()} keeps the wait it
+   * was built with.
    *
-   * @return the property's value, 500 when unset or empty
+   * @return the property's value, 100 when unset or empty
    */
   public int getInitialRetryDelayMillis() {
-    return intProperty("initialRetryDelayMillis", 500);
+    return intProperty("initialRetryDelayMillis", 100);
   }
 
   /**
-   * Returns the {@code maximumRetrySeconds} integer property, in seconds.
+   * Returns how many times, at most, the SDK sends a request again after its first attempt: the
+   * {@code maxNetworkRetries} integer property, or, when only the older {@code upstreamMaxAttempts}
+   * property is set, one less than that. {@link FilesClient#defaultClient()} reads this before each
+   * attempt, so a change applies from its next attempt; a {@link FilesClient} built with
+   * {@link FilesClient#builder()} keeps the limit it was built with.
+   *
+   * @return the property's value, 3 when neither property is set
+   */
+  public int getMaxNetworkRetries() {
+    if (!isNullOrEmpty(properties.getProperty("maxNetworkRetries"))) {
+      return intProperty("maxNetworkRetries", 3);
+    }
+    if (!isNullOrEmpty(properties.getProperty("upstreamMaxAttempts"))) {
+      return Math.max(0, getUpstreamMaxAttempts() - 1);
+    }
+    return 3;
+  }
+
+  /**
+   * Returns the {@code regionRelocation} boolean property: whether requests of
+   * {@link FilesClient#defaultClient()} follow Files.com to the server it names for a site, when that
+   * server is Files.com's own ({@link RegionRelocationPolicy#FILES_COM_HOSTS}).
+   *
+   * @return the property's value, {@code true} when unset or empty
+   */
+  public boolean getRegionRelocation() {
+    return boolProperty("regionRelocation", true);
+  }
+
+  /**
+   * Returns the {@code maximumRetrySeconds} integer property: the longest wait, in seconds, before a
+   * retry, including one a server asks for with Retry-After. {@link FilesClient#defaultClient()}
+   * reads this for every retry; a {@link FilesClient} built with {@link FilesClient#builder()} keeps
+   * the maximum it was built with.
    *
    * @return the property's value, 10 when unset or empty
    */
   public int getMaximumRetrySeconds() {
     return intProperty("maximumRetrySeconds", 10);
+  }
+
+  /**
+   * Returns the {@code readTimeoutMillis} integer property: how long, in milliseconds, a request of
+   * {@link FilesClient#defaultClient()} waits for data from an open connection, including while it
+   * reads the response body. It limits each wait between data, not a whole response. 0 means no
+   * limit, and a negative value leaves the limit to the system default. A change applies from the
+   * next call. An Apache client passed to {@code FilesHttpExecutor} directly keeps its own
+   * timeouts.
+   *
+   * @return the property's value, 80000 (80 seconds) when unset or empty
+   */
+  public int getReadTimeoutMillis() {
+    return intProperty("readTimeoutMillis", 80000);
   }
 
   /**
@@ -260,12 +333,19 @@ public class FilesConfig {
   }
 
   /**
-   * Returns the {@code upstreamMaxAttempts} integer property.
+   * Returns the {@code upstreamMaxAttempts} integer property: how many times, at most, the SDK
+   * sends a request that keeps failing in a way it retries, counting the first request. The
+   * default, 4, allows the first request and up to 3 retries, and 1 turns the SDK's retries off;
+   * set it to at least 1. {@code maxNetworkRetries}, when set, replaces it (see
+   * {@link #getMaxNetworkRetries()}, which the SDK reads before each attempt of
+   * {@link FilesClient#defaultClient()}). Each resend is one of these attempts: the SDK turns off the
+   * Apache HTTP client's own resends. A client passed to {@code FilesHttpExecutor} may retry by its
+   * own rules; those resends are not counted here.
    *
-   * @return the property's value, 5 when unset or empty
+   * @return the property's value, 4 when unset or empty
    */
   public int getUpstreamMaxAttempts() {
-    return intProperty("upstreamMaxAttempts", 5);
+    return intProperty("upstreamMaxAttempts", 4);
   }
 
   /**

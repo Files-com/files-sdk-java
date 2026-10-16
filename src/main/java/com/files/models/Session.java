@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Session implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Session, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Session implements ModelInterface {
   }
 
   public Session(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Session implements ModelInterface {
 
 
   /**
-  * Session ID
-  */
+   * Session ID
+   */
   @JsonProperty("id")
   public String id;
 
@@ -88,8 +110,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Session language
-  */
+   * Session language
+   */
   @JsonProperty("language")
   public String language;
 
@@ -102,8 +124,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Is this session read only?
-  */
+   * Is this session read only?
+   */
   @JsonProperty("read_only")
   public Boolean readOnly;
 
@@ -116,8 +138,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
-  */
+   * Are insecure SFTP ciphers allowed for this user? (If this is set to true, the site administrator has signaled that it is ok to use less secure SSH ciphers for this user.)
+   */
   @JsonProperty("sftp_insecure_ciphers")
   public Boolean sftpInsecureCiphers;
 
@@ -130,8 +152,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Username to sign in as
-  */
+   * Username to sign in as
+   */
   @JsonProperty("username")
   public String username;
 
@@ -144,8 +166,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Password for sign in
-  */
+   * Password for sign in
+   */
   @JsonProperty("password")
   public String password;
 
@@ -158,8 +180,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * If this user has a 2FA device, provide its OTP or code here.
-  */
+   * If this user has a 2FA device, provide its OTP or code here.
+   */
   @JsonProperty("otp")
   public String otp;
 
@@ -172,8 +194,8 @@ public class Session implements ModelInterface {
   }
 
   /**
-  * Identifier for a partially-completed login
-  */
+   * Identifier for a partially-completed login
+   */
   @JsonProperty("partial_session_id")
   public String partialSessionId;
 
@@ -185,18 +207,43 @@ public class Session implements ModelInterface {
     this.partialSessionId = partialSessionId;
   }
 
+
+  /**
+   * Creates this Session from its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Session.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    refreshFrom(filesClient().sessions().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Session canonical) {
+    this.id = canonical.id;
+    this.language = canonical.language;
+    this.readOnly = canonical.readOnly;
+    this.sftpInsecureCiphers = canonical.sftpInsecureCiphers;
+    this.username = canonical.username;
+    this.password = canonical.password;
+    this.otp = canonical.otp;
+    this.partialSessionId = canonical.partialSessionId;
   }
 
   /**
-  * Parameters:
-  *   username - string - Username to sign in as
-  *   password - string - Password for sign in
-  *   otp - string - If this user has a 2FA device, provide its OTP or code here.
-  *   partial_session_id - string - Identifier for a partially-completed login
-  */
+   * Parameters:
+   *   username - string - Username to sign in as
+   *   password - string - Password for sign in
+   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
+   *   partial_session_id - string - Identifier for a partially-completed login
+   */
   public static Session create() throws RuntimeException {
     return create(null, null);
   }
@@ -207,34 +254,12 @@ public class Session implements ModelInterface {
 
 
   public static Session create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("otp") && !(parameters.get("otp") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: otp must be of type String parameters[\"otp\"]");
-    }
-    if (parameters.containsKey("partial_session_id") && !(parameters.get("partial_session_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: partial_session_id must be of type String parameters[\"partial_session_id\"]");
-    }
-
-
-    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Session> typeReference = new TypeReference<Session>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().sessions().create(parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null);
   }
@@ -245,16 +270,7 @@ public class Session implements ModelInterface {
 
 
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-
-
-    String url = String.format("%s%s/sessions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().sessions().delete(parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

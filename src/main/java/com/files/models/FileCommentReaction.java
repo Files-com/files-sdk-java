@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileCommentReaction implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every FileCommentReaction, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   public FileCommentReaction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class FileCommentReaction implements ModelInterface {
 
 
   /**
-  * Reaction ID
-  */
+   * Reaction ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   /**
-  * Emoji used in the reaction.
-  */
+   * Emoji used in the reaction.
+   */
   @JsonProperty("emoji")
   public String emoji;
 
@@ -102,8 +124,8 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
-  */
+   * User ID.  Provide a value of `0` to operate the current session's user.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -116,8 +138,8 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   /**
-  * ID of file comment to attach reaction to.
-  */
+   * ID of file comment to attach reaction to.
+   */
   @JsonProperty("file_comment_id")
   public Long fileCommentId;
 
@@ -130,26 +152,52 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    FileCommentReaction.delete(this.id, parameters, this.options);
+    filesClient().fileCommentReactions().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Creates this FileCommentReaction.
+   * On success, this object's attributes are replaced by the server's response.
+   * FileCommentReactions cannot be updated, so saving one that already has an id throws
+   * {@link UnsupportedOperationException}.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    FileCommentReaction.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      throw new UnsupportedOperationException("The FileCommentReaction Object doesn't support updates.");
+    }
+    refreshFrom(filesClient().fileCommentReactions().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(FileCommentReaction canonical) {
+    this.id = canonical.id;
+    this.emoji = canonical.emoji;
+    this.userId = canonical.userId;
+    this.fileCommentId = canonical.fileCommentId;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
-  *   emoji (required) - string - Emoji to react with.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
+   *   emoji (required) - string - Emoji to react with.
+   */
   public static FileCommentReaction create() throws RuntimeException {
     return create(null, null);
   }
@@ -160,37 +208,12 @@ public class FileCommentReaction implements ModelInterface {
 
 
   public static FileCommentReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("file_comment_id") || parameters.get("file_comment_id") == null) {
-      throw new NullPointerException("Parameter missing: file_comment_id parameters[\"file_comment_id\"]");
-    }
-    if (!parameters.containsKey("emoji") || parameters.get("emoji") == null) {
-      throw new NullPointerException("Parameter missing: emoji parameters[\"emoji\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("file_comment_id") && !(parameters.get("file_comment_id") instanceof Long || parameters.get("file_comment_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: file_comment_id must be of type Long or Integer parameters[\"file_comment_id\"]");
-    }
-    if (parameters.containsKey("emoji") && !(parameters.get("emoji") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: emoji must be of type String parameters[\"emoji\"]");
-    }
-
-
-    String url = String.format("%s%s/file_comment_reactions", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<FileCommentReaction> typeReference = new TypeReference<FileCommentReaction>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().fileCommentReactions().create(parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -204,27 +227,7 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/file_comment_reactions/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().fileCommentReactions().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteMountBackend implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every RemoteMountBackend, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   public RemoteMountBackend(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class RemoteMountBackend implements ModelInterface {
 
 
   /**
-  * Path to the canary file used for health checks.
-  */
+   * Path to the canary file used for health checks.
+   */
   @JsonProperty("canary_file_path")
   public String canaryFilePath;
 
@@ -88,8 +110,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * True if this backend is enabled.
-  */
+   * True if this backend is enabled.
+   */
   @JsonProperty("enabled")
   public Boolean enabled;
 
@@ -102,8 +124,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Number of consecutive failures before considering the backend unhealthy.
-  */
+   * Number of consecutive failures before considering the backend unhealthy.
+   */
   @JsonProperty("fall")
   public Long fall;
 
@@ -116,8 +138,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * True if health checks are enabled for this backend.
-  */
+   * True if health checks are enabled for this backend.
+   */
   @JsonProperty("health_check_enabled")
   public Boolean healthCheckEnabled;
 
@@ -130,8 +152,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Array of recent health check results.
-  */
+   * Array of recent health check results.
+   */
   @JsonProperty("health_check_results")
   public Object[] healthCheckResults;
 
@@ -144,8 +166,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Type of health check to perform.
-  */
+   * Type of health check to perform.
+   */
   @JsonProperty("health_check_type")
   public String healthCheckType;
 
@@ -158,8 +180,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Unique identifier for this backend.
-  */
+   * Unique identifier for this backend.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -172,8 +194,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Interval in seconds between health checks.
-  */
+   * Interval in seconds between health checks.
+   */
   @JsonProperty("interval")
   public Long interval;
 
@@ -186,8 +208,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Minimum free CPU percentage required for this backend to be considered healthy.
-  */
+   * Minimum free CPU percentage required for this backend to be considered healthy.
+   */
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("min_free_cpu")
   public BigDecimal minFreeCpu;
@@ -201,8 +223,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Minimum free memory percentage required for this backend to be considered healthy.
-  */
+   * Minimum free memory percentage required for this backend to be considered healthy.
+   */
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("min_free_mem")
   public BigDecimal minFreeMem;
@@ -216,8 +238,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Priority of this backend.
-  */
+   * Priority of this backend.
+   */
   @JsonProperty("priority")
   public Long priority;
 
@@ -230,8 +252,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Path on the remote server to treat as the root of this mount.
-  */
+   * Path on the remote server to treat as the root of this mount.
+   */
   @JsonProperty("remote_path")
   public String remotePath;
 
@@ -244,8 +266,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * The remote server that this backend is associated with.
-  */
+   * The remote server that this backend is associated with.
+   */
   @JsonProperty("remote_server_id")
   public Long remoteServerId;
 
@@ -258,8 +280,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * The mount ID of the Remote Server Mount that this backend is associated with.
-  */
+   * The mount ID of the Remote Server Mount that this backend is associated with.
+   */
   @JsonProperty("remote_server_mount_id")
   public Long remoteServerMountId;
 
@@ -272,8 +294,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Number of consecutive successes before considering the backend healthy.
-  */
+   * Number of consecutive successes before considering the backend healthy.
+   */
   @JsonProperty("rise")
   public Long rise;
 
@@ -286,8 +308,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Status of this backend.
-  */
+   * Status of this backend.
+   */
   @JsonProperty("status")
   public String status;
 
@@ -300,8 +322,8 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * True if this backend is undergoing maintenance.
-  */
+   * True if this backend is undergoing maintenance.
+   */
   @JsonProperty("undergoing_maintenance")
   public Boolean undergoingMaintenance;
 
@@ -314,52 +336,100 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Reset backend status to healthy
-  */
+   * Reset backend status to healthy
+   */
   public void resetStatus(HashMap<String, Object> parameters) throws IOException {
-    RemoteMountBackend.resetStatus(this.id, parameters, this.options);
+    filesClient().remoteMountBackends().resetStatus(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   enabled - boolean - True if this backend is enabled.
-  *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-  *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-  *   health_check_type - string - Type of health check to perform.
-  *   interval - int64 - Interval in seconds between health checks.
-  *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-  *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-  *   priority - int64 - Priority of this backend.
-  *   remote_path - string - Path on the remote server to treat as the root of this mount.
-  *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-  *   canary_file_path - string - Path to the canary file used for health checks.
-  *   remote_server_id - int64 - The remote server that this backend is associated with.
-  */
+   * Updates this RemoteMountBackend. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   enabled - boolean - True if this backend is enabled.
+   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
+   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
+   *   health_check_type - string - Type of health check to perform.
+   *   interval - int64 - Interval in seconds between health checks.
+   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
+   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
+   *   priority - int64 - Priority of this backend.
+   *   remote_path - string - Path on the remote server to treat as the root of this mount.
+   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+   *   canary_file_path - string - Path to the canary file used for health checks.
+   *   remote_server_id - int64 - The remote server that this backend is associated with.
+   */
   public RemoteMountBackend update(HashMap<String, Object> parameters) throws IOException {
-    return RemoteMountBackend.update(this.id, parameters, this.options);
+    RemoteMountBackend updated = filesClient().remoteMountBackends().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    RemoteMountBackend.delete(this.id, parameters, this.options);
+    filesClient().remoteMountBackends().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this RemoteMountBackend: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    RemoteMountBackend.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().remoteMountBackends().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.minFreeCpu != null) {
+      parameters.put("min_free_cpu", this.minFreeCpu);
+    }
+    if (this.minFreeMem != null) {
+      parameters.put("min_free_mem", this.minFreeMem);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(RemoteMountBackend canonical) {
+    this.canaryFilePath = canonical.canaryFilePath;
+    this.enabled = canonical.enabled;
+    this.fall = canonical.fall;
+    this.healthCheckEnabled = canonical.healthCheckEnabled;
+    this.healthCheckResults = canonical.healthCheckResults;
+    this.healthCheckType = canonical.healthCheckType;
+    this.id = canonical.id;
+    this.interval = canonical.interval;
+    this.minFreeCpu = canonical.minFreeCpu;
+    this.minFreeMem = canonical.minFreeMem;
+    this.priority = canonical.priority;
+    this.remotePath = canonical.remotePath;
+    this.remoteServerId = canonical.remoteServerId;
+    this.remoteServerMountId = canonical.remoteServerMountId;
+    this.rise = canonical.rise;
+    this.status = canonical.status;
+    this.undergoingMaintenance = canonical.undergoingMaintenance;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
+   */
   public static ListIterator<RemoteMountBackend> list() throws RuntimeException {
     return list(null, null);
   }
@@ -370,26 +440,7 @@ public class RemoteMountBackend implements ModelInterface {
 
 
   public static ListIterator<RemoteMountBackend> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<RemoteMountBackend>> typeReference = new TypeReference<List<RemoteMountBackend>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteMountBackends().list(parameters, options);
   }
 
   public static ListIterator<RemoteMountBackend> all() throws RuntimeException {
@@ -401,9 +452,9 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Remote Mount Backend ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Remote Mount Backend ID.
+   */
   public static RemoteMountBackend find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -417,28 +468,7 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   public static RemoteMountBackend find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteMountBackends().find(id, parameters, options);
   }
 
   public static RemoteMountBackend get() throws RuntimeException {
@@ -450,21 +480,21 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   enabled - boolean - True if this backend is enabled.
-  *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-  *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-  *   health_check_type - string - Type of health check to perform.
-  *   interval - int64 - Interval in seconds between health checks.
-  *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-  *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-  *   priority - int64 - Priority of this backend.
-  *   remote_path - string - Path on the remote server to treat as the root of this mount.
-  *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-  *   canary_file_path (required) - string - Path to the canary file used for health checks.
-  *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-  *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
-  */
+   * Parameters:
+   *   enabled - boolean - True if this backend is enabled.
+   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
+   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
+   *   health_check_type - string - Type of health check to perform.
+   *   interval - int64 - Interval in seconds between health checks.
+   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
+   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
+   *   priority - int64 - Priority of this backend.
+   *   remote_path - string - Path on the remote server to treat as the root of this mount.
+   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+   *   canary_file_path (required) - string - Path to the canary file used for health checks.
+   *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
+   *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
+   */
   public static RemoteMountBackend create() throws RuntimeException {
     return create(null, null);
   }
@@ -475,71 +505,13 @@ public class RemoteMountBackend implements ModelInterface {
 
 
   public static RemoteMountBackend create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("canary_file_path") || parameters.get("canary_file_path") == null) {
-      throw new NullPointerException("Parameter missing: canary_file_path parameters[\"canary_file_path\"]");
-    }
-    if (!parameters.containsKey("remote_server_mount_id") || parameters.get("remote_server_mount_id") == null) {
-      throw new NullPointerException("Parameter missing: remote_server_mount_id parameters[\"remote_server_mount_id\"]");
-    }
-    if (!parameters.containsKey("remote_server_id") || parameters.get("remote_server_id") == null) {
-      throw new NullPointerException("Parameter missing: remote_server_id parameters[\"remote_server_id\"]");
-    }
-
-    if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
-    }
-    if (parameters.containsKey("fall") && !(parameters.get("fall") instanceof Long || parameters.get("fall") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: fall must be of type Long or Integer parameters[\"fall\"]");
-    }
-    if (parameters.containsKey("health_check_enabled") && !(parameters.get("health_check_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: health_check_enabled must be of type Boolean parameters[\"health_check_enabled\"]");
-    }
-    if (parameters.containsKey("health_check_type") && !(parameters.get("health_check_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: health_check_type must be of type String parameters[\"health_check_type\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof Long || parameters.get("interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type Long or Integer parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("min_free_cpu") && !(parameters.get("min_free_cpu") instanceof Double)) {
-      throw new IllegalArgumentException("Bad parameter: min_free_cpu must be of type Double parameters[\"min_free_cpu\"]");
-    }
-    if (parameters.containsKey("min_free_mem") && !(parameters.get("min_free_mem") instanceof Double)) {
-      throw new IllegalArgumentException("Bad parameter: min_free_mem must be of type Double parameters[\"min_free_mem\"]");
-    }
-    if (parameters.containsKey("priority") && !(parameters.get("priority") instanceof Long || parameters.get("priority") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: priority must be of type Long or Integer parameters[\"priority\"]");
-    }
-    if (parameters.containsKey("remote_path") && !(parameters.get("remote_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: remote_path must be of type String parameters[\"remote_path\"]");
-    }
-    if (parameters.containsKey("rise") && !(parameters.get("rise") instanceof Long || parameters.get("rise") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: rise must be of type Long or Integer parameters[\"rise\"]");
-    }
-    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
-    }
-    if (parameters.containsKey("remote_server_mount_id") && !(parameters.get("remote_server_mount_id") instanceof Long || parameters.get("remote_server_mount_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_mount_id must be of type Long or Integer parameters[\"remote_server_mount_id\"]");
-    }
-    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
-    }
-
-
-    String url = String.format("%s%s/remote_mount_backends", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteMountBackends().create(parameters, options);
   }
 
 
   /**
-  * Reset backend status to healthy
-  */
+   * Reset backend status to healthy
+   */
   public static void resetStatus() throws RuntimeException {
     resetStatus(null, null, null);
   }
@@ -553,45 +525,25 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   public static void resetStatus(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_mount_backends/%s/reset_status", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().remoteMountBackends().resetStatus(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   enabled - boolean - True if this backend is enabled.
-  *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-  *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-  *   health_check_type - string - Type of health check to perform.
-  *   interval - int64 - Interval in seconds between health checks.
-  *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-  *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-  *   priority - int64 - Priority of this backend.
-  *   remote_path - string - Path on the remote server to treat as the root of this mount.
-  *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-  *   canary_file_path - string - Path to the canary file used for health checks.
-  *   remote_server_id - int64 - The remote server that this backend is associated with.
-  */
+   * Parameters:
+   *   enabled - boolean - True if this backend is enabled.
+   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
+   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
+   *   health_check_type - string - Type of health check to perform.
+   *   interval - int64 - Interval in seconds between health checks.
+   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
+   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
+   *   priority - int64 - Priority of this backend.
+   *   remote_path - string - Path on the remote server to treat as the root of this mount.
+   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
+   *   canary_file_path - string - Path to the canary file used for health checks.
+   *   remote_server_id - int64 - The remote server that this backend is associated with.
+   */
   public static RemoteMountBackend update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -605,69 +557,12 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   public static RemoteMountBackend update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("enabled") && !(parameters.get("enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: enabled must be of type Boolean parameters[\"enabled\"]");
-    }
-    if (parameters.containsKey("fall") && !(parameters.get("fall") instanceof Long || parameters.get("fall") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: fall must be of type Long or Integer parameters[\"fall\"]");
-    }
-    if (parameters.containsKey("health_check_enabled") && !(parameters.get("health_check_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: health_check_enabled must be of type Boolean parameters[\"health_check_enabled\"]");
-    }
-    if (parameters.containsKey("health_check_type") && !(parameters.get("health_check_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: health_check_type must be of type String parameters[\"health_check_type\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof Long || parameters.get("interval") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type Long or Integer parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("min_free_cpu") && !(parameters.get("min_free_cpu") instanceof Double)) {
-      throw new IllegalArgumentException("Bad parameter: min_free_cpu must be of type Double parameters[\"min_free_cpu\"]");
-    }
-    if (parameters.containsKey("min_free_mem") && !(parameters.get("min_free_mem") instanceof Double)) {
-      throw new IllegalArgumentException("Bad parameter: min_free_mem must be of type Double parameters[\"min_free_mem\"]");
-    }
-    if (parameters.containsKey("priority") && !(parameters.get("priority") instanceof Long || parameters.get("priority") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: priority must be of type Long or Integer parameters[\"priority\"]");
-    }
-    if (parameters.containsKey("remote_path") && !(parameters.get("remote_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: remote_path must be of type String parameters[\"remote_path\"]");
-    }
-    if (parameters.containsKey("rise") && !(parameters.get("rise") instanceof Long || parameters.get("rise") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: rise must be of type Long or Integer parameters[\"rise\"]");
-    }
-    if (parameters.containsKey("canary_file_path") && !(parameters.get("canary_file_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: canary_file_path must be of type String parameters[\"canary_file_path\"]");
-    }
-    if (parameters.containsKey("remote_server_id") && !(parameters.get("remote_server_id") instanceof Long || parameters.get("remote_server_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: remote_server_id must be of type Long or Integer parameters[\"remote_server_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<RemoteMountBackend> typeReference = new TypeReference<RemoteMountBackend>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteMountBackends().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -681,27 +576,7 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_mount_backends/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().remoteMountBackends().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

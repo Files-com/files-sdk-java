@@ -2,12 +2,12 @@
 #
 # Starts and stops the WireMock servers FilesApiTest runs against: one for the API and a second
 # origin for cross-origin redirects. Each runs in its own JDK 17 process on the classpath pom.xml
-# resolves, so the SDK's tests stay on Java 8 with only the SDK's dependencies. The tests reach the
-# servers only through WireMock's admin API. test.sh does all of this; to run the tests yourself:
+# resolves. The tests reach the servers only through WireMock's admin API. test.sh does all of this;
+# to run the tests yourself:
 #
 #   test-server/servers.sh start
 #   . test-server/target/servers.env   # sets FILES_TEST_SERVER_URL and FILES_TEST_STORAGE_SERVER_URL
-#   mvn test
+#   . ./build-jdk.sh && ./mvnw test
 #   test-server/servers.sh stop
 #
 # The servers run on the JDK in FILES_TEST_SERVER_JAVA_HOME, or else jenv's or Debian's JDK 17.
@@ -244,7 +244,8 @@ start() {
     mkdir -p "$state/$name/root"
     : > "$state/$name/server.log"
   done
-  mvn -q -B dependency:build-classpath -Dmdep.outputFile="$state/classpath.txt"
+  # Resolved with the SDK's own Maven wrapper (see ../build-jdk.sh), as the SDK's build is.
+  ../mvnw -q -B -ntp dependency:build-classpath -Dmdep.outputFile="$state/classpath.txt"
   for name in "${servers[@]}"; do
     # Reserved before the server exists, so that no failure after it launches leaves it unowned.
     if ! : > "$state/$name/process"; then

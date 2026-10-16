@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class As2Station implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every As2Station, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class As2Station implements ModelInterface {
   }
 
   public As2Station(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class As2Station implements ModelInterface {
 
 
   /**
-  * Id of the AS2 Station.
-  */
+   * Id of the AS2 Station.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace associated with this AS2 Station.
-  */
+   * ID of the Workspace associated with this AS2 Station.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * The station's formal AS2 name.
-  */
+   * The station's formal AS2 name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -116,8 +138,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Public URI for sending AS2 message to.
-  */
+   * Public URI for sending AS2 message to.
+   */
   @JsonProperty("uri")
   public String uri;
 
@@ -130,8 +152,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * The station's AS2 domain name.
-  */
+   * The station's AS2 domain name.
+   */
   @JsonProperty("domain")
   public String domain;
 
@@ -144,8 +166,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Serial of public certificate used for message security in hex format.
-  */
+   * Serial of public certificate used for message security in hex format.
+   */
   @JsonProperty("hex_public_certificate_serial")
   public String hexPublicCertificateSerial;
 
@@ -158,8 +180,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * MD5 hash of public certificate used for message security.
-  */
+   * MD5 hash of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_md5")
   public String publicCertificateMd5;
 
@@ -172,8 +194,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Public certificate used for message security.
-  */
+   * Public certificate used for message security.
+   */
   @JsonProperty("public_certificate")
   public String publicCertificate;
 
@@ -186,8 +208,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * MD5 hash of private key used for message security.
-  */
+   * MD5 hash of private key used for message security.
+   */
   @JsonProperty("private_key_md5")
   public String privateKeyMd5;
 
@@ -200,8 +222,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Subject of public certificate used for message security.
-  */
+   * Subject of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_subject")
   public String publicCertificateSubject;
 
@@ -214,8 +236,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Issuer of public certificate used for message security.
-  */
+   * Issuer of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_issuer")
   public String publicCertificateIssuer;
 
@@ -228,8 +250,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Serial of public certificate used for message security.
-  */
+   * Serial of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_serial")
   public String publicCertificateSerial;
 
@@ -242,8 +264,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Not before value of public certificate used for message security.
-  */
+   * Not before value of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_not_before")
   public String publicCertificateNotBefore;
 
@@ -256,8 +278,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Not after value of public certificate used for message security.
-  */
+   * Not after value of public certificate used for message security.
+   */
   @JsonProperty("public_certificate_not_after")
   public String publicCertificateNotAfter;
 
@@ -270,8 +292,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * MD5 hash of private key password used for message security.
-  */
+   * MD5 hash of private key password used for message security.
+   */
   @JsonProperty("private_key_password_md5")
   public String privateKeyPasswordMd5;
 
@@ -284,8 +306,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * PEM-encoded private key matching public_certificate.
-  */
+   * PEM-encoded private key matching public_certificate.
+   */
   @JsonProperty("private_key")
   public String privateKey;
 
@@ -298,8 +320,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Password for the PEM-encoded private key.
-  */
+   * Password for the PEM-encoded private key.
+   */
   @JsonProperty("private_key_password")
   public String privateKeyPassword;
 
@@ -312,8 +334,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
-  */
+   * Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+   */
   @JsonProperty("pkcs12")
   public String pkcs12;
 
@@ -326,8 +348,8 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
-  */
+   * Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
   @JsonProperty("pkcs12_password")
   public String pkcs12Password;
 
@@ -340,40 +362,83 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - The station's formal AS2 name.
-  *   public_certificate - string - Public certificate used for message security.
-  *   private_key - string - PEM-encoded private key matching public_certificate.
-  *   private_key_password - string - Password for the PEM-encoded private key.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
-  */
+   * Updates this As2Station. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - The station's formal AS2 name.
+   *   public_certificate - string - Public certificate used for message security.
+   *   private_key - string - PEM-encoded private key matching public_certificate.
+   *   private_key_password - string - Password for the PEM-encoded private key.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
   public As2Station update(HashMap<String, Object> parameters) throws IOException {
-    return As2Station.update(this.id, parameters, this.options);
+    As2Station updated = filesClient().as2Stations().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    As2Station.delete(this.id, parameters, this.options);
+    filesClient().as2Stations().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this As2Station: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    As2Station.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().as2Stations().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(As2Station canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.name = canonical.name;
+    this.uri = canonical.uri;
+    this.domain = canonical.domain;
+    this.hexPublicCertificateSerial = canonical.hexPublicCertificateSerial;
+    this.publicCertificateMd5 = canonical.publicCertificateMd5;
+    this.publicCertificate = canonical.publicCertificate;
+    this.privateKeyMd5 = canonical.privateKeyMd5;
+    this.publicCertificateSubject = canonical.publicCertificateSubject;
+    this.publicCertificateIssuer = canonical.publicCertificateIssuer;
+    this.publicCertificateSerial = canonical.publicCertificateSerial;
+    this.publicCertificateNotBefore = canonical.publicCertificateNotBefore;
+    this.publicCertificateNotAfter = canonical.publicCertificateNotAfter;
+    this.privateKeyPasswordMd5 = canonical.privateKeyPasswordMd5;
+    this.privateKey = canonical.privateKey;
+    this.privateKeyPassword = canonical.privateKeyPassword;
+    this.pkcs12 = canonical.pkcs12;
+    this.pkcs12Password = canonical.pkcs12Password;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   */
   public static ListIterator<As2Station> list() throws RuntimeException {
     return list(null, null);
   }
@@ -384,29 +449,7 @@ public class As2Station implements ModelInterface {
 
 
   public static ListIterator<As2Station> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<As2Station>> typeReference = new TypeReference<List<As2Station>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Stations().list(parameters, options);
   }
 
   public static ListIterator<As2Station> all() throws RuntimeException {
@@ -418,9 +461,9 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - As2 Station ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - As2 Station ID.
+   */
   public static As2Station find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -434,28 +477,7 @@ public class As2Station implements ModelInterface {
   }
 
   public static As2Station find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Stations().find(id, parameters, options);
   }
 
   public static As2Station get() throws RuntimeException {
@@ -467,15 +489,15 @@ public class As2Station implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name (required) - string - The station's formal AS2 name.
-  *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
-  *   public_certificate - string - Public certificate used for message security.
-  *   private_key - string - PEM-encoded private key matching public_certificate.
-  *   private_key_password - string - Password for the PEM-encoded private key.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
-  */
+   * Parameters:
+   *   name (required) - string - The station's formal AS2 name.
+   *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
+   *   public_certificate - string - Public certificate used for message security.
+   *   private_key - string - PEM-encoded private key matching public_certificate.
+   *   private_key_password - string - Password for the PEM-encoded private key.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
   public static As2Station create() throws RuntimeException {
     return create(null, null);
   }
@@ -486,53 +508,19 @@ public class As2Station implements ModelInterface {
 
 
   public static As2Station create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
-    }
-    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
-    }
-    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
-    }
-
-
-    String url = String.format("%s%s/as2_stations", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Stations().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - The station's formal AS2 name.
-  *   public_certificate - string - Public certificate used for message security.
-  *   private_key - string - PEM-encoded private key matching public_certificate.
-  *   private_key_password - string - Password for the PEM-encoded private key.
-  *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
-  *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
-  */
+   * Parameters:
+   *   name - string - The station's formal AS2 name.
+   *   public_certificate - string - Public certificate used for message security.
+   *   private_key - string - PEM-encoded private key matching public_certificate.
+   *   private_key_password - string - Password for the PEM-encoded private key.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
   public static As2Station update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -546,51 +534,12 @@ public class As2Station implements ModelInterface {
   }
 
   public static As2Station update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
-    }
-    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
-    }
-    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2Stations().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -604,27 +553,7 @@ public class As2Station implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/as2_stations/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().as2Stations().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

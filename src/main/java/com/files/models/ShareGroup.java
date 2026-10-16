@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ShareGroup implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every ShareGroup, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class ShareGroup implements ModelInterface {
   }
 
   public ShareGroup(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class ShareGroup implements ModelInterface {
 
 
   /**
-  * Share Group ID
-  */
+   * Share Group ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Name of the share group
-  */
+   * Name of the share group
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Additional notes of the share group
-  */
+   * Additional notes of the share group
+   */
   @JsonProperty("notes")
   public String notes;
 
@@ -116,8 +138,8 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Owner User ID
-  */
+   * Owner User ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -130,8 +152,8 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * A list of share group members
-  */
+   * A list of share group members
+   */
   @JsonProperty("members")
   public ShareGroupMember[] members;
 
@@ -144,36 +166,69 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   notes - string - Additional notes of the share group
-  *   name - string - Name of the share group
-  *   members - array(object) - A list of share group members.
-  */
+   * Updates this ShareGroup. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   notes - string - Additional notes of the share group
+   *   name - string - Name of the share group
+   *   members - array(object) - A list of share group members.
+   */
   public ShareGroup update(HashMap<String, Object> parameters) throws IOException {
-    return ShareGroup.update(this.id, parameters, this.options);
+    ShareGroup updated = filesClient().shareGroups().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    ShareGroup.delete(this.id, parameters, this.options);
+    filesClient().shareGroups().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this ShareGroup: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    ShareGroup.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().shareGroups().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.members != null) {
+      parameters.put("members", this.members);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(ShareGroup canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.notes = canonical.notes;
+    this.userId = canonical.userId;
+    this.members = canonical.members;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<ShareGroup> list() throws RuntimeException {
     return list(null, null);
   }
@@ -184,26 +239,7 @@ public class ShareGroup implements ModelInterface {
 
 
   public static ListIterator<ShareGroup> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/share_groups", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<ShareGroup>> typeReference = new TypeReference<List<ShareGroup>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().shareGroups().list(parameters, options);
   }
 
   public static ListIterator<ShareGroup> all() throws RuntimeException {
@@ -215,9 +251,9 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Share Group ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Share Group ID.
+   */
   public static ShareGroup find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -231,28 +267,7 @@ public class ShareGroup implements ModelInterface {
   }
 
   public static ShareGroup find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/share_groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ShareGroup> typeReference = new TypeReference<ShareGroup>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().shareGroups().find(id, parameters, options);
   }
 
   public static ShareGroup get() throws RuntimeException {
@@ -264,12 +279,12 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   notes - string - Additional notes of the share group
-  *   name (required) - string - Name of the share group
-  *   members (required) - array(object) - A list of share group members.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   notes - string - Additional notes of the share group
+   *   name (required) - string - Name of the share group
+   *   members (required) - array(object) - A list of share group members.
+   */
   public static ShareGroup create() throws RuntimeException {
     return create(null, null);
   }
@@ -280,44 +295,16 @@ public class ShareGroup implements ModelInterface {
 
 
   public static ShareGroup create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("members") || parameters.get("members") == null) {
-      throw new NullPointerException("Parameter missing: members parameters[\"members\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("members") && !(parameters.get("members") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: members must be of type Object[] parameters[\"members\"]");
-    }
-
-
-    String url = String.format("%s%s/share_groups", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<ShareGroup> typeReference = new TypeReference<ShareGroup>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().shareGroups().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   notes - string - Additional notes of the share group
-  *   name - string - Name of the share group
-  *   members - array(object) - A list of share group members.
-  */
+   * Parameters:
+   *   notes - string - Additional notes of the share group
+   *   name - string - Name of the share group
+   *   members - array(object) - A list of share group members.
+   */
   public static ShareGroup update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -331,42 +318,12 @@ public class ShareGroup implements ModelInterface {
   }
 
   public static ShareGroup update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("members") && !(parameters.get("members") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: members must be of type Object[] parameters[\"members\"]");
-    }
-
-
-
-    String url = String.format("%s%s/share_groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ShareGroup> typeReference = new TypeReference<ShareGroup>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().shareGroups().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -380,27 +337,7 @@ public class ShareGroup implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/share_groups/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().shareGroups().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

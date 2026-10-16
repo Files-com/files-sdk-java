@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteServerConfigurationFile implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every RemoteServerConfigurationFile, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   public RemoteServerConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
 
 
   /**
-  * The remote server ID of the agent
-  */
+   * The remote server ID of the agent
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * The permission set for the agent ['read_write', 'read_only', 'write_only']
-  */
+   * The permission set for the agent ['read_write', 'read_only', 'write_only']
+   */
   @JsonProperty("permission_set")
   public String permissionSet;
 
@@ -94,8 +116,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * The private key for the agent
-  */
+   * The private key for the agent
+   */
   @JsonProperty("private_key")
   public String privateKey;
 
@@ -104,8 +126,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Files.com subdomain site name
-  */
+   * Files.com subdomain site name
+   */
   @JsonProperty("subdomain")
   public String subdomain;
 
@@ -114,8 +136,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * The root directory for the agent
-  */
+   * The root directory for the agent
+   */
   @JsonProperty("root")
   public String root;
 
@@ -124,8 +146,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Optional customer-facing name for this Agent installation
-  */
+   * Optional customer-facing name for this Agent installation
+   */
   @JsonProperty("node_name")
   public String nodeName;
 
@@ -134,8 +156,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Follow symlinks when traversing directories
-  */
+   * Follow symlinks when traversing directories
+   */
   @JsonProperty("follow_links")
   public Boolean followLinks;
 
@@ -144,8 +166,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Preferred network protocol ['udp', 'tcp'] (default udp)
-  */
+   * Preferred network protocol ['udp', 'tcp'] (default udp)
+   */
   @JsonProperty("prefer_protocol")
   public String preferProtocol;
 
@@ -154,8 +176,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * DNS lookup method ['auto','doh','system'] (default auto)
-  */
+   * DNS lookup method ['auto','doh','system'] (default auto)
+   */
   @JsonProperty("dns")
   public String dns;
 
@@ -164,8 +186,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Proxy all outbound traffic through files.com proxy server
-  */
+   * Proxy all outbound traffic through files.com proxy server
+   */
   @JsonProperty("proxy_all_outbound")
   public Boolean proxyAllOutbound;
 
@@ -174,8 +196,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Custom site endpoint URL
-  */
+   * Custom site endpoint URL
+   */
   @JsonProperty("endpoint_override")
   public String endpointOverride;
 
@@ -184,8 +206,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Log file name and location
-  */
+   * Log file name and location
+   */
   @JsonProperty("log_file")
   public String logFile;
 
@@ -194,8 +216,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
-  */
+   * Log level for the agent logs ['debug', 'info', 'warn', 'error', 'fatal'] (default info)
+   */
   @JsonProperty("log_level")
   public String logLevel;
 
@@ -204,8 +226,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Log route for agent logs. (default 5)
-  */
+   * Log route for agent logs. (default 5)
+   */
   @JsonProperty("log_rotate_num")
   public Long logRotateNum;
 
@@ -214,8 +236,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Log route size in MB for agent logs. (default 20)
-  */
+   * Log route size in MB for agent logs. (default 20)
+   */
   @JsonProperty("log_rotate_size")
   public Long logRotateSize;
 
@@ -224,8 +246,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Maximum number of concurrent jobs (default 500)
-  */
+   * Maximum number of concurrent jobs (default 500)
+   */
   @JsonProperty("override_max_concurrent_jobs")
   public Long overrideMaxConcurrentJobs;
 
@@ -234,8 +256,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Graceful shutdown timeout in seconds (default 15)
-  */
+   * Graceful shutdown timeout in seconds (default 15)
+   */
   @JsonProperty("graceful_shutdown_timeout")
   public Long gracefulShutdownTimeout;
 
@@ -244,18 +266,18 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * File transfer (upload/download) rate limit
-  *  ` limit - period `, with the given periods:
-  * * 'S': second
-  * * 'M': minute
-  * * 'H': hour
-  * * 'D': day
-  * Examples:
-  * * 5 requests/second: '5-S'
-  * * 10 requests/minute: '10-M'
-  * * 1000 requests/hour: '1000-H'
-  * * 2000 requests/day: '2000-D'
-  */
+   * File transfer (upload/download) rate limit
+   *  ` limit - period `, with the given periods:
+   * * 'S': second
+   * * 'M': minute
+   * * 'H': hour
+   * * 'D': day
+   * Examples:
+   * * 5 requests/second: '5-S'
+   * * 10 requests/minute: '10-M'
+   * * 1000 requests/hour: '1000-H'
+   * * 2000 requests/day: '2000-D'
+   */
   @JsonProperty("transfer_rate_limit")
   public String transferRateLimit;
 
@@ -264,8 +286,8 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   }
 
   /**
-  * Auto update policy ['manual_trigger', 'critical_only', 'always', 'never'] (default always)
-  */
+   * Auto update policy ['manual_trigger', 'critical_only', 'always', 'never'] (default always)
+   */
   @JsonProperty("auto_update_policy")
   public String autoUpdatePolicy;
 

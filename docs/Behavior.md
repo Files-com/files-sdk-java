@@ -117,7 +117,7 @@ Behavior behavior = Behavior.create(
 ### Parameters
 
 * `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.
@@ -164,7 +164,7 @@ Behavior behavior = Behavior.update(
 
 * `id` (Long): Required - Behavior ID.
 * `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.
@@ -211,7 +211,7 @@ behavior.update(parameters);
 
 * `id` (Long): Required - Behavior ID.
 * `value` (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-* `attachment_file` (byte[]): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
+* `attachment_file` (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
 * `disable_parent_folder_behavior` (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
 * `recursive` (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
 * `name` (String): Name for this behavior.

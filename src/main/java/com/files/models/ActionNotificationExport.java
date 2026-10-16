@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActionNotificationExport implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every ActionNotificationExport, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   public ActionNotificationExport(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class ActionNotificationExport implements ModelInterface {
 
 
   /**
-  * History Export ID
-  */
+   * History Export ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
-  */
+   * Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Version of the underlying records for the export.
-  */
+   * Version of the underlying records for the export.
+   */
   @JsonProperty("export_version")
   public String exportVersion;
 
@@ -116,8 +138,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Start date/time of export range.
-  */
+   * Start date/time of export range.
+   */
   @JsonProperty("start_at")
   public Date startAt;
 
@@ -130,8 +152,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * End date/time of export range.
-  */
+   * End date/time of export range.
+   */
   @JsonProperty("end_at")
   public Date endAt;
 
@@ -144,8 +166,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Status of export.  Valid values: `building`, `ready`, or `failed`
-  */
+   * Status of export.  Valid values: `building`, `ready`, or `failed`
+   */
   @JsonProperty("status")
   public String status;
 
@@ -158,8 +180,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Return notifications that were triggered by actions on this specific path.
-  */
+   * Return notifications that were triggered by actions on this specific path.
+   */
   @JsonProperty("query_path")
   public String queryPath;
 
@@ -172,8 +194,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Return notifications that were triggered by actions in this folder.
-  */
+   * Return notifications that were triggered by actions in this folder.
+   */
   @JsonProperty("query_folder")
   public String queryFolder;
 
@@ -186,8 +208,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Error message associated with the request, if any.
-  */
+   * Error message associated with the request, if any.
+   */
   @JsonProperty("query_message")
   public String queryMessage;
 
@@ -200,8 +222,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * The HTTP request method used by the webhook.
-  */
+   * The HTTP request method used by the webhook.
+   */
   @JsonProperty("query_request_method")
   public String queryRequestMethod;
 
@@ -214,8 +236,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * The target webhook URL.
-  */
+   * The target webhook URL.
+   */
   @JsonProperty("query_request_url")
   public String queryRequestUrl;
 
@@ -228,8 +250,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * The HTTP status returned from the server in response to the webhook request.
-  */
+   * The HTTP status returned from the server in response to the webhook request.
+   */
   @JsonProperty("query_status")
   public String queryStatus;
 
@@ -242,8 +264,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
-  */
+   * true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
+   */
   @JsonProperty("query_success")
   public Boolean querySuccess;
 
@@ -256,8 +278,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
-  */
+   * If `status` is `ready`, this will be a URL where all the results can be downloaded at once as a CSV.
+   */
   @JsonProperty("results_url")
   public String resultsUrl;
 
@@ -270,8 +292,8 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
-  */
+   * User ID.  Provide a value of `0` to operate the current session's user.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -283,15 +305,52 @@ public class ActionNotificationExport implements ModelInterface {
     this.userId = userId;
   }
 
+
+  /**
+   * Creates this ActionNotificationExport.
+   * On success, this object's attributes are replaced by the server's response.
+   * ActionNotificationExports cannot be updated, so saving one that already has an id throws
+   * {@link UnsupportedOperationException}.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    ActionNotificationExport.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      throw new UnsupportedOperationException("The ActionNotificationExport Object doesn't support updates.");
+    }
+    refreshFrom(filesClient().actionNotificationExports().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(ActionNotificationExport canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.exportVersion = canonical.exportVersion;
+    this.startAt = canonical.startAt;
+    this.endAt = canonical.endAt;
+    this.status = canonical.status;
+    this.queryPath = canonical.queryPath;
+    this.queryFolder = canonical.queryFolder;
+    this.queryMessage = canonical.queryMessage;
+    this.queryRequestMethod = canonical.queryRequestMethod;
+    this.queryRequestUrl = canonical.queryRequestUrl;
+    this.queryStatus = canonical.queryStatus;
+    this.querySuccess = canonical.querySuccess;
+    this.resultsUrl = canonical.resultsUrl;
+    this.userId = canonical.userId;
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Action Notification Export ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Action Notification Export ID.
+   */
   public static ActionNotificationExport find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -305,28 +364,7 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/action_notification_exports/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().actionNotificationExports().find(id, parameters, options);
   }
 
   public static ActionNotificationExport get() throws RuntimeException {
@@ -338,19 +376,19 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
-  *   start_at - string - Start date/time of export range.
-  *   end_at - string - End date/time of export range.
-  *   query_message - string - Error message associated with the request, if any.
-  *   query_request_method - string - The HTTP request method used by the webhook.
-  *   query_request_url - string - The target webhook URL.
-  *   query_status - string - The HTTP status returned from the server in response to the webhook request.
-  *   query_success - boolean - true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
-  *   query_path - string - Return notifications that were triggered by actions on this specific path.
-  *   query_folder - string - Return notifications that were triggered by actions in this folder.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
+   *   start_at - string - Start date/time of export range.
+   *   end_at - string - End date/time of export range.
+   *   query_message - string - Error message associated with the request, if any.
+   *   query_request_method - string - The HTTP request method used by the webhook.
+   *   query_request_url - string - The target webhook URL.
+   *   query_status - string - The HTTP status returned from the server in response to the webhook request.
+   *   query_success - boolean - true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
+   *   query_path - string - Return notifications that were triggered by actions on this specific path.
+   *   query_folder - string - Return notifications that were triggered by actions in this folder.
+   */
   public static ActionNotificationExport create() throws RuntimeException {
     return create(null, null);
   }
@@ -361,50 +399,7 @@ public class ActionNotificationExport implements ModelInterface {
 
 
   public static ActionNotificationExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("start_at") && !(parameters.get("start_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: start_at must be of type String parameters[\"start_at\"]");
-    }
-    if (parameters.containsKey("end_at") && !(parameters.get("end_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: end_at must be of type String parameters[\"end_at\"]");
-    }
-    if (parameters.containsKey("query_message") && !(parameters.get("query_message") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_message must be of type String parameters[\"query_message\"]");
-    }
-    if (parameters.containsKey("query_request_method") && !(parameters.get("query_request_method") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_request_method must be of type String parameters[\"query_request_method\"]");
-    }
-    if (parameters.containsKey("query_request_url") && !(parameters.get("query_request_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_request_url must be of type String parameters[\"query_request_url\"]");
-    }
-    if (parameters.containsKey("query_status") && !(parameters.get("query_status") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_status must be of type String parameters[\"query_status\"]");
-    }
-    if (parameters.containsKey("query_success") && !(parameters.get("query_success") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: query_success must be of type Boolean parameters[\"query_success\"]");
-    }
-    if (parameters.containsKey("query_path") && !(parameters.get("query_path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_path must be of type String parameters[\"query_path\"]");
-    }
-    if (parameters.containsKey("query_folder") && !(parameters.get("query_folder") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: query_folder must be of type String parameters[\"query_folder\"]");
-    }
-
-
-    String url = String.format("%s%s/action_notification_exports", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<ActionNotificationExport> typeReference = new TypeReference<ActionNotificationExport>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().actionNotificationExports().create(parameters, options);
   }
 
 

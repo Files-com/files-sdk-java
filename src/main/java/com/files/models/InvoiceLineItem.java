@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InvoiceLineItem implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every InvoiceLineItem, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   public InvoiceLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class InvoiceLineItem implements ModelInterface {
 
 
   /**
-  * Invoice Line item Id
-  */
+   * Invoice Line item Id
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item amount
-  */
+   * Invoice line item amount
+   */
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   @JsonProperty("amount")
   public BigDecimal amount;
@@ -95,8 +117,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item created at date/time
-  */
+   * Invoice line item created at date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -105,8 +127,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item description
-  */
+   * Invoice line item description
+   */
   @JsonProperty("description")
   public String description;
 
@@ -115,8 +137,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item type
-  */
+   * Invoice line item type
+   */
   @JsonProperty("type")
   public String type;
 
@@ -125,8 +147,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item service end date/time
-  */
+   * Invoice line item service end date/time
+   */
   @JsonProperty("service_end_at")
   public Date serviceEndAt;
 
@@ -135,8 +157,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Invoice line item service start date/time
-  */
+   * Invoice line item service start date/time
+   */
   @JsonProperty("service_start_at")
   public Date serviceStartAt;
 
@@ -145,8 +167,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Plan name
-  */
+   * Plan name
+   */
   @JsonProperty("plan")
   public String plan;
 
@@ -155,8 +177,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Site name
-  */
+   * Site name
+   */
   @JsonProperty("site")
   public String site;
 
@@ -165,8 +187,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Prepaid bytes purchased for this invoice line item
-  */
+   * Prepaid bytes purchased for this invoice line item
+   */
   @JsonProperty("prepaid_bytes")
   public Long prepaidBytes;
 
@@ -175,8 +197,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * When the prepaid bytes expire
-  */
+   * When the prepaid bytes expire
+   */
   @JsonProperty("prepaid_bytes_expire_at")
   public Date prepaidBytesExpireAt;
 
@@ -185,8 +207,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Total prepaid bytes used for this invoice line item
-  */
+   * Total prepaid bytes used for this invoice line item
+   */
   @JsonProperty("prepaid_bytes_used")
   public Long prepaidBytesUsed;
 
@@ -195,8 +217,8 @@ public class InvoiceLineItem implements ModelInterface {
   }
 
   /**
-  * Available prepaid bytes for this invoice line item
-  */
+   * Available prepaid bytes for this invoice line item
+   */
   @JsonProperty("prepaid_bytes_available")
   public Long prepaidBytesAvailable;
 

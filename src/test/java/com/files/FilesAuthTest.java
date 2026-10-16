@@ -1,19 +1,22 @@
 package com.files;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.files.exceptions.ApiErrorException;
 import com.files.models.File;
 import com.files.models.Folder;
 import com.files.models.Session;
 import com.files.models.User;
+import java.io.IOException;
+import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 public class FilesAuthTest {
   private static final String apiKey = "mock-server-api-key";
+
   @Before
   public void setApiRoot() {
     FilesClient.setProperty("apiRoot", TestSettingsHelper.getInstance().getMockServerApiRoot());
@@ -25,12 +28,13 @@ public class FilesAuthTest {
     FilesClient.apiKey = apiKey;
     // Requesting all users
     ListIterator<User> allUsers = User.all();
-    assert(allUsers.all().size() == 1);
+    assertEquals(1, allUsers.all().size());
     int count = 0;
-    for (User user : allUsers.listAutoPaging()) {
+    // all() leaves the listing at its end, so start it over before iterating again.
+    for (User user : allUsers.reset().listAutoPaging()) {
       count++;
     }
-    assert(count == 1);
+    assertEquals(1, count);
   }
 
   @Test
@@ -44,26 +48,27 @@ public class FilesAuthTest {
     parameters.put("sort_by", sortBy);
     parameters.put("preview_size", "large");
     ListIterator<File> items = Folder.listFor("test", parameters);
-    assert(items.all().size() == 1);
+    assertEquals(1, items.all().size());
     int count = 0;
-    for (File item : items.listAutoPaging()) {
+    // all() leaves the listing at its end, so start it over before iterating again.
+    for (File item : items.reset().listAutoPaging()) {
       count++;
     }
-    assert(count == 1);
+    assertEquals(1, count);
   }
 
   @Test
   public void findUser() throws Exception {
-    User user = User.find((long)1, null);
-    assert("user".equals(user.username));
-    assert("john.doe@files.com".equals(user.email));
+    User user = User.find((long) 1, null);
+    assertEquals("user", user.username);
+    assertEquals("john.doe@files.com", user.email);
   }
 
   @Test
   public void updateUser() throws Exception {
-    User user = User.find((long)1, null);
-    assert("user".equals(user.username));
-    assert("john.doe@files.com".equals(user.email));
+    User user = User.find((long) 1, null);
+    assertEquals("user", user.username);
+    assertEquals("john.doe@files.com", user.email);
     // Set and Save pattern
     user.setUsername("different");
     user.save();
@@ -77,9 +82,9 @@ public class FilesAuthTest {
 
   @Test
   public void resendWelcomeEmailForUser() throws Exception {
-    User user = User.find((long)1, null);
-    assert("user".equals(user.username));
-    assert(user.id == 1);
+    User user = User.find((long) 1, null);
+    assertEquals("user", user.username);
+    assertEquals(Long.valueOf(1), user.id);
     user.resendWelcomeEmail(null);
     // Mock server should return 200 OK
   }
@@ -99,7 +104,7 @@ public class FilesAuthTest {
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("api_key", apiKey);
     ListIterator<User> allUsers = User.all(null, parameters);
-    assert(allUsers.all().size() == 1);
+    assertEquals(1, allUsers.all().size());
   }
 
   @Test
@@ -112,7 +117,7 @@ public class FilesAuthTest {
     HashMap<String, Object> parameters = new HashMap<>();
     parameters.put("session_id", session.getId());
     ListIterator<User> allUsers = User.all(null, parameters);
-    assert(allUsers.all().size() == 1);
+    assertEquals(1, allUsers.all().size());
   }
 
   @Test
@@ -121,7 +126,7 @@ public class FilesAuthTest {
       ListIterator<User> allUsers = User.all(null, null);
     } catch (RuntimeException e) {
       if (e instanceof ApiErrorException.AuthenticationException) {
-        assert (e instanceof ApiErrorException.AuthenticationException);
+        assertTrue(e instanceof ApiErrorException.AuthenticationException);
       } else {
         throw e;
       }

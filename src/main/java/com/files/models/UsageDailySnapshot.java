@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsageDailySnapshot implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every UsageDailySnapshot, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   public UsageDailySnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class UsageDailySnapshot implements ModelInterface {
 
 
   /**
-  * ID of the usage record
-  */
+   * ID of the usage record
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * The date of this usage record
-  */
+   * The date of this usage record
+   */
   @JsonProperty("date")
   public Date date;
 
@@ -94,8 +116,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
-  */
+   * True if the API usage fields `read_api_usage` and `write_api_usage` can be relied upon.  If this is false, we suggest hiding that value from any UI.
+   */
   @JsonProperty("api_usage_available")
   public Boolean apiUsageAvailable;
 
@@ -104,8 +126,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * Read API Calls used on this day. Note: only updated for days before the current day.
-  */
+   * Read API Calls used on this day. Note: only updated for days before the current day.
+   */
   @JsonProperty("read_api_usage")
   public Long readApiUsage;
 
@@ -114,8 +136,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * Write API Calls used on this day. Note: only updated for days before the current day.
-  */
+   * Write API Calls used on this day. Note: only updated for days before the current day.
+   */
   @JsonProperty("write_api_usage")
   public Long writeApiUsage;
 
@@ -124,8 +146,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * Transformation and AI credits used on this day. Note: only updated for days before the current day.
-  */
+   * Transformation and AI credits used on this day. Note: only updated for days before the current day.
+   */
   @JsonProperty("transformation_credits_usage")
   public Long transformationCreditsUsage;
 
@@ -134,8 +156,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * Number of billable users as of this day.
-  */
+   * Number of billable users as of this day.
+   */
   @JsonProperty("user_count")
   public Long userCount;
 
@@ -144,8 +166,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * GB of Files Native Storage used on this day.
-  */
+   * GB of Files Native Storage used on this day.
+   */
   @JsonProperty("current_storage")
   public Long currentStorage;
 
@@ -154,8 +176,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
-  */
+   * GB of Files Native Storage used on this day for files that have been deleted and are stored as backups.
+   */
   @JsonProperty("deleted_files_storage")
   public Long deletedFilesStorage;
 
@@ -164,8 +186,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
-  */
+   * GB of Files Native Storage used on this day for files that have been permanently deleted but were uploaded less than 30 days ago, and are still billable.
+   */
   @JsonProperty("deleted_files_counted_in_minimum")
   public Long deletedFilesCountedInMinimum;
 
@@ -174,8 +196,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
-  */
+   * GB of Files Native Storage used for the root folder.  Included here because this value will not be part of `usage_by_top_level_dir`
+   */
   @JsonProperty("root_storage")
   public Long rootStorage;
 
@@ -184,8 +206,8 @@ public class UsageDailySnapshot implements ModelInterface {
   }
 
   /**
-  * Usage broken down by each top-level folder
-  */
+   * Usage broken down by each top-level folder
+   */
   @JsonProperty("usage_by_top_level_dir")
   public UsageByTopLevelDir[] usageByTopLevelDir;
 
@@ -195,16 +217,16 @@ public class UsageDailySnapshot implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `date`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `date` and `usage_snapshot_id`. Valid field combinations are `[ usage_snapshot_id, date ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `date`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `date`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `date`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `date` and `usage_snapshot_id`. Valid field combinations are `[ usage_snapshot_id, date ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `date`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `date`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `date`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `date`.
+   */
   public static ListIterator<UsageDailySnapshot> list() throws RuntimeException {
     return list(null, null);
   }
@@ -215,41 +237,7 @@ public class UsageDailySnapshot implements ModelInterface {
 
 
   public static ListIterator<UsageDailySnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-
-
-    String url = String.format("%s%s/usage_daily_snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<UsageDailySnapshot>> typeReference = new TypeReference<List<UsageDailySnapshot>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().usageDailySnapshots().list(parameters, options);
   }
 
   public static ListIterator<UsageDailySnapshot> all() throws RuntimeException {

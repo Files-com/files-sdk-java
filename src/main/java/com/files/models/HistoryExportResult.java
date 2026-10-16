@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HistoryExportResult implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every HistoryExportResult, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   public HistoryExportResult(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class HistoryExportResult implements ModelInterface {
 
 
   /**
-  * Action ID
-  */
+   * Action ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * When the action happened
-  */
+   * When the action happened
+   */
   @JsonProperty("created_at")
   public Long createdAt;
 
@@ -94,8 +116,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * When the action happened, in ISO8601 format.
-  */
+   * When the action happened, in ISO8601 format.
+   */
   @JsonProperty("created_at_iso8601")
   public String createdAtIso8601;
 
@@ -104,8 +126,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * User ID
-  */
+   * User ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -114,8 +136,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * File ID related to the action
-  */
+   * File ID related to the action
+   */
   @JsonProperty("file_id")
   public Long fileId;
 
@@ -124,8 +146,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * ID of the parent folder
-  */
+   * ID of the parent folder
+   */
   @JsonProperty("parent_id")
   public Long parentId;
 
@@ -134,8 +156,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Path of the related action. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -144,8 +166,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Folder in which the action occurred
-  */
+   * Folder in which the action occurred
+   */
   @JsonProperty("folder")
   public String folder;
 
@@ -154,8 +176,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * File move originated from this path
-  */
+   * File move originated from this path
+   */
   @JsonProperty("src")
   public String src;
 
@@ -164,8 +186,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * File moved to this destination folder
-  */
+   * File moved to this destination folder
+   */
   @JsonProperty("destination")
   public String destination;
 
@@ -174,8 +196,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Client IP that performed the action
-  */
+   * Client IP that performed the action
+   */
   @JsonProperty("ip")
   public String ip;
 
@@ -184,8 +206,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Username of the user that performed the action
-  */
+   * Username of the user that performed the action
+   */
   @JsonProperty("username")
   public String username;
 
@@ -194,8 +216,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * true if this change was performed by a user on a parent site.
-  */
+   * true if this change was performed by a user on a parent site.
+   */
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
 
@@ -204,8 +226,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * What action was taken. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
-  */
+   * What action was taken. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
+   */
   @JsonProperty("action")
   public String action;
 
@@ -214,8 +236,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * The type of login failure, if applicable.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`, `no_s3_compatible_endpoint_permission`, `mobile_ip_mismatch`, `mobile_api_key_not_used_quickly_enough`, `desktop_app_disabled`, `mobile_app_disabled`
-  */
+   * The type of login failure, if applicable.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`, `no_s3_compatible_endpoint_permission`, `mobile_ip_mismatch`, `mobile_api_key_not_used_quickly_enough`, `desktop_app_disabled`, `mobile_app_disabled`
+   */
   @JsonProperty("failure_type")
   public String failureType;
 
@@ -224,8 +246,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Interface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
-  */
+   * Interface through which the action was taken. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
+   */
   @JsonProperty("interface")
   public String interfaceName;
 
@@ -234,8 +256,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * ID of the object (such as Users, or API Keys) on which the action was taken
-  */
+   * ID of the object (such as Users, or API Keys) on which the action was taken
+   */
   @JsonProperty("target_id")
   public Long targetId;
 
@@ -244,8 +266,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Name of the User, Group or other object with a name related to this action
-  */
+   * Name of the User, Group or other object with a name related to this action
+   */
   @JsonProperty("target_name")
   public String targetName;
 
@@ -254,8 +276,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Permission level of the action
-  */
+   * Permission level of the action
+   */
   @JsonProperty("target_permission")
   public String targetPermission;
 
@@ -264,8 +286,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * Whether or not the action was recursive
-  */
+   * Whether or not the action was recursive
+   */
   @JsonProperty("target_recursive")
   public Boolean targetRecursive;
 
@@ -274,8 +296,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
-  */
+   * If searching for Histories about API keys, this is when the API key will expire. Represented as a Unix timestamp.
+   */
   @JsonProperty("target_expires_at")
   public Long targetExpiresAt;
 
@@ -284,8 +306,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
-  */
+   * If searching for Histories about API keys, this is when the API key will expire. Represented in ISO8601 format.
+   */
   @JsonProperty("target_expires_at_iso8601")
   public String targetExpiresAtIso8601;
 
@@ -294,8 +316,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this represents the permission set of the associated  API key
-  */
+   * If searching for Histories about API keys, this represents the permission set of the associated  API key
+   */
   @JsonProperty("target_permission_set")
   public String targetPermissionSet;
 
@@ -304,8 +326,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this is the platform on which the action was taken
-  */
+   * If searching for Histories about API keys, this is the platform on which the action was taken
+   */
   @JsonProperty("target_platform")
   public String targetPlatform;
 
@@ -314,8 +336,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this is the username on which the action was taken
-  */
+   * If searching for Histories about API keys, this is the username on which the action was taken
+   */
   @JsonProperty("target_username")
   public String targetUsername;
 
@@ -324,8 +346,8 @@ public class HistoryExportResult implements ModelInterface {
   }
 
   /**
-  * If searching for Histories about API keys, this is the User ID on which the action was taken
-  */
+   * If searching for Histories about API keys, this is the User ID on which the action was taken
+   */
   @JsonProperty("target_user_id")
   public Long targetUserId;
 
@@ -335,12 +357,12 @@ public class HistoryExportResult implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   history_export_id (required) - int64 - ID of the associated history export.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   history_export_id (required) - int64 - ID of the associated history export.
+   */
   public static ListIterator<HistoryExportResult> list() throws RuntimeException {
     return list(null, null);
   }
@@ -351,32 +373,7 @@ public class HistoryExportResult implements ModelInterface {
 
 
   public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("history_export_id") || parameters.get("history_export_id") == null) {
-      throw new NullPointerException("Parameter missing: history_export_id parameters[\"history_export_id\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("history_export_id") && !(parameters.get("history_export_id") instanceof Long || parameters.get("history_export_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: history_export_id must be of type Long or Integer parameters[\"history_export_id\"]");
-    }
-
-
-    String url = String.format("%s%s/history_export_results", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<HistoryExportResult>> typeReference = new TypeReference<List<HistoryExportResult>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().historyExportResults().list(parameters, options);
   }
 
   public static ListIterator<HistoryExportResult> all() throws RuntimeException {

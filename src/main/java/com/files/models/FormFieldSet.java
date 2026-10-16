@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormFieldSet implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every FormFieldSet, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class FormFieldSet implements ModelInterface {
   }
 
   public FormFieldSet(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class FormFieldSet implements ModelInterface {
 
 
   /**
-  * Form field set id
-  */
+   * Form field set id
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Title to be displayed
-  */
+   * Title to be displayed
+   */
   @JsonProperty("title")
   public String title;
 
@@ -102,8 +124,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-  */
+   * Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
+   */
   @JsonProperty("require_complete_metadata_capture")
   public Boolean requireCompleteMetadataCapture;
 
@@ -116,8 +138,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Layout of the form
-  */
+   * Layout of the form
+   */
   @JsonProperty("form_layout")
   public Long[] formLayout;
 
@@ -130,8 +152,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Associated form field definitions; authenticated form field set responses include historical definitions, while form_layout identifies current fields
-  */
+   * Associated form field definitions; authenticated form field set responses include historical definitions, while form_layout identifies current fields
+   */
   @JsonProperty("form_fields")
   public FormField[] formFields;
 
@@ -144,8 +166,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
-  */
+   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
+   */
   @JsonProperty("skip_name")
   public Boolean skipName;
 
@@ -158,8 +180,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
-  */
+   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
+   */
   @JsonProperty("skip_email")
   public Boolean skipEmail;
 
@@ -172,8 +194,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
-  */
+   * Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
+   */
   @JsonProperty("skip_company")
   public Boolean skipCompany;
 
@@ -186,8 +208,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
-  */
+   * Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
+   */
   @JsonProperty("in_use")
   public Boolean inUse;
 
@@ -200,8 +222,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
-  */
+   * User ID.  Provide a value of `0` to operate the current session's user.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -214,8 +236,8 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Workspace ID
-  */
+   * Workspace ID
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -228,40 +250,79 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   title - string - Title to be displayed
-  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-  *   workspace_id - int64 - Workspace ID
-  *   skip_email - boolean - Skip validating form email
-  *   skip_name - boolean - Skip validating form name
-  *   skip_company - boolean - Skip validating company
-  *   form_fields - array(object)
-  */
+   * Updates this FormFieldSet. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   title - string - Title to be displayed
+   *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
+   *   workspace_id - int64 - Workspace ID
+   *   skip_email - boolean - Skip validating form email
+   *   skip_name - boolean - Skip validating form name
+   *   skip_company - boolean - Skip validating company
+   *   form_fields - array(object)
+   */
   public FormFieldSet update(HashMap<String, Object> parameters) throws IOException {
-    return FormFieldSet.update(this.id, parameters, this.options);
+    FormFieldSet updated = filesClient().formFieldSets().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    FormFieldSet.delete(this.id, parameters, this.options);
+    filesClient().formFieldSets().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this FormFieldSet: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    FormFieldSet.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().formFieldSets().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.formFields != null) {
+      parameters.put("form_fields", this.formFields);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(FormFieldSet canonical) {
+    this.id = canonical.id;
+    this.title = canonical.title;
+    this.requireCompleteMetadataCapture = canonical.requireCompleteMetadataCapture;
+    this.formLayout = canonical.formLayout;
+    this.formFields = canonical.formFields;
+    this.skipName = canonical.skipName;
+    this.skipEmail = canonical.skipEmail;
+    this.skipCompany = canonical.skipCompany;
+    this.inUse = canonical.inUse;
+    this.userId = canonical.userId;
+    this.workspaceId = canonical.workspaceId;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<FormFieldSet> list() throws RuntimeException {
     return list(null, null);
   }
@@ -272,26 +333,7 @@ public class FormFieldSet implements ModelInterface {
 
 
   public static ListIterator<FormFieldSet> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/form_field_sets", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<FormFieldSet>> typeReference = new TypeReference<List<FormFieldSet>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().formFieldSets().list(parameters, options);
   }
 
   public static ListIterator<FormFieldSet> all() throws RuntimeException {
@@ -303,9 +345,9 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Form Field Set ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Form Field Set ID.
+   */
   public static FormFieldSet find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -319,28 +361,7 @@ public class FormFieldSet implements ModelInterface {
   }
 
   public static FormFieldSet find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().formFieldSets().find(id, parameters, options);
   }
 
   public static FormFieldSet get() throws RuntimeException {
@@ -352,16 +373,16 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   title - string - Title to be displayed
-  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-  *   workspace_id - int64 - Workspace ID
-  *   skip_email - boolean - Skip validating form email
-  *   skip_name - boolean - Skip validating form name
-  *   skip_company - boolean - Skip validating company
-  *   form_fields - array(object)
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   title - string - Title to be displayed
+   *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
+   *   workspace_id - int64 - Workspace ID
+   *   skip_email - boolean - Skip validating form email
+   *   skip_name - boolean - Skip validating form name
+   *   skip_company - boolean - Skip validating company
+   *   form_fields - array(object)
+   */
   public static FormFieldSet create() throws RuntimeException {
     return create(null, null);
   }
@@ -372,54 +393,20 @@ public class FormFieldSet implements ModelInterface {
 
 
   public static FormFieldSet create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
-    }
-    if (parameters.containsKey("require_complete_metadata_capture") && !(parameters.get("require_complete_metadata_capture") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_complete_metadata_capture must be of type Boolean parameters[\"require_complete_metadata_capture\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
-    }
-    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
-    }
-    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
-    }
-    if (parameters.containsKey("form_fields") && !(parameters.get("form_fields") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: form_fields must be of type Object[] parameters[\"form_fields\"]");
-    }
-
-
-    String url = String.format("%s%s/form_field_sets", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().formFieldSets().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   title - string - Title to be displayed
-  *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-  *   workspace_id - int64 - Workspace ID
-  *   skip_email - boolean - Skip validating form email
-  *   skip_name - boolean - Skip validating form name
-  *   skip_company - boolean - Skip validating company
-  *   form_fields - array(object)
-  */
+   * Parameters:
+   *   title - string - Title to be displayed
+   *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
+   *   workspace_id - int64 - Workspace ID
+   *   skip_email - boolean - Skip validating form email
+   *   skip_name - boolean - Skip validating form name
+   *   skip_company - boolean - Skip validating company
+   *   form_fields - array(object)
+   */
   public static FormFieldSet update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -433,54 +420,12 @@ public class FormFieldSet implements ModelInterface {
   }
 
   public static FormFieldSet update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("title") && !(parameters.get("title") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: title must be of type String parameters[\"title\"]");
-    }
-    if (parameters.containsKey("require_complete_metadata_capture") && !(parameters.get("require_complete_metadata_capture") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_complete_metadata_capture must be of type Boolean parameters[\"require_complete_metadata_capture\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
-    }
-    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
-    }
-    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
-    }
-    if (parameters.containsKey("form_fields") && !(parameters.get("form_fields") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: form_fields must be of type Object[] parameters[\"form_fields\"]");
-    }
-
-
-
-    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<FormFieldSet> typeReference = new TypeReference<FormFieldSet>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().formFieldSets().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -494,27 +439,7 @@ public class FormFieldSet implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/form_field_sets/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().formFieldSets().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

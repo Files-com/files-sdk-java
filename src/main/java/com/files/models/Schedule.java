@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Schedule implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Schedule, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Schedule implements ModelInterface {
   }
 
   public Schedule(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Schedule implements ModelInterface {
 
 
   /**
-  * Schedule ID.
-  */
+   * Schedule ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Schedule name.
-  */
+   * Schedule name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * 0-based weekdays used by the Schedule. 0 is Sunday.
-  */
+   * 0-based weekdays used by the Schedule. 0 is Sunday.
+   */
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
@@ -116,8 +138,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format (24-hour).
-  */
+   * Times of day in HH:MM format (24-hour).
+   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
@@ -130,8 +152,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Time zone for scheduled times. If not set, times are interpreted as UTC.
-  */
+   * Time zone for scheduled times. If not set, times are interpreted as UTC.
+   */
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
@@ -144,8 +166,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Optional holiday region on which linked resources do not run.
-  */
+   * Optional holiday region on which linked resources do not run.
+   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
@@ -158,8 +180,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Human-readable Schedule description.
-  */
+   * Human-readable Schedule description.
+   */
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
 
@@ -172,8 +194,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Creation time.
-  */
+   * Creation time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -182,8 +204,8 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Last update time.
-  */
+   * Last update time.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -192,38 +214,78 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Schedule name.
-  *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
-  *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-  *   holiday_region - string - Optional holiday region on which linked resources do not run.
-  */
+   * Updates this Schedule. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Schedule name.
+   *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
+   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   */
   public Schedule update(HashMap<String, Object> parameters) throws IOException {
-    return Schedule.update(this.id, parameters, this.options);
+    Schedule updated = filesClient().schedules().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Schedule.delete(this.id, parameters, this.options);
+    filesClient().schedules().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Schedule: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Schedule.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().schedules().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.scheduleDaysOfWeek != null) {
+      parameters.put("schedule_days_of_week", this.scheduleDaysOfWeek);
+    }
+    if (this.scheduleTimesOfDay != null) {
+      parameters.put("schedule_times_of_day", this.scheduleTimesOfDay);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Schedule canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.scheduleDaysOfWeek = canonical.scheduleDaysOfWeek;
+    this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
+    this.scheduleTimeZone = canonical.scheduleTimeZone;
+    this.holidayRegion = canonical.holidayRegion;
+    this.humanReadableSchedule = canonical.humanReadableSchedule;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+   */
   public static ListIterator<Schedule> list() throws RuntimeException {
     return list(null, null);
   }
@@ -234,26 +296,7 @@ public class Schedule implements ModelInterface {
 
 
   public static ListIterator<Schedule> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-
-
-    String url = String.format("%s%s/schedules", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Schedule>> typeReference = new TypeReference<List<Schedule>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().schedules().list(parameters, options);
   }
 
   public static ListIterator<Schedule> all() throws RuntimeException {
@@ -265,9 +308,9 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Schedule ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Schedule ID.
+   */
   public static Schedule find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -281,28 +324,7 @@ public class Schedule implements ModelInterface {
   }
 
   public static Schedule find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/schedules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Schedule> typeReference = new TypeReference<Schedule>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().schedules().find(id, parameters, options);
   }
 
   public static Schedule get() throws RuntimeException {
@@ -314,13 +336,13 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name (required) - string - Schedule name.
-  *   schedule_days_of_week (required) - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-  *   schedule_times_of_day (required) - array(string) - Times of day in HH:MM format (24-hour).
-  *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-  *   holiday_region - string - Optional holiday region on which linked resources do not run.
-  */
+   * Parameters:
+   *   name (required) - string - Schedule name.
+   *   schedule_days_of_week (required) - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
+   *   schedule_times_of_day (required) - array(string) - Times of day in HH:MM format (24-hour).
+   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   */
   public static Schedule create() throws RuntimeException {
     return create(null, null);
   }
@@ -331,52 +353,18 @@ public class Schedule implements ModelInterface {
 
 
   public static Schedule create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("schedule_days_of_week") || parameters.get("schedule_days_of_week") == null) {
-      throw new NullPointerException("Parameter missing: schedule_days_of_week parameters[\"schedule_days_of_week\"]");
-    }
-    if (!parameters.containsKey("schedule_times_of_day") || parameters.get("schedule_times_of_day") == null) {
-      throw new NullPointerException("Parameter missing: schedule_times_of_day parameters[\"schedule_times_of_day\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-
-
-    String url = String.format("%s%s/schedules", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Schedule> typeReference = new TypeReference<Schedule>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().schedules().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Schedule name.
-  *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
-  *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-  *   holiday_region - string - Optional holiday region on which linked resources do not run.
-  */
+   * Parameters:
+   *   name - string - Schedule name.
+   *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
+   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
+   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   */
   public static Schedule update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -390,48 +378,12 @@ public class Schedule implements ModelInterface {
   }
 
   public static Schedule update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-
-
-
-    String url = String.format("%s%s/schedules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Schedule> typeReference = new TypeReference<Schedule>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().schedules().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -445,27 +397,7 @@ public class Schedule implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/schedules/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().schedules().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

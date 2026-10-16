@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AiTask implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every AiTask, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class AiTask implements ModelInterface {
   }
 
   public AiTask(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class AiTask implements ModelInterface {
 
 
   /**
-  * AI Task ID.
-  */
+   * AI Task ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * AI Task name.
-  */
+   * AI Task name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -116,8 +138,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * AI Task description.
-  */
+   * AI Task description.
+   */
   @JsonProperty("description")
   public String description;
 
@@ -130,8 +152,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Prompt sent when this AI Task is invoked.
-  */
+   * Prompt sent when this AI Task is invoked.
+   */
   @JsonProperty("prompt")
   public String prompt;
 
@@ -144,8 +166,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-  */
+   * Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
+   */
   @JsonProperty("permission_set")
   public String permissionSet;
 
@@ -158,8 +180,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Path scope used for action-triggered AI Tasks. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Path scope used for action-triggered AI Tasks. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -172,8 +194,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Source glob used with `path` for action-triggered AI Tasks.
-  */
+   * Source glob used with `path` for action-triggered AI Tasks.
+   */
   @JsonProperty("source")
   public String source;
 
@@ -186,8 +208,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If true, this AI Task will not run.
-  */
+   * If true, this AI Task will not run.
+   */
   @JsonProperty("disabled")
   public Boolean disabled;
 
@@ -200,8 +222,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * How this AI Task is triggered.
-  */
+   * How this AI Task is triggered.
+   */
   @JsonProperty("trigger")
   public String trigger;
 
@@ -214,8 +236,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-  */
+   * If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
+   */
   @JsonProperty("trigger_actions")
   public String[] triggerActions;
 
@@ -228,8 +250,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this specifies how often to run the AI Task.
-  */
+   * If trigger is `daily`, this specifies how often to run the AI Task.
+   */
   @JsonProperty("interval")
   public String interval;
 
@@ -242,8 +264,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this selects the day number inside the chosen interval.
-  */
+   * If trigger is `daily`, this selects the day number inside the chosen interval.
+   */
   @JsonProperty("recurring_day")
   public Long recurringDay;
 
@@ -256,8 +278,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  */
+   * If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   */
   @JsonProperty("recurring_days")
   public Long[] recurringDays;
 
@@ -270,8 +292,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-  */
+   * If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
+   */
   @JsonProperty("schedule_id")
   public Long scheduleId;
 
@@ -284,8 +306,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  */
+   * If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   */
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
@@ -298,8 +320,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Times of day in HH:MM format for the AI Task schedule.
-  */
+   * Times of day in HH:MM format for the AI Task schedule.
+   */
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
@@ -312,8 +334,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Time zone used by the AI Task schedule.
-  */
+   * Time zone used by the AI Task schedule.
+   */
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
@@ -326,8 +348,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Optional holiday region used by the AI Task schedule.
-  */
+   * Optional holiday region used by the AI Task schedule.
+   */
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
@@ -340,8 +362,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Human-readable schedule description.
-  */
+   * Human-readable schedule description.
+   */
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
 
@@ -354,8 +376,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Most recent successful invocation time.
-  */
+   * Most recent successful invocation time.
+   */
   @JsonProperty("last_run_at")
   public Date lastRunAt;
 
@@ -368,8 +390,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Master User ID used for AI Task invocations.
-  */
+   * Master User ID used for AI Task invocations.
+   */
   @JsonProperty("master_admin_user_id")
   public Long masterAdminUserId;
 
@@ -382,8 +404,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Creation time.
-  */
+   * Creation time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -392,8 +414,8 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Last update time.
-  */
+   * Last update time.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -402,59 +424,120 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Manually Run AI Task
-  */
+   * Manually Run AI Task
+   */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
-    AiTask.manualRun(this.id, parameters, this.options);
+    filesClient().aiTasks().manualRun(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   description - string - AI Task description.
-  *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-  *   name - string - AI Task name.
-  *   path - string - Path scope used for action-triggered AI Tasks.
-  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-  *   prompt - string - Prompt sent when this AI Task is invoked.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-  *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-  *   trigger - string - How this AI Task is triggered.
-  *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Updates this AiTask. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   description - string - AI Task description.
+   *   disabled - boolean - If true, this AI Task will not run.
+   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
+   *   name - string - AI Task name.
+   *   path - string - Path scope used for action-triggered AI Tasks.
+   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
+   *   prompt - string - Prompt sent when this AI Task is invoked.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
+   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
+   *   trigger - string - How this AI Task is triggered.
+   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public AiTask update(HashMap<String, Object> parameters) throws IOException {
-    return AiTask.update(this.id, parameters, this.options);
+    AiTask updated = filesClient().aiTasks().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    AiTask.delete(this.id, parameters, this.options);
+    filesClient().aiTasks().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this AiTask: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    AiTask.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().aiTasks().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.recurringDays != null) {
+      parameters.put("recurring_days", this.recurringDays);
+    }
+    if (this.scheduleDaysOfWeek != null) {
+      parameters.put("schedule_days_of_week", this.scheduleDaysOfWeek);
+    }
+    if (this.scheduleTimesOfDay != null) {
+      parameters.put("schedule_times_of_day", this.scheduleTimesOfDay);
+    }
+    if (this.triggerActions != null) {
+      parameters.put("trigger_actions", this.triggerActions);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(AiTask canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.name = canonical.name;
+    this.description = canonical.description;
+    this.prompt = canonical.prompt;
+    this.permissionSet = canonical.permissionSet;
+    this.path = canonical.path;
+    this.source = canonical.source;
+    this.disabled = canonical.disabled;
+    this.trigger = canonical.trigger;
+    this.triggerActions = canonical.triggerActions;
+    this.interval = canonical.interval;
+    this.recurringDay = canonical.recurringDay;
+    this.recurringDays = canonical.recurringDays;
+    this.scheduleId = canonical.scheduleId;
+    this.scheduleDaysOfWeek = canonical.scheduleDaysOfWeek;
+    this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
+    this.scheduleTimeZone = canonical.scheduleTimeZone;
+    this.holidayRegion = canonical.holidayRegion;
+    this.humanReadableSchedule = canonical.humanReadableSchedule;
+    this.lastRunAt = canonical.lastRunAt;
+    this.masterAdminUserId = canonical.masterAdminUserId;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
+   */
   public static ListIterator<AiTask> list() throws RuntimeException {
     return list(null, null);
   }
@@ -465,29 +548,7 @@ public class AiTask implements ModelInterface {
 
 
   public static ListIterator<AiTask> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<AiTask>> typeReference = new TypeReference<List<AiTask>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().aiTasks().list(parameters, options);
   }
 
   public static ListIterator<AiTask> all() throws RuntimeException {
@@ -499,9 +560,9 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Ai Task ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Ai Task ID.
+   */
   public static AiTask find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -515,28 +576,7 @@ public class AiTask implements ModelInterface {
   }
 
   public static AiTask find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().aiTasks().find(id, parameters, options);
   }
 
   public static AiTask get() throws RuntimeException {
@@ -548,26 +588,26 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   description - string - AI Task description.
-  *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-  *   name (required) - string - AI Task name.
-  *   path - string - Path scope used for action-triggered AI Tasks.
-  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-  *   prompt (required) - string - Prompt sent when this AI Task is invoked.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-  *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-  *   trigger - string - How this AI Task is triggered.
-  *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   description - string - AI Task description.
+   *   disabled - boolean - If true, this AI Task will not run.
+   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
+   *   name (required) - string - AI Task name.
+   *   path - string - Path scope used for action-triggered AI Tasks.
+   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
+   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
+   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
+   *   trigger - string - How this AI Task is triggered.
+   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static AiTask create() throws RuntimeException {
     return create(null, null);
   }
@@ -578,83 +618,13 @@ public class AiTask implements ModelInterface {
 
 
   public static AiTask create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("prompt") || parameters.get("prompt") == null) {
-      throw new NullPointerException("Parameter missing: prompt parameters[\"prompt\"]");
-    }
-
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
-    if (parameters.containsKey("prompt") && !(parameters.get("prompt") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: prompt must be of type String parameters[\"prompt\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
-    }
-    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
-    }
-    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
-    }
-    if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/ai_tasks", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().aiTasks().create(parameters, options);
   }
 
 
   /**
-  * Manually Run AI Task
-  */
+   * Manually Run AI Task
+   */
   public static void manualRun() throws RuntimeException {
     manualRun(null, null, null);
   }
@@ -668,51 +638,31 @@ public class AiTask implements ModelInterface {
   }
 
   public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/ai_tasks/%s/manual_run", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().aiTasks().manualRun(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   description - string - AI Task description.
-  *   disabled - boolean - If true, this AI Task will not run.
-  *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-  *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-  *   name - string - AI Task name.
-  *   path - string - Path scope used for action-triggered AI Tasks.
-  *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-  *   prompt - string - Prompt sent when this AI Task is invoked.
-  *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-  *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-  *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-  *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-  *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-  *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-  *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-  *   trigger - string - How this AI Task is triggered.
-  *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   description - string - AI Task description.
+   *   disabled - boolean - If true, this AI Task will not run.
+   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
+   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
+   *   name - string - AI Task name.
+   *   path - string - Path scope used for action-triggered AI Tasks.
+   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
+   *   prompt - string - Prompt sent when this AI Task is invoked.
+   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
+   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
+   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
+   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
+   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
+   *   trigger - string - How this AI Task is triggered.
+   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static AiTask update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -726,87 +676,12 @@ public class AiTask implements ModelInterface {
   }
 
   public static AiTask update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
-    }
-    if (parameters.containsKey("interval") && !(parameters.get("interval") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: interval must be of type String parameters[\"interval\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("permission_set") && !(parameters.get("permission_set") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permission_set must be of type String parameters[\"permission_set\"]");
-    }
-    if (parameters.containsKey("prompt") && !(parameters.get("prompt") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: prompt must be of type String parameters[\"prompt\"]");
-    }
-    if (parameters.containsKey("recurring_day") && !(parameters.get("recurring_day") instanceof Long || parameters.get("recurring_day") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: recurring_day must be of type Long or Integer parameters[\"recurring_day\"]");
-    }
-    if (parameters.containsKey("recurring_days") && !(parameters.get("recurring_days") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: recurring_days must be of type Long[] parameters[\"recurring_days\"]");
-    }
-    if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
-    }
-    if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
-    }
-    if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: schedule_time_zone must be of type String parameters[\"schedule_time_zone\"]");
-    }
-    if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: schedule_times_of_day must be of type String[] parameters[\"schedule_times_of_day\"]");
-    }
-    if (parameters.containsKey("source") && !(parameters.get("source") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: source must be of type String parameters[\"source\"]");
-    }
-    if (parameters.containsKey("trigger") && !(parameters.get("trigger") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: trigger must be of type String parameters[\"trigger\"]");
-    }
-    if (parameters.containsKey("trigger_actions") && !(parameters.get("trigger_actions") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: trigger_actions must be of type String[] parameters[\"trigger_actions\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AiTask> typeReference = new TypeReference<AiTask>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().aiTasks().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -820,27 +695,7 @@ public class AiTask implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/ai_tasks/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().aiTasks().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

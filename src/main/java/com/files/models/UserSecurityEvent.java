@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserSecurityEvent implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every UserSecurityEvent, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   public UserSecurityEvent(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class UserSecurityEvent implements ModelInterface {
 
 
   /**
-  * Event ID
-  */
+   * Event ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Type of user security event being recorded.
-  */
+   * Type of user security event being recorded.
+   */
   @JsonProperty("event_type")
   public String eventType;
 
@@ -94,8 +116,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Event body.
-  */
+   * Event body.
+   */
   @JsonProperty("body")
   public String body;
 
@@ -104,8 +126,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Event errors.
-  */
+   * Event errors.
+   */
   @JsonProperty("event_errors")
   public String[] eventErrors;
 
@@ -114,8 +136,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Event create date/time.
-  */
+   * Event create date/time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -124,8 +146,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Link to log file.
-  */
+   * Link to log file.
+   */
   @JsonProperty("body_url")
   public String bodyUrl;
 
@@ -134,8 +156,8 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * User ID.
-  */
+   * User ID.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -145,16 +167,16 @@ public class UserSecurityEvent implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `user_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `user_id`. Valid field combinations are `[ user_id, created_at ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at` and `user_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `user_id`. Valid field combinations are `[ user_id, created_at ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   */
   public static ListIterator<UserSecurityEvent> list() throws RuntimeException {
     return list(null, null);
   }
@@ -165,41 +187,7 @@ public class UserSecurityEvent implements ModelInterface {
 
 
   public static ListIterator<UserSecurityEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-
-
-    String url = String.format("%s%s/user_security_events", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<UserSecurityEvent>> typeReference = new TypeReference<List<UserSecurityEvent>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().userSecurityEvents().list(parameters, options);
   }
 
   public static ListIterator<UserSecurityEvent> all() throws RuntimeException {
@@ -211,9 +199,9 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - User Security Event ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - User Security Event ID.
+   */
   public static UserSecurityEvent find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -227,28 +215,7 @@ public class UserSecurityEvent implements ModelInterface {
   }
 
   public static UserSecurityEvent find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/user_security_events/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<UserSecurityEvent> typeReference = new TypeReference<UserSecurityEvent>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().userSecurityEvents().find(id, parameters, options);
   }
 
   public static UserSecurityEvent get() throws RuntimeException {

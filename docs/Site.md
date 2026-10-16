@@ -801,19 +801,19 @@ Site site = Site.update(
 * `ldap_base_dn` (String): Base DN for looking up users in LDAP server
 * `uploads_via_email_authentication` (Boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 * `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-* `icon16_file` (byte[]): 
+* `icon16_file` (byte[] or Attachment): 
 * `icon16_delete` (Boolean): If true, will delete the file stored in icon16
-* `icon32_file` (byte[]): 
+* `icon32_file` (byte[] or Attachment): 
 * `icon32_delete` (Boolean): If true, will delete the file stored in icon32
-* `icon48_file` (byte[]): 
+* `icon48_file` (byte[] or Attachment): 
 * `icon48_delete` (Boolean): If true, will delete the file stored in icon48
-* `icon128_file` (byte[]): 
+* `icon128_file` (byte[] or Attachment): 
 * `icon128_delete` (Boolean): If true, will delete the file stored in icon128
-* `logo_file` (byte[]): 
+* `logo_file` (byte[] or Attachment): 
 * `logo_delete` (Boolean): If true, will delete the file stored in logo
-* `bundle_watermark_attachment_file` (byte[]): 
+* `bundle_watermark_attachment_file` (byte[] or Attachment): 
 * `bundle_watermark_attachment_delete` (Boolean): If true, will delete the file stored in bundle_watermark_attachment
-* `login_page_background_image_file` (byte[]): 
+* `login_page_background_image_file` (byte[] or Attachment): 
 * `login_page_background_image_delete` (Boolean): If true, will delete the file stored in login_page_background_image
 * `disable_2fa_with_delay` (Boolean): If set to true, we will begin the process of disabling 2FA on this site.
 * `ldap_password_change` (String): New LDAP password.

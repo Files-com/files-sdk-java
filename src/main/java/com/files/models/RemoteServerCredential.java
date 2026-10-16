@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RemoteServerCredential implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every RemoteServerCredential, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   public RemoteServerCredential(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class RemoteServerCredential implements ModelInterface {
 
 
   /**
-  * Remote Server Credential ID
-  */
+   * Remote Server Credential ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Workspace ID (0 for default workspace)
-  */
+   * Workspace ID (0 for default workspace)
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Internal name for your reference
-  */
+   * Internal name for your reference
+   */
   @JsonProperty("name")
   public String name;
 
@@ -116,8 +138,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Internal description for your reference
-  */
+   * Internal description for your reference
+   */
   @JsonProperty("description")
   public String description;
 
@@ -130,8 +152,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-  */
+   * Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
+   */
   @JsonProperty("server_type")
   public String serverType;
 
@@ -144,8 +166,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * AWS Access Key.
-  */
+   * AWS Access Key.
+   */
   @JsonProperty("aws_access_key")
   public String awsAccessKey;
 
@@ -158,8 +180,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * AWS IAM Role ARN for AssumeRole authentication.
-  */
+   * AWS IAM Role ARN for AssumeRole authentication.
+   */
   @JsonProperty("s3_assume_role_arn")
   public String s3AssumeRoleArn;
 
@@ -172,8 +194,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Session duration in seconds for AssumeRole authentication (900-43200).
-  */
+   * Session duration in seconds for AssumeRole authentication (900-43200).
+   */
   @JsonProperty("s3_assume_role_duration_seconds")
   public Long s3AssumeRoleDurationSeconds;
 
@@ -186,8 +208,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * External ID for AssumeRole authentication.
-  */
+   * External ID for AssumeRole authentication.
+   */
   @JsonProperty("s3_assume_role_external_id")
   public String s3AssumeRoleExternalId;
 
@@ -200,8 +222,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Google Cloud Storage: S3-compatible Access Key.
-  */
+   * Google Cloud Storage: S3-compatible Access Key.
+   */
   @JsonProperty("google_cloud_storage_s3_compatible_access_key")
   public String googleCloudStorageS3CompatibleAccessKey;
 
@@ -214,8 +236,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Wasabi: Access Key.
-  */
+   * Wasabi: Access Key.
+   */
   @JsonProperty("wasabi_access_key")
   public String wasabiAccessKey;
 
@@ -228,8 +250,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * S3-compatible: Access Key
-  */
+   * S3-compatible: Access Key
+   */
   @JsonProperty("s3_compatible_access_key")
   public String s3CompatibleAccessKey;
 
@@ -242,8 +264,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Filebase: Access Key.
-  */
+   * Filebase: Access Key.
+   */
   @JsonProperty("filebase_access_key")
   public String filebaseAccessKey;
 
@@ -256,8 +278,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Cloudflare: Access Key.
-  */
+   * Cloudflare: Access Key.
+   */
   @JsonProperty("cloudflare_access_key")
   public String cloudflareAccessKey;
 
@@ -270,8 +292,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Linode: Access Key
-  */
+   * Linode: Access Key
+   */
   @JsonProperty("linode_access_key")
   public String linodeAccessKey;
 
@@ -284,8 +306,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * SharePoint: Microsoft Entra tenant ID for app-only authentication.
-  */
+   * SharePoint: Microsoft Entra tenant ID for app-only authentication.
+   */
   @JsonProperty("sharepoint_tenant_id")
   public String sharepointTenantId;
 
@@ -298,8 +320,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * SharePoint: Microsoft Entra application client ID for app-only authentication.
-  */
+   * SharePoint: Microsoft Entra application client ID for app-only authentication.
+   */
   @JsonProperty("sharepoint_client_id")
   public String sharepointClientId;
 
@@ -312,8 +334,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * SharePoint: App-only credential type. Either secret or certificate.
-  */
+   * SharePoint: App-only credential type. Either secret or certificate.
+   */
   @JsonProperty("sharepoint_app_credential_type")
   public String sharepointAppCredentialType;
 
@@ -326,8 +348,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Remote server username.
-  */
+   * Remote server username.
+   */
   @JsonProperty("username")
   public String username;
 
@@ -340,8 +362,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Password, if needed.
-  */
+   * Password, if needed.
+   */
   @JsonProperty("password")
   public String password;
 
@@ -354,8 +376,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Private key, if needed.
-  */
+   * Private key, if needed.
+   */
   @JsonProperty("private_key")
   public String privateKey;
 
@@ -368,8 +390,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Passphrase for private key if needed.
-  */
+   * Passphrase for private key if needed.
+   */
   @JsonProperty("private_key_passphrase")
   public String privateKeyPassphrase;
 
@@ -382,8 +404,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * AWS: secret key.
-  */
+   * AWS: secret key.
+   */
   @JsonProperty("aws_secret_key")
   public String awsSecretKey;
 
@@ -396,8 +418,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Azure Blob Storage: Access Key
-  */
+   * Azure Blob Storage: Access Key
+   */
   @JsonProperty("azure_blob_storage_access_key")
   public String azureBlobStorageAccessKey;
 
@@ -410,8 +432,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Azure Blob Storage: Shared Access Signature (SAS) token
-  */
+   * Azure Blob Storage: Shared Access Signature (SAS) token
+   */
   @JsonProperty("azure_blob_storage_sas_token")
   public String azureBlobStorageSasToken;
 
@@ -424,8 +446,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Azure File Storage: Access Key
-  */
+   * Azure File Storage: Access Key
+   */
   @JsonProperty("azure_files_storage_access_key")
   public String azureFilesStorageAccessKey;
 
@@ -438,8 +460,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Azure File Storage: Shared Access Signature (SAS) token
-  */
+   * Azure File Storage: Shared Access Signature (SAS) token
+   */
   @JsonProperty("azure_files_storage_sas_token")
   public String azureFilesStorageSasToken;
 
@@ -452,8 +474,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Backblaze B2 Cloud Storage: applicationKey
-  */
+   * Backblaze B2 Cloud Storage: applicationKey
+   */
   @JsonProperty("backblaze_b2_application_key")
   public String backblazeB2ApplicationKey;
 
@@ -466,8 +488,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Backblaze B2 Cloud Storage: keyID
-  */
+   * Backblaze B2 Cloud Storage: keyID
+   */
   @JsonProperty("backblaze_b2_key_id")
   public String backblazeB2KeyId;
 
@@ -480,8 +502,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Cloudflare: Secret Key
-  */
+   * Cloudflare: Secret Key
+   */
   @JsonProperty("cloudflare_secret_key")
   public String cloudflareSecretKey;
 
@@ -494,8 +516,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Filebase: Secret Key
-  */
+   * Filebase: Secret Key
+   */
   @JsonProperty("filebase_secret_key")
   public String filebaseSecretKey;
 
@@ -508,8 +530,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-  */
+   * Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+   */
   @JsonProperty("google_cloud_storage_credentials_json")
   public String googleCloudStorageCredentialsJson;
 
@@ -522,8 +544,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Google Cloud Storage: S3-compatible secret key
-  */
+   * Google Cloud Storage: S3-compatible secret key
+   */
   @JsonProperty("google_cloud_storage_s3_compatible_secret_key")
   public String googleCloudStorageS3CompatibleSecretKey;
 
@@ -536,8 +558,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Linode: Secret Key
-  */
+   * Linode: Secret Key
+   */
   @JsonProperty("linode_secret_key")
   public String linodeSecretKey;
 
@@ -550,8 +572,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * S3-compatible: Secret Key
-  */
+   * S3-compatible: Secret Key
+   */
   @JsonProperty("s3_compatible_secret_key")
   public String s3CompatibleSecretKey;
 
@@ -564,8 +586,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-  */
+   * SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+   */
   @JsonProperty("sharepoint_client_certificate")
   public String sharepointClientCertificate;
 
@@ -578,8 +600,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * SharePoint: Microsoft Entra application client secret for app-only authentication.
-  */
+   * SharePoint: Microsoft Entra application client secret for app-only authentication.
+   */
   @JsonProperty("sharepoint_client_secret")
   public String sharepointClientSecret;
 
@@ -592,8 +614,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Wasabi: Secret Key
-  */
+   * Wasabi: Secret Key
+   */
   @JsonProperty("wasabi_secret_key")
   public String wasabiSecretKey;
 
@@ -606,8 +628,8 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * ID of Remote Server Credential to copy omitted values from.
-  */
+   * ID of Remote Server Credential to copy omitted values from.
+   */
   @JsonProperty("copy_values_from_credential_id")
   public Long copyValuesFromCredentialId;
 
@@ -620,69 +642,132 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Internal name for your reference
-  *   description - string - Internal description for your reference
-  *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-  *   aws_access_key - string - AWS Access Key.
-  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-  *   cloudflare_access_key - string - Cloudflare: Access Key.
-  *   filebase_access_key - string - Filebase: Access Key.
-  *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-  *   linode_access_key - string - Linode: Access Key
-  *   s3_compatible_access_key - string - S3-compatible: Access Key
-  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-  *   username - string - Remote server username.
-  *   wasabi_access_key - string - Wasabi: Access Key.
-  *   password - string - Password, if needed.
-  *   private_key - string - Private key, if needed.
-  *   private_key_passphrase - string - Passphrase for private key if needed.
-  *   aws_secret_key - string - AWS: secret key.
-  *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-  *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-  *   azure_files_storage_access_key - string - Azure File Storage: Access Key
-  *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-  *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-  *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-  *   cloudflare_secret_key - string - Cloudflare: Secret Key
-  *   filebase_secret_key - string - Filebase: Secret Key
-  *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-  *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-  *   linode_secret_key - string - Linode: Secret Key
-  *   s3_compatible_secret_key - string - S3-compatible: Secret Key
-  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-  *   wasabi_secret_key - string - Wasabi: Secret Key
-  */
+   * Updates this RemoteServerCredential. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Internal name for your reference
+   *   description - string - Internal description for your reference
+   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
+   *   aws_access_key - string - AWS Access Key.
+   *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+   *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+   *   cloudflare_access_key - string - Cloudflare: Access Key.
+   *   filebase_access_key - string - Filebase: Access Key.
+   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+   *   linode_access_key - string - Linode: Access Key
+   *   s3_compatible_access_key - string - S3-compatible: Access Key
+   *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+   *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+   *   username - string - Remote server username.
+   *   wasabi_access_key - string - Wasabi: Access Key.
+   *   password - string - Password, if needed.
+   *   private_key - string - Private key, if needed.
+   *   private_key_passphrase - string - Passphrase for private key if needed.
+   *   aws_secret_key - string - AWS: secret key.
+   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+   *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+   *   azure_files_storage_access_key - string - Azure File Storage: Access Key
+   *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+   *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+   *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+   *   cloudflare_secret_key - string - Cloudflare: Secret Key
+   *   filebase_secret_key - string - Filebase: Secret Key
+   *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+   *   linode_secret_key - string - Linode: Secret Key
+   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+   *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+   *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+   *   wasabi_secret_key - string - Wasabi: Secret Key
+   */
   public RemoteServerCredential update(HashMap<String, Object> parameters) throws IOException {
-    return RemoteServerCredential.update(this.id, parameters, this.options);
+    RemoteServerCredential updated = filesClient().remoteServerCredentials().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    RemoteServerCredential.delete(this.id, parameters, this.options);
+    filesClient().remoteServerCredentials().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this RemoteServerCredential: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    RemoteServerCredential.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().remoteServerCredentials().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(RemoteServerCredential canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.name = canonical.name;
+    this.description = canonical.description;
+    this.serverType = canonical.serverType;
+    this.awsAccessKey = canonical.awsAccessKey;
+    this.s3AssumeRoleArn = canonical.s3AssumeRoleArn;
+    this.s3AssumeRoleDurationSeconds = canonical.s3AssumeRoleDurationSeconds;
+    this.s3AssumeRoleExternalId = canonical.s3AssumeRoleExternalId;
+    this.googleCloudStorageS3CompatibleAccessKey = canonical.googleCloudStorageS3CompatibleAccessKey;
+    this.wasabiAccessKey = canonical.wasabiAccessKey;
+    this.s3CompatibleAccessKey = canonical.s3CompatibleAccessKey;
+    this.filebaseAccessKey = canonical.filebaseAccessKey;
+    this.cloudflareAccessKey = canonical.cloudflareAccessKey;
+    this.linodeAccessKey = canonical.linodeAccessKey;
+    this.sharepointTenantId = canonical.sharepointTenantId;
+    this.sharepointClientId = canonical.sharepointClientId;
+    this.sharepointAppCredentialType = canonical.sharepointAppCredentialType;
+    this.username = canonical.username;
+    this.password = canonical.password;
+    this.privateKey = canonical.privateKey;
+    this.privateKeyPassphrase = canonical.privateKeyPassphrase;
+    this.awsSecretKey = canonical.awsSecretKey;
+    this.azureBlobStorageAccessKey = canonical.azureBlobStorageAccessKey;
+    this.azureBlobStorageSasToken = canonical.azureBlobStorageSasToken;
+    this.azureFilesStorageAccessKey = canonical.azureFilesStorageAccessKey;
+    this.azureFilesStorageSasToken = canonical.azureFilesStorageSasToken;
+    this.backblazeB2ApplicationKey = canonical.backblazeB2ApplicationKey;
+    this.backblazeB2KeyId = canonical.backblazeB2KeyId;
+    this.cloudflareSecretKey = canonical.cloudflareSecretKey;
+    this.filebaseSecretKey = canonical.filebaseSecretKey;
+    this.googleCloudStorageCredentialsJson = canonical.googleCloudStorageCredentialsJson;
+    this.googleCloudStorageS3CompatibleSecretKey = canonical.googleCloudStorageS3CompatibleSecretKey;
+    this.linodeSecretKey = canonical.linodeSecretKey;
+    this.s3CompatibleSecretKey = canonical.s3CompatibleSecretKey;
+    this.sharepointClientCertificate = canonical.sharepointClientCertificate;
+    this.sharepointClientSecret = canonical.sharepointClientSecret;
+    this.wasabiSecretKey = canonical.wasabiSecretKey;
+    this.copyValuesFromCredentialId = canonical.copyValuesFromCredentialId;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   */
   public static ListIterator<RemoteServerCredential> list() throws RuntimeException {
     return list(null, null);
   }
@@ -693,32 +778,7 @@ public class RemoteServerCredential implements ModelInterface {
 
 
   public static ListIterator<RemoteServerCredential> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-
-
-    String url = String.format("%s%s/remote_server_credentials", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<RemoteServerCredential>> typeReference = new TypeReference<List<RemoteServerCredential>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteServerCredentials().list(parameters, options);
   }
 
   public static ListIterator<RemoteServerCredential> all() throws RuntimeException {
@@ -730,9 +790,9 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Remote Server Credential ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Remote Server Credential ID.
+   */
   public static RemoteServerCredential find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -746,28 +806,7 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   public static RemoteServerCredential find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_server_credentials/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<RemoteServerCredential> typeReference = new TypeReference<RemoteServerCredential>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteServerCredentials().find(id, parameters, options);
   }
 
   public static RemoteServerCredential get() throws RuntimeException {
@@ -779,44 +818,44 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Internal name for your reference
-  *   description - string - Internal description for your reference
-  *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-  *   aws_access_key - string - AWS Access Key.
-  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-  *   cloudflare_access_key - string - Cloudflare: Access Key.
-  *   filebase_access_key - string - Filebase: Access Key.
-  *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-  *   linode_access_key - string - Linode: Access Key
-  *   s3_compatible_access_key - string - S3-compatible: Access Key
-  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-  *   username - string - Remote server username.
-  *   wasabi_access_key - string - Wasabi: Access Key.
-  *   password - string - Password, if needed.
-  *   private_key - string - Private key, if needed.
-  *   private_key_passphrase - string - Passphrase for private key if needed.
-  *   aws_secret_key - string - AWS: secret key.
-  *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-  *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-  *   azure_files_storage_access_key - string - Azure File Storage: Access Key
-  *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-  *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-  *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-  *   cloudflare_secret_key - string - Cloudflare: Secret Key
-  *   filebase_secret_key - string - Filebase: Secret Key
-  *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-  *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-  *   linode_secret_key - string - Linode: Secret Key
-  *   s3_compatible_secret_key - string - S3-compatible: Secret Key
-  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-  *   wasabi_secret_key - string - Wasabi: Secret Key
-  *   workspace_id - int64 - Workspace ID (0 for default workspace)
-  *   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
-  */
+   * Parameters:
+   *   name - string - Internal name for your reference
+   *   description - string - Internal description for your reference
+   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
+   *   aws_access_key - string - AWS Access Key.
+   *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+   *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+   *   cloudflare_access_key - string - Cloudflare: Access Key.
+   *   filebase_access_key - string - Filebase: Access Key.
+   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+   *   linode_access_key - string - Linode: Access Key
+   *   s3_compatible_access_key - string - S3-compatible: Access Key
+   *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+   *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+   *   username - string - Remote server username.
+   *   wasabi_access_key - string - Wasabi: Access Key.
+   *   password - string - Password, if needed.
+   *   private_key - string - Private key, if needed.
+   *   private_key_passphrase - string - Passphrase for private key if needed.
+   *   aws_secret_key - string - AWS: secret key.
+   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+   *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+   *   azure_files_storage_access_key - string - Azure File Storage: Access Key
+   *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+   *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+   *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+   *   cloudflare_secret_key - string - Cloudflare: Secret Key
+   *   filebase_secret_key - string - Filebase: Secret Key
+   *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+   *   linode_secret_key - string - Linode: Secret Key
+   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+   *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+   *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+   *   wasabi_secret_key - string - Wasabi: Secret Key
+   *   workspace_id - int64 - Workspace ID (0 for default workspace)
+   *   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
+   */
   public static RemoteServerCredential create() throws RuntimeException {
     return create(null, null);
   }
@@ -827,165 +866,47 @@ public class RemoteServerCredential implements ModelInterface {
 
 
   public static RemoteServerCredential create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
-    }
-    if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
-    }
-    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
-    }
-    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
-    }
-    if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
-    }
-    if (parameters.containsKey("filebase_access_key") && !(parameters.get("filebase_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filebase_access_key must be of type String parameters[\"filebase_access_key\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_s3_compatible_access_key") && !(parameters.get("google_cloud_storage_s3_compatible_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_access_key must be of type String parameters[\"google_cloud_storage_s3_compatible_access_key\"]");
-    }
-    if (parameters.containsKey("linode_access_key") && !(parameters.get("linode_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: linode_access_key must be of type String parameters[\"linode_access_key\"]");
-    }
-    if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
-    }
-    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
-    }
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-    if (parameters.containsKey("wasabi_access_key") && !(parameters.get("wasabi_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: wasabi_access_key must be of type String parameters[\"wasabi_access_key\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-    if (parameters.containsKey("private_key_passphrase") && !(parameters.get("private_key_passphrase") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key_passphrase must be of type String parameters[\"private_key_passphrase\"]");
-    }
-    if (parameters.containsKey("aws_secret_key") && !(parameters.get("aws_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: aws_secret_key must be of type String parameters[\"aws_secret_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_access_key") && !(parameters.get("azure_blob_storage_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_access_key must be of type String parameters[\"azure_blob_storage_access_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_access_key") && !(parameters.get("azure_files_storage_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_access_key must be of type String parameters[\"azure_files_storage_access_key\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");
-    }
-    if (parameters.containsKey("backblaze_b2_application_key") && !(parameters.get("backblaze_b2_application_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: backblaze_b2_application_key must be of type String parameters[\"backblaze_b2_application_key\"]");
-    }
-    if (parameters.containsKey("backblaze_b2_key_id") && !(parameters.get("backblaze_b2_key_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: backblaze_b2_key_id must be of type String parameters[\"backblaze_b2_key_id\"]");
-    }
-    if (parameters.containsKey("cloudflare_secret_key") && !(parameters.get("cloudflare_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cloudflare_secret_key must be of type String parameters[\"cloudflare_secret_key\"]");
-    }
-    if (parameters.containsKey("filebase_secret_key") && !(parameters.get("filebase_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filebase_secret_key must be of type String parameters[\"filebase_secret_key\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_credentials_json") && !(parameters.get("google_cloud_storage_credentials_json") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_credentials_json must be of type String parameters[\"google_cloud_storage_credentials_json\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_s3_compatible_secret_key") && !(parameters.get("google_cloud_storage_s3_compatible_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_secret_key must be of type String parameters[\"google_cloud_storage_s3_compatible_secret_key\"]");
-    }
-    if (parameters.containsKey("linode_secret_key") && !(parameters.get("linode_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: linode_secret_key must be of type String parameters[\"linode_secret_key\"]");
-    }
-    if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
-    }
-    if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("copy_values_from_credential_id") && !(parameters.get("copy_values_from_credential_id") instanceof Long || parameters.get("copy_values_from_credential_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: copy_values_from_credential_id must be of type Long or Integer parameters[\"copy_values_from_credential_id\"]");
-    }
-
-
-    String url = String.format("%s%s/remote_server_credentials", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<RemoteServerCredential> typeReference = new TypeReference<RemoteServerCredential>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteServerCredentials().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Internal name for your reference
-  *   description - string - Internal description for your reference
-  *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-  *   aws_access_key - string - AWS Access Key.
-  *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-  *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-  *   cloudflare_access_key - string - Cloudflare: Access Key.
-  *   filebase_access_key - string - Filebase: Access Key.
-  *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-  *   linode_access_key - string - Linode: Access Key
-  *   s3_compatible_access_key - string - S3-compatible: Access Key
-  *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-  *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-  *   username - string - Remote server username.
-  *   wasabi_access_key - string - Wasabi: Access Key.
-  *   password - string - Password, if needed.
-  *   private_key - string - Private key, if needed.
-  *   private_key_passphrase - string - Passphrase for private key if needed.
-  *   aws_secret_key - string - AWS: secret key.
-  *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-  *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-  *   azure_files_storage_access_key - string - Azure File Storage: Access Key
-  *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-  *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-  *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-  *   cloudflare_secret_key - string - Cloudflare: Secret Key
-  *   filebase_secret_key - string - Filebase: Secret Key
-  *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-  *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-  *   linode_secret_key - string - Linode: Secret Key
-  *   s3_compatible_secret_key - string - S3-compatible: Secret Key
-  *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-  *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-  *   wasabi_secret_key - string - Wasabi: Secret Key
-  */
+   * Parameters:
+   *   name - string - Internal name for your reference
+   *   description - string - Internal description for your reference
+   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
+   *   aws_access_key - string - AWS Access Key.
+   *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
+   *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
+   *   cloudflare_access_key - string - Cloudflare: Access Key.
+   *   filebase_access_key - string - Filebase: Access Key.
+   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
+   *   linode_access_key - string - Linode: Access Key
+   *   s3_compatible_access_key - string - S3-compatible: Access Key
+   *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
+   *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
+   *   username - string - Remote server username.
+   *   wasabi_access_key - string - Wasabi: Access Key.
+   *   password - string - Password, if needed.
+   *   private_key - string - Private key, if needed.
+   *   private_key_passphrase - string - Passphrase for private key if needed.
+   *   aws_secret_key - string - AWS: secret key.
+   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
+   *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
+   *   azure_files_storage_access_key - string - Azure File Storage: Access Key
+   *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
+   *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
+   *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
+   *   cloudflare_secret_key - string - Cloudflare: Secret Key
+   *   filebase_secret_key - string - Filebase: Secret Key
+   *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
+   *   linode_secret_key - string - Linode: Secret Key
+   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
+   *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+   *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
+   *   wasabi_secret_key - string - Wasabi: Secret Key
+   */
   public static RemoteServerCredential update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -999,135 +920,12 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   public static RemoteServerCredential update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
-    }
-    if (parameters.containsKey("aws_access_key") && !(parameters.get("aws_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: aws_access_key must be of type String parameters[\"aws_access_key\"]");
-    }
-    if (parameters.containsKey("s3_assume_role_arn") && !(parameters.get("s3_assume_role_arn") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_assume_role_arn must be of type String parameters[\"s3_assume_role_arn\"]");
-    }
-    if (parameters.containsKey("s3_assume_role_duration_seconds") && !(parameters.get("s3_assume_role_duration_seconds") instanceof Long || parameters.get("s3_assume_role_duration_seconds") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: s3_assume_role_duration_seconds must be of type Long or Integer parameters[\"s3_assume_role_duration_seconds\"]");
-    }
-    if (parameters.containsKey("cloudflare_access_key") && !(parameters.get("cloudflare_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cloudflare_access_key must be of type String parameters[\"cloudflare_access_key\"]");
-    }
-    if (parameters.containsKey("filebase_access_key") && !(parameters.get("filebase_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filebase_access_key must be of type String parameters[\"filebase_access_key\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_s3_compatible_access_key") && !(parameters.get("google_cloud_storage_s3_compatible_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_access_key must be of type String parameters[\"google_cloud_storage_s3_compatible_access_key\"]");
-    }
-    if (parameters.containsKey("linode_access_key") && !(parameters.get("linode_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: linode_access_key must be of type String parameters[\"linode_access_key\"]");
-    }
-    if (parameters.containsKey("s3_compatible_access_key") && !(parameters.get("s3_compatible_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_access_key must be of type String parameters[\"s3_compatible_access_key\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
-    }
-    if (parameters.containsKey("sharepoint_tenant_id") && !(parameters.get("sharepoint_tenant_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_tenant_id must be of type String parameters[\"sharepoint_tenant_id\"]");
-    }
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-    if (parameters.containsKey("wasabi_access_key") && !(parameters.get("wasabi_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: wasabi_access_key must be of type String parameters[\"wasabi_access_key\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-    if (parameters.containsKey("private_key_passphrase") && !(parameters.get("private_key_passphrase") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key_passphrase must be of type String parameters[\"private_key_passphrase\"]");
-    }
-    if (parameters.containsKey("aws_secret_key") && !(parameters.get("aws_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: aws_secret_key must be of type String parameters[\"aws_secret_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_access_key") && !(parameters.get("azure_blob_storage_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_access_key must be of type String parameters[\"azure_blob_storage_access_key\"]");
-    }
-    if (parameters.containsKey("azure_blob_storage_sas_token") && !(parameters.get("azure_blob_storage_sas_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_blob_storage_sas_token must be of type String parameters[\"azure_blob_storage_sas_token\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_access_key") && !(parameters.get("azure_files_storage_access_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_access_key must be of type String parameters[\"azure_files_storage_access_key\"]");
-    }
-    if (parameters.containsKey("azure_files_storage_sas_token") && !(parameters.get("azure_files_storage_sas_token") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: azure_files_storage_sas_token must be of type String parameters[\"azure_files_storage_sas_token\"]");
-    }
-    if (parameters.containsKey("backblaze_b2_application_key") && !(parameters.get("backblaze_b2_application_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: backblaze_b2_application_key must be of type String parameters[\"backblaze_b2_application_key\"]");
-    }
-    if (parameters.containsKey("backblaze_b2_key_id") && !(parameters.get("backblaze_b2_key_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: backblaze_b2_key_id must be of type String parameters[\"backblaze_b2_key_id\"]");
-    }
-    if (parameters.containsKey("cloudflare_secret_key") && !(parameters.get("cloudflare_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cloudflare_secret_key must be of type String parameters[\"cloudflare_secret_key\"]");
-    }
-    if (parameters.containsKey("filebase_secret_key") && !(parameters.get("filebase_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filebase_secret_key must be of type String parameters[\"filebase_secret_key\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_credentials_json") && !(parameters.get("google_cloud_storage_credentials_json") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_credentials_json must be of type String parameters[\"google_cloud_storage_credentials_json\"]");
-    }
-    if (parameters.containsKey("google_cloud_storage_s3_compatible_secret_key") && !(parameters.get("google_cloud_storage_s3_compatible_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: google_cloud_storage_s3_compatible_secret_key must be of type String parameters[\"google_cloud_storage_s3_compatible_secret_key\"]");
-    }
-    if (parameters.containsKey("linode_secret_key") && !(parameters.get("linode_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: linode_secret_key must be of type String parameters[\"linode_secret_key\"]");
-    }
-    if (parameters.containsKey("s3_compatible_secret_key") && !(parameters.get("s3_compatible_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_secret_key must be of type String parameters[\"s3_compatible_secret_key\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_certificate") && !(parameters.get("sharepoint_client_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_certificate must be of type String parameters[\"sharepoint_client_certificate\"]");
-    }
-    if (parameters.containsKey("sharepoint_client_secret") && !(parameters.get("sharepoint_client_secret") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: sharepoint_client_secret must be of type String parameters[\"sharepoint_client_secret\"]");
-    }
-    if (parameters.containsKey("wasabi_secret_key") && !(parameters.get("wasabi_secret_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: wasabi_secret_key must be of type String parameters[\"wasabi_secret_key\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_server_credentials/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<RemoteServerCredential> typeReference = new TypeReference<RemoteServerCredential>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().remoteServerCredentials().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -1141,27 +939,7 @@ public class RemoteServerCredential implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/remote_server_credentials/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().remoteServerCredentials().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

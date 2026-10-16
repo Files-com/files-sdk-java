@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IntegrationCentricProfile implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every IntegrationCentricProfile, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   public IntegrationCentricProfile(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
   /**
-  * Integration Centric Profile ID
-  */
+   * Integration Centric Profile ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Profile name
-  */
+   * Profile name
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Workspace ID
-  */
+   * Workspace ID
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -116,8 +138,8 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Whether this profile applies to all users in the Workspace by default
-  */
+   * Whether this profile applies to all users in the Workspace by default
+   */
   @JsonProperty("use_for_all_users")
   public Boolean useForAllUsers;
 
@@ -130,8 +152,8 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
-  */
+   * Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
+   */
   @JsonProperty("expected_remote_servers")
   public Object[] expectedRemoteServers;
 
@@ -144,38 +166,71 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Profile name
-  *   workspace_id - int64 - Workspace ID
-  *   expected_remote_servers - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
-  *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-  */
+   * Updates this IntegrationCentricProfile. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Profile name
+   *   workspace_id - int64 - Workspace ID
+   *   expected_remote_servers - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
+   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+   */
   public IntegrationCentricProfile update(HashMap<String, Object> parameters) throws IOException {
-    return IntegrationCentricProfile.update(this.id, parameters, this.options);
+    IntegrationCentricProfile updated = filesClient().integrationCentricProfiles().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    IntegrationCentricProfile.delete(this.id, parameters, this.options);
+    filesClient().integrationCentricProfiles().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this IntegrationCentricProfile: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    IntegrationCentricProfile.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().integrationCentricProfiles().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.expectedRemoteServers != null) {
+      parameters.put("expected_remote_servers", this.expectedRemoteServers);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(IntegrationCentricProfile canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.workspaceId = canonical.workspaceId;
+    this.useForAllUsers = canonical.useForAllUsers;
+    this.expectedRemoteServers = canonical.expectedRemoteServers;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   */
   public static ListIterator<IntegrationCentricProfile> list() throws RuntimeException {
     return list(null, null);
   }
@@ -186,29 +241,7 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
   public static ListIterator<IntegrationCentricProfile> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<IntegrationCentricProfile>> typeReference = new TypeReference<List<IntegrationCentricProfile>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().integrationCentricProfiles().list(parameters, options);
   }
 
   public static ListIterator<IntegrationCentricProfile> all() throws RuntimeException {
@@ -220,9 +253,9 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Integration Centric Profile ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Integration Centric Profile ID.
+   */
   public static IntegrationCentricProfile find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -236,28 +269,7 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   public static IntegrationCentricProfile find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().integrationCentricProfiles().find(id, parameters, options);
   }
 
   public static IntegrationCentricProfile get() throws RuntimeException {
@@ -269,12 +281,12 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name (required) - string - Profile name
-  *   expected_remote_servers (required) - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
-  *   workspace_id - int64 - Workspace ID
-  *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-  */
+   * Parameters:
+   *   name (required) - string - Profile name
+   *   expected_remote_servers (required) - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
+   *   workspace_id - int64 - Workspace ID
+   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+   */
   public static IntegrationCentricProfile create() throws RuntimeException {
     return create(null, null);
   }
@@ -285,45 +297,17 @@ public class IntegrationCentricProfile implements ModelInterface {
 
 
   public static IntegrationCentricProfile create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("name") || parameters.get("name") == null) {
-      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
-    }
-    if (!parameters.containsKey("expected_remote_servers") || parameters.get("expected_remote_servers") == null) {
-      throw new NullPointerException("Parameter missing: expected_remote_servers parameters[\"expected_remote_servers\"]");
-    }
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("expected_remote_servers") && !(parameters.get("expected_remote_servers") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: expected_remote_servers must be of type Object[] parameters[\"expected_remote_servers\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("use_for_all_users") && !(parameters.get("use_for_all_users") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: use_for_all_users must be of type Boolean parameters[\"use_for_all_users\"]");
-    }
-
-
-    String url = String.format("%s%s/integration_centric_profiles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().integrationCentricProfiles().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Profile name
-  *   workspace_id - int64 - Workspace ID
-  *   expected_remote_servers - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
-  *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-  */
+   * Parameters:
+   *   name - string - Profile name
+   *   workspace_id - int64 - Workspace ID
+   *   expected_remote_servers - array(object) - Remote Server integrations the user is expected to add and connect. Each entry requires `server_type` and may include a display `name`.
+   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
+   */
   public static IntegrationCentricProfile update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -337,45 +321,12 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   public static IntegrationCentricProfile update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("expected_remote_servers") && !(parameters.get("expected_remote_servers") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: expected_remote_servers must be of type Object[] parameters[\"expected_remote_servers\"]");
-    }
-    if (parameters.containsKey("use_for_all_users") && !(parameters.get("use_for_all_users") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: use_for_all_users must be of type Boolean parameters[\"use_for_all_users\"]");
-    }
-
-
-
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<IntegrationCentricProfile> typeReference = new TypeReference<IntegrationCentricProfile>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().integrationCentricProfiles().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -389,27 +340,7 @@ public class IntegrationCentricProfile implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/integration_centric_profiles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().integrationCentricProfiles().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

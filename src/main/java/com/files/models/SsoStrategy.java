@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SsoStrategy implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every SsoStrategy, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class SsoStrategy implements ModelInterface {
   }
 
   public SsoStrategy(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class SsoStrategy implements ModelInterface {
 
 
   /**
-  * SSO Protocol
-  */
+   * SSO Protocol
+   */
   @JsonProperty("protocol")
   public String protocol;
 
@@ -84,8 +106,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Provider name
-  */
+   * Provider name
+   */
   @JsonProperty("provider")
   public String provider;
 
@@ -94,8 +116,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Custom label for the SSO provider on the login page.
-  */
+   * Custom label for the SSO provider on the login page.
+   */
   @JsonProperty("label")
   public String label;
 
@@ -104,8 +126,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * URL holding a custom logo for the SSO provider on the login page.
-  */
+   * URL holding a custom logo for the SSO provider on the login page.
+   */
   @JsonProperty("logo_url")
   public String logoUrl;
 
@@ -114,8 +136,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * ID
-  */
+   * ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -124,8 +146,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
-  */
+   * Is strategy enabled?  This may become automatically set to `false` after a high number and duration of failures.
+   */
   @JsonProperty("enabled")
   public Boolean enabled;
 
@@ -134,8 +156,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Count of users with this SSO Strategy
-  */
+   * Count of users with this SSO Strategy
+   */
   @JsonProperty("user_count")
   public Long userCount;
 
@@ -144,8 +166,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
-  */
+   * Identity provider sha256 cert fingerprint if saml_provider_metadata_url is not available.
+   */
   @JsonProperty("saml_provider_cert_fingerprint")
   public String samlProviderCertFingerprint;
 
@@ -154,8 +176,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Identity provider issuer url
-  */
+   * Identity provider issuer url
+   */
   @JsonProperty("saml_provider_issuer_url")
   public String samlProviderIssuerUrl;
 
@@ -164,8 +186,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Custom identity provider metadata
-  */
+   * Custom identity provider metadata
+   */
   @JsonProperty("saml_provider_metadata_content")
   public String samlProviderMetadataContent;
 
@@ -174,8 +196,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Metadata URL for the SAML identity provider
-  */
+   * Metadata URL for the SAML identity provider
+   */
   @JsonProperty("saml_provider_metadata_url")
   public String samlProviderMetadataUrl;
 
@@ -184,8 +206,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Identity provider SLO endpoint
-  */
+   * Identity provider SLO endpoint
+   */
   @JsonProperty("saml_provider_slo_target_url")
   public String samlProviderSloTargetUrl;
 
@@ -194,8 +216,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Identity provider SSO endpoint if saml_provider_metadata_url is not available.
-  */
+   * Identity provider SSO endpoint if saml_provider_metadata_url is not available.
+   */
   @JsonProperty("saml_provider_sso_target_url")
   public String samlProviderSsoTargetUrl;
 
@@ -204,8 +226,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * SCIM authentication type.
-  */
+   * SCIM authentication type.
+   */
   @JsonProperty("scim_authentication_method")
   public String scimAuthenticationMethod;
 
@@ -214,8 +236,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * SCIM username.
-  */
+   * SCIM username.
+   */
   @JsonProperty("scim_username")
   public String scimUsername;
 
@@ -224,8 +246,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * SCIM OAuth Access Token. Only returned when the token is first issued or reset.
-  */
+   * SCIM OAuth Access Token. Only returned when the token is first issued or reset.
+   */
   @JsonProperty("scim_oauth_access_token")
   public String scimOauthAccessToken;
 
@@ -234,8 +256,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * SCIM OAuth Access Token Expiration Time.
-  */
+   * SCIM OAuth Access Token Expiration Time.
+   */
   @JsonProperty("scim_oauth_access_token_expires_at")
   public String scimOauthAccessTokenExpiresAt;
 
@@ -244,8 +266,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
-  */
+   * Subdomain or domain name for your auth provider.   Example: `https://[subdomain].okta.com/`
+   */
   @JsonProperty("subdomain")
   public String subdomain;
 
@@ -254,8 +276,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-provision users?
-  */
+   * Auto-provision users?
+   */
   @JsonProperty("provision_users")
   public Boolean provisionUsers;
 
@@ -264,8 +286,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-provision group membership based on group memberships on the SSO side?
-  */
+   * Auto-provision group membership based on group memberships on the SSO side?
+   */
   @JsonProperty("provision_groups")
   public Boolean provisionGroups;
 
@@ -274,8 +296,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-deprovision users?
-  */
+   * Auto-deprovision users?
+   */
   @JsonProperty("deprovision_users")
   public Boolean deprovisionUsers;
 
@@ -284,8 +306,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-deprovision group membership based on group memberships on the SSO side?
-  */
+   * Auto-deprovision group membership based on group memberships on the SSO side?
+   */
   @JsonProperty("deprovision_groups")
   public Boolean deprovisionGroups;
 
@@ -294,8 +316,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Method used for deprovisioning users.
-  */
+   * Method used for deprovisioning users.
+   */
   @JsonProperty("deprovision_behavior")
   public String deprovisionBehavior;
 
@@ -304,8 +326,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
-  */
+   * Comma-separated list of group names for groups to automatically add all auto-provisioned users to.
+   */
   @JsonProperty("provision_group_default")
   public String provisionGroupDefault;
 
@@ -314,8 +336,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
-  */
+   * Comma-separated list of group names for groups (with optional wildcards) that will be excluded from auto-provisioning.
+   */
   @JsonProperty("provision_group_exclusion")
   public String provisionGroupExclusion;
 
@@ -324,8 +346,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
-  */
+   * Comma-separated list of group names for groups (with optional wildcards) that will be auto-provisioned.
+   */
   @JsonProperty("provision_group_inclusion")
   public String provisionGroupInclusion;
 
@@ -334,8 +356,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
-  */
+   * Comma or newline separated list of group names (with optional wildcards) to require membership for user provisioning.
+   */
   @JsonProperty("provision_group_required")
   public String provisionGroupRequired;
 
@@ -344,8 +366,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names whose members will be created with email_signup authentication.
-  */
+   * Comma-separated list of group names whose members will be created with email_signup authentication.
+   */
   @JsonProperty("provision_email_signup_groups")
   public String provisionEmailSignupGroups;
 
@@ -354,8 +376,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names whose members will be created as Read-Only Site Admins.
-  */
+   * Comma-separated list of group names whose members will be created as Read-Only Site Admins.
+   */
   @JsonProperty("provision_readonly_site_admin_groups")
   public String provisionReadonlySiteAdminGroups;
 
@@ -364,8 +386,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names whose members will be created as Site Admins.
-  */
+   * Comma-separated list of group names whose members will be created as Site Admins.
+   */
   @JsonProperty("provision_site_admin_groups")
   public String provisionSiteAdminGroups;
 
@@ -374,8 +396,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group names whose members will be provisioned as Group Admins.
-  */
+   * Comma-separated list of group names whose members will be provisioned as Group Admins.
+   */
   @JsonProperty("provision_group_admin_groups")
   public String provisionGroupAdminGroups;
 
@@ -384,7 +406,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("provision_attachments_permission")
   public Boolean provisionAttachmentsPermission;
 
@@ -393,8 +415,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-provisioned users get WebDAV permission?
-  */
+   * Auto-provisioned users get WebDAV permission?
+   */
   @JsonProperty("provision_dav_permission")
   public Boolean provisionDavPermission;
 
@@ -403,8 +425,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-provisioned users get FTP permission?
-  */
+   * Auto-provisioned users get FTP permission?
+   */
   @JsonProperty("provision_ftp_permission")
   public Boolean provisionFtpPermission;
 
@@ -413,8 +435,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Auto-provisioned users get SFTP permission?
-  */
+   * Auto-provisioned users get SFTP permission?
+   */
   @JsonProperty("provision_sftp_permission")
   public Boolean provisionSftpPermission;
 
@@ -423,8 +445,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Default time zone for auto provisioned users.
-  */
+   * Default time zone for auto provisioned users.
+   */
   @JsonProperty("provision_time_zone")
   public String provisionTimeZone;
 
@@ -433,8 +455,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Default company for auto provisioned users.
-  */
+   * Default company for auto provisioned users.
+   */
   @JsonProperty("provision_company")
   public String provisionCompany;
 
@@ -443,8 +465,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * 2FA required setting for auto provisioned users. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-  */
+   * 2FA required setting for auto provisioned users. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+   */
   @JsonProperty("provision_require_2fa")
   public String provisionRequire2fa;
 
@@ -453,8 +475,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * File System layout to use for auto provisioned users.
-  */
+   * File System layout to use for auto provisioned users.
+   */
   @JsonProperty("provision_filesystem_layout")
   public String provisionFilesystemLayout;
 
@@ -463,8 +485,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * URL-friendly, unique identifier for Azure SAML configuration
-  */
+   * URL-friendly, unique identifier for Azure SAML configuration
+   */
   @JsonProperty("provider_identifier")
   public String providerIdentifier;
 
@@ -473,8 +495,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Base DN for looking up users in LDAP server
-  */
+   * Base DN for looking up users in LDAP server
+   */
   @JsonProperty("ldap_base_dn")
   public String ldapBaseDn;
 
@@ -483,8 +505,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Domain name that will be appended to LDAP usernames
-  */
+   * Domain name that will be appended to LDAP usernames
+   */
   @JsonProperty("ldap_domain")
   public String ldapDomain;
 
@@ -493,8 +515,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Should this strategy be displayed on the login page?
-  */
+   * Should this strategy be displayed on the login page?
+   */
   @JsonProperty("display_on_login_page")
   public Boolean displayOnLoginPage;
 
@@ -503,8 +525,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP host
-  */
+   * LDAP host
+   */
   @JsonProperty("ldap_host")
   public String ldapHost;
 
@@ -513,8 +535,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP backup host
-  */
+   * LDAP backup host
+   */
   @JsonProperty("ldap_host_2")
   public String ldapHost2;
 
@@ -523,8 +545,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP backup host
-  */
+   * LDAP backup host
+   */
   @JsonProperty("ldap_host_3")
   public String ldapHost3;
 
@@ -533,8 +555,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP port
-  */
+   * LDAP port
+   */
   @JsonProperty("ldap_port")
   public Long ldapPort;
 
@@ -543,8 +565,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
-  */
+   * Use LDAP server settings for scheduled provisioning while using this SSO provider for authentication?
+   */
   @JsonProperty("ldap_provisioning_enabled")
   public Boolean ldapProvisioningEnabled;
 
@@ -553,8 +575,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Use secure LDAP?
-  */
+   * Use secure LDAP?
+   */
   @JsonProperty("ldap_secure")
   public Boolean ldapSecure;
 
@@ -563,8 +585,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-  */
+   * How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
+   */
   @JsonProperty("ldap_server_certificate")
   public String ldapServerCertificate;
 
@@ -573,8 +595,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP server type
-  */
+   * LDAP server type
+   */
   @JsonProperty("ldap_type")
   public String ldapType;
 
@@ -583,8 +605,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Username for signing in to LDAP server.
-  */
+   * Username for signing in to LDAP server.
+   */
   @JsonProperty("ldap_username")
   public String ldapUsername;
 
@@ -593,8 +615,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * LDAP username field
-  */
+   * LDAP username field
+   */
   @JsonProperty("ldap_username_field")
   public String ldapUsernameField;
 
@@ -603,19 +625,19 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Synchronize provisioning data with the SSO remote server
-  */
+   * Synchronize provisioning data with the SSO remote server
+   */
   public void sync(HashMap<String, Object> parameters) throws IOException {
-    SsoStrategy.sync(this.id, parameters, this.options);
+    filesClient().ssoStrategies().sync(this.id, parameters, this.options);
   }
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   */
   public static ListIterator<SsoStrategy> list() throws RuntimeException {
     return list(null, null);
   }
@@ -626,26 +648,7 @@ public class SsoStrategy implements ModelInterface {
 
 
   public static ListIterator<SsoStrategy> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-
-
-    String url = String.format("%s%s/sso_strategies", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<SsoStrategy>> typeReference = new TypeReference<List<SsoStrategy>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().ssoStrategies().list(parameters, options);
   }
 
   public static ListIterator<SsoStrategy> all() throws RuntimeException {
@@ -657,9 +660,9 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Sso Strategy ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Sso Strategy ID.
+   */
   public static SsoStrategy find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -673,28 +676,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   public static SsoStrategy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sso_strategies/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SsoStrategy> typeReference = new TypeReference<SsoStrategy>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().ssoStrategies().find(id, parameters, options);
   }
 
   public static SsoStrategy get() throws RuntimeException {
@@ -706,8 +688,8 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-  * Synchronize provisioning data with the SSO remote server
-  */
+   * Synchronize provisioning data with the SSO remote server
+   */
   public static void sync() throws RuntimeException {
     sync(null, null, null);
   }
@@ -721,27 +703,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   public static void sync(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sso_strategies/%s/sync", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().ssoStrategies().sync(id, parameters, options);
   }
 
 

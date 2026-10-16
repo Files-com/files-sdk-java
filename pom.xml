@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.files</groupId>
     <artifactId>files-sdk</artifactId>
-    <version>1.7.362-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <name>Files.com Java SDK</name>
     <description>The Files.com Java client library provides convenient access to the Files.com API from JVM based applications.</description>
     <url>https://github.com/Files-com/files-sdk-java</url>
@@ -33,139 +33,117 @@
             <url>https://github.com/Files-com/files-sdk-java/blob/master/CONTRIBUTORS</url>
         </developer>
     </developers>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <localCheckout>true</localCheckout>
-                    <pushChanges>false</pushChanges>
-                    <mavenExecutorId>forked-path</mavenExecutorId>
-                    <arguments>-DskipTests -Dgpg.passphrase=${env.MAVEN_CENTRAL_GPG_PASSPHRASE}</arguments>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.9.5</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.8.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                    <autoPublish>true</autoPublish>
-                    <waitUntil>published</waitUntil>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.openrewrite.maven</groupId>
-                <artifactId>rewrite-maven-plugin</artifactId>
-                <version>4.42.0</version>
-                <configuration>
-                    <activeRecipes>
-                        <recipe>org.openrewrite.java.cleanup.Cleanup</recipe>
-                        <recipe>org.openrewrite.java.format.Spaces</recipe>
-                    </activeRecipes>
-                    <checkstyleConfigFile>config/checkstyle/checkstyle.xml</checkstyleConfigFile>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.2.1</version>
-                <configuration>
-                  <configLocation>config/checkstyle/checkstyle.xml</configLocation>
-                  <encoding>UTF-8</encoding>
-                  <consoleOutput>true</consoleOutput>
-                  <failsOnError>true</failsOnError>
-                  <linkXRef>false</linkXRef>
-                </configuration>
-              </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Fixed archive timestamps make the JAR reproducible; release:prepare updates this value. -->
+        <project.build.outputTimestamp>2026-10-16T18:42:09Z</project.build.outputTimestamp>
+        <!-- Applications run the SDK on Java 8 or later. The build and its tools need JDK 25. -->
+        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.testRelease>17</maven.compiler.testRelease>
         <jackson.version>2.21.7</jackson.version>
-        <jackson-annotations.version>2.21</jackson-annotations.version> <!-- Released without a patch number since 2.20 -->
+        <slf4j.version>2.0.20</slf4j.version>
         <log4j.version>2.26.1</log4j.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- Patched releases of libraries that the tests' WireMock and the Central publishing plugin use. -->
+        <jetty.version>12.0.39</jetty.version>
+        <httpclient5.version>5.6.4</httpclient5.version>
+        <httpcore5.version>5.4.4</httpcore5.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Keeps jackson-annotations, jackson-core and jackson-databind on one release. -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-bom</artifactId>
+                <version>${jetty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-bom</artifactId>
+                <version>${jetty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${httpclient5.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>${httpcore5.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>${httpcore5.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.14</version> <!-- Use the latest version compatible with Java 8 -->
+            <version>4.5.14</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.4.15</version> <!-- Is not synced to httpclient version -->
+            <version>4.4.16</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.14</version> <!-- Ensure the version matches httpclient -->
+            <version>4.5.14</version>
         </dependency>
+        <!-- Raise HttpClient's older transitive commons-codec and commons-logging versions. -->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.23.0</version> <!-- Overrides the older version httpclient depends on -->
+            <version>1.23.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.4.0</version>
         </dependency>
+        <!-- The SDK logs through the SLF4J API; the application chooses the logging provider. -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
+        <!-- Downloads on macOS and Windows reach the operating system through JNA to keep their
+             unfinished file private; Java's own file API cannot. -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.19.1</version>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>
@@ -174,22 +152,310 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-jetty12</artifactId>
+            <version>3.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- The tests' SLF4J provider; Log4j's default configuration only prints errors. -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <!-- Pins the lifecycle plugins, the goals that the scripts call directly (versions:set,
+             help:evaluate) and the plugins configured below. -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.16.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.5.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.12.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.22.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.11.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-help-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.22.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.2.8</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>enforce-build</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.9.16,4)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[25,)</version>
+                                </requireJavaVersion>
+                                <requirePluginVersions/>
+                                <requireUpperBoundDeps/>
+                                <!-- Logging providers and test tools must not reach applications. -->
+                                <bannedDependencies>
+                                    <excludes>
+                                        <exclude>org.apache.logging.log4j:log4j-core:*:*:compile</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-core:*:*:runtime</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-slf4j-impl:*:*:compile</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-slf4j-impl:*:*:runtime</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-slf4j2-impl:*:*:compile</exclude>
+                                        <exclude>org.apache.logging.log4j:log4j-slf4j2-impl:*:*:runtime</exclude>
+                                        <exclude>org.slf4j:*:*:*:compile</exclude>
+                                        <exclude>org.slf4j:*:*:*:runtime</exclude>
+                                        <exclude>ch.qos.logback:*:*:*:compile</exclude>
+                                        <exclude>ch.qos.logback:*:*:*:runtime</exclude>
+                                        <exclude>junit:*:*:*:compile</exclude>
+                                        <exclude>junit:*:*:*:runtime</exclude>
+                                        <exclude>org.wiremock:*:*:*:compile</exclude>
+                                        <exclude>org.wiremock:*:*:*:runtime</exclude>
+                                        <exclude>org.eclipse.jetty*:*:*:*:compile</exclude>
+                                        <exclude>org.eclipse.jetty*:*:*:*:runtime</exclude>
+                                    </excludes>
+                                    <includes>
+                                        <include>org.slf4j:slf4j-api:*:*:compile</include>
+                                    </includes>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <showWarnings>true</showWarnings>
+                    <!-- Warnings fail the build, except for three categories: `options` (release 8 is
+                         deliberate), `serial` (the generated exceptions declare no serialVersionUID) and
+                         `this-escape` (model constructors populate fields through overridable setters). -->
+                    <compilerArgs>
+                        <arg>-Xlint:all,-options,-serial,-this-escape</arg>
+                        <arg>-Werror</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <failIfNoTests>true</failIfNoTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Every build packages the Javadoc, so a Javadoc error fails it. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- `mvn rewrite:run` formats the sources; `verify` fails on sources that need formatting. -->
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>6.46.1</version>
+                <configuration>
+                    <activeRecipes>
+                        <recipe>com.files.java.Format</recipe>
+                    </activeRecipes>
+                    <activeStyles>
+                        <style>com.files.JavaStyle</style>
+                    </activeStyles>
+                    <checkstyleDetectionEnabled>false</checkstyleDetectionEnabled>
+                    <failOnInvalidActiveRecipes>true</failOnInvalidActiveRecipes>
+                    <failOnDryRunResults>true</failOnDryRunResults>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-format</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>dryRunNoFork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.6.0</version>
+                <dependencies>
+                    <!-- Replaces the plugin's default Checkstyle 9.3. -->
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>14.1.0</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>config/checkstyle/checkstyle.xml</configLocation>
+                    <propertyExpansion>config_loc=${project.basedir}/config/checkstyle</propertyExpansion>
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-style</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <localCheckout>true</localCheckout>
+                    <pushChanges>false</pushChanges>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <releaseProfiles>release</releaseProfiles>
+                    <arguments>-DskipTests</arguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.11.0</version>
+                <extensions>true</extensions>
+                <dependencies>
+                    <!-- Replace the plugin's vulnerable Jackson 2.16.1 and HttpClient 5.3.1, which
+                         handle Central's responses. -->
+                    <dependency>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                        <version>${jackson.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.httpcomponents.client5</groupId>
+                        <artifactId>httpclient5</artifactId>
+                        <version>${httpclient5.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <profiles>
+        <!-- Release builds sign every artifact; release:perform activates this. -->
         <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
+            <id>release</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -199,14 +465,10 @@
                                 </goals>
                                 <configuration>
                                     <keyname>${env.MAVEN_CENTRAL_GPG_KEYNAME}</keyname>
-                                    <passphraseServerId>${env.MAVEN_CENTRAL_GPG_KEYNAME}</passphraseServerId>
+                                    <passphraseEnvName>MAVEN_CENTRAL_GPG_PASSPHRASE</passphraseEnvName>
                                     <gpgArguments>
-                                        <arg>--no-tty</arg>
-                                        <arg>--batch</arg>
                                         <arg>--pinentry-mode</arg>
                                         <arg>loopback</arg>
-                                        <arg>--passphrase</arg>
-                                        <arg>${env.MAVEN_CENTRAL_GPG_KEYNAME}</arg>
                                     </gpgArguments>
                                 </configuration>
                             </execution>

@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InboxRecipient implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every InboxRecipient, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class InboxRecipient implements ModelInterface {
   }
 
   public InboxRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class InboxRecipient implements ModelInterface {
 
 
   /**
-  * The recipient's company.
-  */
+   * The recipient's company.
+   */
   @JsonProperty("company")
   public String company;
 
@@ -88,8 +110,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * The recipient's name.
-  */
+   * The recipient's name.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * A note sent to the recipient with the inbox.
-  */
+   * A note sent to the recipient with the inbox.
+   */
   @JsonProperty("note")
   public String note;
 
@@ -116,8 +138,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * The recipient's email address.
-  */
+   * The recipient's email address.
+   */
   @JsonProperty("recipient")
   public String recipient;
 
@@ -130,8 +152,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * When the Inbox was shared with this recipient.
-  */
+   * When the Inbox was shared with this recipient.
+   */
   @JsonProperty("sent_at")
   public Date sentAt;
 
@@ -144,8 +166,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * Inbox to share.
-  */
+   * Inbox to share.
+   */
   @JsonProperty("inbox_id")
   public Long inboxId;
 
@@ -158,8 +180,8 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * Set to true to share the link with the recipient upon creation.
-  */
+   * Set to true to share the link with the recipient upon creation.
+   */
   @JsonProperty("share_after_create")
   public Boolean shareAfterCreate;
 
@@ -171,19 +193,43 @@ public class InboxRecipient implements ModelInterface {
     this.shareAfterCreate = shareAfterCreate;
   }
 
+
+  /**
+   * Creates this InboxRecipient from its current attributes.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    InboxRecipient.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    refreshFrom(filesClient().inboxRecipients().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(InboxRecipient canonical) {
+    this.company = canonical.company;
+    this.name = canonical.name;
+    this.note = canonical.note;
+    this.recipient = canonical.recipient;
+    this.sentAt = canonical.sentAt;
+    this.inboxId = canonical.inboxId;
+    this.shareAfterCreate = canonical.shareAfterCreate;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-  *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
+   *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
+   */
   public static ListIterator<InboxRecipient> list() throws RuntimeException {
     return list(null, null);
   }
@@ -194,35 +240,7 @@ public class InboxRecipient implements ModelInterface {
 
 
   public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
-      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
-    }
-
-
-    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<InboxRecipient>> typeReference = new TypeReference<List<InboxRecipient>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().inboxRecipients().list(parameters, options);
   }
 
   public static ListIterator<InboxRecipient> all() throws RuntimeException {
@@ -234,14 +252,14 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   inbox_id (required) - int64 - Inbox to share.
-  *   recipient (required) - string - Email address to share this inbox with.
-  *   name - string - Name of recipient.
-  *   company - string - Company of recipient.
-  *   note - string - Note to include in email.
-  *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
-  */
+   * Parameters:
+   *   inbox_id (required) - int64 - Inbox to share.
+   *   recipient (required) - string - Email address to share this inbox with.
+   *   name - string - Name of recipient.
+   *   company - string - Company of recipient.
+   *   note - string - Note to include in email.
+   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
+   */
   public static InboxRecipient create() throws RuntimeException {
     return create(null, null);
   }
@@ -252,41 +270,7 @@ public class InboxRecipient implements ModelInterface {
 
 
   public static InboxRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("inbox_id") || parameters.get("inbox_id") == null) {
-      throw new NullPointerException("Parameter missing: inbox_id parameters[\"inbox_id\"]");
-    }
-    if (!parameters.containsKey("recipient") || parameters.get("recipient") == null) {
-      throw new NullPointerException("Parameter missing: recipient parameters[\"recipient\"]");
-    }
-
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
-    }
-    if (parameters.containsKey("recipient") && !(parameters.get("recipient") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: recipient must be of type String parameters[\"recipient\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("company") && !(parameters.get("company") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
-    }
-    if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
-    }
-    if (parameters.containsKey("share_after_create") && !(parameters.get("share_after_create") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: share_after_create must be of type Boolean parameters[\"share_after_create\"]");
-    }
-
-
-    String url = String.format("%s%s/inbox_recipients", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<InboxRecipient> typeReference = new TypeReference<InboxRecipient>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().inboxRecipients().create(parameters, options);
   }
 
 

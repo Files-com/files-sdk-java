@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Request implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Request, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Request implements ModelInterface {
   }
 
   public Request(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Request implements ModelInterface {
 
 
   /**
-  * Request ID
-  */
+   * Request ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
-  */
+   * Folder path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
+   */
   @JsonProperty("path")
   public String path;
 
@@ -102,8 +124,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * Source filename, if applicable
-  */
+   * Source filename, if applicable
+   */
   @JsonProperty("source")
   public String source;
 
@@ -116,8 +138,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * Destination filename
-  */
+   * Destination filename
+   */
   @JsonProperty("destination")
   public String destination;
 
@@ -130,8 +152,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * ID of automation that created request
-  */
+   * ID of automation that created request
+   */
   @JsonProperty("automation_id")
   public Long automationId;
 
@@ -144,8 +166,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * User making the request (if applicable)
-  */
+   * User making the request (if applicable)
+   */
   @JsonProperty("user_display_name")
   public String userDisplayName;
 
@@ -158,8 +180,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
-  */
+   * A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
+   */
   @JsonProperty("user_ids")
   public String userIds;
 
@@ -172,8 +194,8 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
-  */
+   * A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
+   */
   @JsonProperty("group_ids")
   public String groupIds;
 
@@ -186,28 +208,58 @@ public class Request implements ModelInterface {
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Request.delete(this.id, parameters, this.options);
+    filesClient().requests().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Creates this Request.
+   * On success, this object's attributes are replaced by the server's response.
+   * Requests cannot be updated, so saving one that already has an id throws
+   * {@link UnsupportedOperationException}.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Request.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      throw new UnsupportedOperationException("The Request Object doesn't support updates.");
+    }
+    refreshFrom(filesClient().requests().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Request canonical) {
+    this.id = canonical.id;
+    this.path = canonical.path;
+    this.source = canonical.source;
+    this.destination = canonical.destination;
+    this.automationId = canonical.automationId;
+    this.userDisplayName = canonical.userDisplayName;
+    this.userIds = canonical.userIds;
+    this.groupIds = canonical.groupIds;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-  *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
+   *   path - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
+   */
   public static ListIterator<Request> list() throws RuntimeException {
     return list(null, null);
   }
@@ -218,32 +270,7 @@ public class Request implements ModelInterface {
 
 
   public static ListIterator<Request> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
-    }
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-    String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().requests().list(parameters, options);
   }
 
   public static ListIterator<Request> all() throws RuntimeException {
@@ -255,13 +282,13 @@ public class Request implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
-  *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   *   mine - boolean - Only show requests of the current user?  (Defaults to true if current user is not a site admin.)
+   *   path (required) - string - Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
+   */
   public static Request getFolder() throws RuntimeException {
     return getFolder(null, null, null);
   }
@@ -275,50 +302,17 @@ public class Request implements ModelInterface {
   }
 
   public static Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
-    }
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-
-
-    String url = String.format("%s%s/requests/folders/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(path));
-
-    TypeReference<Request> typeReference = new TypeReference<Request>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().requests().getFolder(path, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   path (required) - string - Folder path on which to request the file.
-  *   destination (required) - string - Destination filename (without extension) to request.
-  *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
-  *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
-  */
+   * Parameters:
+   *   path (required) - string - Folder path on which to request the file.
+   *   destination (required) - string - Destination filename (without extension) to request.
+   *   user_ids - string - A list of user IDs to request the file from. If sent as a string, it should be comma-delimited.
+   *   group_ids - string - A list of group IDs to request the file from. If sent as a string, it should be comma-delimited.
+   */
   public static Request create() throws RuntimeException {
     return create(null, null);
   }
@@ -329,40 +323,12 @@ public class Request implements ModelInterface {
 
 
   public static Request create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("path") || parameters.get("path") == null) {
-      throw new NullPointerException("Parameter missing: path parameters[\"path\"]");
-    }
-    if (!parameters.containsKey("destination") || parameters.get("destination") == null) {
-      throw new NullPointerException("Parameter missing: destination parameters[\"destination\"]");
-    }
-
-    if (parameters.containsKey("path") && !(parameters.get("path") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("user_ids") && !(parameters.get("user_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_ids must be of type String parameters[\"user_ids\"]");
-    }
-    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-
-
-    String url = String.format("%s%s/requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Request> typeReference = new TypeReference<Request>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().requests().create(parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -376,27 +342,7 @@ public class Request implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/requests/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().requests().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Bundle implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Bundle, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Bundle implements ModelInterface {
   }
 
   public Bundle(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Bundle implements ModelInterface {
 
 
   /**
-  * Bundle code.  This code forms the end part of the Public URL.
-  */
+   * Bundle code.  This code forms the end part of the Public URL.
+   */
   @JsonProperty("code")
   public String code;
 
@@ -88,8 +110,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Page link and button color
-  */
+   * Page link and button color
+   */
   @JsonProperty("color_left")
   public String colorLeft;
 
@@ -102,8 +124,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Top bar link color
-  */
+   * Top bar link color
+   */
   @JsonProperty("color_link")
   public String colorLink;
 
@@ -116,8 +138,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Page link and button color
-  */
+   * Page link and button color
+   */
   @JsonProperty("color_text")
   public String colorText;
 
@@ -130,8 +152,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Top bar background color
-  */
+   * Top bar background color
+   */
   @JsonProperty("color_top")
   public String colorTop;
 
@@ -144,8 +166,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Top bar text color
-  */
+   * Top bar text color
+   */
   @JsonProperty("color_top_text")
   public String colorTopText;
 
@@ -158,8 +180,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Public URL of Share Link
-  */
+   * Public URL of Share Link
+   */
   @JsonProperty("url")
   public String url;
 
@@ -172,8 +194,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Public description
-  */
+   * Public description
+   */
   @JsonProperty("description")
   public String description;
 
@@ -186,8 +208,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-  */
+   * Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
+   */
   @JsonProperty("expires_at")
   public Date expiresAt;
 
@@ -200,8 +222,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Is this bundle password protected?
-  */
+   * Is this bundle password protected?
+   */
   @JsonProperty("password_protected")
   public Boolean passwordProtected;
 
@@ -214,8 +236,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Permissions that apply to Folders in this Share Link.
-  */
+   * Permissions that apply to Folders in this Share Link.
+   */
   @JsonProperty("permissions")
   public String permissions;
 
@@ -228,7 +250,7 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  */
+   */
   @JsonProperty("preview_only")
   public Boolean previewOnly;
 
@@ -241,8 +263,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Show a registration page that captures the downloader's name and email address?
-  */
+   * Show a registration page that captures the downloader's name and email address?
+   */
   @JsonProperty("require_registration")
   public Boolean requireRegistration;
 
@@ -255,8 +277,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-  */
+   * Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+   */
   @JsonProperty("require_share_recipient")
   public Boolean requireShareRecipient;
 
@@ -269,8 +291,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
-  */
+   * If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
+   */
   @JsonProperty("require_logout")
   public Boolean requireLogout;
 
@@ -283,8 +305,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Legal text that must be agreed to prior to accessing Bundle.
-  */
+   * Legal text that must be agreed to prior to accessing Bundle.
+   */
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
 
@@ -297,8 +319,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Custom Form to use
-  */
+   * Custom Form to use
+   */
   @JsonProperty("form_field_set")
   public FormFieldSet formFieldSet;
 
@@ -311,8 +333,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * BundleRegistrations can be saved without providing name?
-  */
+   * BundleRegistrations can be saved without providing name?
+   */
   @JsonProperty("skip_name")
   public Boolean skipName;
 
@@ -325,8 +347,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * BundleRegistrations can be saved without providing email?
-  */
+   * BundleRegistrations can be saved without providing email?
+   */
   @JsonProperty("skip_email")
   public Boolean skipEmail;
 
@@ -339,8 +361,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Date when share will start to be accessible. If `nil` access granted right after create.
-  */
+   * Date when share will start to be accessible. If `nil` access granted right after create.
+   */
   @JsonProperty("start_access_on_date")
   public Date startAccessOnDate;
 
@@ -353,8 +375,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * BundleRegistrations can be saved without providing company?
-  */
+   * BundleRegistrations can be saved without providing company?
+   */
   @JsonProperty("skip_company")
   public Boolean skipCompany;
 
@@ -367,8 +389,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle ID
-  */
+   * Bundle ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -381,8 +403,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-  */
+   * If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
+   */
   @JsonProperty("bypasses_site_expiration_rules")
   public Boolean bypassesSiteExpirationRules;
 
@@ -395,8 +417,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle created at date/time
-  */
+   * Bundle created at date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -405,8 +427,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Indicates if the bundle has been deleted.
-  */
+   * Indicates if the bundle has been deleted.
+   */
   @JsonProperty("deleted")
   public Boolean deleted;
 
@@ -419,8 +441,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle deleted at date/time
-  */
+   * Bundle deleted at date/time
+   */
   @JsonProperty("deleted_at")
   public Date deletedAt;
 
@@ -433,8 +455,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-  */
+   * Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+   */
   @JsonProperty("dont_separate_submissions_by_folder")
   public Boolean dontSeparateSubmissionsByFolder;
 
@@ -447,8 +469,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Read-only expiration date/time, using the explicit expiration or the site-wide setting when applicable. Null when the Share Link does not expire.
-  */
+   * Read-only expiration date/time, using the explicit expiration or the site-wide setting when applicable. Null when the Share Link does not expire.
+   */
   @JsonProperty("effective_expires_at")
   public Date effectiveExpiresAt;
 
@@ -461,8 +483,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Maximum number of times bundle can be accessed
-  */
+   * Maximum number of times bundle can be accessed
+   */
   @JsonProperty("max_uses")
   public Long maxUses;
 
@@ -475,8 +497,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Internal name for identifying this Share Link.
-  */
+   * Internal name for identifying this Share Link.
+   */
   @JsonProperty("internal_name")
   public String internalName;
 
@@ -489,8 +511,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle internal note
-  */
+   * Bundle internal note
+   */
   @JsonProperty("note")
   public String note;
 
@@ -503,8 +525,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-  */
+   * Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+   */
   @JsonProperty("path_template")
   public String pathTemplate;
 
@@ -517,8 +539,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Timezone to use when rendering timestamps in path templates.
-  */
+   * Timezone to use when rendering timestamps in path templates.
+   */
   @JsonProperty("path_template_time_zone")
   public String pathTemplateTimeZone;
 
@@ -531,8 +553,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Send delivery receipt to the uploader. Note: For writable share only
-  */
+   * Send delivery receipt to the uploader. Note: For writable share only
+   */
   @JsonProperty("send_email_receipt_to_uploader")
   public Boolean sendEmailReceiptToUploader;
 
@@ -545,8 +567,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * ID of the snapshot containing this bundle's contents.
-  */
+   * ID of the snapshot containing this bundle's contents.
+   */
   @JsonProperty("snapshot_id")
   public Long snapshotId;
 
@@ -559,8 +581,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle creator user ID
-  */
+   * Bundle creator user ID
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -573,8 +595,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Bundle creator username
-  */
+   * Bundle creator username
+   */
   @JsonProperty("username")
   public String username;
 
@@ -587,8 +609,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-  */
+   * Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+   */
   @JsonProperty("group_id")
   public Long groupId;
 
@@ -601,8 +623,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * ID of the clickwrap to use with this bundle.
-  */
+   * ID of the clickwrap to use with this bundle.
+   */
   @JsonProperty("clickwrap_id")
   public Long clickwrapId;
 
@@ -615,8 +637,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * ID of the associated inbox, if available.
-  */
+   * ID of the associated inbox, if available.
+   */
   @JsonProperty("inbox_id")
   public Long inboxId;
 
@@ -629,8 +651,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Preview watermark image applied to all bundle items.
-  */
+   * Preview watermark image applied to all bundle items.
+   */
   @JsonProperty("watermark_attachment")
   public Image watermarkAttachment;
 
@@ -643,8 +665,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-  */
+   * Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+   */
   @JsonProperty("watermark_value")
   public Object watermarkValue;
 
@@ -657,8 +679,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-  */
+   * If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+   */
   @JsonProperty("send_one_time_password_to_recipient_at_registration")
   public Boolean sendOneTimePasswordToRecipientAtRegistration;
 
@@ -671,8 +693,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -685,8 +707,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Does this bundle have an associated inbox?
-  */
+   * Does this bundle have an associated inbox?
+   */
   @JsonProperty("has_inbox")
   public Boolean hasInbox;
 
@@ -699,8 +721,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Should folder uploads be prevented?
-  */
+   * Should folder uploads be prevented?
+   */
   @JsonProperty("dont_allow_folders_in_uploads")
   public Boolean dontAllowFoldersInUploads;
 
@@ -713,8 +735,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Upload slots requested by the associated Inbox. Each slot contains a name used as its label and destination subfolder name.
-  */
+   * Upload slots requested by the associated Inbox. Each slot contains a name used as its label and destination subfolder name.
+   */
   @JsonProperty("requested_upload_slots")
   public Object[] requestedUploadSlots;
 
@@ -727,8 +749,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
-  */
+   * A list of paths in this bundle.  For performance reasons, this is not provided when listing bundles.
+   */
   @JsonProperty("paths")
   public String[] paths;
 
@@ -741,8 +763,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
-  */
+   * A list of bundlepaths in this bundle.  For performance reasons, this is not provided when listing bundles.
+   */
   @JsonProperty("bundlepaths")
   public BundlePath[] bundlepaths;
 
@@ -755,8 +777,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Password for this bundle.
-  */
+   * Password for this bundle.
+   */
   @JsonProperty("password")
   public String password;
 
@@ -769,8 +791,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Id of Form Field Set to use with this bundle
-  */
+   * Id of Form Field Set to use with this bundle
+   */
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
 
@@ -783,8 +805,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, create a snapshot of this bundle's contents.
-  */
+   * If true, create a snapshot of this bundle's contents.
+   */
   @JsonProperty("create_snapshot")
   public Boolean createSnapshot;
 
@@ -797,8 +819,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-  */
+   * If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
+   */
   @JsonProperty("finalize_snapshot")
   public Boolean finalizeSnapshot;
 
@@ -811,8 +833,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Preview watermark image applied to all bundle items.
-  */
+   * Preview watermark image applied to all bundle items.
+   */
   @JsonProperty("watermark_attachment_file")
   public byte[] watermarkAttachmentFile;
 
@@ -825,8 +847,8 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * If true, will delete the file stored in watermark_attachment
-  */
+   * If true, will delete the file stored in watermark_attachment
+   */
   @JsonProperty("watermark_attachment_delete")
   public Boolean watermarkAttachmentDelete;
 
@@ -839,85 +861,171 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Send email(s) with a link to bundle
-  *
-  * Parameters:
-  *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
-  *   note - string - Note to include in email.
-  *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
-  */
+   * Send email(s) with a link to bundle
+   *
+   * Parameters:
+   *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
+   *   note - string - Note to include in email.
+   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
+   */
   public void share(HashMap<String, Object> parameters) throws IOException {
-    Bundle.share(this.id, parameters, this.options);
+    filesClient().bundles().share(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   paths - array(string) - A list of paths to include in this bundle.
-  *   password - string - Password for this bundle.
-  *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
-  *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
-  *   code - string - Bundle code.  This code forms the end part of the Public URL.
-  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
-  *   description - string - Public description
-  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-  *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-  *   inbox_id - int64 - ID of the associated inbox, if available.
-  *   max_uses - int64 - Maximum number of times bundle can be accessed
-  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-  *   internal_name - string - Internal name for identifying this Share Link.
-  *   note - string - Bundle internal note
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
-  *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
-  *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
-  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
-  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
-  *   skip_email - boolean - BundleRegistrations can be saved without providing email?
-  *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   user_id - int64 - The owning user id. Only site admins can set this.
-  *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
-  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
-  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Updates this Bundle. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   paths - array(string) - A list of paths to include in this bundle.
+   *   password - string - Password for this bundle.
+   *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
+   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
+   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
+   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+   *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
+   *   description - string - Public description
+   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+   *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
+   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
+   *   inbox_id - int64 - ID of the associated inbox, if available.
+   *   max_uses - int64 - Maximum number of times bundle can be accessed
+   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+   *   internal_name - string - Internal name for identifying this Share Link.
+   *   note - string - Bundle internal note
+   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
+   *   permissions - string - Permissions that apply to Folders in this Share Link.
+   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
+   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+   *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
+   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
+   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
+   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+   *   user_id - int64 - The owning user id. Only site admins can set this.
+   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+   *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public Bundle update(HashMap<String, Object> parameters) throws IOException {
-    return Bundle.update(this.id, parameters, this.options);
+    Bundle updated = filesClient().bundles().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Bundle.delete(this.id, parameters, this.options);
+    filesClient().bundles().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Bundle: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Bundle.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().bundles().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.paths != null) {
+      parameters.put("paths", this.paths);
+    }
+    if (this.watermarkAttachmentFile != null) {
+      parameters.put("watermark_attachment_file", this.watermarkAttachmentFile);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Bundle canonical) {
+    this.code = canonical.code;
+    this.colorLeft = canonical.colorLeft;
+    this.colorLink = canonical.colorLink;
+    this.colorText = canonical.colorText;
+    this.colorTop = canonical.colorTop;
+    this.colorTopText = canonical.colorTopText;
+    this.url = canonical.url;
+    this.description = canonical.description;
+    this.expiresAt = canonical.expiresAt;
+    this.passwordProtected = canonical.passwordProtected;
+    this.permissions = canonical.permissions;
+    this.previewOnly = canonical.previewOnly;
+    this.requireRegistration = canonical.requireRegistration;
+    this.requireShareRecipient = canonical.requireShareRecipient;
+    this.requireLogout = canonical.requireLogout;
+    this.clickwrapBody = canonical.clickwrapBody;
+    this.formFieldSet = canonical.formFieldSet;
+    this.skipName = canonical.skipName;
+    this.skipEmail = canonical.skipEmail;
+    this.startAccessOnDate = canonical.startAccessOnDate;
+    this.skipCompany = canonical.skipCompany;
+    this.id = canonical.id;
+    this.bypassesSiteExpirationRules = canonical.bypassesSiteExpirationRules;
+    this.createdAt = canonical.createdAt;
+    this.deleted = canonical.deleted;
+    this.deletedAt = canonical.deletedAt;
+    this.dontSeparateSubmissionsByFolder = canonical.dontSeparateSubmissionsByFolder;
+    this.effectiveExpiresAt = canonical.effectiveExpiresAt;
+    this.maxUses = canonical.maxUses;
+    this.internalName = canonical.internalName;
+    this.note = canonical.note;
+    this.pathTemplate = canonical.pathTemplate;
+    this.pathTemplateTimeZone = canonical.pathTemplateTimeZone;
+    this.sendEmailReceiptToUploader = canonical.sendEmailReceiptToUploader;
+    this.snapshotId = canonical.snapshotId;
+    this.userId = canonical.userId;
+    this.username = canonical.username;
+    this.groupId = canonical.groupId;
+    this.clickwrapId = canonical.clickwrapId;
+    this.inboxId = canonical.inboxId;
+    this.watermarkAttachment = canonical.watermarkAttachment;
+    this.watermarkValue = canonical.watermarkValue;
+    this.sendOneTimePasswordToRecipientAtRegistration = canonical.sendOneTimePasswordToRecipientAtRegistration;
+    this.workspaceId = canonical.workspaceId;
+    this.hasInbox = canonical.hasInbox;
+    this.dontAllowFoldersInUploads = canonical.dontAllowFoldersInUploads;
+    this.requestedUploadSlots = canonical.requestedUploadSlots;
+    this.paths = canonical.paths;
+    this.bundlepaths = canonical.bundlepaths;
+    this.password = canonical.password;
+    this.formFieldSetId = canonical.formFieldSetId;
+    this.createSnapshot = canonical.createSnapshot;
+    this.finalizeSnapshot = canonical.finalizeSnapshot;
+    this.watermarkAttachmentFile = canonical.watermarkAttachmentFile;
+    this.watermarkAttachmentDelete = canonical.watermarkAttachmentDelete;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-  *   deleted - boolean - If true, only list deleted Share Links.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
+   *   deleted - boolean - If true, only list deleted Share Links.
+   */
   public static ListIterator<Bundle> list() throws RuntimeException {
     return list(null, null);
   }
@@ -928,50 +1036,7 @@ public class Bundle implements ModelInterface {
 
 
   public static ListIterator<Bundle> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-    if (parameters.containsKey("deleted") && !(parameters.get("deleted") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: deleted must be of type Boolean parameters[\"deleted\"]");
-    }
-
-
-    String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Bundle>> typeReference = new TypeReference<List<Bundle>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundles().list(parameters, options);
   }
 
   public static ListIterator<Bundle> all() throws RuntimeException {
@@ -983,10 +1048,10 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Bundle ID.
-  *   deleted - boolean - If true, show a deleted Share Link.
-  */
+   * Parameters:
+   *   id (required) - int64 - Bundle ID.
+   *   deleted - boolean - If true, show a deleted Share Link.
+   */
   public static Bundle find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -1000,31 +1065,7 @@ public class Bundle implements ModelInterface {
   }
 
   public static Bundle find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("deleted") && !(parameters.get("deleted") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: deleted must be of type Boolean parameters[\"deleted\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundles().find(id, parameters, options);
   }
 
   public static Bundle get() throws RuntimeException {
@@ -1036,40 +1077,40 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   paths (required) - array(string) - A list of paths to include in this bundle.
-  *   password - string - Password for this bundle.
-  *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
-  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
-  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-  *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-  *   max_uses - int64 - Maximum number of times bundle can be accessed
-  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-  *   internal_name - string - Internal name for identifying this Share Link.
-  *   description - string - Public description
-  *   note - string - Bundle internal note
-  *   code - string - Bundle code.  This code forms the end part of the Public URL.
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
-  *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
-  *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
-  *   inbox_id - int64 - ID of the associated inbox, if available.
-  *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
-  *   skip_email - boolean - BundleRegistrations can be saved without providing email?
-  *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
-  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
-  *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
-  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   paths (required) - array(string) - A list of paths to include in this bundle.
+   *   password - string - Password for this bundle.
+   *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
+   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
+   *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
+   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+   *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
+   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
+   *   max_uses - int64 - Maximum number of times bundle can be accessed
+   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+   *   internal_name - string - Internal name for identifying this Share Link.
+   *   description - string - Public description
+   *   note - string - Bundle internal note
+   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
+   *   permissions - string - Permissions that apply to Folders in this Share Link.
+   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
+   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
+   *   inbox_id - int64 - ID of the associated inbox, if available.
+   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+   *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
+   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
+   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
+   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+   *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+   */
   public static Bundle create() throws RuntimeException {
     return create(null, null);
   }
@@ -1080,127 +1121,18 @@ public class Bundle implements ModelInterface {
 
 
   public static Bundle create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("paths") || parameters.get("paths") == null) {
-      throw new NullPointerException("Parameter missing: paths parameters[\"paths\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("bypasses_site_expiration_rules") && !(parameters.get("bypasses_site_expiration_rules") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypasses_site_expiration_rules must be of type Boolean parameters[\"bypasses_site_expiration_rules\"]");
-    }
-    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long || parameters.get("form_field_set_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long or Integer parameters[\"form_field_set_id\"]");
-    }
-    if (parameters.containsKey("create_snapshot") && !(parameters.get("create_snapshot") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: create_snapshot must be of type Boolean parameters[\"create_snapshot\"]");
-    }
-    if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
-    }
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-    if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
-    }
-    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("internal_name") && !(parameters.get("internal_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: internal_name must be of type String parameters[\"internal_name\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
-    }
-    if (parameters.containsKey("code") && !(parameters.get("code") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
-    }
-    if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
-    }
-    if (parameters.containsKey("path_template_time_zone") && !(parameters.get("path_template_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path_template_time_zone must be of type String parameters[\"path_template_time_zone\"]");
-    }
-    if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
-    }
-    if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
-    }
-    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long || parameters.get("clickwrap_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long or Integer parameters[\"clickwrap_id\"]");
-    }
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
-    }
-    if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
-    }
-    if (parameters.containsKey("send_one_time_password_to_recipient_at_registration") && !(parameters.get("send_one_time_password_to_recipient_at_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: send_one_time_password_to_recipient_at_registration must be of type Boolean parameters[\"send_one_time_password_to_recipient_at_registration\"]");
-    }
-    if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");
-    }
-    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
-    }
-    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
-    }
-    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
-    }
-    if (parameters.containsKey("start_access_on_date") && !(parameters.get("start_access_on_date") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: start_access_on_date must be of type String parameters[\"start_access_on_date\"]");
-    }
-    if (parameters.containsKey("snapshot_id") && !(parameters.get("snapshot_id") instanceof Long || parameters.get("snapshot_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: snapshot_id must be of type Long or Integer parameters[\"snapshot_id\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
-    }
-    if (parameters.containsKey("watermark_value") && !(parameters.get("watermark_value") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: watermark_value must be of type Object parameters[\"watermark_value\"]");
-    }
-
-
-    String url = String.format("%s%s/bundles", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundles().create(parameters, options);
   }
 
 
   /**
-  * Send email(s) with a link to bundle
-  *
-  * Parameters:
-  *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
-  *   note - string - Note to include in email.
-  *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
-  */
+   * Send email(s) with a link to bundle
+   *
+   * Parameters:
+   *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
+   *   note - string - Note to include in email.
+   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
+   */
   public static void share() throws RuntimeException {
     share(null, null, null);
   }
@@ -1214,74 +1146,45 @@ public class Bundle implements ModelInterface {
   }
 
   public static void share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("to") && !(parameters.get("to") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: to must be of type String[] parameters[\"to\"]");
-    }
-    if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
-    }
-    if (parameters.containsKey("recipients") && !(parameters.get("recipients") instanceof Object[])) {
-      throw new IllegalArgumentException("Bad parameter: recipients must be of type Object[] parameters[\"recipients\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundles/%s/share", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().bundles().share(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   paths - array(string) - A list of paths to include in this bundle.
-  *   password - string - Password for this bundle.
-  *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-  *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
-  *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
-  *   code - string - Bundle code.  This code forms the end part of the Public URL.
-  *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
-  *   description - string - Public description
-  *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-  *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-  *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-  *   inbox_id - int64 - ID of the associated inbox, if available.
-  *   max_uses - int64 - Maximum number of times bundle can be accessed
-  *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-  *   internal_name - string - Internal name for identifying this Share Link.
-  *   note - string - Bundle internal note
-  *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-  *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
-  *   permissions - string - Permissions that apply to Folders in this Share Link.
-  *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
-  *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-  *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-  *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
-  *   skip_company - boolean - BundleRegistrations can be saved without providing company?
-  *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
-  *   skip_email - boolean - BundleRegistrations can be saved without providing email?
-  *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-  *   user_id - int64 - The owning user id. Only site admins can set this.
-  *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
-  *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
-  *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   paths - array(string) - A list of paths to include in this bundle.
+   *   password - string - Password for this bundle.
+   *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
+   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
+   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
+   *   code - string - Bundle code.  This code forms the end part of the Public URL.
+   *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
+   *   description - string - Public description
+   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
+   *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
+   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
+   *   inbox_id - int64 - ID of the associated inbox, if available.
+   *   max_uses - int64 - Maximum number of times bundle can be accessed
+   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
+   *   internal_name - string - Internal name for identifying this Share Link.
+   *   note - string - Bundle internal note
+   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
+   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
+   *   permissions - string - Permissions that apply to Folders in this Share Link.
+   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
+   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
+   *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
+   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
+   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
+   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
+   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
+   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
+   *   user_id - int64 - The owning user id. Only site admins can set this.
+   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
+   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
+   *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static Bundle update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -1295,129 +1198,12 @@ public class Bundle implements ModelInterface {
   }
 
   public static Bundle update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("bypasses_site_expiration_rules") && !(parameters.get("bypasses_site_expiration_rules") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypasses_site_expiration_rules must be of type Boolean parameters[\"bypasses_site_expiration_rules\"]");
-    }
-    if (parameters.containsKey("form_field_set_id") && !(parameters.get("form_field_set_id") instanceof Long || parameters.get("form_field_set_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: form_field_set_id must be of type Long or Integer parameters[\"form_field_set_id\"]");
-    }
-    if (parameters.containsKey("clickwrap_id") && !(parameters.get("clickwrap_id") instanceof Long || parameters.get("clickwrap_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: clickwrap_id must be of type Long or Integer parameters[\"clickwrap_id\"]");
-    }
-    if (parameters.containsKey("code") && !(parameters.get("code") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: code must be of type String parameters[\"code\"]");
-    }
-    if (parameters.containsKey("create_snapshot") && !(parameters.get("create_snapshot") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: create_snapshot must be of type Boolean parameters[\"create_snapshot\"]");
-    }
-    if (parameters.containsKey("description") && !(parameters.get("description") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: description must be of type String parameters[\"description\"]");
-    }
-    if (parameters.containsKey("dont_separate_submissions_by_folder") && !(parameters.get("dont_separate_submissions_by_folder") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dont_separate_submissions_by_folder must be of type Boolean parameters[\"dont_separate_submissions_by_folder\"]");
-    }
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-    if (parameters.containsKey("finalize_snapshot") && !(parameters.get("finalize_snapshot") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: finalize_snapshot must be of type Boolean parameters[\"finalize_snapshot\"]");
-    }
-    if (parameters.containsKey("inbox_id") && !(parameters.get("inbox_id") instanceof Long || parameters.get("inbox_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: inbox_id must be of type Long or Integer parameters[\"inbox_id\"]");
-    }
-    if (parameters.containsKey("max_uses") && !(parameters.get("max_uses") instanceof Long || parameters.get("max_uses") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: max_uses must be of type Long or Integer parameters[\"max_uses\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("internal_name") && !(parameters.get("internal_name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: internal_name must be of type String parameters[\"internal_name\"]");
-    }
-    if (parameters.containsKey("note") && !(parameters.get("note") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: note must be of type String parameters[\"note\"]");
-    }
-    if (parameters.containsKey("path_template") && !(parameters.get("path_template") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path_template must be of type String parameters[\"path_template\"]");
-    }
-    if (parameters.containsKey("path_template_time_zone") && !(parameters.get("path_template_time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path_template_time_zone must be of type String parameters[\"path_template_time_zone\"]");
-    }
-    if (parameters.containsKey("permissions") && !(parameters.get("permissions") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: permissions must be of type String parameters[\"permissions\"]");
-    }
-    if (parameters.containsKey("require_registration") && !(parameters.get("require_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_registration must be of type Boolean parameters[\"require_registration\"]");
-    }
-    if (parameters.containsKey("require_share_recipient") && !(parameters.get("require_share_recipient") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_share_recipient must be of type Boolean parameters[\"require_share_recipient\"]");
-    }
-    if (parameters.containsKey("send_one_time_password_to_recipient_at_registration") && !(parameters.get("send_one_time_password_to_recipient_at_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: send_one_time_password_to_recipient_at_registration must be of type Boolean parameters[\"send_one_time_password_to_recipient_at_registration\"]");
-    }
-    if (parameters.containsKey("send_email_receipt_to_uploader") && !(parameters.get("send_email_receipt_to_uploader") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: send_email_receipt_to_uploader must be of type Boolean parameters[\"send_email_receipt_to_uploader\"]");
-    }
-    if (parameters.containsKey("skip_company") && !(parameters.get("skip_company") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_company must be of type Boolean parameters[\"skip_company\"]");
-    }
-    if (parameters.containsKey("start_access_on_date") && !(parameters.get("start_access_on_date") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: start_access_on_date must be of type String parameters[\"start_access_on_date\"]");
-    }
-    if (parameters.containsKey("skip_email") && !(parameters.get("skip_email") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_email must be of type Boolean parameters[\"skip_email\"]");
-    }
-    if (parameters.containsKey("skip_name") && !(parameters.get("skip_name") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_name must be of type Boolean parameters[\"skip_name\"]");
-    }
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("watermark_attachment_delete") && !(parameters.get("watermark_attachment_delete") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: watermark_attachment_delete must be of type Boolean parameters[\"watermark_attachment_delete\"]");
-    }
-    if (parameters.containsKey("watermark_attachment_file") && !(parameters.get("watermark_attachment_file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: watermark_attachment_file must be of type byte[] parameters[\"watermark_attachment_file\"]");
-    }
-    if (parameters.containsKey("watermark_value") && !(parameters.get("watermark_value") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: watermark_value must be of type Object parameters[\"watermark_value\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundles().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -1431,27 +1217,7 @@ public class Bundle implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundles/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().bundles().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

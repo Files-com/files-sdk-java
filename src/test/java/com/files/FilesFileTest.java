@@ -1,14 +1,20 @@
 package com.files;
 
-import com.files.models.File;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import java.io.*;
+import com.files.models.File;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class FilesFileTest {
   private static final String apiKey = "mock-server-api-key";
@@ -45,7 +51,7 @@ public class FilesFileTest {
     String exampleString = "Sample Test Data";
     InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes());
     File transferred = File.create("testUpload.txt", null).putInputStream(inputStream, new Date());
-    assert(transferred.getSize() == exampleString.getBytes().length);
+    assertEquals(exampleString.getBytes().length, (long) transferred.getSize());
   }
 
   @Test
@@ -55,13 +61,13 @@ public class FilesFileTest {
     InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes());
     BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
     File transferred = File.create("testUpload2.txt", null).putBufferedInputStream(bufferedInputStream, exampleString.getBytes().length, new Date());
-    assert(transferred.getSize() == exampleString.getBytes().length);
+    assertEquals(exampleString.getBytes().length, (long) transferred.getSize());
   }
 
   @Test
   @Ignore // Not currently working with files-mock-server
   public void putFile() throws IOException {
     File transferred = File.create("README-test.md", null).putLocalFile("README.md");
-    assert(transferred.getSize() == new java.io.File("README.md").getAbsoluteFile().length());
+    assertEquals(new java.io.File("README.md").getAbsoluteFile().length(), (long) transferred.getSize());
   }
 }

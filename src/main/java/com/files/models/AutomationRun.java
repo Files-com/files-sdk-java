@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AutomationRun implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every AutomationRun, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class AutomationRun implements ModelInterface {
   }
 
   public AutomationRun(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class AutomationRun implements ModelInterface {
 
 
   /**
-  * ID.
-  */
+   * ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * ID of the associated Automation.
-  */
+   * ID of the associated Automation.
+   */
   @JsonProperty("automation_id")
   public Long automationId;
 
@@ -94,8 +116,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * ID of the immutable Automation version pinned by this run.
-  */
+   * ID of the immutable Automation version pinned by this run.
+   */
   @JsonProperty("automation_version_id")
   public Long automationVersionId;
 
@@ -104,8 +126,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Pinned Automation v2 definition version.
-  */
+   * Pinned Automation v2 definition version.
+   */
   @JsonProperty("version")
   public Long version;
 
@@ -114,8 +136,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Workspace ID.
-  */
+   * Workspace ID.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -124,8 +146,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Date/time at which cancellation was requested.
-  */
+   * Date/time at which cancellation was requested.
+   */
   @JsonProperty("cancel_requested_at")
   public Date cancelRequestedAt;
 
@@ -134,8 +156,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Automation run completion/failure date/time.
-  */
+   * Automation run completion/failure date/time.
+   */
   @JsonProperty("completed_at")
   public Date completedAt;
 
@@ -144,8 +166,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Automation run start date/time.
-  */
+   * Automation run start date/time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -154,8 +176,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
-  */
+   * If set, this automation will be retried at this date/time due to `failure` or `partial_failure`.
+   */
   @JsonProperty("retry_at")
   public Date retryAt;
 
@@ -164,8 +186,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * If set, this Automation run was retried due to `failure` or `partial_failure`.
-  */
+   * If set, this Automation run was retried due to `failure` or `partial_failure`.
+   */
   @JsonProperty("retried_at")
   public Date retriedAt;
 
@@ -174,8 +196,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * ID of the run that is or will be retrying this run.
-  */
+   * ID of the run that is or will be retrying this run.
+   */
   @JsonProperty("retried_in_run_id")
   public Long retriedInRunId;
 
@@ -184,8 +206,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * ID of the original run that this run is retrying.
-  */
+   * ID of the original run that this run is retrying.
+   */
   @JsonProperty("retry_of_run_id")
   public Long retryOfRunId;
 
@@ -194,8 +216,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * ID of the run whose persisted node outputs this run reused.
-  */
+   * ID of the run whose persisted node outputs this run reused.
+   */
   @JsonProperty("rerun_of_run_id")
   public Long rerunOfRunId;
 
@@ -204,8 +226,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Node at which this run resumed execution.
-  */
+   * Node at which this run resumed execution.
+   */
   @JsonProperty("rerun_from_node_id")
   public String rerunFromNodeId;
 
@@ -214,8 +236,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Automation run runtime.
-  */
+   * Automation run runtime.
+   */
   @JsonProperty("runtime")
   public Double runtime;
 
@@ -224,8 +246,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
-  */
+   * The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
+   */
   @JsonProperty("status")
   public String status;
 
@@ -234,8 +256,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Count of successful operations.
-  */
+   * Count of successful operations.
+   */
   @JsonProperty("successful_operations")
   public Long successfulOperations;
 
@@ -244,8 +266,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Count of failed operations.
-  */
+   * Count of failed operations.
+   */
   @JsonProperty("failed_operations")
   public Long failedOperations;
 
@@ -254,8 +276,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
-  */
+   * Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+   */
   @JsonProperty("definition")
   public Object definition;
 
@@ -264,8 +286,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
-  */
+   * Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
+   */
   @JsonProperty("node_states")
   public Object nodeStates;
 
@@ -274,8 +296,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Execution status, timing, and bounded output summaries for each node. For performance reasons, this is not provided when listing Automation runs.
-  */
+   * Execution status, timing, and bounded output summaries for each node. For performance reasons, this is not provided when listing Automation runs.
+   */
   @JsonProperty("execution_nodes")
   public AutomationExecutionNode[] executionNodes;
 
@@ -284,8 +306,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Link to the run journal artifact.
-  */
+   * Link to the run journal artifact.
+   */
   @JsonProperty("journal_url")
   public String journalUrl;
 
@@ -294,8 +316,8 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Link to status messages log file.
-  */
+   * Link to status messages log file.
+   */
   @JsonProperty("status_messages_url")
   public String statusMessagesUrl;
 
@@ -304,32 +326,32 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Cancel Automation Run
-  */
+   * Cancel Automation Run
+   */
   public AutomationRun cancel(HashMap<String, Object> parameters) throws IOException {
-    return AutomationRun.cancel(this.id, parameters, this.options);
+    return filesClient().automationRuns().cancel(this.id, parameters, this.options);
   }
 
   /**
-  * Re-run Automation from Node
-  *
-  * Parameters:
-  *   node_id (required) - string - Node ID at which execution should resume.
-  */
+   * Re-run Automation from Node
+   *
+   * Parameters:
+   *   node_id (required) - string - Node ID at which execution should resume.
+   */
   public AutomationRun rerun(HashMap<String, Object> parameters) throws IOException {
-    return AutomationRun.rerun(this.id, parameters, this.options);
+    return filesClient().automationRuns().rerun(this.id, parameters, this.options);
   }
 
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation_id`, `created_at` or `status`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id` or `automation_id`. Valid field combinations are `[ workspace_id, status ]`, `[ automation_id, status ]`, `[ workspace_id, automation_id ]` or `[ workspace_id, automation_id, status ]`.
-  *   automation_id (required) - int64 - ID of the associated Automation.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `automation_id`, `created_at` or `status`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id` or `automation_id`. Valid field combinations are `[ workspace_id, status ]`, `[ automation_id, status ]`, `[ workspace_id, automation_id ]` or `[ workspace_id, automation_id, status ]`.
+   *   automation_id (required) - int64 - ID of the associated Automation.
+   */
   public static ListIterator<AutomationRun> list() throws RuntimeException {
     return list(null, null);
   }
@@ -340,38 +362,7 @@ public class AutomationRun implements ModelInterface {
 
 
   public static ListIterator<AutomationRun> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("automation_id") || parameters.get("automation_id") == null) {
-      throw new NullPointerException("Parameter missing: automation_id parameters[\"automation_id\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("automation_id") && !(parameters.get("automation_id") instanceof Long || parameters.get("automation_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: automation_id must be of type Long or Integer parameters[\"automation_id\"]");
-    }
-
-
-    String url = String.format("%s%s/automation_runs", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<AutomationRun>> typeReference = new TypeReference<List<AutomationRun>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().automationRuns().list(parameters, options);
   }
 
   public static ListIterator<AutomationRun> all() throws RuntimeException {
@@ -383,9 +374,9 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Automation Run ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Automation Run ID.
+   */
   public static AutomationRun find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -399,28 +390,7 @@ public class AutomationRun implements ModelInterface {
   }
 
   public static AutomationRun find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/automation_runs/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().automationRuns().find(id, parameters, options);
   }
 
   public static AutomationRun get() throws RuntimeException {
@@ -432,10 +402,10 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Automation Run ID.
-  *   node_id (required) - string - Node ID from the pinned Automation definition.
-  */
+   * Parameters:
+   *   id (required) - int64 - Automation Run ID.
+   *   node_id (required) - string - Node ID from the pinned Automation definition.
+   */
   public static AutomationExecutionNode findNode() throws RuntimeException {
     return findNode(null, null, null);
   }
@@ -449,40 +419,13 @@ public class AutomationRun implements ModelInterface {
   }
 
   public static AutomationExecutionNode findNode(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("node_id") || parameters.get("node_id") == null) {
-      throw new NullPointerException("Parameter missing: node_id parameters[\"node_id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("node_id") && !(parameters.get("node_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: node_id must be of type String parameters[\"node_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/automation_runs/%s/node", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AutomationExecutionNode> typeReference = new TypeReference<AutomationExecutionNode>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().automationRuns().findNode(id, parameters, options);
   }
 
 
   /**
-  * Cancel Automation Run
-  */
+   * Cancel Automation Run
+   */
   public static AutomationRun cancel() throws RuntimeException {
     return cancel(null, null, null);
   }
@@ -496,37 +439,16 @@ public class AutomationRun implements ModelInterface {
   }
 
   public static AutomationRun cancel(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/automation_runs/%s/cancel", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().automationRuns().cancel(id, parameters, options);
   }
 
 
   /**
-  * Re-run Automation from Node
-  *
-  * Parameters:
-  *   node_id (required) - string - Node ID at which execution should resume.
-  */
+   * Re-run Automation from Node
+   *
+   * Parameters:
+   *   node_id (required) - string - Node ID at which execution should resume.
+   */
   public static AutomationRun rerun() throws RuntimeException {
     return rerun(null, null, null);
   }
@@ -540,34 +462,7 @@ public class AutomationRun implements ModelInterface {
   }
 
   public static AutomationRun rerun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("node_id") || parameters.get("node_id") == null) {
-      throw new NullPointerException("Parameter missing: node_id parameters[\"node_id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("node_id") && !(parameters.get("node_id") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: node_id must be of type String parameters[\"node_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/automation_runs/%s/rerun", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<AutomationRun> typeReference = new TypeReference<AutomationRun>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().automationRuns().rerun(id, parameters, options);
   }
 
 

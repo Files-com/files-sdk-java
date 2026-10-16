@@ -55,7 +55,7 @@ Style style = Style.update(
 ### Parameters
 
 * `path` (String): Required - Style path.
-* `file` (byte[]): Logo for custom branding. Required when creating a new style.
+* `file` (byte[] or Attachment): Logo for custom branding. Required when creating a new style.
 * `logo_click_href` (String): URL to open when a public visitor clicks the logo.
 
 
@@ -92,7 +92,7 @@ style.update(parameters);
 ### Parameters
 
 * `path` (String): Required - Style path.
-* `file` (byte[]): Logo for custom branding. Required when creating a new style.
+* `file` (byte[] or Attachment): Logo for custom branding. Required when creating a new style.
 * `logo_click_href` (String): URL to open when a public visitor clicks the logo.
 
 

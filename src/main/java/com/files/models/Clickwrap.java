@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Clickwrap implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Clickwrap, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Clickwrap implements ModelInterface {
   }
 
   public Clickwrap(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Clickwrap implements ModelInterface {
 
 
   /**
-  * Clickwrap ID
-  */
+   * Clickwrap ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-  */
+   * Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+   */
   @JsonProperty("name")
   public String name;
 
@@ -102,8 +124,8 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Body text of Clickwrap (supports Markdown formatting).
-  */
+   * Body text of Clickwrap (supports Markdown formatting).
+   */
   @JsonProperty("body")
   public String body;
 
@@ -116,8 +138,8 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-  */
+   * Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   */
   @JsonProperty("use_with_users")
   public String useWithUsers;
 
@@ -130,8 +152,8 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Use this Clickwrap for Bundles?
-  */
+   * Use this Clickwrap for Bundles?
+   */
   @JsonProperty("use_with_bundles")
   public String useWithBundles;
 
@@ -144,8 +166,8 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Use this Clickwrap for Inboxes?
-  */
+   * Use this Clickwrap for Inboxes?
+   */
   @JsonProperty("use_with_inboxes")
   public String useWithInboxes;
 
@@ -158,38 +180,68 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-  *   body - string - Body text of Clickwrap (supports Markdown formatting).
-  *   use_with_bundles - string - Use this Clickwrap for Bundles?
-  *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-  */
+   * Updates this Clickwrap. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+   *   body - string - Body text of Clickwrap (supports Markdown formatting).
+   *   use_with_bundles - string - Use this Clickwrap for Bundles?
+   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
+   *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   */
   public Clickwrap update(HashMap<String, Object> parameters) throws IOException {
-    return Clickwrap.update(this.id, parameters, this.options);
+    Clickwrap updated = filesClient().clickwraps().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Clickwrap.delete(this.id, parameters, this.options);
+    filesClient().clickwraps().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Clickwrap: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Clickwrap.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().clickwraps().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Clickwrap canonical) {
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.body = canonical.body;
+    this.useWithUsers = canonical.useWithUsers;
+    this.useWithBundles = canonical.useWithBundles;
+    this.useWithInboxes = canonical.useWithInboxes;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   */
   public static ListIterator<Clickwrap> list() throws RuntimeException {
     return list(null, null);
   }
@@ -200,26 +252,7 @@ public class Clickwrap implements ModelInterface {
 
 
   public static ListIterator<Clickwrap> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-
-
-    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Clickwrap>> typeReference = new TypeReference<List<Clickwrap>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().clickwraps().list(parameters, options);
   }
 
   public static ListIterator<Clickwrap> all() throws RuntimeException {
@@ -231,9 +264,9 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Clickwrap ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Clickwrap ID.
+   */
   public static Clickwrap find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -247,28 +280,7 @@ public class Clickwrap implements ModelInterface {
   }
 
   public static Clickwrap find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().clickwraps().find(id, parameters, options);
   }
 
   public static Clickwrap get() throws RuntimeException {
@@ -280,13 +292,13 @@ public class Clickwrap implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-  *   body - string - Body text of Clickwrap (supports Markdown formatting).
-  *   use_with_bundles - string - Use this Clickwrap for Bundles?
-  *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-  */
+   * Parameters:
+   *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+   *   body - string - Body text of Clickwrap (supports Markdown formatting).
+   *   use_with_bundles - string - Use this Clickwrap for Bundles?
+   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
+   *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   */
   public static Clickwrap create() throws RuntimeException {
     return create(null, null);
   }
@@ -297,43 +309,18 @@ public class Clickwrap implements ModelInterface {
 
 
   public static Clickwrap create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
-    }
-    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
-    }
-    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
-    }
-
-
-    String url = String.format("%s%s/clickwraps", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().clickwraps().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-  *   body - string - Body text of Clickwrap (supports Markdown formatting).
-  *   use_with_bundles - string - Use this Clickwrap for Bundles?
-  *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-  *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-  */
+   * Parameters:
+   *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+   *   body - string - Body text of Clickwrap (supports Markdown formatting).
+   *   use_with_bundles - string - Use this Clickwrap for Bundles?
+   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
+   *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   */
   public static Clickwrap update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -347,48 +334,12 @@ public class Clickwrap implements ModelInterface {
   }
 
   public static Clickwrap update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("body") && !(parameters.get("body") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: body must be of type String parameters[\"body\"]");
-    }
-    if (parameters.containsKey("use_with_bundles") && !(parameters.get("use_with_bundles") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_bundles must be of type String parameters[\"use_with_bundles\"]");
-    }
-    if (parameters.containsKey("use_with_inboxes") && !(parameters.get("use_with_inboxes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_inboxes must be of type String parameters[\"use_with_inboxes\"]");
-    }
-    if (parameters.containsKey("use_with_users") && !(parameters.get("use_with_users") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: use_with_users must be of type String parameters[\"use_with_users\"]");
-    }
-
-
-
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Clickwrap> typeReference = new TypeReference<Clickwrap>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().clickwraps().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -402,27 +353,7 @@ public class Clickwrap implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/clickwraps/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().clickwraps().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

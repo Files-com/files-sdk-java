@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every User, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class User implements ModelInterface {
   }
 
   public User(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class User implements ModelInterface {
 
 
   /**
-  * User ID
-  */
+   * User ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's username
-  */
+   * User's username
+   */
   @JsonProperty("username")
   public String username;
 
@@ -102,8 +124,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * List of group IDs of which this user is an administrator
-  */
+   * List of group IDs of which this user is an administrator
+   */
   @JsonProperty("admin_group_ids")
   public Long[] adminGroupIds;
 
@@ -116,8 +138,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * A list of allowed IPs if applicable.  Newline delimited
-  */
+   * A list of allowed IPs if applicable.  Newline delimited
+   */
   @JsonProperty("allowed_ips")
   public String allowedIps;
 
@@ -130,8 +152,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-  */
+   * If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
+   */
   @JsonProperty("attachments_permission")
   public Boolean attachmentsPermission;
 
@@ -144,8 +166,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Number of API keys associated with this user
-  */
+   * Number of API keys associated with this user
+   */
   @JsonProperty("api_keys_count")
   public Long apiKeysCount;
 
@@ -158,8 +180,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Scheduled Date/Time at which user will be deactivated
-  */
+   * Scheduled Date/Time at which user will be deactivated
+   */
   @JsonProperty("authenticate_until")
   public Date authenticateUntil;
 
@@ -172,8 +194,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * How is this user authenticated?
-  */
+   * How is this user authenticated?
+   */
   @JsonProperty("authentication_method")
   public String authenticationMethod;
 
@@ -186,8 +208,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * URL holding the user's avatar
-  */
+   * URL holding the user's avatar
+   */
   @JsonProperty("avatar_url")
   public String avatarUrl;
 
@@ -200,8 +222,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is this a billable user record?
-  */
+   * Is this a billable user record?
+   */
   @JsonProperty("billable")
   public Boolean billable;
 
@@ -214,8 +236,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Allow this user to perform operations on the account, payments, and invoices?
-  */
+   * Allow this user to perform operations on the account, payments, and invoices?
+   */
   @JsonProperty("billing_permission")
   public Boolean billingPermission;
 
@@ -228,8 +250,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Allow this user to skip site-wide IP blacklists?
-  */
+   * Allow this user to skip site-wide IP blacklists?
+   */
   @JsonProperty("bypass_site_allowed_ips")
   public Boolean bypassSiteAllowedIps;
 
@@ -242,8 +264,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Exempt this user from user lifecycle rules?
-  */
+   * Exempt this user from user lifecycle rules?
+   */
   @JsonProperty("bypass_user_lifecycle_rules")
   public Boolean bypassUserLifecycleRules;
 
@@ -256,8 +278,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * When this user was created
-  */
+   * When this user was created
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -266,8 +288,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Can the user connect with WebDAV?
-  */
+   * Can the user connect with WebDAV?
+   */
   @JsonProperty("dav_permission")
   public Boolean davPermission;
 
@@ -280,8 +302,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-  */
+   * Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+   */
   @JsonProperty("disabled")
   public Boolean disabled;
 
@@ -294,8 +316,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Computed property that returns true if user disabled or expired or inactive.
-  */
+   * Computed property that returns true if user disabled or expired or inactive.
+   */
   @JsonProperty("disabled_expired_or_inactive")
   public Boolean disabledExpiredOrInactive;
 
@@ -308,8 +330,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * AI Assistant Personality ID assigned directly to this user, if any.
-  */
+   * AI Assistant Personality ID assigned directly to this user, if any.
+   */
   @JsonProperty("ai_assistant_personality_id")
   public Long aiAssistantPersonalityId;
 
@@ -322,8 +344,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Desktop Configuration Profile ID assigned directly to this user, if any.
-  */
+   * Desktop Configuration Profile ID assigned directly to this user, if any.
+   */
   @JsonProperty("desktop_configuration_profile_id")
   public Long desktopConfigurationProfileId;
 
@@ -336,8 +358,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Integration Centric Profile ID assigned directly to this user, if any.
-  */
+   * Integration Centric Profile ID assigned directly to this user, if any.
+   */
   @JsonProperty("integration_centric_profile_id")
   public Long integrationCentricProfileId;
 
@@ -350,8 +372,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User email address
-  */
+   * User email address
+   */
   @JsonProperty("email")
   public String email;
 
@@ -364,8 +386,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * File system layout
-  */
+   * File system layout
+   */
   @JsonProperty("filesystem_layout")
   public String filesystemLayout;
 
@@ -378,8 +400,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's first login time
-  */
+   * User's first login time
+   */
   @JsonProperty("first_login_at")
   public Date firstLoginAt;
 
@@ -392,8 +414,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Can the user access with FTP/FTPS?
-  */
+   * Can the user access with FTP/FTPS?
+   */
   @JsonProperty("ftp_permission")
   public Boolean ftpPermission;
 
@@ -406,8 +428,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of group IDs of which this user is a member
-  */
+   * Comma-separated list of group IDs of which this user is a member
+   */
   @JsonProperty("group_ids")
   public String groupIds;
 
@@ -420,8 +442,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Text to display to the user in the header of the UI
-  */
+   * Text to display to the user in the header of the UI
+   */
   @JsonProperty("header_text")
   public String headerText;
 
@@ -434,8 +456,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Preferred language
-  */
+   * Preferred language
+   */
   @JsonProperty("language")
   public String language;
 
@@ -448,8 +470,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via any protocol
-  */
+   * User's most recent login time via any protocol
+   */
   @JsonProperty("last_login_at")
   public Date lastLoginAt;
 
@@ -462,8 +484,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via web
-  */
+   * User's most recent login time via web
+   */
   @JsonProperty("last_web_login_at")
   public Date lastWebLoginAt;
 
@@ -476,8 +498,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via FTP
-  */
+   * User's most recent login time via FTP
+   */
   @JsonProperty("last_ftp_login_at")
   public Date lastFtpLoginAt;
 
@@ -490,8 +512,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via SFTP
-  */
+   * User's most recent login time via SFTP
+   */
   @JsonProperty("last_sftp_login_at")
   public Date lastSftpLoginAt;
 
@@ -504,8 +526,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via WebDAV
-  */
+   * User's most recent login time via WebDAV
+   */
   @JsonProperty("last_dav_login_at")
   public Date lastDavLoginAt;
 
@@ -518,8 +540,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via Desktop app
-  */
+   * User's most recent login time via Desktop app
+   */
   @JsonProperty("last_desktop_login_at")
   public Date lastDesktopLoginAt;
 
@@ -532,8 +554,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent login time via Rest API
-  */
+   * User's most recent login time via Rest API
+   */
   @JsonProperty("last_restapi_login_at")
   public Date lastRestapiLoginAt;
 
@@ -546,8 +568,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent API use time
-  */
+   * User's most recent API use time
+   */
   @JsonProperty("last_api_use_at")
   public Date lastApiUseAt;
 
@@ -560,8 +582,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
-  */
+   * User's most recent activity time, which is the latest of most recent login, most recent API use, enablement, or creation
+   */
   @JsonProperty("last_active_at")
   public Date lastActiveAt;
 
@@ -574,8 +596,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * The most recent protocol and cipher used
-  */
+   * The most recent protocol and cipher used
+   */
   @JsonProperty("last_protocol_cipher")
   public String lastProtocolCipher;
 
@@ -588,8 +610,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Time in the future that the user will no longer be locked out if applicable
-  */
+   * Time in the future that the user will no longer be locked out if applicable
+   */
   @JsonProperty("lockout_expires")
   public Date lockoutExpires;
 
@@ -602,8 +624,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's full name
-  */
+   * User's full name
+   */
   @JsonProperty("name")
   public String name;
 
@@ -616,8 +638,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User's company
-  */
+   * User's company
+   */
   @JsonProperty("company")
   public String company;
 
@@ -630,8 +652,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Any internal notes on the user
-  */
+   * Any internal notes on the user
+   */
   @JsonProperty("notes")
   public String notes;
 
@@ -644,8 +666,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-  */
+   * Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+   */
   @JsonProperty("notification_daily_send_time")
   public Long notificationDailySendTime;
 
@@ -658,8 +680,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Enable integration with Office for the web?
-  */
+   * Enable integration with Office for the web?
+   */
   @JsonProperty("office_integration_enabled")
   public Boolean officeIntegrationEnabled;
 
@@ -672,8 +694,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is this user a Partner administrator?
-  */
+   * Is this user a Partner administrator?
+   */
   @JsonProperty("partner_admin")
   public Boolean partnerAdmin;
 
@@ -686,8 +708,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Partner ID if this user belongs to a Partner
-  */
+   * Partner ID if this user belongs to a Partner
+   */
   @JsonProperty("partner_id")
   public Long partnerId;
 
@@ -700,8 +722,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Name of the Partner if this user belongs to a Partner
-  */
+   * Name of the Partner if this user belongs to a Partner
+   */
   @JsonProperty("partner_name")
   public String partnerName;
 
@@ -714,8 +736,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Last time the user's password was set
-  */
+   * Last time the user's password was set
+   */
   @JsonProperty("password_set_at")
   public Date passwordSetAt;
 
@@ -728,8 +750,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Number of days to allow user to use the same password
-  */
+   * Number of days to allow user to use the same password
+   */
   @JsonProperty("password_validity_days")
   public Long passwordValidityDays;
 
@@ -742,8 +764,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Primary group ID for Group Admin scoping
-  */
+   * Primary group ID for Group Admin scoping
+   */
   @JsonProperty("primary_group_id")
   public Long primaryGroupId;
 
@@ -756,8 +778,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Number of public keys associated with this user
-  */
+   * Number of public keys associated with this user
+   */
   @JsonProperty("public_keys_count")
   public Long publicKeysCount;
 
@@ -770,8 +792,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-  */
+   * Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+   */
   @JsonProperty("receive_admin_alerts")
   public Boolean receiveAdminAlerts;
 
@@ -784,8 +806,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive site warnings via email?
-  */
+   * Should the user receive site warnings via email?
+   */
   @JsonProperty("notify_on_all_site_warnings")
   public Boolean notifyOnAllSiteWarnings;
 
@@ -798,8 +820,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive sso/scim/ldap configuration/sync failures via email?
-  */
+   * Should the user receive sso/scim/ldap configuration/sync failures via email?
+   */
   @JsonProperty("notify_on_all_sso_failures")
   public Boolean notifyOnAllSsoFailures;
 
@@ -812,8 +834,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive user security events via email?
-  */
+   * Should the user receive user security events via email?
+   */
   @JsonProperty("notify_on_all_user_security_events")
   public Boolean notifyOnAllUserSecurityEvents;
 
@@ -826,8 +848,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive pending work failures via email?
-  */
+   * Should the user receive pending work failures via email?
+   */
   @JsonProperty("notify_on_all_pending_work_failures")
   public Boolean notifyOnAllPendingWorkFailures;
 
@@ -840,8 +862,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive siem failures via email?
-  */
+   * Should the user receive siem failures via email?
+   */
   @JsonProperty("notify_on_all_siem_http_destination_failures")
   public Boolean notifyOnAllSiemHttpDestinationFailures;
 
@@ -854,8 +876,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive sync failures via email?
-  */
+   * Should the user receive sync failures via email?
+   */
   @JsonProperty("notify_on_all_sync_failures")
   public Boolean notifyOnAllSyncFailures;
 
@@ -868,8 +890,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive automation failures via email?
-  */
+   * Should the user receive automation failures via email?
+   */
   @JsonProperty("notify_on_all_automation_failures")
   public Boolean notifyOnAllAutomationFailures;
 
@@ -882,8 +904,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Should the user receive expectation failures and misses via email?
-  */
+   * Should the user receive expectation failures and misses via email?
+   */
   @JsonProperty("notify_on_all_expectation_failures")
   public Boolean notifyOnAllExpectationFailures;
 
@@ -896,8 +918,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-  */
+   * 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+   */
   @JsonProperty("require_2fa")
   public String require2fa;
 
@@ -910,8 +932,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Require user to login by specified date otherwise it will be disabled.
-  */
+   * Require user to login by specified date otherwise it will be disabled.
+   */
   @JsonProperty("require_login_by")
   public Date requireLoginBy;
 
@@ -924,8 +946,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is 2fa active for the user?
-  */
+   * Is 2fa active for the user?
+   */
   @JsonProperty("active_2fa")
   public Boolean active2fa;
 
@@ -938,8 +960,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is a password change required upon next user login?
-  */
+   * Is a password change required upon next user login?
+   */
   @JsonProperty("require_password_change")
   public Boolean requirePasswordChange;
 
@@ -952,8 +974,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is user's password expired?
-  */
+   * Is user's password expired?
+   */
   @JsonProperty("password_expired")
   public Boolean passwordExpired;
 
@@ -966,8 +988,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * ID of the internal Group responsible for this Partner User, overriding the Partner default.
-  */
+   * ID of the internal Group responsible for this Partner User, overriding the Partner default.
+   */
   @JsonProperty("responsible_group_id")
   public Long responsibleGroupId;
 
@@ -980,8 +1002,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * ID of the internal User responsible for this Partner User, overriding the Partner default.
-  */
+   * ID of the internal User responsible for this Partner User, overriding the Partner default.
+   */
   @JsonProperty("responsible_user_id")
   public Long responsibleUserId;
 
@@ -994,8 +1016,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is the user an allowed to view all (non-billing) site configuration for this site?
-  */
+   * Is the user an allowed to view all (non-billing) site configuration for this site?
+   */
   @JsonProperty("readonly_site_admin")
   public Boolean readonlySiteAdmin;
 
@@ -1008,8 +1030,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-  */
+   * Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+   */
   @JsonProperty("restapi_permission")
   public Boolean restapiPermission;
 
@@ -1022,8 +1044,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Can the user access the S3-compatible endpoint? Defaults to true.
-  */
+   * Can the user access the S3-compatible endpoint? Defaults to true.
+   */
   @JsonProperty("s3_compatible_endpoint_permission")
   public Boolean s3CompatibleEndpointPermission;
 
@@ -1036,8 +1058,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Does this user manage it's own credentials or is it a shared/bot user?
-  */
+   * Does this user manage it's own credentials or is it a shared/bot user?
+   */
   @JsonProperty("self_managed")
   public Boolean selfManaged;
 
@@ -1050,8 +1072,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Can the user access with SFTP?
-  */
+   * Can the user access with SFTP?
+   */
   @JsonProperty("sftp_permission")
   public Boolean sftpPermission;
 
@@ -1064,8 +1086,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is the user an administrator for this site?
-  */
+   * Is the user an administrator for this site?
+   */
   @JsonProperty("site_admin")
   public Boolean siteAdmin;
 
@@ -1078,8 +1100,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-  */
+   * Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
+   */
   @JsonProperty("workspace_admin")
   public Boolean workspaceAdmin;
 
@@ -1092,8 +1114,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Site ID
-  */
+   * Site ID
+   */
   @JsonProperty("site_id")
   public Long siteId;
 
@@ -1106,8 +1128,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace the user belongs to. 0 is the Default Workspace.
-  */
+   * ID of the Workspace the user belongs to. 0 is the Default Workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -1120,8 +1142,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Workspace ID the user should land in by default when more than one Workspace is available.
-  */
+   * Workspace ID the user should land in by default when more than one Workspace is available.
+   */
   @JsonProperty("default_workspace_id")
   public Long defaultWorkspaceId;
 
@@ -1134,8 +1156,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Skip Welcome page in the UI?
-  */
+   * Skip Welcome page in the UI?
+   */
   @JsonProperty("skip_welcome_screen")
   public Boolean skipWelcomeScreen;
 
@@ -1148,8 +1170,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * SSL required setting
-  */
+   * SSL required setting
+   */
   @JsonProperty("ssl_required")
   public String sslRequired;
 
@@ -1162,8 +1184,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * SSO (Single Sign On) strategy ID for the user, if applicable.
-  */
+   * SSO (Single Sign On) strategy ID for the user, if applicable.
+   */
   @JsonProperty("sso_strategy_id")
   public Long ssoStrategyId;
 
@@ -1176,8 +1198,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is the user subscribed to the newsletter?
-  */
+   * Is the user subscribed to the newsletter?
+   */
   @JsonProperty("subscribe_to_newsletter")
   public Boolean subscribeToNewsletter;
 
@@ -1190,8 +1212,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Is this user managed by a SsoStrategy?
-  */
+   * Is this user managed by a SsoStrategy?
+   */
   @JsonProperty("externally_managed")
   public Boolean externallyManaged;
 
@@ -1204,8 +1226,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  */
+   * Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   */
   @JsonProperty("tags")
   public String tags;
 
@@ -1218,8 +1240,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User time zone
-  */
+   * User time zone
+   */
   @JsonProperty("time_zone")
   public String timeZone;
 
@@ -1232,8 +1254,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
-  */
+   * Type(s) of 2FA methods in use, for programmatic use.  Will be either `sms`, `totp`, `webauthn`, `yubi`, `email`, or multiple values sorted alphabetically and joined by an underscore.  Does not specify whether user has more than one of a given method.
+   */
   @JsonProperty("type_of_2fa")
   public String typeOf2fa;
 
@@ -1246,8 +1268,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
-  */
+   * Type(s) of 2FA methods in use, formatted for displaying in the UI.  Unlike `type_of_2fa`, this value will make clear when a user has more than 1 of the same type of method.
+   */
   @JsonProperty("type_of_2fa_for_display")
   public String typeOf2faForDisplay;
 
@@ -1260,8 +1282,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-  */
+   * If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+   */
   @JsonProperty("user_root")
   public String userRoot;
 
@@ -1274,8 +1296,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-  */
+   * Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
+   */
   @JsonProperty("user_home")
   public String userHome;
 
@@ -1288,8 +1310,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Number of days remaining until password expires
-  */
+   * Number of days remaining until password expires
+   */
   @JsonProperty("days_remaining_until_password_expire")
   public Long daysRemainingUntilPasswordExpire;
 
@@ -1302,8 +1324,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Password expiration datetime
-  */
+   * Password expiration datetime
+   */
   @JsonProperty("password_expire_at")
   public Date passwordExpireAt;
 
@@ -1316,8 +1338,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * An image file for your user avatar.
-  */
+   * An image file for your user avatar.
+   */
   @JsonProperty("avatar_file")
   public byte[] avatarFile;
 
@@ -1330,8 +1352,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * If true, the avatar will be deleted.
-  */
+   * If true, the avatar will be deleted.
+   */
   @JsonProperty("avatar_delete")
   public Boolean avatarDelete;
 
@@ -1344,8 +1366,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Used for changing a password on an existing user.
-  */
+   * Used for changing a password on an existing user.
+   */
   @JsonProperty("change_password")
   public String changePassword;
 
@@ -1358,8 +1380,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-  */
+   * Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+   */
   @JsonProperty("change_password_confirmation")
   public String changePasswordConfirmation;
 
@@ -1372,8 +1394,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-  */
+   * Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
+   */
   @JsonProperty("grant_permission")
   public String grantPermission;
 
@@ -1386,8 +1408,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Group ID to associate this user with.
-  */
+   * Group ID to associate this user with.
+   */
   @JsonProperty("group_id")
   public Long groupId;
 
@@ -1400,8 +1422,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-  */
+   * Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
+   */
   @JsonProperty("imported_password_hash")
   public String importedPasswordHash;
 
@@ -1414,8 +1436,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * User password.
-  */
+   * User password.
+   */
   @JsonProperty("password")
   public String password;
 
@@ -1428,8 +1450,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Optional, but if provided, we will ensure that it matches the value sent in `password`.
-  */
+   * Optional, but if provided, we will ensure that it matches the value sent in `password`.
+   */
   @JsonProperty("password_confirmation")
   public String passwordConfirmation;
 
@@ -1442,8 +1464,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Signifies that the user has read all the announcements in the UI.
-  */
+   * Signifies that the user has read all the announcements in the UI.
+   */
   @JsonProperty("announcements_read")
   public Boolean announcementsRead;
 
@@ -1456,8 +1478,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-  */
+   * If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+   */
   @JsonProperty("clear_2fa")
   public Boolean clear2fa;
 
@@ -1470,8 +1492,8 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
-  */
+   * Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
+   */
   @JsonProperty("convert_to_partner_user")
   public Boolean convertToPartnerUser;
 
@@ -1484,137 +1506,266 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Unlock user who has been locked out due to failed logins
-  */
+   * Unlock user who has been locked out due to failed logins
+   */
   public void unlock(HashMap<String, Object> parameters) throws IOException {
-    User.unlock(this.id, parameters, this.options);
+    filesClient().users().unlock(this.id, parameters, this.options);
   }
 
   /**
-  * Resend user welcome email
-  */
+   * Resend user welcome email
+   */
   public void resendWelcomeEmail(HashMap<String, Object> parameters) throws IOException {
-    User.resendWelcomeEmail(this.id, parameters, this.options);
+    filesClient().users().resendWelcomeEmail(this.id, parameters, this.options);
   }
 
   /**
-  * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-  */
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   */
   public void user2faReset(HashMap<String, Object> parameters) throws IOException {
-    User.user2faReset(this.id, parameters, this.options);
+    filesClient().users().user2faReset(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   avatar_file - file - An image file for your user avatar.
-  *   avatar_delete - boolean - If true, the avatar will be deleted.
-  *   change_password - string - Used for changing a password on an existing user.
-  *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-  *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-  *   group_id - int64 - Group ID to associate this user with.
-  *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
-  *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-  *   password - string - User password.
-  *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-  *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-  *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
-  *   authentication_method - string - How is this user authenticated?
-  *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
-  *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
-  *   dav_permission - boolean - Can the user connect with WebDAV?
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
-  *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-  *   filesystem_layout - string - File system layout
-  *   ftp_permission - boolean - Can the user access with FTP/FTPS?
-  *   header_text - string - Text to display to the user in the header of the UI
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
-  *   language - string - Preferred language
-  *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-  *   name - string - User's full name
-  *   company - string - User's company
-  *   notes - string - Any internal notes on the user
-  *   office_integration_enabled - boolean - Enable integration with Office for the web?
-  *   partner_admin - boolean - Is this user a Partner administrator?
-  *   partner_id - int64 - Partner ID if this user belongs to a Partner
-  *   password_validity_days - int64 - Number of days to allow user to use the same password
-  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
-  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
-  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
-  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
-  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
-  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
-  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
-  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
-  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
-  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
-  *   require_password_change - boolean - Is a password change required upon next user login?
-  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
-  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
-  *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
-  *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
-  *   sftp_permission - boolean - Can the user access with SFTP?
-  *   site_admin - boolean - Is the user an administrator for this site?
-  *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
-  *   ssl_required - string - SSL required setting
-  *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-  *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-  *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-  *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   time_zone - string - User time zone
-  *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-  *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-  *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-  *   username - string - User's username
-  *   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
-  *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-  *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
-  */
+   * Updates this User. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   avatar_file - file - An image file for your user avatar.
+   *   avatar_delete - boolean - If true, the avatar will be deleted.
+   *   change_password - string - Used for changing a password on an existing user.
+   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+   *   email - string - User's email.
+   *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
+   *   group_id - int64 - Group ID to associate this user with.
+   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
+   *   password - string - User password.
+   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
+   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
+   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
+   *   authentication_method - string - How is this user authenticated?
+   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
+   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
+   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
+   *   dav_permission - boolean - Can the user connect with WebDAV?
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+   *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+   *   filesystem_layout - string - File system layout
+   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
+   *   header_text - string - Text to display to the user in the header of the UI
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
+   *   language - string - Preferred language
+   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+   *   name - string - User's full name
+   *   company - string - User's company
+   *   notes - string - Any internal notes on the user
+   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+   *   partner_admin - boolean - Is this user a Partner administrator?
+   *   partner_id - int64 - Partner ID if this user belongs to a Partner
+   *   password_validity_days - int64 - Number of days to allow user to use the same password
+   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
+   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
+   *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+   *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+   *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+   *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+   *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+   *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+   *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+   *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
+   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
+   *   require_password_change - boolean - Is a password change required upon next user login?
+   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
+   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+   *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
+   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
+   *   sftp_permission - boolean - Can the user access with SFTP?
+   *   site_admin - boolean - Is the user an administrator for this site?
+   *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
+   *   ssl_required - string - SSL required setting
+   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
+   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+   *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+   *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   time_zone - string - User time zone
+   *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+   *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
+   *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
+   *   username - string - User's username
+   *   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
+   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+   *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
+   */
   public User update(HashMap<String, Object> parameters) throws IOException {
-    return User.update(this.id, parameters, this.options);
+    User updated = filesClient().users().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  * Parameters:
-  *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
-  */
+   * Parameters:
+   *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    User.delete(this.id, parameters, this.options);
+    filesClient().users().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this User: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    User.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().users().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.avatarFile != null) {
+      parameters.put("avatar_file", this.avatarFile);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(User canonical) {
+    this.id = canonical.id;
+    this.username = canonical.username;
+    this.adminGroupIds = canonical.adminGroupIds;
+    this.allowedIps = canonical.allowedIps;
+    this.attachmentsPermission = canonical.attachmentsPermission;
+    this.apiKeysCount = canonical.apiKeysCount;
+    this.authenticateUntil = canonical.authenticateUntil;
+    this.authenticationMethod = canonical.authenticationMethod;
+    this.avatarUrl = canonical.avatarUrl;
+    this.billable = canonical.billable;
+    this.billingPermission = canonical.billingPermission;
+    this.bypassSiteAllowedIps = canonical.bypassSiteAllowedIps;
+    this.bypassUserLifecycleRules = canonical.bypassUserLifecycleRules;
+    this.createdAt = canonical.createdAt;
+    this.davPermission = canonical.davPermission;
+    this.disabled = canonical.disabled;
+    this.disabledExpiredOrInactive = canonical.disabledExpiredOrInactive;
+    this.aiAssistantPersonalityId = canonical.aiAssistantPersonalityId;
+    this.desktopConfigurationProfileId = canonical.desktopConfigurationProfileId;
+    this.integrationCentricProfileId = canonical.integrationCentricProfileId;
+    this.email = canonical.email;
+    this.filesystemLayout = canonical.filesystemLayout;
+    this.firstLoginAt = canonical.firstLoginAt;
+    this.ftpPermission = canonical.ftpPermission;
+    this.groupIds = canonical.groupIds;
+    this.headerText = canonical.headerText;
+    this.language = canonical.language;
+    this.lastLoginAt = canonical.lastLoginAt;
+    this.lastWebLoginAt = canonical.lastWebLoginAt;
+    this.lastFtpLoginAt = canonical.lastFtpLoginAt;
+    this.lastSftpLoginAt = canonical.lastSftpLoginAt;
+    this.lastDavLoginAt = canonical.lastDavLoginAt;
+    this.lastDesktopLoginAt = canonical.lastDesktopLoginAt;
+    this.lastRestapiLoginAt = canonical.lastRestapiLoginAt;
+    this.lastApiUseAt = canonical.lastApiUseAt;
+    this.lastActiveAt = canonical.lastActiveAt;
+    this.lastProtocolCipher = canonical.lastProtocolCipher;
+    this.lockoutExpires = canonical.lockoutExpires;
+    this.name = canonical.name;
+    this.company = canonical.company;
+    this.notes = canonical.notes;
+    this.notificationDailySendTime = canonical.notificationDailySendTime;
+    this.officeIntegrationEnabled = canonical.officeIntegrationEnabled;
+    this.partnerAdmin = canonical.partnerAdmin;
+    this.partnerId = canonical.partnerId;
+    this.partnerName = canonical.partnerName;
+    this.passwordSetAt = canonical.passwordSetAt;
+    this.passwordValidityDays = canonical.passwordValidityDays;
+    this.primaryGroupId = canonical.primaryGroupId;
+    this.publicKeysCount = canonical.publicKeysCount;
+    this.receiveAdminAlerts = canonical.receiveAdminAlerts;
+    this.notifyOnAllSiteWarnings = canonical.notifyOnAllSiteWarnings;
+    this.notifyOnAllSsoFailures = canonical.notifyOnAllSsoFailures;
+    this.notifyOnAllUserSecurityEvents = canonical.notifyOnAllUserSecurityEvents;
+    this.notifyOnAllPendingWorkFailures = canonical.notifyOnAllPendingWorkFailures;
+    this.notifyOnAllSiemHttpDestinationFailures = canonical.notifyOnAllSiemHttpDestinationFailures;
+    this.notifyOnAllSyncFailures = canonical.notifyOnAllSyncFailures;
+    this.notifyOnAllAutomationFailures = canonical.notifyOnAllAutomationFailures;
+    this.notifyOnAllExpectationFailures = canonical.notifyOnAllExpectationFailures;
+    this.require2fa = canonical.require2fa;
+    this.requireLoginBy = canonical.requireLoginBy;
+    this.active2fa = canonical.active2fa;
+    this.requirePasswordChange = canonical.requirePasswordChange;
+    this.passwordExpired = canonical.passwordExpired;
+    this.responsibleGroupId = canonical.responsibleGroupId;
+    this.responsibleUserId = canonical.responsibleUserId;
+    this.readonlySiteAdmin = canonical.readonlySiteAdmin;
+    this.restapiPermission = canonical.restapiPermission;
+    this.s3CompatibleEndpointPermission = canonical.s3CompatibleEndpointPermission;
+    this.selfManaged = canonical.selfManaged;
+    this.sftpPermission = canonical.sftpPermission;
+    this.siteAdmin = canonical.siteAdmin;
+    this.workspaceAdmin = canonical.workspaceAdmin;
+    this.siteId = canonical.siteId;
+    this.workspaceId = canonical.workspaceId;
+    this.defaultWorkspaceId = canonical.defaultWorkspaceId;
+    this.skipWelcomeScreen = canonical.skipWelcomeScreen;
+    this.sslRequired = canonical.sslRequired;
+    this.ssoStrategyId = canonical.ssoStrategyId;
+    this.subscribeToNewsletter = canonical.subscribeToNewsletter;
+    this.externallyManaged = canonical.externallyManaged;
+    this.tags = canonical.tags;
+    this.timeZone = canonical.timeZone;
+    this.typeOf2fa = canonical.typeOf2fa;
+    this.typeOf2faForDisplay = canonical.typeOf2faForDisplay;
+    this.userRoot = canonical.userRoot;
+    this.userHome = canonical.userHome;
+    this.daysRemainingUntilPasswordExpire = canonical.daysRemainingUntilPasswordExpire;
+    this.passwordExpireAt = canonical.passwordExpireAt;
+    this.avatarFile = canonical.avatarFile;
+    this.avatarDelete = canonical.avatarDelete;
+    this.changePassword = canonical.changePassword;
+    this.changePasswordConfirmation = canonical.changePasswordConfirmation;
+    this.grantPermission = canonical.grantPermission;
+    this.groupId = canonical.groupId;
+    this.importedPasswordHash = canonical.importedPasswordHash;
+    this.password = canonical.password;
+    this.passwordConfirmation = canonical.passwordConfirmation;
+    this.announcementsRead = canonical.announcementsRead;
+    this.clear2fa = canonical.clear2fa;
+    this.convertToPartnerUser = canonical.convertToPartnerUser;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-  *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-  *   ids - string - comma-separated list of User IDs
-  *   include_parent_site_users - boolean - Include users from the parent site.
-  *   include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
-  *   search - string - Searches for partial matches of name, username, or email.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
+   *   ids - string - comma-separated list of User IDs
+   *   include_parent_site_users - boolean - Include users from the parent site.
+   *   include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
+   *   search - string - Searches for partial matches of name, username, or email.
+   */
   public static ListIterator<User> list() throws RuntimeException {
     return list(null, null);
   }
@@ -1625,56 +1776,7 @@ public class User implements ModelInterface {
 
 
   public static ListIterator<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_prefix") && !(parameters.get("filter_prefix") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_prefix must be of type Object parameters[\"filter_prefix\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-    if (parameters.containsKey("ids") && !(parameters.get("ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ids must be of type String parameters[\"ids\"]");
-    }
-    if (parameters.containsKey("include_parent_site_users") && !(parameters.get("include_parent_site_users") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_parent_site_users must be of type Boolean parameters[\"include_parent_site_users\"]");
-    }
-    if (parameters.containsKey("include_default_workspace_users") && !(parameters.get("include_default_workspace_users") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: include_default_workspace_users must be of type Boolean parameters[\"include_default_workspace_users\"]");
-    }
-    if (parameters.containsKey("search") && !(parameters.get("search") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: search must be of type String parameters[\"search\"]");
-    }
-
-
-    String url = String.format("%s%s/users", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().users().list(parameters, options);
   }
 
   public static ListIterator<User> all() throws RuntimeException {
@@ -1686,9 +1788,9 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - User ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - User ID.
+   */
   public static User find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -1702,28 +1804,7 @@ public class User implements ModelInterface {
   }
 
   public static User find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().users().find(id, parameters, options);
   }
 
   public static User get() throws RuntimeException {
@@ -1735,77 +1816,77 @@ public class User implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   avatar_file - file - An image file for your user avatar.
-  *   avatar_delete - boolean - If true, the avatar will be deleted.
-  *   change_password - string - Used for changing a password on an existing user.
-  *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-  *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-  *   group_id - int64 - Group ID to associate this user with.
-  *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
-  *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-  *   password - string - User password.
-  *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-  *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-  *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
-  *   authentication_method - string - How is this user authenticated?
-  *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
-  *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
-  *   dav_permission - boolean - Can the user connect with WebDAV?
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
-  *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-  *   filesystem_layout - string - File system layout
-  *   ftp_permission - boolean - Can the user access with FTP/FTPS?
-  *   header_text - string - Text to display to the user in the header of the UI
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
-  *   language - string - Preferred language
-  *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-  *   name - string - User's full name
-  *   company - string - User's company
-  *   notes - string - Any internal notes on the user
-  *   office_integration_enabled - boolean - Enable integration with Office for the web?
-  *   partner_admin - boolean - Is this user a Partner administrator?
-  *   partner_id - int64 - Partner ID if this user belongs to a Partner
-  *   password_validity_days - int64 - Number of days to allow user to use the same password
-  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
-  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
-  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
-  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
-  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
-  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
-  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
-  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
-  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
-  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
-  *   require_password_change - boolean - Is a password change required upon next user login?
-  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
-  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
-  *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
-  *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
-  *   sftp_permission - boolean - Can the user access with SFTP?
-  *   site_admin - boolean - Is the user an administrator for this site?
-  *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
-  *   ssl_required - string - SSL required setting
-  *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-  *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-  *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-  *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   time_zone - string - User time zone
-  *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-  *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-  *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-  *   username (required) - string - User's username
-  *   workspace_id - int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
-  */
+   * Parameters:
+   *   avatar_file - file - An image file for your user avatar.
+   *   avatar_delete - boolean - If true, the avatar will be deleted.
+   *   change_password - string - Used for changing a password on an existing user.
+   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+   *   email - string - User's email.
+   *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
+   *   group_id - int64 - Group ID to associate this user with.
+   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
+   *   password - string - User password.
+   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
+   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
+   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
+   *   authentication_method - string - How is this user authenticated?
+   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
+   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
+   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
+   *   dav_permission - boolean - Can the user connect with WebDAV?
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+   *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+   *   filesystem_layout - string - File system layout
+   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
+   *   header_text - string - Text to display to the user in the header of the UI
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
+   *   language - string - Preferred language
+   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+   *   name - string - User's full name
+   *   company - string - User's company
+   *   notes - string - Any internal notes on the user
+   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+   *   partner_admin - boolean - Is this user a Partner administrator?
+   *   partner_id - int64 - Partner ID if this user belongs to a Partner
+   *   password_validity_days - int64 - Number of days to allow user to use the same password
+   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
+   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
+   *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+   *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+   *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+   *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+   *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+   *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+   *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+   *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
+   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
+   *   require_password_change - boolean - Is a password change required upon next user login?
+   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
+   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+   *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
+   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
+   *   sftp_permission - boolean - Can the user access with SFTP?
+   *   site_admin - boolean - Is the user an administrator for this site?
+   *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
+   *   ssl_required - string - SSL required setting
+   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
+   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+   *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+   *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   time_zone - string - User time zone
+   *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+   *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
+   *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
+   *   username (required) - string - User's username
+   *   workspace_id - int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
+   */
   public static User create() throws RuntimeException {
     return create(null, null);
   }
@@ -1816,233 +1897,13 @@ public class User implements ModelInterface {
 
 
   public static User create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("username") || parameters.get("username") == null) {
-      throw new NullPointerException("Parameter missing: username parameters[\"username\"]");
-    }
-
-    if (parameters.containsKey("avatar_file") && !(parameters.get("avatar_file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: avatar_file must be of type byte[] parameters[\"avatar_file\"]");
-    }
-    if (parameters.containsKey("avatar_delete") && !(parameters.get("avatar_delete") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: avatar_delete must be of type Boolean parameters[\"avatar_delete\"]");
-    }
-    if (parameters.containsKey("change_password") && !(parameters.get("change_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: change_password must be of type String parameters[\"change_password\"]");
-    }
-    if (parameters.containsKey("change_password_confirmation") && !(parameters.get("change_password_confirmation") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: change_password_confirmation must be of type String parameters[\"change_password_confirmation\"]");
-    }
-    if (parameters.containsKey("email") && !(parameters.get("email") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
-    }
-    if (parameters.containsKey("grant_permission") && !(parameters.get("grant_permission") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: grant_permission must be of type String parameters[\"grant_permission\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-    if (parameters.containsKey("imported_password_hash") && !(parameters.get("imported_password_hash") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: imported_password_hash must be of type String parameters[\"imported_password_hash\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("password_confirmation") && !(parameters.get("password_confirmation") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password_confirmation must be of type String parameters[\"password_confirmation\"]");
-    }
-    if (parameters.containsKey("announcements_read") && !(parameters.get("announcements_read") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: announcements_read must be of type Boolean parameters[\"announcements_read\"]");
-    }
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("attachments_permission") && !(parameters.get("attachments_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: attachments_permission must be of type Boolean parameters[\"attachments_permission\"]");
-    }
-    if (parameters.containsKey("authenticate_until") && !(parameters.get("authenticate_until") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: authenticate_until must be of type String parameters[\"authenticate_until\"]");
-    }
-    if (parameters.containsKey("authentication_method") && !(parameters.get("authentication_method") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: authentication_method must be of type String parameters[\"authentication_method\"]");
-    }
-    if (parameters.containsKey("billing_permission") && !(parameters.get("billing_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: billing_permission must be of type Boolean parameters[\"billing_permission\"]");
-    }
-    if (parameters.containsKey("bypass_user_lifecycle_rules") && !(parameters.get("bypass_user_lifecycle_rules") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_user_lifecycle_rules must be of type Boolean parameters[\"bypass_user_lifecycle_rules\"]");
-    }
-    if (parameters.containsKey("bypass_site_allowed_ips") && !(parameters.get("bypass_site_allowed_ips") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_site_allowed_ips must be of type Boolean parameters[\"bypass_site_allowed_ips\"]");
-    }
-    if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
-    }
-    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
-    }
-    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("filesystem_layout") && !(parameters.get("filesystem_layout") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filesystem_layout must be of type String parameters[\"filesystem_layout\"]");
-    }
-    if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
-    }
-    if (parameters.containsKey("header_text") && !(parameters.get("header_text") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: header_text must be of type String parameters[\"header_text\"]");
-    }
-    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
-    }
-    if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
-    }
-    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long || parameters.get("notification_daily_send_time") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long or Integer parameters[\"notification_daily_send_time\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("company") && !(parameters.get("company") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
-    }
-    if (parameters.containsKey("partner_admin") && !(parameters.get("partner_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: partner_admin must be of type Boolean parameters[\"partner_admin\"]");
-    }
-    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
-    }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
-    }
-    if (parameters.containsKey("primary_group_id") && !(parameters.get("primary_group_id") instanceof Long || parameters.get("primary_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: primary_group_id must be of type Long or Integer parameters[\"primary_group_id\"]");
-    }
-    if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
-    }
-    if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
-    }
-    if (parameters.containsKey("notify_on_all_site_warnings") && !(parameters.get("notify_on_all_site_warnings") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_site_warnings must be of type Boolean parameters[\"notify_on_all_site_warnings\"]");
-    }
-    if (parameters.containsKey("notify_on_all_sso_failures") && !(parameters.get("notify_on_all_sso_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_sso_failures must be of type Boolean parameters[\"notify_on_all_sso_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_user_security_events") && !(parameters.get("notify_on_all_user_security_events") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_user_security_events must be of type Boolean parameters[\"notify_on_all_user_security_events\"]");
-    }
-    if (parameters.containsKey("notify_on_all_pending_work_failures") && !(parameters.get("notify_on_all_pending_work_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_pending_work_failures must be of type Boolean parameters[\"notify_on_all_pending_work_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_siem_http_destination_failures") && !(parameters.get("notify_on_all_siem_http_destination_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_siem_http_destination_failures must be of type Boolean parameters[\"notify_on_all_siem_http_destination_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_sync_failures") && !(parameters.get("notify_on_all_sync_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_sync_failures must be of type Boolean parameters[\"notify_on_all_sync_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_automation_failures") && !(parameters.get("notify_on_all_automation_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_automation_failures must be of type Boolean parameters[\"notify_on_all_automation_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_expectation_failures") && !(parameters.get("notify_on_all_expectation_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_expectation_failures must be of type Boolean parameters[\"notify_on_all_expectation_failures\"]");
-    }
-    if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");
-    }
-    if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");
-    }
-    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
-    }
-    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
-    }
-    if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
-    }
-    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
-    }
-    if (parameters.containsKey("self_managed") && !(parameters.get("self_managed") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: self_managed must be of type Boolean parameters[\"self_managed\"]");
-    }
-    if (parameters.containsKey("sftp_permission") && !(parameters.get("sftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_permission must be of type Boolean parameters[\"sftp_permission\"]");
-    }
-    if (parameters.containsKey("site_admin") && !(parameters.get("site_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: site_admin must be of type Boolean parameters[\"site_admin\"]");
-    }
-    if (parameters.containsKey("skip_welcome_screen") && !(parameters.get("skip_welcome_screen") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_welcome_screen must be of type Boolean parameters[\"skip_welcome_screen\"]");
-    }
-    if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
-    }
-    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
-    }
-    if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
-    }
-    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: require_2fa must be of type String parameters[\"require_2fa\"]");
-    }
-    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
-    }
-    if (parameters.containsKey("time_zone") && !(parameters.get("time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: time_zone must be of type String parameters[\"time_zone\"]");
-    }
-    if (parameters.containsKey("user_root") && !(parameters.get("user_root") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_root must be of type String parameters[\"user_root\"]");
-    }
-    if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
-    }
-    if (parameters.containsKey("workspace_admin") && !(parameters.get("workspace_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_admin must be of type Boolean parameters[\"workspace_admin\"]");
-    }
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/users", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().users().create(parameters, options);
   }
 
 
   /**
-  * Unlock user who has been locked out due to failed logins
-  */
+   * Unlock user who has been locked out due to failed logins
+   */
   public static void unlock() throws RuntimeException {
     unlock(null, null, null);
   }
@@ -2056,33 +1917,13 @@ public class User implements ModelInterface {
   }
 
   public static void unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s/unlock", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().users().unlock(id, parameters, options);
   }
 
 
   /**
-  * Resend user welcome email
-  */
+   * Resend user welcome email
+   */
   public static void resendWelcomeEmail() throws RuntimeException {
     resendWelcomeEmail(null, null, null);
   }
@@ -2096,33 +1937,13 @@ public class User implements ModelInterface {
   }
 
   public static void resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s/resend_welcome_email", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().users().resendWelcomeEmail(id, parameters, options);
   }
 
 
   /**
-  * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-  */
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   */
   public static void user2faReset() throws RuntimeException {
     user2faReset(null, null, null);
   }
@@ -2136,104 +1957,84 @@ public class User implements ModelInterface {
   }
 
   public static void user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s/2fa/reset", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().users().user2faReset(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   avatar_file - file - An image file for your user avatar.
-  *   avatar_delete - boolean - If true, the avatar will be deleted.
-  *   change_password - string - Used for changing a password on an existing user.
-  *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-  *   email - string - User's email.
-  *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-  *   group_id - int64 - Group ID to associate this user with.
-  *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
-  *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-  *   password - string - User password.
-  *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-  *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
-  *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
-  *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-  *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-  *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
-  *   authentication_method - string - How is this user authenticated?
-  *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-  *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
-  *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
-  *   dav_permission - boolean - Can the user connect with WebDAV?
-  *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-  *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
-  *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-  *   filesystem_layout - string - File system layout
-  *   ftp_permission - boolean - Can the user access with FTP/FTPS?
-  *   header_text - string - Text to display to the user in the header of the UI
-  *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
-  *   language - string - Preferred language
-  *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-  *   name - string - User's full name
-  *   company - string - User's company
-  *   notes - string - Any internal notes on the user
-  *   office_integration_enabled - boolean - Enable integration with Office for the web?
-  *   partner_admin - boolean - Is this user a Partner administrator?
-  *   partner_id - int64 - Partner ID if this user belongs to a Partner
-  *   password_validity_days - int64 - Number of days to allow user to use the same password
-  *   primary_group_id - int64 - Primary group ID for Group Admin scoping
-  *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-  *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-  *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
-  *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
-  *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
-  *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
-  *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
-  *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
-  *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
-  *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
-  *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
-  *   require_password_change - boolean - Is a password change required upon next user login?
-  *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
-  *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
-  *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-  *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
-  *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
-  *   sftp_permission - boolean - Can the user access with SFTP?
-  *   site_admin - boolean - Is the user an administrator for this site?
-  *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
-  *   ssl_required - string - SSL required setting
-  *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-  *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-  *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-  *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-  *   time_zone - string - User time zone
-  *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-  *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-  *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-  *   username - string - User's username
-  *   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
-  *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-  *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
-  */
+   * Parameters:
+   *   avatar_file - file - An image file for your user avatar.
+   *   avatar_delete - boolean - If true, the avatar will be deleted.
+   *   change_password - string - Used for changing a password on an existing user.
+   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+   *   email - string - User's email.
+   *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
+   *   group_id - int64 - Group ID to associate this user with.
+   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
+   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
+   *   password - string - User password.
+   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
+   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
+   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
+   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
+   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
+   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
+   *   authentication_method - string - How is this user authenticated?
+   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
+   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
+   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
+   *   dav_permission - boolean - Can the user connect with WebDAV?
+   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
+   *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
+   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+   *   filesystem_layout - string - File system layout
+   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
+   *   header_text - string - Text to display to the user in the header of the UI
+   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
+   *   language - string - Preferred language
+   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+   *   name - string - User's full name
+   *   company - string - User's company
+   *   notes - string - Any internal notes on the user
+   *   office_integration_enabled - boolean - Enable integration with Office for the web?
+   *   partner_admin - boolean - Is this user a Partner administrator?
+   *   partner_id - int64 - Partner ID if this user belongs to a Partner
+   *   password_validity_days - int64 - Number of days to allow user to use the same password
+   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
+   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
+   *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+   *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
+   *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
+   *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
+   *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
+   *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
+   *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
+   *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
+   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
+   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
+   *   require_password_change - boolean - Is a password change required upon next user login?
+   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
+   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
+   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+   *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
+   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
+   *   sftp_permission - boolean - Can the user access with SFTP?
+   *   site_admin - boolean - Is the user an administrator for this site?
+   *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
+   *   ssl_required - string - SSL required setting
+   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
+   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
+   *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+   *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+   *   time_zone - string - User time zone
+   *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+   *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
+   *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
+   *   username - string - User's username
+   *   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
+   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+   *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
+   */
   public static User update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -2247,248 +2048,14 @@ public class User implements ModelInterface {
   }
 
   public static User update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("avatar_file") && !(parameters.get("avatar_file") instanceof byte[])) {
-      throw new IllegalArgumentException("Bad parameter: avatar_file must be of type byte[] parameters[\"avatar_file\"]");
-    }
-    if (parameters.containsKey("avatar_delete") && !(parameters.get("avatar_delete") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: avatar_delete must be of type Boolean parameters[\"avatar_delete\"]");
-    }
-    if (parameters.containsKey("change_password") && !(parameters.get("change_password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: change_password must be of type String parameters[\"change_password\"]");
-    }
-    if (parameters.containsKey("change_password_confirmation") && !(parameters.get("change_password_confirmation") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: change_password_confirmation must be of type String parameters[\"change_password_confirmation\"]");
-    }
-    if (parameters.containsKey("email") && !(parameters.get("email") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: email must be of type String parameters[\"email\"]");
-    }
-    if (parameters.containsKey("grant_permission") && !(parameters.get("grant_permission") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: grant_permission must be of type String parameters[\"grant_permission\"]");
-    }
-    if (parameters.containsKey("group_id") && !(parameters.get("group_id") instanceof Long || parameters.get("group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: group_id must be of type Long or Integer parameters[\"group_id\"]");
-    }
-    if (parameters.containsKey("group_ids") && !(parameters.get("group_ids") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: group_ids must be of type String parameters[\"group_ids\"]");
-    }
-    if (parameters.containsKey("imported_password_hash") && !(parameters.get("imported_password_hash") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: imported_password_hash must be of type String parameters[\"imported_password_hash\"]");
-    }
-    if (parameters.containsKey("password") && !(parameters.get("password") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password must be of type String parameters[\"password\"]");
-    }
-    if (parameters.containsKey("password_confirmation") && !(parameters.get("password_confirmation") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: password_confirmation must be of type String parameters[\"password_confirmation\"]");
-    }
-    if (parameters.containsKey("announcements_read") && !(parameters.get("announcements_read") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: announcements_read must be of type Boolean parameters[\"announcements_read\"]");
-    }
-    if (parameters.containsKey("ai_assistant_personality_id") && !(parameters.get("ai_assistant_personality_id") instanceof Long || parameters.get("ai_assistant_personality_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ai_assistant_personality_id must be of type Long or Integer parameters[\"ai_assistant_personality_id\"]");
-    }
-    if (parameters.containsKey("allowed_ips") && !(parameters.get("allowed_ips") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: allowed_ips must be of type String parameters[\"allowed_ips\"]");
-    }
-    if (parameters.containsKey("attachments_permission") && !(parameters.get("attachments_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: attachments_permission must be of type Boolean parameters[\"attachments_permission\"]");
-    }
-    if (parameters.containsKey("authenticate_until") && !(parameters.get("authenticate_until") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: authenticate_until must be of type String parameters[\"authenticate_until\"]");
-    }
-    if (parameters.containsKey("authentication_method") && !(parameters.get("authentication_method") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: authentication_method must be of type String parameters[\"authentication_method\"]");
-    }
-    if (parameters.containsKey("billing_permission") && !(parameters.get("billing_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: billing_permission must be of type Boolean parameters[\"billing_permission\"]");
-    }
-    if (parameters.containsKey("bypass_user_lifecycle_rules") && !(parameters.get("bypass_user_lifecycle_rules") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_user_lifecycle_rules must be of type Boolean parameters[\"bypass_user_lifecycle_rules\"]");
-    }
-    if (parameters.containsKey("bypass_site_allowed_ips") && !(parameters.get("bypass_site_allowed_ips") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: bypass_site_allowed_ips must be of type Boolean parameters[\"bypass_site_allowed_ips\"]");
-    }
-    if (parameters.containsKey("dav_permission") && !(parameters.get("dav_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: dav_permission must be of type Boolean parameters[\"dav_permission\"]");
-    }
-    if (parameters.containsKey("desktop_configuration_profile_id") && !(parameters.get("desktop_configuration_profile_id") instanceof Long || parameters.get("desktop_configuration_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
-    }
-    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
-    }
-    if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: disabled must be of type Boolean parameters[\"disabled\"]");
-    }
-    if (parameters.containsKey("filesystem_layout") && !(parameters.get("filesystem_layout") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: filesystem_layout must be of type String parameters[\"filesystem_layout\"]");
-    }
-    if (parameters.containsKey("ftp_permission") && !(parameters.get("ftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ftp_permission must be of type Boolean parameters[\"ftp_permission\"]");
-    }
-    if (parameters.containsKey("header_text") && !(parameters.get("header_text") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: header_text must be of type String parameters[\"header_text\"]");
-    }
-    if (parameters.containsKey("integration_centric_profile_id") && !(parameters.get("integration_centric_profile_id") instanceof Long || parameters.get("integration_centric_profile_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: integration_centric_profile_id must be of type Long or Integer parameters[\"integration_centric_profile_id\"]");
-    }
-    if (parameters.containsKey("language") && !(parameters.get("language") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: language must be of type String parameters[\"language\"]");
-    }
-    if (parameters.containsKey("notification_daily_send_time") && !(parameters.get("notification_daily_send_time") instanceof Long || parameters.get("notification_daily_send_time") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: notification_daily_send_time must be of type Long or Integer parameters[\"notification_daily_send_time\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("company") && !(parameters.get("company") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: company must be of type String parameters[\"company\"]");
-    }
-    if (parameters.containsKey("notes") && !(parameters.get("notes") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: notes must be of type String parameters[\"notes\"]");
-    }
-    if (parameters.containsKey("office_integration_enabled") && !(parameters.get("office_integration_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: office_integration_enabled must be of type Boolean parameters[\"office_integration_enabled\"]");
-    }
-    if (parameters.containsKey("partner_admin") && !(parameters.get("partner_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: partner_admin must be of type Boolean parameters[\"partner_admin\"]");
-    }
-    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
-    }
-    if (parameters.containsKey("password_validity_days") && !(parameters.get("password_validity_days") instanceof Long || parameters.get("password_validity_days") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: password_validity_days must be of type Long or Integer parameters[\"password_validity_days\"]");
-    }
-    if (parameters.containsKey("primary_group_id") && !(parameters.get("primary_group_id") instanceof Long || parameters.get("primary_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: primary_group_id must be of type Long or Integer parameters[\"primary_group_id\"]");
-    }
-    if (parameters.containsKey("readonly_site_admin") && !(parameters.get("readonly_site_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: readonly_site_admin must be of type Boolean parameters[\"readonly_site_admin\"]");
-    }
-    if (parameters.containsKey("receive_admin_alerts") && !(parameters.get("receive_admin_alerts") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: receive_admin_alerts must be of type Boolean parameters[\"receive_admin_alerts\"]");
-    }
-    if (parameters.containsKey("notify_on_all_site_warnings") && !(parameters.get("notify_on_all_site_warnings") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_site_warnings must be of type Boolean parameters[\"notify_on_all_site_warnings\"]");
-    }
-    if (parameters.containsKey("notify_on_all_sso_failures") && !(parameters.get("notify_on_all_sso_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_sso_failures must be of type Boolean parameters[\"notify_on_all_sso_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_user_security_events") && !(parameters.get("notify_on_all_user_security_events") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_user_security_events must be of type Boolean parameters[\"notify_on_all_user_security_events\"]");
-    }
-    if (parameters.containsKey("notify_on_all_pending_work_failures") && !(parameters.get("notify_on_all_pending_work_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_pending_work_failures must be of type Boolean parameters[\"notify_on_all_pending_work_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_siem_http_destination_failures") && !(parameters.get("notify_on_all_siem_http_destination_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_siem_http_destination_failures must be of type Boolean parameters[\"notify_on_all_siem_http_destination_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_sync_failures") && !(parameters.get("notify_on_all_sync_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_sync_failures must be of type Boolean parameters[\"notify_on_all_sync_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_automation_failures") && !(parameters.get("notify_on_all_automation_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_automation_failures must be of type Boolean parameters[\"notify_on_all_automation_failures\"]");
-    }
-    if (parameters.containsKey("notify_on_all_expectation_failures") && !(parameters.get("notify_on_all_expectation_failures") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_all_expectation_failures must be of type Boolean parameters[\"notify_on_all_expectation_failures\"]");
-    }
-    if (parameters.containsKey("require_login_by") && !(parameters.get("require_login_by") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: require_login_by must be of type String parameters[\"require_login_by\"]");
-    }
-    if (parameters.containsKey("require_password_change") && !(parameters.get("require_password_change") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: require_password_change must be of type Boolean parameters[\"require_password_change\"]");
-    }
-    if (parameters.containsKey("responsible_group_id") && !(parameters.get("responsible_group_id") instanceof Long || parameters.get("responsible_group_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_group_id must be of type Long or Integer parameters[\"responsible_group_id\"]");
-    }
-    if (parameters.containsKey("responsible_user_id") && !(parameters.get("responsible_user_id") instanceof Long || parameters.get("responsible_user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: responsible_user_id must be of type Long or Integer parameters[\"responsible_user_id\"]");
-    }
-    if (parameters.containsKey("restapi_permission") && !(parameters.get("restapi_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: restapi_permission must be of type Boolean parameters[\"restapi_permission\"]");
-    }
-    if (parameters.containsKey("s3_compatible_endpoint_permission") && !(parameters.get("s3_compatible_endpoint_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: s3_compatible_endpoint_permission must be of type Boolean parameters[\"s3_compatible_endpoint_permission\"]");
-    }
-    if (parameters.containsKey("self_managed") && !(parameters.get("self_managed") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: self_managed must be of type Boolean parameters[\"self_managed\"]");
-    }
-    if (parameters.containsKey("sftp_permission") && !(parameters.get("sftp_permission") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: sftp_permission must be of type Boolean parameters[\"sftp_permission\"]");
-    }
-    if (parameters.containsKey("site_admin") && !(parameters.get("site_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: site_admin must be of type Boolean parameters[\"site_admin\"]");
-    }
-    if (parameters.containsKey("skip_welcome_screen") && !(parameters.get("skip_welcome_screen") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: skip_welcome_screen must be of type Boolean parameters[\"skip_welcome_screen\"]");
-    }
-    if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
-    }
-    if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
-    }
-    if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
-    }
-    if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: require_2fa must be of type String parameters[\"require_2fa\"]");
-    }
-    if (parameters.containsKey("tags") && !(parameters.get("tags") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: tags must be of type String parameters[\"tags\"]");
-    }
-    if (parameters.containsKey("time_zone") && !(parameters.get("time_zone") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: time_zone must be of type String parameters[\"time_zone\"]");
-    }
-    if (parameters.containsKey("user_root") && !(parameters.get("user_root") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_root must be of type String parameters[\"user_root\"]");
-    }
-    if (parameters.containsKey("user_home") && !(parameters.get("user_home") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: user_home must be of type String parameters[\"user_home\"]");
-    }
-    if (parameters.containsKey("workspace_admin") && !(parameters.get("workspace_admin") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_admin must be of type Boolean parameters[\"workspace_admin\"]");
-    }
-    if (parameters.containsKey("username") && !(parameters.get("username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: username must be of type String parameters[\"username\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("clear_2fa") && !(parameters.get("clear_2fa") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: clear_2fa must be of type Boolean parameters[\"clear_2fa\"]");
-    }
-    if (parameters.containsKey("convert_to_partner_user") && !(parameters.get("convert_to_partner_user") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: convert_to_partner_user must be of type Boolean parameters[\"convert_to_partner_user\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<User> typeReference = new TypeReference<User>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().users().update(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
-  */
+   * Parameters:
+   *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -2502,30 +2069,7 @@ public class User implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("new_owner_id") && !(parameters.get("new_owner_id") instanceof Long || parameters.get("new_owner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: new_owner_id must be of type Long or Integer parameters[\"new_owner_id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/users/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().users().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

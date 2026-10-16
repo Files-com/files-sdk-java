@@ -1,0 +1,289 @@
+package com.files.operations;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.files.FilesClient;
+import com.files.ListIterator;
+import com.files.ResourceOperations;
+import com.files.models.As2Station;
+import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.UrlUtils;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * As2Station operations that run with one client: its API root, credentials, workspace
+ * and connections. Get them with {@link FilesClient#as2Stations()}. The
+ * objects and listings they return keep using that client and the request options they were
+ * requested with.
+ *
+ * <p>Each method matches the static {@link com.files.models.As2Station} method of the same name, which
+ * runs with {@link FilesClient#defaultClient()}. The maps you pass are copied, never changed.
+ */
+public final class As2StationOperations extends ResourceOperations {
+  public As2StationOperations(FilesClient client) {
+    super(client);
+  }
+
+  /**
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   */
+  public ListIterator<As2Station> list() throws RuntimeException {
+    return list(null, null);
+  }
+
+  public ListIterator<As2Station> list(HashMap<String, Object> parameters) throws RuntimeException {
+    return list(parameters, null);
+  }
+
+  public ListIterator<As2Station> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
+    }
+
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
+    }
+
+    String apiPath = "/as2_stations";
+    TypeReference<List<As2Station>> typeReference = new TypeReference<List<As2Station>>() {};
+    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
+  }
+
+  public ListIterator<As2Station> all() throws RuntimeException {
+    return all(null, null);
+  }
+
+  public ListIterator<As2Station> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return list(parameters, options);
+  }
+
+  /**
+   * Parameters:
+   *   id (required) - int64 - As2 Station ID.
+   */
+  public As2Station find() throws RuntimeException {
+    return find(null, null, null);
+  }
+
+  public As2Station find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return find(id, parameters, null);
+  }
+
+  public As2Station find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return find(null, parameters, options);
+  }
+
+  public As2Station find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    String apiPath = String.format("/as2_stations/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
+    return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
+  }
+
+  public As2Station get() throws RuntimeException {
+    return get(null, null, null);
+  }
+
+  public As2Station get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return find(id, parameters, options);
+  }
+
+  /**
+   * Parameters:
+   *   name (required) - string - The station's formal AS2 name.
+   *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
+   *   public_certificate - string - Public certificate used for message security.
+   *   private_key - string - PEM-encoded private key matching public_certificate.
+   *   private_key_password - string - Password for the PEM-encoded private key.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
+  public As2Station create() throws RuntimeException {
+    return create(null, null);
+  }
+
+  public As2Station create(HashMap<String, Object> parameters) throws RuntimeException {
+    return create(parameters, null);
+  }
+
+  public As2Station create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (!parameters.containsKey("name") || parameters.get("name") == null) {
+      throw new NullPointerException("Parameter missing: name parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
+    }
+
+    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
+    }
+
+    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
+    }
+
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
+    }
+
+    String apiPath = "/as2_stations";
+    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
+    return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
+  }
+
+  /**
+   * Parameters:
+   *   name - string - The station's formal AS2 name.
+   *   public_certificate - string - Public certificate used for message security.
+   *   private_key - string - PEM-encoded private key matching public_certificate.
+   *   private_key_password - string - Password for the PEM-encoded private key.
+   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
+   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   */
+  public As2Station update() throws RuntimeException {
+    return update(null, null, null);
+  }
+
+  public As2Station update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return update(id, parameters, null);
+  }
+
+  public As2Station update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return update(null, parameters, options);
+  }
+
+  public As2Station update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("public_certificate") && !(parameters.get("public_certificate") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: public_certificate must be of type String parameters[\"public_certificate\"]");
+    }
+
+    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
+    }
+
+    if (parameters.containsKey("private_key_password") && !(parameters.get("private_key_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: private_key_password must be of type String parameters[\"private_key_password\"]");
+    }
+
+    if (parameters.containsKey("pkcs12") && !(parameters.get("pkcs12") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12 must be of type String parameters[\"pkcs12\"]");
+    }
+
+    if (parameters.containsKey("pkcs12_password") && !(parameters.get("pkcs12_password") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pkcs12_password must be of type String parameters[\"pkcs12_password\"]");
+    }
+
+    String apiPath = String.format("/as2_stations/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    TypeReference<As2Station> typeReference = new TypeReference<As2Station>() {};
+    return requestItem(RequestMethods.PATCH, apiPath, typeReference, parameters, options);
+  }
+
+  /**
+   */
+  public void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
+
+  public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(id, parameters, null);
+  }
+
+  public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
+  }
+
+  public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    String apiPath = String.format("/as2_stations/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    request(RequestMethods.DELETE, apiPath, parameters, options);
+  }
+
+  public void destroy() throws RuntimeException {
+    destroy(null, null, null);
+  }
+
+  public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(id, parameters, options);
+  }
+}

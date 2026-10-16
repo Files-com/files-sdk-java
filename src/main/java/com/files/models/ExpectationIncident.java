@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExpectationIncident implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every ExpectationIncident, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   public ExpectationIncident(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class ExpectationIncident implements ModelInterface {
 
 
   /**
-  * Expectation Incident ID
-  */
+   * Expectation Incident ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -94,8 +116,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Expectation ID.
-  */
+   * Expectation ID.
+   */
   @JsonProperty("expectation_id")
   public Long expectationId;
 
@@ -104,8 +126,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Incident status.
-  */
+   * Incident status.
+   */
   @JsonProperty("status")
   public String status;
 
@@ -114,8 +136,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * When the incident was opened.
-  */
+   * When the incident was opened.
+   */
   @JsonProperty("opened_at")
   public Date openedAt;
 
@@ -124,8 +146,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * When the most recent failing evaluation contributing to the incident occurred.
-  */
+   * When the most recent failing evaluation contributing to the incident occurred.
+   */
   @JsonProperty("last_failed_at")
   public Date lastFailedAt;
 
@@ -134,8 +156,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * When the incident was acknowledged.
-  */
+   * When the incident was acknowledged.
+   */
   @JsonProperty("acknowledged_at")
   public Date acknowledgedAt;
 
@@ -144,8 +166,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * When the current snooze expires.
-  */
+   * When the current snooze expires.
+   */
   @JsonProperty("snoozed_until")
   public Date snoozedUntil;
 
@@ -154,8 +176,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * When the incident was resolved.
-  */
+   * When the incident was resolved.
+   */
   @JsonProperty("resolved_at")
   public Date resolvedAt;
 
@@ -164,8 +186,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Evaluation that first opened the incident.
-  */
+   * Evaluation that first opened the incident.
+   */
   @JsonProperty("opened_by_evaluation_id")
   public Long openedByEvaluationId;
 
@@ -174,8 +196,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Most recent evaluation linked to the incident.
-  */
+   * Most recent evaluation linked to the incident.
+   */
   @JsonProperty("last_evaluation_id")
   public Long lastEvaluationId;
 
@@ -184,8 +206,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Evaluation that resolved the incident.
-  */
+   * Evaluation that resolved the incident.
+   */
   @JsonProperty("resolved_by_evaluation_id")
   public Long resolvedByEvaluationId;
 
@@ -194,8 +216,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Compact incident summary payload.
-  */
+   * Compact incident summary payload.
+   */
   @JsonProperty("summary")
   public Object summary;
 
@@ -204,8 +226,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Creation time.
-  */
+   * Creation time.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -214,8 +236,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Last update time.
-  */
+   * Last update time.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -224,37 +246,37 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Resolve an expectation incident
-  */
+   * Resolve an expectation incident
+   */
   public ExpectationIncident resolve(HashMap<String, Object> parameters) throws IOException {
-    return ExpectationIncident.resolve(this.id, parameters, this.options);
+    return filesClient().expectationIncidents().resolve(this.id, parameters, this.options);
   }
 
   /**
-  * Snooze an expectation incident until a specified time
-  *
-  * Parameters:
-  *   snoozed_until (required) - string - Time until which the incident should remain snoozed.
-  */
+   * Snooze an expectation incident until a specified time
+   *
+   * Parameters:
+   *   snoozed_until (required) - string - Time until which the incident should remain snoozed.
+   */
   public ExpectationIncident snooze(HashMap<String, Object> parameters) throws IOException {
-    return ExpectationIncident.snooze(this.id, parameters, this.options);
+    return filesClient().expectationIncidents().snooze(this.id, parameters, this.options);
   }
 
   /**
-  * Acknowledge an expectation incident
-  */
+   * Acknowledge an expectation incident
+   */
   public ExpectationIncident acknowledge(HashMap<String, Object> parameters) throws IOException {
-    return ExpectationIncident.acknowledge(this.id, parameters, this.options);
+    return filesClient().expectationIncidents().acknowledge(this.id, parameters, this.options);
   }
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.
+   */
   public static ListIterator<ExpectationIncident> list() throws RuntimeException {
     return list(null, null);
   }
@@ -265,29 +287,7 @@ public class ExpectationIncident implements ModelInterface {
 
 
   public static ListIterator<ExpectationIncident> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/expectation_incidents", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<ExpectationIncident>> typeReference = new TypeReference<List<ExpectationIncident>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectationIncidents().list(parameters, options);
   }
 
   public static ListIterator<ExpectationIncident> all() throws RuntimeException {
@@ -299,9 +299,9 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Expectation Incident ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Expectation Incident ID.
+   */
   public static ExpectationIncident find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -315,28 +315,7 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   public static ExpectationIncident find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectation_incidents/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectationIncidents().find(id, parameters, options);
   }
 
   public static ExpectationIncident get() throws RuntimeException {
@@ -348,8 +327,8 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-  * Resolve an expectation incident
-  */
+   * Resolve an expectation incident
+   */
   public static ExpectationIncident resolve() throws RuntimeException {
     return resolve(null, null, null);
   }
@@ -363,37 +342,16 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   public static ExpectationIncident resolve(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectation_incidents/%s/resolve", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectationIncidents().resolve(id, parameters, options);
   }
 
 
   /**
-  * Snooze an expectation incident until a specified time
-  *
-  * Parameters:
-  *   snoozed_until (required) - string - Time until which the incident should remain snoozed.
-  */
+   * Snooze an expectation incident until a specified time
+   *
+   * Parameters:
+   *   snoozed_until (required) - string - Time until which the incident should remain snoozed.
+   */
   public static ExpectationIncident snooze() throws RuntimeException {
     return snooze(null, null, null);
   }
@@ -407,40 +365,13 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   public static ExpectationIncident snooze(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("snoozed_until") || parameters.get("snoozed_until") == null) {
-      throw new NullPointerException("Parameter missing: snoozed_until parameters[\"snoozed_until\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("snoozed_until") && !(parameters.get("snoozed_until") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: snoozed_until must be of type String parameters[\"snoozed_until\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectation_incidents/%s/snooze", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectationIncidents().snooze(id, parameters, options);
   }
 
 
   /**
-  * Acknowledge an expectation incident
-  */
+   * Acknowledge an expectation incident
+   */
   public static ExpectationIncident acknowledge() throws RuntimeException {
     return acknowledge(null, null, null);
   }
@@ -454,28 +385,7 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   public static ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/expectation_incidents/%s/acknowledge", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<ExpectationIncident> typeReference = new TypeReference<ExpectationIncident>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().expectationIncidents().acknowledge(id, parameters, options);
   }
 
 

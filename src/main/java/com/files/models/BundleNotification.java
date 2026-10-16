@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BundleNotification implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every BundleNotification, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class BundleNotification implements ModelInterface {
   }
 
   public BundleNotification(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class BundleNotification implements ModelInterface {
 
 
   /**
-  * Bundle ID to notify on
-  */
+   * Bundle ID to notify on
+   */
   @JsonProperty("bundle_id")
   public Long bundleId;
 
@@ -88,8 +110,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Bundle Notification ID
-  */
+   * Bundle Notification ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -102,8 +124,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Triggers bundle notification when a registration action occurs for it.
-  */
+   * Triggers bundle notification when a registration action occurs for it.
+   */
   @JsonProperty("notify_on_registration")
   public Boolean notifyOnRegistration;
 
@@ -116,8 +138,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Triggers bundle notification when a upload action occurs for it.
-  */
+   * Triggers bundle notification when a upload action occurs for it.
+   */
   @JsonProperty("notify_on_upload")
   public Boolean notifyOnUpload;
 
@@ -130,8 +152,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Is the current user the user to notify?
-  */
+   * Is the current user the user to notify?
+   */
   @JsonProperty("notify_current_user")
   public Boolean notifyCurrentUser;
 
@@ -144,8 +166,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * The id of the user to notify.
-  */
+   * The id of the user to notify.
+   */
   @JsonProperty("notify_user_id")
   public Long notifyUserId;
 
@@ -158,8 +180,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -172,8 +194,8 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * User ID.  Provide a value of `0` to operate the current session's user.
-  */
+   * User ID.  Provide a value of `0` to operate the current session's user.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -186,38 +208,70 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
-  */
+   * Updates this BundleNotification. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+   */
   public BundleNotification update(HashMap<String, Object> parameters) throws IOException {
-    return BundleNotification.update(this.id, parameters, this.options);
+    BundleNotification updated = filesClient().bundleNotifications().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    BundleNotification.delete(this.id, parameters, this.options);
+    filesClient().bundleNotifications().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this BundleNotification: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    BundleNotification.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().bundleNotifications().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(BundleNotification canonical) {
+    this.bundleId = canonical.bundleId;
+    this.id = canonical.id;
+    this.notifyOnRegistration = canonical.notifyOnRegistration;
+    this.notifyOnUpload = canonical.notifyOnUpload;
+    this.notifyCurrentUser = canonical.notifyCurrentUser;
+    this.notifyUserId = canonical.notifyUserId;
+    this.workspaceId = canonical.workspaceId;
+    this.userId = canonical.userId;
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
-  *   bundle_id - int64 - Bundle ID
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
+   *   bundle_id - int64 - Bundle ID
+   */
   public static ListIterator<BundleNotification> list() throws RuntimeException {
     return list(null, null);
   }
@@ -228,35 +282,7 @@ public class BundleNotification implements ModelInterface {
 
 
   public static ListIterator<BundleNotification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
-    }
-
-
-    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<BundleNotification>> typeReference = new TypeReference<List<BundleNotification>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundleNotifications().list(parameters, options);
   }
 
   public static ListIterator<BundleNotification> all() throws RuntimeException {
@@ -268,9 +294,9 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Bundle Notification ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Bundle Notification ID.
+   */
   public static BundleNotification find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -284,28 +310,7 @@ public class BundleNotification implements ModelInterface {
   }
 
   public static BundleNotification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundleNotifications().find(id, parameters, options);
   }
 
   public static BundleNotification get() throws RuntimeException {
@@ -317,13 +322,13 @@ public class BundleNotification implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-  *   bundle_id (required) - int64 - Bundle ID to notify on
-  *   notify_user_id - int64 - The id of the user to notify.
-  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
-  */
+   * Parameters:
+   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
+   *   bundle_id (required) - int64 - Bundle ID to notify on
+   *   notify_user_id - int64 - The id of the user to notify.
+   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+   */
   public static BundleNotification create() throws RuntimeException {
     return create(null, null);
   }
@@ -334,43 +339,15 @@ public class BundleNotification implements ModelInterface {
 
 
   public static BundleNotification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("bundle_id") || parameters.get("bundle_id") == null) {
-      throw new NullPointerException("Parameter missing: bundle_id parameters[\"bundle_id\"]");
-    }
-
-    if (parameters.containsKey("user_id") && !(parameters.get("user_id") instanceof Long || parameters.get("user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: user_id must be of type Long or Integer parameters[\"user_id\"]");
-    }
-    if (parameters.containsKey("bundle_id") && !(parameters.get("bundle_id") instanceof Long || parameters.get("bundle_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: bundle_id must be of type Long or Integer parameters[\"bundle_id\"]");
-    }
-    if (parameters.containsKey("notify_user_id") && !(parameters.get("notify_user_id") instanceof Long || parameters.get("notify_user_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: notify_user_id must be of type Long or Integer parameters[\"notify_user_id\"]");
-    }
-    if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
-    }
-    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
-
-
-    String url = String.format("%s%s/bundle_notifications", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundleNotifications().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-  *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
-  */
+   * Parameters:
+   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
+   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+   */
   public static BundleNotification update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -384,39 +361,12 @@ public class BundleNotification implements ModelInterface {
   }
 
   public static BundleNotification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("notify_on_registration") && !(parameters.get("notify_on_registration") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_registration must be of type Boolean parameters[\"notify_on_registration\"]");
-    }
-    if (parameters.containsKey("notify_on_upload") && !(parameters.get("notify_on_upload") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: notify_on_upload must be of type Boolean parameters[\"notify_on_upload\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<BundleNotification> typeReference = new TypeReference<BundleNotification>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().bundleNotifications().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -430,27 +380,7 @@ public class BundleNotification implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/bundle_notifications/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().bundleNotifications().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

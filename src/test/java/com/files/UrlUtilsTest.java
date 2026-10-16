@@ -5,6 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.files.util.UrlUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,15 +17,8 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.files.util.UrlUtils;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +32,8 @@ public class UrlUtilsTest {
   @Before
   public void before() {
     try {
-      testData = objectMapper.readValue(new File("shared/url_test_data.json"), HashMap.class);
+      testData = objectMapper.readValue(new File("shared/url_test_data.json"),
+          new TypeReference<Map<String, List<String>>>() {});
     } catch (IOException e) {
       fail("No test data found");
     }
@@ -94,5 +93,44 @@ public class UrlUtilsTest {
       }
       assertEquals(sanitizedUrls.get(i), sanitizedUrl);
     }
+  }
+
+  @Test
+  public void redactUrlsRemovesCredentialsQueriesAndFragments() {
+    assertEquals("Upload to https://bucket.example:8443/folder/key.txt failed",
+        UrlUtils.redactUrls("Upload to https://user:p@ss@bucket.example:8443/folder/key.txt?X-Amz-Signature=secret#part failed"));
+    assertEquals("Tried 'https://a.example/x' and <sftp://b.example/y>.",
+        UrlUtils.redactUrls("Tried 'https://a.example/x?token=one' and <sftp://b.example/y#two>."));
+    assertEquals("No URL here?key=value", UrlUtils.redactUrls("No URL here?key=value"));
+    assertEquals(null, UrlUtils.redactUrls(null));
+  }
+
+  @Test
+  public void redactUrlsKeepsApostrophesThatBelongToTheUrl() {
+    assertEquals("Missing https://bucket.example/key.txt",
+        UrlUtils.redactUrls("Missing https://user:private'secret@bucket.example/key.txt?token=PRIVATE_QUERY#PRIVATE_FRAGMENT"));
+    assertEquals("Missing https://bucket.example/O'Brien/key.txt",
+        UrlUtils.redactUrls("Missing https://bucket.example/O'Brien/key.txt?token=PRIVATE_QUERY#PRIVATE_FRAGMENT"));
+    assertEquals("Tried 'https://bucket.example/O'Brien/key.txt'.",
+        UrlUtils.redactUrls("Tried 'https://bucket.example/O'Brien/key.txt?token=PRIVATE_QUERY'."));
+    // An apostrophe does not end a URL, but the next URL's scheme does.
+    for (String separator : new String[]{"','", "';'"}) {
+      assertEquals("Tried 'https://a.example/x" + separator + "https://b.example/y'.",
+          UrlUtils.redactUrls("Tried 'https://a.example/x" + separator
+              + "https://user:PRIVATE_PASSWORD@b.example/y?token=PRIVATE_QUERY'."));
+    }
+    assertEquals("Next: https://a.example/x", UrlUtils.redactUrls("Next: https://a.example/x?next=https://user:PRIVATE_PASSWORD@b.example/y"));
+  }
+
+  @Test
+  public void redactUrlsReadsLongTextWithoutRescanningIt() {
+    StringBuilder word = new StringBuilder();
+    for (int i = 0; i < 100000; i++) {
+      word.append(i % 2 == 0 ? 'a' : '1');
+    }
+    // Each position of a long word could otherwise start a new search for a scheme.
+    assertEquals(word.toString(), UrlUtils.redactUrls(word.toString()));
+    assertEquals(word + " https://host.example/path",
+        UrlUtils.redactUrls(word + " https://user:pw@host.example/path?token=PRIVATE_QUERY"));
   }
 }

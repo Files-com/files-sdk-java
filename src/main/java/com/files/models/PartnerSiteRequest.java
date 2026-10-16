@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PartnerSiteRequest implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every PartnerSiteRequest, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   public PartnerSiteRequest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   /**
-  * Partner Site Request ID
-  */
+   * Partner Site Request ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Host Partner ID
-  */
+   * Host Partner ID
+   */
   @JsonProperty("host_partner_id")
   public Long hostPartnerId;
 
@@ -102,8 +124,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Guest Site URL
-  */
+   * Guest Site URL
+   */
   @JsonProperty("guest_site_url")
   public String guestSiteUrl;
 
@@ -116,8 +138,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Request status (pending, approved, rejected)
-  */
+   * Request status (pending, approved, rejected)
+   */
   @JsonProperty("status")
   public String status;
 
@@ -130,8 +152,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Host Site Name
-  */
+   * Host Site Name
+   */
   @JsonProperty("host_site_name")
   public String hostSiteName;
 
@@ -144,8 +166,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Pairing key used to approve this request on the Guest Site
-  */
+   * Pairing key used to approve this request on the Guest Site
+   */
   @JsonProperty("pairing_key")
   public String pairingKey;
 
@@ -158,8 +180,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Request creation date/time
-  */
+   * Request creation date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -168,8 +190,8 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Request last updated date/time
-  */
+   * Request last updated date/time
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -178,27 +200,57 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    PartnerSiteRequest.delete(this.id, parameters, this.options);
+    filesClient().partnerSiteRequests().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Creates this PartnerSiteRequest.
+   * On success, this object's attributes are replaced by the server's response.
+   * PartnerSiteRequests cannot be updated, so saving one that already has an id throws
+   * {@link UnsupportedOperationException}.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    PartnerSiteRequest.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      throw new UnsupportedOperationException("The PartnerSiteRequest Object doesn't support updates.");
+    }
+    refreshFrom(filesClient().partnerSiteRequests().create(parameters, this.options));
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(PartnerSiteRequest canonical) {
+    this.id = canonical.id;
+    this.hostPartnerId = canonical.hostPartnerId;
+    this.guestSiteUrl = canonical.guestSiteUrl;
+    this.status = canonical.status;
+    this.hostSiteName = canonical.hostSiteName;
+    this.pairingKey = canonical.pairingKey;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
+   */
   public static ListIterator<PartnerSiteRequest> list() throws RuntimeException {
     return list(null, null);
   }
@@ -209,29 +261,7 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   public static ListIterator<PartnerSiteRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<PartnerSiteRequest>> typeReference = new TypeReference<List<PartnerSiteRequest>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().partnerSiteRequests().list(parameters, options);
   }
 
   public static ListIterator<PartnerSiteRequest> all() throws RuntimeException {
@@ -243,9 +273,9 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   pairing_key (required) - string - Pairing key for the partner site request
-  */
+   * Parameters:
+   *   pairing_key (required) - string - Pairing key for the partner site request
+   */
   public static void findByPairingKey() throws RuntimeException {
     findByPairingKey(null, null);
   }
@@ -256,30 +286,15 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   public static void findByPairingKey(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
-      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
-    }
-
-    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
-    }
-
-
-    String url = String.format("%s%s/partner_site_requests/find_by_pairing_key", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.GET, parameters, options);
+    FilesClient.defaultClient().partnerSiteRequests().findByPairingKey(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   host_partner_id (required) - int64 - Host Partner ID to link with
-  *   guest_site_url (required) - string - Guest Site URL to link to
-  */
+   * Parameters:
+   *   host_partner_id (required) - int64 - Host Partner ID to link with
+   *   guest_site_url (required) - string - Guest Site URL to link to
+   */
   public static PartnerSiteRequest create() throws RuntimeException {
     return create(null, null);
   }
@@ -290,36 +305,14 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   public static PartnerSiteRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("host_partner_id") || parameters.get("host_partner_id") == null) {
-      throw new NullPointerException("Parameter missing: host_partner_id parameters[\"host_partner_id\"]");
-    }
-    if (!parameters.containsKey("guest_site_url") || parameters.get("guest_site_url") == null) {
-      throw new NullPointerException("Parameter missing: guest_site_url parameters[\"guest_site_url\"]");
-    }
-
-    if (parameters.containsKey("host_partner_id") && !(parameters.get("host_partner_id") instanceof Long || parameters.get("host_partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: host_partner_id must be of type Long or Integer parameters[\"host_partner_id\"]");
-    }
-    if (parameters.containsKey("guest_site_url") && !(parameters.get("guest_site_url") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: guest_site_url must be of type String parameters[\"guest_site_url\"]");
-    }
-
-
-    String url = String.format("%s%s/partner_site_requests", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<PartnerSiteRequest> typeReference = new TypeReference<PartnerSiteRequest>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().partnerSiteRequests().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   pairing_key (required) - string - Pairing key for the partner site request
-  */
+   * Parameters:
+   *   pairing_key (required) - string - Pairing key for the partner site request
+   */
   public static void reject() throws RuntimeException {
     reject(null, null);
   }
@@ -330,30 +323,15 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   public static void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
-      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
-    }
-
-    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
-    }
-
-
-    String url = String.format("%s%s/partner_site_requests/reject", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().partnerSiteRequests().reject(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   pairing_key (required) - string - Pairing key for the partner site request
-  *   partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
-  */
+   * Parameters:
+   *   pairing_key (required) - string - Pairing key for the partner site request
+   *   partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
+   */
   public static void approve() throws RuntimeException {
     approve(null, null);
   }
@@ -364,30 +342,12 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   public static void approve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
-      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
-    }
-
-    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
-    }
-    if (parameters.containsKey("partner_id") && !(parameters.get("partner_id") instanceof Long || parameters.get("partner_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: partner_id must be of type Long or Integer parameters[\"partner_id\"]");
-    }
-
-
-    String url = String.format("%s%s/partner_site_requests/approve", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().partnerSiteRequests().approve(parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -401,27 +361,7 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/partner_site_requests/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().partnerSiteRequests().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

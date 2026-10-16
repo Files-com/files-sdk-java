@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Snapshot implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every Snapshot, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class Snapshot implements ModelInterface {
   }
 
   public Snapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class Snapshot implements ModelInterface {
 
 
   /**
-  * The snapshot's unique ID.
-  */
+   * The snapshot's unique ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * When the snapshot expires.
-  */
+   * When the snapshot expires.
+   */
   @JsonProperty("expires_at")
   public Date expiresAt;
 
@@ -102,8 +124,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * When the snapshot was finalized.
-  */
+   * When the snapshot was finalized.
+   */
   @JsonProperty("finalized_at")
   public Date finalizedAt;
 
@@ -116,8 +138,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * A name for the snapshot.
-  */
+   * A name for the snapshot.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -130,8 +152,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * The user that created this snapshot, if applicable.
-  */
+   * The user that created this snapshot, if applicable.
+   */
   @JsonProperty("user_id")
   public Long userId;
 
@@ -144,8 +166,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * The bundle using this snapshot, if applicable.
-  */
+   * The bundle using this snapshot, if applicable.
+   */
   @JsonProperty("bundle_id")
   public Long bundleId;
 
@@ -158,8 +180,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * Workspace ID. `0` means the default workspace.
-  */
+   * Workspace ID. `0` means the default workspace.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -172,8 +194,8 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * An array of paths to add to the snapshot.
-  */
+   * An array of paths to add to the snapshot.
+   */
   @JsonProperty("paths")
   public String[] paths;
 
@@ -186,42 +208,78 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * Finalize Snapshot
-  */
+   * Finalize Snapshot
+   */
   public void performFinalize(HashMap<String, Object> parameters) throws IOException {
-    Snapshot.performFinalize(this.id, parameters, this.options);
+    filesClient().snapshots().performFinalize(this.id, parameters, this.options);
   }
 
   /**
-  * Parameters:
-  *   expires_at - string - When the snapshot expires.
-  *   name - string - A name for the snapshot.
-  *   paths - array(string) - An array of paths to add to the snapshot.
-  */
+   * Updates this Snapshot. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   expires_at - string - When the snapshot expires.
+   *   name - string - A name for the snapshot.
+   *   paths - array(string) - An array of paths to add to the snapshot.
+   */
   public Snapshot update(HashMap<String, Object> parameters) throws IOException {
-    return Snapshot.update(this.id, parameters, this.options);
+    Snapshot updated = filesClient().snapshots().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    Snapshot.delete(this.id, parameters, this.options);
+    filesClient().snapshots().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this Snapshot: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    Snapshot.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().snapshots().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    HashMap<String, Object> parameters = ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+    if (this.paths != null) {
+      parameters.put("paths", this.paths);
+    }
+    return parameters;
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(Snapshot canonical) {
+    this.id = canonical.id;
+    this.expiresAt = canonical.expiresAt;
+    this.finalizedAt = canonical.finalizedAt;
+    this.name = canonical.name;
+    this.userId = canonical.userId;
+    this.bundleId = canonical.bundleId;
+    this.workspaceId = canonical.workspaceId;
+    this.paths = canonical.paths;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<Snapshot> list() throws RuntimeException {
     return list(null, null);
   }
@@ -232,23 +290,7 @@ public class Snapshot implements ModelInterface {
 
 
   public static ListIterator<Snapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<Snapshot>> typeReference = new TypeReference<List<Snapshot>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().snapshots().list(parameters, options);
   }
 
   public static ListIterator<Snapshot> all() throws RuntimeException {
@@ -260,9 +302,9 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Snapshot ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Snapshot ID.
+   */
   public static Snapshot find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -276,28 +318,7 @@ public class Snapshot implements ModelInterface {
   }
 
   public static Snapshot find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().snapshots().find(id, parameters, options);
   }
 
   public static Snapshot get() throws RuntimeException {
@@ -309,12 +330,12 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   expires_at - string - When the snapshot expires.
-  *   name - string - A name for the snapshot.
-  *   paths - array(string) - An array of paths to add to the snapshot.
-  *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-  */
+   * Parameters:
+   *   expires_at - string - When the snapshot expires.
+   *   name - string - A name for the snapshot.
+   *   paths - array(string) - An array of paths to add to the snapshot.
+   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   */
   public static Snapshot create() throws RuntimeException {
     return create(null, null);
   }
@@ -325,35 +346,13 @@ public class Snapshot implements ModelInterface {
 
 
   public static Snapshot create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-
-
-    String url = String.format("%s%s/snapshots", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().snapshots().create(parameters, options);
   }
 
 
   /**
-  * Finalize Snapshot
-  */
+   * Finalize Snapshot
+   */
   public static void performFinalize() throws RuntimeException {
     performFinalize(null, null, null);
   }
@@ -367,36 +366,16 @@ public class Snapshot implements ModelInterface {
   }
 
   public static void performFinalize(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/snapshots/%s/finalize", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.POST, parameters, options);
+    FilesClient.defaultClient().snapshots().performFinalize(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   expires_at - string - When the snapshot expires.
-  *   name - string - A name for the snapshot.
-  *   paths - array(string) - An array of paths to add to the snapshot.
-  */
+   * Parameters:
+   *   expires_at - string - When the snapshot expires.
+   *   name - string - A name for the snapshot.
+   *   paths - array(string) - An array of paths to add to the snapshot.
+   */
   public static Snapshot update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -410,42 +389,12 @@ public class Snapshot implements ModelInterface {
   }
 
   public static Snapshot update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("expires_at") && !(parameters.get("expires_at") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: expires_at must be of type String parameters[\"expires_at\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("paths") && !(parameters.get("paths") instanceof String[])) {
-      throw new IllegalArgumentException("Bad parameter: paths must be of type String[] parameters[\"paths\"]");
-    }
-
-
-
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<Snapshot> typeReference = new TypeReference<Snapshot>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().snapshots().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -459,27 +408,7 @@ public class Snapshot implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/snapshots/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().snapshots().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

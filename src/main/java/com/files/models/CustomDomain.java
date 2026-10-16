@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomDomain implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every CustomDomain, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class CustomDomain implements ModelInterface {
   }
 
   public CustomDomain(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class CustomDomain implements ModelInterface {
 
 
   /**
-  * Custom Domain ID.
-  */
+   * Custom Domain ID.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -88,8 +110,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Workspace ID (0 for the default workspace).
-  */
+   * Workspace ID (0 for the default workspace).
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -102,8 +124,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Allow all workspaces to use this default-workspace Custom Domain.
-  */
+   * Allow all workspaces to use this default-workspace Custom Domain.
+   */
   @JsonProperty("available_to_all_workspaces")
   public Boolean availableToAllWorkspaces;
 
@@ -116,8 +138,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Eligible public IP addresses for Remote Server outbound connections. Empty when this Custom Domain is not eligible for outbound selection.
-  */
+   * Eligible public IP addresses for Remote Server outbound connections. Empty when this Custom Domain is not eligible for outbound selection.
+   */
   @JsonProperty("outbound_ip_addresses")
   public String[] outboundIpAddresses;
 
@@ -130,8 +152,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Customer-owned domain name.
-  */
+   * Customer-owned domain name.
+   */
   @JsonProperty("domain")
   public String domain;
 
@@ -144,8 +166,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-  */
+   * Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+   */
   @JsonProperty("destination")
   public String destination;
 
@@ -158,8 +180,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Current DNS verification status.
-  */
+   * Current DNS verification status.
+   */
   @JsonProperty("dns_status")
   public String dnsStatus;
 
@@ -172,8 +194,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Current SSL certificate ID.
-  */
+   * Current SSL certificate ID.
+   */
   @JsonProperty("ssl_certificate_id")
   public Long sslCertificateId;
 
@@ -186,8 +208,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Is this domain's SSL certificate automatically managed and renewed by Files.com?
-  */
+   * Is this domain's SSL certificate automatically managed and renewed by Files.com?
+   */
   @JsonProperty("brick_managed")
   public Boolean brickManaged;
 
@@ -200,8 +222,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-  */
+   * Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+   */
   @JsonProperty("folder_behavior_id")
   public Long folderBehaviorId;
 
@@ -214,8 +236,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Dedicated public IP addresses allocated to this Custom Domain.
-  */
+   * Dedicated public IP addresses allocated to this Custom Domain.
+   */
   @JsonProperty("ip_addresses")
   public String[] ipAddresses;
 
@@ -228,8 +250,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * When this Custom Domain was created.
-  */
+   * When this Custom Domain was created.
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -238,8 +260,8 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * When this Custom Domain was last updated.
-  */
+   * When this Custom Domain was last updated.
+   */
   @JsonProperty("updated_at")
   public Date updatedAt;
 
@@ -248,40 +270,77 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-  *   ssl_certificate_id - int64 - Current SSL certificate ID.
-  *   domain - string - Customer-owned domain name.
-  */
+   * Updates this CustomDomain. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
+   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+   *   ssl_certificate_id - int64 - Current SSL certificate ID.
+   *   domain - string - Customer-owned domain name.
+   */
   public CustomDomain update(HashMap<String, Object> parameters) throws IOException {
-    return CustomDomain.update(this.id, parameters, this.options);
+    CustomDomain updated = filesClient().customDomains().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    CustomDomain.delete(this.id, parameters, this.options);
+    filesClient().customDomains().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this CustomDomain: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    CustomDomain.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().customDomains().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(CustomDomain canonical) {
+    this.id = canonical.id;
+    this.workspaceId = canonical.workspaceId;
+    this.availableToAllWorkspaces = canonical.availableToAllWorkspaces;
+    this.outboundIpAddresses = canonical.outboundIpAddresses;
+    this.domain = canonical.domain;
+    this.destination = canonical.destination;
+    this.dnsStatus = canonical.dnsStatus;
+    this.sslCertificateId = canonical.sslCertificateId;
+    this.brickManaged = canonical.brickManaged;
+    this.folderBehaviorId = canonical.folderBehaviorId;
+    this.ipAddresses = canonical.ipAddresses;
+    this.createdAt = canonical.createdAt;
+    this.updatedAt = canonical.updatedAt;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   */
   public static ListIterator<CustomDomain> list() throws RuntimeException {
     return list(null, null);
   }
@@ -292,29 +351,7 @@ public class CustomDomain implements ModelInterface {
 
 
   public static ListIterator<CustomDomain> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-
-    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<CustomDomain>> typeReference = new TypeReference<List<CustomDomain>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().customDomains().list(parameters, options);
   }
 
   public static ListIterator<CustomDomain> all() throws RuntimeException {
@@ -326,9 +363,9 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Custom Domain ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Custom Domain ID.
+   */
   public static CustomDomain find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -342,28 +379,7 @@ public class CustomDomain implements ModelInterface {
   }
 
   public static CustomDomain find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().customDomains().find(id, parameters, options);
   }
 
   public static CustomDomain get() throws RuntimeException {
@@ -375,10 +391,10 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Custom Domain ID.
-  *   count (required) - int64 - Number of dedicated IP addresses to allocate.
-  */
+   * Parameters:
+   *   id (required) - int64 - Custom Domain ID.
+   *   count (required) - int64 - Number of dedicated IP addresses to allocate.
+   */
   public static CustomDomain createAllocateIp() throws RuntimeException {
     return createAllocateIp(null, null, null);
   }
@@ -392,46 +408,19 @@ public class CustomDomain implements ModelInterface {
   }
 
   public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-    if (!parameters.containsKey("count") || parameters.get("count") == null) {
-      throw new NullPointerException("Parameter missing: count parameters[\"count\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("count") && !(parameters.get("count") instanceof Long || parameters.get("count") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: count must be of type Long or Integer parameters[\"count\"]");
-    }
-
-
-
-    String url = String.format("%s%s/custom_domains/%s/allocate_ips", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().customDomains().createAllocateIp(id, parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-  *   ssl_certificate_id - int64 - Current SSL certificate ID.
-  *   domain (required) - string - Customer-owned domain name.
-  */
+   * Parameters:
+   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
+   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+   *   ssl_certificate_id - int64 - Current SSL certificate ID.
+   *   domain (required) - string - Customer-owned domain name.
+   */
   public static CustomDomain create() throws RuntimeException {
     return create(null, null);
   }
@@ -442,50 +431,19 @@ public class CustomDomain implements ModelInterface {
 
 
   public static CustomDomain create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-    if (!parameters.containsKey("domain") || parameters.get("domain") == null) {
-      throw new NullPointerException("Parameter missing: domain parameters[\"domain\"]");
-    }
-
-    if (parameters.containsKey("available_to_all_workspaces") && !(parameters.get("available_to_all_workspaces") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: available_to_all_workspaces must be of type Boolean parameters[\"available_to_all_workspaces\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long || parameters.get("folder_behavior_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long or Integer parameters[\"folder_behavior_id\"]");
-    }
-    if (parameters.containsKey("ssl_certificate_id") && !(parameters.get("ssl_certificate_id") instanceof Long || parameters.get("ssl_certificate_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ssl_certificate_id must be of type Long or Integer parameters[\"ssl_certificate_id\"]");
-    }
-    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
-    }
-
-
-    String url = String.format("%s%s/custom_domains", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().customDomains().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-  *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-  *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-  *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-  *   ssl_certificate_id - int64 - Current SSL certificate ID.
-  *   domain - string - Customer-owned domain name.
-  */
+   * Parameters:
+   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
+   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
+   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
+   *   ssl_certificate_id - int64 - Current SSL certificate ID.
+   *   domain - string - Customer-owned domain name.
+   */
   public static CustomDomain update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -499,51 +457,12 @@ public class CustomDomain implements ModelInterface {
   }
 
   public static CustomDomain update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("available_to_all_workspaces") && !(parameters.get("available_to_all_workspaces") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: available_to_all_workspaces must be of type Boolean parameters[\"available_to_all_workspaces\"]");
-    }
-    if (parameters.containsKey("workspace_id") && !(parameters.get("workspace_id") instanceof Long || parameters.get("workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: workspace_id must be of type Long or Integer parameters[\"workspace_id\"]");
-    }
-    if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
-    }
-    if (parameters.containsKey("folder_behavior_id") && !(parameters.get("folder_behavior_id") instanceof Long || parameters.get("folder_behavior_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: folder_behavior_id must be of type Long or Integer parameters[\"folder_behavior_id\"]");
-    }
-    if (parameters.containsKey("ssl_certificate_id") && !(parameters.get("ssl_certificate_id") instanceof Long || parameters.get("ssl_certificate_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ssl_certificate_id must be of type Long or Integer parameters[\"ssl_certificate_id\"]");
-    }
-    if (parameters.containsKey("domain") && !(parameters.get("domain") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: domain must be of type String parameters[\"domain\"]");
-    }
-
-
-
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().customDomains().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -557,27 +476,7 @@ public class CustomDomain implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/custom_domains/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().customDomains().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

@@ -20,7 +20,7 @@ public class StreamTransfer {
    * Creates a {@code StreamTransfer}. Every method of this class is static, so no instance is
    * needed to copy.
    */
-  private StreamTransfer() {
+  public StreamTransfer() {
   }
 
   /**

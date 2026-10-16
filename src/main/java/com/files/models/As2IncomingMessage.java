@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class As2IncomingMessage implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every As2IncomingMessage, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   public As2IncomingMessage(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class As2IncomingMessage implements ModelInterface {
 
 
   /**
-  * Id of the AS2 Partner.
-  */
+   * Id of the AS2 Partner.
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -84,8 +106,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * ID of the Workspace associated with this AS2 Incoming Message.
-  */
+   * ID of the Workspace associated with this AS2 Incoming Message.
+   */
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
@@ -94,8 +116,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Id of the AS2 Partner associated with this message.
-  */
+   * Id of the AS2 Partner associated with this message.
+   */
   @JsonProperty("as2_partner_id")
   public Long as2PartnerId;
 
@@ -104,8 +126,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Id of the AS2 Station associated with this message.
-  */
+   * Id of the AS2 Station associated with this message.
+   */
   @JsonProperty("as2_station_id")
   public Long as2StationId;
 
@@ -114,8 +136,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * UUID assigned to this message.
-  */
+   * UUID assigned to this message.
+   */
   @JsonProperty("uuid")
   public String uuid;
 
@@ -124,8 +146,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Content Type header of the incoming message.
-  */
+   * Content Type header of the incoming message.
+   */
   @JsonProperty("content_type")
   public String contentType;
 
@@ -134,8 +156,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * HTTP Headers sent with this message.
-  */
+   * HTTP Headers sent with this message.
+   */
   @JsonProperty("http_headers")
   public Object httpHeaders;
 
@@ -144,8 +166,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Result of processing.
-  */
+   * Result of processing.
+   */
   @JsonProperty("processing_result")
   public String processingResult;
 
@@ -154,8 +176,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Result of processing description.
-  */
+   * Result of processing description.
+   */
   @JsonProperty("processing_result_description")
   public String processingResultDescription;
 
@@ -164,8 +186,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 Message Integrity Check
-  */
+   * AS2 Message Integrity Check
+   */
   @JsonProperty("mic")
   public String mic;
 
@@ -174,8 +196,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 Message Integrity Check Algorithm Used
-  */
+   * AS2 Message Integrity Check Algorithm Used
+   */
   @JsonProperty("mic_algo")
   public String micAlgo;
 
@@ -184,8 +206,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 TO header of message
-  */
+   * AS2 TO header of message
+   */
   @JsonProperty("as2_to")
   public String as2To;
 
@@ -194,8 +216,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 FROM header of message
-  */
+   * AS2 FROM header of message
+   */
   @JsonProperty("as2_from")
   public String as2From;
 
@@ -204,8 +226,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 Message Id
-  */
+   * AS2 Message Id
+   */
   @JsonProperty("message_id")
   public String messageId;
 
@@ -214,8 +236,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * AS2 Subject Header
-  */
+   * AS2 Subject Header
+   */
   @JsonProperty("subject")
   public String subject;
 
@@ -224,8 +246,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Date Header
-  */
+   * Date Header
+   */
   @JsonProperty("date")
   public String date;
 
@@ -234,8 +256,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Encrypted Payload Body Size
-  */
+   * Encrypted Payload Body Size
+   */
   @JsonProperty("body_size")
   public String bodySize;
 
@@ -244,8 +266,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Filename of the file being received.
-  */
+   * Filename of the file being received.
+   */
   @JsonProperty("attachment_filename")
   public String attachmentFilename;
 
@@ -254,8 +276,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * IP Address of the Sender
-  */
+   * IP Address of the Sender
+   */
   @JsonProperty("ip")
   public String ip;
 
@@ -264,8 +286,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Message creation date/time
-  */
+   * Message creation date/time
+   */
   @JsonProperty("created_at")
   public Date createdAt;
 
@@ -274,8 +296,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * HTTP Response Code sent for this message
-  */
+   * HTTP Response Code sent for this message
+   */
   @JsonProperty("http_response_code")
   public String httpResponseCode;
 
@@ -284,8 +306,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * HTTP Headers sent for this message.
-  */
+   * HTTP Headers sent for this message.
+   */
   @JsonProperty("http_response_headers")
   public Object httpResponseHeaders;
 
@@ -294,8 +316,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
-  */
+   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial
+   */
   @JsonProperty("recipient_serial")
   public String recipientSerial;
 
@@ -304,8 +326,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
-  */
+   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s serial in hex format.
+   */
   @JsonProperty("hex_recipient_serial")
   public String hexRecipientSerial;
 
@@ -314,8 +336,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
-  */
+   * Incoming Message Recipient(the Client Cert used to encrypt this message)'s issuer
+   */
   @JsonProperty("recipient_issuer")
   public String recipientIssuer;
 
@@ -324,8 +346,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Message body received?
-  */
+   * Message body received?
+   */
   @JsonProperty("message_received")
   public Boolean messageReceived;
 
@@ -334,8 +356,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Message decrypted successfully?
-  */
+   * Message decrypted successfully?
+   */
   @JsonProperty("message_decrypted")
   public Boolean messageDecrypted;
 
@@ -344,8 +366,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Message signature verified?
-  */
+   * Message signature verified?
+   */
   @JsonProperty("message_signature_verified")
   public Boolean messageSignatureVerified;
 
@@ -354,8 +376,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * Message processed successfully?
-  */
+   * Message processed successfully?
+   */
   @JsonProperty("message_processing_success")
   public Boolean messageProcessingSuccess;
 
@@ -364,8 +386,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * MDN returned?
-  */
+   * MDN returned?
+   */
   @JsonProperty("message_mdn_returned")
   public Boolean messageMdnReturned;
 
@@ -374,8 +396,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * URL to download the encrypted signed smime that is to sent as AS2 body
-  */
+   * URL to download the encrypted signed smime that is to sent as AS2 body
+   */
   @JsonProperty("encrypted_uri")
   public String encryptedUri;
 
@@ -384,8 +406,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * URL to download the file contents as smime with signature
-  */
+   * URL to download the file contents as smime with signature
+   */
   @JsonProperty("smime_signed_uri")
   public String smimeSignedUri;
 
@@ -394,8 +416,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * URL to download the file contents encoded as smime
-  */
+   * URL to download the file contents encoded as smime
+   */
   @JsonProperty("smime_uri")
   public String smimeUri;
 
@@ -404,8 +426,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * URL to download the original file contents
-  */
+   * URL to download the original file contents
+   */
   @JsonProperty("raw_uri")
   public String rawUri;
 
@@ -414,8 +436,8 @@ public class As2IncomingMessage implements ModelInterface {
   }
 
   /**
-  * URL to download the http response body
-  */
+   * URL to download the http response body
+   */
   @JsonProperty("mdn_response_uri")
   public String mdnResponseUri;
 
@@ -425,16 +447,16 @@ public class As2IncomingMessage implements ModelInterface {
 
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `as2_partner_id`.
-  *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
-  *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-  *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-  *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-  *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `as2_partner_id`.
+   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
+   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
+   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
+   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
+   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   */
   public static ListIterator<As2IncomingMessage> list() throws RuntimeException {
     return list(null, null);
   }
@@ -445,41 +467,7 @@ public class As2IncomingMessage implements ModelInterface {
 
 
   public static ListIterator<As2IncomingMessage> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-    if (parameters.containsKey("filter_gt") && !(parameters.get("filter_gt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gt must be of type Object parameters[\"filter_gt\"]");
-    }
-    if (parameters.containsKey("filter_gteq") && !(parameters.get("filter_gteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_gteq must be of type Object parameters[\"filter_gteq\"]");
-    }
-    if (parameters.containsKey("filter_lt") && !(parameters.get("filter_lt") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lt must be of type Object parameters[\"filter_lt\"]");
-    }
-    if (parameters.containsKey("filter_lteq") && !(parameters.get("filter_lteq") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter_lteq must be of type Object parameters[\"filter_lteq\"]");
-    }
-
-
-    String url = String.format("%s%s/as2_incoming_messages", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<As2IncomingMessage>> typeReference = new TypeReference<List<As2IncomingMessage>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().as2IncomingMessages().list(parameters, options);
   }
 
   public static ListIterator<As2IncomingMessage> all() throws RuntimeException {

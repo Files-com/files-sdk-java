@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.files.models.ModelInterface;
+import com.files.exceptions.ApiErrorException;
 import com.files.net.FilesResponse;
 import com.files.net.HttpMethods.RequestMethods;
 import java.math.BigDecimal;
@@ -15,90 +15,83 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import org.apache.http.Header;
 
 /**
- * The results of one listing request, read one page at a time using a cursor.
+ * A listing that the Files.com API returns one page at a time. Read it in whichever way suits the
+ * task:
  *
- * <p>A {@code ListIterator} returned by a model's list method has not sent any request yet: its
- * {@link #data} is empty, and iterating it directly yields nothing. There are three ways to read
- * the results. {@link #loadNextPage()} loads one page at a time into {@link #data}, and
- * {@link #hasNextPage()} reports whether another page can be requested. {@link #listAutoPaging()}
- * iterates every item across all pages, loading each page when it is needed. {@link #all()} loads
- * every page and returns all items in a single list held in memory.
+ * <ul>
+ *   <li>{@link #listAutoPaging()} iterates every remaining item, requesting pages as it goes and
+ *       holding only one page in memory.</li>
+ *   <li>{@link #all()} returns the complete listing as one {@code List}.</li>
+ *   <li>{@link #loadNextPage()} requests one page at a time. {@link #iterator()} and {@link #data}
+ *       hold that current page, and {@link #hasNextPage()} tells whether another page follows.</li>
+ * </ul>
  *
- * <p>A {@code ListIterator} keeps mutable state: the most recently loaded page, the cursor for the
- * next page, and the request parameters map, into which each page load that uses a cursor puts a
- * {@code cursor} entry.
+ * <p>{@link #reset()} starts the listing over from its first page with the same filters and
+ * options. Every page is requested with the client that made the listing and a copy of the
+ * filters and request options it was made with, so later changes to the maps you passed, or to
+ * static settings, do not change it. Its items use that client too. A listing is not safe for use
+ * by several threads at once.
  *
- * @param <T> the type of each listed item, typically a model class
+ * @param <T> the type of the listed items
  */
 public class ListIterator<T> implements Iterable<T> {
+  private final FilesClient client;
   private final String url;
   private final RequestMethods requestType;
   private final TypeReference<List<T>> className;
   private final HashMap<String, Object> parameters;
   private final HashMap<String, Object> options;
-  private String cursor;
   private final ObjectMapper objectMapper = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .addModule(new SimpleModule().addSerializer(BigDecimal.class, ToStringSerializer.instance))
       .build();
+  private boolean started;
+  private String cursor;
+  // Counts page loads and resets so that auto-paging iterators can tell when the listing has moved
+  // without them, like modCount in java.util collections.
+  int modCount;
+
   /**
-   * The items of the most recently loaded page.
-   *
-   * <p>Empty until a page is loaded. Each page load replaces this list with the new page's items;
-   * items are not appended to it.
+   * The items of the current page.
    */
   public List<T> data = new ArrayList<T>();
 
   /**
-   * Creates a {@code ListIterator} for one listing request. This only stores the arguments; it
-   * does not send a request. Model list methods create instances through {@link FilesClient}.
-   *
-   * @param url the full URL of the listing request
-   * @param requestType the HTTP method of the listing request
-   * @param className the Jackson type reference used to read a page's JSON array into a
-   *     {@code List} of {@code T}
-   * @param parameters the request parameters sent with each page request. The map is kept, not
-   *     copied, and {@link #loadNextPage()} adds a {@code cursor} entry to it when paging. A
-   *     {@code cursor} entry it already has is kept and sent with the first page request.
-   * @param options the request options, such as a per-request API key or session, passed to each
-   *     page request and set on every loaded item that is a {@link ModelInterface}
+   * A listing requested with {@link FilesClient#defaultClient()} as it is now.
    */
   public ListIterator(String url, RequestMethods requestType, TypeReference<List<T>> className,
       HashMap<String, Object> parameters, HashMap<String, Object> options) {
+    this(FilesClient.defaultClient(), url, requestType, className, parameters, options);
+  }
+
+  // url is a path under the client's API root, or an absolute URL.
+  ListIterator(FilesClient client, String url, RequestMethods requestType, TypeReference<List<T>> className,
+      HashMap<String, Object> parameters, HashMap<String, Object> options) {
+    this.client = client;
     this.url = url;
     this.requestType = requestType;
     this.className = className;
-    this.parameters = parameters;
-    this.options = options;
+    this.parameters = parameters == null ? new HashMap<String, Object>() : new HashMap<String, Object>(parameters);
+    this.options = options == null ? new HashMap<String, Object>() : new HashMap<String, Object>(options);
   }
 
   /**
-   * Reports whether another page can be requested.
-   *
-   * <p>Returns {@code true} when the most recently loaded page's response carried an
-   * {@code X-Files-Cursor} header (the header name is matched case-insensitively). Returns
-   * {@code false} before any page has been loaded and after the last page has been loaded.
-   *
-   * @return {@code true} if another page can be loaded with {@link #loadNextPage()}, otherwise
-   *     {@code false}; never {@code null}
+   * Returns whether the current page says another page follows it: its response carried a cursor
+   * in the {@code X-Files-Cursor-Next} header or, without one, the older {@code X-Files-Cursor}
+   * header.
    */
   public Boolean hasNextPage() {
     return this.cursor != null;
   }
 
   /**
-   * Returns an iterator over the currently loaded page only, that is, the items in {@link #data}.
-   *
-   * <p>This sends no request and yields nothing before a page has been loaded. To iterate every
-   * item across all pages, use {@link #listAutoPaging()}; to collect them into one list, use
-   * {@link #all()}.
-   *
-   * @return an iterator over the items of the currently loaded page
+   * Iterates the items of the current page only. Use {@link #listAutoPaging()} to iterate every
+   * item.
    */
   @Override
   public Iterator<T> iterator() {
@@ -106,111 +99,113 @@ public class ListIterator<T> implements Iterable<T> {
   }
 
   /**
-   * Sends one request and loads the resulting page into {@link #data}.
+   * Requests the next page, or the first page of a new or reset listing, and makes it the current
+   * page. If the request fails, the listing keeps its current page and can be retried.
    *
-   * <p>If a cursor is held from the previous page, it is first put into the parameters map under
-   * the key {@code cursor}. The request is then sent through {@link FilesClient} with the
-   * parameters and options. The page read from the response body replaces {@link #data}, and the
-   * options are set on every loaded item that is a {@link ModelInterface}. Finally, the value of
-   * the response's {@code X-Files-Cursor} header is held as the cursor for the next page; if the
-   * header is absent, no cursor is held and {@link #hasNextPage()} returns {@code false}.
-   *
-   * <p>When no cursor is held, no {@code cursor} entry is added to or removed from the parameters
-   * map, so the request is sent with the parameters as they are, including any {@code cursor}
-   * entry the caller supplied. On a new {@code ListIterator} whose parameters have no
-   * {@code cursor} entry, this loads the first page. After the last page has been loaded, calling
-   * this again repeats the previous request.
-   *
-   * @return this {@code ListIterator}, for chaining
-   * @throws RuntimeException if the response body cannot be read as a list of {@code T}; the
-   *     exception wraps the Jackson {@code JsonProcessingException}. Failures of the request
-   *     itself propagate from {@link FilesClient} as unchecked exceptions.
+   * @return this listing
+   * @throws NoSuchElementException if the last page has already been loaded
    */
   public ListIterator<T> loadNextPage() throws RuntimeException {
+    if (!hasMorePages()) {
+      throw new NoSuchElementException("The listing has no more pages. Call reset() to list it again.");
+    }
+
+    HashMap<String, Object> request = new HashMap<String, Object>(this.parameters);
     if (this.cursor != null) {
-      this.parameters.put("cursor", this.cursor);
+      request.put("cursor", this.cursor);
     }
 
-    FilesResponse response = FilesClient.apiRequest(this.url, this.requestType, this.parameters, this.options);
-    try {
-      this.data = objectMapper.readValue(response.getBody(), this.className);
-      this.data.forEach(item -> {
-        if (item instanceof ModelInterface) {
-          ((ModelInterface) item).setOptions(this.options);
-        }
-      });
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
+    FilesResponse response = client.runtime().request(this.requestType, this.url, request, this.options);
+    List<T> page = readPage(response.getBody());
+    String nextCursor = nextCursor(response);
+    // Every page request with the same cursor returns the same empty page, so following it would never end.
+    if (page.isEmpty() && nextCursor != null && nextCursor.equals(request.get("cursor"))) {
+      throw new ApiErrorException.ApiConnectionException(
+          "The Files.com API returned an empty page that repeats the requested cursor");
     }
 
-    Optional<Header> cursorHeader = response.getHeaders().stream()
-        .filter(header -> "X-Files-Cursor".equalsIgnoreCase(header.getName()))
-        .findFirst();
-
-    this.cursor = cursorHeader.map(Header::getValue).orElse(null);
-
+    for (T item : page) {
+      client.runtime().bind(item, this.options);
+    }
+    this.data = page;
+    this.cursor = nextCursor;
+    this.started = true;
+    this.modCount++;
     return this;
   }
 
   /**
-   * Returns a {@link ListIteratorIterable} over every item across all pages, loading pages as
-   * they are needed.
+   * Returns every remaining item, requesting each page only when iteration reaches it. A new or
+   * reset listing yields every item; after {@link #loadNextPage()}, iteration continues with the
+   * pages that follow the current one.
    *
-   * <p>Calling this method sends a request immediately, because the returned
-   * {@link ListIteratorIterable} calls {@link #loadNextPage()} when it is created. On a new
-   * {@code ListIterator} whose parameters have no {@code cursor} entry, this loads the first page;
-   * a {@code cursor} entry the caller supplied is sent as is. If this {@code ListIterator} already
-   * holds a cursor, it loads the next page.
-   *
-   * <p>Its iterator returns the loaded page's items and, when they run out and a cursor is held,
-   * calls {@link #loadNextPage()} to load the next page, so only one page is held in memory at a
-   * time. Its {@code hasNext()} returns {@code true} while a cursor is held or items remain in
-   * the loaded page. When no items remain and no cursor is held, its {@code next()} throws
-   * {@code java.util.NoSuchElementException}. A page that carried a cursor can be followed by an
-   * empty page: {@code hasNext()} then returns {@code true}, and {@code next()} loads the empty
-   * page and throws {@code IndexOutOfBoundsException}.
-   *
-   * <p>The returned object shares this {@code ListIterator}'s state: iterating it replaces
-   * {@link #data} and changes the held cursor, and iterating it a second time does not restart
-   * from the first page. Page-loading failures, both from this call and during iteration, are
-   * the unchecked exceptions that {@link #loadNextPage()} throws.
-   *
-   * @return a {@link ListIteratorIterable} over this listing's items, with one page already
-   *     loaded
+   * <p>Loading pages or calling {@link #reset()} outside the returned iterator makes that iterator
+   * throw {@link java.util.ConcurrentModificationException}.
    */
   public ListIteratorIterable<T> listAutoPaging() {
     return new ListIteratorIterable<T>(this);
   }
 
   /**
-   * Loads every page and returns all items in a single list.
-   *
-   * <p>This clears the held cursor, then calls {@link #loadNextPage()} until a response
-   * carries no cursor, adding each page's items to a new list. The returned list holds every item
-   * in memory at once, so memory use grows with the number of items. Afterwards, {@link #data}
-   * holds the last page and {@link #hasNextPage()} returns {@code false}.
-   *
-   * <p>Clearing the held cursor does not remove a {@code cursor} entry from the parameters map,
-   * whether the caller supplied it or an earlier page load put it there. The first request this
-   * method sends carries that entry, so it starts from that cursor rather than the first page. To
-   * read from the first page, call this method while the parameters map has no {@code cursor}
-   * entry: on a {@code ListIterator} that has not paged and was created with parameters that have
-   * none, or after removing the entry from the map that was passed to the list method.
-   *
-   * @return a new list containing the items of every loaded page
-   * @throws RuntimeException if a page cannot be loaded, as described for {@link #loadNextPage()}
+   * Resets the listing and returns all of its items in one list.
    */
   public List<T> all() throws RuntimeException {
-    List<T> allData = new ArrayList<T>();
+    List<T> items = new ArrayList<T>();
+    for (T item : reset().listAutoPaging()) {
+      items.add(item);
+    }
+    return items;
+  }
 
-    // Force starting from the beginning
+  /**
+   * Starts the listing over: the current page is cleared and the next request asks for the first
+   * page with the original filters, page size, and options.
+   *
+   * @return this listing
+   */
+  public ListIterator<T> reset() {
+    this.parameters.remove("cursor");
+    this.data = new ArrayList<T>();
     this.cursor = null;
+    this.started = false;
+    this.modCount++;
+    return this;
+  }
 
-    do {
-      this.loadNextPage();
-      allData.addAll(data);
-    } while (this.cursor != null);
+  boolean hasMorePages() {
+    return !this.started || this.cursor != null;
+  }
 
-    return allData;
+  // The whole page is checked before it replaces the current one, so a bad page publishes nothing.
+  private List<T> readPage(String body) {
+    List<T> page;
+    try {
+      page = objectMapper.readValue(body, this.className);
+    } catch (JsonProcessingException e) {
+      page = null;
+    }
+    if (page == null || page.contains(null)) {
+      throw new ApiErrorException.ApiConnectionException(
+          "The Files.com API returned a list page that is not a JSON array of objects");
+    }
+    return page;
+  }
+
+  // The cursor of the next page: the response's X-Files-Cursor-Next header, the documented one, or
+  // else the older X-Files-Cursor, which responses that send only it still carry. Header names are
+  // matched ignoring case, and an empty value is no cursor.
+  private static String nextCursor(FilesResponse response) {
+    String cursor = header(response, "X-Files-Cursor-Next");
+    return cursor != null ? cursor : header(response, "X-Files-Cursor");
+  }
+
+  private static String header(FilesResponse response, String name) {
+    for (Header header : response.getHeaders()) {
+      String value = header.getValue();
+      if (name.equalsIgnoreCase(header.getName()) && value != null && !value.isEmpty()) {
+        return value;
+      }
+    }
+    return null;
   }
 }

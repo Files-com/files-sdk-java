@@ -1,6 +1,7 @@
 package com.files.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.FilesConfig;
 import com.files.ListIterator;
+import com.files.net.ClientRuntime;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
@@ -40,12 +42,32 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SftpHostKey implements ModelInterface {
   private HashMap<String, Object> options;
+  private FilesClient filesClient;
 
+  /**
+   * Sets the request options, such as {@code api_key} or {@code workspace_id}, that this object's
+   * own operations send. The map is copied; options that control a single call, such as a
+   * {@code cancellation} token or a {@code timeout}, are not kept.
+   */
   public void setOptions(HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
   }
 
-  private ObjectMapper objectMapper = JsonMapper
+  @JsonIgnore
+  @Override
+  public void setClient(FilesClient client) {
+    this.filesClient = client;
+  }
+
+  // The client this object's own operations run with: the one that returned it, or one set with
+  // setClient, and otherwise the default client as it is when the operation runs.
+  private FilesClient filesClient() {
+    return filesClient != null ? filesClient : FilesClient.defaultClient();
+  }
+
+  // One mapper for every SftpHostKey, built once: a configured Jackson mapper is safe to share
+  // between threads, and it uses a copy of its date format each time it reads or writes a date.
+  private static final ObjectMapper MAPPER = JsonMapper
       .builder()
       .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
       .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
@@ -63,10 +85,10 @@ public class SftpHostKey implements ModelInterface {
   }
 
   public SftpHostKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
-    this.options = options;
+    this.options = ClientRuntime.retainedOptions(options);
     try {
-      ObjectReader objectReader = objectMapper.readerForUpdating(this);
-      objectReader.readValue(objectMapper.writeValueAsString(parameters));
+      ObjectReader objectReader = MAPPER.readerForUpdating(this);
+      objectReader.readValue(MAPPER.writeValueAsString(parameters));
     } catch (JsonProcessingException e) {
       // TODO: error generation on constructor
     }
@@ -74,8 +96,8 @@ public class SftpHostKey implements ModelInterface {
 
 
   /**
-  * If true, use this SFTP Host Key.
-  */
+   * If true, use this SFTP Host Key.
+   */
   @JsonProperty("active")
   public Boolean active;
 
@@ -88,8 +110,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * Custom Domain ID. If set, this key is used only for that Custom Domain.
-  */
+   * Custom Domain ID. If set, this key is used only for that Custom Domain.
+   */
   @JsonProperty("custom_domain_id")
   public Long customDomainId;
 
@@ -102,8 +124,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * SFTP Host Key ID
-  */
+   * SFTP Host Key ID
+   */
   @JsonProperty("id")
   public Long id;
 
@@ -116,8 +138,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * The friendly name of this SFTP Host Key.
-  */
+   * The friendly name of this SFTP Host Key.
+   */
   @JsonProperty("name")
   public String name;
 
@@ -130,8 +152,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * SSH key type
-  */
+   * SSH key type
+   */
   @JsonProperty("key_type")
   public String keyType;
 
@@ -144,8 +166,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * MD5 Fingerprint of the public key
-  */
+   * MD5 Fingerprint of the public key
+   */
   @JsonProperty("fingerprint_md5")
   public String fingerprintMd5;
 
@@ -158,8 +180,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * SHA256 Fingerprint of the public key
-  */
+   * SHA256 Fingerprint of the public key
+   */
   @JsonProperty("fingerprint_sha256")
   public String fingerprintSha256;
 
@@ -172,8 +194,8 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * The private key data.
-  */
+   * The private key data.
+   */
   @JsonProperty("private_key")
   public String privateKey;
 
@@ -186,36 +208,68 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   active - boolean - If true, use this SFTP Host Key.
-  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-  *   name - string - The friendly name of this SFTP Host Key.
-  *   private_key - string - The private key data.
-  */
+   * Updates this SftpHostKey. On success, this object's attributes are replaced by the server's response, which is also returned.
+   * <p>Parameters:
+   *   active - boolean - If true, use this SFTP Host Key.
+   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
+   *   name - string - The friendly name of this SFTP Host Key.
+   *   private_key - string - The private key data.
+   */
   public SftpHostKey update(HashMap<String, Object> parameters) throws IOException {
-    return SftpHostKey.update(this.id, parameters, this.options);
+    SftpHostKey updated = filesClient().sftpHostKeys().update(this.id, parameters, this.options);
+    refreshFrom(updated);
+    return updated;
   }
 
   /**
-  */
+   */
   public void delete(HashMap<String, Object> parameters) throws IOException {
-    SftpHostKey.delete(this.id, parameters, this.options);
+    filesClient().sftpHostKeys().delete(this.id, parameters, this.options);
   }
 
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
+
+  /**
+   * Saves this SftpHostKey: creates it when it has no id, and otherwise updates it.
+   * On success, this object's attributes are replaced by the server's response.
+   */
   public void save() throws IOException {
-    HashMap<String, Object> parameters = ModelUtils.toParameterMap(objectMapper.writeValueAsString(this));
-    SftpHostKey.create(parameters, this.options);
+    HashMap<String, Object> parameters = saveParameters();
+    if (parameters.get("id") != null) {
+      update(parameters);
+    } else {
+      refreshFrom(filesClient().sftpHostKeys().create(parameters, this.options));
+    }
+  }
+
+  // Save sends the attributes in their JSON form, so dates, for example, become the API's date
+  // text. Where an operation validates a parameter as a Java array, file, or exact decimal instead,
+  // the attribute's own value is sent, and an array for a string parameter is comma-delimited.
+  private HashMap<String, Object> saveParameters() throws JsonProcessingException {
+    return ModelUtils.toParameterMap(MAPPER.writeValueAsString(this));
+  }
+
+  // Replaces every attribute with the server's representation of this record after a successful
+  // save or update. Request options are not attributes, so they stay as they are.
+  private void refreshFrom(SftpHostKey canonical) {
+    this.active = canonical.active;
+    this.customDomainId = canonical.customDomainId;
+    this.id = canonical.id;
+    this.name = canonical.name;
+    this.keyType = canonical.keyType;
+    this.fingerprintMd5 = canonical.fingerprintMd5;
+    this.fingerprintSha256 = canonical.fingerprintSha256;
+    this.privateKey = canonical.privateKey;
   }
 
   /**
-  * Parameters:
-  *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-  *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-  */
+   * Parameters:
+   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   */
   public static ListIterator<SftpHostKey> list() throws RuntimeException {
     return list(null, null);
   }
@@ -226,23 +280,7 @@ public class SftpHostKey implements ModelInterface {
 
 
   public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-
-    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<List<SftpHostKey>> typeReference = new TypeReference<List<SftpHostKey>>() {};
-    return FilesClient.requestList(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().sftpHostKeys().list(parameters, options);
   }
 
   public static ListIterator<SftpHostKey> all() throws RuntimeException {
@@ -254,9 +292,9 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   id (required) - int64 - Sftp Host Key ID.
-  */
+   * Parameters:
+   *   id (required) - int64 - Sftp Host Key ID.
+   */
   public static SftpHostKey find() throws RuntimeException {
     return find(null, null, null);
   }
@@ -270,28 +308,7 @@ public class SftpHostKey implements ModelInterface {
   }
 
   public static SftpHostKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.GET, typeReference, parameters, options);
+    return FilesClient.defaultClient().sftpHostKeys().find(id, parameters, options);
   }
 
   public static SftpHostKey get() throws RuntimeException {
@@ -303,12 +320,12 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-  * Parameters:
-  *   active - boolean - If true, use this SFTP Host Key.
-  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-  *   name - string - The friendly name of this SFTP Host Key.
-  *   private_key - string - The private key data.
-  */
+   * Parameters:
+   *   active - boolean - If true, use this SFTP Host Key.
+   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
+   *   name - string - The friendly name of this SFTP Host Key.
+   *   private_key - string - The private key data.
+   */
   public static SftpHostKey create() throws RuntimeException {
     return create(null, null);
   }
@@ -319,39 +336,17 @@ public class SftpHostKey implements ModelInterface {
 
 
   public static SftpHostKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-
-
-    if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
-    }
-    if (parameters.containsKey("custom_domain_id") && !(parameters.get("custom_domain_id") instanceof Long || parameters.get("custom_domain_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: custom_domain_id must be of type Long or Integer parameters[\"custom_domain_id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-
-
-    String url = String.format("%s%s/sftp_host_keys", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase());
-
-    TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.POST, typeReference, parameters, options);
+    return FilesClient.defaultClient().sftpHostKeys().create(parameters, options);
   }
 
 
   /**
-  * Parameters:
-  *   active - boolean - If true, use this SFTP Host Key.
-  *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-  *   name - string - The friendly name of this SFTP Host Key.
-  *   private_key - string - The private key data.
-  */
+   * Parameters:
+   *   active - boolean - If true, use this SFTP Host Key.
+   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
+   *   name - string - The friendly name of this SFTP Host Key.
+   *   private_key - string - The private key data.
+   */
   public static SftpHostKey update() throws RuntimeException {
     return update(null, null, null);
   }
@@ -365,45 +360,12 @@ public class SftpHostKey implements ModelInterface {
   }
 
   public static SftpHostKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-    if (parameters.containsKey("active") && !(parameters.get("active") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: active must be of type Boolean parameters[\"active\"]");
-    }
-    if (parameters.containsKey("custom_domain_id") && !(parameters.get("custom_domain_id") instanceof Long || parameters.get("custom_domain_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: custom_domain_id must be of type Long or Integer parameters[\"custom_domain_id\"]");
-    }
-    if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
-    }
-    if (parameters.containsKey("private_key") && !(parameters.get("private_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: private_key must be of type String parameters[\"private_key\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    TypeReference<SftpHostKey> typeReference = new TypeReference<SftpHostKey>() {};
-    return FilesClient.requestItem(url, RequestMethods.PATCH, typeReference, parameters, options);
+    return FilesClient.defaultClient().sftpHostKeys().update(id, parameters, options);
   }
 
 
   /**
-  */
+   */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
@@ -417,27 +379,7 @@ public class SftpHostKey implements ModelInterface {
   }
 
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = parameters != null ? parameters : new HashMap<String, Object>();
-    options = options != null ? options : new HashMap<String, Object>();
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-
-
-    String url = String.format("%s%s/sftp_host_keys/%s", FilesConfig.getInstance().getApiRoot(options), FilesConfig.getInstance().getApiBase(), UrlUtils.encodeUrlPath(String.valueOf(id)));
-
-    FilesClient.apiRequest(url, RequestMethods.DELETE, parameters, options);
+    FilesClient.defaultClient().sftpHostKeys().delete(id, parameters, options);
   }
 
   public static void destroy() throws RuntimeException {

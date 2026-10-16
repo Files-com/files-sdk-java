@@ -1,0 +1,70 @@
+package com.files.operations;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.files.FilesClient;
+import com.files.ListIterator;
+import com.files.ResourceOperations;
+import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.UrlUtils;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * PartnerSite operations that run with one client: its API root, credentials, workspace
+ * and connections. Get them with {@link FilesClient#partnerSites()}. The
+ * objects and listings they return keep using that client and the request options they were
+ * requested with.
+ *
+ * <p>Each method matches the static {@link com.files.models.PartnerSite} method of the same name, which
+ * runs with {@link FilesClient#defaultClient()}. The maps you pass are copied, never changed.
+ */
+public final class PartnerSiteOperations extends ResourceOperations {
+  public PartnerSiteOperations(FilesClient client) {
+    super(client);
+  }
+
+  /**
+   */
+  public void delete() throws RuntimeException {
+    delete(null, null, null);
+  }
+
+  public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    delete(id, parameters, null);
+  }
+
+  public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(null, parameters, options);
+  }
+
+  public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    String apiPath = String.format("/partner_sites/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    request(RequestMethods.DELETE, apiPath, parameters, options);
+  }
+
+  public void destroy() throws RuntimeException {
+    destroy(null, null, null);
+  }
+
+  public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    delete(id, parameters, options);
+  }
+}

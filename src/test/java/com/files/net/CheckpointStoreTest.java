@@ -66,7 +66,7 @@ public class CheckpointStoreTest {
       try (CheckpointStore store = STORES.get(i).open(directory)) {
         try (CheckpointStore.Record record = store.lock("a.upload")) {
           assertEquals("rw-------", PosixFilePermissions.toString(Files.getPosixFilePermissions(directory.resolve("a.upload"))));
-          record.append(new byte[] {1, 2, 3});
+          record.append(new byte[]{1, 2, 3});
           record.force();
           try (CheckpointStore second = STORES.get(i).open(directory)) {
             second.lock("a.upload").close();
@@ -78,7 +78,7 @@ public class CheckpointStoreTest {
         }
         // Released when closed.
         try (CheckpointStore.Record record = store.lock("a.upload")) {
-          assertArrayEquals(new byte[] {1, 2, 3}, record.read());
+          assertArrayEquals(new byte[]{1, 2, 3}, record.read());
           record.delete();
         }
         assertFalse(Files.exists(directory.resolve("a.upload")));
@@ -94,8 +94,8 @@ public class CheckpointStoreTest {
     for (int i = 0; i < STORES.size(); i++) {
       Path directory = root.resolve("store-" + i);
       try (CheckpointStore store = STORES.get(i).open(directory);
-          CheckpointStore.Record record = store.lock("a.upload")) {
-        record.append(new byte[] {1});
+           CheckpointStore.Record record = store.lock("a.upload")) {
+        record.append(new byte[]{1});
         record.force();
         assertTrue(record.isNamed());
         try (CheckpointStore second = STORES.get(i).open(directory)) {
@@ -144,9 +144,9 @@ public class CheckpointStoreTest {
     for (int i = 0; i < STORES.size(); i++) {
       Path directory = root.resolve("store-" + i);
       STORES.get(i).open(directory).close();
-      Path elsewhere = Files.write(root.resolve("elsewhere-" + i), new byte[] {7});
+      Path elsewhere = Files.write(root.resolve("elsewhere-" + i), new byte[]{7});
       Files.createSymbolicLink(directory.resolve("linked.upload"), elsewhere);
-      Files.write(directory.resolve("readable.upload"), new byte[] {8});
+      Files.write(directory.resolve("readable.upload"), new byte[]{8});
       Files.setPosixFilePermissions(directory.resolve("readable.upload"), PosixFilePermissions.fromString("rw-r--r--"));
       try (CheckpointStore store = STORES.get(i).open(directory)) {
         for (String name : Arrays.asList("linked.upload", "readable.upload")) {
@@ -158,7 +158,7 @@ public class CheckpointStoreTest {
           }
         }
       }
-      assertArrayEquals(new byte[] {7}, Files.readAllBytes(elsewhere));
+      assertArrayEquals(new byte[]{7}, Files.readAllBytes(elsewhere));
     }
   }
 
@@ -167,10 +167,10 @@ public class CheckpointStoreTest {
     for (int i = 0; i < STORES.size(); i++) {
       Path directory = root.resolve("store-" + i);
       try (CheckpointStore store = STORES.get(i).open(directory);
-          CheckpointStore.Record record = store.lock("a.upload")) {
-        record.append(new byte[] {1});
+           CheckpointStore.Record record = store.lock("a.upload")) {
+        record.append(new byte[]{1});
         Files.delete(directory.resolve("a.upload"));
-        Files.write(directory.resolve("a.upload"), new byte[] {2});
+        Files.write(directory.resolve("a.upload"), new byte[]{2});
         assertFalse(record.isNamed());
       }
     }

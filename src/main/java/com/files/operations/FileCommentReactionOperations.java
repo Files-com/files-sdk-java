@@ -2,16 +2,11 @@ package com.files.operations;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.files.FilesClient;
-import com.files.ListIterator;
 import com.files.ResourceOperations;
 import com.files.models.FileCommentReaction;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * FileCommentReaction operations that run with one client: its API root, credentials, workspace

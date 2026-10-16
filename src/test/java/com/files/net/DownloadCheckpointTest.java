@@ -83,7 +83,7 @@ public class DownloadCheckpointTest {
 
   @Test
   public void rangesThatOverlapOrLeaveTheFileAreRefused() throws Exception {
-    for (String done : new String[] {"[[0,10],[5,20]]", "[[0,10],[20," + (SIZE + 1) + "]]", "[[10,5]]", "[[20,30],[0,10]]"}) {
+    for (String done : new String[]{"[[0,10],[5,20]]", "[[0,10],[20," + (SIZE + 1) + "]]", "[[10,5]]", "[[20,30],[0,10]]"}) {
       Files.deleteIfExists(directory.resolve(binding.recordName()));
       try (DownloadCheckpoint checkpoint = DownloadCheckpoint.open(directory, binding)) {
         checkpoint.recordStage(new DownloadStage.Identity(".big.bin.1", "1:2", "1:3"));
@@ -111,7 +111,7 @@ public class DownloadCheckpointTest {
     List<long[]> ranges = new ArrayList<>();
     for (int i = 0; i < count; i++) {
       long start = 20 * (shift + i);
-      ranges.add(new long[] {start, start + 10});
+      ranges.add(new long[]{start, start + 10});
     }
     return ranges;
   }

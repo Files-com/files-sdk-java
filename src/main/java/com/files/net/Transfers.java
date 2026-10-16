@@ -221,9 +221,9 @@ public final class Transfers {
     UploadOptions settings = orDefaults(options);
     // The scope covers the file's handle too, so that closing the client waits until it is closed.
     try (OperationScope scope = runtime.openUpload("The upload to " + destinationPath, settings.callOptions(), firstPart);
-        UploadSource.FileSource file = new UploadSource.FileSource(source);
-        UploadCheckpoint checkpoint = settings.getCheckpointDirectory() == null ? null
-            : UploadCheckpoint.open(settings.getCheckpointDirectory(), binding(source, destinationPath, settings, file))) {
+         UploadSource.FileSource file = new UploadSource.FileSource(source);
+         UploadCheckpoint checkpoint = settings.getCheckpointDirectory() == null ? null
+             : UploadCheckpoint.open(settings.getCheckpointDirectory(), binding(source, destinationPath, settings, file))) {
       Instant modified = settings.getModifiedTime() != null ? settings.getModifiedTime() : file.lastModified().toInstant();
       return new UploadCoordinator(runtime, destinationPath, file, settings, modified, firstPart, checkpoint).run(scope);
     }
@@ -307,7 +307,7 @@ public final class Transfers {
     // download's. A checkpoint is opened first, so that one another run holds stops the download
     // before any request.
     try (OperationScope scope = runtime.open("The download of " + remotePath, callOptions);
-        DownloadCheckpoint checkpoint = openCheckpoint(settings, remotePath, destination)) {
+         DownloadCheckpoint checkpoint = openCheckpoint(settings, remotePath, destination)) {
       FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(remotePath), new HashMap<String, Object>(),
           callOptions, scope, runtime.maxRetries(callOptions));
       File file = runtime.readItem(response.getBody(), FILE);
@@ -401,7 +401,7 @@ public final class Transfers {
       throw new IllegalArgumentException("A download that keeps a checkpoint needs the File's path, which names its checkpoint");
     }
     try (OperationScope scope = runtime.open("The download of " + file.getPath(), settings.callOptions());
-        DownloadCheckpoint checkpoint = openCheckpoint(settings, file.getPath(), destination)) {
+         DownloadCheckpoint checkpoint = openCheckpoint(settings, file.getPath(), destination)) {
       return new Downloader(runtime, requireDownloadUri(file), destination, settings, checkpoint).run(scope);
     }
   }

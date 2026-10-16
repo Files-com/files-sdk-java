@@ -383,7 +383,7 @@ final class UploadCheckpoint implements AutoCloseable {
   // found, and refused, rather than left behind unseen.
   static String recordName(String apiRoot, String workspace, String remotePath, String localPath) {
     MessageDigest digest = sha256();
-    for (String part : new String[] {"upload", apiRoot, workspace, remotePath, localPath}) {
+    for (String part : new String[]{"upload", apiRoot, workspace, remotePath, localPath}) {
       digest.update(part.getBytes(StandardCharsets.UTF_8));
       digest.update((byte) 0);
     }
@@ -585,7 +585,7 @@ final class UploadCheckpoint implements AutoCloseable {
           if (ref == null || number != planned.size() + 1 || offset != end || length < 0 || end + length > binding.size) {
             throw unreadable(directory, name, "its planned parts are not in order within the file");
           }
-          planned.put(number, new long[] {offset, length});
+          planned.put(number, new long[]{offset, length});
           end += length;
         } else if ("accepted".equals(type)) {
           JsonNode part = entry.path("part");

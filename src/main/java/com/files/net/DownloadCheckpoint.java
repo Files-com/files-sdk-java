@@ -406,7 +406,7 @@ final class DownloadCheckpoint implements AutoCloseable {
     // API root is in it.
     String recordName() {
       MessageDigest digest = UploadCheckpoint.sha256();
-      for (String part : new String[] {"download", apiRoot, workspace, remotePath, destination}) {
+      for (String part : new String[]{"download", apiRoot, workspace, remotePath, destination}) {
         digest.update(part.getBytes(StandardCharsets.UTF_8));
         digest.update((byte) 0);
       }
@@ -533,7 +533,7 @@ final class DownloadCheckpoint implements AutoCloseable {
         if (!ranges.isEmpty() && ranges.get(ranges.size() - 1)[1] == start.asLong()) {
           ranges.get(ranges.size() - 1)[1] = end.asLong();
         } else {
-          ranges.add(new long[] {start.asLong(), end.asLong()});
+          ranges.add(new long[]{start.asLong(), end.asLong()});
         }
         previousEnd = end.asLong();
       }
@@ -585,7 +585,7 @@ final class DownloadCheckpoint implements AutoCloseable {
     List<long[]> list() {
       List<long[]> list = new ArrayList<long[]>(ranges.size());
       for (Map.Entry<Long, Long> range : ranges.entrySet()) {
-        list.add(new long[] {range.getKey(), range.getValue()});
+        list.add(new long[]{range.getKey(), range.getValue()});
       }
       return list;
     }
@@ -596,12 +596,12 @@ final class DownloadCheckpoint implements AutoCloseable {
       long next = 0;
       for (Map.Entry<Long, Long> range : ranges.entrySet()) {
         if (range.getKey() > next) {
-          missing.add(new long[] {next, range.getKey()});
+          missing.add(new long[]{next, range.getKey()});
         }
         next = Math.max(next, range.getValue());
       }
       if (next < size) {
-        missing.add(new long[] {next, size});
+        missing.add(new long[]{next, size});
       }
       return missing;
     }

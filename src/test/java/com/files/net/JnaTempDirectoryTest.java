@@ -154,7 +154,7 @@ public class JnaTempDirectoryTest {
     Map<String, String> explicit = ownedSettings();
     explicit.put("jna.tmpdir", chosen);
     assertEquals("jna.tmpdir=" + chosen, prepareWith(explicit));
-    for (String off : new String[] {"jna.nounpack", "jna.noclasspath"}) {
+    for (String off : new String[]{"jna.nounpack", "jna.noclasspath"}) {
       Map<String, String> noExtraction = ownedSettings();
       noExtraction.put(off, "true");
       assertEquals(off, "jna.tmpdir=null", prepareWith(noExtraction));

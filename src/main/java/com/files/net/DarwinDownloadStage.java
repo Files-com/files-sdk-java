@@ -478,7 +478,7 @@ final class DarwinDownloadStage extends DownloadStage {
     Pointer acl = Darwin.acl_init(0);
     boolean returned = false;
     try (Memory entry = new Memory(Native.POINTER_SIZE); Memory copy = new Memory(Native.POINTER_SIZE);
-        Memory flagset = new Memory(Native.POINTER_SIZE); Memory aclRef = new Memory(Native.POINTER_SIZE)) {
+         Memory flagset = new Memory(Native.POINTER_SIZE); Memory aclRef = new Memory(Native.POINTER_SIZE)) {
       if (acl == null) {
         throw Darwin.exception(null, Darwin.errno());
       }
